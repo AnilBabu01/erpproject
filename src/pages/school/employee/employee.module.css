@@ -1,0 +1,196 @@
+.topmenubar {
+  border-bottom: 1px solid #093959;
+  border-top: 1px solid #093959;
+  margin-top: 0.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  position: fixed;
+  width: 100%;
+}
+.imgdivformat {
+  display: flex;
+}
+.imgdivformat img {
+  width: 2rem;
+}
+.searchoptiondiv label {
+  margin-right: 0.5rem;
+}
+.imgdivformat button {
+  background: #093959;
+  color: white;
+  border-radius: 6px;
+  font-weight: 600;
+  padding: 0.3rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.imgdivformatimg {
+  width: 2rem;
+  margin-right: 1rem;
+}
+.addtopmenubar {
+  border-bottom: 1px solid #093959;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 1rem;
+  position: fixed;
+  width: 100%;
+  margin-top: 4.3rem;
+}
+.addtopmenubar button {
+  background: #093959;
+  color: white;
+  border-radius: 6px;
+  font-weight: 600;
+  padding: 0.3rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.searchoptiondiv button {
+  background: #093959;
+  color: white;
+  border-radius: 6px;
+  font-weight: 600;
+  padding: 0.3rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-right: 1rem;
+}
+.dateresiging {
+  display: flex;
+  flex-direction: column;
+  margin-right: 2rem;
+}
+.searchoptiondiv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.opensearch {
+  border: 1px solid #093959;
+  padding: 0.2rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: 5px;
+  margin-right: 1rem;
+  display: flex;
+  justify-content: flex-end;
+}
+.opensearchinput {
+  border: 1px solid #093959;
+  padding: 0.2rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: 5px;
+  margin-right: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  color: black;
+}
+.add_divmarginn {
+  padding: 0.5rem;
+  padding-top: 9rem;
+}
+
+.tabletable {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.tabletd,
+.tableth {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.tabletr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.tabletd img {
+  width: 25px;
+}
+
+.tabkeddd {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+  display: flex;
+}
+.tabkeddd img {
+  width: 25px;
+  margin-right: 8%;
+}
+
+@media (max-width: 730px) {
+  .topmenubar {
+    display: block;
+    padding: 0.5rem;
+    border-top: none;
+    border-bottom: none;
+  }
+
+  .searchoptiondiv {
+    display: block;
+  }
+
+  .searchoptiondiv button {
+    background: #093959;
+    color: white;
+    border-radius: 6px;
+    font-weight: 600;
+    padding: 0.3rem;
+    padding-left: 0.5rem;
+    padding-right: 0rem;
+    margin-right: 0rem;
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  .tablecontainer {
+    overflow-x: auto;
+    /* padding: 10px;
+        margin: 10px; */
+  }
+  .add_divmarginn {
+    padding: 0.5rem;
+  }
+
+  .addtopmenubar {
+    border-bottom: none;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0rem;
+    padding-right: 0.5rem;
+  }
+
+  .opensearch {
+    background: #d5c7c7;
+    padding: 0.2rem;
+    padding-left: 0.5rem;
+    padding-right: 0.4rem;
+    border-radius: 5px;
+    margin-right: 0rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .tabkeddd {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    display: block;
+  }
+
+  .opensearchinput {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+}

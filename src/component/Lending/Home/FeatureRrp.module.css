@@ -1,0 +1,41 @@
+.mainFeature{
+    padding-left: 6%;
+    padding-right: 6%;
+}
+.mainFeature h1{
+    text-align: center;
+    font-size: 30px;
+    font-weight: 500;
+}
+.featutecontentmain{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.featutecontentmain1{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row-reverse;
+}
+.featureimg{
+    width:20rem;
+}
+
+.featurehead{
+ 
+    font-size: 30px;
+    font-weight: 500;
+    margin-bottom: 0.4rem;  
+}
+
+.marginset{
+    margin-left: 3rem;
+}
+
+@media screen and (max-width: 780px) {
+    .mainFeature h1{
+        font-size: 16px;
+        font-weight: 500;
+    }
+}

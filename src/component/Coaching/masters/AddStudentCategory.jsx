@@ -1,0 +1,52 @@
+import React,{useState,useEffect} from "react";
+import CloseIcon from "@mui/icons-material/Close";
+import styles from "@/styles/register.module.css";
+import { getcategory,Addcategory } from "../../../redux/actions/commanAction";
+import { useDispatch, useSelector } from "react-redux";
+function AddStudentCategory({ setOpen }) {
+  const dispatch = useDispatch()
+  const [Categoryname, setCategoryname] = useState('')
+
+  const { loading, category } = useSelector((state) => state.addcategory);
+
+  const submit = (e) => {
+    e.preventDefault();
+    const data = {
+      category:Categoryname,
+    };
+    dispatch(Addcategory(data, setOpen));
+  };
+  useEffect(() => {
+    if ( category?.status) {
+      dispatch(getcategory());
+    }
+  }, []);
+  
+  return (
+    <>
+      <div className={styles.divmainlogin}>
+        <div className={styles.closeicondiv} onClick={() => setOpen(false)}>
+          <CloseIcon />
+        </div>
+        <h1>Add Category</h1>
+        <form onSubmit={submit}>
+          <div className={styles.divmaininput}>
+            <div className={styles.inputdiv}>
+              <label>Category</label>
+              <input type="text" placeholder="Enter the Category" 
+               value={Categoryname}
+               name="Categoryname"
+               onChange={(e)=>setCategoryname(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className={styles.logbtnstylediv}>
+            <button className={styles.logbtnstyle}>Save Category</button>
+          </div>
+        </form>
+      </div>
+    </>
+  );
+}
+
+export default AddStudentCategory;

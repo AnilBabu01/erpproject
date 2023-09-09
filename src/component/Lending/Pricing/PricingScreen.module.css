@@ -1,0 +1,62 @@
+.mainprincingmain {
+  padding: 2rem;
+}
+.mainprincingmainp {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.mainacrddiv {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2.2rem;
+  padding-left: 10rem;
+  padding-right: 10rem;
+}
+
+.maincardpring {
+  background-color: #093959;
+  width: 30%;
+  height: 30rem;
+  border-radius: 4px;
+  padding: 1rem;
+}
+.planname {
+  color: white;
+  font-size: 27px;
+}
+
+.amounttext {
+  color: white;
+  font-size: 34px;
+}
+
+.monthtext {
+  color: white;
+}
+.yearlytext {
+  color: white;
+}
+
+.buybtn {
+  background: #ffa500;
+  color: #212232 !important;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 500;
+  width: 100%;
+}
+.mainbtndiv {
+  padding-top: 2rem;
+}
+
+.mainDisciption {
+  padding-right: 1rem;
+  padding-top: 3rem;
+}
+.mainDisciption p{
+    color: white;
+}
+
