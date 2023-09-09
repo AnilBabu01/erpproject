@@ -16,7 +16,7 @@ import { Button } from "@mui/material";
 import Addfee from "@/component/Coaching/masters/Addfee";
 import UpdateFee from "@/component/Coaching/masters/UpdateFee";
 
-function masterfee() {
+function Masterfee() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [openupdate, setOpenupdate] = useState(false);
@@ -209,7 +209,7 @@ function masterfee() {
                   </tr>
                   {isdata?.map((item, index) => {
                     return (
-                      <tr className={styles.tabletr}>
+                      <tr key={index} className={styles.tabletr}>
                         <td className={styles.tabletd}>{index + 1}</td>
                         <td className={styles.tabletd}>{item?.coursename}</td>
                         <td className={styles.tabletd}>
@@ -283,4 +283,4 @@ function masterfee() {
   );
 }
 
-export default masterfee;
+export default Masterfee;

@@ -62,7 +62,7 @@ const monthlist = [
     name: "December",
   },
 ];
-function attendance() {
+function Attendance() {
   const dispatch = useDispatch();
   let currmonth = new Date().getMonth();
   const [month, setmonth] = useState(currmonth + 1);
@@ -127,7 +127,7 @@ function attendance() {
     if (user) {
       setuserdata(user);
     }
-  }, [markattendance, batch, isdata, doneattendance, monthlyattendance,user]);
+  }, [markattendance, batch, isdata, doneattendance, monthlyattendance, user]);
 
   useEffect(() => {
     dispatch(loadUser());
@@ -447,9 +447,9 @@ function attendance() {
                     <tbody>
                       <tr className={styles.tabletr}>
                         <th className={styles.tableth}>S.NO</th>
-                        <th className={styles.tableth}>Roll_No</th>
-                        <th className={styles.tableth}>Student_Name</th>
-                        <th className={styles.tableth}>Father's_Name</th>
+                        <th className={styles.tableth}>Roll&lsquo;No</th>
+                        <th className={styles.tableth}>Student&lsquo;Name</th>
+                        <th className={styles.tableth}>Father&apos;s Name</th>
                         <th className={styles.tableth}>Course</th>
 
                         <th className={styles.tableth}>Status</th>
@@ -522,9 +522,9 @@ function attendance() {
                       <tr className={styles.tabletr}>
                         <th className={styles.tableth}>S.NO</th>
 
-                        <th className={styles.tableth}>Roll_No</th>
-                        <th className={styles.tableth}>Student_Name</th>
-                        <th className={styles.tableth}>Father's_Name</th>
+                        <th className={styles.tableth}>Roll No</th>
+                        <th className={styles.tableth}>Student Name</th>
+                        <th className={styles.tableth}>Father&apos;s Name</th>
                         <th className={styles.tableth}>Course</th>
 
                         <th className={styles.tableth}>Status</th>
@@ -574,8 +574,8 @@ function attendance() {
                       <tr className={styles.tabletr}>
                         <th className={styles.tableth10}>Roll_Number</th>
                         <th className={styles.tableth10}>Name</th>
-                        <th className={styles.tableth10}>Father's_Name</th>
-                        <th className={styles.tableth10}>Class_Batch</th>
+                        <th className={styles.tableth10}>Father&apos;s&lsquo;Name</th>
+                        <th className={styles.tableth10}>Class&lsquo;Batch</th>
                         <th className={styles.tableth10}>Days</th>
                         {monthly[0]?.days?.map((item, index) => {
                           return (
@@ -608,7 +608,7 @@ function attendance() {
                               {item?.attendance != null &&
                                 item?.attendance?.map((item, index) => {
                                   return (
-                                    <td className={styles.tabletd}>
+                                    <td key={index} className={styles.tabletd}>
                                       <button
                                         className={
                                           item?.attendaceStatus === 1
@@ -639,4 +639,4 @@ function attendance() {
   );
 }
 
-export default attendance;
+export default Attendance;

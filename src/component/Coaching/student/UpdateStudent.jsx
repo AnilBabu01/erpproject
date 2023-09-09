@@ -276,6 +276,7 @@ function UpdateStudent({ updatedata, setOpen }) {
                 {batchs?.map((item, index) => {
                   return (
                     <MenuItem
+                    key={index}
                       sx={{
                         fontSize: 14,
                       }}
@@ -316,6 +317,7 @@ function UpdateStudent({ updatedata, setOpen }) {
                 {isdata?.map((item, index) => {
                   return (
                     <MenuItem
+                    key={index}
                       sx={{
                         fontSize: 14,
                       }}
@@ -349,6 +351,7 @@ function UpdateStudent({ updatedata, setOpen }) {
                 {statusmode?.map((item, index) => {
                   return (
                     <MenuItem
+                    key={index}
                       sx={{
                         fontSize: 14,
                       }}

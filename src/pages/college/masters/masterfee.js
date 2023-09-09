@@ -5,7 +5,7 @@ import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
 import Addfee from "@/component/Institute/accounts/Addfee";
-function masterfee() {
+function Masterfee() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
 
@@ -108,4 +108,4 @@ function masterfee() {
   );
 }
 
-export default masterfee;
+export default Masterfee;

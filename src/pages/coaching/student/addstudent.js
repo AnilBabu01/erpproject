@@ -18,7 +18,7 @@ import { Button } from "@mui/material";
 import AddStudent from "../../../component/Coaching/student/AddStudent";
 import UpdateStudent from "../../../component/Coaching/student/UpdateStudent";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
-function addstudent() {
+function Addstudent() {
   const dispatch = useDispatch();
   const [scoursename, setscoursename] = useState("");
   const [sfathers, setsfathers] = useState("");
@@ -222,6 +222,7 @@ function addstudent() {
                   {batchs?.map((item, index) => {
                     return (
                       <option
+                      key={index}
                         sx={{
                           fontSize: 14,
                         }}
@@ -302,7 +303,7 @@ function addstudent() {
             <div className={styles.tablecontainer}>
               <table className={styles.tabletable}>
                 <tbody>
-                  <tr className={styles.tabletr}>
+                  <tr key={index} className={styles.tabletr}>
                     <th className={styles.tableth}>S.NO</th>
                     <th className={styles.tableth}>Roll No</th>
                     <th className={styles.tableth}>Student_Name</th>
@@ -316,7 +317,7 @@ function addstudent() {
                   </tr>
                   {isdata?.map((item, index) => {
                     return (
-                      <tr className={styles.tabletr}>
+                      <tr key={index} className={styles.tabletr}>
                         <td className={styles.tabletd}>{index + 1}</td>
                         <td className={styles.tabletd}>{item?.rollnumber}</td>
                         <td className={styles.tabletd}>{item?.name}</td>
@@ -399,4 +400,4 @@ function addstudent() {
   );
 }
 
-export default addstudent;
+export default Addstudent;

@@ -19,7 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@mui/material";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 
-function enquiry() {
+function Enquiry() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [openupdate, setOpenupdate] = useState(false);
@@ -269,7 +269,9 @@ function enquiry() {
 
                   {isdata?.map((item, index) => {
                     return (
-                      <tr className={styles.tabletr}>
+                      <tr
+                        key={index}
+                      className={styles.tabletr}>
                         <td className={styles.tabletd}>{index + 1}</td>
                         <td className={styles.tabletd}>{item?.EnquiryDate}</td>
                         <td className={styles.tabletd}>{item?.StudentName}</td>
@@ -348,4 +350,4 @@ function enquiry() {
   );
 }
 
-export default enquiry;
+export default Enquiry;

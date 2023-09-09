@@ -103,6 +103,7 @@ function UpdateProImges({ setOpen }) {
                   <>
                     <div className="main_img_divvvv">
                       <img
+                        alt="img"
                         className="dharamshala_imgggg"
                         src={previewprofile1}
                       />
@@ -121,6 +122,7 @@ function UpdateProImges({ setOpen }) {
                     ) : (
                       <>
                         <img
+                          alt="img"
                           className="keydetailsdivproimg"
                           src="/images/profileimg.jpg"
                         />
@@ -145,6 +147,7 @@ function UpdateProImges({ setOpen }) {
                   <>
                     <div className="main_img_divvvv">
                       <img
+                        alt="img"
                         className="dharamshala_imgggg"
                         src={previewprofile2}
                       />
@@ -163,6 +166,7 @@ function UpdateProImges({ setOpen }) {
                     ) : (
                       <>
                         <img
+                          alt="img"
                           className="keydetailsdivcertificatelogoimg"
                           src="/images/erp.jpeg"
                         />
@@ -188,6 +192,7 @@ function UpdateProImges({ setOpen }) {
                   <>
                     <div className="main_img_divvvv">
                       <img
+                        alt="img"
                         className="dharamshala_imgggg"
                         src={previewprofile3}
                       />
@@ -206,6 +211,7 @@ function UpdateProImges({ setOpen }) {
                     ) : (
                       <>
                         <img
+                          alt="img"
                           className="keydetailsdivlogoimg"
                           src="/images/erp.jpeg"
                         />

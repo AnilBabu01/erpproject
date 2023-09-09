@@ -5,7 +5,7 @@ import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
 import AddRegistration from "@/component/Institute/student/AddRegistration";
-function attendance() {
+function Attendance() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
 
@@ -143,4 +143,4 @@ function attendance() {
   );
 }
 
-export default attendance;
+export default Attendance;

@@ -245,6 +245,7 @@ function UpdateAdmission({ updatedata, setOpen }) {
                 {batchs?.map((item, index) => {
                   return (
                     <MenuItem
+                    key={index}
                       sx={{
                         fontSize: 14,
                       }}
@@ -285,6 +286,7 @@ function UpdateAdmission({ updatedata, setOpen }) {
                 {isdata?.map((item, index) => {
                   return (
                     <MenuItem
+                    key={index}
                       sx={{
                         fontSize: 14,
                       }}

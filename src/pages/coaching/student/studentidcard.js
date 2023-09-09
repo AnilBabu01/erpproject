@@ -5,7 +5,7 @@ import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
 import AddStudent from "@/component/Institute/student/AddStudent";
-function studentidcard() {
+function Studentidcard() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
 
@@ -145,4 +145,4 @@ function studentidcard() {
   );
 }
 
-export default studentidcard;
+export default Studentidcard;

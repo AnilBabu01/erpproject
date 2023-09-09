@@ -233,6 +233,7 @@ function CoachingProfile() {
               </div>
               <div className="keydetailsdiv">
                 <img
+                alt="img"
                   onClick={() => handleClickOpen()}
                   className="keydetailsdiveditimg"
                   src="/images/Edit.png"
@@ -248,14 +249,16 @@ function CoachingProfile() {
                 {user?.data[0]?.profileurl ? (
                   <>
                     <img
+                      alt="img"
                       className="keydetailsdivproimg"
                       src={`${backendUrl}public/upload/${user?.data[0]?.profileurl}`}
-                      alt="Logo"
+                  
                     />
                   </>
                 ) : (
                   <>
                     <img
+                      alt="img"
                       className="keydetailsdivproimg"
                       src="/images/profileimg.jpg"
                     />
@@ -267,14 +270,16 @@ function CoachingProfile() {
                 {user?.data[0]?.logourl ? (
                   <>
                     <img
+                      alt="img"
                       className="keydetailsdivlogoimg"
                       src={`${backendUrl}public/upload/${user?.data[0]?.logourl}`}
-                      alt="Logo"
+                    
                     />
                   </>
                 ) : (
                   <>
                     <img
+                      alt="img"
                       className="keydetailsdivlogoimg"
                       src="/images/erp.jpeg"
                     />
@@ -289,14 +294,16 @@ function CoachingProfile() {
                 {user?.data[0]?.certificatelogo ? (
                   <>
                     <img
+                      alt="img"
                       className="keydetailsdivcertificatelogoimg"
                       src={`${backendUrl}public/upload/${user?.data[0]?.certificatelogo}`}
-                      alt="Logo"
+                    
                     />
                   </>
                 ) : (
                   <>
                     <img
+                      alt="img"
                       className="keydetailsdivcertificatelogoimg"
                       src="/images/erp.jpeg"
                     />
@@ -306,6 +313,7 @@ function CoachingProfile() {
 
               <div className="keydetailsdiv">
                 <img
+                  alt="img"
                   onClick={() => handleClickOpen2()}
                   className="keydetailsdiveditimg"
                   src="/images/Edit.png"
@@ -362,6 +370,7 @@ function CoachingProfile() {
             </div>
             <div className="keydetailsdiv">
               <img
+                alt="img"
                 onClick={() => handleClickOpen3()}
                 className="keydetailsdiveditimg"
                 src="/images/Edit.png"
@@ -454,6 +463,7 @@ function CoachingProfile() {
             </div> */}
             <div className="keydetailsdiv">
               <img
+                alt="img"
                 onClick={() => handleClickOpen4()}
                 className="keydetailsdiveditimg"
                 src="/images/Edit.png"

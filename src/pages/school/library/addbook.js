@@ -5,7 +5,7 @@ import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
 import AddStudent from "@/component/Institute/student/AddStudent";
-function addbook() {
+function Addbook() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
 
@@ -145,4 +145,4 @@ function addbook() {
   );
 }
 
-export default addbook;
+export default Addbook;

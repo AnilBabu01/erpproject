@@ -327,6 +327,7 @@ function AddAdmission({ setOpen }) {
                 {isdata?.map((item, index) => {
                   return (
                     <MenuItem
+                    key={index}
                       sx={{
                         fontSize: 14,
                       }}

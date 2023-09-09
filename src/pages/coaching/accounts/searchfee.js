@@ -6,7 +6,7 @@ import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
 import AddEmp from "@/component/Institute/employee/AddEmp";
-function searchfee() {
+function Searchfee() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
 
@@ -150,4 +150,4 @@ function searchfee() {
   );
 }
 
-export default searchfee;
+export default Searchfee;

@@ -11,7 +11,7 @@ import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
 import Addbatchtime from "@/component/Coaching/masters/Addbatchtime";
 import UpdateBatch from "@/component/Coaching/masters/UpdateBatch";
-function batchtime() {
+function Batchtime() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [openupdate, setOpenupdate] = useState(false);
@@ -201,7 +201,7 @@ function batchtime() {
                   </tr>
                   {isdata?.map((item, index) => {
                     return (
-                      <tr className={styles.tabletr}>
+                      <tr key={index} className={styles.tabletr}>
                         <td className={styles.tabletd}>{index + 1}</td>
                         <td className={styles.tabletd}>{item?.StartingTime}</td>
                         <td className={styles.tabletd}>{item?.EndingTime}</td>
@@ -272,4 +272,4 @@ function batchtime() {
   );
 }
 
-export default batchtime;
+export default Batchtime;

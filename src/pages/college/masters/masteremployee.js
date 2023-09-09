@@ -5,7 +5,7 @@ import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
 import Addtypeofemployee from "@/component/Institute/masters/Addtypeofemployee";
-function masteremployee() {
+function Masteremployee() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
 
@@ -98,4 +98,4 @@ function masteremployee() {
   );
 }
 
-export default masteremployee;
+export default Masteremployee;

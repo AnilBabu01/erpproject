@@ -18,7 +18,7 @@ import { Button } from "@mui/material";
 import AddEmp from "../../../component/Coaching/employee/AddEmp";
 import UpdateEmp from "../../../component/Coaching/employee/UpdateEmp";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
-function staff() {
+function Staff() {
   const dispatch = useDispatch();
   const [scoursename, setscoursename] = useState("");
   const [sfathers, setsfathers] = useState("");
@@ -237,7 +237,9 @@ function staff() {
                   </tr>
                   {isdata?.map((item, index) => {
                     return (
-                      <tr className={styles.tabletr}>
+                      <tr 
+                        key={index}
+                      className={styles.tabletr}>
                         <td className={styles.tabletd}>{index + 1}</td>
                         <td className={styles.tabletd}>{item?.name}</td>
                         <td className={styles.tabletd}>{item?.email}</td>
@@ -277,4 +279,4 @@ function staff() {
   );
 }
 
-export default staff;
+export default Staff;

@@ -5,7 +5,7 @@ import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
 import Addclass from "@/component/Institute/masters/Addclass";
-function faultyidcard() {
+function Faultyidcard() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
 
@@ -98,4 +98,4 @@ function faultyidcard() {
   );
 }
 
-export default faultyidcard;
+export default Faultyidcard;

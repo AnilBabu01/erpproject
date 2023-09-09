@@ -1,6 +1,6 @@
 import React,{useEffect,useState} from "react";
 import { useRouter } from "next/router";
-function receipt() {
+function Receipt() {
   const router = useRouter();
   const { receiptdata } = router.query;
   const [data, setData] = React.useState({});
@@ -15,4 +15,4 @@ function receipt() {
   return <div className="mainContainer">receipt</div>;
 }
 
-export default receipt;
+export default Receipt;

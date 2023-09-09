@@ -5,7 +5,7 @@ import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
 import AddBranch from "@/component/Coaching/masters/AddBranch";
-function branch() {
+function Branch() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
 
@@ -98,4 +98,4 @@ function branch() {
   );
 }
 
-export default branch;
+export default Branch;

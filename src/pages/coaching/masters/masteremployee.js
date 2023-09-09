@@ -14,7 +14,7 @@ import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
 import Addtypeofemployee from "@/component/Coaching/masters/Addtypeofemployee";
 import UpdateEmployeeType from "@/component/Coaching/masters/UpdateEmployeeType";
-function masteremployee() {
+function Masteremployee() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [openupdate, setOpenupdate] = useState(false);
@@ -188,7 +188,7 @@ function masteremployee() {
                   </tr>
                   {isdata?.map((item, index) => {
                     return (
-                      <tr className={styles.tabletr}>
+                      <tr key={index} className={styles.tabletr}>
                         <td className={styles.tabletd}>{index + 1}</td>
                         <td className={styles.tabletd}>{item?.employeetype}</td>
 
@@ -259,4 +259,4 @@ function masteremployee() {
   );
 }
 
-export default masteremployee;
+export default Masteremployee;

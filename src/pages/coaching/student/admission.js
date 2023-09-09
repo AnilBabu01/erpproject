@@ -19,7 +19,7 @@ import { Button } from "@mui/material";
 import AddAdmission from "../../../component/Coaching/student/AddAdmission";
 import UpdateAdmission from "../../../component/Coaching/student/UpdateAdmission";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
-function admission() {
+function Admission() {
   const dispatch = useDispatch();
   const [scoursename, setscoursename] = useState("");
   const [sfathers, setsfathers] = useState("");
@@ -225,6 +225,7 @@ function admission() {
                   {batchs?.map((item, index) => {
                     return (
                       <option
+                      key={index}
                         sx={{
                           fontSize: 14,
                         }}
@@ -319,7 +320,7 @@ function admission() {
                   </tr>
                   {isdata?.map((item, index) => {
                     return (
-                      <tr className={styles.tabletr}>
+                      <tr key={index} className={styles.tabletr}>
                         <td className={styles.tabletd}>{index + 1}</td>
                         <td className={styles.tabletd}>{item?.rollnumber}</td>
                         <td className={styles.tabletd}>{item?.name}</td>
@@ -403,4 +404,4 @@ function admission() {
   );
 }
 
-export default admission;
+export default Admission;

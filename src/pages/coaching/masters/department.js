@@ -14,7 +14,7 @@ import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
 import Adddepart from "@/component/Coaching/masters/Adddepart";
 import Updatedepart from "@/component/Coaching/masters/Updatedepart";
-function department() {
+function Department() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [openupdate, setOpenupdate] = useState(false);
@@ -186,7 +186,7 @@ function department() {
                   </tr>
                   {isdata?.map((item, index) => {
                     return (
-                      <tr className={styles.tabletr}>
+                      <tr key={index} className={styles.tabletr}>
                         <td className={styles.tabletd}>{index + 1}</td>
                         <td className={styles.tabletd}>
                           {item?.DepartmentName}
@@ -259,4 +259,4 @@ function department() {
   );
 }
 
-export default department;
+export default Department;

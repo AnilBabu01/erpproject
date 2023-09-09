@@ -5,7 +5,7 @@ import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
 import AddStudentCategory from "@/component/Institute/masters/AddStudentCategory";
-function masterstudentcategory() {
+function Masterstudentcategory() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
 
@@ -99,4 +99,4 @@ function masterstudentcategory() {
   );
 }
 
-export default masterstudentcategory;
+export default Masterstudentcategory;

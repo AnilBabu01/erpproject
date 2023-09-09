@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import CloseIcon from "@mui/icons-material/Close";
+import ArrowDropDownOutlinedIcon  from "@mui/icons-material/ArrowDropDownOutlinedIcon";
+import IconButton from "@mui/icons-material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -182,7 +184,7 @@ function Navbar({ open, setOpen }) {
                 }}
               />
 
-              <IconButhrefn
+              <IconButton
                 onClick={handleClick}
                 size="small"
                 aria-label="more"
@@ -191,7 +193,7 @@ function Navbar({ open, setOpen }) {
                   size="large"
                   sx={{ color: secondaryColor }}
                 />
-              </IconButhrefn>
+              </IconButton>
             </Box>
           </div>
         ) : (

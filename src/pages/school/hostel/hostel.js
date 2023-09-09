@@ -6,7 +6,7 @@ import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
 import AddEmp from "@/component/Institute/employee/AddEmp";
-function hostel() {
+function Hostel() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
 
@@ -154,4 +154,4 @@ function hostel() {
   );
 }
 
-export default hostel;
+export default Hostel;

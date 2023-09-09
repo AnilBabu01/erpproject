@@ -11,7 +11,7 @@ import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
 import AddCourse from "@/component/Coaching/masters/AddCourse";
 import Updatecourse from "@/component/Coaching/masters/Updatecourse";
-function course() {
+function Course() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [openupdate, setOpenupdate] = useState(false);
@@ -197,7 +197,7 @@ function course() {
                   </tr>
                   {isdata?.map((item, index) => {
                     return (
-                      <tr className={styles.tabletr}>
+                      <tr key={index} className={styles.tabletr}>
                         <td className={styles.tabletd}>{index + 1}</td>
                         <td className={styles.tabletd}>{item?.coursename}</td>
                         <td className={styles.tabletd}>
@@ -270,4 +270,4 @@ function course() {
   );
 }
 
-export default course;
+export default Course;

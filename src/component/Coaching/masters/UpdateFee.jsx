@@ -75,6 +75,7 @@ function UpdateFee({ updatedata, setOpen }) {
                 {isdata?.map((item, index) => {
                   return (
                     <MenuItem
+                    key={index}
                       sx={{
                         fontSize: 14,
                       }}

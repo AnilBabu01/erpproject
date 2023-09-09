@@ -1,6 +1,6 @@
 import React from "react";
 import PricingScreen from "@/component/Lending/Pricing/PricingScreen";
-function pricing() {
+function Pricing() {
   return (
     <>
       <div className="mainContainer">
@@ -10,4 +10,4 @@ function pricing() {
   );
 }
 
-export default pricing;
+export default Pricing;

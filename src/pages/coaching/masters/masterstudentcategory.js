@@ -14,7 +14,7 @@ import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
 import AddStudentCategory from "@/component/Coaching/masters/AddStudentCategory";
 import UpdateCategory from "@/component/Coaching/masters/UpdateCategory";
-function masterstudentcategory() {
+function Masterstudentcategory() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [openupdate, setOpenupdate] = useState(false);
@@ -187,7 +187,7 @@ function masterstudentcategory() {
                   </tr>
                   {isdata?.map((item, index) => {
                     return (
-                      <tr className={styles.tabletr}>
+                      <tr key={index} className={styles.tabletr}>
                         <td className={styles.tabletd}>{index + 1}</td>
                         <td className={styles.tabletd}>{item?.category}</td>
                         <td className={styles.tabkeddd}>
@@ -257,4 +257,4 @@ function masterstudentcategory() {
   );
 }
 
-export default masterstudentcategory;
+export default Masterstudentcategory;

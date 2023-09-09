@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import styles from "@/styles/register.module.css";
-function register() {
+function Register() {
   return (
     <>
       <div className="mainContainer">
@@ -111,4 +111,4 @@ function register() {
   );
 }
 
-export default register;
+export default Register;

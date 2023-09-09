@@ -5,7 +5,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch } from "react-redux";
 import { loadUser } from "../redux/actions/authActions";
-function main({ Component, pageProps }) {
+function Main({ Component, pageProps }) {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   useEffect(() => {
@@ -23,4 +23,4 @@ function main({ Component, pageProps }) {
   );
 }
 
-export default main;
+export default Main;

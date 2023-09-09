@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React,{ useState, useEffect } from "react";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import CloseIcon from "@mui/icons-material/Close";
@@ -33,7 +33,7 @@ function AddEnquiry({ setOpen }) {
       StudentEmail: studentemail,
       Address: address,
       Course: courses,
-      Comment:comment
+      Comment: comment,
     };
     dispatch(Addenquiry(data, setOpen));
   };
@@ -144,6 +144,7 @@ function AddEnquiry({ setOpen }) {
                 {isdata?.map((item, index) => {
                   return (
                     <MenuItem
+                      key={index}
                       sx={{
                         fontSize: 14,
                       }}

@@ -27,7 +27,6 @@ function Addfee({ setOpen }) {
       dispatch(getfee());
     }
   }, []);
-  
 
   useEffect(() => {
     if (course) {
@@ -73,6 +72,7 @@ function Addfee({ setOpen }) {
                 {isdata?.map((item, index) => {
                   return (
                     <MenuItem
+                      key={index}
                       sx={{
                         fontSize: 14,
                       }}

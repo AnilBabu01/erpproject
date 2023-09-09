@@ -5,7 +5,7 @@ import MenuItem from "@mui/material/MenuItem";
 import styles from "@/styles/loginguest.module.css";
 import { useRouter } from "next/router";
 
-function loginguet() {
+function Loginguet() {
   const router = useRouter();
 
   const [showloginoption, setshowloginoption] = useState(false);
@@ -138,4 +138,4 @@ function loginguet() {
   );
 }
 
-export default loginguet;
+export default Loginguet;

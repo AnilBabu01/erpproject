@@ -8,7 +8,7 @@ import StudentProfile from "@/component/Student/StudentProfile";
 import ParentProfile from "@/component/parent/ParentProfile";
 import { useSelector } from "react-redux";
 
-function profile() {
+function Profile() {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
   return (
     <>
@@ -29,4 +29,4 @@ function profile() {
   );
 }
 
-export default profile;
+export default Profile;

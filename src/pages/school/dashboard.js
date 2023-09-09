@@ -5,7 +5,7 @@ import Linechart from "../../component/MainAdmin/Linechart";
 import { useDispatch } from "react-redux";
 import { loadUser } from "../../redux/actions/authActions";
 
-function dashboard() {
+function Dashboard() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(loadUser());
@@ -97,4 +97,4 @@ function dashboard() {
   );
 }
 
-export default dashboard;
+export default Dashboard;
