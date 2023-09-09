@@ -147,6 +147,7 @@ input#donation-date {
 .link_direct {
   color: white;
   text-decoration: none;
+  margin-right: 1rem;
 }
 .link_directActive {
   color: #ffa500;
@@ -725,7 +726,7 @@ input#donation-date {
   color: var(--badge-text);
 }
 .nffffav_linka {
-  padding-top: 9%;
+  padding-top: 0%;
 }
 .logodivlinnk {
   color: white;
