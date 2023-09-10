@@ -59,4 +59,27 @@
 .mainDisciption p{
     color: white;
 }
+@media (max-width: 730px) {
+  .mainprincingmain {
+    padding: 1rem;
+  }
+  .mainacrddiv {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2.2rem;
+    padding-left: 0rem;
+    padding-right: 0rem;
+    flex-direction: column;
+  }
 
+  .maincardpring {
+    background-color: #093959;
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+}
