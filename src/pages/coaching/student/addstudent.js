@@ -303,7 +303,7 @@ function Addstudent() {
             <div className={styles.tablecontainer}>
               <table className={styles.tabletable}>
                 <tbody>
-                  <tr key={index} className={styles.tabletr}>
+                  <tr  className={styles.tabletr}>
                     <th className={styles.tableth}>S.NO</th>
                     <th className={styles.tableth}>Roll No</th>
                     <th className={styles.tableth}>Student_Name</th>
