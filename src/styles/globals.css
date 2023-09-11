@@ -374,7 +374,7 @@ input#donation-date {
   .add_icons_div {
     display: flex;
     justify-content: space-between;
-
+    width: 100%;
     align-items: center;
   }
   .closeinmobile {

@@ -529,6 +529,31 @@ function Navbar({ open, setOpen }) {
 
                 <Divider sx={{ my: 0.5 }} />
                 <MenuItem>
+                  <div
+                    onClick={() => setstudent(!student)}
+                    className="add_icons_div"
+                  >
+                    <p> Student</p>
+                    {student ? <RemoveIcon /> : <AddIcon />}
+                  </div>
+                </MenuItem>
+                <div className={student ? "menu_show" : "menu_hide"}>
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
+                      href="/coaching/frontoffice/enquiry"
+                    >
+                      Admission Enquiry
+                    </Link>
+                  </MenuItem>
+                </div>
+
+                <Divider sx={{ my: 0.5 }} />
+                <MenuItem>
                   <Link
                     className={
                       router.pathname == "/"
