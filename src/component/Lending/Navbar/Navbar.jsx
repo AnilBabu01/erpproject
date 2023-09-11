@@ -43,10 +43,15 @@ function Navbar({ open, setOpen }) {
   const [isMobile, setisMobile] = useState(false);
   const [showmenu1, setshowmenu1] = useState(false);
   const [showmenu2, setshowmenu2] = useState(false);
+  const [student, setstudent] = useState(false);
+  const [attendance, setattendance] = useState(false);
+  const [accounts, setaccounts] = useState(false);
+  const [humanresourse, sethumanresourse] = useState(false);
+  const [master, setmaster] = useState(false);
+  const [reports, setreports] = useState(false);
   const { isAuthenticated, user } = useSelector((state) => state.auth);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [open4, setOpen4] = useState(false);
-  const [close, setclose] = useState(true);
   const open2 = Boolean(anchorEl);
   const handleClick1 = (event) => {
     setAnchorEl(event.currentTarget);
@@ -180,11 +185,10 @@ function Navbar({ open, setOpen }) {
             keepMounted
             onClose={handleClose}
             aria-describedby="alert-dialog-slide-description"
-              sx={{
+            sx={{
               "& .MuiDialog-container": {
                 "& .MuiPaper-root": {
-               
-                  maxWidth: '100%',
+                  maxWidth: "100%",
                 },
               },
             }}
@@ -482,6 +486,102 @@ function Navbar({ open, setOpen }) {
                 </MenuItem>
               </>
             )}
+
+            {user?.data[0]?.userType === "institute" && (
+              <>
+                <Divider sx={{ my: 0.5 }} />
+                <MenuItem>
+                  <Link
+                    className={
+                      router.pathname == "/mainadmin/dashbord"
+                        ? "link_directActive"
+                        : "link_direct10"
+                    }
+                    href="/mainadmin/dashboard"
+                  >
+                    Dashboard
+                  </Link>
+                </MenuItem>
+                <Divider sx={{ my: 0.5 }} />
+                <MenuItem>
+                  <div
+                    onClick={() => setshowmenu2(!showmenu2)}
+                    className="add_icons_div"
+                  >
+                    <p> Front Office</p>{" "}
+                    {showmenu2 ? <RemoveIcon /> : <AddIcon />}
+                  </div>
+                </MenuItem>
+                <div className={showmenu2 ? "menu_show" : "menu_hide"}>
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
+                      href="/coaching/frontoffice/enquiry"
+                    >
+                      Admission Enquiry
+                    </Link>
+                  </MenuItem>
+                </div>
+
+                <Divider sx={{ my: 0.5 }} />
+                <MenuItem>
+                  <Link
+                    className={
+                      router.pathname == "/"
+                        ? "link_directActive"
+                        : "link_direct10"
+                    }
+                    href="/"
+                  >
+                    Clients
+                  </Link>
+                </MenuItem>
+
+                <Divider sx={{ my: 0.5 }} />
+                <MenuItem>
+                  <Link
+                    className={
+                      router.pathname == "/"
+                        ? "link_directActive"
+                        : "link_direct10"
+                    }
+                    href="/"
+                  >
+                    Active Plans
+                  </Link>
+                </MenuItem>
+                <Divider sx={{ my: 0.5 }} />
+                <MenuItem>
+                  <Link
+                    className={
+                      router.pathname == "/"
+                        ? "link_directActive"
+                        : "link_direct10"
+                    }
+                    href="/"
+                  >
+                    Exhausted Plans
+                  </Link>
+                </MenuItem>
+                <Divider sx={{ my: 0.5 }} />
+                <MenuItem>
+                  <Link
+                    className={
+                      router.pathname == "/"
+                        ? "link_directActive"
+                        : "link_direct10"
+                    }
+                    href="/"
+                  >
+                    Guest Clients
+                  </Link>
+                </MenuItem>
+              </>
+            )}
           </>
         ) : (
           <>
@@ -519,18 +619,7 @@ function Navbar({ open, setOpen }) {
                   Android Development
                 </Link>
               </MenuItem>
-              <Divider sx={{ my: 0.5 }} />
-              <MenuItem>
-                <Link
-                  onClick={() => setisMobile(!isMobile)}
-                  className={({ isActive }) =>
-                    isActive ? "link_directActive" : "link_directs"
-                  }
-                  href="/"
-                >
-                  IOS Development
-                </Link>
-              </MenuItem>
+
               <Divider sx={{ my: 0.5 }} />
               <MenuItem>
                 <Link
@@ -543,6 +632,7 @@ function Navbar({ open, setOpen }) {
                 </Link>
               </MenuItem>
             </div>
+
             <Divider sx={{ my: 0.5 }} />
             <MenuItem>
               <div

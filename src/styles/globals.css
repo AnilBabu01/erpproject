@@ -385,7 +385,7 @@ input#donation-date {
   .add_icons_div p {
     font-weight: 500;
     font-size: 15px;
-    margin-right: 11.7rem;
+    margin-right: 9rem;
   }
 
   .link_directs {
@@ -736,6 +736,7 @@ input#donation-date {
 .link_directppp {
   font-weight: 500;
 }
+
 @media (max-width: 730px) {
   .nav_toggle {
     display: block;

@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./PricingScreen.module.css";
 import CardPricing from "./CardPricing";
+
 function PricingScreen() {
   return (
     <div className={styles.mainprincingmain}>
