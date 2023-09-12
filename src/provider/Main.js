@@ -6,17 +6,29 @@ import { loadUser } from "../redux/actions/authActions";
 function Main({ Component, pageProps }) {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+  const [loadingshow, setLoadingshow] = useState(true);
+
   useEffect(() => {
     dispatch(loadUser());
+  }, []);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoadingshow(false);
+    }, 1000);
   }, []);
 
   return (
     <>
-      <Navbar setOpen={setOpen} open={open} />
+      {loadingshow ? (
+        <></>
+      ) : (
+        <>
+          <Navbar setOpen={setOpen} open={open} />
+        </>
+      )}
       <NextUIProvider>
         <Component {...pageProps} setOpen={setOpen} open={open} />
       </NextUIProvider>
- 
     </>
   );
 }

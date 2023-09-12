@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import styles from "@/styles/loginguest.module.css";
@@ -9,12 +9,26 @@ import {
   alCoaching,
   allschool,
   allCollege,
-  allClient
+  allClient,
 } from "../redux/actions/commanAction";
-export default function Home({ setOpen, }) {
+import Loader from "@/component/loader/Loader";
+import AOS from "aos";
+import "aos/dist/aos.css";
+export default function Home({ setOpen }) {
   const dispatch = useDispatch();
   const navigate = useRouter();
   const { isAuthenticated, user } = useSelector((state) => state.auth);
+  const [loadingshow, setLoadingshow] = useState(false);
+
+  useEffect(() => {
+    setLoadingshow(true);
+    setTimeout(() => {
+      setLoadingshow(false);
+    }, 1000);
+
+    // Initialize AOS here
+    AOS.init({});
+  }, []);
 
   useEffect(() => {
     dispatch(loadUser());
@@ -55,31 +69,40 @@ export default function Home({ setOpen, }) {
     dispatch(allClient());
   }, []);
 
-  return (
-    <main>
-      <Head>
-        <title>Home</title>
-      </Head>
-      <div className="mainContainer">
-        <div className={styles.mianguest}>
-          <div className={styles.left}>
-            <h1>
-              Enterprise resource planning (ERP) refers to a type of software
-              that organizations use to manage day-to-day business activities
-              such as accounting, procurement, project management, risk
-              management and compliance, and supply chain operations.
-            </h1>
-            <button onClick={() => setOpen(true)}>Get Started</button>
+  return loadingshow ? (
+    <Loader />
+  ) : (
+    <>
+      return (
+      <main>
+        <Head>
+          <title>Home</title>
+        </Head>
+        <div className="mainContainer8">
+          <div className={styles.mianguest}>
+            <div className={styles.left}>
+              <h1>
+                Enterprise resource planning (ERP) refers to a type of software
+                that organizations use to manage day-to-day business activities
+                such as accounting, procurement, project management, risk
+                management and compliance, and supply chain operations.
+              </h1>
+              <button onClick={() => setOpen(true)}>Get Started</button>
+            </div>
+            <div className={styles.right}>
+              <img src="/images/erp.jpeg" alt="Logo" />
+            </div>
+            <button
+              className={styles.phonebutton}
+              onClick={() => setOpen(true)}
+            >
+              Get Started
+            </button>
           </div>
-          <div className={styles.right}>
-            <img src="/images/erp.jpeg" alt="Logo" />
-          </div>
-          <button className={styles.phonebutton} onClick={() => setOpen(true)}>
-            Get Started
-          </button>
+          <FeatureRrp />
         </div>
-        <FeatureRrp />
-      </div>
-    </main>
+      </main>
+      )
+    </>
   );
 }
