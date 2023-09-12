@@ -69,40 +69,42 @@ export default function Home({ setOpen }) {
     dispatch(allClient());
   }, []);
 
-  return loadingshow ? (
-    <Loader />
-  ) : (
-    <>
-      return (
-      <main>
-        <Head>
-          <title>Home</title>
-        </Head>
-        <div className="mainContainer8">
-          <div className={styles.mianguest}>
-            <div className={styles.left}>
-              <h1>
-                Enterprise resource planning (ERP) refers to a type of software
-                that organizations use to manage day-to-day business activities
-                such as accounting, procurement, project management, risk
-                management and compliance, and supply chain operations.
-              </h1>
-              <button onClick={() => setOpen(true)}>Get Started</button>
-            </div>
-            <div className={styles.right}>
-              <img src="/images/erp.jpeg" alt="Logo" />
-            </div>
-            <button
-              className={styles.phonebutton}
-              onClick={() => setOpen(true)}
-            >
-              Get Started
-            </button>
+  return (
+    <main>
+      <Head>
+        <title>Home</title>
+      </Head>
+      {loadingshow?<>
+      <Loader/>
+      
+      </>:<>
+      
+      <div className="mainContainer8">
+        <div className={styles.mianguest}>
+          <div className={styles.left}>
+            <h1>
+              Enterprise resource planning (ERP) refers to a type of software
+              that organizations use to manage day-to-day business activities
+              such as accounting, procurement, project management, risk
+              management and compliance, and supply chain operations.
+            </h1>
+            <button onClick={() => setOpen(true)}>Get Started</button>
           </div>
-          <FeatureRrp />
+          <div className={styles.right}>
+            <img src="/images/erp.jpeg" alt="Logo" />
+          </div>
+          <button
+            className={styles.phonebutton}
+            onClick={() => setOpen(true)}
+          >
+            Get Started
+          </button>
         </div>
-      </main>
-      )
-    </>
-  );
+        <FeatureRrp />
+      </div>
+      
+      </>}
+     
+    </main>
+    )
 }
