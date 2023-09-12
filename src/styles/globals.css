@@ -311,8 +311,7 @@ input#donation-date {
   .open1 {
     width: 75%;
     height: 100%;
-    /* padding-left: 2%;
-  padding-right: 2%; */
+    overflow-x: scroll;
     display: block;
     transition-timing-function: ease-in;
     position: fixed;
