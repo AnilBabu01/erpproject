@@ -11,6 +11,7 @@ function Addfee({ setOpen }) {
   const [coursename, setcoursename] = useState("");
   const [registrationfee, setregistrationfee] = useState("");
   const [permonthfee, setpermonthfee] = useState("");
+  const [courseduration, setcourseduration] = useState("");
   const { loading, course } = useSelector((state) => state.getcourse);
 
   const submit = (e) => {
@@ -19,6 +20,7 @@ function Addfee({ setOpen }) {
       Registractionfee: registrationfee,
       feepermonth: permonthfee,
       coursename: coursename,
+      courseduration: courseduration,
     };
     dispatch(AddFee(data, setOpen));
   };
@@ -77,6 +79,9 @@ function Addfee({ setOpen }) {
                         fontSize: 14,
                       }}
                       value={item?.coursename}
+                      onClick={() => {
+                        setcourseduration(item?.courseduration);
+                      }}
                     >
                       {item?.coursename}
                     </MenuItem>

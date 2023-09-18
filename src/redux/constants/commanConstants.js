@@ -165,4 +165,24 @@ export const DELETE_Department_REQUEST = "DELETE_Department_REQUEST";
 export const DELETE_Department_SUCCESS = "DELETE_Department_SUCCESS";
 export const DELETE_Department_FAIL = "DELETE_Department_FAIL";
 
+export const ADD_CourseDuration_REQUEST = "ADD_CourseDuration_REQUEST";
+export const ADD_CourseDuration_SUCCESS = "ADD_CourseDuration_SUCCESS";
+export const ADD_CourseDuration_RESET = "ADD_CourseDuration_RESET";
+export const ADD_CourseDuration_FAIL = "ADD_CourseDuration_FAIL";
+
+export const UPDATE_CourseDuration_REQUEST = "UPDATE_CourseDuration_REQUEST";
+export const UPDATE_CourseDuration_SUCCESS = "UPDATE_CourseDuration_SUCCESS";
+export const UPDATE_CourseDuration_FAIL = "UPDATE_CourseDuration_FAIL";
+
+export const ALL_CourseDuration_REQUEST = " ALL_CourseDuration_REQUEST";
+export const ALL_CourseDuration_SUCCESS = " ALL_CourseDuration_SUCCESS";
+export const ALL_CourseDuration_FAIL = " ALL_CourseDuration_FAIL";
+
+export const DELETE_CourseDuration_REQUEST = "DELETE_CourseDuration_REQUEST";
+export const DELETE_CourseDuration_SUCCESS = "DELETE_CourseDuration_SUCCESS";
+export const DELETE_CourseDuration_FAIL = "DELETE_CourseDuration_FAIL";
+
+
+
+
 export const CLEAR_ERRORS = "CLEAR_ERRORS";

@@ -20,8 +20,16 @@ import {
   UPDATE_PROFILE_SUCCESS,
   UPDATE_PROFILE_FAIL,
   DELETE_ENQUIRY_FAIL,
+  ADD_PAYCOACHINGFEE_REQUEST,
+  ADD_PAYCOACHINGFEE_SUCCESS,
+  ADD_PAYCOACHINGFEE_FAIL,
 } from "../constants/coachingContants";
 import { serverInstance } from "../../API/ServerInstance";
+import {
+  ADD_FEESTRUCTURE_FAIL,
+  ADD_FEESTRUCTURE_REQUEST,
+  ADD_FEESTRUCTURE_SUCCESS,
+} from "../constants/commanConstants";
 // post add enquiry
 export const Addenquiry = (datas, setOpen) => async (dispatch) => {
   try {
@@ -222,6 +230,40 @@ export const UpdateProfile = (datas, setOpen) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: UPDATE_PROFILE_FAIL,
+      payload: error?.response?.data?.msg,
+    });
+    toast.error(error?.response?.data?.msg, { autoClose: 1000 });
+  }
+};
+
+export const Addpayfee = (datas, setOpen) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("erptoken")}`,
+      },
+    };
+    dispatch({ type: ADD_PAYCOACHINGFEE_REQUEST });
+
+    const { data } = await axios.post(
+      `${backendApiUrl}Student/pacoachingfee`,
+      datas,
+      config
+    );
+    if (data?.status) {
+      toast.success(data?.msg, {
+        autoClose: 1000,
+      });
+      setOpen(false);
+    }
+    dispatch({
+      type: ADD_PAYCOACHINGFEE_SUCCESS,
+      payload: data?.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADD_PAYCOACHINGFEE_FAIL,
       payload: error?.response?.data?.msg,
     });
     toast.error(error?.response?.data?.msg, { autoClose: 1000 });

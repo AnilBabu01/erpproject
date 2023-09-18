@@ -31,7 +31,7 @@ input#donation-date {
   overflow: hidden;
 }
 .logoimg {
-  width: 3rem;
+  width: 6rem;
 }
 .keydetailsdiv h1 {
   font-size: 20px;
@@ -85,7 +85,7 @@ input#donation-date {
   padding-right: 1rem;
 }
 .loginbtnHeader {
-  background: #ffa500 !important;
+  background: #ff6900 !important;
   color: white !important;
   font-size: 19px;
   height: 52%;
@@ -95,8 +95,9 @@ input#donation-date {
   padding-right: 0.5rem;
 }
 
+
 .loginbtnHeader:hover {
-  background: #ffa500 !important;
+  background: #ff6900 !important;
   color: white !important;
   font-size: 19px;
   height: 52%;
@@ -133,7 +134,7 @@ input#donation-date {
 
 .main_div_header_scroll .main_div_header10 a:hover {
   background-color: white;
-  color: #ffa500;
+  color: #ff6900;
 }
 
 .main_div_header_scroll .dropdown1 .dropbtn {
@@ -142,18 +143,18 @@ input#donation-date {
 }
 .main_div_header_scroll .dropdown1 .dropbtn:hover {
   background-color: white;
-  color: #ffa500;
+  color: #ff6900;
 }
 .link_direct {
   color: white;
   text-decoration: none;
-}
+}  
 .link_directActive {
-  color: #ffa500;
+  color: #ff6900;
   font-size: 16px;
 }
 .link_direct:hover {
-  color: #ffa500;
+  color: #ff6900;
 }
 
 .link_direct10 {
@@ -162,7 +163,7 @@ input#donation-date {
 }
 
 .link_direct10:hover {
-  color: #ffa500;
+  color: #ff6900;
 }
 .main_div_header10 p {
   margin-bottom: 0px;
@@ -176,7 +177,7 @@ input#donation-date {
 }
 .main_div_header10 a:hover {
   background-color: #093959;
-  color: #ffa500;
+  color: #ff6900;
 }
 .dropbtn {
   background-color: #093959;
@@ -421,7 +422,7 @@ input#donation-date {
     align-items: center;
   }
   .main_top_header {
-    background-color: #ffa500;
+    background-color: #ff6900;
     display: flex;
     align-items: center;
     justify-content: space-between;

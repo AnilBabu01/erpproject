@@ -3,7 +3,7 @@ function Loader() {
   return (
     <div className="body">
       <div className="loader">
-        <h5>loading...</h5>
+        <h5>Please Wait...</h5>
         <span style={{ "--i": 1 }}></span>
         <span style={{ "--i": 2 }}></span>
         <span style={{ "--i": 3 }}></span>

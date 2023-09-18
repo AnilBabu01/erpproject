@@ -53,7 +53,7 @@
   width: 140px;
   height: 35px;
   border-radius: 7px;
-   color: white;
+  color: white;
   background: #093959;
   display: flex;
   justify-content: center;
@@ -182,7 +182,70 @@
 .phonebutton {
   display: none;
 }
+.mainborderdivinnear {
+  width: 100%;
+  background-color: aquamarine;
+}
+.mainborderdiv {
+  padding: 0.1rem;
+}
+.mainimgdivre {
+  display: flex;
+}
+.imgdivre {
+  width: 33.3%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.showfathersname{
+  margin-right: 1rem;
+}
+.showfathersnamelabel{
+  margin-left: 1rem;
+}
+.imgdivre img {
+  width: 10rem;
+  height: 10rem;
+  border-radius: 48%;
+}
+.imgdivre h2 {
+  margin-bottom: 0px;
+  margin-top: 0px;
+  font-size: 20px;
+}
+.imgdivre p {
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+.receiptNodiv {
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+  display: flex;
+  justify-content: space-around;
+}
 
+.mainfeedetails {
+  display: flex;
+  justify-content: space-between;
+
+  padding: 1rem;
+}
+.mainfeedetailsinnear {
+  width: 50%;
+}
+
+.textdivonly {
+  display: flex;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+  justify-content: space-between;
+}
+.textdivonly10 {
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+}
 @media screen and (max-width: 780px) {
   .showpassbtn {
     position: absolute;
@@ -235,6 +298,4 @@
     box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.25);
     border-radius: 3px;
   }
- 
-  
 }

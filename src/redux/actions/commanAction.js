@@ -125,6 +125,18 @@ import {
   DELETE_Department_REQUEST,
   DELETE_Department_SUCCESS,
   DELETE_Department_FAIL,
+  ADD_CourseDuration_REQUEST,
+  ADD_CourseDuration_SUCCESS,
+  ADD_CourseDuration_FAIL,
+  UPDATE_CourseDuration_REQUEST,
+  UPDATE_CourseDuration_SUCCESS,
+  UPDATE_CourseDuration_FAIL,
+  ALL_CourseDuration_REQUEST,
+  ALL_CourseDuration_SUCCESS,
+  ALL_CourseDuration_FAIL,
+  DELETE_CourseDuration_REQUEST,
+  DELETE_CourseDuration_SUCCESS,
+  DELETE_CourseDuration_FAIL,
   ALL_CLIENT_FAIL,
 } from "../constants/commanConstants";
 
@@ -883,7 +895,7 @@ export const getDesignation = (page, limit, setPage) => async (dispatch) => {
   }
 };
 
-export const Addstudent = (datas, setOpen) => async (dispatch) => {
+export const Addstudent = (datas) => async (dispatch) => {
   try {
     const config = {
       headers: {
@@ -903,7 +915,6 @@ export const Addstudent = (datas, setOpen) => async (dispatch) => {
       toast.success(data?.msg, {
         autoClose: 1000,
       });
-      setOpen(false);
     }
 
     dispatch({
@@ -1295,6 +1306,141 @@ export const getDepartment = (page, limit, setPage) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: ALL_Department_FAIL,
+      payload: error?.response?.data?.msg,
+    });
+  }
+};
+
+
+
+export const AddCourseDuration = (datas, setOpen) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("erptoken")}`,
+      },
+    };
+    dispatch({ type: ADD_CourseDuration_REQUEST });
+
+    const { data } = await axios.post(
+      `${backendApiUrl}comman/courseduration`,
+      datas,
+      config
+    );
+
+    if (data?.status) {
+      toast.success(data?.msg, {
+        autoClose: 1000,
+      });
+      setOpen(false);
+    }
+
+    dispatch({
+      type: ADD_CourseDuration_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADD_CourseDuration_FAIL,
+      payload: error?.response?.data?.msg,
+    });
+    toast.error(error?.response?.data?.msg, { autoClose: 1000 });
+  }
+};
+
+// post add enquiry
+export const UpdateCourseDuration  = (datas, setOpen) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("erptoken")}`,
+      },
+    };
+    dispatch({ type: UPDATE_CourseDuration_REQUEST });
+
+    const { data } = await axios.put(
+      `${backendApiUrl}comman/courseduration`,
+      datas,
+      config
+    );
+
+    if (data?.status) {
+      toast.success(data?.msg, {
+        autoClose: 1000,
+      });
+      setOpen(false);
+    }
+
+    dispatch({
+      type: UPDATE_CourseDuration_SUCCESS,
+      payload: data?.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_CourseDuration_FAIL,
+      payload: error?.response?.data?.msg,
+    });
+    toast.error(error?.response?.data?.msg, { autoClose: 1000 });
+  }
+};
+
+// delete  enquiry
+export const deleteCourseDuration  =
+  (deleteid, setOpenalert) => async (dispatch) => {
+    try {
+      dispatch({ type: DELETE_CourseDuration_REQUEST });
+      serverInstance("comman/courseduration", "delete", {
+        id: deleteid,
+      }).then((res) => {
+        if (res?.status) {
+          toast.success(res?.msg, {
+            autoClose: 1000,
+          });
+          setOpenalert(false);
+        }
+
+        dispatch({
+          type: DELETE_CourseDuration_SUCCESS,
+          payload: res?.data,
+        });
+      });
+    } catch (error) {
+      dispatch({
+        type: DELETE_CourseDuration_FAIL,
+        payload: error?.response?.data?.msg,
+      });
+      toast.error(error?.response?.data?.msg, { autoClose: 1000 });
+      setOpenalert(false);
+    }
+  };
+
+// Get all Enquiry
+export const getCourseDuration  = (page, limit, setPage) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("erptoken")}`,
+      },
+    };
+    dispatch({ type: ALL_CourseDuration_REQUEST });
+
+    const { data } = await axios.get(
+      `${backendApiUrl}comman/courseduration`,
+      config
+    );
+
+    console.log("data from course", data?.data);
+
+    dispatch({
+      type: ALL_CourseDuration_SUCCESS,
+      payload: data?.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ALL_CourseDuration_FAIL,
       payload: error?.response?.data?.msg,
     });
   }

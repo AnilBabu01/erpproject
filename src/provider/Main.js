@@ -19,13 +19,7 @@ function Main({ Component, pageProps }) {
 
   return (
     <>
-      {loadingshow ? (
-        <></>
-      ) : (
-        <>
-          <Navbar setOpen={setOpen} open={open} />
-        </>
-      )}
+      <Navbar setOpen={setOpen} open={open} setLoadingshow={setLoadingshow} />
       <NextUIProvider>
         <Component {...pageProps} setOpen={setOpen} open={open} />
       </NextUIProvider>

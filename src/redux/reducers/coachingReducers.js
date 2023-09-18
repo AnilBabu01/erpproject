@@ -18,6 +18,9 @@ import {
   UPDATE_PROFILE_SUCCESS,
   UPDATE_RESET_PROFILE_SUCCESS,
   UPDATE_PROFILE_FAIL,
+  ADD_PAYCOACHINGFEE_REQUEST,
+  ADD_PAYCOACHINGFEE_SUCCESS,
+  ADD_PAYCOACHINGFEE_FAIL,
   CLEAR_ERRORS,
 } from "../constants/coachingContants";
 
@@ -177,6 +180,38 @@ export const updateprofileReducer = (state = {}, action) => {
       return {
         ...state,
         isUpdated: false,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const addpayfeeReducer = (state = { paycoaching: [] }, action) => {
+  switch (action.type) {
+    case ADD_PAYCOACHINGFEE_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case ADD_PAYCOACHINGFEE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        paycoaching: action.payload,
+      };
+
+    case ADD_PAYCOACHINGFEE_FAIL:
+      return {
+        loading: false,
+        paycoaching: null,
+        error: action.payload,
       };
 
     case CLEAR_ERRORS:

@@ -57,13 +57,33 @@
   color: white;
   border-radius: 7px;
 }
-
+.logbtnstyledisable {
+  width: 50%;
+  height: 35px;
+  background: #a8cae0;
+  color: white;
+  border-radius: 7px;
+}
+.completetext{
+  text-align: center;
+  margin-bottom: 1rem;
+}
 .inputdiv {
   display: flex;
   flex-direction: column;
-  width: 50%;
+
 }
 .inputdiv label {
+  margin-bottom: 1%;
+}
+
+
+.inputdiv10 {
+  display: flex;
+  flex-direction: column;
+  width: 19.3rem;
+}
+.inputdiv10 label {
   margin-bottom: 1%;
 }
 
@@ -166,6 +186,58 @@
   width: 10rem;
   margin: 0.1rem;
 }
+.cancelbtn {
+  width: 13%;
+  height: 35px;
+  background: #093959;
+  color: white;
+  border-radius: 7px;
+  margin-right: 1rem;
+}
+.mainbtnndivcancel{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 1rem;
+}
+.divmaininputfeediv{
+  display: flex;
+  padding-bottom: 1rem;
+}
+.tablecontainer {
+  overflow-x: auto;
+  /* padding: 10px;
+      margin: 10px; */
+}
+
+.add_divmarginn10 {
+  padding: 0.5rem;
+  width: 100%;
+  overflow-x: scroll;
+}
+.tabletd,
+.tableth {
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 8px;
+}
+.mainfeedetails{
+  display: flex;
+  justify-content: space-between;
+}
+.addpaymaingintable{
+  margin-bottom: 0.8rem;
+  margin-top: 0.8rem;
+}
+.inputdivpay{
+  text-align: center;
+}
+.hightlighttext{
+  background-color: #ff6900;
+  color: white;
+  padding-left: 0.1rem;
+  text-align: center;
+}
 @media screen and (max-width: 780px) {
   .selecttimemain {
     margin-bottom: 1rem;
@@ -187,7 +259,16 @@
     width: 100%;
     height: 35px;
   }
+  .inputdiv10 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
 
+  .inputdiv10 input {
+    width: 100%;
+    height: 35px;
+  }
   .addwidth {
     width: 100% !important;
     height: 35px !important;

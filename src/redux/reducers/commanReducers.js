@@ -121,6 +121,18 @@ import {
   DELETE_Department_REQUEST,
   DELETE_Department_SUCCESS,
   DELETE_Department_FAIL,
+  ADD_CourseDuration_REQUEST,
+  ADD_CourseDuration_SUCCESS,
+  ADD_CourseDuration_FAIL,
+  UPDATE_CourseDuration_REQUEST,
+  UPDATE_CourseDuration_SUCCESS,
+  UPDATE_CourseDuration_FAIL,
+  ALL_CourseDuration_REQUEST,
+  ALL_CourseDuration_SUCCESS,
+  ALL_CourseDuration_FAIL,
+  DELETE_CourseDuration_REQUEST,
+  DELETE_CourseDuration_SUCCESS,
+  DELETE_CourseDuration_FAIL,
   CLEAR_ERRORS,
 } from "../constants/commanConstants";
 
@@ -1277,6 +1289,146 @@ export const deleteDepartmentReducer = (state = { department: [] }, action) => {
       return {
         loading: false,
         department: null,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const addCourseDurationReducer = (
+  state = { courseduarion: [] },
+  action
+) => {
+  switch (action.type) {
+    case ADD_CourseDuration_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case ADD_CourseDuration_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        courseduarion: action.payload,
+      };
+
+    case ADD_CourseDuration_FAIL:
+      return {
+        loading: false,
+        courseduarion: null,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const updateCourseDurationReducer = (
+  state = { courseduarion: [] },
+  action
+) => {
+  switch (action.type) {
+    case UPDATE_CourseDuration_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case UPDATE_CourseDuration_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        courseduarion: action.payload,
+      };
+
+    case UPDATE_CourseDuration_FAIL:
+      return {
+        loading: false,
+        courseduarion: null,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const getCourseDurationReducer = (
+  state = { courseduarion: [] },
+  action
+) => {
+  switch (action.type) {
+    case ALL_CourseDuration_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case ALL_CourseDuration_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        courseduarion: action.payload,
+      };
+
+    case ALL_CourseDuration_FAIL:
+      return {
+        loading: false,
+        courseduarion: null,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const deleteCourseDurationReducer = (
+  state = { courseduarion: [] },
+  action
+) => {
+  switch (action.type) {
+    case DELETE_CourseDuration_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case DELETE_CourseDuration_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        courseduarion: action.payload,
+      };
+
+    case DELETE_CourseDuration_FAIL:
+      return {
+        loading: false,
+        courseduarion: null,
         error: action.payload,
       };
 

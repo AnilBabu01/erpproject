@@ -181,7 +181,7 @@ const CoachingNavbar = () => {
                       ? "link_directActive"
                       : "link_direct"
                   }
-                  href="/institute/dashboard"
+                  href="/#"
                 >
                   Attendance
                   <KeyboardArrowDownIcon />
@@ -296,7 +296,7 @@ const CoachingNavbar = () => {
                       ? "link_directActive"
                       : "link_direct"
                   }
-                  href="/institute/dashboard"
+                  href="/#"
                 >
                   Masters <KeyboardArrowDownIcon />
                 </Link>
@@ -311,12 +311,16 @@ const CoachingNavbar = () => {
                           Add Batch Time
                         </Link>
                         <Link href="/coaching/masters/course">Course</Link>
+                        <Link href="/coaching/masters/courseduration">
+                          Course Duration In Month
+                        </Link>
                         <Link href="/coaching/masters/masterstudentcategory">
                           Student Category
                         </Link>
                         <Link href="/coaching/masters/masterfee">
                           Fees Structure
                         </Link>
+
                         <Link href="/coaching/masters/department">
                           Department
                         </Link>
@@ -340,7 +344,7 @@ const CoachingNavbar = () => {
                       ? "link_directActive"
                       : "link_direct"
                   }
-                  href="/institute/dashboard"
+                  href=""
                 >
                   Reports <KeyboardArrowDownIcon />
                 </Link>

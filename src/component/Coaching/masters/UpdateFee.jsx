@@ -11,6 +11,7 @@ function UpdateFee({ updatedata, setOpen }) {
   const [coursename, setcoursename] = useState("");
   const [registrationfee, setregistrationfee] = useState("");
   const [permonthfee, setpermonthfee] = useState("");
+  const [courseduration, setcourseduration] = useState("");
   const { loading, course } = useSelector((state) => state.getcourse);
 
   const submit = (e) => {
@@ -20,6 +21,7 @@ function UpdateFee({ updatedata, setOpen }) {
       Registractionfee: registrationfee,
       feepermonth: permonthfee,
       coursename: coursename,
+      courseduration: courseduration,
     };
     dispatch(Updatefee(data, setOpen));
   };
@@ -34,6 +36,7 @@ function UpdateFee({ updatedata, setOpen }) {
       setcoursename(updatedata?.coursename);
       setregistrationfee(updatedata?.Registractionfee);
       setpermonthfee(updatedata?.feepermonth);
+      setcourseduration(updatedata?.courseduration);
     }
   }, []);
   return (
@@ -75,11 +78,14 @@ function UpdateFee({ updatedata, setOpen }) {
                 {isdata?.map((item, index) => {
                   return (
                     <MenuItem
-                    key={index}
+                      key={index}
                       sx={{
                         fontSize: 14,
                       }}
                       value={item?.coursename}
+                      onClick={() => {
+                        setcourseduration(item?.courseduration);
+                      }}
                     >
                       {item?.coursename}
                     </MenuItem>

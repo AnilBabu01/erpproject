@@ -24,7 +24,7 @@ export default function Home({ setOpen }) {
     setLoadingshow(true);
     setTimeout(() => {
       setLoadingshow(false);
-    }, 1000);
+    }, 10);
 
     // Initialize AOS here
     AOS.init({});
@@ -74,14 +74,9 @@ export default function Home({ setOpen }) {
       <Head>
         <title>Home</title>
       </Head>
-      {loadingshow?<>
-      <Loader/>
-      
-      </>:<>
-      
       <div className="mainContainer8">
         <div className={styles.mianguest}>
-          <div className={styles.left}>
+          <div className={styles.left} z>
             <h1>
               Enterprise resource planning (ERP) refers to a type of software
               that organizations use to manage day-to-day business activities
@@ -93,18 +88,12 @@ export default function Home({ setOpen }) {
           <div className={styles.right}>
             <img src="/images/erp.jpeg" alt="Logo" />
           </div>
-          <button
-            className={styles.phonebutton}
-            onClick={() => setOpen(true)}
-          >
+          <button className={styles.phonebutton} onClick={() => setOpen(true)}>
             Get Started
           </button>
         </div>
         <FeatureRrp />
       </div>
-      
-      </>}
-     
     </main>
-    )
+  );
 }

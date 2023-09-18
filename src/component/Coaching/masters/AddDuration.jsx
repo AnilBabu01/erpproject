@@ -2,39 +2,44 @@ import React, { useState, useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { UpdateDepartment } from "../../../redux/actions/commanAction";
-function Updatedepart({ updatedata, setOpen }) {
+import {
+  getCourseDuration,
+  AddCourseDuration,
+} from "../../../redux/actions/commanAction";
+function AddDuration({ setOpen }) {
   const dispatch = useDispatch();
   const [designationname, setdesignationname] = useState("");
+  const { loading, designation } = useSelector((state) => state.adddesignation);
 
   const submit = (e) => {
     e.preventDefault();
     const data = {
-      id: updatedata?.id,
-      DepartmentName: designationname,
+        noOfMonth: designationname,
     };
-    dispatch(UpdateDepartment(data, setOpen));
+    dispatch(AddCourseDuration(data, setOpen));
   };
-
   useEffect(() => {
-    if (updatedata) {
-      setdesignationname(updatedata?.DepartmentName);
+    if (designation?.status) {
+      dispatch(getCourseDuration());
     }
   }, []);
+
   return (
     <>
       <div className={styles.divmainlogin}>
         <div className={styles.closeicondiv} onClick={() => setOpen(false)}>
           <CloseIcon />
         </div>
-        <h1>Update Department</h1>
+        <h1>Add Course Duration In Month</h1>
         <form onSubmit={submit}>
           <div className={styles.divmaininput}>
             <div className={styles.inputdiv}>
-              <label>Department</label>
+              <label>Course Duration</label>
               <input
-                type="text"
-                placeholder="Enter the Department"
+                type="number"
+                min='12'
+                max='36'
+                placeholder="Enter the Course Duration"
                 value={designationname}
                 name="designationname"
                 onChange={(e) => setdesignationname(e.target.value)}
@@ -42,7 +47,7 @@ function Updatedepart({ updatedata, setOpen }) {
             </div>
           </div>
           <div className={styles.logbtnstylediv}>
-            <button className={styles.logbtnstyle}>Update</button>
+            <button className={styles.logbtnstyle}>Save</button>
           </div>
         </form>
       </div>
@@ -50,4 +55,4 @@ function Updatedepart({ updatedata, setOpen }) {
   );
 }
 
-export default Updatedepart;
+export default AddDuration;

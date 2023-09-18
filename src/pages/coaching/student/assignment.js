@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { loadUser } from "../../../redux/actions/authActions";
+import {
+  getcourse,
+  getbatch,
+ 
+} from "../../../redux/actions/commanAction";
 import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
-import AddRegistration from "@/component/Institute/student/AddRegistration";
+import AddTest from "@/component/Coaching/student/AddTest";
+
 function Assignment() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -21,6 +27,8 @@ function Assignment() {
   };
   useEffect(() => {
     dispatch(loadUser());
+    dispatch(getbatch());
+    dispatch(getcourse());
   }, []);
 
   return (
@@ -41,7 +49,7 @@ function Assignment() {
               },
             }}
           >
-            <AddRegistration setOpen={setOpen} />
+            <AddTest setOpen={setOpen} />
           </Dialog>
         </div>
       )}
@@ -53,7 +61,7 @@ function Assignment() {
                 <input
                   className={styles.opensearchinput}
                   type="text"
-                  placeholder="Admission"
+                  placeholder="Text Time"
                 />
                 <button>Search</button>
               </form>
@@ -75,7 +83,7 @@ function Assignment() {
           </div>
 
           <div className={styles.addtopmenubar}>
-            <button onClick={() => handleClickOpen()}>Add Student</button>
+            <button onClick={() => handleClickOpen()}>Add Test</button>
           </div>
           <div className={styles.add_divmarginn}>
             <div className={styles.tablecontainer}>
@@ -83,22 +91,16 @@ function Assignment() {
                 <tbody>
                   <tr className={styles.tabletr}>
                     <th className={styles.tableth}>S.NO</th>
-                    <th className={styles.tableth}>Emp_Name</th>
-                    <th className={styles.tableth}>Emp_Email</th>
-                    <th className={styles.tableth}>Emp_Phone</th>
-                    <th className={styles.tableth}>Emp_Joining_Date</th>
-                    <th className={styles.tableth}>Emp_Resign_Date</th>
-                    <th className={styles.tableth}>Address</th>
+                    <th className={styles.tableth}>Test Start Time</th>
+                    <th className={styles.tableth}>Test End Time</th>
+
                     <th className={styles.tableth}>Action</th>
                   </tr>
                   <tr className={styles.tabletr}>
                     <td className={styles.tabletd}>1</td>
                     <td className={styles.tabletd}>Akash Gangwar</td>
                     <td className={styles.tabletd}>ak12@gmail.com</td>
-                    <td className={styles.tabletd}>7505786956</td>
-                    <td className={styles.tabletd}>28/07/2023</td>
-                    <td className={styles.tabletd}>--------</td>
-                    <td className={styles.tabletd}>Bisalpur Pilibhit</td>
+
                     <td className={styles.tabkeddd}>
                       <img src="/images/Delete.png" alt="imgss" />
                       <img src="/images/Edit.png" alt="imgss" />
@@ -109,24 +111,7 @@ function Assignment() {
                     <td className={styles.tabletd}>1</td>
                     <td className={styles.tabletd}>Akash Gangwar</td>
                     <td className={styles.tabletd}>ak12@gmail.com</td>
-                    <td className={styles.tabletd}>7505786956</td>
-                    <td className={styles.tabletd}>28/07/2023</td>
-                    <td className={styles.tabletd}>--------</td>
-                    <td className={styles.tabletd}>Bisalpur Pilibhit</td>
-                    <td className={styles.tabkeddd}>
-                      <img src="/images/Delete.png" alt="imgss" />
-                      <img src="/images/Edit.png" alt="imgss" />
-                      <img src="/images/eye.png" alt="imgss" />
-                    </td>
-                  </tr>
-                  <tr className={styles.tabletr}>
-                    <td className={styles.tabletd}>1</td>
-                    <td className={styles.tabletd}>Akash Gangwar</td>
-                    <td className={styles.tabletd}>ak12@gmail.com</td>
-                    <td className={styles.tabletd}>7505786956</td>
-                    <td className={styles.tabletd}>28/07/2023</td>
-                    <td className={styles.tabletd}>--------</td>
-                    <td className={styles.tabletd}>Bisalpur Pilibhit</td>
+
                     <td className={styles.tabkeddd}>
                       <img src="/images/Delete.png" alt="imgss" />
                       <img src="/images/Edit.png" alt="imgss" />

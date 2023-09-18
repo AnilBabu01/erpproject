@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loadUser } from "../../../redux/actions/authActions";
 import {
-  getcourse,
-  getbatch,
-  getstudent,
-  deletestudent,
-  getfee,
+  getCourseDuration,
+  deleteCourseDuration,
 } from "../../../redux/actions/commanAction";
-import styles from "../../coaching/employee/employee.module.css";
+import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -16,19 +12,10 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
-import AddAdmission from "../../../component/Coaching/student/AddAdmission";
-import UpdateAdmission from "../../../component/Coaching/student/UpdateAdmission";
-import LoadingSpinner from "@/component/loader/LoadingSpinner";
-
-function Admission() {
+import Adddepart from "@/component/Coaching/masters/AddDuration";
+import Updatedepart from "@/component/Coaching/masters/UpdateDuartion";
+function courseduration() {
   const dispatch = useDispatch();
-  const [scoursename, setscoursename] = useState("");
-  const [sfathers, setsfathers] = useState("");
-  const [sstudent, setsstudent] = useState("");
-  const [sbatch, setsbatch] = useState("");
-  const [fromdate, setfromdate] = useState("");
-  const [todate, settodate] = useState("");
-  const [batchs, setbatchs] = useState([]);
   const [open, setOpen] = useState(false);
   const [openupdate, setOpenupdate] = useState(false);
   const [openalert, setOpenalert] = useState(false);
@@ -37,8 +24,7 @@ function Admission() {
   const [isdata, setisData] = useState([]);
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
-  const { loading, student } = useSelector((state) => state.getstudent);
-  const { batch } = useSelector((state) => state.getbatch);
+  const { courseduarion } = useSelector((state) => state.getCourseDur);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -71,66 +57,31 @@ function Admission() {
   };
 
   const handledelete = () => {
-    dispatch(deletestudent(deleteid, setOpenalert));
+    dispatch(deleteCourseDuration(deleteid, setOpenalert));
   };
 
   useEffect(() => {
-    if (student) {
-      setisData(student);
-    }
-    if (batch) {
-      setbatchs(batch);
+    if (courseduarion) {
+      setisData(courseduarion);
     }
     if (user) {
       setuserdata(user);
     }
-  }, [student, batch, user]);
+  }, [courseduarion, user]);
   useEffect(() => {
-    dispatch(getstudent());
-  
+    dispatch(getCourseDuration());
   }, [open, openupdate, openalert]);
-  useEffect(() => {
-    dispatch(loadUser());
-    dispatch(getbatch());
-    dispatch(getcourse());
-    dispatch(getfee());
-  }, []);
-
-  const filterdata = (e) => {
-    e.preventDefault();
-    dispatch(
-      getstudent(fromdate, todate, scoursename, sbatch, sstudent, sfathers)
-    );
-  };
-
-  const reset = () => {
-    setsstudent("");
-    setsfathers("");
-    setfromdate("");
-    settodate("");
-    setscoursename("");
-    setsbatch("");
-    dispatch(getstudent());
-  };
   return (
     <>
       {open && (
         <div>
           <Dialog
             open={open}
-            TransitionComponent={Transition}
+            // TransitionComponent={Transition}
             onClose={handleCloseregister}
             aria-describedby="alert-dialog-slide-description"
-            sx={{
-              "& .MuiDialog-container": {
-                "& .MuiPaper-root": {
-                  width: "100%",
-                  maxWidth: "60rem",
-                },
-              },
-            }}
           >
-            <AddAdmission setOpen={setOpen} />
+            <Adddepart setOpen={setOpen} />
           </Dialog>
         </div>
       )}
@@ -141,16 +92,8 @@ function Admission() {
             TransitionComponent={Transition}
             onClose={handleCloseupadte}
             aria-describedby="alert-dialog-slide-description"
-            sx={{
-              "& .MuiDialog-container": {
-                "& .MuiPaper-root": {
-                  width: "100%",
-                  maxWidth: "60rem",
-                },
-              },
-            }}
           >
-            <UpdateAdmission setOpen={setOpenupdate} updatedata={updatedata} />
+            <Updatedepart setOpen={setOpenupdate} updatedata={updatedata} />
           </Dialog>
         </div>
       )}
@@ -184,89 +127,16 @@ function Admission() {
         <div>
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
-              <form onSubmit={filterdata} className={styles.searchoptiondiv}>
-                <label>From</label>
+              <form className={styles.searchoptiondiv}>
                 <input
                   className={styles.opensearchinput}
-                  type="date"
-                  value={fromdate}
-                  name="fromdate"
-                  onChange={(e) => setfromdate(e.target.value)}
-                />
-                <label>To</label>
-                <input
-                  className={styles.opensearchinput}
-                  type="date"
-                  value={todate}
-                  name="todate"
-                  onChange={(e) => settodate(e.target.value)}
-                />
-                <select
-                  className={styles.opensearchinput}
-                  sx={{
-                    width: "18.8rem",
-                    fontSize: 14,
-                    "& .MuiSelect-select": {
-                      paddingTop: "0.6rem",
-                      paddingBottom: "0.6em",
-                    },
-                  }}
-                  value={sbatch}
-                  name="sbatch"
-                  onChange={(e) => setsbatch(e.target.value)}
-                  displayEmpty
-                >
-                  <option
-                    sx={{
-                      fontSize: 14,
-                    }}
-                    value={""}
-                  >
-                    Please Select Batch
-                  </option>
-                  {batchs?.map((item, index) => {
-                    return (
-                      <option
-                        key={index}
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={`${item?.StartingTime} TO ${item?.EndingTime}`}
-                      >
-                        {item?.StartingTime} TO {item?.EndingTime}
-                      </option>
-                    );
-                  })}
-                </select>
-
-                <input
-                  className={styles.opensearchinput10}
                   type="text"
-                  placeholder="Course.."
-                  value={scoursename}
-                  name="scoursename"
-                  onChange={(e) => setscoursename(e.target.value)}
-                />
-                <input
-                  className={styles.opensearchinput10}
-                  type="text"
-                  placeholder="Student's name"
-                  value={sstudent}
-                  name="sstudent}"
-                  onChange={(e) => setsstudent(e.target.value)}
-                />
-                <input
-                  className={styles.opensearchinput10}
-                  type="text"
-                  placeholder="Father's name"
-                  value={sfathers}
-                  name="sfathers"
-                  onChange={(e) => setsfathers(e.target.value)}
+                  placeholder="Search By Name"
                 />
 
                 <button>Search</button>
               </form>
-              <button onClick={() => reset()}>Reset</button>
+              <button>Reset</button>
             </div>
             <div className={styles.imgdivformat}>
               <img
@@ -301,7 +171,7 @@ function Admission() {
               }
               onClick={() => handleClickOpen()}
             >
-              Take Admission
+              Add Course Duration
             </button>
           </div>
           <div className={styles.add_divmarginn}>
@@ -310,34 +180,15 @@ function Admission() {
                 <tbody>
                   <tr className={styles.tabletr}>
                     <th className={styles.tableth}>S.NO</th>
-                    <th className={styles.tableth}>Roll No</th>
-                    <th className={styles.tableth}>Student_Name</th>
-                    <th className={styles.tableth}>Student_Email</th>
-                    <th className={styles.tableth}>Student_Phone</th>
-                    <th className={styles.tableth}>Adminssion_Date</th>
-                    <th className={styles.tableth}>Course</th>
-                    <th className={styles.tableth}>Batch</th>
-                    <th className={styles.tableth}>Student Status</th>
+                    <th className={styles.tableth}>Course Duration</th>
                     <th className={styles.tableth}>Action</th>
                   </tr>
                   {isdata?.map((item, index) => {
                     return (
                       <tr key={index} className={styles.tabletr}>
                         <td className={styles.tabletd}>{index + 1}</td>
-                        <td className={styles.tabletd}>{item?.rollnumber}</td>
-                        <td className={styles.tabletd}>{item?.name}</td>
-                        <td className={styles.tabletd}>{item?.email}</td>
-                        <td className={styles.tabletd}>{item?.phoneno1}</td>
-                        <td className={styles.tabletd}>
-                          {item?.admissionDate}
-                        </td>
-                        <td className={styles.tabletd}>
-                          {item?.courseorclass}
-                        </td>
-                        <td className={styles.tabletd}>{item?.batch}</td>
-                        <td className={styles.tabletd}>
-                          {item?.StudentStatus}
-                        </td>
+                        <td className={styles.tabletd}>{item?.noOfMonth}</td>
+
                         <td className={styles.tabkeddd}>
                           <button
                             disabled={
@@ -345,7 +196,7 @@ function Admission() {
                               userdata?.data[0]?.userType === "institute"
                                 ? false
                                 : userdata?.data &&
-                                  userdata?.data[0]?.fronroficeDelete === true
+                                  userdata?.data[0]?.masterDelete === true
                                 ? false
                                 : true
                             }
@@ -356,7 +207,7 @@ function Admission() {
                                 userdata?.data[0]?.userType === "institute"
                                   ? styles.tabkedddimgactive
                                   : userdata?.data &&
-                                    userdata?.data[0]?.fronroficeDelete === true
+                                    userdata?.data[0]?.masterDelete === true
                                   ? styles.tabkedddimgactive
                                   : styles.tabkedddimgdisable
                               }
@@ -371,7 +222,7 @@ function Admission() {
                               userdata?.data[0]?.userType === "institute"
                                 ? false
                                 : userdata?.data &&
-                                  userdata?.data[0]?.fronroficeEdit === true
+                                  userdata?.data[0]?.masterEdit === true
                                 ? false
                                 : true
                             }
@@ -382,7 +233,7 @@ function Admission() {
                                 userdata?.data[0]?.userType === "institute"
                                   ? styles.tabkedddimgactive
                                   : userdata?.data &&
-                                    userdata?.data[0]?.fronroficeEdit === true
+                                    userdata?.data[0]?.masterEdit === true
                                   ? styles.tabkedddimgactive
                                   : styles.tabkedddimgdisable
                               }
@@ -401,9 +252,8 @@ function Admission() {
           </div>
         </div>
       </div>
-      {loading && <LoadingSpinner />}
     </>
   );
 }
 
-export default Admission;
+export default courseduration;

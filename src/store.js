@@ -45,6 +45,10 @@ import {
   updateDepartmentReducer,
   getDepartmentReducer,
   deleteDepartmentReducer,
+  addCourseDurationReducer,
+  updateCourseDurationReducer,
+  getCourseDurationReducer,
+  deleteCourseDurationReducer,
 } from "./redux/reducers/commanReducers";
 import {
   getenquiriesReducer,
@@ -52,6 +56,7 @@ import {
   updateenquiryReducer,
   deletequiryReducer,
   updateprofileReducer,
+  addpayfeeReducer,
 } from "./redux/reducers/coachingReducers";
 import {
   MarkAttendanceReducer,
@@ -109,6 +114,11 @@ const reducer = combineReducers({
   updatedepart: updateDepartmentReducer,
   getpart: getDepartmentReducer,
   deletedepart: deleteDepartmentReducer,
+  addCourseDur: addCourseDurationReducer,
+  updateCourseDur: updateCourseDurationReducer,
+  getCourseDur: getCourseDurationReducer,
+  deleteCourseDur: deleteCourseDurationReducer,
+  addpayfeecoaching: addpayfeeReducer,
 });
 const middlware = [thunk];
 export const store = createStore(

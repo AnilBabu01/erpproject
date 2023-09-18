@@ -8,7 +8,6 @@ import UpdateSentsms from "./UpdateSentsms";
 import Updateprofile from "./Updateprofile";
 import { useDispatch, useSelector } from "react-redux";
 import { backendUrl } from "../../../config/config";
-import { loadUser } from "../../../redux/actions/authActions";
 function CoachingProfile() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);

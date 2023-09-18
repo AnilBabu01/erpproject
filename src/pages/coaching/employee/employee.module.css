@@ -17,6 +17,23 @@
   width: 2rem;
   margin-right: 1rem;
 }
+.showfathersname {
+  margin-right: 1rem;
+}
+.tablethstart{
+   background-color: green;
+   border: 1px solid #dddddd;
+   text-align: center;
+   padding: 8px;
+}
+.showfathersname label {
+  margin-left: 0.5rem;
+}
+.maintablediv p {
+  font-weight: 700;
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
 .inputdivimg img {
   width: 10rem;
   height: 10rem;
@@ -224,10 +241,9 @@
   padding: 8px;
   display: flex;
   justify-content: center;
-
 }
 
-.tabkeddd button{
+.tabkeddd button {
   margin-right: 1rem;
 }
 .tabkeddd img {
