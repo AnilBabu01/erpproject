@@ -49,6 +49,10 @@ import {
   updateCourseDurationReducer,
   getCourseDurationReducer,
   deleteCourseDurationReducer,
+  addTestReducer,
+  getTestReducer,
+  updateTestReducer,
+  deleteTestReducer,
 } from "./redux/reducers/commanReducers";
 import {
   getenquiriesReducer,
@@ -119,6 +123,10 @@ const reducer = combineReducers({
   getCourseDur: getCourseDurationReducer,
   deleteCourseDur: deleteCourseDurationReducer,
   addpayfeecoaching: addpayfeeReducer,
+  addTest: addTestReducer,
+  gettest: getTestReducer,
+  updateTest: updateTestReducer,
+  deleteTest: deleteTestReducer,
 });
 const middlware = [thunk];
 export const store = createStore(

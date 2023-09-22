@@ -370,7 +370,7 @@ function Login({ setOpen, setOpen1 }) {
                 <>
                   <div className={styles.inputdiv10}>
                     <label>
-                      Please Select (College,School,Coaching Institute)
+                      Please Select
                     </label>
                     <Select1
                       required

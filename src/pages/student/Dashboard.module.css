@@ -1,0 +1,56 @@
+.mainmar {
+  background-color:#212232;
+}
+.sliderimgdiv {
+  position: relative;
+}
+.sliderimgdiv img {
+  height: 18rem;
+}
+.overtextdiv {
+  position: absolute;
+  background: #212232;
+  bottom: 0;
+  left: 10;
+  padding: 0.5rem;
+}
+.overtextdiv p {
+  color: white;
+}
+.mainfooter {
+  background: #212232;
+  width: 100%;
+}
+.mainfooterinnear {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.mainfooterinnear h2 {
+  font-size: 20px;
+  color: white;
+}
+
+.mainfooterinnear p{
+    color: white;
+}
+
+.mainmarg{
+  padding-left: 0.5rem;
+  padding-top: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+@media screen and (max-width: 780px) {
+  .mainmarg{
+    padding-left: 0rem;
+    padding-top: 0rem;
+    padding-right: 0rem;
+  }
+  .sliderimgdiv img {
+    height: 12rem;
+  }
+}

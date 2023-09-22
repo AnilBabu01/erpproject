@@ -15,7 +15,7 @@ function Dashboard() {
     <>
       <div className="mainContainer">
         <div className="top-info-main-div">
-          <TopCard img="/images/dash2.jpg" value={"8"} text={"Batch"} />
+          <TopCard img="/images/dash2.jpg" value={"10"} text={"Batch"} />
           <TopCard img="/images/dash2.jpg" value={"10"} text={"Student"} />
           <TopCard img="/images/dash2.jpg" value={"6"} text={"Present"} />
           <TopCard img="/images/dash2.jpg" value={"4"} text={"Absent"} />

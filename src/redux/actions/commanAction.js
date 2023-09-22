@@ -137,6 +137,18 @@ import {
   DELETE_CourseDuration_REQUEST,
   DELETE_CourseDuration_SUCCESS,
   DELETE_CourseDuration_FAIL,
+  ADD_TEST_REQUEST,
+  ADD_TEST_SUCCESS,
+  ADD_TEST_FAIL,
+  ALL_TEST_REQUEST,
+  ALL_TEST_SUCCESS,
+  ALL_TEST_FAIL,
+  DELETE_TEST_REQUEST,
+  DELETE_TEST_SUCCESS,
+  DELETE_TEST_FAIL,
+  UPDATE_TEST_REQUEST,
+  UPDATE_TEST_SUCCESS,
+  UPDATE_TEST_FAIL,
   ALL_CLIENT_FAIL,
 } from "../constants/commanConstants";
 
@@ -1311,8 +1323,6 @@ export const getDepartment = (page, limit, setPage) => async (dispatch) => {
   }
 };
 
-
-
 export const AddCourseDuration = (datas, setOpen) => async (dispatch) => {
   try {
     const config = {
@@ -1350,7 +1360,7 @@ export const AddCourseDuration = (datas, setOpen) => async (dispatch) => {
 };
 
 // post add enquiry
-export const UpdateCourseDuration  = (datas, setOpen) => async (dispatch) => {
+export const UpdateCourseDuration = (datas, setOpen) => async (dispatch) => {
   try {
     const config = {
       headers: {
@@ -1387,7 +1397,7 @@ export const UpdateCourseDuration  = (datas, setOpen) => async (dispatch) => {
 };
 
 // delete  enquiry
-export const deleteCourseDuration  =
+export const deleteCourseDuration =
   (deleteid, setOpenalert) => async (dispatch) => {
     try {
       dispatch({ type: DELETE_CourseDuration_REQUEST });
@@ -1417,7 +1427,7 @@ export const deleteCourseDuration  =
   };
 
 // Get all Enquiry
-export const getCourseDuration  = (page, limit, setPage) => async (dispatch) => {
+export const getCourseDuration = (page, limit, setPage) => async (dispatch) => {
   try {
     const config = {
       headers: {
@@ -1445,3 +1455,153 @@ export const getCourseDuration  = (page, limit, setPage) => async (dispatch) => 
     });
   }
 };
+
+export const Addtest = (datas, setOpen) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("erptoken")}`,
+      },
+    };
+    dispatch({ type: ADD_TEST_REQUEST });
+
+    const { data } = await axios.post(
+      `${backendApiUrl}test/addtest`,
+      datas,
+      config
+    );
+
+    if (data?.status) {
+      toast.success(data?.msg, {
+        autoClose: 1000,
+      });
+      setOpen(false);
+    }
+
+    dispatch({
+      type: ADD_TEST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADD_TEST_FAIL,
+      payload: error?.response?.data?.msg,
+    });
+    toast.error(error?.response?.data?.msg, { autoClose: 1000 });
+  }
+};
+
+// post add enquiry
+export const UpdateTest = (datas, setOpen) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("erptoken")}`,
+      },
+    };
+    dispatch({ type: UPDATE_TEST_REQUEST });
+
+    const { data } = await axios.put(
+      `${backendApiUrl}comman/courseduration`,
+      datas,
+      config
+    );
+
+    if (data?.status) {
+      toast.success(data?.msg, {
+        autoClose: 1000,
+      });
+      setOpen(false);
+    }
+
+    dispatch({
+      type: UPDATE_TEST_SUCCESS,
+      payload: data?.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_TEST_FAIL,
+      payload: error?.response?.data?.msg,
+    });
+    toast.error(error?.response?.data?.msg, { autoClose: 1000 });
+  }
+};
+
+// delete  enquiry
+export const deleteTest = (deleteid, setOpenalert) => async (dispatch) => {
+  try {
+    dispatch({ type: DELETE_TEST_REQUEST });
+    serverInstance("comman/courseduration", "delete", {
+      id: deleteid,
+    }).then((res) => {
+      if (res?.status) {
+        toast.success(res?.msg, {
+          autoClose: 1000,
+        });
+        setOpenalert(false);
+      }
+
+      dispatch({
+        type: DELETE_TEST_SUCCESS,
+        payload: res?.data,
+      });
+    });
+  } catch (error) {
+    dispatch({
+      type: DELETE_TEST_FAIL,
+      payload: error?.response?.data?.msg,
+    });
+    toast.error(error?.response?.data?.msg, { autoClose: 1000 });
+    setOpenalert(false);
+  }
+};
+
+// Get all Enquiry
+export const getTest =
+  (fromdate, todate, scoursename, sbatch, page, limit, setPage) =>
+  async (dispatch) => {
+    try {
+      if (fromdate || todate || scoursename || sbatch) {
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${localStorage.getItem("erptoken")}`,
+          },
+        };
+        dispatch({ type: ALL_TEST_REQUEST });
+
+        const { data } = await axios.get(
+          `${backendApiUrl}test/getalltest?course=${scoursename}&batch=${sbatch}&testdate=${todate}`,
+          config
+        );
+        dispatch({
+          type: ALL_TEST_SUCCESS,
+          payload: data?.data,
+        });
+      } else {
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `${localStorage.getItem("erptoken")}`,
+          },
+        };
+        dispatch({ type: ALL_TEST_REQUEST });
+
+        const { data } = await axios.get(
+          `${backendApiUrl}test/getalltest`,
+          config
+        );
+        dispatch({
+          type: ALL_TEST_SUCCESS,
+          payload: data?.data,
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: ALL_TEST_FAIL,
+        payload: error?.response?.data?.msg,
+      });
+    }
+  };

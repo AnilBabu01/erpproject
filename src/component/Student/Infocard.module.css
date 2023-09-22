@@ -1,0 +1,8 @@
+.maininfo{
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+.maininfo p{
+    color: white;
+    font-weight: 600;
+}

@@ -183,6 +183,23 @@ export const DELETE_CourseDuration_SUCCESS = "DELETE_CourseDuration_SUCCESS";
 export const DELETE_CourseDuration_FAIL = "DELETE_CourseDuration_FAIL";
 
 
+export const ADD_TEST_REQUEST = "ADD_TEST_REQUEST";
+export const ADD_TEST_SUCCESS = "ADD_TEST_SUCCESS";
+export const ADD_TEST_RESET = "ADD_TEST_RESET";
+export const ADD_TEST_FAIL = "ADD_TEST_FAIL";
+
+export const UPDATE_TEST_REQUEST = "UPDATE_TEST_REQUEST";
+export const UPDATE_TEST_SUCCESS = "UPDATE_TEST_SUCCESS";
+export const UPDATE_TEST_FAIL = "UPDATE_TEST_FAIL";
+
+export const ALL_TEST_REQUEST = " ALL_TEST_REQUEST";
+export const ALL_TEST_SUCCESS = " ALL_TEST_SUCCESS";
+export const ALL_TEST_FAIL = " ALL_TEST_FAIL";
+
+export const DELETE_TEST_REQUEST = "DELETE_TEST_REQUEST";
+export const DELETE_TEST_SUCCESS = "DELETE_TEST_SUCCESS";
+export const DELETE_TEST_FAIL = "DELETE_TEST_FAIL";
+
 
 
 export const CLEAR_ERRORS = "CLEAR_ERRORS";

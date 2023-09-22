@@ -1,0 +1,163 @@
+.divmaininput {
+  display: flex;
+  justify-content: space-around;
+}
+.inputdiv {
+  margin: 0.5rem;
+  width: 30%;
+}
+.inputdiv p {
+  /* padding-left: 0.5rem; */
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+.btnactive {
+  background: #212232;
+  margin: 0.2rem;
+  color: white;
+  border-radius: 5px;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  
+}
+
+.btnactive {
+  background: #212232;
+  margin: 0.2rem;
+  color: white;
+  border-radius: 5px;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  height: 35px;
+}
+.hideactive {
+  background: white;
+  margin: 0.2rem;
+  color: #212232;
+  border: 1px solid #212232;
+  border-radius: 5px;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  height: 35px;
+}
+
+.detailsdiv h2 {
+  font-size: 20px;
+}
+.detailsdiv p {
+  font-size: 16px;
+}
+
+.tabletable {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.tabletd {
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 8px;
+}
+
+.tableth {
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 8px;
+  background-color: blue;
+  color: white;
+}
+
+.tableth10 {
+  border: 1px solid #dddddd;
+  text-align: center;
+  width: 10rem !important;
+  padding-left: 4rem;
+  padding-right: 5rem;
+}
+
+.tabletd img {
+  width: 25px;
+}
+
+.tabkeddd {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+}
+.tablecontainer {
+  margin-top: 0.5rem;
+}
+
+.inputdiv input {
+  border: 0.8px solid rgb(66, 66, 66);
+  width: 18.8rem;
+  height: 35px;
+  padding-left: 1rem;
+  border-radius: 5px;
+}
+.inputdiv input:focus {
+  outline: none;
+  border: 2px solid #093959;
+}
+
+.maindivsearch {
+  display: flex;
+  margin-top: 0.5rem;
+}
+.inputdiv label {
+  margin-right: 0.5rem;
+}
+.mainpercentagediv {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}
+
+.per72 {
+  background-color: green;
+  width: 30%;
+  color: white;
+  padding-left: 0.5rem;
+}
+
+.per50 {
+  background-color: yellow;
+  width: 30%;
+  color: #093959;
+  padding-left: 0.5rem;
+}
+
+.per49 {
+  background-color: red;
+  width: 35%;
+  color: white;
+  padding-left: 0.5rem;
+}
+.bestof {
+  background: tomato;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.bestof p {
+  color: white;
+  font-size: 23px;
+  font-weight: 600;
+}
+
+.startbtndiv button {
+  background: #212232;
+  margin: 0.2rem;
+  color: white;
+  border-radius: 5px;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  height: 35px;
+  width: 10rem;
+  margin-top: 0.5rem;
+}

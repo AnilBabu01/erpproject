@@ -339,6 +339,8 @@ function AddAdmission({ setOpen }) {
                   />
                 </div>
               </div>
+
+              
               {preview1 && (
                 <>
                   <div className={styles.inputdivimg}>

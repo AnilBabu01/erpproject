@@ -15,11 +15,11 @@ const ParentNavbar = () => {
           <div>
             <Link
               className={
-                router.pathname == "/mainadmin/dashbord"
+                router.pathname == "/parent/dashbord"
                   ? "link_directActive"
                   : "link_direct"
               }
-              href="/mainadmin/dashboard"
+              href="/parent/dashbord"
             >
               Home
             </Link>
@@ -28,11 +28,11 @@ const ParentNavbar = () => {
           <div>
             <Link
               className={
-                router.pathname == "/mainadfmin/dashbord"
+                router.pathname == "/parent/attendance"
                   ? "link_directActive"
                   : "link_direct"
               }
-              href="/mainadmixn/dashbord"
+              href="/parent/attendance"
             >
               Attendance
             </Link>
@@ -41,41 +41,41 @@ const ParentNavbar = () => {
           <div>
             <Link
               className={
-                router.pathname == "/mainadfmin/dashbord"
+                router.pathname == "/parent/fee"
                   ? "link_directActive"
                   : "link_direct"
               }
-              href="/mainadmixn/dashbord"
+              href="/parent/fee"
             >
               Fee
             </Link>
           </div>
-          &nbsp;&nbsp; &nbsp;&nbsp;
+          {/* &nbsp;&nbsp; &nbsp;&nbsp;
           <div>
             <Link
               className={
-                router.pathname == "/mainadfmin/dashbord"
+                router.pathname == "/parent/transport"
                   ? "link_directActive"
                   : "link_direct"
               }
-              href="/mainadmixn/dashbord"
+              href="/parent/transport"
             >
               Transport
             </Link>
-          </div>
-          &nbsp;&nbsp; &nbsp;&nbsp;
+          </div> */}
+          {/* &nbsp;&nbsp; &nbsp;&nbsp;
           <div>
             <Link
               className={
-                router.pathname == "/mainadfmin/dashbord"
+                router.pathname == "/mainadfmin/library"
                   ? "link_directActive"
                   : "link_direct"
               }
-              href="/mainadmixn/dashbord"
+              href="/mainadmixn/library"
             >
               Library
             </Link>
-          </div>
+          </div> */}
         </>
       )}
     </>

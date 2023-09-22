@@ -134,7 +134,7 @@ function collectfee() {
     //   name: key,
     //   value: val,
     // }));
-    return localityParameterSets?.slice(4, months+4);
+    return localityParameterSets?.slice(4, months + 4);
   };
   const handleClickOpen = () => {
     setOpen(true);
@@ -424,42 +424,6 @@ function collectfee() {
                               </td>
                             );
                           })}
-                        {/* {newmonthnames &&
-                          newmonthnames?.map((items, indexs) => {
-                            return (
-                              <td key={indexs} className={styles.tableth}>
-                                {new Date(item?.admissionDate).getMonth() -
-                                  indexs <=
-                                0 ? (
-                                  <>
-                                    {Number(item?.paidfee) /
-                                      Number(item?.permonthfee) >
-                                    0 ? (
-                                      <>
-                                        {Number(item?.paidfee) /
-                                          Number(item?.permonthfee) -
-                                          paidordoues++  }
-
-                                        {globalvalreset(
-                                          Number(item?.paidfee) /
-                                            Number(item?.permonthfee)
-                                        )}
-                                      </>
-                                    ) : (
-                                      "Dues"
-                                    )}
-                                    {console.log(
-                                      "paid status",
-                                      Number(item?.paidfee) /
-                                        Number(item?.permonthfee)
-                                    )}
-                                  </>
-                                ) : (
-                                  <></>
-                                )}
-                              </td>
-                            );
-                          })} */}
 
                         <td className={styles.tabkeddd}>
                           <button

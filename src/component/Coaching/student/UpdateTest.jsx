@@ -12,7 +12,7 @@ const testtype = [
   { id: 2, name: "Add MCQ" },
 ];
 const formData = new FormData();
-function AddTest({ setOpen }) {
+function UpdateTest({ setOpen, updatedata }) {
   const dispatch = useDispatch();
   const [isdata, setisData] = useState([]);
   const [batchs, setbatchs] = useState([]);
@@ -92,8 +92,8 @@ function AddTest({ setOpen }) {
       )
     );
   }
-  console.log("correct answer ", questionItems);
-  
+  console.log("correct answer update ", questionItems, updatedata?.questions);
+
   const submit = () => {
     formData.set("batch", batchname);
     formData.set("course", courses);
@@ -102,18 +102,33 @@ function AddTest({ setOpen }) {
     formData.set("starttime", startesttime);
     formData.set("endtime", endtesttime);
     formData.set("testtitle", testname);
-    formData.set("questions",JSON.stringify(questionItems));
+    formData.set("questions", JSON.stringify(questionItems));
     formData.set("testfile", testfile);
     dispatch(Addtest(formData, setOpen));
   };
-  -useEffect(() => {
+
+  useEffect(() => {
     if (course) {
       setisData(course);
     }
     if (batch) {
       setbatchs(batch);
     }
+    if (updatedata) {
+      setbatchname(updatedata?.batch);
+      setcourses(updatedata?.course);
+      settestdate(
+        new Date(updatedata?.testdate)?.toISOString().substring(0, 10)
+      );
+      setquestionItems(updatedata?.questions);
+      settesttypename(updatedata?.testtype);
+      setendtesttime(updatedata?.testendTime);
+      settestname(updatedata?.testname)
+      setstartesttime(updatedata?.teststarTime);
+      setcourses(updatedata?.course);
+    }
   }, [course, batch]);
+
   return (
     <>
       <div className={styles.divmainlogin}>
@@ -124,13 +139,13 @@ function AddTest({ setOpen }) {
           {next ? (
             <>{testtypename === "Upload Test" ? "" : "MCQ Questions"}</>
           ) : (
-            "Add Test"
+            "Update Test"
           )}
         </h1>
-        <form >
+        <form>
           {next ? (
             <>
-              {testtypename === "Upload Test" ? (
+              {testtypename === "Upload Pdf Test" ? (
                 <>
                   <div className={styles.inputdiv}>
                     <label>Upload Test File</label>
@@ -221,7 +236,7 @@ function AddTest({ setOpen }) {
                               required
                               className={styles.mainqinput}
                               type="text"
-                              placeholder="Enter A Answer"
+                              placeholder="Enter Option 1"
                               name="option1"
                               value={item.option1}
                               onChange={(e) =>
@@ -239,7 +254,7 @@ function AddTest({ setOpen }) {
                               required
                               className={styles.mainqinput}
                               type="text"
-                              placeholder="Enter B Answer"
+                              placeholder="Enter Option 2"
                               name="option2"
                               value={item.option2}
                               onChange={(e) =>
@@ -260,7 +275,7 @@ function AddTest({ setOpen }) {
                               required
                               className={styles.mainqinput}
                               type="text"
-                              placeholder="Enter C Answer"
+                              placeholder="Enter Option 3"
                               name="option3"
                               value={item.option3}
                               onChange={(e) =>
@@ -278,7 +293,7 @@ function AddTest({ setOpen }) {
                               required
                               className={styles.mainqinput}
                               type="text"
-                              placeholder="Enter D Answer"
+                              placeholder="Enter Option 4"
                               name="option4"
                               value={item.option4}
                               onChange={(e) =>
@@ -313,9 +328,10 @@ function AddTest({ setOpen }) {
                             <div className={styles.radiodiv}>
                               <input
                                 type="radio"
-                                name="same"
+                                // name="same"
                                 id="option1"
-                                value="option1"
+                                checked={item?.correctoption=== item?.option1}
+                                value={item?.option1}
                                 onChange={(e) =>
                                   handleQuestionItemUpdate(
                                     item,
@@ -329,9 +345,10 @@ function AddTest({ setOpen }) {
                             <div className={styles.radiodiv}>
                               <input
                                 type="radio"
-                                name="same"
+                                // name="same"
                                 id="option2"
-                                value="option2"
+                                checked={item?.correctoption=== item?.option2}
+                                value={item?.option2}
                                 onChange={(e) =>
                                   handleQuestionItemUpdate(
                                     item,
@@ -345,9 +362,9 @@ function AddTest({ setOpen }) {
                             <div className={styles.radiodiv}>
                               <input
                                 type="radio"
-                                name="same"
+                                // name="same"
                                 id="option3"
-                                value="option3"
+                                checked={item?.correctoption=== item?.option3}
                                 onChange={(e) =>
                                   handleQuestionItemUpdate(
                                     item,
@@ -361,9 +378,10 @@ function AddTest({ setOpen }) {
                             <div className={styles.radiodiv}>
                               <input
                                 type="radio"
-                                name="same"
+                                // name="same"
                                 id="option4"
-                                value="option4"
+                                value={item?.option4}
+                                checked={item?.correctoption === item?.option4}
                                 onChange={(e) =>
                                   handleQuestionItemUpdate(
                                     item,
@@ -600,4 +618,4 @@ function AddTest({ setOpen }) {
   );
 }
 
-export default AddTest;
+export default UpdateTest;

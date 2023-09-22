@@ -133,6 +133,18 @@ import {
   DELETE_CourseDuration_REQUEST,
   DELETE_CourseDuration_SUCCESS,
   DELETE_CourseDuration_FAIL,
+  ADD_TEST_REQUEST,
+  ADD_TEST_SUCCESS,
+  ADD_TEST_FAIL,
+  ALL_TEST_REQUEST,
+  ALL_TEST_SUCCESS,
+  ALL_TEST_FAIL,
+  DELETE_TEST_REQUEST,
+  DELETE_TEST_SUCCESS,
+  DELETE_TEST_FAIL,
+  UPDATE_TEST_REQUEST,
+  UPDATE_TEST_SUCCESS,
+  UPDATE_TEST_FAIL,
   CLEAR_ERRORS,
 } from "../constants/commanConstants";
 
@@ -1429,6 +1441,143 @@ export const deleteCourseDurationReducer = (
       return {
         loading: false,
         courseduarion: null,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const addTestReducer = (state = { test: [] }, action) => {
+  switch (action.type) {
+    case ADD_TEST_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case ADD_TEST_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        test: action.payload,
+      };
+
+    case ADD_TEST_FAIL:
+      return {
+        loading: false,
+        test: null,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const updateTestReducer = (
+  state = { test: [] },
+  action
+) => {
+  switch (action.type) {
+    case UPDATE_TEST_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case UPDATE_TEST_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        test: action.payload,
+      };
+
+    case UPDATE_TEST_FAIL:
+      return {
+        loading: false,
+        test: null,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const getTestReducer = (
+  state = { test: [] },
+  action
+) => {
+  switch (action.type) {
+    case ALL_TEST_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case ALL_TEST_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        test: action.payload,
+      };
+
+    case ALL_TEST_FAIL:
+      return {
+        loading: false,
+        test: null,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const deleteTestReducer = (
+  state = { test: [] },
+  action
+) => {
+  switch (action.type) {
+    case DELETE_TEST_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case DELETE_TEST_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        test: action.payload,
+      };
+
+    case DELETE_TEST_FAIL:
+      return {
+        loading: false,
+        test: null,
         error: action.payload,
       };
 

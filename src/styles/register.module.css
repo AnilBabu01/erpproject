@@ -64,19 +64,18 @@
   color: white;
   border-radius: 7px;
 }
-.completetext{
+.completetext {
   text-align: center;
   margin-bottom: 1rem;
 }
 .inputdiv {
   display: flex;
   flex-direction: column;
-
 }
 .inputdiv label {
   margin-bottom: 1%;
+  margin-bottom: 1%;
 }
-
 
 .inputdiv10 {
   display: flex;
@@ -95,7 +94,12 @@
 .selectinnear {
   display: flex;
   justify-content: space-between;
-  width: 40%;
+  width: 30%;
+}
+.selectinnearinput {
+  border: 1px solid #093959;
+  border-radius: 5px;
+  padding-left: 0.1rem;
 }
 .selectinnear select {
   border: 1px solid #093959;
@@ -194,13 +198,13 @@
   border-radius: 7px;
   margin-right: 1rem;
 }
-.mainbtnndivcancel{
+.mainbtnndivcancel {
   display: flex;
   justify-content: center;
   align-items: center;
   padding-bottom: 1rem;
 }
-.divmaininputfeediv{
+.divmaininputfeediv {
   display: flex;
   padding-bottom: 1rem;
 }
@@ -221,22 +225,78 @@
   text-align: center;
   padding: 8px;
 }
-.mainfeedetails{
+.mainfeedetails {
   display: flex;
   justify-content: space-between;
 }
-.addpaymaingintable{
+.addpaymaingintable {
   margin-bottom: 0.8rem;
   margin-top: 0.8rem;
 }
-.inputdivpay{
+.inputdivpay {
   text-align: center;
 }
-.hightlighttext{
+.hightlighttext {
   background-color: #ff6900;
   color: white;
   padding-left: 0.1rem;
   text-align: center;
+}
+
+.topminaquestiondiv {
+  margin-bottom: 1rem;
+}
+.QDiv {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1%;
+}
+.QDiv input {
+  border: 1px solid #093959;
+  border-radius: 5px;
+  padding-left: 0.5rem;
+  height: 35px !important;
+}
+
+.quinnear p {
+  background-color: seagreen;
+  color: white;
+  padding: 0.2rem;
+  margin-bottom: 0.4rem;
+  border-radius: 5px;
+}
+.mainqinput {
+  border: 0.8px solid rgb(66, 66, 66) !important;
+  width: 28rem !important;
+  height: 35px !important;
+  padding-left: 1rem !important;
+  border-radius: 5px !important;
+}
+.optiondiv {
+  display: flex;
+}
+.addoptiondiv {
+  display: flex;
+  justify-content: space-between;
+}
+
+.radiodiv {
+  width: 4rem;
+}
+.deletediv {
+  display: flex;
+  justify-content: space-between;
+}
+.childdetails {
+  background: tomato;
+  box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.15);
+   color: white;
+  padding: 1rem;
+}
+
+.cloceiconright{
+  display: flex;
+  justify-content: right;
 }
 @media screen and (max-width: 780px) {
   .selecttimemain {
@@ -259,6 +319,13 @@
     width: 100%;
     height: 35px;
   }
+  .mainqinput {
+    border: 0.8px solid rgb(66, 66, 66) !important;
+    width: 100% !important;
+    height: 35px !important;
+    padding-left: 1rem !important;
+    border-radius: 5px !important;
+  }
   .inputdiv10 {
     display: flex;
     flex-direction: column;
@@ -273,4 +340,34 @@
     width: 100% !important;
     height: 35px !important;
   }
+}
+.maincontentdivshado {
+  width: 70%;
+  background: #ffffff;
+  box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.divcenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 2rem;
+}
+.feedeltext {
+  font-size: 20px;
+  text-align: center;
+}
+
+.McsQuestionss {
+  padding: 1rem;
+  padding-left: 2%;
+  padding-right: 2%;
+}
+
+.startbtndiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
