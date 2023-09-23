@@ -280,12 +280,34 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                     />
                   </>
                 ) : (
-                  <img src="/images/newlogo.png" alt="Logo" />
+                  <>
+                    {navbar ? (
+                      <>
+                  
+                        <img src="/images/logoblue1.png" alt="Logo" />
+                      </>
+                    ) : (
+                      <>
+                     
+                        <img src="/images/logowhite.png" alt="Logo" />
+                      </>
+                    )}
+                  </>
                 )}
               </>
             ) : (
               <>
-                <img src="/images/newlogo.png" alt="Logo" />
+                {navbar ? (
+                  <>
+                
+                    <img src="/images/logoblue1.png" alt="Logo" />
+                  </>
+                ) : (
+                  <>
+                  
+                    <img src="/images/logowhite.png" alt="Logo" />
+                  </>
+                )}
               </>
             )}
           </div>
