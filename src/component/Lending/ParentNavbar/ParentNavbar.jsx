@@ -15,11 +15,11 @@ const ParentNavbar = () => {
           <div>
             <Link
               className={
-                router.pathname == "/parent/dashbord"
+                router.pathname == "/parent/dashboard"
                   ? "link_directActive"
                   : "link_direct"
               }
-              href="/parent/dashbord"
+              href="/parent/dashboard"
             >
               Home
             </Link>

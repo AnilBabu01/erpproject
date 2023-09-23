@@ -8,4 +8,4 @@ function Test() {
   )
 }
 
-export default TeTt
+export default Test

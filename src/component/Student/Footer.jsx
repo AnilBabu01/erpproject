@@ -7,7 +7,7 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import EmailIcon from "@mui/icons-material/Email";
 import CallIcon from "@mui/icons-material/Call";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-
+import Link from 'next/link';
 const Footer = () => {
   return (
     <>
@@ -40,18 +40,18 @@ const Footer = () => {
               Social Media
             </Typography>
             <div className="mardivcontentlink10">
-              <a href="/rental">
+              <Link href="/rental">
                 <FacebookIcon />
-              </a>
-              <a href="/rental">
+              </Link>
+              <Link href="/rental">
                 <InstagramIcon />
-              </a>
-              <a href="/rental">
+              </Link>
+              <Link href="/rental">
                 <TwitterIcon />
-              </a>
-              <a href="/rental">
+              </Link>
+              <Link href="/rental">
                 <LinkedInIcon />
-              </a>
+              </Link>
             </div>
           </div>
           <div className="phonecon">
@@ -62,10 +62,10 @@ const Footer = () => {
               Pages
             </Typography>
             <div className="mardivcontentlink">
-              <a href="/student/dashboard">Home</a>
-              <a href="/student/attendance">Attendance</a>
-              <a href="/student/fee">Fee</a>
-              <a href="/student/test">Test</a>
+              <Link href="/student/dashboard">Home</Link>
+              <Link href="/student/attendance">Attendance</Link>
+              <Link href="/student/fee">Fee</Link>
+              <Link href="/student/test">Test</Link>
             </div>
           </div>
           <div className="phonecon">

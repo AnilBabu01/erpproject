@@ -14,7 +14,7 @@ import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
 import Adddepart from "@/component/Coaching/masters/AddDuration";
 import Updatedepart from "@/component/Coaching/masters/UpdateDuartion";
-function courseduration() {
+function Courseduration() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [openupdate, setOpenupdate] = useState(false);
@@ -256,4 +256,4 @@ function courseduration() {
   );
 }
 
-export default courseduration;
+export default Courseduration;

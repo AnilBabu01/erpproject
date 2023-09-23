@@ -62,7 +62,7 @@ function Receipt() {
                 <p>Course</p> <p>{data?.courseorclass}</p>
               </div>
               <div className={styles.textdivonly}>
-                <p>Father's Name</p> <p>{data?.fathersName}</p>
+                <p>Fathers &apos Name</p> <p>{data?.fathersName}</p>
               </div>
               <div className={styles.textdivonly10}>
                 <p>Fee Detail</p>
@@ -148,7 +148,7 @@ function Receipt() {
                 <p>Course</p> <p>{data?.courseorclass}</p>
               </div>
               <div className={styles.textdivonly}>
-                <p>Father's Name</p> <p>{data?.fathersName}</p>
+                <p>Father&apos s Name</p> <p>{data?.fathersName}</p>
               </div>
               <div className={styles.textdivonly10}>
                 <p>Fee Detail</p>

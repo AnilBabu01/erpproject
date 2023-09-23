@@ -21,7 +21,7 @@ import AddTest from "../../../component/Coaching/student/AddTest";
 import UpdateTest from "../../../component/Coaching/student/UpdateTest";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 
-function assignment() {
+function Assignment() {
   const dispatch = useDispatch();
   const [courselist, setcourselist] = useState("");
   const [coursename, setcoursename] = useState("");
@@ -406,4 +406,4 @@ function assignment() {
   );
 }
 
-export default assignment;
+export default Assignment;

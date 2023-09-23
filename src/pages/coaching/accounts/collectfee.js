@@ -15,7 +15,7 @@ import Slide from "@mui/material/Slide";
 import Addfee from "../../../component/Coaching/accounts/Addfee";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
-function collectfee() {
+function Collectfee() {
   const dispatch = useDispatch();
   const [noOfMonth, setnoOfMonth] = useState("");
   const [scoursename, setscoursename] = useState("");
@@ -357,7 +357,7 @@ function collectfee() {
                   setshowfathers(e.target.checked);
                 }}
               />
-              <label>Show Father's Name</label>
+              <label>Show Father&apos s Name</label>
             </div>
           </div>
           <div className={styles.add_divmarginn10}>
@@ -369,7 +369,7 @@ function collectfee() {
                     <th className={styles.tableth}>Student_Name</th>
                     {showfathers && (
                       <>
-                        <th className={styles.tableth}>Father's Name</th>
+                        <th className={styles.tableth}>Father&apos s Name</th>
                       </>
                     )}
                     <th className={styles.tableth}>Adminssion_Date</th>
@@ -476,4 +476,4 @@ function collectfee() {
   );
 }
 
-export default collectfee;
+export default Collectfee;

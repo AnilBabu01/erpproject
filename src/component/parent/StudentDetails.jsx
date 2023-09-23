@@ -17,7 +17,7 @@ function StudentDetails({ handleCloseupadte }) {
             </div>
             <div className={styles.inputdivpay}>
               <p>Course</p>
-              <p className={styles.hightlighttext}>Dca</p>
+              <p >Dca</p>
             </div>
             <div className={styles.inputdivpay}>
               <p>Batch</p>
@@ -46,7 +46,7 @@ function StudentDetails({ handleCloseupadte }) {
                     Number(data?.paidfee) -
                     Number(data?.permonthfee) * Number(montharray.length)}
                 </p> */}
-              <p className={styles.hightlighttext}>10</p>
+              <p>10</p>
             </div>
             <div className={styles.inputdivpay}>
               <p>Paid</p>
