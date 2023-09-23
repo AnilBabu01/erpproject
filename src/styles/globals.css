@@ -614,6 +614,9 @@ input#donation-date {
   padding: 1rem;
 }
 
+.logoimg img{
+  height: 3rem;
+}
 @media screen and (max-width: 780px) {
   .mainContainer {
     padding-top: 16%;
