@@ -86,5 +86,10 @@
     font-size: 30px;
     font-weight: 500;
     margin-bottom: 0.4rem;
+    width: 100%;
+  }
+
+  .mainhalf {
+    width: 100%;
   }
 }
