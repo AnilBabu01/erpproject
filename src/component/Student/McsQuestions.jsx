@@ -4,9 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Addtest } from "../../redux/actions/commanAction";
 import IconButton from "@mui/material/IconButton";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
-
+import {useRouter}  from 'next/router'
 const formData = new FormData();
 function McsQuestions({ setOpen }) {
+  const navigate = useRouter()
   const dispatch = useDispatch();
   const [isdata, setisData] = useState([]);
   const [batchs, setbatchs] = useState([]);
@@ -280,9 +281,9 @@ function McsQuestions({ setOpen }) {
         <div className={styles.startbtndiv}>
           <button
             className={styles.cancelbtn}
-            onClick={() => addQuestionItem()}
+            onClick={() => navigate.replace('test')}
           >
-            Edit
+            Back
           </button>
           <button
             className={styles.cancelbtn}

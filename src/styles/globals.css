@@ -616,6 +616,7 @@ input#donation-date {
 
 .logoimg img{
   height: 3rem;
+  /* width: 100%; */
 }
 @media screen and (max-width: 780px) {
   .mainContainer {

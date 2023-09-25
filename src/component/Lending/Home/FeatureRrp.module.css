@@ -1,59 +1,90 @@
-.mainFeature{
-    padding-left: 6%;
-    padding-right: 6%;
+.mainFeature {
+  padding-left: 6%;
+  padding-right: 6%;
+  padding-top: 2%;
 }
-.mainFeature h1{
-    text-align: center;
-    font-size: 30px;
+.mainFeature h1 {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 500;
+}
+.featutecontentmain {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
+}
+.featutecontentmain1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row-reverse;
+  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
+}
+.featureimg {
+  width: 20rem;
+  height: 7rem;
+}
+
+.featurehead {
+  font-size: 30px;
+  font-weight: 500;
+  margin-bottom: 0.4rem;
+}
+
+.marginset {
+  margin-left: 3rem;
+  width: 60%;
+}
+.mainhalf {
+  width: 60%;
+}
+@media screen and (max-width: 780px) {
+  .featureimg {
+    width: 20rem;
+    height: 13rem;
+  }
+
+  .mainFeature h1 {
+    font-size: 16px;
     font-weight: 500;
-}
-.featutecontentmain{
+    margin-top: 7%;
+  }
+  .mainFeature {
+    padding-left: 1%;
+    padding-right: 1%;
+  
+  }
+
+  .featutecontentmain {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-.featutecontentmain1{
+    width: 100%;
+    flex-direction: column;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .featutecontentmain1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-direction: row-reverse;
-}
-.featureimg{
-    width:20rem;
-}
+    width: 100%;
+    flex-direction: column;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 
-.featurehead{
- 
+  .marginset {
+    margin: 0.5rem;
+  }
+  .featurehead {
+    text-align: center;
     font-size: 30px;
     font-weight: 500;
-    margin-bottom: 0.4rem;  
-}
-
-.marginset{
-    margin-left: 3rem;
-}
-
-@media screen and (max-width: 780px) {
-    .mainFeature h1{
-        font-size: 16px;
-        font-weight: 500;
-    }
-    .mainFeature{
-        padding-left: 1%;
-        padding-right: 1%;
-    }
-
-    .featutecontentmain{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-    }
-    .featutecontentmain1{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-direction: row-reverse;
-        width: 100%;
-    }
+    margin-bottom: 0.4rem;
+  }
 }

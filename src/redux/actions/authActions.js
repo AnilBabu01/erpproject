@@ -120,6 +120,9 @@ export const register =
 export const login =
   (email, password, loginas, Fullname) => async (dispatch) => {
     try {
+
+      console.log("login is ", loginas);
+
       dispatch({ type: LOGIN_REQUEST });
       const config = {
         headers: {
@@ -245,6 +248,7 @@ export const login =
           payload: data,
         });
       }
+
 
       if (loginas === "Employee") {
         const { data } = await axios.post(

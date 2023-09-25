@@ -76,7 +76,12 @@ export default function Home({ setOpen }) {
       </Head>
       <div className="mainContainer8">
         <div className={styles.mianguest}>
-          <div className={styles.left} z>
+          <div
+            data-aos="fade-right"
+            data-aos-easing="ease-in-out-cubic"
+            data-aos-delay="300"
+            className={styles.left}
+          >
             <h1>
               Enterprise resource planning (ERP) refers to a type of software
               that organizations use to manage day-to-day business activities
@@ -85,8 +90,13 @@ export default function Home({ setOpen }) {
             </h1>
             <button onClick={() => setOpen(true)}>Get Started</button>
           </div>
-          <div className={styles.right}>
-            <img src="/images/erp.jpeg" alt="Logo" />
+          <div
+            data-aos="fade-left"
+            data-aos-easing="ease-in-out-cubic"
+            data-aos-delay="300"
+            className={styles.right}
+          >
+            <img src="/images/erp1.webp" alt="Logo" />
           </div>
           <button className={styles.phonebutton} onClick={() => setOpen(true)}>
             Get Started
