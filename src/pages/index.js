@@ -77,9 +77,7 @@ export default function Home({ setOpen }) {
       <div className="mainContainer8">
         <div className={styles.mianguest}>
           <div
-            data-aos="fade-right"
-            data-aos-easing="ease-in-out-cubic"
-            data-aos-delay="300"
+           
             className={styles.left}
           >
             <h1>
@@ -91,9 +89,7 @@ export default function Home({ setOpen }) {
             <button onClick={() => setOpen(true)}>Get Started</button>
           </div>
           <div
-            data-aos="fade-left"
-            data-aos-easing="ease-in-out-cubic"
-            data-aos-delay="300"
+         
             className={styles.right}
           >
             <img src="/images/erp1.webp" alt="Logo" />
