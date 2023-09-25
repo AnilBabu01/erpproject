@@ -81,6 +81,14 @@
   .marginset {
     margin: 0.5rem;
   }
+
+  .marginset {
+  
+    width: 100%;
+  }
+  .mainhalf {
+    width: 100%;
+  }
   .featurehead {
     text-align: center;
     font-size: 30px;
@@ -89,7 +97,5 @@
     width: 100%;
   }
 
-  .mainhalf {
-    width: 100%;
-  }
+
 }
