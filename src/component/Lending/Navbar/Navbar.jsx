@@ -194,7 +194,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                   maxWidth: "100%",
                 },
               },
-            }}
+            }} 
           >
             <Login setOpen={setOpen} setOpen1={setOpen1} />
           </Dialog>
