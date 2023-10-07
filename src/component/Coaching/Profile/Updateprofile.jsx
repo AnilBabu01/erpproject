@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
-import { UpdateProfile } from "../../../redux/actions/coachingAction";
+import { Updatecredentials } from "../../../redux/actions/commanAction";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../redux/actions/authActions";
 import { UPDATE_RESET_PROFILE_SUCCESS } from "../../../redux/constants/coachingContants";
@@ -17,7 +17,7 @@ function Updateprofile({ setOpen }) {
   const [city, setcity] = useState("");
   const [state, setstate] = useState("");
   const [pincode, setpincode] = useState("");
-  const { isUpdated } = useSelector((state) => state.editprofile);
+  const { isUpdated } = useSelector((state) => state.updateCredentials);
   const { user } = useSelector((state) => state.auth);
 
   const submit = (e) => {
@@ -31,7 +31,7 @@ function Updateprofile({ setOpen }) {
     formData.set("city", city);
     formData.set("state", state);
     formData.set("pincode", pincode);
-    dispatch(UpdateProfile(formData, setOpen));
+    dispatch(Updatecredentials(formData, setOpen));
   };
   useEffect(() => {
     if (user) {

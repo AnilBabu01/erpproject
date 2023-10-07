@@ -145,6 +145,9 @@ import {
   UPDATE_TEST_REQUEST,
   UPDATE_TEST_SUCCESS,
   UPDATE_TEST_FAIL,
+  UPDATE_CREDENTIALS_REQUEST,
+  UPDATE_CREDENTIALS_SUCCESS,
+  UPDATE_CREDENTIALS_FAIL,
   CLEAR_ERRORS,
 } from "../constants/commanConstants";
 
@@ -1487,10 +1490,7 @@ export const addTestReducer = (state = { test: [] }, action) => {
   }
 };
 
-export const updateTestReducer = (
-  state = { test: [] },
-  action
-) => {
+export const updateTestReducer = (state = { test: [] }, action) => {
   switch (action.type) {
     case UPDATE_TEST_REQUEST:
       return {
@@ -1522,10 +1522,7 @@ export const updateTestReducer = (
   }
 };
 
-export const getTestReducer = (
-  state = { test: [] },
-  action
-) => {
+export const getTestReducer = (state = { test: [] }, action) => {
   switch (action.type) {
     case ALL_TEST_REQUEST:
       return {
@@ -1557,10 +1554,7 @@ export const getTestReducer = (
   }
 };
 
-export const deleteTestReducer = (
-  state = { test: [] },
-  action
-) => {
+export const deleteTestReducer = (state = { test: [] }, action) => {
   switch (action.type) {
     case DELETE_TEST_REQUEST:
       return {
@@ -1578,6 +1572,41 @@ export const deleteTestReducer = (
       return {
         loading: false,
         test: null,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const updateCredentialsReducer = (
+  state = { Credential: [] },
+  action
+) => {
+  switch (action.type) {
+    case UPDATE_CREDENTIALS_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case UPDATE_CREDENTIALS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isUpdated : action.payload,
+      };
+
+    case UPDATE_CREDENTIALS_FAIL:
+      return {
+        loading: false,
+        isUpdated : null,
         error: action.payload,
       };
 

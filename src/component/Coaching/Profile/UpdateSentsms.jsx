@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
-import { UpdateProfile } from "../../../redux/actions/coachingAction";
+import { Updatecredentials } from "../../../redux/actions/commanAction";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../redux/actions/authActions";
 import { UPDATE_RESET_PROFILE_SUCCESS } from "../../../redux/constants/coachingContants";
@@ -21,7 +21,7 @@ function UpdateSentsms({ setOpen }) {
   const [parentpassword, setparentpassword] = useState("");
   const [sendemail, setsendemail] = useState("");
   const [sendemailpassword, setsendemailpassword] = useState("");
-  const { isUpdated } = useSelector((state) => state.editprofile);
+  const { isUpdated } = useSelector((state) => state.updateCredentials);
   const { user } = useSelector((state) => state.auth);
 
  
@@ -41,7 +41,7 @@ function UpdateSentsms({ setOpen }) {
     formData.set("Parentpassword", parentpassword);
     formData.set("SendemailPassword", sendemailpassword);
     formData.set("Sendemail", sendemail);
-    dispatch(UpdateProfile(formData, setOpen));
+    dispatch(Updatecredentials(formData, setOpen));
   };
   useEffect(() => {
     if (user) {

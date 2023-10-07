@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
-import { UpdateProfile } from "../../../redux/actions/coachingAction";
+import { Updatecredentials } from "../../../redux/actions/commanAction";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../redux/actions/authActions";
 import { UPDATE_RESET_PROFILE_SUCCESS } from "../../../redux/constants/coachingContants";
@@ -28,7 +28,7 @@ function UpdateProImges({ setOpen }) {
   const [previewprofile1, setpreviewprofile1] = useState("");
   const [previewprofile2, setpreviewprofile2] = useState("");
   const [previewprofile3, setpreviewprofile3] = useState("");
-  const { isUpdated } = useSelector((state) => state.editprofile);
+  const { isUpdated } = useSelector((state) => state.updateCredentials);
   const { user } = useSelector((state) => state.auth);
 
   console.log(profileimg);
@@ -51,7 +51,7 @@ function UpdateProImges({ setOpen }) {
     formData.set("profileurl", profileimg);
     formData.set("certificatelogo", certificateimg);
     formData.set("logourl", logoimg);
-    dispatch(UpdateProfile(formData, setOpen));
+    dispatch(Updatecredentials(formData, setOpen));
   };
   useEffect(() => {
     if (user) {

@@ -150,6 +150,9 @@ import {
   UPDATE_TEST_SUCCESS,
   UPDATE_TEST_FAIL,
   ALL_CLIENT_FAIL,
+  UPDATE_CREDENTIALS_REQUEST,
+  UPDATE_CREDENTIALS_SUCCESS,
+  UPDATE_CREDENTIALS_FAIL
 } from "../constants/commanConstants";
 
 // Get all College
@@ -1605,3 +1608,41 @@ export const getTest =
       });
     }
   };
+
+  
+// post add enquiry
+export const Updatecredentials = (formData, setOpen) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `${localStorage.getItem("erptoken")}`,
+      },
+    };
+    dispatch({ type: UPDATE_CREDENTIALS_REQUEST });
+
+    const { data } = await axios.put(
+      `${backendApiUrl}comman/credentials`,
+      formData,
+      config
+    );
+
+    if (data?.status) {
+      toast.success(data?.msg, {
+        autoClose: 1000,
+      });
+      setOpen(false);
+    }
+
+    dispatch({
+      type: UPDATE_CREDENTIALS_SUCCESS,
+      payload: data?.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_CREDENTIALS_FAIL,
+      payload: error?.response?.data?.msg,
+    });
+    toast.error(error?.response?.data?.msg, { autoClose: 1000 });
+  }
+};

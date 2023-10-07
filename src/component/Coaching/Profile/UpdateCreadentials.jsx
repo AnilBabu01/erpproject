@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
-import { UpdateProfile } from "../../../redux/actions/coachingAction";
+import { Updatecredentials } from "../../../redux/actions/commanAction";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../redux/actions/authActions";
 import { UPDATE_RESET_PROFILE_SUCCESS } from "../../../redux/constants/coachingContants";
 const formData = new FormData();
-function UpdateCreadentials({ updatedata, setOpen }) {
+function UpdateCreadentials({ setOpen }) {
   const dispatch = useDispatch();
   const [owername, setowername] = useState("");
   const [email, setemail] = useState("");
@@ -20,7 +20,7 @@ function UpdateCreadentials({ updatedata, setOpen }) {
   const [studentpassword, setstudentpassword] = useState("");
   const [parentpassword, setparentpassword] = useState("");
   const [Employeepassword, setEmployeepassword] = useState("");
-  const { isUpdated } = useSelector((state) => state.editprofile);
+  const { isUpdated } = useSelector((state) => state.updateCredentials);
   const { user } = useSelector((state) => state.auth);
   const submit = (e) => {
     e.preventDefault();
@@ -36,7 +36,7 @@ function UpdateCreadentials({ updatedata, setOpen }) {
     formData.set("Studentpassword", studentpassword);
     formData.set("Parentpassword", parentpassword);
     formData.set("Employeepassword", Employeepassword);
-    dispatch(UpdateProfile(formData, setOpen));
+    dispatch(Updatecredentials(formData, setOpen));
   };
   useEffect(() => {
     if (user) {
