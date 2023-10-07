@@ -10,7 +10,7 @@ const ParentNavbar = () => {
 
   return (
     <>
-      {user?.data[0]?.userType === "parent" && (
+      {user?.data?.User?.userType === "parent" && (
         <>
           <div>
             <Link

@@ -21,7 +21,7 @@ const CollegeNavbar = () => {
   }, []);
   return (
     <>
-      {user?.data[0]?.userType === "college" && (
+      {user?.data?.User?.userType === "college" && (
         <>
           <div>
             <Link
@@ -494,7 +494,7 @@ const CollegeNavbar = () => {
               </div>
             </li>
           </ul>
-          {user?.data[0]?.newclient === true && (
+          {user?.data?.User?.newclient === true && (
             <>
               &nbsp;&nbsp; &nbsp;&nbsp;
               <div>

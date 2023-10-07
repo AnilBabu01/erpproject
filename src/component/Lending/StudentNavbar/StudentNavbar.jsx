@@ -10,9 +10,9 @@ const StudentNavbar = () => {
 
   return (
     <>
-      {user?.data[0]?.userType === "student" && (
+      {user?.data?.User?.userType === "student" && (
         <>
-          {user?.data[0]?.typeoforganization === "institute" && (
+          {user?.data?.User?.typeoforganization === "institute" && (
             <>
               <div>
                 <Link
@@ -68,7 +68,7 @@ const StudentNavbar = () => {
             </>
           )}
 
-          {user?.data[0]?.typeoforganization === "college" && (
+          {user?.data?.User?.typeoforganization === "college" && (
             <>
               <div>
                 <Link
@@ -150,7 +150,7 @@ const StudentNavbar = () => {
             </>
           )}
 
-          {user?.data[0]?.typeoforganization === "school" && (
+          {user?.data?.User?.typeoforganization === "school" && (
             <>
               <div>
                 <Link

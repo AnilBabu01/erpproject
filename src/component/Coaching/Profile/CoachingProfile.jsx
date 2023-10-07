@@ -141,21 +141,21 @@ function CoachingProfile() {
           </Dialog>
         </div>
       )}
-
+      {/* user?.data?.User */}
       <div className="middle-chart-main-div mainprofile">
         <div className="bottom-chart-left-div">
           <div className="bottom-chart-left-div-inear1">
             <h4>Institute Details</h4>
             <div className="mainkeydetailsdiv">
               <div className="keydetailsdiv">
-                <p className="keydetailsdivp">Owner Name</p>
-                <p>{user?.data[0]?.name ? user?.data[0]?.name : "---------"}</p>
+                <p className="keydetailsdivp">Owner Name</p>  
+                <p>{ user?.data?.CredentailsData?.name ?  user?.data?.CredentailsData?.name : "---------"}</p>
               </div>
               <div className="keydetailsdiv">
                 <p className="keydetailsdivp">Client Code</p>
                 <p>
-                  {user?.data[0]?.ClientCode
-                    ? user?.data[0]?.ClientCode
+                  { user?.data?.CredentailsData?.ClientCode
+                    ?  user?.data?.CredentailsData?.ClientCode
                     : "---------"}
                 </p>
               </div>
@@ -164,14 +164,14 @@ function CoachingProfile() {
               <div className="keydetailsdiv">
                 <p className="keydetailsdivp">Official Email</p>
                 <p>
-                  {user?.data[0]?.email ? user?.data[0]?.email : "---------"}
+                  { user?.data?.CredentailsData?.email ?  user?.data?.CredentailsData?.email : "---------"}
                 </p>
               </div>
               <div className="keydetailsdiv">
                 <p className="keydetailsdivp">Institute Name</p>
                 <p>
-                  {user?.data[0]?.institutename
-                    ? user?.data[0]?.institutename
+                  { user?.data?.CredentailsData?.institutename
+                    ?  user?.data?.CredentailsData?.institutename
                     : "---------"}
                 </p>
               </div>
@@ -180,16 +180,16 @@ function CoachingProfile() {
               <div className="keydetailsdiv">
                 <p className="keydetailsdivp">Phone No1</p>
                 <p>
-                  {user?.data[0]?.phoneno1
-                    ? user?.data[0]?.phoneno1
+                  { user?.data?.CredentailsData?.phoneno1
+                    ?  user?.data?.CredentailsData?.phoneno1
                     : "---------"}
                 </p>
               </div>
               <div className="keydetailsdiv">
                 <p className="keydetailsdivp">Phone No2</p>
                 <p>
-                  {user?.data[0]?.phoneno2
-                    ? user?.data[0]?.phoneno2
+                  { user?.data?.CredentailsData?.phoneno2
+                    ?  user?.data?.CredentailsData?.phoneno2
                     : "---------"}
                 </p>
               </div>
@@ -198,12 +198,12 @@ function CoachingProfile() {
               <div className="keydetailsdiv">
                 <p className="keydetailsdivp">State</p>
                 <p>
-                  {user?.data[0]?.state ? user?.data[0]?.state : "---------"}
+                  { user?.data?.CredentailsData?.state ?  user?.data?.CredentailsData?.state : "---------"}
                 </p>
               </div>
               <div className="keydetailsdiv">
                 <p className="keydetailsdivp">City</p>
-                <p>{user?.data[0]?.city ? user?.data[0]?.city : "---------"}</p>
+                <p>{ user?.data?.CredentailsData?.city ?  user?.data?.CredentailsData?.city : "---------"}</p>
               </div>
             </div>
 
@@ -211,16 +211,16 @@ function CoachingProfile() {
               <div className="keydetailsdiv">
                 <p className="keydetailsdivp">Address</p>
                 <p>
-                  {user?.data[0]?.address
-                    ? user?.data[0]?.address
+                  { user?.data?.CredentailsData?.address
+                    ?  user?.data?.CredentailsData?.address
                     : "---------"}
                 </p>
               </div>
               <div className="keydetailsdiv">
                 <p className="keydetailsdivp">Pin Code</p>
                 <p>
-                  {user?.data[0]?.pincode
-                    ? user?.data[0]?.pincode
+                  { user?.data?.CredentailsData?.pincode
+                    ?  user?.data?.CredentailsData?.pincode
                     : "---------"}
                 </p>
               </div>
@@ -245,12 +245,12 @@ function CoachingProfile() {
             <div className="mainkeydetailsdiv">
               <div className="keydetailsdiv">
                 <p className="keydetailsdivp">Profile</p>
-                {user?.data[0]?.profileurl ? (
+                { user?.data?.CredentailsData?.profileurl ? (
                   <>
                     <img
                       alt="img"
                       className="keydetailsdivproimg"
-                      src={`${backendUrl}public/upload/${user?.data[0]?.profileurl}`}
+                      src={`${backendUrl}public/upload/${ user?.data?.CredentailsData?.profileurl}`}
                   
                     />
                   </>
@@ -266,12 +266,12 @@ function CoachingProfile() {
               </div>
               <div className="keydetailsdiv">
                 <p className="keydetailsdivp">Logo</p>
-                {user?.data[0]?.logourl ? (
+                { user?.data?.CredentailsData?.logourl ? (
                   <>
                     <img
                       alt="img"
                       className="keydetailsdivlogoimg"
-                      src={`${backendUrl}public/upload/${user?.data[0]?.logourl}`}
+                      src={`${backendUrl}public/upload/${ user?.data?.CredentailsData?.logourl}`}
                     
                     />
                   </>
@@ -290,12 +290,12 @@ function CoachingProfile() {
             <div className="mainkeydetailsdiv">
               <div className="keydetailsdiv">
                 <p className="keydetailsdivp">Certificate Logo</p>
-                {user?.data[0]?.certificatelogo ? (
+                { user?.data?.CredentailsData?.certificatelogo ? (
                   <>
                     <img
                       alt="img"
                       className="keydetailsdivcertificatelogoimg"
-                      src={`${backendUrl}public/upload/${user?.data[0]?.certificatelogo}`}
+                      src={`${backendUrl}public/upload/${ user?.data?.CredentailsData?.certificatelogo}`}
                     
                     />
                   </>
@@ -332,7 +332,7 @@ function CoachingProfile() {
                   required
                   type="text"
                   placeholder="Student@123"
-                  value={user?.data[0]?.Studentpassword}
+                  value={ user?.data?.CredentailsData?.Studentpassword}
                   disabled={true}
                   // name="enquirydate"
                   // onChange={(e) => setenquirydate(e.target.value)}
@@ -344,7 +344,7 @@ function CoachingProfile() {
                   required
                   type="text"
                   placeholder="Parent@123"
-                  value={user?.data[0]?.Parentpassword}
+                  value={ user?.data?.CredentailsData?.Parentpassword}
                   disabled={true}
                   // name="studentname"
                   // onChange={(e) => setstudentname(e.target.value)}
@@ -360,7 +360,7 @@ function CoachingProfile() {
                   required
                   type="text"
                   // placeholder="Student@123"
-                  value={user?.data[0]?.Employeepassword}
+                  value={ user?.data?.CredentailsData?.Employeepassword}
                   disabled={true}
                   // name="enquirydate"
                   // onChange={(e) => setenquirydate(e.target.value)}
@@ -387,7 +387,7 @@ function CoachingProfile() {
                   required
                   type="text"
                   placeholder="Admin@gmail.com"
-                  value={user?.data[0]?.Sendemail}
+                  value={ user?.data?.CredentailsData?.Sendemail}
                   disabled={true}
                   // name="enquirydate"
                   // onChange={(e) => setenquirydate(e.target.value)}
@@ -399,7 +399,7 @@ function CoachingProfile() {
                   required
                   type="text"
                   placeholder="Admin@123"
-                  value={user?.data[0]?.SendemailPassword}
+                  value={ user?.data?.CredentailsData?.SendemailPassword}
                   disabled={true}
                   // name="studentname"
                   // onChange={(e) => setstudentname(e.target.value)}

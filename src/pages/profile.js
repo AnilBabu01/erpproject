@@ -9,19 +9,19 @@ import ParentProfile from "@/component/parent/ParentProfile";
 import { useSelector } from "react-redux";
 
 function Profile() {
-  const { isAuthenticated, user } = useSelector((state) => state.auth);
+  const { isAuthenticated, user } = useSelector((state) => state.auth);  
   return (
     <>
       <div className="mainContainer">
         {isAuthenticated && (
           <>
-            {user?.data[0]?.userType === "school" && <SchoolProfile />}
-            {user?.data[0]?.userType === "college" && <CollegeProfile />}
-            {user?.data[0]?.userType === "institute" && <CoachingProfile />}
-            {user?.data[0]?.userType === "admin" && <AdminProfile />}
-            {user?.data[0]?.userType === "employee" && <EmployeeProfile />}
-            {user?.data[0]?.userType === "student" && <StudentProfile />}
-            {user?.data[0]?.userType === "parent" && <ParentProfile />}
+            {user?.data?.User?.userType === "school" && <SchoolProfile />}
+            {user?.data?.User?.userType === "college" && <CollegeProfile />}
+            {user?.data?.User?.userType === "institute" && <CoachingProfile />}
+            {user?.data?.User?.userType === "admin" && <AdminProfile />}
+            {user?.data?.User?.userType === "employee" && <EmployeeProfile />}
+            {user?.data?.User?.userType === "student" && <StudentProfile />}
+            {user?.data?.User?.userType === "parent" && <ParentProfile />}
           </>
         )}
       </div>

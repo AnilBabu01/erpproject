@@ -10,7 +10,7 @@ const AdminNavbar = () => {
 
   return (
     <>
-      {user?.data[0]?.userType === "admin" && (
+      {user?.data?.User?.userType === "admin" && (
         <>
           <div>
             <Link

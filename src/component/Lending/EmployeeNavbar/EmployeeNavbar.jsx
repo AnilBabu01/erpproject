@@ -21,7 +21,7 @@ const EmployeeNavbar = () => {
   }, []);
   return (
     <>
-      {user?.data[0]?.organizationtype === "institute" && (
+      {user?.data?.User?.organizationtype === "institute" && (
         <>
           <div>
             <Link
@@ -35,7 +35,7 @@ const EmployeeNavbar = () => {
               Dashboard
             </Link>
           </div>
-          {user?.data[0]?.fronrofice === true ? (
+          {user?.data?.User?.fronrofice === true ? (
             <>
               <ul className="nav_menu">
                 <li className="nav_list nav_list_menu">
@@ -93,7 +93,7 @@ const EmployeeNavbar = () => {
               </ul>
             </>
           )}
-          {user?.data[0]?.student === true ? (
+          {user?.data?.User?.student === true ? (
             <>
               <ul className="nav_menu">
                 <li className="nav_list nav_list_menu">
@@ -278,7 +278,7 @@ const EmployeeNavbar = () => {
               </ul>
             </>
           )}
-          {user?.data[0]?.attendance === true ? (
+          {user?.data?.User?.attendance === true ? (
             <>
               <ul className="nav_menu">
                 <li className="nav_list nav_list_menu">
@@ -337,7 +337,7 @@ const EmployeeNavbar = () => {
               </ul>
             </>
           )}
-          {user?.data[0]?.accounts === true ? (
+          {user?.data?.User?.accounts === true ? (
             <>
               <ul className="nav_menu">
                 <li className="nav_list nav_list_menu">
@@ -408,7 +408,7 @@ const EmployeeNavbar = () => {
               </ul>
             </>
           )}
-          {user?.data[0]?.HumanResource === true ? (
+          {user?.data?.User?.HumanResource === true ? (
             <>
               <ul className="nav_menu">
                 <li className="nav_list nav_list_menu">
@@ -488,7 +488,7 @@ const EmployeeNavbar = () => {
               </ul>
             </>
           )}
-          {user?.data[0]?.master === true ? (
+          {user?.data?.User?.master === true ? (
             <>
               <ul className="nav_menu">
                 <li className="nav_list nav_list_menu">
@@ -566,7 +566,7 @@ const EmployeeNavbar = () => {
               </ul>
             </>
           )}
-          {user?.data[0]?.report === true ? (
+          {user?.data?.User?.report === true ? (
             <>
               <ul className="nav_menu">
                 <li className="nav_list nav_list_menu">
@@ -729,7 +729,7 @@ const EmployeeNavbar = () => {
             </>
           )}
 
-          {user?.data[0]?.newclient === true && (
+          {user?.data?.User?.newclient === true && (
             <>
               &nbsp;&nbsp; &nbsp;&nbsp;
               <div>
@@ -749,7 +749,7 @@ const EmployeeNavbar = () => {
         </>
       )}
 
-      {user?.data[0]?.organizationtype === "college" && (
+      {user?.data?.User?.organizationtype === "college" && (
         <>
           <div>
             <Link
@@ -1222,7 +1222,7 @@ const EmployeeNavbar = () => {
               </div>
             </li>
           </ul>
-          {user?.data[0]?.newclient === true && (
+          {user?.data?.User?.newclient === true && (
             <>
               &nbsp;&nbsp; &nbsp;&nbsp;
               <div>
@@ -1242,7 +1242,7 @@ const EmployeeNavbar = () => {
         </>
       )}
 
-      {user?.data[0]?.organizationtype === "school" && (
+      {user?.data?.User?.organizationtype === "school" && (
         <>
           <div>
             <Link
@@ -1709,7 +1709,7 @@ const EmployeeNavbar = () => {
               </div>
             </li>
           </ul>
-          {user?.data[0]?.newclient === true && (
+          {user?.data?.User?.newclient === true && (
             <>
               &nbsp;&nbsp; &nbsp;&nbsp;
               <div>

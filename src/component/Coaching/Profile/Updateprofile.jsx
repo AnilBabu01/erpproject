@@ -35,15 +35,15 @@ function Updateprofile({ setOpen }) {
   };
   useEffect(() => {
     if (user) {
-      setowername(user?.data[0]?.name);
-      setemail(user?.data[0]?.email);
-      setaddress(user?.data[0]?.address);
-      setcity(user?.data[0]?.city);
-      setorganizationName(user?.data[0]?.institutename);
-      setpincode(user?.data[0]?.pincode);
-      setstate(user?.data[0]?.state);
-      setphoneno1(user?.data[0]?.phoneno1);
-      setphoneno2(user?.data[0]?.phoneno1);
+      setowername( user?.data?.CredentailsData?.name);
+      setemail( user?.data?.CredentailsData?.email);
+      setaddress( user?.data?.CredentailsData?.address);
+      setcity( user?.data?.CredentailsData?.city);
+      setorganizationName( user?.data?.CredentailsData?.institutename);
+      setpincode( user?.data?.CredentailsData?.pincode);
+      setstate( user?.data?.CredentailsData?.state);
+      setphoneno1( user?.data?.CredentailsData?.phoneno1);
+      setphoneno2( user?.data?.CredentailsData?.phoneno1);
     }
   }, []);
   useEffect(() => {

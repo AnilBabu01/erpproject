@@ -20,6 +20,8 @@ export default function Home({ setOpen }) {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
   const [loadingshow, setLoadingshow] = useState(false);
 
+  console.log("user data is from index file ", user?.data?.User);
+
   useEffect(() => {
     setLoadingshow(true);
     setTimeout(() => {
@@ -34,30 +36,30 @@ export default function Home({ setOpen }) {
     dispatch(loadUser());
   }, []);
   if (isAuthenticated) {
-    if (user?.data[0]?.newclient === true) {
+    if (user?.data?.User?.newclient === true) {
       navigate.push("/pricing");
     } else {
-      if (user?.data[0]?.userType === "school") {
+      if (user?.data?.User?.userType === "school") {
         navigate.push("/school/dashboard");
       }
-      if (user?.data[0]?.userType === "college") {
+      if (user?.data?.User?.userType === "college") {
         navigate.push("/college/dashboard");
       }
-      if (user?.data[0]?.userType === "institute") {
+      if (user?.data?.User?.userType === "institute") {
         navigate.push("/coaching/dashboard");
       }
     }
-    if (user?.data[0]?.userType === "admin") {
+    if (user?.data?.User?.userType === "admin") {
       navigate.push("/mainadmin/dashboard");
     }
 
-    if (user?.data[0]?.userType === "employee") {
+    if (user?.data?.User?.userType === "employee") {
       navigate.push("/employee/dashboard");
     }
-    if (user?.data[0]?.userType === "student") {
+    if (user?.data?.User?.userType === "student") {
       navigate.push("/student/dashboard");
     }
-    if (user?.data[0]?.userType === "parent") {
+    if (user?.data?.User?.userType === "parent") {
       navigate.push("/parent/dashboard");
     }
   }
@@ -76,10 +78,7 @@ export default function Home({ setOpen }) {
       </Head>
       <div className="mainContainer8">
         <div className={styles.mianguest}>
-          <div
-           
-            className={styles.left}
-          >
+          <div className={styles.left}>
             <h1>
               Enterprise resource planning (ERP) refers to a type of software
               that organizations use to manage day-to-day business activities
@@ -88,10 +87,7 @@ export default function Home({ setOpen }) {
             </h1>
             <button onClick={() => setOpen(true)}>Get Started</button>
           </div>
-          <div
-         
-            className={styles.right}
-          >
+          <div className={styles.right}>
             <img src="/images/erp1.webp" alt="Logo" />
           </div>
           <button className={styles.phonebutton} onClick={() => setOpen(true)}>
