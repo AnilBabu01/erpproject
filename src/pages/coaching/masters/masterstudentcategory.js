@@ -157,16 +157,16 @@ function Masterstudentcategory() {
           <div className={styles.addtopmenubar}>
             <button
               className={
-                userdata?.data && userdata?.data[0]?.userType === "institute"
+                userdata?.data && userdata?.data?.User?.userType === "institute"
                   ? styles.addtopmenubarbuttonactive
-                  : userdata?.data && userdata?.data[0]?.masterWrite === true
+                  : userdata?.data && userdata?.data?.User?.masterWrite === true
                   ? styles.addtopmenubarbuttonactive
                   : styles.addtopmenubarbuttondisable
               }
               disabled={
-                userdata?.data && userdata?.data[0]?.userType === "institute"
+                userdata?.data && userdata?.data?.User?.userType === "institute"
                   ? false
-                  : userdata?.data && userdata?.data[0]?.masterWrite === true
+                  : userdata?.data && userdata?.data?.User?.masterWrite === true
                   ? false
                   : true
               }
@@ -194,10 +194,10 @@ function Masterstudentcategory() {
                           <button
                             disabled={
                               userdata?.data &&
-                              userdata?.data[0]?.userType === "institute"
+                              userdata?.data?.User?.userType === "institute"
                                 ? false
                                 : userdata?.data &&
-                                  userdata?.data[0]?.masterDelete === true
+                                  userdata?.data?.User?.masterDelete === true
                                 ? false
                                 : true
                             }
@@ -205,10 +205,10 @@ function Masterstudentcategory() {
                             <img
                               className={
                                 userdata?.data &&
-                                userdata?.data[0]?.userType === "institute"
+                                userdata?.data?.User?.userType === "institute"
                                   ? styles.tabkedddimgactive
                                   : userdata?.data &&
-                                    userdata?.data[0]?.masterDelete === true
+                                    userdata?.data?.User?.masterDelete === true
                                   ? styles.tabkedddimgactive
                                   : styles.tabkedddimgdisable
                               }
@@ -220,10 +220,10 @@ function Masterstudentcategory() {
                           <button
                             disabled={
                               userdata?.data &&
-                              userdata?.data[0]?.userType === "institute"
+                              userdata?.data?.User?.userType === "institute"
                                 ? false
                                 : userdata?.data &&
-                                  userdata?.data[0]?.masterEdit === true
+                                  userdata?.data?.User?.masterEdit === true
                                 ? false
                                 : true
                             }
@@ -231,10 +231,10 @@ function Masterstudentcategory() {
                             <img
                               className={
                                 userdata?.data &&
-                                userdata?.data[0]?.userType === "institute"
+                                userdata?.data?.User?.userType === "institute"
                                   ? styles.tabkedddimgactive
                                   : userdata?.data &&
-                                    userdata?.data[0]?.masterEdit === true
+                                    userdata?.data?.User?.masterEdit === true
                                   ? styles.tabkedddimgactive
                                   : styles.tabkedddimgdisable
                               }

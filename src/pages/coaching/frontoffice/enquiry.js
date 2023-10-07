@@ -233,16 +233,16 @@ function Enquiry() {
           <div className={styles.addtopmenubar}>
             <button
               className={
-                userdata?.data && userdata?.data[0]?.userType === "institute"
+                userdata?.data && userdata?.data?.User?.userType === "institute"
                   ? styles.addtopmenubarbuttonactive
-                  : userdata?.data && userdata?.data[0]?.masterWrite === true
+                  : userdata?.data && userdata?.data?.User?.masterWrite === true
                   ? styles.addtopmenubarbuttonactive
                   : styles.addtopmenubarbuttondisable
               }
               disabled={
-                userdata?.data && userdata?.data[0]?.userType === "institute"
+                userdata?.data && userdata?.data?.User?.userType === "institute"
                   ? false
-                  : userdata?.data && userdata?.data[0]?.masterWrite === true
+                  : userdata?.data && userdata?.data?.User?.masterWrite === true
                   ? false
                   : true
               }
@@ -286,10 +286,10 @@ function Enquiry() {
                           <button
                             disabled={
                               userdata?.data &&
-                              userdata?.data[0]?.userType === "institute"
+                              userdata?.data?.User?.userType === "institute"
                                 ? false
                                 : userdata?.data &&
-                                  userdata?.data[0]?.fronroficeDelete === true
+                                  userdata?.data?.User?.fronroficeDelete === true
                                 ? false
                                 : true
                             }
@@ -297,10 +297,10 @@ function Enquiry() {
                             <img
                               className={
                                 userdata?.data &&
-                                userdata?.data[0]?.userType === "institute"
+                                userdata?.data?.User?.userType === "institute"
                                   ? styles.tabkedddimgactive
                                   : userdata?.data &&
-                                    userdata?.data[0]?.fronroficeDelete === true
+                                    userdata?.data?.User?.fronroficeDelete === true
                                   ? styles.tabkedddimgactive
                                   : styles.tabkedddimgdisable
                               }
@@ -312,10 +312,10 @@ function Enquiry() {
                           <button
                             disabled={
                               userdata?.data &&
-                              userdata?.data[0]?.userType === "institute"
+                              userdata?.data?.User?.userType === "institute"
                                 ? false
                                 : userdata?.data &&
-                                  userdata?.data[0]?.fronroficeEdit === true
+                                  userdata?.data?.User?.fronroficeEdit === true
                                 ? false
                                 : true
                             }
@@ -323,10 +323,10 @@ function Enquiry() {
                             <img
                               className={
                                 userdata?.data &&
-                                userdata?.data[0]?.userType === "institute"
+                                userdata?.data?.User?.userType === "institute"
                                   ? styles.tabkedddimgactive
                                   : userdata?.data &&
-                                    userdata?.data[0]?.fronroficeEdit === true
+                                    userdata?.data?.User?.fronroficeEdit === true
                                   ? styles.tabkedddimgactive
                                   : styles.tabkedddimgdisable
                               }

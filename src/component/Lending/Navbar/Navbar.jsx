@@ -269,6 +269,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
           )}
         </i>
 
+
         <Link
           className="logodivlinnk"
           href="/"
@@ -277,10 +278,10 @@ function Navbar({ open, setOpen, setLoadingshow }) {
           <div className="logoimg">
             {isAuthenticated && user ? (
               <>
-                {user?.data?.User?.logourl ? (
+                {user?.data?.CredentailsData?.logourl ? (
                   <>
                     <img
-                      src={`${backendUrl}public/upload/${user?.data?.User?.logourl}`}
+                      src={`${backendUrl}public/upload/${user?.data?.CredentailsData?.logourl}`}
                       alt="Logo"
                     />
                   </>
