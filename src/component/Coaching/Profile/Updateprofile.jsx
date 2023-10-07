@@ -4,7 +4,7 @@ import styles from "@/styles/register.module.css";
 import { Updatecredentials } from "../../../redux/actions/commanAction";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../redux/actions/authActions";
-import { UPDATE_RESET_PROFILE_SUCCESS } from "../../../redux/constants/coachingContants";
+import { UPDATE_CREDENTIALS_RESET_SUCCESS } from "../../../redux/constants/commanConstants";
 const formData = new FormData();
 function Updateprofile({ setOpen }) {
   const dispatch = useDispatch();
@@ -35,22 +35,22 @@ function Updateprofile({ setOpen }) {
   };
   useEffect(() => {
     if (user) {
-      setowername( user?.data?.CredentailsData?.name);
-      setemail( user?.data?.CredentailsData?.email);
-      setaddress( user?.data?.CredentailsData?.address);
-      setcity( user?.data?.CredentailsData?.city);
-      setorganizationName( user?.data?.CredentailsData?.institutename);
-      setpincode( user?.data?.CredentailsData?.pincode);
-      setstate( user?.data?.CredentailsData?.state);
-      setphoneno1( user?.data?.CredentailsData?.phoneno1);
-      setphoneno2( user?.data?.CredentailsData?.phoneno1);
+      setowername(user?.data?.CredentailsData?.name);
+      setemail(user?.data?.CredentailsData?.email);
+      setaddress(user?.data?.CredentailsData?.address);
+      setcity(user?.data?.CredentailsData?.city);
+      setorganizationName(user?.data?.CredentailsData?.institutename);
+      setpincode(user?.data?.CredentailsData?.pincode);
+      setstate(user?.data?.CredentailsData?.state);
+      setphoneno1(user?.data?.CredentailsData?.phoneno1);
+      setphoneno2(user?.data?.CredentailsData?.phoneno1);
     }
   }, []);
   useEffect(() => {
     if (isUpdated) {
       dispatch(loadUser());
       dispatch({
-        type: UPDATE_RESET_PROFILE_SUCCESS,
+        type: UPDATE_CREDENTIALS_RESET_SUCCESS,
       });
     }
   }, [isUpdated]);

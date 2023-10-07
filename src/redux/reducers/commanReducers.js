@@ -148,6 +148,8 @@ import {
   UPDATE_CREDENTIALS_REQUEST,
   UPDATE_CREDENTIALS_SUCCESS,
   UPDATE_CREDENTIALS_FAIL,
+  UPDATE_RESET_PROFILE_SUCCESS,
+  UPDATE_CREDENTIALS_RESET_SUCCESS,
   CLEAR_ERRORS,
 } from "../constants/commanConstants";
 
@@ -1593,6 +1595,7 @@ export const updateCredentialsReducer = (
   switch (action.type) {
     case UPDATE_CREDENTIALS_REQUEST:
       return {
+        ...state,
         loading: true,
       };
 
@@ -1600,14 +1603,21 @@ export const updateCredentialsReducer = (
       return {
         ...state,
         loading: false,
-        isUpdated : action.payload,
+        isUpdated: action.payload,
       };
+
+    case UPDATE_CREDENTIALS_RESET_SUCCESS:
+      setTimeout(() => {
+        return {
+          ...state,
+          isUpdated: false,
+        };
+      }, 1000);
 
     case UPDATE_CREDENTIALS_FAIL:
       return {
-        loading: false,
-        isUpdated : null,
-        error: action.payload,
+        ...state,
+        isUpdated: false,
       };
 
     case CLEAR_ERRORS:

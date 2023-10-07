@@ -4,9 +4,9 @@ import styles from "@/styles/register.module.css";
 import { Updatecredentials } from "../../../redux/actions/commanAction";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../redux/actions/authActions";
-import { UPDATE_RESET_PROFILE_SUCCESS } from "../../../redux/constants/coachingContants";
+import { UPDATE_CREDENTIALS_RESET_SUCCESS } from "../../../redux/constants/commanConstants";
 const formData = new FormData();
-function UpdateCreadentials({ setOpen }) {
+function UpdateCreadentials({ updatedata, setOpen }) {
   const dispatch = useDispatch();
   const [owername, setowername] = useState("");
   const [email, setemail] = useState("");
@@ -40,25 +40,25 @@ function UpdateCreadentials({ setOpen }) {
   };
   useEffect(() => {
     if (user) {
-      setowername( user?.data?.CredentailsData?.name);
-      setemail( user?.data?.CredentailsData?.email);
-      setaddress( user?.data?.CredentailsData?.address);
-      setcity( user?.data?.CredentailsData?.city);
-      setorganizationName( user?.data?.CredentailsData?.institutename);
-      setpincode( user?.data?.CredentailsData?.pincode);
-      setstate( user?.data?.CredentailsData?.state);
-      setphoneno1( user?.data?.CredentailsData?.phoneno1);
-      setphoneno2( user?.data?.CredentailsData?.phoneno1);
-      setstudentpassword( user?.data?.CredentailsData?.Studentpassword);
-      setparentpassword( user?.data?.CredentailsData?.Parentpassword);
-      setEmployeepassword( user?.data?.CredentailsData?.Employeepassword);
+      setowername(user?.data?.CredentailsData?.name);
+      setemail(user?.data?.CredentailsData?.email);
+      setaddress(user?.data?.CredentailsData?.address);
+      setcity(user?.data?.CredentailsData?.city);
+      setorganizationName(user?.data?.CredentailsData?.institutename);
+      setpincode(user?.data?.CredentailsData?.pincode);
+      setstate(user?.data?.CredentailsData?.state);
+      setphoneno1(user?.data?.CredentailsData?.phoneno1);
+      setphoneno2(user?.data?.CredentailsData?.phoneno1);
+      setstudentpassword(user?.data?.CredentailsData?.Studentpassword);
+      setparentpassword(user?.data?.CredentailsData?.Parentpassword);
+      setEmployeepassword(user?.data?.CredentailsData?.Employeepassword);
     }
   }, []);
   useEffect(() => {
     if (isUpdated) {
       dispatch(loadUser());
       dispatch({
-        type: UPDATE_RESET_PROFILE_SUCCESS,
+        type: UPDATE_CREDENTIALS_RESET_SUCCESS,
       });
     }
   }, [isUpdated]);

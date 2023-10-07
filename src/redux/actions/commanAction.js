@@ -152,7 +152,7 @@ import {
   ALL_CLIENT_FAIL,
   UPDATE_CREDENTIALS_REQUEST,
   UPDATE_CREDENTIALS_SUCCESS,
-  UPDATE_CREDENTIALS_FAIL
+  UPDATE_CREDENTIALS_FAIL,
 } from "../constants/commanConstants";
 
 // Get all College
@@ -1609,7 +1609,6 @@ export const getTest =
     }
   };
 
-  
 // post add enquiry
 export const Updatecredentials = (formData, setOpen) => async (dispatch) => {
   try {
@@ -1626,7 +1625,6 @@ export const Updatecredentials = (formData, setOpen) => async (dispatch) => {
       formData,
       config
     );
-
     if (data?.status) {
       toast.success(data?.msg, {
         autoClose: 1000,
@@ -1636,7 +1634,7 @@ export const Updatecredentials = (formData, setOpen) => async (dispatch) => {
 
     dispatch({
       type: UPDATE_CREDENTIALS_SUCCESS,
-      payload: data?.data,
+      payload: data?.status,
     });
   } catch (error) {
     dispatch({

@@ -4,7 +4,7 @@ import styles from "@/styles/register.module.css";
 import { Updatecredentials } from "../../../redux/actions/commanAction";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../redux/actions/authActions";
-import { UPDATE_RESET_PROFILE_SUCCESS } from "../../../redux/constants/coachingContants";
+import { UPDATE_CREDENTIALS_RESET_SUCCESS } from "../../../redux/constants/commanConstants";
 const formData = new FormData();
 function UpdateSentsms({ setOpen }) {
   const dispatch = useDispatch();
@@ -64,7 +64,7 @@ function UpdateSentsms({ setOpen }) {
     if (isUpdated) {
       dispatch(loadUser());
       dispatch({
-        type: UPDATE_RESET_PROFILE_SUCCESS,
+        type: UPDATE_CREDENTIALS_RESET_SUCCESS,
       });
     }
   }, [isUpdated]);
