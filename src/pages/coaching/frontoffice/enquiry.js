@@ -18,7 +18,7 @@ import { getcourse } from "../../../redux/actions/commanAction";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@mui/material";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
-
+import moment  from 'moment';
 function Enquiry() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -273,7 +273,7 @@ function Enquiry() {
                         key={index}
                       className={styles.tabletr}>
                         <td className={styles.tabletd}>{index + 1}</td>
-                        <td className={styles.tabletd}>{item?.EnquiryDate}</td>
+                        <td className={styles.tabletd}>{ moment(item?.EnquiryDate).format('MM/DD/YYYY')}</td>
                         <td className={styles.tabletd}>{item?.StudentName}</td>
                         <td className={styles.tabletd}>
                           {item?.StudentNumber}

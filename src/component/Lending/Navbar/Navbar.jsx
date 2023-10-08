@@ -159,17 +159,17 @@ function Navbar({ open, setOpen, setLoadingshow }) {
             {user?.data?.User?.name}
           </MenuItem>
           <Divider />
-          {user?.data?.User?.userType === "institute"&&<>
-          <MenuItem onClick={() => router.push("/profile")}>
-            <ListItemIcon>
-              <Settings fontSize="small" />
-            </ListItemIcon>
-            Update Your Profile
-          </MenuItem>
-          
-          
-          </>}
-         
+          {user?.data?.User?.userType === "institute" && (
+            <>
+              <MenuItem onClick={() => router.push("/profile")}>
+                <ListItemIcon>
+                  <Settings fontSize="small" />
+                </ListItemIcon>
+                Update Your Profile
+              </MenuItem>
+            </>
+          )}
+
           <MenuItem>
             <ListItemIcon>
               <Settings fontSize="small" />
@@ -199,7 +199,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                   maxWidth: "100%",
                 },
               },
-            }} 
+            }}
           >
             <Login setOpen={setOpen} setOpen1={setOpen1} />
           </Dialog>
@@ -269,11 +269,10 @@ function Navbar({ open, setOpen, setLoadingshow }) {
           )}
         </i>
 
-
         <Link
           className="logodivlinnk"
           href="/"
-          onClick={() => setisMobile(false)}  
+          onClick={() => setisMobile(false)}
         >
           <div className="logoimg">
             {isAuthenticated && user ? (
@@ -284,17 +283,20 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       src={`${backendUrl}public/upload/${user?.data?.CredentailsData?.logourl}`}
                       alt="Logo"
                     />
+
+                    {console.log(
+                      "Credentials data is ",
+                      user?.data?.CredentailsData?.logourl
+                    )}
                   </>
                 ) : (
                   <>
                     {navbar ? (
                       <>
-                  
                         <img src="/images/logoblue1.png" alt="Logo" />
                       </>
                     ) : (
                       <>
-                     
                         <img src="/images/logowhite.png" alt="Logo" />
                       </>
                     )}
@@ -305,12 +307,10 @@ function Navbar({ open, setOpen, setLoadingshow }) {
               <>
                 {navbar ? (
                   <>
-                
                     <img src="/images/logoblue1.png" alt="Logo" />
                   </>
                 ) : (
                   <>
-                  
                     <img src="/images/logowhite.png" alt="Logo" />
                   </>
                 )}
@@ -659,8 +659,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                 </MenuItem>
               </>
             )}
-{console.log("data is from navbar ",user?.data?.User?.userType
-)}
+            {console.log("data is from navbar ", user?.data?.User?.userType)}
             {user?.data?.User?.userType === "institute" && (
               <>
                 <Divider sx={{ my: 0.5 }} />
@@ -1282,7 +1281,10 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                 <Divider sx={{ my: 0.5 }} />
               </>
             )}
-            {console.log("data is from college navbar",user?.data?.User?.userType)}
+            {console.log(
+              "data is from college navbar",
+              user?.data?.User?.userType
+            )}
 
             {user?.data?.User?.userType === "college" && (
               <>

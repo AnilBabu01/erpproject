@@ -1496,7 +1496,7 @@ export const Addtest = (datas, setOpen) => async (dispatch) => {
 };
 
 // post add enquiry
-export const UpdateTest = (datas, setOpen) => async (dispatch) => {
+export const Updatetest = (datas, setOpen) => async (dispatch) => {
   try {
     const config = {
       headers: {
@@ -1507,7 +1507,7 @@ export const UpdateTest = (datas, setOpen) => async (dispatch) => {
     dispatch({ type: UPDATE_TEST_REQUEST });
 
     const { data } = await axios.put(
-      `${backendApiUrl}comman/courseduration`,
+      `${backendApiUrl}test/updatetest`,
       datas,
       config
     );
@@ -1536,7 +1536,7 @@ export const UpdateTest = (datas, setOpen) => async (dispatch) => {
 export const deleteTest = (deleteid, setOpenalert) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_TEST_REQUEST });
-    serverInstance("comman/courseduration", "delete", {
+    serverInstance("test/deletetest", "delete", {
       id: deleteid,
     }).then((res) => {
       if (res?.status) {

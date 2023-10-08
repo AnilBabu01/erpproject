@@ -4,10 +4,9 @@ import { loadUser } from "../../../redux/actions/authActions";
 import {
   getcourse,
   getbatch,
-  getstudent,
-  deletestudent,
   getfee,
   getTest,
+  deleteTest
 } from "../../../redux/actions/commanAction";
 import styles from "../../coaching/employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
@@ -20,7 +19,7 @@ import { Button } from "@mui/material";
 import AddTest from "../../../component/Coaching/student/AddTest";
 import UpdateTest from "../../../component/Coaching/student/UpdateTest";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
-
+import moment  from 'moment';
 function Assignment() {
   const dispatch = useDispatch();
   const [courselist, setcourselist] = useState("");
@@ -74,7 +73,7 @@ function Assignment() {
   };
 
   const handledelete = () => {
-    dispatch(deletestudent(deleteid, setOpenalert));
+    dispatch(deleteTest(deleteid, setOpenalert));
   };
 
   useEffect(() => {
@@ -331,7 +330,7 @@ function Assignment() {
                       <tr key={index} className={styles.tabletr}>
                         <td className={styles.tabletd}>{index + 1}</td>
                         <td className={styles.tabletd}>{item?.testname}</td>
-                        <td className={styles.tabletd}>{item?.testdate}</td>
+                        <td className={styles.tabletd}>{ moment(item?.testdate).format('MM/DD/YYYY')}</td>
                         <td className={styles.tabletd}>{item?.teststarTime}</td>
                         <td className={styles.tabletd}>{item?.testendTime}</td>
                         <td className={styles.tabletd}>{item?.testtype}</td>
