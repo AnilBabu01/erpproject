@@ -1670,10 +1670,8 @@ export const getStudentTestReducer = (state = { test: [] }, action) => {
   }
 };
 
-export const updateStudentTestReducer = (
-  state = { Credential: [] },
-  action
-) => {
+export const updateStudentTestReducer = (state = { result: [] }, action) => {
+  console.log('data from addresult action',action.payload);
   switch (action.type) {
     case UPDATE_STUDENT_TEST_REQUEST:
       return {
@@ -1685,21 +1683,22 @@ export const updateStudentTestReducer = (
       return {
         ...state,
         loading: false,
-        isUpdated: action.payload,
+        result: action.payload,
       };
-
+  
+   
     case UPDATE_STUDENT_TEST_RESET_SUCCESS:
       setTimeout(() => {
         return {
           ...state,
-          isUpdated: false,
+          result: null,
         };
       }, 1000);
 
     case UPDATE_STUDENT_TEST_FAIL:
       return {
         ...state,
-        isUpdated: false,
+        result: null,
       };
 
     case CLEAR_ERRORS:

@@ -1679,7 +1679,7 @@ export const Adddresult = (datas, setOpen) => async (dispatch) => {
 
     dispatch({
       type: UPDATE_STUDENT_TEST_SUCCESS,
-      payload: data?.data,
+      payload: data,
     });
   } catch (error) {
     dispatch({

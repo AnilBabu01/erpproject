@@ -213,6 +213,14 @@
   /* padding: 10px;
       margin: 10px; */
 }
+.tablecontainer10 {
+  overflow-x: auto;
+  /* padding: 10px;
+      margin: 10px; */
+  margin-bottom: "2rem" !important;
+  display: flex;
+  justify-content: center;
+}
 
 .add_divmarginn10 {
   padding: 0.5rem;
@@ -242,7 +250,6 @@
   padding-left: 0.1rem;
   text-align: center;
 }
-
 
 .topminaquestiondiv {
   margin-bottom: 1rem;
@@ -288,14 +295,21 @@
   display: flex;
   justify-content: space-between;
 }
+.deletediv10 {
+  display: flex;
+  justify-content: space-between;
+}
 .childdetails {
   background: tomato;
   box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.15);
-   color: white;
+  color: white;
   padding: 1rem;
 }
-
-.cloceiconright{
+.answericon{
+  width: 25px;
+  height: 25px;
+}
+.cloceiconright {
   display: flex;
   justify-content: right;
 }
@@ -329,16 +343,23 @@
   justify-content: center;
   align-items: center;
 }
-.flexaddDiv{
+.flexaddDiv {
   display: flex;
 }
 @media screen and (max-width: 780px) {
+  .cancelbtn {
+    width: 30%;
+    height: 35px;
+    background: #093959;
+    color: white;
+    border-radius: 7px;
+  }
   .McsQuestionss {
     padding: 1rem;
     padding-left: 1%;
     padding-right: 1%;
   }
-  
+
   .selecttimemain {
     margin-bottom: 1rem;
   }
