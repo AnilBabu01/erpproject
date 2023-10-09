@@ -194,7 +194,7 @@ function UpdateTest({ setOpen, updatedata }) {
     formData.set("testtitle", testname);
     formData.set("questions", JSON.stringify(questionItems));
     formData.set("testfile", testfile);
-    formData.set("id",updatedata?.id);
+    formData.set("id", updatedata?.id);
     dispatch(Updatetest(formData, setOpen));
   };
 
@@ -818,6 +818,14 @@ function UpdateTest({ setOpen, updatedata }) {
                       onChange={(e) => setem(e.target.value)}
                       displayEmpty
                     >
+                      <MenuItem
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={""}
+                      >
+                        Min
+                      </MenuItem>
                       {minutes?.map((item, index) => {
                         return (
                           <MenuItem

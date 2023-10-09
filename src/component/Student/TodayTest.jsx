@@ -1,13 +1,14 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import styles from "./Coaching.module.css";
 import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
-import Teststart from './Teststart'
-function TodayTest() {
+import Teststart from "./Teststart";
+function TodayTest({ testlist }) {
   const [openupdate, setOpenupdate] = useState(false);
-
-  const ClickOpenupdate = () => {
+  const [starttestdata, setstarttestdata] = useState("");
+  const ClickOpenupdate = (data) => {
     setOpenupdate(true);
+    setstarttestdata(data);
   };
   const handleCloseupadte = () => {
     setOpenupdate(false);
@@ -33,7 +34,10 @@ function TodayTest() {
               },
             }}
           >
-           <Teststart handleCloseupadte={handleCloseupadte}/>
+            <Teststart
+              handleCloseupadte={handleCloseupadte}
+              starttestdata={starttestdata}
+            />
           </Dialog>
         </div>
       )}
@@ -45,30 +49,28 @@ function TodayTest() {
               <th className={styles.tableth}>Start Time</th>
               <th className={styles.tableth}>End Time</th>
               <th className={styles.tableth}>Total Questions</th>
-              <th className={styles.tableth}>Passinf Marks</th>
+              {/* <th className={styles.tableth}>Passinf Marks</th> */}
               <th className={styles.tableth}>Action</th>
             </tr>
-
-            <tr className={styles.tabletr}>
-              <td className={styles.tabletd}>Demo</td>
-              <td className={styles.tabletd}>01:10 PM</td>
-              <td className={styles.tabletd}>01:30 PM</td>
-              <td className={styles.tabletd}>20</td>
-              <td className={styles.tabletd}>8</td>
-              <td className={styles.tabletd}>
-                <button
-                  className={styles.btnactive}
-                  onClick={() => ClickOpenupdate()}
-                >
-                  Start Test
-                </button>
-              </td>
-            </tr>
-            {/* {isdata?.map((item, index) => {
-                      return (
-                       
-                      );
-                    })} */}
+            {testlist&&testlist?.map((item, index) => {
+              return (
+                <tr key={index} className={styles.tabletr}>
+                  <td className={styles.tabletd}>{item?.testTitle}</td>
+                  <td className={styles.tabletd}>{item?.teststarTime}</td>
+                  <td className={styles.tabletd}>{item?.testendTime}</td>
+                  <td className={styles.tabletd}>{item?.questions?.length}</td>
+                  {/* <td className={styles.tabletd}>8</td> */}
+                  <td className={styles.tabletd}>
+                    <button
+                      className={styles.btnactive}
+                      onClick={() => ClickOpenupdate(item)}
+                    >
+                      Start Test
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

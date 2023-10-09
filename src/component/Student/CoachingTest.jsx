@@ -1,18 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Coaching.module.css";
 import TodayTest from "./TodayTest";
 import ResultTest from "./ResultTest";
+import { useDispatch, useSelector } from "react-redux";
+import { getStudenttest } from "../../redux/actions/commanAction";
 function CoachingTest() {
+  const dispatch = useDispatch();
   const [today, settoday] = useState(true);
   const [monthly, setmonthly] = useState(false);
   const [subject, setsubject] = useState(false);
   const [semester, setsemester] = useState(false);
   const [datewise, setdatewise] = useState(false);
+  const [testlist, settestlist] = useState('')
+  const { test } = useSelector((state) => state.getStudentTest);
+
+  console.log("test from stuent site", test);
+
+  useEffect(() => {
+    dispatch(getStudenttest());
+    if(test)
+    {
+      settestlist(test)
+    }
+  }, []);
+
   return (
     <>
       <div className="bottom-chart-left-div">
         <div className="bottom-chart-left-div-inearattdendance">
-        
           <div>
             <div>
               <button
@@ -23,7 +38,7 @@ function CoachingTest() {
                 }}
                 className={today ? styles.btnactive : styles.hideactive}
               >
-                Today Test
+                Test List
               </button>
               <button
                 onClick={() => {
@@ -60,7 +75,7 @@ function CoachingTest() {
             </div> */}
             {today && (
               <>
-                <TodayTest />
+                <TodayTest  testlist={testlist}/>
               </>
             )}
             {monthly && (

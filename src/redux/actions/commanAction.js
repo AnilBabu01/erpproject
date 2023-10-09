@@ -153,6 +153,13 @@ import {
   UPDATE_CREDENTIALS_REQUEST,
   UPDATE_CREDENTIALS_SUCCESS,
   UPDATE_CREDENTIALS_FAIL,
+  ALL_STUDENT_TEST_REQUEST,
+  ALL_STUDENT_TEST_SUCCESS,
+  ALL_STUDENT_TEST_FAIL,
+  UPDATE_STUDENT_TEST_REQUEST,
+  UPDATE_STUDENT_TEST_SUCCESS,
+  UPDATE_STUDENT_TEST_RESET_SUCCESS,
+  UPDATE_STUDENT_TEST_FAIL,
 } from "../constants/commanConstants";
 
 // Get all College
@@ -1642,5 +1649,70 @@ export const Updatecredentials = (formData, setOpen) => async (dispatch) => {
       payload: error?.response?.data?.msg,
     });
     toast.error(error?.response?.data?.msg, { autoClose: 1000 });
+  }
+};
+
+
+// post add enquiry
+export const Adddresult = (datas, setOpen) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("erptoken")}`,
+      },
+    };
+    dispatch({ type: UPDATE_STUDENT_TEST_REQUEST });
+
+    const { data } = await axios.post(
+      `${backendApiUrl}test/addtestretult`,
+      datas,
+      config
+    );
+
+    if (data?.status) {
+      toast.success(data?.msg, {
+        autoClose: 1000,
+      });
+      setOpen(false);
+    }
+
+    dispatch({
+      type: UPDATE_STUDENT_TEST_SUCCESS,
+      payload: data?.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_STUDENT_TEST_FAIL,
+      payload: error?.response?.data?.msg,
+    });
+    toast.error(error?.response?.data?.msg, { autoClose: 1000 });
+  }
+};
+
+// Get all Enquiry
+export const getStudenttest = (page, limit, setPage) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("erptoken")}`,
+      },
+    };
+    dispatch({ type: ALL_STUDENT_TEST_REQUEST });
+
+    const { data } = await axios.get(`${backendApiUrl}test/getstudentalltest`, config);
+
+    console.log("data from course", data?.data);
+
+    dispatch({
+      type: ALL_STUDENT_TEST_SUCCESS,
+      payload: data?.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ALL_STUDENT_TEST_FAIL,
+      payload: error?.response?.data?.msg,
+    });
   }
 };

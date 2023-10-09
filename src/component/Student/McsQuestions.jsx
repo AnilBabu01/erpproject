@@ -1,23 +1,15 @@
 import React, { useState, useEffect } from "react";
 import styles from "@/styles/register.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { Addtest } from "../../redux/actions/commanAction";
-import IconButton from "@mui/material/IconButton";
-import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
-import {useRouter}  from 'next/router'
+import { Adddresult } from "../../redux/actions/commanAction";
+import { useRouter } from "next/router";
 const formData = new FormData();
-function McsQuestions({ setOpen }) {
-  const navigate = useRouter()
+
+function McsQuestions({ setOpen, data }) {
+  const navigate = useRouter();
   const dispatch = useDispatch();
   const [isdata, setisData] = useState([]);
   const [batchs, setbatchs] = useState([]);
-  const [courses, setcourses] = useState("");
-  const [batchname, setbatchname] = useState("");
-  const [testtypename, settesttypename] = useState("Upload Pdf Test");
-  const [next, setnext] = useState(false);
-  const [typefileuploaded, settypefileuploaded] = useState("");
-  const [testname, settestname] = useState("");
-  const [testfile, settestfile] = useState(null);
   const { course } = useSelector((state) => state.getcourse);
   const { batch } = useSelector((state) => state.getbatch);
   const { user } = useSelector((state) => state.auth);
@@ -50,6 +42,8 @@ function McsQuestions({ setOpen }) {
       option3: "",
       option4: "",
       correctoption: "",
+      answeroption: "",
+      currectanswer: "",
     },
   ]);
 
@@ -63,10 +57,12 @@ function McsQuestions({ setOpen }) {
         option3: "",
         option4: "",
         correctoption: "",
+        answeroption: "",
+        currectanswer: "",
       },
     ]);
   }
-
+  console.log("correct answer ", questionItems);
   function removeQuestionItem(item) {
     setquestionItems(
       questionItems.filter((questionItem) => questionItem !== item)
@@ -85,203 +81,267 @@ function McsQuestions({ setOpen }) {
       )
     );
   }
-  console.log("correct answer ", questionItems);
 
   const submit = () => {
-    formData.set("batch", batchname);
-    formData.set("course", courses);
-    formData.set("date", testdate);
-    formData.set("testtype", testtypename);
-    formData.set("starttime", startesttime);
-    formData.set("endtime", endtesttime);
-    formData.set("testtitle", testname);
-    formData.set("questions", JSON.stringify(questionItems));
-    formData.set("testfile", testfile);
-    dispatch(Addtest(formData, setOpen));
+    const savedata = {
+      batch: data?.batch,
+      course: data?.course,
+      date: data?.testdate,
+      testtype: data?.testtype,
+      starttime: data?.teststarTime,
+      endtime: data?.testendTime,
+      testtitle: data?.testname,
+      questions: questionItems,
+      testfile: data?.testfile,
+    };
+
+    console.log("save data from MCQ",savedata)
+    dispatch(Adddresult(savedata, setOpen));
   };
-  -useEffect(() => {
+  useEffect(() => {
     if (course) {
       setisData(course);
     }
     if (batch) {
       setbatchs(batch);
     }
-  }, [course, batch]);
+    setquestionItems(data?.questions);
+  }, [course, batch, data]);
   return (
     <>
       <div className={styles.McsQuestionss}>
-        {questionItems?.map((item, index) => {
-          return (
-            <div key={index} className={styles.topminaquestiondiv}>
-              <div className={styles.QDiv}>
-                <div className={styles.quinnear}>
-                  <p>Question No : {index + 1}</p>
+        {questionItems &&
+          questionItems?.map((item, index) => {
+            return (
+              <div key={index} className={styles.topminaquestiondiv}>
+                <div className={styles.QDiv}>
+                  <div className={styles.quinnear}>
+                    <p>Question No : {index + 1}</p>
+                  </div>
+                  <input
+                    type="textarea"
+                    placeholder="Enter Question"
+                    name="question"
+                    value={item.question}
+                    onChange={(e) =>
+                      handleQuestionItemUpdate(item, "question", e.target.value)
+                    }
+                  />
                 </div>
-                <input
-                  type="textarea"
-                  placeholder="Enter Question"
-                  name="question"
-                  value={item.question}
-                  onChange={(e) =>
-                    handleQuestionItemUpdate(item, "question", e.target.value)
-                  }
-                />
-              </div>
 
-              <div className={styles.divmaininput}>
-                <div className={styles.inputdiv}>
-                  <label>A</label>
-                  <input
-                    required
-                    className={styles.mainqinput}
-                    type="text"
-                    placeholder="Enter A Answer"
-                    name="option1"
-                    value={item.option1}
-                    onChange={(e) =>
-                      handleQuestionItemUpdate(item, "option1", e.target.value)
-                    }
-                  />
+                <div className={styles.divmaininput}>
+                  <div className={styles.inputdiv}>
+                    <label>A</label>
+                    <input
+                      required
+                      className={styles.mainqinput}
+                      type="text"
+                      placeholder="Enter A Answer"
+                      name="option1"
+                      value={item.option1}
+                      onChange={(e) =>
+                        handleQuestionItemUpdate(
+                          item,
+                          "option1",
+                          e.target.value
+                        )
+                      }
+                    />
+                  </div>
+                  <div className={styles.inputdiv}>
+                    <label>B</label>
+                    <input
+                      required
+                      className={styles.mainqinput}
+                      type="text"
+                      placeholder="Enter B Answer"
+                      name="option2"
+                      value={item.option2}
+                      onChange={(e) =>
+                        handleQuestionItemUpdate(
+                          item,
+                          "option2",
+                          e.target.value
+                        )
+                      }
+                    />
+                  </div>
                 </div>
-                <div className={styles.inputdiv}>
-                  <label>B</label>
-                  <input
-                    required
-                    className={styles.mainqinput}
-                    type="text"
-                    placeholder="Enter B Answer"
-                    name="option2"
-                    value={item.option2}
-                    onChange={(e) =>
-                      handleQuestionItemUpdate(item, "option2", e.target.value)
-                    }
-                  />
-                </div>
-              </div>
 
-              <div className={styles.divmaininput}>
-                <div className={styles.inputdiv}>
-                  <label>C</label>
-                  <input
-                    required
-                    className={styles.mainqinput}
-                    type="text"
-                    placeholder="Enter C Answer"
-                    name="option3"
-                    value={item.option3}
-                    onChange={(e) =>
-                      handleQuestionItemUpdate(item, "option3", e.target.value)
-                    }
-                  />
+                <div className={styles.divmaininput}>
+                  <div className={styles.inputdiv}>
+                    <label>C</label>
+                    <input
+                      required
+                      className={styles.mainqinput}
+                      type="text"
+                      placeholder="Enter C Answer"
+                      name="option3"
+                      value={item.option3}
+                      onChange={(e) =>
+                        handleQuestionItemUpdate(
+                          item,
+                          "option3",
+                          e.target.value
+                        )
+                      }
+                    />
+                  </div>
+                  <div className={styles.inputdiv}>
+                    <label>D</label>
+                    <input
+                      required
+                      className={styles.mainqinput}
+                      type="text"
+                      placeholder="Enter D Answer"
+                      name="option4"
+                      value={item.option4}
+                      onChange={(e) =>
+                        handleQuestionItemUpdate(
+                          item,
+                          "option4",
+                          e.target.value
+                        )
+                      }
+                    />
+                  </div>
                 </div>
-                <div className={styles.inputdiv}>
-                  <label>D</label>
-                  <input
-                    required
-                    className={styles.mainqinput}
-                    type="text"
-                    placeholder="Enter D Answer"
-                    name="option4"
-                    value={item.option4}
-                    onChange={(e) =>
-                      handleQuestionItemUpdate(item, "option4", e.target.value)
-                    }
-                  />
-                </div>
-              </div>
-              <div>
-                <div className={styles.deletediv}>
-                  <p>Select Correct Answer</p>
-                  {/* {index > 0 && (
-                    <IconButton
-                      sx={{
-                        padding: "4px",
-                      }}
-                      onClick={() => removeQuestionItem(item)}
-                    >
-                      <RemoveCircleOutlineIcon
-                        color="primary"
-                        fontSize="small"
+                <div>
+                  <div className={styles.deletediv}>
+                    <p>Select Correct Answer</p>
+                  </div>
+
+                  <div className={styles.optiondiv}>
+                    <div className={styles.radiodiv}>
+                      <input
+                        type="radio"
+                        // name="same"
+                        id="option1"
+                        value="option1"
+                        checked={item?.answeroption === item?.option1}
+                        onChange={(e) => {
+                          handleQuestionItemUpdate(
+                            item,
+                            "answeroption",
+                            item?.option1
+                          );
+                          // if (item?.correctoption === item?.option1) {
+                          //   handleQuestionItemUpdate(
+                          //     item,
+                          //     "currectanswer",
+                          //     true
+                          //   );
+                          // } else {
+                          //   handleQuestionItemUpdate(
+                          //     item,
+                          //     "currectanswer",
+                          //     false
+                          //   );
+                          // }
+                        }}
                       />
-                    </IconButton>
-                  )} */}
-                </div>
-
-                <div className={styles.optiondiv}>
-                  <div className={styles.radiodiv}>
-                    <input
-                      type="radio"
-                      name="same"
-                      id="option1"
-                      value="option1"
-                      onChange={(e) =>
-                        handleQuestionItemUpdate(
-                          item,
-                          "correctoption",
-                          item?.option1
-                        )
-                      }
-                    />
-                    <label htmlFor="option1">A</label>
-                  </div>
-                  <div className={styles.radiodiv}>
-                    <input
-                      type="radio"
-                      name="same"
-                      id="option2"
-                      value="option2"
-                      onChange={(e) =>
-                        handleQuestionItemUpdate(
-                          item,
-                          "correctoption",
-                          item?.option2
-                        )
-                      }
-                    />
-                    <label htmlFor="option2">B</label>
-                  </div>
-                  <div className={styles.radiodiv}>
-                    <input
-                      type="radio"
-                      name="same"
-                      id="option3"
-                      value="option3"
-                      onChange={(e) =>
-                        handleQuestionItemUpdate(
-                          item,
-                          "correctoption",
-                          item?.option3
-                        )
-                      }
-                    />
-                    <label htmlFor="option3">C</label>
-                  </div>
-                  <div className={styles.radiodiv}>
-                    <input
-                      type="radio"
-                      name="same"
-                      id="option4"
-                      value="option4"
-                      onChange={(e) =>
-                        handleQuestionItemUpdate(
-                          item,
-                          "correctoption",
-                          item?.option4
-                        )
-                      }
-                    />
-                    <label htmlFor="option4">D</label>
+                      <label htmlFor="option1">A</label>
+                    </div>
+                    <div className={styles.radiodiv}>
+                      <input
+                        type="radio"
+                        // name="same"
+                        id="option2"
+                        value="option2"
+                        checked={item?.answeroption === item?.option2}
+                        onChange={(e) => {
+                          handleQuestionItemUpdate(
+                            item,
+                            "answeroption",
+                            item?.option2
+                          );
+                          // if (item?.correctoption === item?.option2) {
+                          //   handleQuestionItemUpdate(
+                          //     item,
+                          //     "currectanswer",
+                          //     true
+                          //   );
+                          // } else {
+                          //   handleQuestionItemUpdate(
+                          //     item,
+                          //     "currectanswer",
+                          //     false
+                          //   );
+                          // }
+                        }}
+                      />
+                      <label htmlFor="option2">B</label>
+                    </div>
+                    <div className={styles.radiodiv}>
+                      <input
+                        type="radio"
+                        // name="same"
+                        id="option3"
+                        value="option3"
+                        checked={item?.answeroption === item?.option3}
+                        onChange={(e) => {
+                          handleQuestionItemUpdate(
+                            item,
+                            "answeroption",
+                            item?.option3
+                          );
+                          // if (item?.correctoption === item?.option3) {
+                          //   handleQuestionItemUpdate(
+                          //     item,
+                          //     "currectanswer",
+                          //     true
+                          //   );
+                          // } else {
+                          //   handleQuestionItemUpdate(
+                          //     item,
+                          //     "currectanswer",
+                          //     false
+                          //   );
+                          // }
+                        }}
+                      />
+                      <label htmlFor="option3">C</label>
+                    </div>
+                    <div className={styles.radiodiv}>
+                      <input
+                        type="radio"
+                        // name="same"
+                        id="option4"
+                        value="option4"
+                        checked={item?.answeroption === item?.option4}
+                        onChange={(e) => {
+                          handleQuestionItemUpdate(
+                            item,
+                            "answeroption",
+                            item?.option4
+                          );
+                          // if (item?.correctoption === item?.option4) {
+                          //   handleQuestionItemUpdate(
+                          //     item,
+                          //     "currectanswer",
+                          //     true
+                          //   );
+                          // } else {
+                          //   handleQuestionItemUpdate(
+                          //     item,
+                          //     "currectanswer",
+                          //     false
+                          //   );
+                          // }
+                        }}
+                      />
+                      <label htmlFor="option4">D</label>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
 
         <div className={styles.startbtndiv}>
           <button
             className={styles.cancelbtn}
-            onClick={() => navigate.replace('test')}
+            onClick={() => navigate.replace("test")}
           >
             Back
           </button>
@@ -291,10 +351,7 @@ function McsQuestions({ setOpen }) {
           >
             Save
           </button>
-          <button
-            className={styles.cancelbtn}
-            onClick={() => addQuestionItem()}
-          >
+          <button className={styles.cancelbtn} onClick={() => submit()}>
             Submit Test
           </button>
         </div>

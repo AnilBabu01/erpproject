@@ -407,7 +407,7 @@ function AddTest({ setOpen }) {
                             <div className={styles.radiodiv}>
                               <input
                                 type="radio"
-                                name="same"
+                                name={item.question}
                                 id="option1"
                                 value="option1"
                                 onChange={(e) =>
@@ -423,7 +423,7 @@ function AddTest({ setOpen }) {
                             <div className={styles.radiodiv}>
                               <input
                                 type="radio"
-                                name="same"
+                                name={item.question}
                                 id="option2"
                                 value="option2"
                                 onChange={(e) =>
@@ -439,7 +439,7 @@ function AddTest({ setOpen }) {
                             <div className={styles.radiodiv}>
                               <input
                                 type="radio"
-                                name="same"
+                                name={item.question}
                                 id="option3"
                                 value="option3"
                                 onChange={(e) =>
@@ -455,7 +455,7 @@ function AddTest({ setOpen }) {
                             <div className={styles.radiodiv}>
                               <input
                                 type="radio"
-                                name="same"
+                                name={item.question}
                                 id="option4"
                                 value="option4"
                                 onChange={(e) =>
@@ -792,6 +792,14 @@ function AddTest({ setOpen }) {
                       onChange={(e) => setem(e.target.value)}
                       displayEmpty
                     >
+                      <MenuItem
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={""}
+                      >
+                        Min
+                      </MenuItem>
                       {minutes?.map((item, index) => {
                         return (
                           <MenuItem
@@ -822,14 +830,6 @@ function AddTest({ setOpen }) {
                       onChange={(e) => seteamorpm(e.target.value)}
                       displayEmpty
                     >
-                      <MenuItem
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={"AM"}
-                      >
-                        AM
-                      </MenuItem>
                       {abpm?.map((item, index) => {
                         return (
                           <MenuItem

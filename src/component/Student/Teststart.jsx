@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Coaching.module.css";
 import { useRouter } from "next/router";
-function Teststart({ handleCloseupadte }) {
+function Teststart({ handleCloseupadte, starttestdata }) {
   const navigate = useRouter();
   return (
     <>
@@ -16,7 +16,14 @@ function Teststart({ handleCloseupadte }) {
           </button>
           <button
             className={styles.btnactive}
-            onClick={() => navigate.replace("/student/mcqquetions")}
+            onClick={() =>
+              navigate.push({
+                pathname: "/student/mcqquetions",
+                query: {
+                  starttestdata: JSON.stringify(starttestdata),
+                },
+              })
+            }
           >
             Start Test
           </button>

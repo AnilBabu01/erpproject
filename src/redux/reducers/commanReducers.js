@@ -150,6 +150,13 @@ import {
   UPDATE_CREDENTIALS_FAIL,
   UPDATE_RESET_PROFILE_SUCCESS,
   UPDATE_CREDENTIALS_RESET_SUCCESS,
+  ALL_STUDENT_TEST_REQUEST,
+  ALL_STUDENT_TEST_SUCCESS,
+  ALL_STUDENT_TEST_FAIL,
+  UPDATE_STUDENT_TEST_REQUEST,
+  UPDATE_STUDENT_TEST_SUCCESS,
+  UPDATE_STUDENT_TEST_RESET_SUCCESS,
+  UPDATE_STUDENT_TEST_FAIL,
   CLEAR_ERRORS,
 } from "../constants/commanConstants";
 
@@ -1615,6 +1622,81 @@ export const updateCredentialsReducer = (
       }, 1000);
 
     case UPDATE_CREDENTIALS_FAIL:
+      return {
+        ...state,
+        isUpdated: false,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const getStudentTestReducer = (state = { test: [] }, action) => {
+  switch (action.type) {
+    case ALL_STUDENT_TEST_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case ALL_STUDENT_TEST_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        test: action.payload,
+      };
+
+    case ALL_STUDENT_TEST_FAIL:
+      return {
+        loading: false,
+        test: null,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const updateStudentTestReducer = (
+  state = { Credential: [] },
+  action
+) => {
+  switch (action.type) {
+    case UPDATE_STUDENT_TEST_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case UPDATE_STUDENT_TEST_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isUpdated: action.payload,
+      };
+
+    case UPDATE_STUDENT_TEST_RESET_SUCCESS:
+      setTimeout(() => {
+        return {
+          ...state,
+          isUpdated: false,
+        };
+      }, 1000);
+
+    case UPDATE_STUDENT_TEST_FAIL:
       return {
         ...state,
         isUpdated: false,

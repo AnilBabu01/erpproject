@@ -15,6 +15,7 @@ function Receipt() {
     content: () => componentRef.current,
   });
 
+  
   useEffect(() => {
     handlePrint();
     if (receiptdata) setData(JSON.parse(receiptdata));
