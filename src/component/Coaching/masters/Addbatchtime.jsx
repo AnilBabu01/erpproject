@@ -4,6 +4,7 @@ import styles from "@/styles/register.module.css";
 import { Addbatch, getbatch } from "../../../redux/actions/commanAction";
 import { useDispatch, useSelector } from "react-redux";
 
+
 function Addbatchtime({ setOpen }) {
   const dispatch = useDispatch();
   const [starttime, setstarttime] = useState("01:00");
