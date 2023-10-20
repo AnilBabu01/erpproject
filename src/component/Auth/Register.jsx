@@ -93,32 +93,32 @@ function Register({ setOpen, setOpen1 }) {
     starttimer();
   }, [time]);
 
-  const stoptimeremail = () => {
-    settimestatus(false);
-    setgetemailotpstate(false);
+  // const stoptimeremail = () => {
+  //   settimestatus(false);
+  //   setgetemailotpstate(false);
    
-    setgetemailotpstatus(false);
-    setPhoneOtpVerifystatus(false);
-    settime(60);
-  };
+  //   setgetemailotpstatus(false);
+  //   setPhoneOtpVerifystatus(false);
+  //   settime(60);
+  // };
 
-  const starttimeremail = () => {
-    settimestatus(true);
+  // const starttimeremail = () => {
+  //   settimestatus(true);
 
-    if (timestatus) {
-      if (time > 0) {
-        setTimeout(() => {
-          settime(time - 1);
-        }, 1000);
-      } else {
-        stoptimeremail();
-      }
-    }
-  };
+  //   if (timestatus) {
+  //     if (time > 0) {
+  //       setTimeout(() => {
+  //         settime(time - 1);
+  //       }, 1000);
+  //     } else {
+  //       stoptimeremail();
+  //     }
+  //   }
+  // };
 
-  useEffect(() => {
-    starttimeremail();
-  }, [time]);
+  // useEffect(() => {
+  //   starttimeremail();
+  // }, [time]);
 
   const sendotpOnPhone = () => {
     setshowprogrees1(true);
