@@ -16,6 +16,45 @@
   height: 42.3rem;
   width: 100%;
 }
+.verifybtn {
+  background: #ff6900;
+  color: white;
+  width: 18.8rem;
+  border-radius: 5px;
+  height: 35px;
+}
+.verifybtntop {
+  background: #ff6900;
+  color: white;
+  margin-top: 5%;
+  border-radius: 5px;
+  width: 18.8rem;
+  border-radius: 5px;
+  height: 35px;
+}
+
+.verifybtndisable {
+  background: #f5ab76;
+  color: white;
+  width: 18.8rem;
+  border-radius: 5px;
+  height: 35px;
+}
+.verifybtntopdisable {
+  background: #f5ab76;
+  color: white;
+  margin-top: 5%;
+  border-radius: 5px;
+  width: 18.8rem;
+  border-radius: 5px;
+  height: 35px;
+}
+
+.timmeerdiv{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .upAbsolute {
   position: absolute;
   background-color: rgba(255, 255, 255, 0.5);
@@ -305,7 +344,7 @@
   color: white;
   padding: 1rem;
 }
-.answericon{
+.answericon {
   width: 25px;
   height: 25px;
 }
@@ -347,6 +386,13 @@
   display: flex;
 }
 @media screen and (max-width: 780px) {
+  .verifybtn {
+    margin-top: 1rem;
+    width: 100%;
+  }
+  .verifybtntop {
+    width: 100%;
+  }
   .cancelbtn {
     width: 30%;
     height: 35px;
