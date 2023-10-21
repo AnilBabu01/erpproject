@@ -297,7 +297,7 @@ function AddTest({ setOpen }) {
                             type="textarea"
                             placeholder="Enter Question"
                             name="question"
-                            value={item.question}
+                            value={item?.question}
                             onChange={(e) =>
                               handleQuestionItemUpdate(
                                 item,

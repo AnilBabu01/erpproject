@@ -22,6 +22,7 @@ const logintype = [
   { label: "Others", value: "Others" },
 ];
 
+
 const customStyles = {
   control: (defaultStyles) => ({
     ...defaultStyles,
