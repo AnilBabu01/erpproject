@@ -49,6 +49,8 @@ function AddAdmission({ setOpen }) {
     (state) => state.addstudent
   );
 
+ 
+
   const submit = () => {
     formData.set("name", studentname);
     formData.set("email", studentemail);
@@ -110,14 +112,12 @@ function AddAdmission({ setOpen }) {
   }, [fee, batch, studentaddstatus]);
 
   const gotoreceipt = () => {
-    if (studentaddstatus) {
-      navigation.push({
-        pathname: "/coaching/student/receipt",
-        query: {
-          receiptdata: JSON.stringify(student?.data[0]?.user),
-        },
-      });
-    }
+    navigation.push({
+      pathname: "/coaching/accounts/collectfee",
+      query: {
+        receiptdata: JSON.stringify(student?.data[0]?.user),
+      },
+    });
   };
   return (
     <>
@@ -340,7 +340,6 @@ function AddAdmission({ setOpen }) {
                 </div>
               </div>
 
-              
               {preview1 && (
                 <>
                   <div className={styles.inputdivimg}>

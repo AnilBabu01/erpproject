@@ -1,0 +1,55 @@
+import React, { useState, useEffect } from "react";
+import CloseIcon from "@mui/icons-material/Close";
+import styles from "@/styles/register.module.css";
+import {
+  getReceiptPrefix,
+  AddReceiptPrefix,
+} from "../../../redux/actions/commanAction";
+import { useDispatch, useSelector } from "react-redux";
+function Addprefix({ setOpen }) {
+  const dispatch = useDispatch();
+  const [coursename, setcoursename] = useState("");
+  const { ReceiptFormat } = useSelector((state) => state.addReceiptFormat);
+  const submit = (e) => {
+    e.preventDefault();
+    const data = {
+      receiptPrefix: coursename,
+    };
+    dispatch(AddReceiptPrefix(data, setOpen));
+  };
+  useEffect(() => {
+    if (ReceiptFormat?.status) {
+      dispatch(getReceiptPrefix());
+    }
+  }, [ReceiptFormat]);
+
+  return (
+    <>
+      <div className={styles.divmainlogin}>
+        <div className={styles.closeicondiv} onClick={() => setOpen(false)}>
+          <CloseIcon />
+        </div>
+        <h1>Add Receipt Prefix</h1>
+        <form onSubmit={submit}>
+          <div className={styles.divmaininput}>
+            <div className={styles.inputdiv}>
+              <label>Prefix</label>
+              <input
+                type="text"
+                placeholder="Enter the Receipt Prefix"
+                value={coursename}
+                name="coursename"
+                onChange={(e) => setcoursename(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className={styles.logbtnstylediv}>
+            <button className={styles.logbtnstyle}>Save</button>
+          </div>
+        </form>
+      </div>
+    </>
+  );
+}
+
+export default Addprefix;

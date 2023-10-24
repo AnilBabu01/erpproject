@@ -157,7 +157,16 @@ import {
   UPDATE_STUDENT_TEST_SUCCESS,
   UPDATE_STUDENT_TEST_RESET_SUCCESS,
   UPDATE_STUDENT_TEST_FAIL,
+  ADD_RECEIPTPREFIX_REQUEST,
+  ADD_RECEIPTPREFIX_SUCCESS,
+  ADD_RECEIPTPREFIX_FAIL,
+  UPDATE_RECEIPTPREFIX_REQUEST,
+  UPDATE_RECEIPTPREFIX_SUCCESS,
+  UPDATE_RECEIPTPREFIX_FAIL,
+  ALL_RECEIPTPREFIX_REQUEST,
+  ALL_RECEIPTPREFIX_SUCCESS,
   CLEAR_ERRORS,
+  ALL_RECEIPTPREFIX_FAIL,
 } from "../constants/commanConstants";
 
 export const getCollegeReducer = (state = { college: {} }, action) => {
@@ -1699,6 +1708,112 @@ export const updateStudentTestReducer = (state = { result: [] }, action) => {
       return {
         ...state,
         result: null,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+
+export const addReceiptFormatReducer = (
+  state = { ReceiptFormat: [] },
+  action
+) => {
+  switch (action.type) {
+    case ADD_RECEIPTPREFIX_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case ADD_RECEIPTPREFIX_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        ReceiptFormat: action.payload,
+      };
+
+    case ADD_RECEIPTPREFIX_FAIL:
+      return {
+        loading: false,
+        ReceiptFormat: null,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const updateReceiptFormatReducer = (
+  state = { ReceiptFormat: [] },
+  action
+) => {
+  switch (action.type) {
+    case UPDATE_RECEIPTPREFIX_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case UPDATE_RECEIPTPREFIX_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        ReceiptFormat: action.payload,
+      };
+
+    case UPDATE_RECEIPTPREFIX_FAIL:
+      return {
+        loading: false,
+        ReceiptFormat: null,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const getReceiptFormatReducer = (
+  state = { ReceiptFormat: [] },
+  action
+) => {
+  switch (action.type) {
+    case ALL_RECEIPTPREFIX_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case ALL_RECEIPTPREFIX_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        ReceiptFormat: action.payload,
+      };
+
+    case ALL_RECEIPTPREFIX_FAIL:
+      return {
+        loading: false,
+        ReceiptFormat: null,
+        error: action.payload,
       };
 
     case CLEAR_ERRORS:

@@ -95,7 +95,11 @@ function Attendance() {
       attendancedate: "",
     },
   ]);
+  const [minDateTime, setMinDateTime] = useState(
+    new Date()?.toISOString().slice(0, 16),
+  );
 
+  console.log("date is date ",minDateTime);
   const { Markloading, markattendance } = useSelector(
     (state) => state.markatten
   );
@@ -156,6 +160,11 @@ function Attendance() {
   const saveAttendance = () => {
     dispatch(DoneStudentAttendance(attendancedetails));
   };
+
+  const endno = (date) => {
+    let end = new Date(date).getDate();
+    return end - 1;
+  };
   return (
     <>
       <div className="mainContainer">
@@ -170,6 +179,8 @@ function Attendance() {
                     type="date"
                     value={date}
                     name="date"
+                    min={minDateTime}
+                
                     onChange={(e) => {
                       setdate(e.target.value);
                       console.log(e.target.value);
@@ -574,7 +585,9 @@ function Attendance() {
                       <tr className={styles.tabletr}>
                         <th className={styles.tableth10}>Roll_Number</th>
                         <th className={styles.tableth10}>Name</th>
-                        <th className={styles.tableth10}>Father&apos;s&lsquo;Name</th>
+                        <th className={styles.tableth10}>
+                          Father&apos;s&lsquo;Name
+                        </th>
                         <th className={styles.tableth10}>Class&lsquo;Batch</th>
                         <th className={styles.tableth10}>Days</th>
                         {monthly[0]?.days?.map((item, index) => {
@@ -604,6 +617,21 @@ function Attendance() {
                               <td className={styles.tabletd}>
                                 {item?.fathersName}
                               </td>
+
+                              {monthly[0].days
+                                ?.slice(
+                                  0,
+                                  endno(item?.attendance[0]?.attendancedate)
+                                )
+                                ?.map((items, idx) => {
+                                  return (
+                                    <td key={index} className={styles.tableth}>
+                                      <button className={styles.presentbtn}>
+                                        NO
+                                      </button>
+                                    </td>
+                                  );
+                                })}
 
                               {item?.attendance != null &&
                                 item?.attendance?.map((item, index) => {

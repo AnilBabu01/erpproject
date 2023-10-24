@@ -317,6 +317,9 @@ const CoachingNavbar = () => {
                         <Link href="/coaching/masters/masterstudentcategory">
                           Student Category
                         </Link>
+                        <Link href="/coaching/masters/receiptprefix">
+                          Receipt Prefix
+                        </Link>
                         <Link href="/coaching/masters/masterfee">
                           Fees Structure
                         </Link>

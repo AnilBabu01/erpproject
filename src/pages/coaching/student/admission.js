@@ -19,7 +19,7 @@ import { Button } from "@mui/material";
 import AddAdmission from "../../../component/Coaching/student/AddAdmission";
 import UpdateAdmission from "../../../component/Coaching/student/UpdateAdmission";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
-
+import moment from "moment";
 function Admission() {
   const dispatch = useDispatch();
   const [scoursename, setscoursename] = useState("");
@@ -329,7 +329,7 @@ function Admission() {
                         <td className={styles.tabletd}>{item?.email}</td>
                         <td className={styles.tabletd}>{item?.phoneno1}</td>
                         <td className={styles.tabletd}>
-                          {item?.admissionDate}
+                        {moment(item?.admissionDate).format("DD/MM/YYYY")}
                         </td>
                         <td className={styles.tabletd}>
                           {item?.courseorclass}
@@ -376,6 +376,7 @@ function Admission() {
                                 : true
                             }
                           >
+                            
                             <img
                               className={
                                 userdata?.data &&

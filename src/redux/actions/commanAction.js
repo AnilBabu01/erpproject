@@ -160,6 +160,15 @@ import {
   UPDATE_STUDENT_TEST_SUCCESS,
   UPDATE_STUDENT_TEST_RESET_SUCCESS,
   UPDATE_STUDENT_TEST_FAIL,
+  ADD_RECEIPTPREFIX_REQUEST,
+  ADD_RECEIPTPREFIX_SUCCESS,
+  ADD_RECEIPTPREFIX_FAIL,
+  UPDATE_RECEIPTPREFIX_REQUEST,
+  UPDATE_RECEIPTPREFIX_SUCCESS,
+  UPDATE_RECEIPTPREFIX_FAIL,
+  ALL_RECEIPTPREFIX_REQUEST,
+  ALL_RECEIPTPREFIX_SUCCESS,
+  ALL_RECEIPTPREFIX_FAIL,
 } from "../constants/commanConstants";
 
 // Get all College
@@ -1712,6 +1721,107 @@ export const getStudenttest = (page, limit, setPage) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: ALL_STUDENT_TEST_FAIL,
+      payload: error?.response?.data?.msg,
+    });
+  }
+};
+
+export const AddReceiptPrefix = (datas, setOpen) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("erptoken")}`,
+      },
+    };
+    dispatch({ type: ADD_RECEIPTPREFIX_REQUEST });
+
+    const { data } = await axios.post(
+      `${backendApiUrl}comman/receiptprefix`,
+      datas,
+      config
+    );
+
+    if (data?.status) {
+      toast.success(data?.msg, {
+        autoClose: 1000,
+      });
+      setOpen(false);
+    }
+
+    dispatch({
+      type: ADD_RECEIPTPREFIX_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADD_RECEIPTPREFIX_FAIL,
+      payload: error?.response?.data?.msg,
+    });
+    toast.error(error?.response?.data?.msg, { autoClose: 1000 });
+  }
+};
+
+// post add enquiry
+export const UpdateReceiptPrefix = (datas, setOpen) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("erptoken")}`,
+      },
+    };
+    dispatch({ type: UPDATE_RECEIPTPREFIX_REQUEST });
+
+    const { data } = await axios.put(
+      `${backendApiUrl}comman/receiptprefix`,
+      datas,
+      config
+    );
+
+    if (data?.status) {
+      toast.success(data?.msg, {
+        autoClose: 1000,
+      });
+      setOpen(false);
+    }
+
+    dispatch({
+      type: UPDATE_RECEIPTPREFIX_SUCCESS,
+      payload: data?.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_RECEIPTPREFIX_FAIL,
+      payload: error?.response?.data?.msg,
+    });
+    toast.error(error?.response?.data?.msg, { autoClose: 1000 });
+  }
+};
+
+// Get all Enquiry
+export const getReceiptPrefix = (page, limit, setPage) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("erptoken")}`,
+      },
+    };
+    dispatch({ type: ALL_RECEIPTPREFIX_REQUEST });
+
+    const { data } = await axios.get(
+      `${backendApiUrl}comman/receiptprefix`,
+
+      config
+    );
+    dispatch({
+      type: ALL_RECEIPTPREFIX_SUCCESS,
+      payload: data?.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ALL_RECEIPTPREFIX_FAIL,
       payload: error?.response?.data?.msg,
     });
   }

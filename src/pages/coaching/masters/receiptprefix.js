@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loadUser } from "../../../redux/actions/authActions";
 import {
-  getcourse,
-  getbatch,
-  getstudent,
-  deletestudent,
+  getReceiptPrefix,
+  deleteDepartment,
 } from "../../../redux/actions/commanAction";
-import styles from "../../coaching/employee/employee.module.css";
+import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -15,19 +12,10 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
-import AddStudent from "../../../component/Coaching/student/AddStudent";
-import UpdateStudent from "../../../component/Coaching/student/UpdateStudent";
-import LoadingSpinner from "@/component/loader/LoadingSpinner";
-import moment from "moment";
-function Addstudent() {
+import Adddepart from "@/component/Coaching/masters/Addprefix";
+import Updatedepart from "@/component/Coaching/masters/UpdatePrefix";
+function ReceiptPrefix() {
   const dispatch = useDispatch();
-  const [scoursename, setscoursename] = useState("");
-  const [sfathers, setsfathers] = useState("");
-  const [sstudent, setsstudent] = useState("");
-  const [sbatch, setsbatch] = useState("");
-  const [fromdate, setfromdate] = useState("");
-  const [todate, settodate] = useState("");
-  const [batchs, setbatchs] = useState([]);
   const [open, setOpen] = useState(false);
   const [openupdate, setOpenupdate] = useState(false);
   const [openalert, setOpenalert] = useState(false);
@@ -36,8 +24,8 @@ function Addstudent() {
   const [isdata, setisData] = useState([]);
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
-  const { loading, student } = useSelector((state) => state.getstudent);
-  const { batch } = useSelector((state) => state.getbatch);
+  const { ReceiptFormat } = useSelector((state) => state.getReceiptFormat);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -69,64 +57,31 @@ function Addstudent() {
   };
 
   const handledelete = () => {
-    dispatch(deletestudent(deleteid, setOpenalert));
+    dispatch(deleteDepartment(deleteid, setOpenalert));
   };
 
   useEffect(() => {
-    if (student) {
-      setisData(student);
-    }
-    if (batch) {
-      setbatchs(batch);
+    if (ReceiptFormat) {
+      setisData(ReceiptFormat);
     }
     if (user) {
       setuserdata(user);
     }
-  }, [student, batch, user]);
+  }, [ReceiptFormat, user]);
   useEffect(() => {
-    dispatch(getstudent());
+    dispatch(getReceiptPrefix());
   }, [open, openupdate, openalert]);
-  useEffect(() => {
-    dispatch(loadUser());
-    dispatch(getbatch());
-    dispatch(getcourse());
-  }, []);
-
-  const filterdata = (e) => {
-    e.preventDefault();
-    dispatch(
-      getstudent(fromdate, todate, scoursename, sbatch, sstudent, sfathers)
-    );
-  };
-
-  const reset = () => {
-    setsstudent("");
-    setsfathers("");
-    setfromdate("");
-    settodate("");
-    setscoursename("");
-    setsbatch("");
-    dispatch(getstudent());
-  };
   return (
     <>
       {open && (
         <div>
           <Dialog
             open={open}
-            TransitionComponent={Transition}
+            // TransitionComponent={Transition}
             onClose={handleCloseregister}
             aria-describedby="alert-dialog-slide-description"
-            sx={{
-              "& .MuiDialog-container": {
-                "& .MuiPaper-root": {
-                  width: "100%",
-                  maxWidth: "60rem",
-                },
-              },
-            }}
           >
-            <AddStudent setOpen={setOpen} />
+            <Adddepart setOpen={setOpen} />
           </Dialog>
         </div>
       )}
@@ -137,16 +92,8 @@ function Addstudent() {
             TransitionComponent={Transition}
             onClose={handleCloseupadte}
             aria-describedby="alert-dialog-slide-description"
-            sx={{
-              "& .MuiDialog-container": {
-                "& .MuiPaper-root": {
-                  width: "100%",
-                  maxWidth: "60rem",
-                },
-              },
-            }}
           >
-            <UpdateStudent setOpen={setOpenupdate} updatedata={updatedata} />
+            <Updatedepart setOpen={setOpenupdate} updatedata={updatedata} />
           </Dialog>
         </div>
       )}
@@ -180,89 +127,16 @@ function Addstudent() {
         <div>
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
-              <form onSubmit={filterdata} className={styles.searchoptiondiv}>
-                <label>From</label>
+              <form className={styles.searchoptiondiv}>
                 <input
                   className={styles.opensearchinput}
-                  type="date"
-                  value={fromdate}
-                  name="fromdate"
-                  onChange={(e) => setfromdate(e.target.value)}
-                />
-                <label>To</label>
-                <input
-                  className={styles.opensearchinput}
-                  type="date"
-                  value={todate}
-                  name="todate"
-                  onChange={(e) => settodate(e.target.value)}
-                />
-                <select
-                  className={styles.opensearchinput}
-                  sx={{
-                    width: "18.8rem",
-                    fontSize: 14,
-                    "& .MuiSelect-select": {
-                      paddingTop: "0.6rem",
-                      paddingBottom: "0.6em",
-                    },
-                  }}
-                  value={sbatch}
-                  name="sbatch"
-                  onChange={(e) => setsbatch(e.target.value)}
-                  displayEmpty
-                >
-                  <option
-                    sx={{
-                      fontSize: 14,
-                    }}
-                    value={""}
-                  >
-                    All Batch
-                  </option>
-                  {batchs?.map((item, index) => {
-                    return (
-                      <option
-                        key={index}
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={`${item?.StartingTime} TO ${item?.EndingTime}`}
-                      >
-                        {item?.StartingTime} TO {item?.EndingTime}
-                      </option>
-                    );
-                  })}
-                </select>
-
-                <input
-                  className={styles.opensearchinput10}
                   type="text"
-                  placeholder="Course.."
-                  value={scoursename}
-                  name="scoursename"
-                  onChange={(e) => setscoursename(e.target.value)}
-                />
-                <input
-                  className={styles.opensearchinput10}
-                  type="text"
-                  placeholder="Student's name"
-                  value={sstudent}
-                  name="sstudent}"
-                  onChange={(e) => setsstudent(e.target.value)}
-                />
-                <input
-                  className={styles.opensearchinput10}
-                  type="text"
-                  placeholder="Father's name"
-                  value={sfathers}
-                  name="sfathers"
-                  onChange={(e) => setsfathers(e.target.value)}
+                  placeholder="Search By Name"
                 />
 
                 <button>Search</button>
               </form>
-              <button onClick={() => reset()}>Reset</button>
+              <button>Reset</button>
             </div>
             <div className={styles.imgdivformat}>
               <img
@@ -297,7 +171,7 @@ function Addstudent() {
               }
               onClick={() => handleClickOpen()}
             >
-              Add Student
+              Add Receipt Prefix
             </button>
           </div>
           <div className={styles.add_divmarginn}>
@@ -305,42 +179,24 @@ function Addstudent() {
               <table className={styles.tabletable}>
                 <tbody>
                   <tr className={styles.tabletr}>
-                    <th className={styles.tableth}>S.NO</th>
-                    <th className={styles.tableth}>Roll No</th>
-                    <th className={styles.tableth}>Student_Name</th>
-                    <th className={styles.tableth}>Student_Email</th>
-                    <th className={styles.tableth}>Student_Phone</th>
-                    <th className={styles.tableth}>Adminssion_Date</th>
-                    <th className={styles.tableth}>Course</th>
-                    <th className={styles.tableth}>Batch</th>
-                    <th className={styles.tableth}>Status</th>
+                    <th className={styles.tableth}>Receipt Prefix</th>
                     <th className={styles.tableth}>Action</th>
                   </tr>
                   {isdata?.map((item, index) => {
                     return (
                       <tr key={index} className={styles.tabletr}>
-                        <td className={styles.tabletd}>{index + 1}</td>
-                        <td className={styles.tabletd}>{item?.rollnumber}</td>
-                        <td className={styles.tabletd}>{item?.name}</td>
-                        <td className={styles.tabletd}>{item?.email}</td>
-                        <td className={styles.tabletd}>{item?.phoneno1}</td>
                         <td className={styles.tabletd}>
-                          {moment(item?.admissionDate).format("DD/MM/YYYY")}
+                          {item?.receiptPrefix}
                         </td>
-                        <td className={styles.tabletd}>
-                          {item?.courseorclass}
-                        </td>
-                        <td className={styles.tabletd}>{item?.batch}</td>
-                        <td className={styles.tabletd}>{item?.Status}</td>
+
                         <td className={styles.tabkeddd}>
-                          <button
+                          {/* <button
                             disabled={
                               userdata?.data &&
                               userdata?.data?.User?.userType === "institute"
                                 ? false
                                 : userdata?.data &&
-                                  userdata?.data?.User?.fronroficeDelete ===
-                                    true
+                                  userdata?.data?.User?.masterDelete === true
                                 ? false
                                 : true
                             }
@@ -351,8 +207,7 @@ function Addstudent() {
                                 userdata?.data?.User?.userType === "institute"
                                   ? styles.tabkedddimgactive
                                   : userdata?.data &&
-                                    userdata?.data?.User?.fronroficeDelete ===
-                                      true
+                                    userdata?.data?.User?.masterDelete === true
                                   ? styles.tabkedddimgactive
                                   : styles.tabkedddimgdisable
                               }
@@ -360,14 +215,14 @@ function Addstudent() {
                               src="/images/Delete.png"
                               alt="imgss"
                             />
-                          </button>
+                          </button> */}
                           <button
                             disabled={
                               userdata?.data &&
                               userdata?.data?.User?.userType === "institute"
                                 ? false
                                 : userdata?.data &&
-                                  userdata?.data?.User?.fronroficeEdit === true
+                                  userdata?.data?.User?.masterEdit === true
                                 ? false
                                 : true
                             }
@@ -378,8 +233,7 @@ function Addstudent() {
                                 userdata?.data?.User?.userType === "institute"
                                   ? styles.tabkedddimgactive
                                   : userdata?.data &&
-                                    userdata?.data?.User?.fronroficeEdit ===
-                                      true
+                                    userdata?.data?.User?.masterEdit === true
                                   ? styles.tabkedddimgactive
                                   : styles.tabkedddimgdisable
                               }
@@ -398,10 +252,8 @@ function Addstudent() {
           </div>
         </div>
       </div>
-
-      {loading && <LoadingSpinner />}
     </>
   );
 }
 
-export default Addstudent;
+export default ReceiptPrefix;

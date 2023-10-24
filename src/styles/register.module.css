@@ -50,7 +50,7 @@
   height: 35px;
 }
 
-.timmeerdiv{
+.timmeerdiv {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -384,6 +384,17 @@
 }
 .flexaddDiv {
   display: flex;
+}
+.regisFeepayDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+.regisFeepayDivinnear {
+  display: flex;
+  width: 5rem;
+  justify-content: space-evenly;
 }
 @media screen and (max-width: 780px) {
   .verifybtn {

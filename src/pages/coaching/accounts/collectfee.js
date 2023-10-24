@@ -136,6 +136,7 @@ function Collectfee() {
     // }));
     return localityParameterSets?.slice(4, months + 4);
   };
+  
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -429,7 +430,7 @@ function Collectfee() {
                           <button
                             disabled={
                               userdata?.data &&
-                              userdata?.data[0]?.userType === "institute"
+                              userdata?.data?.User?.userType === "institute"
                                 ? false
                                 : userdata?.data &&
                                   userdata?.data[0]?.fronroficeEdit === true
@@ -440,7 +441,7 @@ function Collectfee() {
                             <img
                               className={
                                 userdata?.data &&
-                                userdata?.data[0]?.userType === "institute"
+                                userdata?.data?.User?.userType === "institute"
                                   ? styles.tabkedddimgactive
                                   : userdata?.data &&
                                     userdata?.data[0]?.fronroficeEdit === true

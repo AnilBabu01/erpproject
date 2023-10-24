@@ -56,6 +56,9 @@ import {
   updateCredentialsReducer,
   getStudentTestReducer,
   updateStudentTestReducer,
+  addReceiptFormatReducer,
+  getReceiptFormatReducer,
+  updateReceiptFormatReducer,
 } from "./redux/reducers/commanReducers";
 import {
   getenquiriesReducer,
@@ -133,7 +136,9 @@ const reducer = combineReducers({
   updateCredentials: updateCredentialsReducer,
   getStudentTest: getStudentTestReducer,
   updateStudentTest: updateStudentTestReducer,
-  
+  addReceiptFormat: addReceiptFormatReducer,
+  getReceiptFormat: getReceiptFormatReducer,
+  updateReceiptFormat: updateReceiptFormatReducer,
 });
 const middlware = [thunk];
 export const store = createStore(
