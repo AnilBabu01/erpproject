@@ -13,36 +13,36 @@ import moment from "moment";
 
 const monthlist = [
   {
-    id: 0,
+    id: 1,
     name: "January",
   },
   {
-    id: 1,
+    id: 2,
     name: "February",
   },
   {
-    id: 2,
+    id: 3,
     name: "Mark",
   },
   {
-    id: 3,
+    id: 4,
     name: "April",
   },
   ,
   {
-    id: 4,
+    id: 5,
     name: "May",
   },
   {
-    id: 5,
+    id: 6,
     name: "Jun",
   },
   {
-    id: 6,
+    id: 7,
     name: "July",
   },
   {
-    id: 7,
+    id: 8,
     name: "August",
   },
   {
@@ -50,15 +50,15 @@ const monthlist = [
     name: "September",
   },
   {
-    id: 9,
+    id: 10,
     name: "October",
   },
   {
-    id: 10,
+    id: 11,
     name: "November",
   },
   {
-    id: 11,
+    id: 12,
     name: "December",
   },
 ];
@@ -96,10 +96,10 @@ function Attendance() {
     },
   ]);
   const [minDateTime, setMinDateTime] = useState(
-    new Date()?.toISOString().slice(0, 16),
+    new Date()?.toISOString().slice(0, 16)
   );
 
-  console.log("date is date ",minDateTime);
+  console.log("date is date ", minDateTime);
   const { Markloading, markattendance } = useSelector(
     (state) => state.markatten
   );
@@ -180,7 +180,6 @@ function Attendance() {
                     value={date}
                     name="date"
                     min={minDateTime}
-                
                     onChange={(e) => {
                       setdate(e.target.value);
                       console.log(e.target.value);
@@ -201,9 +200,6 @@ function Attendance() {
                     name="sbatch"
                     onChange={(e) => {
                       setsbatch(e.target.value);
-                      if (date) {
-                        dispatch(MarkStudentAttendance(date, e.target.value));
-                      }
                     }}
                     displayEmpty
                   >
@@ -231,6 +227,16 @@ function Attendance() {
                   </select>
                   <button
                     className={styles.saveattendacebutton}
+                    onClick={() => {
+                      if (date && sbatch) {
+                        dispatch(MarkStudentAttendance(date, sbatch));
+                      }
+                    }}
+                  >
+                    Mark Attendance
+                  </button>
+                  <button
+                    className={styles.saveattendacebutton}
                     onClick={() => saveAttendance()}
                   >
                     Save
@@ -243,7 +249,7 @@ function Attendance() {
                   </button>
                 </>
               )}
-              {todatatten && (
+              {/* {todatatten && (
                 <>
                   <select
                     className={styles.opensearchinput}
@@ -291,7 +297,7 @@ function Attendance() {
                     })}
                   </select>
                 </>
-              )}
+              )} */}
               {Analysisatten && (
                 <>
                   <select
@@ -308,11 +314,6 @@ function Attendance() {
                     name="sbatch"
                     onChange={(e) => {
                       setsbatch(e.target.value);
-                      if (month) {
-                        dispatch(
-                          MonthlyStudentAttendance(e.target.value, month)
-                        );
-                      }
                     }}
                     displayEmpty
                   >
@@ -378,9 +379,22 @@ function Attendance() {
                       );
                     })}
                   </select>
+                  <button
+                    className={styles.saveattendacebutton}
+                    onClick={() => {
+                      if (month && sbatch) {
+                        dispatch(MonthlyStudentAttendance(sbatch, month));
+                      }
+                    }}
+                  >
+                    Show result
+                  </button>
                   {/* <button
                     className={styles.resetattendacebutton}
-                    onClick={() => reset()}
+                    onClick={() => {
+                      setsbatch('')
+                      dispatch(MonthlyStudentAttendance());
+                    }}
                   >
                     Reset
                   </button> */}
@@ -402,7 +416,7 @@ function Attendance() {
               >
                 Take Attendance
               </button>
-              <button
+              {/* <button
                 onClick={() => {
                   settakeatten(false);
                   settodatatten(true);
@@ -417,7 +431,7 @@ function Attendance() {
                 }
               >
                 Today Attendance
-              </button>
+              </button> */}
               <button
                 onClick={() => {
                   settakeatten(false);
@@ -434,6 +448,13 @@ function Attendance() {
               >
                 Analysis Attendance
               </button>
+              {Analysisatten && (
+                <>
+                  <div className={styles.saveattendacebutton}>Present</div>
+                  <div className={styles.resetattendacebutton}>Absent</div>
+                  <div className={styles.holidaybutton}>Holiday</div>
+                </>
+              )}
             </div>
             <div className={styles.imgdivformat}>
               <img
@@ -639,14 +660,21 @@ function Attendance() {
                                     <td key={index} className={styles.tabletd}>
                                       <button
                                         className={
-                                          item?.attendaceStatus === 1
+                                          item?.attendaceStatusIntext ===
+                                          "Present"
                                             ? styles.presentbtn
-                                            : styles.absentbtn
+                                            : item?.attendaceStatusIntext ===
+                                              "Absent"
+                                            ? styles.absentbtn
+                                            : styles.holdaybtn 
                                         }
                                       >
-                                        {item?.attendaceStatus === 1
-                                          ? "P"
-                                          : "A"}
+                                        {item?.attendaceStatusIntext ===
+                                          "Present" && <>P</>}
+                                        {item?.attendaceStatusIntext ===
+                                          "Absent" && <>A</>}
+                                        {item?.attendaceStatusIntext ===
+                                          "Holiday" && <>H</>}
                                       </button>
                                     </td>
                                   );

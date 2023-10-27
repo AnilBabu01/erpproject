@@ -95,6 +95,9 @@ const CoachingNavbar = () => {
                         <Link href="/coaching/student/addstudent">
                           Add Student
                         </Link>
+                        <Link href="/coaching/student/holiday">
+                          Add Holiday
+                        </Link>
                         <Link href="/coaching/student/studenthistory">
                           Student History
                         </Link>
