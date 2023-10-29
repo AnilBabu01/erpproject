@@ -20,6 +20,7 @@ import AddAdmission from "../../../component/Coaching/student/AddAdmission";
 import UpdateAdmission from "../../../component/Coaching/student/UpdateAdmission";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
+
 function Admission() {
   const dispatch = useDispatch();
   const [scoursename, setscoursename] = useState("");

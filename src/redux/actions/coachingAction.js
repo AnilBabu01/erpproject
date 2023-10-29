@@ -236,7 +236,7 @@ export const UpdateProfile = (datas, setOpen) => async (dispatch) => {
   }
 };
 
-export const Addpayfee = (datas, setOpen) => async (dispatch) => {
+export const Addpayfee = (datas, setOpen ,setshowreceiptotions) => async (dispatch) => {
   try {
     const config = {
       headers: {
@@ -251,10 +251,12 @@ export const Addpayfee = (datas, setOpen) => async (dispatch) => {
       datas,
       config
     );
+    console.log("from action receipt data is ",data);
     if (data?.status) {
       toast.success(data?.msg, {
         autoClose: 1000,
       });
+      setshowreceiptotions(true);
       setOpen(false);
     }
     dispatch({

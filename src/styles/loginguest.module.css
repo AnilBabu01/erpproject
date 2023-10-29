@@ -148,6 +148,18 @@
   color: white;
   border-radius: 7px;
 }
+.optionDiv {
+  display: flex;
+  justify-content: space-between;
+}
+.optionbtn {
+  width: 20%;
+  height: 35px;
+  background: #093959;
+  color: white;
+  border-radius: 7px;
+  margin-bottom: 1rem;
+}
 .logbtnstylediv {
   padding-left: 3.2%;
   padding-right: 3.2%;
@@ -185,10 +197,20 @@
 }
 .mainborderdivinnear {
   width: 100%;
-  background-color: aquamarine;
+  /* background-color: aquamarine; */
+}
+.mainborderdivinnear10 {
+  width: 100%;
+  /* background-color: aquamarine; */
+  border-bottom: 3px dotted black;
+}
+.addpaddinreceipt {
+  padding-left: 24%;
+  padding-right: 24%;
+  padding-top: 1%;
 }
 .mainborderdiv {
-  padding: 0.1rem;
+  border: 2px solid black;
 }
 .mainimgdivre {
   display: flex;
@@ -206,9 +228,10 @@
 .showfathersnamelabel {
   margin-left: 1rem;
 }
+
 .imgdivre img {
-  width: 10rem;
-  height: 10rem;
+  width: 11.1rem;
+  height: 11.1rem;
   border-radius: 48%;
 }
 .imgdivre h2 {
@@ -248,6 +271,29 @@
   padding-left: 0.5rem;
 }
 @media screen and (max-width: 780px) {
+  .imgdivre img {
+    width: 11.1rem;
+    height: 11.1rem;
+    border-radius: 48%;
+  }
+  .optionDiv {
+    display: block;
+  }
+  .optionbtn {
+    width: 100%;
+    height: 35px;
+    background: #093959;
+    color: white;
+    border-radius: 7px;
+    margin-bottom: 0.2rem;
+    margin-top: 0.4rem;
+  }
+
+  .addpaddinreceipt {
+    padding-left: 0%;
+    padding-right: 0%;
+    padding-top: 1%;
+  }
   .showpassbtn {
     position: absolute;
     top: 45%;

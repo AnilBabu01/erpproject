@@ -59,6 +59,7 @@ import {
   addReceiptFormatReducer,
   getReceiptFormatReducer,
   updateReceiptFormatReducer,
+  getReceiptPrintReducer
 } from "./redux/reducers/commanReducers";
 import {
   getenquiriesReducer,
@@ -72,6 +73,7 @@ import {
   MarkAttendanceReducer,
   DoneAttendanceReducer,
   MonthlyAttendanceReducer,
+  getHolidayReducer
 } from "./redux/reducers/attendanceReducers";
 import { getfee } from "./redux/actions/commanAction";
 const reducer = combineReducers({
@@ -139,6 +141,8 @@ const reducer = combineReducers({
   addReceiptFormat: addReceiptFormatReducer,
   getReceiptFormat: getReceiptFormatReducer,
   updateReceiptFormat: updateReceiptFormatReducer,
+  getHoliday: getHolidayReducer,
+  getReceiptPrint: getReceiptPrintReducer
 });
 const middlware = [thunk];
 export const store = createStore(

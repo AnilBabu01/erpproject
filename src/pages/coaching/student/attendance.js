@@ -62,6 +62,33 @@ const monthlist = [
     name: "December",
   },
 ];
+
+const monthnamelist = {
+  1: "January",
+
+  2: "February",
+
+  3: "Mark",
+
+  4: "April",
+
+  5: "May",
+
+  6: "Jun",
+
+  7: "July",
+
+  8: "August",
+
+  9: "September",
+
+  10: "October",
+
+  11: "November",
+
+  12: "December",
+};
+
 function Attendance() {
   const dispatch = useDispatch();
   let currmonth = new Date().getMonth();
@@ -74,6 +101,7 @@ function Attendance() {
   const [batchs, setbatchs] = useState([]);
   const [isdata, setisData] = useState([]);
   const [monthly, setmonthly] = useState("");
+  const [onlyMonthName, setonlyMonthName] = useState("");
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
   const [attendancedetails, setattendancedetails] = useState([
@@ -111,7 +139,7 @@ function Attendance() {
   );
   const { batch } = useSelector((state) => state.getbatch);
 
-  console.log("data is ", monthly && monthly[0]?.days);
+  console.log("month name", monthnamelist[month?.toString()]);
 
   useEffect(() => {
     if (markattendance) {
@@ -249,7 +277,7 @@ function Attendance() {
                   </button>
                 </>
               )}
-              {/* {todatatten && (
+              {todatatten && (
                 <>
                   <select
                     className={styles.opensearchinput}
@@ -297,7 +325,7 @@ function Attendance() {
                     })}
                   </select>
                 </>
-              )} */}
+              )}
               {Analysisatten && (
                 <>
                   <select
@@ -610,7 +638,7 @@ function Attendance() {
                           Father&apos;s&lsquo;Name
                         </th>
                         <th className={styles.tableth10}>Class&lsquo;Batch</th>
-                        <th className={styles.tableth10}>Days</th>
+                        <th className={styles.tableth10}>Month</th>
                         {monthly[0]?.days?.map((item, index) => {
                           return (
                             <th key={index} className={styles.tableth}>
@@ -636,7 +664,7 @@ function Attendance() {
                                 {item?.student?.batch}
                               </td>
                               <td className={styles.tabletd}>
-                                {item?.fathersName}
+                                {monthnamelist[month?.toString()]}
                               </td>
 
                               {monthly[0].days
@@ -666,7 +694,7 @@ function Attendance() {
                                             : item?.attendaceStatusIntext ===
                                               "Absent"
                                             ? styles.absentbtn
-                                            : styles.holdaybtn 
+                                            : styles.holdaybtn
                                         }
                                       >
                                         {item?.attendaceStatusIntext ===

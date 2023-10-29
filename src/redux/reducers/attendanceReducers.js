@@ -8,6 +8,9 @@ import {
   MONTHLY_ATTENDANCE_REQUEST,
   MONTHLY__ATTENDANCE_SUCCESS,
   MONTHLY__ATTENDANCE_FAIL,
+  ALL_HOLIDAY_REQUEST,
+  ALL_HOLIDAY_ATTENDANCE_SUCCESS,
+  ALL_HOLIDAY_ATTENDANCE_FAIL,
   CLEAR_ERRORS,
 } from "../constants/attendanceConstants";
 
@@ -102,6 +105,38 @@ export const MonthlyAttendanceReducer = (
       return {
         monthlyloading: false,
         monthlyattendance: null,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const getHolidayReducer = (state = { Holidays: [] }, action) => {
+  switch (action.type) {
+    case ALL_HOLIDAY_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case ALL_HOLIDAY_ATTENDANCE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        Holidays: action.payload,
+      };
+
+    case ALL_HOLIDAY_ATTENDANCE_FAIL:
+      return {
+        loading: false,
+        Holidays: null,
         error: action.payload,
       };
 

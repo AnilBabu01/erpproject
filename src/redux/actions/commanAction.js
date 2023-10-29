@@ -169,6 +169,9 @@ import {
   ALL_RECEIPTPREFIX_REQUEST,
   ALL_RECEIPTPREFIX_SUCCESS,
   ALL_RECEIPTPREFIX_FAIL,
+  ALL_RECEIPTDATA_REQUEST,
+  ALL_RECEIPTDATA_SUCCESS,
+  ALL_RECEIPTDATA_FAIL,
 } from "../constants/commanConstants";
 
 // Get all College
@@ -1029,7 +1032,7 @@ export const deletestudent = (deleteid, setOpenalert) => async (dispatch) => {
 
 // Get all Enquiry
 export const getstudent =
-  (fromdate, todate, scoursename, sbatch, sstudent, sfathers) =>
+  (fromdate, todate, scoursename, sbatch, sstudent, sfathers, rollnumber) =>
   async (dispatch) => {
     try {
       const config = {
@@ -1038,10 +1041,18 @@ export const getstudent =
           Authorization: `${localStorage.getItem("erptoken")}`,
         },
       };
-      if (fromdate || todate || scoursename || sbatch || sfathers || sstudent) {
+      if (
+        fromdate ||
+        todate ||
+        scoursename ||
+        sbatch ||
+        sfathers ||
+        sstudent ||
+        rollnumber
+      ) {
         dispatch({ type: ALL_STUDENT_REQUEST });
         const { data } = await axios.get(
-          `${backendApiUrl}student/addstudent?name=${scoursename}&batch=${sbatch}&fromdate=${fromdate}&todate=${todate}&fathers=${sfathers}&studentname=${sstudent}`,
+          `${backendApiUrl}student/addstudent?name=${scoursename}&batch=${sbatch}&fromdate=${fromdate}&todate=${todate}&fathers=${sfathers}&studentname=${sstudent}&rollnumber=${rollnumber}`,
           config
         );
         dispatch({
@@ -1661,7 +1672,6 @@ export const Updatecredentials = (formData, setOpen) => async (dispatch) => {
   }
 };
 
-
 // post add enquiry
 export const Adddresult = (datas, setOpen) => async (dispatch) => {
   try {
@@ -1710,7 +1720,10 @@ export const getStudenttest = (page, limit, setPage) => async (dispatch) => {
     };
     dispatch({ type: ALL_STUDENT_TEST_REQUEST });
 
-    const { data } = await axios.get(`${backendApiUrl}test/getstudentalltest`, config);
+    const { data } = await axios.get(
+      `${backendApiUrl}test/getstudentalltest`,
+      config
+    );
 
     console.log("data from course", data?.data);
 
@@ -1826,3 +1839,43 @@ export const getReceiptPrefix = (page, limit, setPage) => async (dispatch) => {
     });
   }
 };
+
+// Get all Enquiry
+export const getPrintReceipt =
+  (fromdate, scoursename, sstudent, rollnumber) => async (dispatch) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${localStorage.getItem("erptoken")}`,
+        },
+      };
+      if (fromdate || scoursename || sstudent || rollnumber) {
+        dispatch({ type: ALL_RECEIPTDATA_REQUEST });
+        const { data } = await axios.get(
+          `${backendApiUrl}student/getreceiptdata?name=${scoursename}&fromdate=${fromdate}&studentname=${sstudent}&rollnumber=${rollnumber}`,
+          config
+        );
+        dispatch({
+          type: ALL_RECEIPTDATA_SUCCESS,
+          payload: data?.data,
+        });
+      } else {
+        dispatch({ type: ALL_RECEIPTDATA_REQUEST });
+        const { data } = await axios.get(
+          `${backendApiUrl}student/getreceiptdata`,
+
+          config
+        );
+        dispatch({
+          type: ALL_RECEIPTDATA_SUCCESS,
+          payload: data?.data,
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: ALL_RECEIPTDATA_FAIL,
+        payload: error?.response?.data?.msg,
+      });
+    }
+  };

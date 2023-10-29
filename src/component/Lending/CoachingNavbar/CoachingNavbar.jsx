@@ -95,9 +95,7 @@ const CoachingNavbar = () => {
                         <Link href="/coaching/student/addstudent">
                           Add Student
                         </Link>
-                        <Link href="/coaching/student/holiday">
-                          Add Holiday
-                        </Link>
+
                         <Link href="/coaching/student/studenthistory">
                           Student History
                         </Link>
@@ -200,6 +198,16 @@ const CoachingNavbar = () => {
                           Student Attendance
                         </Link>
                       </div>
+                      <div className="main_innear_menu_dropdown">
+                        <Link href="/coaching/student/holiday">
+                          Add Holiday
+                        </Link>
+                      </div>
+                      <div className="main_innear_menu_dropdown">
+                        <Link href="/coaching/student/particularattendance">
+                          Particular Student Attendance
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -229,6 +237,9 @@ const CoachingNavbar = () => {
                       <div className="main_innear_menu_dropdown">
                         <Link href="/coaching/accounts/collectfee">
                           Collect Fees
+                        </Link>
+                        <Link href="/coaching/accounts/printreceipt">
+                          Print Fee Receipt
                         </Link>
                         <Link href="/coaching/accounts/searchfee">
                           Search Fees Payment

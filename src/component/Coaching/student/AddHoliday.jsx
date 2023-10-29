@@ -3,6 +3,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
+import {getHolidays} from '../../../redux/actions/attendanceActions'
 import { useDispatch, useSelector } from "react-redux";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
@@ -31,14 +32,14 @@ function AddHoliday({ setOpen }) {
           toast.success(res?.msg, {
             autoClose: 1000,
           });
-          // dispatch(getbatch());
+          dispatch(getHolidays());
           // navigation.goBack();
           setOpen(false);
         }
 
         if (res?.status === false) {
           toast.error(res?.msg, { autoClose: 1000 });
-          // dispatch(getbatch());
+          dispatch(getHolidays());
         }
       });
     } catch (error) {

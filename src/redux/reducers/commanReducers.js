@@ -167,6 +167,9 @@ import {
   ALL_RECEIPTPREFIX_SUCCESS,
   CLEAR_ERRORS,
   ALL_RECEIPTPREFIX_FAIL,
+  ALL_RECEIPTDATA_REQUEST,
+  ALL_RECEIPTDATA_SUCCESS,
+  ALL_RECEIPTDATA_FAIL,
 } from "../constants/commanConstants";
 
 export const getCollegeReducer = (state = { college: {} }, action) => {
@@ -1813,6 +1816,38 @@ export const getReceiptFormatReducer = (
       return {
         loading: false,
         ReceiptFormat: null,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const getReceiptPrintReducer = (state = { receiptdata: [] }, action) => {
+  switch (action.type) {
+    case ALL_RECEIPTDATA_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case ALL_RECEIPTDATA_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        receiptdata: action.payload,
+      };
+
+    case ALL_RECEIPTDATA_FAIL:
+      return {
+        loading: false,
+        receiptdata: null,
         error: action.payload,
       };
 

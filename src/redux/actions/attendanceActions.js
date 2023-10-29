@@ -10,6 +10,9 @@ import {
   MONTHLY_ATTENDANCE_REQUEST,
   MONTHLY__ATTENDANCE_SUCCESS,
   MONTHLY__ATTENDANCE_FAIL,
+  ALL_HOLIDAY_REQUEST,
+  ALL_HOLIDAY_ATTENDANCE_SUCCESS,
+  ALL_HOLIDAY_ATTENDANCE_FAIL,
   DONE_ATTENDANCE_FAIL,
 } from "../constants/attendanceConstants";
 
@@ -87,7 +90,48 @@ export const DoneStudentAttendance = (udata) => async (dispatch) => {
   }
 };
 
-export const MonthlyStudentAttendance = (udata, months) => async (dispatch) => {
+export const MonthlyStudentAttendance =
+  (udata, months, rollname, studentname) => async (dispatch) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${localStorage.getItem("erptoken")}`,
+        },
+      };
+      dispatch({ type: MONTHLY_ATTENDANCE_REQUEST });
+      const { data } = await axios.post(
+        `${backendApiUrl}attendanceatudent/analysisattendance`,
+        {
+          batch: udata,
+          month: months,
+          rollname: rollname,
+          studentname: studentname,
+        },
+        config
+      );
+
+      if (data?.status) {
+        toast.success(data?.msg, {
+          autoClose: 1000,
+        });
+      }
+
+      dispatch({
+        type: MONTHLY__ATTENDANCE_SUCCESS,
+        payload: data?.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: MONTHLY__ATTENDANCE_FAIL,
+        payload: error?.response?.data?.msg,
+      });
+      toast.error(error?.response?.data?.msg, { autoClose: 1000 });
+    }
+  };
+
+// Get all Enquiry
+export const getHolidays = (month) => async (dispatch) => {
   try {
     const config = {
       headers: {
@@ -95,31 +139,23 @@ export const MonthlyStudentAttendance = (udata, months) => async (dispatch) => {
         Authorization: `${localStorage.getItem("erptoken")}`,
       },
     };
-    dispatch({ type: MONTHLY_ATTENDANCE_REQUEST });
+    dispatch({ type: ALL_HOLIDAY_REQUEST });
+
     const { data } = await axios.post(
-      `${backendApiUrl}attendanceatudent/analysisattendance`,
+      `${backendApiUrl}attendanceatudent/getholidy`,
       {
-        batch: udata,
-        month: months,
+        month:Number(month),
       },
       config
     );
-
-    if (data?.status) {
-      toast.success(data?.msg, {
-        autoClose: 1000,
-      });
-    }
-
     dispatch({
-      type: MONTHLY__ATTENDANCE_SUCCESS,
+      type: ALL_HOLIDAY_ATTENDANCE_SUCCESS,
       payload: data?.data,
     });
   } catch (error) {
     dispatch({
-      type: MONTHLY__ATTENDANCE_FAIL,
+      type: ALL_HOLIDAY_ATTENDANCE_FAIL,
       payload: error?.response?.data?.msg,
     });
-    toast.error(error?.response?.data?.msg, { autoClose: 1000 });
   }
 };

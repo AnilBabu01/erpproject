@@ -7,6 +7,7 @@ import {
   getstudent,
   deletestudent,
 } from "../../../redux/actions/commanAction";
+import { getHolidays } from "../../../redux/actions/attendanceActions";
 import styles from "../../coaching/employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -19,8 +20,88 @@ import AddStudent from "../../../component/Coaching/student/AddHoliday";
 import UpdateStudent from "../../../component/Coaching/student/UpdateHoliday";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
+
+const monthlist = [
+  {
+    id: 1,
+    name: "January",
+  },
+  {
+    id: 2,
+    name: "February",
+  },
+  {
+    id: 3,
+    name: "Mark",
+  },
+  {
+    id: 4,
+    name: "April",
+  },
+  ,
+  {
+    id: 5,
+    name: "May",
+  },
+  {
+    id: 6,
+    name: "Jun",
+  },
+  {
+    id: 7,
+    name: "July",
+  },
+  {
+    id: 8,
+    name: "August",
+  },
+  {
+    id: 9,
+    name: "September",
+  },
+  {
+    id: 10,
+    name: "October",
+  },
+  {
+    id: 11,
+    name: "November",
+  },
+  {
+    id: 12,
+    name: "December",
+  },
+];
+
+const monthnamelist = {
+  1: "January",
+
+  2: "February",
+
+  3: "Mark",
+
+  4: "April",
+
+  5: "May",
+
+  6: "Jun",
+
+  7: "July",
+
+  8: "August",
+
+  9: "September",
+
+  10: "October",
+
+  11: "November",
+
+  12: "December",
+};
 function Holiday() {
   const dispatch = useDispatch();
+  let currmonth = new Date().getMonth();
+  const [month, setmonth] = useState(currmonth + 1);
   const [scoursename, setscoursename] = useState("");
   const [sfathers, setsfathers] = useState("");
   const [sstudent, setsstudent] = useState("");
@@ -28,6 +109,7 @@ function Holiday() {
   const [fromdate, setfromdate] = useState("");
   const [todate, settodate] = useState("");
   const [batchs, setbatchs] = useState([]);
+  const [holidays, setholidays] = useState([]);
   const [open, setOpen] = useState(false);
   const [openupdate, setOpenupdate] = useState(false);
   const [openalert, setOpenalert] = useState(false);
@@ -38,6 +120,7 @@ function Holiday() {
   const { user } = useSelector((state) => state.auth);
   const { loading, student } = useSelector((state) => state.getstudent);
   const { batch } = useSelector((state) => state.getbatch);
+  const { Holidays } = useSelector((state) => state.getHoliday);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -82,9 +165,13 @@ function Holiday() {
     if (user) {
       setuserdata(user);
     }
-  }, [student, batch, user]);
+    if (Holidays) {
+      setholidays(Holidays);
+      console.log("holidays jus ", Holidays);
+    }
+  }, [student, batch, user, Holidays]);
   useEffect(() => {
-    dispatch(getstudent());
+    dispatch(getHolidays(month));
   }, [open, openupdate, openalert]);
   useEffect(() => {
     dispatch(loadUser());
@@ -180,18 +267,51 @@ function Holiday() {
         <div>
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
-              <form onSubmit={filterdata} className={styles.searchoptiondiv}>
-                <label>Holiday Date</label>
-                <input
+              <div className={styles.searchoptiondiv}>
+                <select
                   className={styles.opensearchinput}
-                  type="date"
-                  value={fromdate}
-                  name="fromdate"
-                  onChange={(e) => setfromdate(e.target.value)}
-                />
+                  sx={{
+                    width: "18.8rem",
+                    fontSize: 14,
+                    "& .MuiSelect-select": {
+                      paddingTop: "0.6rem",
+                      paddingBottom: "0.6em",
+                    },
+                  }}
+                  value={month}
+                  name="month"
+                  onChange={(e) => {
+                    setmonth(e.target.value);
+                  }}
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={""}
+                  >
+                    Month
+                  </option>
+                  {monthlist?.map((item, index) => {
+                    return (
+                      <option
+                        key={index}
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={item?.id}
+                      >
+                        {item?.name}
+                      </option>
+                    );
+                  })}
+                </select>
 
-                <button>Search</button>
-              </form>
+                <button onClick={() => dispatch(getHolidays(month))}>
+                  Search
+                </button>
+              </div>
               <button onClick={() => reset()}>Reset</button>
             </div>
             <div className={styles.imgdivformat}>
@@ -236,32 +356,20 @@ function Holiday() {
                 <tbody>
                   <tr className={styles.tabletr}>
                     <th className={styles.tableth}>S.NO</th>
-                    <th className={styles.tableth}>Roll No</th>
-                    <th className={styles.tableth}>Student_Name</th>
-                    <th className={styles.tableth}>Student_Email</th>
-                    <th className={styles.tableth}>Student_Phone</th>
-                    <th className={styles.tableth}>Adminssion_Date</th>
-                    <th className={styles.tableth}>Course</th>
-                    <th className={styles.tableth}>Batch</th>
-                    <th className={styles.tableth}>Status</th>
+                    <th className={styles.tableth}>Holiday Date</th>
+                    <th className={styles.tableth}>Comment</th>
+
                     <th className={styles.tableth}>Action</th>
                   </tr>
-                  {isdata?.map((item, index) => {
+                  {holidays?.map((item, index) => {
                     return (
                       <tr key={index} className={styles.tabletr}>
                         <td className={styles.tabletd}>{index + 1}</td>
-                        <td className={styles.tabletd}>{item?.rollnumber}</td>
-                        <td className={styles.tabletd}>{item?.name}</td>
-                        <td className={styles.tabletd}>{item?.email}</td>
-                        <td className={styles.tabletd}>{item?.phoneno1}</td>
                         <td className={styles.tabletd}>
-                          {moment(item?.admissionDate).format("DD/MM/YYYY")}
+                          {moment(item?.attendancedate).format("DD/MM/YYYY")}
                         </td>
-                        <td className={styles.tabletd}>
-                          {item?.courseorclass}
-                        </td>
-                        <td className={styles.tabletd}>{item?.batch}</td>
-                        <td className={styles.tabletd}>{item?.Status}</td>
+                        <td className={styles.tabletd}>{item?.Comment}</td>
+
                         <td className={styles.tabkeddd}>
                           <button
                             disabled={
