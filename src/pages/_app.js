@@ -10,7 +10,7 @@ export default function App({ Component, pageProps }) {
     <>
       <Provider store={store}>
         <Main Component={Component} pageProps={pageProps} />
-        <ToastContainer />
+        <ToastContainer position="top-center" />
       </Provider>
     </>
   );

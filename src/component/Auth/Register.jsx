@@ -15,6 +15,7 @@ import {
 import { serverInstance } from "../../API/ServerInstance";
 import { toast } from "react-toastify";
 import CircularProgress from "@mui/material/CircularProgress";
+
 const formData = new FormData();
 function Register({ setOpen, setOpen1 }) {
   const dispatch = useDispatch();
@@ -66,12 +67,11 @@ function Register({ setOpen, setOpen1 }) {
     dispatch(register(formData, loginas, setOpen, setOpen1));
   };
 
-  console.log("time show staus", showtimer);
-
   const stoptimer = () => {
     settimestatus(false);
     setgetphoneotpstate(false);
     setgetphonebtnstatus(false);
+
     settime(60);
   };
 
@@ -93,32 +93,34 @@ function Register({ setOpen, setOpen1 }) {
     starttimer();
   }, [time]);
 
-  // const stoptimeremail = () => {
-  //   settimestatus(false);
-  //   setgetemailotpstate(false);
-   
-  //   setgetemailotpstatus(false);
-  //   setPhoneOtpVerifystatus(false);
-  //   settime(60);
-  // };
+  const [emailtime, setemailtime] = useState(60);
+  const [emaiTimerStatus, setemaiTimerStatus] = useState(false);
+   const [getotpstatusonemail, setgetotpstatusonemail] = useState(false);
+  const stopemailtimer = () => {
+    setemaiTimerStatus(false);
+    setgetphoneotpstate(false);
+    setgetphonebtnstatus(false);
 
-  // const starttimeremail = () => {
-  //   settimestatus(true);
+    setemailtime(60);
+  };
 
-  //   if (timestatus) {
-  //     if (time > 0) {
-  //       setTimeout(() => {
-  //         settime(time - 1);
-  //       }, 1000);
-  //     } else {
-  //       stoptimeremail();
-  //     }
-  //   }
-  // };
+  const startemailtimer = () => {
+    setemaiTimerStatus(true);
 
-  // useEffect(() => {
-  //   starttimeremail();
-  // }, [time]);
+    if (emaiTimerStatus) {
+      if (emailtime > 0) {
+        setTimeout(() => {
+          setemailtime(emailtime - 1);
+        }, 1000);
+      } else {
+        stopemailtimer();
+      }
+    }
+  };
+
+  useEffect(() => {
+    startemailtimer();
+  }, [emailtime]);
 
   const sendotpOnPhone = () => {
     setshowprogrees1(true);
@@ -163,7 +165,7 @@ function Register({ setOpen, setOpen1 }) {
         setshowprogrees2(false);
         setphoneverify(false);
         setphonenDone(true);
-        setgetphoneotpstate(true)
+        setgetphoneotpstate(true);
       }
 
       if (res?.status === false) {
@@ -173,7 +175,7 @@ function Register({ setOpen, setOpen1 }) {
         setshowprogrees2(false);
         setphoneverify(false);
         setPhoneOtpVerifystatus(true);
-        setgetphoneotpstate(true)
+        setgetphoneotpstate(true);
         stoptimer();
       }
       console.log("Verify opt number is ", res);
@@ -190,11 +192,12 @@ function Register({ setOpen, setOpen1 }) {
         toast.success(res?.msg, {
           autoClose: 1000,
         });
-        setgetemailotpstate(true);
+        setPhoneOtpVerifystatus(false);
         setemailOtpGot(true);
         setshowprogrees3(false);
-        settime(60);
-        starttimer();
+        setgetotpstatusonemail(true);
+        setemailtime(60);
+        startemailtimer();
         // setphonenDone(false);
         // setemailDone(false);
       }
@@ -204,7 +207,9 @@ function Register({ setOpen, setOpen1 }) {
         });
         setshowprogrees3(false);
         setemailOtpGot(false);
-        settime(60);
+        setPhoneOtpVerifystatus(true);
+        setemailtime(60);
+        stopemailtimer();
         // setphonenDone(false);
         // setemailDone(false);
       }
@@ -221,11 +226,11 @@ function Register({ setOpen, setOpen1 }) {
       phone: phoneno1,
     }).then((res) => {
       if (res?.status) {
-        stoptimer();
+        stopemailtimer();
         toast.success(res?.msg, {
           autoClose: 1000,
         });
-        setPhoneOtpVerifystatus(true);
+        setPhoneOtpVerifystatus(false);
         setshowprogrees2(false);
         setgetemailotpstate(false);
         setemailverify(false);
@@ -236,10 +241,10 @@ function Register({ setOpen, setOpen1 }) {
           autoClose: 1000,
         });
         setshowprogrees2(false);
-        setPhoneOtpVerifystatus(true);
+        setPhoneOtpVerifystatus(false);
         setgetemailotpstate(false);
         setemailverify(false);
-        stoptimer();
+        stopemailtimer();
       }
       console.log("Verify opt number is ", res);
     });
@@ -377,6 +382,15 @@ function Register({ setOpen, setOpen1 }) {
                     {getphonebtnstatus || getemailotpstate ? (
                       <>
                         <p>{time}</p>
+                      </>
+                    ) : (
+                      <>
+                        <p>&nbsp;</p>
+                      </>
+                    )}
+                    {getotpstatusonemail ? (
+                      <>
+                        <p>{emailtime}</p>
                       </>
                     ) : (
                       <>
