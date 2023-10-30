@@ -4,15 +4,19 @@ import MenuItem from "@mui/material/MenuItem";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { Addstudent } from "../../../redux/actions/commanAction";
-const statusmode = [
-  { id: 1, name: "IN Institute" },
-  { id: 2, name: "Left Institute" },
-  { id: 3, name: "On Leave" },
-];
+import { Addstudent, getstudent } from "../../../redux/actions/commanAction";
+import { useRouter } from "next/router";
+import { ADD_STUDENT_RESET } from "../../../redux/constants/commanConstants";
 const formData = new FormData();
 function AddStudent({ setOpen }) {
+  const navigation = useRouter();
   const dispatch = useDispatch();
+  const [amount, setamount] = useState("");
+  const [monthlyfee, setmonthlyfee] = useState("");
+  const [noofMonth, setnoofMonth] = useState("");
+  const [onlyshowmonthfee, setonlyshowmonthfee] = useState("");
+  const [onlyshowrefee, setonlyshowrefee] = useState("");
+  const [getfee, setgetfee] = useState("default");
   const [isdata, setisData] = useState([]);
   const [batchs, setbatchs] = useState([]);
   const [courses, setcourses] = useState("");
@@ -26,23 +30,56 @@ function AddStudent({ setOpen }) {
   const [Pincode, setPincode] = useState("");
   const [photo, setphoto] = useState("");
   const [adharcard, setadharcard] = useState("");
+  const [marksheet, setmarksheet] = useState("");
+  const [pano, setpano] = useState("");
+  const [adharcardno, setadharcardno] = useState("");
   const [fathersname, setfathersname] = useState("");
   const [fathersphone, setfathersphone] = useState("");
   const [studentrollno, setstudentrollno] = useState("");
-  const [studentstatus, setstudentstatus] = useState("IN Institute");
   const [preview1, setpreview1] = useState("");
   const [preview2, setpreview2] = useState("");
-  const { course } = useSelector((state) => state.getcourse);
+  const [preview3, setpreview3] = useState("");
+  const [shownext, setshownext] = useState(true);
+  const [showdownload, setshowdownload] = useState(false);
+  const { fee } = useSelector((state) => state.getfee);
   const { batch } = useSelector((state) => state.getbatch);
   const { user } = useSelector((state) => state.auth);
-  const submit = (e) => {
-    e.preventDefault();
+
+  const { studentaddstatus, student } = useSelector(
+    (state) => state.addstudent
+  );
+
+  const submit = () => {
     formData.set("name", studentname);
     formData.set("email", studentemail);
     formData.set("phoneno1", studentphone);
     formData.set("city", city);
     formData.set("state", state);
     formData.set("pincode", Pincode);
+    formData.set("profileurl", photo);
+    formData.set("adharcard", adharcard);
+    formData.set("fathersPhoneNo", fathersphone);
+    formData.set("fathersName", fathersname);
+    formData.set("courseorclass", courses);
+    formData.set("rollnumber", studentrollno);
+    formData.set("StudentStatus", "admission");
+    formData.set("batch", batchname);
+    formData.set("admissionDate", adminssiondate);
+    formData.set("regisgrationfee", amount);
+    formData.set("courseduration", noofMonth);
+    formData.set("markSheet", marksheet);
+    formData.set("adharno", adharcardno);
+    formData.set("pancardnno", pano);
+    formData.set(
+      "permonthfee",
+      getfee === "default" ? Number(onlyshowmonthfee) : Number(monthlyfee)
+    );
+    formData.set(
+      "studentTotalFee",
+      getfee === "default"
+        ? Number(onlyshowmonthfee) * Number(noofMonth)
+        : Number(monthlyfee) * Number(noofMonth)
+    );
     formData.set(
       "Studentpassword",
       user?.data[0]?.Studentpassword
@@ -53,27 +90,33 @@ function AddStudent({ setOpen }) {
       "Parentpassword",
       user?.data[0]?.Parentpassword ? user?.data[0]?.Parentpassword : "parent"
     );
-    formData.set("profileurl", photo);
-    formData.set("adharcard", adharcard);
-    formData.set("fathersPhoneNo", fathersphone);
-    formData.set("fathersName", fathersname);
-    formData.set("courseorclass", courses);
-    formData.set("rollnumber", studentrollno);
-    formData.set("StudentStatus", "admission");
-    formData.set("Status", studentstatus);
-    formData.set("batch", batchname);
-    formData.set("admissionDate", adminssiondate);
-    dispatch(Addstudent(formData, setOpen));
+
+    dispatch(Addstudent(formData));
   };
 
   useEffect(() => {
-    if (course) {
-      setisData(course);
+    if (fee) {
+      setisData(fee);
     }
     if (batch) {
       setbatchs(batch);
     }
-  }, [course, batch]);
+    if (studentaddstatus) {
+      setshowdownload(true);
+    }
+    dispatch({
+      type: ADD_STUDENT_RESET,
+    });
+  }, [fee, batch, studentaddstatus]);
+
+  const gotoreceipt = () => {
+    navigation.push({
+      pathname: "/coaching/accounts/collectfee",
+      query: {
+        receiptdata: JSON.stringify(student?.data[0]?.user),
+      },
+    });
+  };
   return (
     <>
       <div className={styles.divmainlogin}>
@@ -81,21 +124,12 @@ function AddStudent({ setOpen }) {
           <CloseIcon />
         </div>
         <h1>Add Student</h1>
-        <form onSubmit={submit}>
+        <form>
           <div className={styles.divmaininput}>
-            <div className={styles.inputdiv}>
-              <label>Student Roll Number</label>
-              <input
-                type="text"
-                placeholder="Enter the Roll Number"
-                value={studentrollno}
-                name="studentrollno"
-                onChange={(e) => setstudentrollno(e.target.value)}
-              />
-            </div>
             <div className={styles.inputdiv}>
               <label>Student Name</label>
               <input
+                required
                 type="text"
                 placeholder="Enter the name"
                 value={studentname}
@@ -106,6 +140,7 @@ function AddStudent({ setOpen }) {
             <div className={styles.inputdiv}>
               <label>Student Phone No</label>
               <input
+                required
                 type="text"
                 placeholder="Enter the Phone No"
                 value={studentphone}
@@ -113,11 +148,10 @@ function AddStudent({ setOpen }) {
                 onChange={(e) => setstudentphone(e.target.value)}
               />
             </div>
-          </div>
-          <div className={styles.divmaininput}>
             <div className={styles.inputdiv}>
               <label>Student Email</label>
               <input
+                required
                 type="email"
                 placeholder="Enter the Student Email"
                 value={studentemail}
@@ -125,13 +159,85 @@ function AddStudent({ setOpen }) {
                 onChange={(e) => setstudentemail(e.target.value)}
               />
             </div>
+          </div>
+          <div className={styles.divmaininput}>
+            <div className={styles.inputdiv}>
+              <label>Admission Date</label>
+              <input
+                required
+                type="date"
+                value={adminssiondate}
+                name="adminssiondate"
+                onChange={(e) => setadminssiondate(e.target.value)}
+              />
+            </div>
+            <div className={styles.inputdiv}>
+              <label>Fathers Phone No</label>
+              <input
+                required
+                type="text"
+                placeholder="Enter the Phone No"
+                value={fathersphone}
+                name="fathersphone"
+                onChange={(e) => setfathersphone(e.target.value)}
+              />
+            </div>
+            <div className={styles.inputdiv}>
+              <label>Fathers Name</label>
+              <input
+                required
+                type="text"
+                placeholder="Enter the Father's Name"
+                value={fathersname}
+                name="fathersname"
+                onChange={(e) => setfathersname(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className={styles.divmaininput}>
+            <div className={styles.inputdiv}>
+              <label>State</label>
+              <input
+                required
+                type="text"
+                placeholder="Enter the State"
+                value={state}
+                name="state"
+                onChange={(e) => setstate(e.target.value)}
+              />
+            </div>
+            <div className={styles.inputdiv}>
+              <label>City</label>
+              <input
+                required
+                type="text"
+                placeholder="Enter the city"
+                value={city}
+                name="city"
+                onChange={(e) => setcity(e.target.value)}
+              />
+            </div>
+
+            <div className={styles.inputdiv}>
+              <label>Pin Code</label>
+              <input
+                required
+                type="text"
+                placeholder="Enter the Pincode"
+                value={Pincode}
+                name="Pincode"
+                onChange={(e) => setPincode(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className={styles.divmaininput}>
             <div className={styles.inputdiv}>
               <label>Password Size Photo (250KB)</label>
               <input
                 type="file"
                 onChange={(e) => {
                   const file = e.target.files[0];
-                  const maxFileSize = 8 * 1024; // 5 MB in bytes
+                  const maxFileSize = 20 * 1024; // 5 MB in bytes
                   console.log("file size", file.size, maxFileSize);
                   if (file && file.size > maxFileSize) {
                     alert("File size exceeds the limit of 5 MB.");
@@ -153,7 +259,7 @@ function AddStudent({ setOpen }) {
                 type="file"
                 onChange={(e) => {
                   const file = e.target.files[0];
-                  const maxFileSize = 1 * 1024 * 1024; // 5 MB in bytes
+                  const maxFileSize = 20 * 1024 * 1024; // 5 MB in bytes
 
                   if (file && file.size > maxFileSize) {
                     alert("File size exceeds the limit of 5 MB.");
@@ -168,68 +274,62 @@ function AddStudent({ setOpen }) {
                 }}
               />
             </div>
-          </div>
-          <div className={styles.divmaininput}>
             <div className={styles.inputdiv}>
-              <label>Admission Date</label>
+              <label>10th or 12th MarkSheet</label>
               <input
-                type="date"
-                value={adminssiondate}
-                name="adminssiondate"
-                onChange={(e) => setadminssiondate(e.target.value)}
-              />
-            </div>
-            <div className={styles.inputdiv}>
-              <label>Fathers Phone No</label>
-              <input
-                type="text"
-                placeholder="Enter the Phone No"
-                value={fathersphone}
-                name="fathersphone"
-                onChange={(e) => setfathersphone(e.target.value)}
-              />
-            </div>
-            <div className={styles.inputdiv}>
-              <label>Fathers Name</label>
-              <input
-                type="text"
-                placeholder="Enter the Father's Name"
-                value={fathersname}
-                name="fathersname"
-                onChange={(e) => setfathersname(e.target.value)}
-              />
-            </div>
-          </div>
-          <div className={styles.divmaininput}>
-            <div className={styles.inputdiv}>
-              <label>State</label>
-              <input
-                type="text"
-                placeholder="Enter the State"
-                value={state}
-                name="state"
-                onChange={(e) => setstate(e.target.value)}
-              />
-            </div>
-            <div className={styles.inputdiv}>
-              <label>City</label>
-              <input
-                type="text"
-                placeholder="Enter the city"
-                value={city}
-                name="city"
-                onChange={(e) => setcity(e.target.value)}
-              />
-            </div>
+                type="file"
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  const maxFileSize = 20 * 1024 * 1024; // 5 MB in bytes
 
+                  if (file && file.size > maxFileSize) {
+                    alert("File size exceeds the limit of 5 MB.");
+                    e.target.value = ""; // Clear the file input
+                    setmarksheet(e.target.files[0]);
+
+                    return;
+                  } else {
+                    setmarksheet(file);
+                    setpreview3(URL.createObjectURL(file));
+
+                    console.log("marksheet", file);
+                  }
+                }}
+              />
+            </div>
+          </div>
+          <div className={styles.divmaininput}>
             <div className={styles.inputdiv}>
-              <label>Pin Code</label>
+              <label>Pan No</label>
               <input
+                required
                 type="text"
-                placeholder="Enter the Pincode"
-                value={Pincode}
-                name="Pincode"
-                onChange={(e) => setPincode(e.target.value)}
+                placeholder="Enter the Pan No"
+                value={pano}
+                name="pano"
+                onChange={(e) => setpano(e.target.value)}
+              />
+            </div>
+            <div className={styles.inputdiv}>
+              <label>Adhar Card No</label>
+              <input
+                required
+                type="text"
+                placeholder="Enter the Adhar Card No"
+                value={adharcardno}
+                name="adharcardno"
+                onChange={(e) => setadharcardno(e.target.value)}
+              />
+            </div>
+            <div className={styles.inputdiv}>
+              <label>Sr Number</label>
+              <input
+                required
+                type="text"
+                placeholder="Enter the Roll Number"
+                value={studentrollno}
+                name="studentrollno"
+                onChange={(e) => setstudentrollno(e.target.value)}
               />
             </div>
           </div>
@@ -237,7 +337,7 @@ function AddStudent({ setOpen }) {
             <div className={styles.inputdiv}>
               <label>Batch</label>
               <Select
-                // required
+                required
                 className={styles.addwidth}
                 sx={{
                   width: "18.8rem",
@@ -263,7 +363,7 @@ function AddStudent({ setOpen }) {
                 {batchs?.map((item, index) => {
                   return (
                     <MenuItem
-                    key={index}
+                      key={index}
                       sx={{
                         fontSize: 14,
                       }}
@@ -278,7 +378,7 @@ function AddStudent({ setOpen }) {
             <div className={styles.inputdiv}>
               <label>Course</label>
               <Select
-                // required
+                required
                 className={styles.addwidth}
                 sx={{
                   width: "18.8rem",
@@ -304,11 +404,18 @@ function AddStudent({ setOpen }) {
                 {isdata?.map((item, index) => {
                   return (
                     <MenuItem
-                    key={index}
+                      key={index}
                       sx={{
                         fontSize: 14,
                       }}
                       value={item?.coursename}
+                      onClick={() => {
+                        setamount(item?.Registractionfee);
+                        setmonthlyfee(item?.feepermonth);
+                        setnoofMonth(item?.courseduration);
+                        setonlyshowmonthfee(item?.feepermonth);
+                        setonlyshowrefee(item?.Registractionfee);
+                      }}
                     >
                       {item?.coursename}
                     </MenuItem>
@@ -316,40 +423,15 @@ function AddStudent({ setOpen }) {
                 })}
               </Select>
             </div>
-
             <div className={styles.inputdiv}>
-              <label>Status</label>
-              <Select
-                // required
-                className={styles.addwidth}
-                sx={{
-                  width: "18.8rem",
-                  fontSize: 14,
-                  "& .MuiSelect-select": {
-                    paddingTop: "0.6rem",
-                    paddingBottom: "0.6em",
-                  },
-                }}
+              <label>Course Duration</label>
+              <input
+                required
                 disabled={true}
-                value={studentstatus}
-                name="studentstatus"
-                onChange={(e) => setstudentstatus(e.target.value)}
-                displayEmpty
-              >
-                {statusmode?.map((item, index) => {
-                  return (
-                    <MenuItem
-                    key={index}
-                      sx={{
-                        fontSize: 14,
-                      }}
-                      value={item?.name}
-                    >
-                      {item?.name}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
+                type="text"
+                placeholder="Duration"
+                value={noofMonth}
+              />
             </div>
           </div>
           {preview1 && (
@@ -378,10 +460,54 @@ function AddStudent({ setOpen }) {
             </>
           )}
 
-          <div className={styles.logbtnstylediv}>
-            <button className={styles.logbtnstyle}>Save</button>
-          </div>
+          {preview3 && (
+            <>
+              <div className={styles.inputdivimg10}>
+                <label>Marsheet</label>
+                <img
+                  className="keydetailsdivlogoimg10"
+                  src={preview3}
+                  alt="imgdd"
+                />
+              </div>
+            </>
+          )}
         </form>
+
+        {showdownload ? (
+          <>
+            <div className={styles.mainbtnndivcancel}>
+              <button
+                onClick={() => setOpen(false)}
+                className={styles.cancelbtn}
+              >
+                Okay!
+              </button>
+
+              <button
+                className={styles.cancelbtn}
+                onClick={() => gotoreceipt()}
+              >
+                Pay to Fee
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className={styles.mainbtnndivcancel}>
+              <button
+                onClick={() => setshownext(true)}
+                className={styles.cancelbtn}
+              >
+                Back
+              </button>
+
+              <button className={styles.cancelbtn} onClick={() => submit()}>
+                Save
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </>
   );

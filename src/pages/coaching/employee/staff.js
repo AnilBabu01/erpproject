@@ -110,7 +110,7 @@ function Staff() {
               "& .MuiDialog-container": {
                 "& .MuiPaper-root": {
                   width: "100%",
-                  maxWidth: "60rem",
+                  maxWidth: "70rem",
                 },
               },
             }}
@@ -130,7 +130,7 @@ function Staff() {
               "& .MuiDialog-container": {
                 "& .MuiPaper-root": {
                   width: "100%",
-                  maxWidth: "60rem",
+                  maxWidth: "70rem",
                 },
               },
             }}

@@ -14,8 +14,6 @@ function Addfee({ data, monthname, paidmonth, setOpen }) {
   const [showreceiptotions, setshowreceiptotions] = useState("");
   const [receiptdata, setreceiptdata] = useState("");
 
-  console.log("add fee data is  paycoaching ", receiptdata);
-
   const submit = () => {
     try {
       const datas = {
@@ -25,7 +23,6 @@ function Addfee({ data, monthname, paidmonth, setOpen }) {
         feetype: feetype,
         discount: discount,
       };
-      // dispatch(Addpayfee(datas, setOpen, setshowreceiptotions));
 
       serverInstance("Student/pacoachingfee", "post", datas).then((res) => {
         if (res?.status) {
@@ -260,22 +257,22 @@ function Addfee({ data, monthname, paidmonth, setOpen }) {
                 <div className={styles.regisFeepayDiv}>
                   <div className={styles.regisFeepayDiv}>
                     <div className={styles.regisFeepayDivinnear}>
-                      <label>Pay</label>
                       <input
                         type="radio"
                         value={"Registration"}
                         onChange={(e) => setfeetype(e.target.value)}
                         name="same"
                       />
+                      <label>Pay</label>
                     </div>
                     <div className={styles.regisFeepayDivinnear}>
-                      <label>Discount</label>
                       <input
                         type="radio"
                         value={discount}
                         onChange={(e) => setdiscount(e.target.value)}
                         name="same"
                       />
+                      <label>Discount</label>
                     </div>
                   </div>
                 </div>
