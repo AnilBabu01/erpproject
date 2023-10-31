@@ -969,7 +969,7 @@ export const Updatestudent = (datas, setOpen) => async (dispatch) => {
   try {
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
         Authorization: `${localStorage.getItem("erptoken")}`,
       },
     };
@@ -1083,7 +1083,7 @@ export const AddEmployee = (datas, setOpen) => async (dispatch) => {
   try {
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
         Authorization: `${localStorage.getItem("erptoken")}`,
       },
     };
@@ -1120,7 +1120,7 @@ export const UpdateEmployee = (datas, setOpen) => async (dispatch) => {
   try {
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
         Authorization: `${localStorage.getItem("erptoken")}`,
       },
     };

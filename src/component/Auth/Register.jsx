@@ -95,7 +95,7 @@ function Register({ setOpen, setOpen1 }) {
 
   const [emailtime, setemailtime] = useState(60);
   const [emaiTimerStatus, setemaiTimerStatus] = useState(false);
-   const [getotpstatusonemail, setgetotpstatusonemail] = useState(false);
+  const [getotpstatusonemail, setgetotpstatusonemail] = useState(false);
   const stopemailtimer = () => {
     setemaiTimerStatus(false);
     setgetphoneotpstate(false);

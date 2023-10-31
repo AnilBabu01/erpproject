@@ -15,6 +15,8 @@ import Slide from "@mui/material/Slide";
 import Addfee from "../../../component/Coaching/accounts/Addfee";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 function Collectfee() {
   const dispatch = useDispatch();
   const [noOfMonth, setnoOfMonth] = useState("");
@@ -34,10 +36,12 @@ function Collectfee() {
   const [isdata, setisData] = useState([]);
   const [userdata, setuserdata] = useState("");
   const [showfathers, setshowfathers] = useState(false);
+  const [courselist, setcourselist] = useState([]);
   const { user } = useSelector((state) => state.auth);
   const { loading, student } = useSelector((state) => state.getstudent);
   const { batch } = useSelector((state) => state.getbatch);
   const { courseduarion } = useSelector((state) => state.getCourseDur);
+  const { course } = useSelector((state) => state.getcourse);
   console.log("student", isdata);
   var newmonthnames = [];
   var feestatusarray = [];
@@ -164,19 +168,6 @@ function Collectfee() {
     setOpenupdate(false);
   };
 
-  const ClickOpendelete = (id) => {
-    setOpenalert(true);
-    setdeleteid(id);
-  };
-
-  const handleClosedelete = () => {
-    setOpenalert(false);
-  };
-
-  const handledelete = () => {
-    dispatch(deletestudent(deleteid, setOpenalert));
-  };
-
   useEffect(() => {
     if (student) {
       setisData(student);
@@ -190,7 +181,10 @@ function Collectfee() {
     if (courseduarion) {
       setnoOfMonth(courseduarion);
     }
-  }, [student, batch, user, courseduarion]);
+    if (course) {
+      setcourselist(course);
+    }
+  }, [student, batch, user, courseduarion, course]);
 
   useEffect(() => {
     dispatch(getstudent());
@@ -314,15 +308,45 @@ function Collectfee() {
                     );
                   })}
                 </select>
-
-                <input
-                  className={styles.opensearchinput10}
-                  type="text"
-                  placeholder="Course.."
+                <select
+                  className={styles.opensearchinput}
+                  sx={{
+                    width: "18.8rem",
+                    fontSize: 14,
+                    "& .MuiSelect-select": {
+                      paddingTop: "0.6rem",
+                      paddingBottom: "0.6em",
+                    },
+                  }}
                   value={scoursename}
                   name="scoursename"
                   onChange={(e) => setscoursename(e.target.value)}
-                />
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={""}
+                  >
+                    Please Select Batch
+                  </option>
+
+                  {courselist?.map((item, index) => {
+                    return (
+                      <option
+                        key={index}
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={item?.coursename}
+                      >
+                        {item?.coursename}
+                      </option>
+                    );
+                  })}
+                </select>
+
                 <input
                   className={styles.opensearchinput10}
                   type="text"
@@ -331,6 +355,7 @@ function Collectfee() {
                   name="sstudent}"
                   onChange={(e) => setsstudent(e.target.value)}
                 />
+
                 <input
                   className={styles.opensearchinput10}
                   type="text"

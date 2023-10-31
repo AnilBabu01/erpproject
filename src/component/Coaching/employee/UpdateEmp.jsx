@@ -75,8 +75,12 @@ function UpdateEmp({ setOpen, updatedata }) {
   const { designation } = useSelector((state) => state.getdesignation);
   const { department } = useSelector((state) => state.getpart);
   const { user } = useSelector((state) => state.auth);
+
+ 
+
   const submit = (e) => {
     e.preventDefault();
+     // console.log("send in payload",profileimg);
     formData.set("id", updatedata?.id);
     formData.set("name", empname);
     formData.set("email", empemail);
@@ -90,7 +94,6 @@ function UpdateEmp({ setOpen, updatedata }) {
     formData.set("joiningdate", joiningdate);
     formData.set("address", address);
 
-    formData.set("profileurl", profileimg);
     formData.set("basicsalary", basicsalary);
     formData.set("Allowance", allowance);
     formData.set("Deduction", deduction);
@@ -106,6 +109,7 @@ function UpdateEmp({ setOpen, updatedata }) {
     formData.set("ResumeFile", resumeimg);
     formData.set("OfferLater", offerlater);
     formData.set("JoningLater", joninglater);
+    formData.set("profileurl", profileimg);
 
     formData.set("fronrofice", frontoffice);
     formData.set("fronroficeRead", frontoffice);
@@ -219,7 +223,7 @@ function UpdateEmp({ setOpen, updatedata }) {
         <div className={styles.closeicondiv} onClick={() => setOpen(false)}>
           <CloseIcon />
         </div>
-        <h1>Add New Employee</h1>
+        <h1>Update Employee</h1>
         <form onSubmit={submit}>
           {showpermission ? (
             <>
@@ -735,6 +739,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                       type="file"
                       onChange={(e) => {
                         setprofileimg(e.target.files[0]);
+                        console.log(e.target.files[0])
                         setviewprofile(URL.createObjectURL(e.target.files[0]));
                       }}
                     />
