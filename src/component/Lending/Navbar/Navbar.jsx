@@ -402,7 +402,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                 <>
                   <Avatar
                     alt="user"
-                    // src={`${backendUrl}${user && user?.data?.User?.profileurl}`}
+                    src={`${backendUrl}public/upload/${user?.data?.User?.profileurl}`}
                     sx={{
                       width: 35,
                       height: 35,
