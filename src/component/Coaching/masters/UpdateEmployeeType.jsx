@@ -3,10 +3,11 @@ import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { UpdateDesignation } from "../../../redux/actions/commanAction";
+import CircularProgress from "@mui/material/CircularProgress";
 function UpdateEmployeeType({ updatedata, setOpen }) {
   const dispatch = useDispatch();
   const [designationname, setdesignationname] = useState("");
-  const { loading, designation } = useSelector((state) => state.adddesignation);
+  const { loading, designation } = useSelector((state) => state.editdesignation);
 
   const submit = (e) => {
     e.preventDefault();
@@ -43,7 +44,16 @@ function UpdateEmployeeType({ updatedata, setOpen }) {
             </div>
           </div>
           <div className={styles.logbtnstylediv}>
-            <button className={styles.logbtnstyle}>Save</button>
+            <button
+              disabled={loading ? true : false}
+              className={styles.logbtnstyle}
+            >
+              {loading ? (
+                <CircularProgress size={25} style={{ color: "red" }} />
+              ) : (
+                "Update"
+              )}
+            </button>
           </div>
         </form>
       </div>

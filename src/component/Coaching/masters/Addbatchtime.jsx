@@ -3,7 +3,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
 import { Addbatch, getbatch } from "../../../redux/actions/commanAction";
 import { useDispatch, useSelector } from "react-redux";
-
+import CircularProgress from "@mui/material/CircularProgress";
 
 function Addbatchtime({ setOpen }) {
   const dispatch = useDispatch();
@@ -11,7 +11,7 @@ function Addbatchtime({ setOpen }) {
   const [endtime, setendtime] = useState("01:00");
   const [startmedian, setstartmedian] = useState("AM");
   const [endmedian, setendmedian] = useState("AM");
-  const { batch } = useSelector((state) => state.addbatch);
+  const { batch, loading } = useSelector((state) => state.addbatch);
   const submit = (e) => {
     e.preventDefault();
     const data = {
@@ -101,7 +101,16 @@ function Addbatchtime({ setOpen }) {
           </div>
 
           <div className={styles.logbtnstylediv}>
-            <button className={styles.logbtnstyle}>Save</button>
+            <button
+              disabled={loading ? true : false}
+              className={styles.logbtnstyle}
+            >
+              {loading ? (
+                <CircularProgress size={25} style={{ color: "red" }} />
+              ) : (
+                "Save "
+              )}
+            </button>
           </div>
         </form>
       </div>

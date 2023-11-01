@@ -5,6 +5,7 @@ import moment from "moment";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import CircularProgress from "@mui/material/CircularProgress";
 function Addfee({ data, monthname, paidmonth, setOpen }) {
   const navigation = useRouter();
   const [montharray, setmontharray] = useState([]);
@@ -13,9 +14,10 @@ function Addfee({ data, monthname, paidmonth, setOpen }) {
   const [discount, setdiscount] = useState(false);
   const [showreceiptotions, setshowreceiptotions] = useState("");
   const [receiptdata, setreceiptdata] = useState("");
-
+  const [addloading, setaddloading] = useState(false);
   const submit = () => {
     try {
+      setaddloading(true);
       const datas = {
         id: data?.id,
         paymonths: montharray,
@@ -30,7 +32,7 @@ function Addfee({ data, monthname, paidmonth, setOpen }) {
             autoClose: 1000,
           });
           // dispatch(getHolidays());
-
+          setaddloading(false);
           // setOpen(false);
           setshowreceiptotions(true);
           setreceiptdata(res?.data[0]?.receiptdata);
@@ -40,10 +42,12 @@ function Addfee({ data, monthname, paidmonth, setOpen }) {
           toast.error(res?.msg, { autoClose: 1000 });
           // dispatch(getHolidays());
           setOpen(false);
+          setaddloading(false);
         }
       });
     } catch (error) {
       console.log(error);
+      setaddloading(false);
     }
   };
 
@@ -291,8 +295,13 @@ function Addfee({ data, monthname, paidmonth, setOpen }) {
                 disable={montharray.length === 0 ? true : false}
                 className={styles.cancelbtn}
                 onClick={() => submit()}
+                disabled={addloading ? true : false}
               >
-                Save
+                {addloading? (
+                  <CircularProgress size={25} style={{ color: "red" }} />
+                ) : (
+                  "Save"
+                )}
               </button>
             </div>
           </>

@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Addstudent, getstudent } from "../../../redux/actions/commanAction";
 import { useRouter } from "next/router";
 import { ADD_STUDENT_RESET } from "../../../redux/constants/commanConstants";
+import CircularProgress from "@mui/material/CircularProgress";
 const formData = new FormData();
 function AddStudent({ setOpen }) {
   const navigation = useRouter();
@@ -45,7 +46,7 @@ function AddStudent({ setOpen }) {
   const { batch } = useSelector((state) => state.getbatch);
   const { user } = useSelector((state) => state.auth);
 
-  const { studentaddstatus, student } = useSelector(
+  const { studentaddstatus, student, loading } = useSelector(
     (state) => state.addstudent
   );
 
@@ -647,8 +648,16 @@ function AddStudent({ setOpen }) {
                 Back
               </button>
 
-              <button className={styles.cancelbtn} onClick={() => submit()}>
-                Save
+              <button
+                disabled={loading ? true : false}
+                className={styles.cancelbtn}
+                onClick={() => submit()}
+              >
+                {loading ? (
+                  <CircularProgress size={25} style={{ color: "red" }} />
+                ) : (
+                  "Save"
+                )}
               </button>
             </div>
           </>

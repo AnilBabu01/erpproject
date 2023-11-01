@@ -3,11 +3,12 @@ import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
 import { getcourse, UpdateCourse } from "../../../redux/actions/commanAction";
 import { useDispatch, useSelector } from "react-redux";
+import CircularProgress from "@mui/material/CircularProgress";
 function Updatecourse({ updatedata, setOpen }) {
   const dispatch = useDispatch();
   const [coursename, setcoursename] = useState("");
   const [courseduration, setcourseduration] = useState("");
-  const { course } = useSelector((state) => state.addcourse);
+  const { course, loading } = useSelector((state) => state.editcourse);
   const submit = (e) => {
     e.preventDefault();
     const data = {
@@ -55,7 +56,16 @@ function Updatecourse({ updatedata, setOpen }) {
           </div>
 
           <div className={styles.logbtnstylediv}>
-            <button className={styles.logbtnstyle}>Save</button>
+            <button
+              disabled={loading ? true : false}
+              className={styles.logbtnstyle}
+            >
+              {loading ? (
+                <CircularProgress size={25} style={{ color: "red" }} />
+              ) : (
+                "Save"
+              )}
+            </button>
           </div>
         </form>
       </div>

@@ -6,15 +6,16 @@ import {
   getCourseDuration,
   AddCourseDuration,
 } from "../../../redux/actions/commanAction";
+import CircularProgress from "@mui/material/CircularProgress";
 function AddDuration({ setOpen }) {
   const dispatch = useDispatch();
   const [designationname, setdesignationname] = useState("");
-  const { loading, designation } = useSelector((state) => state.adddesignation);
+  const { loading, designation } = useSelector((state) => state.addCourseDur);
 
   const submit = (e) => {
     e.preventDefault();
     const data = {
-        noOfMonth: designationname,
+      noOfMonth: designationname,
     };
     dispatch(AddCourseDuration(data, setOpen));
   };
@@ -37,8 +38,8 @@ function AddDuration({ setOpen }) {
               <label>Course Duration</label>
               <input
                 type="number"
-                min='12'
-                max='36'
+                min="12"
+                max="36"
                 placeholder="Enter the Course Duration"
                 value={designationname}
                 name="designationname"
@@ -47,7 +48,16 @@ function AddDuration({ setOpen }) {
             </div>
           </div>
           <div className={styles.logbtnstylediv}>
-            <button className={styles.logbtnstyle}>Save</button>
+            <button
+              disabled={loading ? true : false}
+              className={styles.logbtnstyle}
+            >
+              {loading ? (
+                <CircularProgress size={25} style={{ color: "red" }} />
+              ) : (
+                "Save"
+              )}
+            </button>
           </div>
         </form>
       </div>

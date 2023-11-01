@@ -1,4 +1,4 @@
-import React,{ useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import CloseIcon from "@mui/icons-material/Close";
@@ -8,7 +8,7 @@ import {
   getenquiries,
 } from "../../../redux/actions/coachingAction";
 import { useDispatch, useSelector } from "react-redux";
-
+import CircularProgress from "@mui/material/CircularProgress";
 function AddEnquiry({ setOpen }) {
   const dispatch = useDispatch();
   const [isdata, setisData] = useState([]);
@@ -18,8 +18,8 @@ function AddEnquiry({ setOpen }) {
   const [address, setaddress] = useState("");
   const [courses, setcourses] = useState("");
   const [comment, setcomment] = useState("");
-  const { enquiry } = useSelector((state) => state.addenqury);
-  const { loading, course } = useSelector((state) => state.getcourse);
+  const { enquiry, loading } = useSelector((state) => state.addenqury);
+  const { course } = useSelector((state) => state.getcourse);
 
   var today = new Date();
   var date = today.toISOString().substring(0, 10);
@@ -170,7 +170,16 @@ function AddEnquiry({ setOpen }) {
             />
           </div>
           <div className={styles.logbtnstylediv}>
-            <button className={styles.logbtnstyle}>Save Enquiry</button>
+            <button
+              disabled={loading ? true : false}
+              className={styles.logbtnstyle}
+            >
+              {loading ? (
+                <CircularProgress size={25} style={{ color: "red" }} />
+              ) : (
+                "Save Enquiry"
+              )}
+            </button>
           </div>
         </form>
       </div>

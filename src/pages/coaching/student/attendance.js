@@ -10,7 +10,7 @@ import {
 import styles from "../employee/employee.module.css";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
-
+import CircularProgress from "@mui/material/CircularProgress";
 const monthlist = [
   {
     id: 1,
@@ -128,9 +128,11 @@ function Attendance() {
   );
 
   console.log("date is date ", minDateTime);
-  const { Markloading, markattendance } = useSelector(
-    (state) => state.markatten
-  );
+  const {
+    Markloading,
+    markattendance,
+    loading: markloading,
+  } = useSelector((state) => state.markatten);
   const { doneloading, doneattendance } = useSelector(
     (state) => state.doneatten
   );
@@ -260,8 +262,16 @@ function Attendance() {
                         dispatch(MarkStudentAttendance(date, sbatch));
                       }
                     }}
+                    disabled={markloading ? true : false}
                   >
-                    Mark Attendance
+                    {markloading ? (
+                      <CircularProgress
+                        size={17}
+                        style={{ color: "red" }}
+                      />
+                    ) : (
+                      "Mark Attendance"
+                    )}
                   </button>
                   <button
                     className={styles.saveattendacebutton}

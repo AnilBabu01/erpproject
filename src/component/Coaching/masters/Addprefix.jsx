@@ -6,10 +6,13 @@ import {
   AddReceiptPrefix,
 } from "../../../redux/actions/commanAction";
 import { useDispatch, useSelector } from "react-redux";
+import CircularProgress from "@mui/material/CircularProgress";
 function Addprefix({ setOpen }) {
   const dispatch = useDispatch();
   const [coursename, setcoursename] = useState("");
-  const { ReceiptFormat } = useSelector((state) => state.addReceiptFormat);
+  const { ReceiptFormat, loading } = useSelector(
+    (state) => state.addReceiptFormat
+  );
   const submit = (e) => {
     e.preventDefault();
     const data = {
@@ -44,7 +47,16 @@ function Addprefix({ setOpen }) {
             </div>
           </div>
           <div className={styles.logbtnstylediv}>
-            <button className={styles.logbtnstyle}>Save</button>
+            <button
+              disabled={loading ? true : false}
+              className={styles.logbtnstyle}
+            >
+              {loading ? (
+                <CircularProgress size={25} style={{ color: "red" }} />
+              ) : (
+                "Save "
+              )}
+            </button>
           </div>
         </form>
       </div>

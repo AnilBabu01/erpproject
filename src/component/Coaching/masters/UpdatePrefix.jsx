@@ -6,15 +6,18 @@ import {
   UpdateReceiptPrefix,
 } from "../../../redux/actions/commanAction";
 import { useDispatch, useSelector } from "react-redux";
+import CircularProgress from "@mui/material/CircularProgress";
 function UpdatePrefix({ setOpen, updatedata }) {
   const dispatch = useDispatch();
   const [coursename, setcoursename] = useState("");
-  const { ReceiptFormat } = useSelector((state) => state.updateReceiptFormat);
+  const { ReceiptFormat, loading } = useSelector(
+    (state) => state.updateReceiptFormat
+  );
 
   const submit = (e) => {
     e.preventDefault();
     const data = {
-      id:updatedata?.id,
+      id: updatedata?.id,
       receiptPrefix: coursename,
     };
     dispatch(UpdateReceiptPrefix(data, setOpen));
@@ -50,7 +53,17 @@ function UpdatePrefix({ setOpen, updatedata }) {
             </div>
           </div>
           <div className={styles.logbtnstylediv}>
-            <button className={styles.logbtnstyle}>Update</button>
+            <button
+              disabled={loading ? true : false}
+              className={styles.logbtnstyle}
+            >
+              {" "}
+              {loading ? (
+                <CircularProgress size={25} style={{ color: "red" }} />
+              ) : (
+                "Update"
+              )}
+            </button>
           </div>
         </form>
       </div>

@@ -5,6 +5,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getfee, AddFee } from "../../../redux/actions/commanAction";
+import CircularProgress from "@mui/material/CircularProgress";
 function Addfee({ setOpen }) {
   const dispatch = useDispatch();
   const [isdata, setisData] = useState([]);
@@ -12,7 +13,7 @@ function Addfee({ setOpen }) {
   const [registrationfee, setregistrationfee] = useState("");
   const [permonthfee, setpermonthfee] = useState("");
   const [courseduration, setcourseduration] = useState("");
-  const { loading, course } = useSelector((state) => state.getcourse);
+  const { loading, course } = useSelector((state) => state.addfee);
 
   const submit = (e) => {
     e.preventDefault();
@@ -113,7 +114,16 @@ function Addfee({ setOpen }) {
             </div>
           </div>
           <div className={styles.logbtnstylediv}>
-            <button className={styles.logbtnstyle}>Save</button>
+            <button
+              disabled={loading ? true : false}
+              className={styles.logbtnstyle}
+            >
+              {loading ? (
+                <CircularProgress size={25} style={{ color: "red" }} />
+              ) : (
+                "Save"
+              )}
+            </button>
           </div>
         </form>
       </div>

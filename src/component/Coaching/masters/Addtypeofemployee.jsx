@@ -6,6 +6,8 @@ import {
   getDesignation,
   AddDesignation,
 } from "../../../redux/actions/commanAction";
+import CircularProgress from "@mui/material/CircularProgress";
+
 function Addtypeofemployee({ setOpen }) {
   const dispatch = useDispatch();
   const [designationname, setdesignationname] = useState("");
@@ -45,7 +47,16 @@ function Addtypeofemployee({ setOpen }) {
             </div>
           </div>
           <div className={styles.logbtnstylediv}>
-            <button className={styles.logbtnstyle}>Save</button>
+            <button
+              disabled={loading ? true : false}
+              className={styles.logbtnstyle}
+            >
+              {loading ? (
+                <CircularProgress size={25} style={{ color: "red" }} />
+              ) : (
+                "Save Category"
+              )}
+            </button>
           </div>
         </form>
       </div>

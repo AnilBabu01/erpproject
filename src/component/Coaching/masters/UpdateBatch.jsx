@@ -3,14 +3,14 @@ import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
 import { Updatebatch } from "../../../redux/actions/commanAction";
 import { useDispatch, useSelector } from "react-redux";
+import CircularProgress from "@mui/material/CircularProgress";
 function UpdateBatch({ updatedata, setOpen }) {
   const dispatch = useDispatch();
   const [starttime, setstarttime] = useState("01:00");
   const [endtime, setendtime] = useState("01:00");
   const [startmedian, setstartmedian] = useState("AM");
   const [endmedian, setendmedian] = useState("PM");
-  const { batch } = useSelector((state) => state.getbatch);
-
+  const { batch, loading } = useSelector((state) => state.editbatch);
 
   const submit = (e) => {
     e.preventDefault();
@@ -24,10 +24,10 @@ function UpdateBatch({ updatedata, setOpen }) {
   };
   useEffect(() => {
     if (updatedata) {
-      setstartmedian(updatedata?.StartingTime?.slice(6,8));
-      setstarttime(updatedata?.StartingTime?.slice(0,5));
-      setendtime(updatedata?.EndingTime?.slice(0,5));
-      setendmedian(updatedata?.EndingTime?.slice(6,8));
+      setstartmedian(updatedata?.StartingTime?.slice(6, 8));
+      setstarttime(updatedata?.StartingTime?.slice(0, 5));
+      setendtime(updatedata?.EndingTime?.slice(0, 5));
+      setendmedian(updatedata?.EndingTime?.slice(6, 8));
     }
   }, []);
 
@@ -106,7 +106,16 @@ function UpdateBatch({ updatedata, setOpen }) {
           </div>
 
           <div className={styles.logbtnstylediv}>
-            <button className={styles.logbtnstyle}>Update</button>
+            <button
+              disabled={loading ? true : false}
+              className={styles.logbtnstyle}
+            >
+              {loading ? (
+                <CircularProgress size={25} style={{ color: "red" }} />
+              ) : (
+                "Update"
+              )}
+            </button>
           </div>
         </form>
       </div>

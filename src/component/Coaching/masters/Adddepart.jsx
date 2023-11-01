@@ -6,10 +6,11 @@ import {
   getDepartment,
   AddDepartment,
 } from "../../../redux/actions/commanAction";
+import CircularProgress from "@mui/material/CircularProgress";
 function Adddepart({ setOpen }) {
   const dispatch = useDispatch();
   const [designationname, setdesignationname] = useState("");
-  const { loading, designation } = useSelector((state) => state.adddesignation);
+  const { loading, designation } = useSelector((state) => state.adddepart);
 
   const submit = (e) => {
     e.preventDefault();
@@ -45,7 +46,16 @@ function Adddepart({ setOpen }) {
             </div>
           </div>
           <div className={styles.logbtnstylediv}>
-            <button className={styles.logbtnstyle}>Save</button>
+            <button
+              disabled={loading ? true : false}
+              className={styles.logbtnstyle}
+            >
+              {loading ? (
+                <CircularProgress size={25} style={{ color: "red" }} />
+              ) : (
+                "Save"
+              )}
+            </button>
           </div>
         </form>
       </div>

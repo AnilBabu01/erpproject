@@ -6,6 +6,7 @@ import styles from "@/styles/register.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { Updatestudent } from "../../../redux/actions/commanAction";
 import { backendUrl } from "../../../config/config";
+import CircularProgress from "@mui/material/CircularProgress";
 const formData = new FormData();
 function UpdateStudent({ updatedata, setOpen }) {
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ function UpdateStudent({ updatedata, setOpen }) {
   const [preview2, setpreview2] = useState("");
   const { course } = useSelector((state) => state.getcourse);
   const { batch } = useSelector((state) => state.getbatch);
-
+  const { loading } = useSelector((state) => state.editstudent);
   const submit = (e) => {
     e.preventDefault();
     formData.set("id", updatedata?.id);
@@ -245,7 +246,7 @@ function UpdateStudent({ updatedata, setOpen }) {
                 {batchs?.map((item, index) => {
                   return (
                     <MenuItem
-                    key={index}
+                      key={index}
                       sx={{
                         fontSize: 14,
                       }}
@@ -286,7 +287,7 @@ function UpdateStudent({ updatedata, setOpen }) {
                 {isdata?.map((item, index) => {
                   return (
                     <MenuItem
-                    key={index}
+                      key={index}
                       sx={{
                         fontSize: 14,
                       }}
@@ -378,7 +379,16 @@ function UpdateStudent({ updatedata, setOpen }) {
             </>
           )}
           <div className={styles.logbtnstylediv}>
-            <button className={styles.logbtnstyle}>Update</button>
+            <button
+              disabled={loading ? true : false}
+              className={styles.logbtnstyle}
+            >
+              {loading ? (
+                <CircularProgress size={25} style={{ color: "red" }} />
+              ) : (
+                "Update"
+              )}
+            </button>
           </div>
         </form>
       </div>

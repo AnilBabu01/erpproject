@@ -8,6 +8,7 @@ import {
   getenquiries,
 } from "../../../redux/actions/coachingAction";
 import { useDispatch, useSelector } from "react-redux";
+import CircularProgress from "@mui/material/CircularProgress";
 function UpdateEnquiry({ updatedata, setOpen }) {
   const dispatch = useDispatch();
   const [isdata, setisData] = useState([]);
@@ -18,8 +19,8 @@ function UpdateEnquiry({ updatedata, setOpen }) {
   const [address, setaddress] = useState("");
   const [courses, setcourses] = useState("");
   const [comment, setcomment] = useState("");
-  const { loading, course } = useSelector((state) => state.getcourse);
-
+  const { course } = useSelector((state) => state.getcourse);
+  const { enquiry, loading } = useSelector((state) => state.updatenequiry);
   const submit = (e) => {
     e.preventDefault();
     const data = {
@@ -146,7 +147,7 @@ function UpdateEnquiry({ updatedata, setOpen }) {
                 {isdata?.map((item, index) => {
                   return (
                     <MenuItem
-                    key={index}
+                      key={index}
                       sx={{
                         fontSize: 14,
                       }}
@@ -171,7 +172,16 @@ function UpdateEnquiry({ updatedata, setOpen }) {
             />
           </div>
           <div className={styles.logbtnstylediv}>
-            <button className={styles.logbtnstyle}>Update Enquiry</button>
+            <button
+              disabled={loading ? true : false}
+              className={styles.logbtnstyle}
+            >
+              {loading ? (
+                <CircularProgress size={25} style={{ color: "red" }} />
+              ) : (
+                "Update Enquiry"
+              )}
+            </button>
           </div>
         </form>
       </div>

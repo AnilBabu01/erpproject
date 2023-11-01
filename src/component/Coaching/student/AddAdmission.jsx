@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Addstudent, getstudent } from "../../../redux/actions/commanAction";
 import { useRouter } from "next/router";
 import { ADD_STUDENT_RESET } from "../../../redux/constants/commanConstants";
+import CircularProgress from "@mui/material/CircularProgress";
+
 const formData = new FormData();
 function AddAdmission({ setOpen }) {
   const navigation = useRouter();
@@ -45,11 +47,9 @@ function AddAdmission({ setOpen }) {
   const { batch } = useSelector((state) => state.getbatch);
   const { user } = useSelector((state) => state.auth);
 
-  const { studentaddstatus, student } = useSelector(
+  const { studentaddstatus, student, loading } = useSelector(
     (state) => state.addstudent
   );
-
- 
 
   const submit = () => {
     formData.set("name", studentname);
@@ -64,7 +64,7 @@ function AddAdmission({ setOpen }) {
     formData.set("fathersName", fathersname);
     formData.set("courseorclass", courses);
     formData.set("rollnumber", studentrollno);
-    formData.set("StudentStatus", adminssiondate)
+    formData.set("StudentStatus", adminssiondate);
     formData.set("batch", batchname);
     formData.set("admissionDate", adminssiondate);
     formData.set("regisgrationfee", amount);
@@ -665,8 +665,16 @@ function AddAdmission({ setOpen }) {
                     Back
                   </button>
 
-                  <button className={styles.cancelbtn} onClick={() => submit()}>
-                    Save
+                  <button
+                    disabled={loading ? true : false}
+                    className={styles.cancelbtn}
+                    onClick={() => submit()}
+                  >
+                    {loading ? (
+                      <CircularProgress size={25} style={{ color: "red" }} />
+                    ) : (
+                      "Save"
+                    )}
                   </button>
                 </div>
               </>
