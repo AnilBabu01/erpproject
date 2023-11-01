@@ -75,7 +75,8 @@ import {
   MonthlyAttendanceReducer,
   getHolidayReducer
 } from "./redux/reducers/attendanceReducers";
-import { getfee } from "./redux/actions/commanAction";
+import {getChoachingMonthlyFeeReducer} from './redux/reducers/reportReducers'
+
 const reducer = combineReducers({
   auth: authReducer,
   user: userReducer,
@@ -142,7 +143,8 @@ const reducer = combineReducers({
   getReceiptFormat: getReceiptFormatReducer,
   updateReceiptFormat: updateReceiptFormatReducer,
   getHoliday: getHolidayReducer,
-  getReceiptPrint: getReceiptPrintReducer
+  getReceiptPrint: getReceiptPrintReducer,
+  getChoachingMonthlyFee:getChoachingMonthlyFeeReducer
 });
 const middlware = [thunk];
 export const store = createStore(

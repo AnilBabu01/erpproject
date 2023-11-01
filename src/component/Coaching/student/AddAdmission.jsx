@@ -64,7 +64,7 @@ function AddAdmission({ setOpen }) {
     formData.set("fathersName", fathersname);
     formData.set("courseorclass", courses);
     formData.set("rollnumber", studentrollno);
-    formData.set("StudentStatus", "admission");
+    formData.set("StudentStatus", adminssiondate)
     formData.set("batch", batchname);
     formData.set("admissionDate", adminssiondate);
     formData.set("regisgrationfee", amount);

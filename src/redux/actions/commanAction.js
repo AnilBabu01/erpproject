@@ -1032,7 +1032,7 @@ export const deletestudent = (deleteid, setOpenalert) => async (dispatch) => {
 
 // Get all Enquiry
 export const getstudent =
-  (fromdate, todate, scoursename, sbatch, sstudent, sfathers, rollnumber) =>
+  (fromdate, todate, scoursename, sbatch, sstudent, sfathers, rollnumber,) =>
   async (dispatch) => {
     try {
       const config = {

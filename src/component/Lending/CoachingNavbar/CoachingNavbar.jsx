@@ -413,9 +413,9 @@ const CoachingNavbar = () => {
                         <Link href="/coaching/report/pendingfee">
                           Fees Pending Report
                         </Link>
-                        <Link href="/coaching/report/feestudent">
+                        {/* <Link href="/coaching/report/feestudent">
                           Fees Pending Studentwise report
-                        </Link>
+                        </Link> */}
                       </div>
                     </div>
                     <div className="main_report_dropdown_rightmargin">

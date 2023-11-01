@@ -8,16 +8,100 @@ import {
   deletestudent,
   getfee,
   getCourseDuration,
+  getPrintReceipt,
 } from "../../../redux/actions/commanAction";
+import { getCoachingMonthlyFee } from "../../../redux/actions/reportAction";
 import styles from "../../coaching/employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
 import Addfee from "../../../component/Coaching/accounts/Addfee";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
+import { useRouter } from "next/router";
 
-function Collectfee() {
+const monthlist = [
+  {
+    id: 1,
+    name: "January",
+  },
+  {
+    id: 2,
+    name: "February",
+  },
+  {
+    id: 3,
+    name: "Mark",
+  },
+  {
+    id: 4,
+    name: "April",
+  },
+  ,
+  {
+    id: 5,
+    name: "May",
+  },
+  {
+    id: 6,
+    name: "Jun",
+  },
+  {
+    id: 7,
+    name: "July",
+  },
+  {
+    id: 8,
+    name: "August",
+  },
+  {
+    id: 8,
+    name: "September",
+  },
+  {
+    id: 10,
+    name: "October",
+  },
+  {
+    id: 11,
+    name: "November",
+  },
+  {
+    id: 12,
+    name: "December",
+  },
+];
+
+const monthnamelist = {
+  1: "January",
+
+  2: "February",
+
+  3: "Mark",
+
+  4: "April",
+
+  5: "May",
+
+  6: "Jun",
+
+  7: "July",
+
+  8: "August",
+
+  9: "September",
+
+  10: "October",
+
+  11: "November",
+
+  12: "December",
+};
+
+function Feecollection() {
+  const navigation = useRouter();
   const dispatch = useDispatch();
+  let currmonth = new Date().getMonth();
+  const [month, setmonth] = useState(currmonth + 1);
   const [noOfMonth, setnoOfMonth] = useState("");
   const [scoursename, setscoursename] = useState("");
   const [rollnumber, setrollnumber] = useState("");
@@ -35,13 +119,13 @@ function Collectfee() {
   const [isdata, setisData] = useState([]);
   const [userdata, setuserdata] = useState("");
   const [showfathers, setshowfathers] = useState(false);
-  const [courselist, setcourselist] = useState([]);
   const { user } = useSelector((state) => state.auth);
-  const { loading, student } = useSelector((state) => state.getstudent);
+  const { loading, monthlyFee } = useSelector(
+    (state) => state.getChoachingMonthlyFee
+  );
   const { batch } = useSelector((state) => state.getbatch);
   const { courseduarion } = useSelector((state) => state.getCourseDur);
-  const { course } = useSelector((state) => state.getcourse);
-  console.log("student", isdata);
+  console.log("monthlyFee", monthlyFee);
   var newmonthnames = [];
   var feestatusarray = [];
   let months;
@@ -167,9 +251,22 @@ function Collectfee() {
     setOpenupdate(false);
   };
 
+  const ClickOpendelete = (id) => {
+    setOpenalert(true);
+    setdeleteid(id);
+  };
+
+  const handleClosedelete = () => {
+    setOpenalert(false);
+  };
+
+  const handledelete = () => {
+    dispatch(deletestudent(deleteid, setOpenalert));
+  };
+
   useEffect(() => {
-    if (student) {
-      setisData(student);
+    if (monthlyFee) {
+      setisData(monthlyFee);
     }
     if (batch) {
       setbatchs(batch);
@@ -180,13 +277,10 @@ function Collectfee() {
     if (courseduarion) {
       setnoOfMonth(courseduarion);
     }
-    if (course) {
-      setcourselist(course);
-    }
-  }, [student, batch, user, courseduarion, course]);
+  }, [monthlyFee, batch, user, courseduarion]);
 
   useEffect(() => {
-    dispatch(getstudent());
+    dispatch(getCoachingMonthlyFee());
   }, [open, openupdate, openalert]);
   useEffect(() => {
     dispatch(loadUser());
@@ -199,14 +293,13 @@ function Collectfee() {
   const filterdata = (e) => {
     e.preventDefault();
     dispatch(
-      getstudent(
+      getCoachingMonthlyFee(
         fromdate,
-        todate,
         scoursename,
-        sbatch,
         sstudent,
-        sfathers,
-        rollnumber
+        rollnumber,
+        month,
+        sbatch
       )
     );
   };
@@ -218,9 +311,17 @@ function Collectfee() {
     settodate("");
     setscoursename("");
     setsbatch("");
-    dispatch(getstudent());
+    dispatch(getPrintReceipt());
   };
 
+  const downloadReceipt = (data) => {
+    navigation.push({
+      pathname: "/coaching/student/receipt",
+      query: {
+        receiptdata: JSON.stringify(data),
+      },
+    });
+  };
   return (
     <>
       {openupdate && (
@@ -254,22 +355,15 @@ function Collectfee() {
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
               <form onSubmit={filterdata} className={styles.searchoptiondiv}>
-                <label>From</label>
+                {/* <label>Date</label>
                 <input
                   className={styles.opensearchinput}
                   type="date"
                   value={fromdate}
                   name="fromdate"
                   onChange={(e) => setfromdate(e.target.value)}
-                />
-                <label>To</label>
-                <input
-                  className={styles.opensearchinput}
-                  type="date"
-                  value={todate}
-                  name="todate"
-                  onChange={(e) => settodate(e.target.value)}
-                />
+                /> */}
+
                 <select
                   className={styles.opensearchinput}
                   sx={{
@@ -282,7 +376,9 @@ function Collectfee() {
                   }}
                   value={sbatch}
                   name="sbatch"
-                  onChange={(e) => setsbatch(e.target.value)}
+                  onChange={(e) => {
+                    setsbatch(e.target.value);
+                  }}
                   displayEmpty
                 >
                   <option
@@ -317,9 +413,11 @@ function Collectfee() {
                       paddingBottom: "0.6em",
                     },
                   }}
-                  value={scoursename}
-                  name="scoursename"
-                  onChange={(e) => setscoursename(e.target.value)}
+                  value={month}
+                  name="month"
+                  onChange={(e) => {
+                    setmonth(e.target.value);
+                  }}
                   displayEmpty
                 >
                   <option
@@ -328,52 +426,27 @@ function Collectfee() {
                     }}
                     value={""}
                   >
-                    Please Select Batch
+                    Month
                   </option>
-
-                  {courselist?.map((item, index) => {
+                  {monthlist?.map((item, index) => {
                     return (
                       <option
                         key={index}
                         sx={{
                           fontSize: 14,
                         }}
-                        value={item?.coursename}
+                        value={item?.id}
                       >
-                        {item?.coursename}
+                        {item?.name}
                       </option>
                     );
                   })}
                 </select>
-
-                <input
-                  className={styles.opensearchinput10}
-                  type="text"
-                  placeholder="Student's name"
-                  value={sstudent}
-                  name="sstudent}"
-                  onChange={(e) => setsstudent(e.target.value)}
-                />
-
-                <input
-                  className={styles.opensearchinput10}
-                  type="text"
-                  placeholder="Roll No"
-                  value={rollnumber}
-                  name="rollnumber"
-                  onChange={(e) => setrollnumber(e.target.value)}
-                />
-
                 <button>Search</button>
               </form>
               <button onClick={() => reset()}>Reset</button>
             </div>
             <div className={styles.imgdivformat}>
-              <img
-                className={styles.imgdivformatimg}
-                src="/images/Print.png"
-                alt="img"
-              />
               <img
                 className={styles.imgdivformatimg}
                 src="/images/ExportPdf.png"
@@ -383,19 +456,6 @@ function Collectfee() {
             </div>
           </div>
 
-          <div className={styles.addtopmenubar}>
-            <div className={styles.showfathers}>
-              <input
-                type="checkbox"
-                checked={showfathers}
-                value={showfathers}
-                onChange={(e) => {
-                  setshowfathers(e.target.checked);
-                }}
-              />
-              <label>Show Father&apos s Name</label>
-            </div>
-          </div>
           <div className={styles.add_divmarginn10}>
             <div className={styles.tablecontainer}>
               <table className={styles.tabletable}>
@@ -403,70 +463,26 @@ function Collectfee() {
                   <tr className={styles.tabletr}>
                     <th className={styles.tableth}>Roll No</th>
                     <th className={styles.tableth}>Student_Name</th>
-                    {showfathers && (
-                      <>
-                        <th className={styles.tableth}>Father&apos s Name</th>
-                      </>
-                    )}
-                    <th className={styles.tableth}>Adminssion_Date</th>
-                    <th className={styles.tableth}>Registration_Fee</th>
-                    <th className={styles.tableth}>Total Fee</th>
-                    <th className={styles.tableth}>Paid Fee</th>
-                    {newmonthnames &&
-                      newmonthnames?.map((item, index) => {
-                        return (
-                          <th key={index} className={styles.tableth}>
-                            {item?.month} {item?.year}
-                          </th>
-                        );
-                      })}
-
-                    <th className={styles.tableth}>Action</th>
+                    <th className={styles.tableth}>Course</th>
+                    <th className={styles.tableth}>Paid_Date</th>
+                    <th className={styles.tableth}>Receipt_Types</th>
+                    <th className={styles.tableth}>Paid Amount</th>
+                    {/* 
+                    <th className={styles.tableth}>Action</th> */}
                   </tr>
 
                   {isdata?.map((item, index) => {
                     return (
                       <tr key={index} className={styles.tabletr}>
-                        <td className={styles.tabletd}>{item?.rollnumber}</td>
-                        <td className={styles.tabletd}>{item?.name}</td>
-                        {showfathers && (
-                          <>
-                            <td className={styles.tabletd}>
-                              {item?.fathersName}
-                            </td>
-                          </>
-                        )}
+                        <td className={styles.tabletd}>{item?.RollNo}</td>
+                        <td className={styles.tabletd}>{item?.studentName}</td>
+                        <td className={styles.tabletd}>{item?.Course}</td>
                         <td className={styles.tabletd}>
-                          {moment(item?.admissionDate).format("MM/DD/YYYY")}
+                          {moment(item?.PaidDate).format("MM/DD/YYYY")}
                         </td>
-                        <td className={styles.tabletd}>
-                          {item?.Registrationfeestatus == true
-                            ? `Paid (${item?.regisgrationfee})`
-                            : item?.regisgrationfee}
-                        </td>
-                        <td className={styles.tabletd}>
-                          {item?.studentTotalFee}
-                        </td>
-                        <td className={styles.tabletd}>{item?.paidfee}</td>
-                        {item?.coachingfeestatus &&
-                          convetobjectsinglekey(
-                            item?.coachingfeestatus,
-                            item?.admissionDate
-                          )?.map((item, i) => {
-                            return (
-                              <td
-                                key={i}
-                                className={
-                                  i === item?.startmonth
-                                    ? styles.tablethstart
-                                    : styles.tableth
-                                }
-                              >
-                                {i >= item?.startmonth ? item?.value : "No"}
-                              </td>
-                            );
-                          })}
-
+                        <td className={styles.tabletd}>{item?.Feetype}</td>
+                        <td className={styles.tabletd}>{item?.PaidAmount}</td>
+                        {/* 
                         <td className={styles.tabkeddd}>
                           <button
                             disabled={
@@ -489,24 +505,22 @@ function Collectfee() {
                                   ? styles.tabkedddimgactive
                                   : styles.tabkedddimgdisable
                               }
-                              onClick={() =>
-                                ClickOpenupdate(
-                                  item,
-                                  convetobjectsinglekey(
-                                    item?.coachingfeestatus,
-                                    item?.admissionDate
-                                  ),
-                                  newmonthnames
-                                )
-                              }
-                              src="/images/payicons.png"
+                              onClick={() => downloadReceipt(item)}
+                              src="/images/Print.png"
                               alt="imgss"
                             />
                           </button>
-                        </td>
+                        </td> */}
                       </tr>
                     );
                   })}
+                  {isdata?.length === 0 && (
+                    <>
+                      <tr>
+                        <td colSpan={7}>Not Record Found</td>
+                      </tr>
+                    </>
+                  )}
                 </tbody>
               </table>
             </div>
@@ -518,4 +532,4 @@ function Collectfee() {
   );
 }
 
-export default Collectfee;
+export default Feecollection;

@@ -22,6 +22,7 @@ import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
 
 function Admission() {
+  
   const dispatch = useDispatch();
   const [scoursename, setscoursename] = useState("");
   const [sfathers, setsfathers] = useState("");
