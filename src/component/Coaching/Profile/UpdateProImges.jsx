@@ -48,26 +48,37 @@ function UpdateProImges({ setOpen }) {
     formData.set("Parentpassword", parentpassword);
     formData.set("SendemailPassword", sendemailpassword);
     formData.set("Sendemail", sendemail);
-    formData.set("profileurl", profileimg);
-    formData.set("certificatelogo", certificateimg);
-    formData.set("logourl", logoimg);
+    formData.set(
+      "profileurl",
+      profileimg ? profileimg : user?.data?.CredentailsData?.profileurl
+    );
+    formData.set(
+      "certificatelogo",
+      certificateimg
+        ? certificateimg
+        : user?.data?.CredentailsData?.certificatelogo
+    );
+    formData.set(
+      "logourl",
+      logoimg ? logoimg : user?.data?.CredentailsData?.logourl
+    );
     dispatch(Updatecredentials(formData, setOpen));
   };
   useEffect(() => {
     if (user) {
-      setowername( user?.data?.CredentailsData?.name);
-      setemail( user?.data?.CredentailsData?.email);
-      setaddress( user?.data?.CredentailsData?.address);
-      setcity( user?.data?.CredentailsData?.city);
-      setorganizationName( user?.data?.CredentailsData?.institutename);
-      setpincode( user?.data?.CredentailsData?.pincode);
-      setstate( user?.data?.CredentailsData?.state);
-      setphoneno1( user?.data?.CredentailsData?.phoneno1);
-      setphoneno2( user?.data?.CredentailsData?.phoneno1);
-      setstudentpassword( user?.data?.CredentailsData?.Studentpassword);
-      setparentpassword( user?.data?.CredentailsData?.Parentpassword);
-      setsendemailpassword( user?.data?.CredentailsData?.SendemailPassword);
-      setsendemail( user?.data?.CredentailsData?.Sendemail);
+      setowername(user?.data?.CredentailsData?.name);
+      setemail(user?.data?.CredentailsData?.email);
+      setaddress(user?.data?.CredentailsData?.address);
+      setcity(user?.data?.CredentailsData?.city);
+      setorganizationName(user?.data?.CredentailsData?.institutename);
+      setpincode(user?.data?.CredentailsData?.pincode);
+      setstate(user?.data?.CredentailsData?.state);
+      setphoneno1(user?.data?.CredentailsData?.phoneno1);
+      setphoneno2(user?.data?.CredentailsData?.phoneno1);
+      setstudentpassword(user?.data?.CredentailsData?.Studentpassword);
+      setparentpassword(user?.data?.CredentailsData?.Parentpassword);
+      setsendemailpassword(user?.data?.CredentailsData?.SendemailPassword);
+      setsendemail(user?.data?.CredentailsData?.Sendemail);
     }
   }, []);
   useEffect(() => {
@@ -111,11 +122,11 @@ function UpdateProImges({ setOpen }) {
                   </>
                 ) : (
                   <>
-                    { user?.data?.CredentailsData?.profileurl ? (
+                    {user?.data?.CredentailsData?.profileurl ? (
                       <>
                         <img
                           className="keydetailsdivproimg"
-                          src={`${backendUrl}public/upload/${ user?.data?.CredentailsData?.profileurl}`}
+                          src={`${backendUrl}public/upload/${user?.data?.CredentailsData?.profileurl}`}
                           alt="Logo"
                         />
                       </>
@@ -155,11 +166,11 @@ function UpdateProImges({ setOpen }) {
                   </>
                 ) : (
                   <>
-                    { user?.data?.CredentailsData?.certificatelogo ? (
+                    {user?.data?.CredentailsData?.certificatelogo ? (
                       <>
                         <img
                           className="keydetailsdivcertificatelogoimg"
-                          src={`${backendUrl}public/upload/${ user?.data?.CredentailsData?.certificatelogo}`}
+                          src={`${backendUrl}public/upload/${user?.data?.CredentailsData?.certificatelogo}`}
                           alt="Logo"
                         />
                       </>
@@ -200,11 +211,11 @@ function UpdateProImges({ setOpen }) {
                   </>
                 ) : (
                   <>
-                    { user?.data?.CredentailsData?.logourl ? (
+                    {user?.data?.CredentailsData?.logourl ? (
                       <>
                         <img
                           className="keydetailsdivlogoimg"
-                          src={`${backendUrl}public/upload/${ user?.data?.CredentailsData?.logourl}`}
+                          src={`${backendUrl}public/upload/${user?.data?.CredentailsData?.logourl}`}
                           alt="Logo"
                         />
                       </>

@@ -31,6 +31,9 @@ function Updateprofile({ setOpen }) {
     formData.set("city", city);
     formData.set("state", state);
     formData.set("pincode", pincode);
+    formData.set("profileurl", user?.data?.CredentailsData?.profileurl);
+    formData.set("certificatelogo",user?.data?.CredentailsData?.certificatelogo);
+    formData.set("logourl", user?.data?.CredentailsData?.logourl);
     dispatch(Updatecredentials(formData, setOpen));
   };
   useEffect(() => {

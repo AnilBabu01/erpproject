@@ -334,6 +334,9 @@ const CoachingNavbar = () => {
                         <Link href="/coaching/masters/receiptprefix">
                           Receipt Prefix
                         </Link>
+                        <Link href="/coaching/masters/employeeprefix">
+                          Employee Id Prefix
+                        </Link>
                         <Link href="/coaching/masters/masterfee">
                           Fees Structure
                         </Link>

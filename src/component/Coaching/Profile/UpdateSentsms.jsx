@@ -41,6 +41,9 @@ function UpdateSentsms({ setOpen }) {
     formData.set("Parentpassword", parentpassword);
     formData.set("SendemailPassword", sendemailpassword);
     formData.set("Sendemail", sendemail);
+    formData.set("profileurl", user?.data?.CredentailsData?.profileurl);
+    formData.set("certificatelogo",user?.data?.CredentailsData?.certificatelogo);
+    formData.set("logourl", user?.data?.CredentailsData?.logourl);
     dispatch(Updatecredentials(formData, setOpen));
   };
   useEffect(() => {
@@ -58,6 +61,7 @@ function UpdateSentsms({ setOpen }) {
       setparentpassword( user?.data?.CredentailsData?.Parentpassword);
       setsendemailpassword( user?.data?.CredentailsData?.SendemailPassword)
       setsendemail( user?.data?.CredentailsData?.Sendemail)
+
     }
   }, []);
   useEffect(() => {

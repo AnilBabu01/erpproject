@@ -24,6 +24,7 @@ function UpdateCreadentials({ updatedata, setOpen }) {
   const { user } = useSelector((state) => state.auth);
   const submit = (e) => {
     e.preventDefault();
+    formData.set("id", updatedata?.id);
     formData.set("name", owername);
     formData.set("email", email);
     formData.set("institutename", organizationName);
@@ -36,6 +37,9 @@ function UpdateCreadentials({ updatedata, setOpen }) {
     formData.set("Studentpassword", studentpassword);
     formData.set("Parentpassword", parentpassword);
     formData.set("Employeepassword", Employeepassword);
+    formData.set("profileurl", user?.data?.CredentailsData?.profileurl);
+    formData.set("certificatelogo",user?.data?.CredentailsData?.certificatelogo);
+    formData.set("logourl", user?.data?.CredentailsData?.logourl);
     dispatch(Updatecredentials(formData, setOpen));
   };
   useEffect(() => {

@@ -812,11 +812,11 @@ function AddEmp({ setOpen }) {
                     <label>Email</label>
                     <input
                       required
-                      type="text"
+                      type="email"
                       placeholder="Enter the Email"
-                      value={address}
-                      name="address"
-                      onChange={(e) => setaddress(e.target.value)}
+                      value={empemail}
+                      name="empemail"
+                      onChange={(e) => setempemail(e.target.value)}
                     />
                   </div>
 
