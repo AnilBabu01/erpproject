@@ -17,6 +17,13 @@ import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+const studentStatus = [
+  { label: "Active", value: "Active" },
+  { label: "On Leave", value: "On Leave" },
+  { label: "Left In Middle", value: "Left In Middle" },
+  { label: "Completed", value: "Completed" },
+  { label: "Unknown", value: "Unknown" },
+];
 function Collectfee() {
   const dispatch = useDispatch();
   const [noOfMonth, setnoOfMonth] = useState("");
@@ -37,12 +44,14 @@ function Collectfee() {
   const [userdata, setuserdata] = useState("");
   const [showfathers, setshowfathers] = useState(false);
   const [courselist, setcourselist] = useState([]);
+  const [status, setstatus] = useState("");
   const { user } = useSelector((state) => state.auth);
   const { loading, student } = useSelector((state) => state.getstudent);
   const { batch } = useSelector((state) => state.getbatch);
   const { courseduarion } = useSelector((state) => state.getCourseDur);
   const { course } = useSelector((state) => state.getcourse);
-  console.log("student", isdata);
+
+  console.log("student", status);
   var newmonthnames = [];
   var feestatusarray = [];
   let months;
@@ -207,7 +216,8 @@ function Collectfee() {
         sbatch,
         sstudent,
         sfathers,
-        rollnumber
+        rollnumber,
+        status
       )
     );
   };
@@ -219,6 +229,7 @@ function Collectfee() {
     settodate("");
     setscoursename("");
     setsbatch("");
+    setstatus("");
     dispatch(getstudent());
   };
 
@@ -255,7 +266,7 @@ function Collectfee() {
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
               <form onSubmit={filterdata} className={styles.searchoptiondiv}>
-                <label>From</label>
+                {/* <label>From</label>
                 <input
                   className={styles.opensearchinput}
                   type="date"
@@ -270,7 +281,7 @@ function Collectfee() {
                   value={todate}
                   name="todate"
                   onChange={(e) => settodate(e.target.value)}
-                />
+                /> */}
                 <select
                   className={styles.opensearchinput}
                   sx={{
@@ -292,7 +303,7 @@ function Collectfee() {
                     }}
                     value={""}
                   >
-                    Please Select Batch
+                    ALL Batch
                   </option>
                   {batchs?.map((item, index) => {
                     return (
@@ -329,7 +340,7 @@ function Collectfee() {
                     }}
                     value={""}
                   >
-                    Please Select Batch
+                    ALL Course
                   </option>
 
                   {courselist?.map((item, index) => {
@@ -342,6 +353,44 @@ function Collectfee() {
                         value={item?.coursename}
                       >
                         {item?.coursename}
+                      </option>
+                    );
+                  })}
+                </select>
+                <select
+                  className={styles.opensearchinput}
+                  sx={{
+                    width: "18.8rem",
+                    fontSize: 14,
+                    "& .MuiSelect-select": {
+                      paddingTop: "0.6rem",
+                      paddingBottom: "0.6em",
+                    },
+                  }}
+                  value={status}
+                  name="status"
+                  onChange={(e) => setstatus(e.target.value)}
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={""}
+                  >
+                    ALL Status
+                  </option>
+
+                  {studentStatus?.map((item, index) => {
+                    return (
+                      <option
+                        key={index}
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={item?.value}
+                      >
+                        {item?.value}
                       </option>
                     );
                   })}
@@ -411,6 +460,7 @@ function Collectfee() {
                     )}
                     <th className={styles.tableth}>Adminssion_Date</th>
                     <th className={styles.tableth}>Registration_Fee</th>
+                    <th className={styles.tableth}>Status</th>
                     <th className={styles.tableth}>Total Fee</th>
                     <th className={styles.tableth}>Paid Fee</th>
                     {newmonthnames &&
@@ -445,6 +495,7 @@ function Collectfee() {
                             ? `Paid (${item?.regisgrationfee})`
                             : item?.regisgrationfee}
                         </td>
+                        <td className={styles.tabletd}>{item?.Status}</td>
                         <td className={styles.tabletd}>
                           {item?.studentTotalFee}
                         </td>

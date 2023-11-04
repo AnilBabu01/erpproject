@@ -1032,7 +1032,16 @@ export const deletestudent = (deleteid, setOpenalert) => async (dispatch) => {
 
 // Get all Enquiry
 export const getstudent =
-  (fromdate, todate, scoursename, sbatch, sstudent, sfathers, rollnumber,) =>
+  (
+    fromdate,
+    todate,
+    scoursename,
+    sbatch,
+    sstudent,
+    sfathers,
+    rollnumber,
+    status
+  ) =>
   async (dispatch) => {
     try {
       const config = {
@@ -1048,11 +1057,12 @@ export const getstudent =
         sbatch ||
         sfathers ||
         sstudent ||
-        rollnumber
+        rollnumber ||
+        status
       ) {
         dispatch({ type: ALL_STUDENT_REQUEST });
         const { data } = await axios.get(
-          `${backendApiUrl}student/addstudent?name=${scoursename}&batch=${sbatch}&fromdate=${fromdate}&todate=${todate}&fathers=${sfathers}&studentname=${sstudent}&rollnumber=${rollnumber}`,
+          `${backendApiUrl}student/addstudent?name=${scoursename}&batch=${sbatch}&fromdate=${fromdate}&todate=${todate}&fathers=${sfathers}&studentname=${sstudent}&rollnumber=${rollnumber}&status=${status}`,
           config
         );
         dispatch({

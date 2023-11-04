@@ -11,6 +11,13 @@ import styles from "../employee/employee.module.css";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
 import CircularProgress from "@mui/material/CircularProgress";
+const studentStatus = [
+  { label: "Active", value: "Active" },
+  { label: "On Leave", value: "On Leave" },
+  { label: "Left In Middle", value: "Left In Middle" },
+  { label: "Completed", value: "Completed" },
+  { label: "Unknown", value: "Unknown" },
+];
 const monthlist = [
   {
     id: 1,
@@ -104,6 +111,9 @@ function Attendance() {
   const [onlyMonthName, setonlyMonthName] = useState("");
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
+  const [status, setstatus] = useState("");
+  const { course } = useSelector((state) => state.getcourse);
+  const [courselist, setcourselist] = useState([]);
   const [attendancedetails, setattendancedetails] = useState([
     {
       id: "",
@@ -161,7 +171,18 @@ function Attendance() {
     if (user) {
       setuserdata(user);
     }
-  }, [markattendance, batch, isdata, doneattendance, monthlyattendance, user]);
+    if (course) {
+      setcourselist(course);
+    }
+  }, [
+    markattendance,
+    batch,
+    isdata,
+    doneattendance,
+    monthlyattendance,
+    user,
+    course,
+  ]);
 
   useEffect(() => {
     dispatch(loadUser());
@@ -255,6 +276,7 @@ function Attendance() {
                       );
                     })}
                   </select>
+
                   <button
                     className={styles.saveattendacebutton}
                     onClick={() => {
@@ -265,10 +287,7 @@ function Attendance() {
                     disabled={markloading ? true : false}
                   >
                     {markloading ? (
-                      <CircularProgress
-                        size={17}
-                        style={{ color: "red" }}
-                      />
+                      <CircularProgress size={17} style={{ color: "red" }} />
                     ) : (
                       "Mark Attendance"
                     )}
@@ -403,6 +422,7 @@ function Attendance() {
                     >
                       Month
                     </option>
+
                     {monthlist?.map((item, index) => {
                       return (
                         <option
@@ -417,11 +437,51 @@ function Attendance() {
                       );
                     })}
                   </select>
+                  <select
+                    className={styles.opensearchinput}
+                    sx={{
+                      width: "18.8rem",
+                      fontSize: 14,
+                      "& .MuiSelect-select": {
+                        paddingTop: "0.6rem",
+                        paddingBottom: "0.6em",
+                      },
+                    }}
+                    value={status}
+                    name="status"
+                    onChange={(e) => setstatus(e.target.value)}
+                    displayEmpty
+                  >
+                    <option
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={""}
+                    >
+                      ALL Status
+                    </option>
+
+                    {studentStatus?.map((item, index) => {
+                      return (
+                        <option
+                          key={index}
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={item?.value}
+                        >
+                          {item?.value}
+                        </option>
+                      );
+                    })}
+                  </select>
                   <button
                     className={styles.saveattendacebutton}
                     onClick={() => {
                       if (month && sbatch) {
-                        dispatch(MonthlyStudentAttendance(sbatch, month));
+                        dispatch(
+                          MonthlyStudentAttendance(sbatch, month,"","",status)
+                        );
                       }
                     }}
                   >
@@ -698,7 +758,7 @@ function Attendance() {
                                     <td key={index} className={styles.tabletd}>
                                       <button
                                         className={
-                                          item?.attendaceStatusIntext ===
+                                          item?.	attendaceStatus ===
                                           "Present"
                                             ? styles.presentbtn
                                             : item?.attendaceStatusIntext ===
@@ -713,6 +773,14 @@ function Attendance() {
                                           "Absent" && <>A</>}
                                         {item?.attendaceStatusIntext ===
                                           "Holiday" && <>H</>}
+                                        {item?.attendaceStatusIntext ===
+                                          "Unknown" && <>Unknown</>}
+                                        {item?.attendaceStatusIntext ===
+                                          "Left In Middle" && (
+                                          <>Left In Middle</>
+                                        )}
+                                        {item?.attendaceStatusIntext ===
+                                          "On Leave" && <>On Leave</>}
                                       </button>
                                     </td>
                                   );

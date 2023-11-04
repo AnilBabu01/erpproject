@@ -91,7 +91,7 @@ export const DoneStudentAttendance = (udata) => async (dispatch) => {
 };
 
 export const MonthlyStudentAttendance =
-  (udata, months, rollname, studentname) => async (dispatch) => {
+  (udata, months, rollname, studentname,status) => async (dispatch) => {
     try {
       const config = {
         headers: {
@@ -107,6 +107,7 @@ export const MonthlyStudentAttendance =
           month: months,
           rollname: rollname,
           studentname: studentname,
+          status:status
         },
         config
       );

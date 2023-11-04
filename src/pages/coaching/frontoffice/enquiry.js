@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { loadUser } from "../../../redux/actions/authActions";
 import styles from "../../coaching/employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
@@ -18,8 +18,12 @@ import { getcourse } from "../../../redux/actions/commanAction";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@mui/material";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
-import moment  from 'moment';
+import moment from "moment";
+import exportFromJSON from "export-from-json";
+import { useReactToPrint } from "react-to-print";
+import { ExportPdfEnquiry } from "../../../component/Coaching/ExportPdf/ExportPdf";
 function Enquiry() {
+  const componentRef = useRef(null);
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [openupdate, setOpenupdate] = useState(false);
@@ -113,6 +117,31 @@ function Enquiry() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [loading]);
 
+  const ExportToExcel = (isData) => {
+    const fileName = "EnquiryReport";
+    const exportType = "xls";
+    var data = [];
+
+    isData.map((item, index) => {
+      data.push({
+        Date: moment(item?.EnquiryDate).format("MM/DD/YYYY"),
+        "Student Name": item?.StudentName,
+        "Student Number": item?.StudentNumber,
+        "Student Email": item?.StudentEmail,
+        Address: item?.Address,
+        Course: item?.Course,
+        Comment: item?.Comment,
+        "Created Date": moment(item?.created_at).format("DD-MM-YYYY"),
+      });
+    });
+
+    exportFromJSON({ data, fileName, exportType });
+  };
+
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
   return (
     <>
       {open && (
@@ -127,7 +156,6 @@ function Enquiry() {
                 "& .MuiPaper-root": {
                   width: "100%",
                   maxWidth: "60rem",
-                 
                 },
               },
             }}
@@ -218,16 +246,22 @@ function Enquiry() {
             </div>
             <div className={styles.imgdivformat}>
               <img
+                onClick={() => handlePrint()}
                 className={styles.imgdivformatimg}
                 src="/images/Print.png"
                 alt="img"
               />
               <img
+                onClick={() => ExportPdfEnquiry(isdata, "EnquiryPdf")}
                 className={styles.imgdivformatimg}
                 src="/images/ExportPdf.png"
                 alt="img"
               />
-              <img src="/images/ExportExcel.png" alt="img" />
+              <img
+                onClick={() => ExportToExcel(isdata)}
+                src="/images/ExportExcel.png"
+                alt="img"
+              />
             </div>
           </div>
 
@@ -254,7 +288,7 @@ function Enquiry() {
           </div>
           <div className={styles.add_divmarginn}>
             <div className={styles.tablecontainer}>
-              <table className={styles.tabletable}>
+              <table className={styles.tabletable} ref={componentRef}>
                 <tbody>
                   <tr className={styles.tabletr}>
                     <th className={styles.tableth}>S.NO</th>
@@ -270,11 +304,11 @@ function Enquiry() {
 
                   {isdata?.map((item, index) => {
                     return (
-                      <tr
-                        key={index}
-                      className={styles.tabletr}>
+                      <tr key={index} className={styles.tabletr}>
                         <td className={styles.tabletd}>{index + 1}</td>
-                        <td className={styles.tabletd}>{ moment(item?.EnquiryDate).format('MM/DD/YYYY')}</td>
+                        <td className={styles.tabletd}>
+                          {moment(item?.EnquiryDate).format("MM/DD/YYYY")}
+                        </td>
                         <td className={styles.tabletd}>{item?.StudentName}</td>
                         <td className={styles.tabletd}>
                           {item?.StudentNumber}
@@ -290,7 +324,8 @@ function Enquiry() {
                               userdata?.data?.User?.userType === "institute"
                                 ? false
                                 : userdata?.data &&
-                                  userdata?.data?.User?.fronroficeDelete === true
+                                  userdata?.data?.User?.fronroficeDelete ===
+                                    true
                                 ? false
                                 : true
                             }
@@ -301,7 +336,8 @@ function Enquiry() {
                                 userdata?.data?.User?.userType === "institute"
                                   ? styles.tabkedddimgactive
                                   : userdata?.data &&
-                                    userdata?.data?.User?.fronroficeDelete === true
+                                    userdata?.data?.User?.fronroficeDelete ===
+                                      true
                                   ? styles.tabkedddimgactive
                                   : styles.tabkedddimgdisable
                               }
@@ -327,7 +363,8 @@ function Enquiry() {
                                 userdata?.data?.User?.userType === "institute"
                                   ? styles.tabkedddimgactive
                                   : userdata?.data &&
-                                    userdata?.data?.User?.fronroficeEdit === true
+                                    userdata?.data?.User?.fronroficeEdit ===
+                                      true
                                   ? styles.tabkedddimgactive
                                   : styles.tabkedddimgdisable
                               }

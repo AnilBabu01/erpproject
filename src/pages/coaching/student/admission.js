@@ -20,9 +20,14 @@ import AddAdmission from "../../../component/Coaching/student/AddAdmission";
 import UpdateAdmission from "../../../component/Coaching/student/UpdateAdmission";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
-
+const studentStatus = [
+  { label: "Active", value: "Active" },
+  { label: "On Leave", value: "On Leave" },
+  { label: "Left In Middle", value: "Left In Middle" },
+  { label: "Completed", value: "Completed" },
+  { label: "Unknown", value: "Unknown" },
+];
 function Admission() {
-  
   const dispatch = useDispatch();
   const [scoursename, setscoursename] = useState("");
   const [sfathers, setsfathers] = useState("");
@@ -37,11 +42,14 @@ function Admission() {
   const [updatedata, setupdatedata] = useState("");
   const [deleteid, setdeleteid] = useState("");
   const [isdata, setisData] = useState([]);
+  const [courselist, setcourselist] = useState([]);
+  const [status, setstatus] = useState("");
+  const [rollnumber, setrollnumber] = useState("");
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
   const { loading, student } = useSelector((state) => state.getstudent);
   const { batch } = useSelector((state) => state.getbatch);
-
+  const { course } = useSelector((state) => state.getcourse);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -86,10 +94,12 @@ function Admission() {
     if (user) {
       setuserdata(user);
     }
-  }, [student, batch, user]);
+    if (course) {
+      setcourselist(course);
+    }
+  }, [student, batch, user, course]);
   useEffect(() => {
     dispatch(getstudent());
-  
   }, [open, openupdate, openalert]);
   useEffect(() => {
     dispatch(loadUser());
@@ -101,7 +111,16 @@ function Admission() {
   const filterdata = (e) => {
     e.preventDefault();
     dispatch(
-      getstudent(fromdate, todate, scoursename, sbatch, sstudent, sfathers)
+      getstudent(
+        fromdate,
+        todate,
+        scoursename,
+        sbatch,
+        sstudent,
+        sfathers,
+        rollnumber,
+        status
+      )
     );
   };
 
@@ -187,7 +206,7 @@ function Admission() {
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
               <form onSubmit={filterdata} className={styles.searchoptiondiv}>
-                <label>From</label>
+                {/* <label>From</label>
                 <input
                   className={styles.opensearchinput}
                   type="date"
@@ -202,7 +221,7 @@ function Admission() {
                   value={todate}
                   name="todate"
                   onChange={(e) => settodate(e.target.value)}
-                />
+                /> */}
                 <select
                   className={styles.opensearchinput}
                   sx={{
@@ -224,7 +243,7 @@ function Admission() {
                     }}
                     value={""}
                   >
-                    Please Select Batch
+                    All Batch
                   </option>
                   {batchs?.map((item, index) => {
                     return (
@@ -241,14 +260,83 @@ function Admission() {
                   })}
                 </select>
 
-                <input
-                  className={styles.opensearchinput10}
-                  type="text"
-                  placeholder="Course.."
+                <select
+                  className={styles.opensearchinput}
+                  sx={{
+                    width: "18.8rem",
+                    fontSize: 14,
+                    "& .MuiSelect-select": {
+                      paddingTop: "0.6rem",
+                      paddingBottom: "0.6em",
+                    },
+                  }}
                   value={scoursename}
                   name="scoursename"
                   onChange={(e) => setscoursename(e.target.value)}
-                />
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={""}
+                  >
+                    ALL Course
+                  </option>
+
+                  {courselist?.map((item, index) => {
+                    return (
+                      <option
+                        key={index}
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={item?.coursename}
+                      >
+                        {item?.coursename}
+                      </option>
+                    );
+                  })}
+                </select>
+                <select
+                  className={styles.opensearchinput}
+                  sx={{
+                    width: "18.8rem",
+                    fontSize: 14,
+                    "& .MuiSelect-select": {
+                      paddingTop: "0.6rem",
+                      paddingBottom: "0.6em",
+                    },
+                  }}
+                  value={status}
+                  name="status"
+                  onChange={(e) => setstatus(e.target.value)}
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={""}
+                  >
+                    ALL Status
+                  </option>
+
+                  {studentStatus?.map((item, index) => {
+                    return (
+                      <option
+                        key={index}
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={item?.value}
+                      >
+                        {item?.value}
+                      </option>
+                    );
+                  })}
+                </select>
+
                 <input
                   className={styles.opensearchinput10}
                   type="text"
@@ -257,13 +345,14 @@ function Admission() {
                   name="sstudent}"
                   onChange={(e) => setsstudent(e.target.value)}
                 />
+
                 <input
                   className={styles.opensearchinput10}
                   type="text"
-                  placeholder="Father's name"
-                  value={sfathers}
-                  name="sfathers"
-                  onChange={(e) => setsfathers(e.target.value)}
+                  placeholder="Roll No"
+                  value={rollnumber}
+                  name="rollnumber"
+                  onChange={(e) => setrollnumber(e.target.value)}
                 />
 
                 <button>Search</button>
@@ -331,15 +420,13 @@ function Admission() {
                         <td className={styles.tabletd}>{item?.email}</td>
                         <td className={styles.tabletd}>{item?.phoneno1}</td>
                         <td className={styles.tabletd}>
-                        {moment(item?.admissionDate).format("DD/MM/YYYY")}
+                          {moment(item?.admissionDate).format("DD/MM/YYYY")}
                         </td>
                         <td className={styles.tabletd}>
                           {item?.courseorclass}
                         </td>
                         <td className={styles.tabletd}>{item?.batch}</td>
-                        <td className={styles.tabletd}>
-                          {item?.Status}
-                        </td>
+                        <td className={styles.tabletd}>{item?.Status}</td>
                         <td className={styles.tabkeddd}>
                           <button
                             disabled={
@@ -347,7 +434,8 @@ function Admission() {
                               userdata?.data?.User?.userType === "institute"
                                 ? false
                                 : userdata?.data &&
-                                  userdata?.data?.User?.fronroficeDelete === true
+                                  userdata?.data?.User?.fronroficeDelete ===
+                                    true
                                 ? false
                                 : true
                             }
@@ -358,7 +446,8 @@ function Admission() {
                                 userdata?.data?.User?.userType === "institute"
                                   ? styles.tabkedddimgactive
                                   : userdata?.data &&
-                                    userdata?.data?.User?.fronroficeDelete === true
+                                    userdata?.data?.User?.fronroficeDelete ===
+                                      true
                                   ? styles.tabkedddimgactive
                                   : styles.tabkedddimgdisable
                               }
@@ -378,14 +467,14 @@ function Admission() {
                                 : true
                             }
                           >
-                            
                             <img
                               className={
                                 userdata?.data &&
                                 userdata?.data?.User?.userType === "institute"
                                   ? styles.tabkedddimgactive
                                   : userdata?.data &&
-                                    userdata?.data?.User?.fronroficeEdit === true
+                                    userdata?.data?.User?.fronroficeEdit ===
+                                      true
                                   ? styles.tabkedddimgactive
                                   : styles.tabkedddimgdisable
                               }
