@@ -338,7 +338,7 @@ function Admission() {
                         </td>
                         <td className={styles.tabletd}>{item?.batch}</td>
                         <td className={styles.tabletd}>
-                          {item?.StudentStatus}
+                          {item?.Status}
                         </td>
                         <td className={styles.tabkeddd}>
                           <button

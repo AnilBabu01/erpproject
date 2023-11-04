@@ -14,7 +14,7 @@ function UpdateFee({ updatedata, setOpen }) {
   const [permonthfee, setpermonthfee] = useState("");
   const [courseduration, setcourseduration] = useState("");
   const { loading, course } = useSelector((state) => state.editfee);
-
+  console.log("course data from add fee", updatedata?.coursename);
   const submit = (e) => {
     e.preventDefault();
     const data = {
@@ -72,26 +72,11 @@ function UpdateFee({ updatedata, setOpen }) {
                   sx={{
                     fontSize: 14,
                   }}
-                  value={""}
+                  value={coursename}
                 >
-                  Please Select
+                {coursename}
                 </MenuItem>
-                {isdata?.map((item, index) => {
-                  return (
-                    <MenuItem
-                      key={index}
-                      sx={{
-                        fontSize: 14,
-                      }}
-                      value={item?.coursename}
-                      onClick={() => {
-                        setcourseduration(item?.courseduration);
-                      }}
-                    >
-                      {item?.coursename}
-                    </MenuItem>
-                  );
-                })}
+               
               </Select>
             </div>
             <div className={styles.inputdiv}>
@@ -102,7 +87,7 @@ function UpdateFee({ updatedata, setOpen }) {
                 placeholder="Enter the Registration Fee"
                 value={registrationfee}
                 name="registrationfee"
-                onChange={(e) => registrationfee(e.target.value)}
+                onChange={(e) => setregistrationfee(e.target.value)}
               />
             </div>
             <div className={styles.inputdiv}>

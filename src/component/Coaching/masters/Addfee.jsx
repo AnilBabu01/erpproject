@@ -4,7 +4,7 @@ import MenuItem from "@mui/material/MenuItem";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { getfee, AddFee } from "../../../redux/actions/commanAction";
+import { getfee, AddFee, getcourse } from "../../../redux/actions/commanAction";
 import CircularProgress from "@mui/material/CircularProgress";
 function Addfee({ setOpen }) {
   const dispatch = useDispatch();
@@ -14,6 +14,8 @@ function Addfee({ setOpen }) {
   const [permonthfee, setpermonthfee] = useState("");
   const [courseduration, setcourseduration] = useState("");
   const { loading, course } = useSelector((state) => state.addfee);
+  const { course: coursemin } = useSelector((state) => state.getcourse);
+
 
   const submit = (e) => {
     e.preventDefault();
@@ -29,13 +31,14 @@ function Addfee({ setOpen }) {
     if (course?.status) {
       dispatch(getfee());
     }
+    dispatch(getcourse());
   }, []);
 
   useEffect(() => {
-    if (course) {
-      setisData(course);
+    if (coursemin) {
+      setisData(coursemin);
     }
-  }, [course]);
+  }, [coursemin]);
 
   return (
     <>
