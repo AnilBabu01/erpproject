@@ -1,11 +1,14 @@
 import React from "react";
 import moment from "moment";
-import style from "./LandscapeIdcard.module.css";
+import style from "../student/LandscapeIdcard.module.css";
 import { useSelector } from "react-redux";
 import { backendUrl } from "../../../config/config";
 
-const LandscapeIdcard = ({ data }) => {
+const LandscapeIdcardEmployee = ({ data }) => {
   const { user } = useSelector((state) => state.auth);
+
+  console.log("employee data is ", data);
+
   return (
     <>
       <div className={style.mainland}>
@@ -49,15 +52,20 @@ const LandscapeIdcard = ({ data }) => {
               />
             </>
           )}
+
           <div className={style.infodivtext}>
-            <p>Roll No : {data?.rollnumber} </p>
-            <p>Student Name : {data?.name}</p>
-            <p>Phono No : {data?.phoneno1} </p>
-            <p>Father's name : {data?.fathersName} </p>
-            <p>Father's No : {data?.fathersPhoneNo} </p>
+            <p>Employee Id : 1 </p>
+            <p>Emplyee Name : {data?.name} </p>
+            <p>
+              Phono No : {data?.phoneno1} ,{data?.phoneno2}
+            </p>
+            <p>Department : {data?.department}</p>
+            <p>Deignation : {data?.employeeof}</p>
             <p>Address : </p>
             <p>
-              {data?.city} {data?.state} {data?.pincode}
+              {data?.address}
+              {data?.city}
+              {data?.pincode}
             </p>
           </div>
         </div>
@@ -66,4 +74,4 @@ const LandscapeIdcard = ({ data }) => {
   );
 };
 
-export default LandscapeIdcard;
+export default LandscapeIdcardEmployee;

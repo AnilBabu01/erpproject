@@ -284,10 +284,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       alt="Logo"
                     />
 
-                    {console.log(
-                      "Credentials data is ",
-                      user?.data?.CredentailsData?.logourl
-                    )}
+                   
                   </>
                 ) : (
                   <>

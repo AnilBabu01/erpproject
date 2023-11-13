@@ -278,9 +278,10 @@ const CoachingNavbar = () => {
                     <div className="main_report_dropdown_rightmargin">
                       <h1>General</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/coaching/employee/staff">Add Staff</Link>
+                        <Link href="/coaching/employee/staff">Add Employee</Link>
+                        <Link href="/coaching/employee/employeeidcard">Employee Id Card</Link>
                         <Link href="/coaching/employee/disabledstaff">
-                          Disabled Staff
+                          Disabled Employee
                         </Link>
                       </div>
                     </div>
@@ -288,7 +289,7 @@ const CoachingNavbar = () => {
                       <h1>Attendance</h1>
                       <div className="main_innear_menu_dropdown">
                         <Link href="/coaching/employee/attendance">
-                          Staff Attendance
+                          Employee Attendance
                         </Link>
                       </div>
                       <div className="main_innear_menu_dropdown">

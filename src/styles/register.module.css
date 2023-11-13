@@ -520,6 +520,9 @@
   display: flex;
   flex-direction: column;
 }
+.idcarddiv{
+  padding: 20%;
+}
 @media screen and (max-width: 780px) {
   .mainperdiv {
     border: 1px solid #093959;

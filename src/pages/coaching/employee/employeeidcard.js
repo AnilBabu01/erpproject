@@ -7,6 +7,7 @@ import {
   getstudent,
   deletestudent,
   getfee,
+  getEmployee,
 } from "../../../redux/actions/commanAction";
 import styles from "../../coaching/employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
@@ -20,24 +21,23 @@ import AddAdmission from "../../../component/Coaching/student/AddAdmission";
 import UpdateAdmission from "../../../component/Coaching/student/UpdateAdmission";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
-import LandscapeIdcard from "@/component/Coaching/student/LandscapeIdcard";
-import PortraitIdcard from "@/component/Coaching/student/PortraitIdcard";
+import LandscapeIdcard from "@/component/Coaching/employee/LandscapeIdcardEmployee";
+import PortraitIdcard from "@/component/Coaching/employee/PortraitIdcardEmployee";
 import { useReactToPrint } from "react-to-print";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 const studentStatus = [
   { label: "Active", value: "Active" },
   { label: "On Leave", value: "On Leave" },
-  { label: "Left In Middle", value: "Left In Middle" },
-  { label: "Completed", value: "Completed" },
-  { label: "Unknown", value: "Unknown" },
+  { label: "Left", value: "Left" },
 ];
 
 const idcardtype = [
   { label: "Landscape", value: "Landscape" },
   { label: "Portrait", value: "Portrait" },
 ];
-function Studentidcard() {
+
+function Employeeidcard() {
   const LandscapeRef = useRef(null);
   const PortraitRef = useRef(null);
   const dispatch = useDispatch();
@@ -60,9 +60,10 @@ function Studentidcard() {
   const [rollnumber, setrollnumber] = useState("");
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
-  const { loading, student } = useSelector((state) => state.getstudent);
+  const { student } = useSelector((state) => state.getstudent);
   const { batch } = useSelector((state) => state.getbatch);
   const { course } = useSelector((state) => state.getcourse);
+  const { loading, employees } = useSelector((state) => state.getemp);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -98,9 +99,6 @@ function Studentidcard() {
   };
 
   useEffect(() => {
-    if (student) {
-      setisData(student);
-    }
     if (batch) {
       setbatchs(batch);
     }
@@ -110,7 +108,10 @@ function Studentidcard() {
     if (course) {
       setcourselist(course);
     }
-  }, [student, batch, user, course]);
+    if (employees) {
+      setisData(employees);
+    }
+  }, [student, batch, user, course, employees]);
   useEffect(() => {
     dispatch(getstudent());
   }, [open, openupdate, openalert]);
@@ -123,18 +124,7 @@ function Studentidcard() {
 
   const filterdata = (e) => {
     e.preventDefault();
-    dispatch(
-      getstudent(
-        fromdate,
-        todate,
-        scoursename,
-        sbatch,
-        sstudent,
-        sfathers,
-        rollnumber,
-        status
-      )
-    );
+    dispatch(getEmployee(fromdate, todate, sstudent, status));
   };
 
   const reset = () => {
@@ -144,7 +134,8 @@ function Studentidcard() {
     settodate("");
     setscoursename("");
     setsbatch("");
-    dispatch(getstudent());
+    dispatch(getEmployee());
+    setstatus("");
   };
 
   const LandscapePrint = useReactToPrint({
@@ -243,82 +234,15 @@ function Studentidcard() {
                   name="todate"
                   onChange={(e) => settodate(e.target.value)}
                 /> */}
-                <select
-                  className={styles.opensearchinput}
-                  sx={{
-                    width: "18.8rem",
-                    fontSize: 14,
-                    "& .MuiSelect-select": {
-                      paddingTop: "0.6rem",
-                      paddingBottom: "0.6em",
-                    },
-                  }}
-                  value={sbatch}
-                  name="sbatch"
-                  onChange={(e) => setsbatch(e.target.value)}
-                  displayEmpty
-                >
-                  <option
-                    sx={{
-                      fontSize: 14,
-                    }}
-                    value={""}
-                  >
-                    All Batch
-                  </option>
-                  {batchs?.map((item, index) => {
-                    return (
-                      <option
-                        key={index}
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={`${item?.StartingTime} TO ${item?.EndingTime}`}
-                      >
-                        {item?.StartingTime} TO {item?.EndingTime}
-                      </option>
-                    );
-                  })}
-                </select>
+                {/* <input
+                  className={styles.opensearchinput10}
+                  type="text"
+                  placeholder="Name"
+                  value={sstudent}
+                  name="sstudent}"
+                  onChange={(e) => setsstudent(e.target.value)}
+                /> */}
 
-                <select
-                  className={styles.opensearchinput}
-                  sx={{
-                    width: "18.8rem",
-                    fontSize: 14,
-                    "& .MuiSelect-select": {
-                      paddingTop: "0.6rem",
-                      paddingBottom: "0.6em",
-                    },
-                  }}
-                  value={scoursename}
-                  name="scoursename"
-                  onChange={(e) => setscoursename(e.target.value)}
-                  displayEmpty
-                >
-                  <option
-                    sx={{
-                      fontSize: 14,
-                    }}
-                    value={""}
-                  >
-                    ALL Course
-                  </option>
-
-                  {courselist?.map((item, index) => {
-                    return (
-                      <option
-                        key={index}
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={item?.coursename}
-                      >
-                        {item?.coursename}
-                      </option>
-                    );
-                  })}
-                </select>
                 <select
                   className={styles.opensearchinput}
                   sx={{
@@ -357,7 +281,46 @@ function Studentidcard() {
                     );
                   })}
                 </select>
-
+                <select
+                  className={styles.opensearchinput}
+                  sx={{
+                    width: "18.8rem",
+                    fontSize: 14,
+                    "& .MuiSelect-select": {
+                      paddingTop: "0.6rem",
+                      paddingBottom: "0.6em",
+                    },
+                  }}
+                  value={sstudent}
+                  name="sstudent"
+                  onChange={(e) => {
+                    setsstudent(e.target.value);
+                  }}
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={""}
+                  >
+                    All Employee
+                  </option>
+                  {isdata &&
+                    isdata?.map((item, index) => {
+                      return (
+                        <option
+                          key={index}
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={item?.name}
+                        >
+                          {item?.name}
+                        </option>
+                      );
+                    })}
+                </select>
                 <select
                   className={styles.opensearchinput}
                   sx={{
@@ -387,7 +350,6 @@ function Studentidcard() {
                     );
                   })}
                 </select>
-
                 {/* <input
                   className={styles.opensearchinput10}
                   type="text"
@@ -436,7 +398,7 @@ function Studentidcard() {
               <div className={styles.idcarddiv}>
                 <div className={styles.idcarddivflex} ref={LandscapeRef}>
                   {isdata?.map((item, index) => {
-                    return <LandscapeIdcard data={item} key={index} />;
+                    return <LandscapeIdcard key={index}  data={item}/>;
                   })}
                 </div>
               </div>
@@ -446,7 +408,7 @@ function Studentidcard() {
               <div className={styles.idcarddiv}>
                 <div className={styles.idcarddivflex10} ref={PortraitRef}>
                   {isdata?.map((item, index) => {
-                    return <PortraitIdcard data={item} key={index} />;
+                    return <PortraitIdcard key={index} data={item} />;
                   })}
                 </div>
               </div>
@@ -459,4 +421,4 @@ function Studentidcard() {
   );
 }
 
-export default Studentidcard;
+export default Employeeidcard;
