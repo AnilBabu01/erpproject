@@ -1192,7 +1192,7 @@ export const deleteEmployee = (deleteid, setOpenalert) => async (dispatch) => {
 };
 
 // Get all Enquiry
-export const getEmployee = (fromdate, todate, sstudent) => async (dispatch) => {
+export const getEmployee = (fromdate, todate, sstudent,status) => async (dispatch) => {
   try {
     const config = {
       headers: {
@@ -1201,10 +1201,10 @@ export const getEmployee = (fromdate, todate, sstudent) => async (dispatch) => {
       },
     };
     dispatch({ type: ALL_EMPLOYEETYPE_REQUEST });
-    if (fromdate || todate || sstudent) {
+    if (fromdate || todate || sstudent||status) {
       dispatch({ type: ALL_STUDENT_REQUEST });
       const { data } = await axios.get(
-        `${backendApiUrl}comman/allemployee?name=${sstudent}&fromdate=${fromdate}&todate=${todate}`,
+        `${backendApiUrl}comman/allemployee?name=${sstudent}&fromdate=${fromdate}&todate=${todate}&status=${status}`,
         config
       );
       dispatch({
@@ -1500,7 +1500,7 @@ export const Addtest = (datas, setOpen) => async (dispatch) => {
   try {
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
         Authorization: `${localStorage.getItem("erptoken")}`,
       },
     };
@@ -1537,7 +1537,7 @@ export const Updatetest = (datas, setOpen) => async (dispatch) => {
   try {
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
         Authorization: `${localStorage.getItem("erptoken")}`,
       },
     };
@@ -1691,6 +1691,7 @@ export const Adddresult = (datas, setOpen) => async (dispatch) => {
         Authorization: `${localStorage.getItem("erptoken")}`,
       },
     };
+
     dispatch({ type: UPDATE_STUDENT_TEST_REQUEST });
 
     const { data } = await axios.post(

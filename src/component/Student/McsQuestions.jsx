@@ -95,10 +95,13 @@ function McsQuestions({ setOpen, data }) {
       testtitle: data?.testname,
       questions: questionItems,
       testfile: data?.testfile,
+      marksperquestion: data?.marksperquestion,
+      passmark: data?.passmark,
+      testId: data?.id,
     };
 
     serverInstance("test/addtestretult", "POST", savedata).then((res) => {
-      if (res?.status===true) {
+      if (res?.status === true) {
         console.log("data from mcq list ", res);
         navigate.push({
           pathname: "/student/ResultShow",
@@ -358,12 +361,12 @@ function McsQuestions({ setOpen, data }) {
           >
             Back
           </button>
-          <button
+          {/* <button
             className={styles.cancelbtn}
             onClick={() => addQuestionItem()}
           >
             Save
-          </button>
+          </button> */}
           <button className={styles.cancelbtn} onClick={() => submit()}>
             Submit Test
           </button>

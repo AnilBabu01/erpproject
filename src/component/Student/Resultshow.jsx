@@ -123,7 +123,8 @@ function Resultshow({ setOpen, data }) {
                 <th className={styles.tableth}>Total Questions</th>
                 <th className={styles.tableth}>Correct Answer</th>
                 <th className={styles.tableth}>Wrong Answer</th>
-                {/* <th className={styles.tableth}>Passinf Marks</th> */}
+                <th className={styles.tableth}>Obtain Marks</th>
+                <th className={styles.tableth}>Status</th>
                 {/* <th className={styles.tableth}>Action</th> */}
               </tr>
 
@@ -136,6 +137,12 @@ function Resultshow({ setOpen, data }) {
                 </td>
                 <td className={styles.tabletd}>{data?.Totalmarks}</td>
                 <td className={styles.tabletd}>{data?.TotalWrongAnswer}</td>
+                <td className={styles.tabletd}>{data?.obtainmarks}</td>
+                <td className={styles.tabletd}>
+                  {Number(data?.obtainmarks) == Number(data?.passmark)
+                    ? "Pass"
+                    : "Fail"}
+                </td>
                 {/* <td className={styles.tabletd}>8</td> */}
                 {/* <td className={styles.tabletd}>
                     <button

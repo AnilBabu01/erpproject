@@ -304,10 +304,18 @@ function Register({ setOpen, setOpen1 }) {
                       getphonebtnstatus || PhoneOtpVerifystatus ? true : false
                     }
                   >
-                    {showprogrees1 ? (
-                      <CircularProgress size={25} />
+                    {getphonebtnstatus || getemailotpstate ? (
+                      <>
+                        <p>{time}</p>
+                      </>
                     ) : (
-                      "Get code on phone"
+                      <>
+                        {showprogrees1 ? (
+                          <CircularProgress size={25} />
+                        ) : (
+                          "Get code on phone"
+                        )}
+                      </>
                     )}
                   </button>
                 </div>
@@ -371,24 +379,24 @@ function Register({ setOpen, setOpen1 }) {
                     }
                     disabled={PhoneOtpVerifystatus ? false : true}
                   >
-                    {showprogrees3 ? (
-                      <CircularProgress size={25} />
+                    {getotpstatusonemail ? (
+                      <>
+                        <p>{emailtime}</p>
+                      </>
                     ) : (
-                      "Get code on Email"
+                      <>
+                        {showprogrees3 ? (
+                          <CircularProgress size={25} />
+                        ) : (
+                          "Get code on Email"
+                        )}
+                      </>
                     )}
                   </button>
 
                   <div className={styles.timmeerdiv}>
-                    {getphonebtnstatus || getemailotpstate ? (
-                      <>
-                        <p>{time}</p>
-                      </>
-                    ) : (
-                      <>
-                        <p>&nbsp;</p>
-                      </>
-                    )}
-                    {getotpstatusonemail ? (
+                    <p>&nbsp;</p>
+                    {/* {getotpstatusonemail ? (
                       <>
                         <p>{emailtime}</p>
                       </>
@@ -396,7 +404,7 @@ function Register({ setOpen, setOpen1 }) {
                       <>
                         <p>&nbsp;</p>
                       </>
-                    )}
+                    )} */}
                   </div>
                 </div>
               </div>

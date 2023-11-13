@@ -279,19 +279,44 @@ const CoachingNavbar = () => {
                       <h1>General</h1>
                       <div className="main_innear_menu_dropdown">
                         <Link href="/coaching/employee/staff">Add Staff</Link>
+                        <Link href="/coaching/employee/disabledstaff">
+                          Disabled Staff
+                        </Link>
+                      </div>
+                    </div>
+                    <div className="main_report_dropdown_rightmargin">
+                      <h1>Attendance</h1>
+                      <div className="main_innear_menu_dropdown">
                         <Link href="/coaching/employee/attendance">
                           Staff Attendance
                         </Link>
-
-                        <Link href="/coaching/employee/payroll">Payroll</Link>
+                      </div>
+                      <div className="main_innear_menu_dropdown">
+                        <Link href="/coaching/employee/addholidattype">
+                          Add Holiday Type
+                        </Link>
+                      </div>
+                      <div className="main_innear_menu_dropdown">
+                        <Link href="/coaching/employee/addemployeeholiday">
+                          Add Holiday
+                        </Link>
+                      </div>
+                      <div className="main_innear_menu_dropdown">
+                        <Link href="/coaching/employee/particularemployeeattendance">
+                          Particular Employee Attendance
+                        </Link>
+                      </div>
+                    </div>
+                    <div className="main_report_dropdown_rightmargin">
+                      <h1>PayRoll</h1>
+                      <div className="main_innear_menu_dropdown">
+                        <Link href="/coaching/employee/payroll">
+                          Add Payroll
+                        </Link>
+                      </div>
+                      <div className="main_innear_menu_dropdown">
                         <Link href="/coaching/employee/payrollreport">
-                          Payroll Report
-                        </Link>
-                        <Link href="/coaching/employee/department">
-                          Department
-                        </Link>
-                        <Link href="/coaching/employee/disabledstaff">
-                          Disabled Staff
+                          PayRoll Report
                         </Link>
                       </div>
                     </div>

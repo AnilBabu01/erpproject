@@ -1,9 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Coaching.module.css";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import CloseIcon from "@mui/icons-material/Close";
+import { serverInstance } from "../../API/ServerInstance";
 function ResultTest() {
+  const [resultlist, setresultlist] = useState([]);
+
+  const getresult = () => {
+    serverInstance("test/studentresult", "post").then((res) => {
+      if (res?.status) {
+        console.log("result", res?.data);
+        setresultlist(res?.data);
+      }
+    });
+  };
+
+  useEffect(() => {
+    getresult();
+  }, []);
+
   return (
     <>
       <div className={styles.maindivsearch}>
@@ -102,21 +118,19 @@ function ResultTest() {
               <th className={styles.tableth}>obtain</th>
               <th className={styles.tableth}>Status</th>
             </tr>
-
-            <tr className={styles.tabletr}>
-              <td className={styles.tabletd}>Demo</td>
-              <td className={styles.tabletd}>21/03/2023</td>
-              <td className={styles.tabletd}>10</td>
-              <td className={styles.tabletd}>8</td>
-              <td className={styles.tabletd}>
-                <button className={styles.btnactive}> Show Details </button>
-              </td>
-            </tr>
-            {/* {isdata?.map((item, index) => {
-                      return (
-                       
-                      );
-                    })} */}
+            {resultlist?.map((item, index) => {
+              return (
+                <tr key={index} className={styles.tabletr}>
+                  <td className={styles.tabletd}>Demo</td>
+                  <td className={styles.tabletd}>{item?.testdate}</td>
+                  <td className={styles.tabletd}>{item?.testdate}</td>
+                  <td className={styles.tabletd}>8</td>
+                  <td className={styles.tabletd}>
+                    <button className={styles.btnactive}> Show Details </button>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

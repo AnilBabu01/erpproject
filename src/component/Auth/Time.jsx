@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-function Time({timestatus,}) {
+function Time({ timestatus }) {
   const [time, settime] = useState(60);
   const stoptimer = () => {
     settimestatus(false);

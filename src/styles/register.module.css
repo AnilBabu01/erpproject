@@ -107,14 +107,49 @@
   text-align: center;
   margin-bottom: 1rem;
 }
+
 .inputdiv {
   display: flex;
   flex-direction: column;
   width: 32%;
 }
+.inputdiv80 {
+  margin-top: 1rem;
+}
 .inputdiv label {
   margin-bottom: 1%;
   margin-bottom: 1%;
+}
+.inputdiv input {
+  border: 0.8px solid rgb(66, 66, 66);
+  width: 18.7rem;
+  height: 35px;
+  padding-left: 1rem;
+  border-radius: 5px;
+}
+.inputdiv input:focus {
+  outline: none;
+  border: 2px solid #093959;
+}
+
+.inputdiv20 {
+  display: flex;
+  flex-direction: column;
+}
+.inputdiv20 label {
+  margin-bottom: 1%;
+  margin-bottom: 1%;
+}
+.inputdiv20 input {
+  border: 0.8px solid rgb(66, 66, 66);
+  width: 18.7rem;
+  height: 35px;
+  padding-left: 1rem;
+  border-radius: 5px;
+}
+.inputdiv20 input:focus {
+  outline: none;
+  border: 2px solid #093959;
 }
 
 .inputdiv10 {
@@ -145,17 +180,7 @@
   border: 1px solid #093959;
   border-radius: 5px;
 }
-.inputdiv input {
-  border: 0.8px solid rgb(66, 66, 66);
-  width: 18.7rem;
-  height: 35px;
-  padding-left: 1rem;
-  border-radius: 5px;
-}
-.inputdiv input:focus {
-  outline: none;
-  border: 2px solid #093959;
-}
+
 .inputdivaddred {
   display: flex;
   flex-direction: column;
@@ -323,7 +348,7 @@
 }
 .mainqinput {
   border: 0.8px solid rgb(66, 66, 66) !important;
-  width: 28rem !important;
+  width: 18.3rem !important;
   height: 35px !important;
   padding-left: 1rem !important;
   border-radius: 5px !important;
@@ -418,7 +443,6 @@
 }
 .divmaininputradiodiv {
   display: flex;
-
 }
 
 .inputdivradio {
@@ -426,18 +450,75 @@
   margin-right: 1rem;
 }
 
-.checkpreview{
-  width: 5%!important;
-  height: 3%!important;
-  margin-right: 0.3rem!important;  
+.checkpreview {
+  width: 5% !important;
+  height: 3% !important;
+  margin-right: 0.3rem !important;
 }
-.hlfsize{
-  width: 45%!important;
+.hlfsize {
+  width: 45% !important;
 }
 
-.documentnameDiv{
+.documentnameDiv {
   display: flex;
   justify-content: space-between;
+}
+.btnActive {
+  width: 140px;
+  height: 35px;
+  border-radius: 7px;
+  color: white;
+  background: #093959;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btnActivecapture {
+  width: 140px;
+  height: 35px;
+  border-radius: 7px;
+  color: white;
+  background: #093959;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.btnActive:hover {
+  width: 140px;
+  height: 35px;
+  border-radius: 7px;
+  color: white;
+  background: #0c4367;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btndeActive {
+  width: 140px;
+  height: 35px;
+  border-radius: 7px;
+  border: 1px solid #093959;
+  color: #093959;
+  background: rgba(248, 247, 252, 1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.selectbtn {
+  display: flex;
+  justify-content: space-between;
+  padding: 4%;
+}
+.msindivkitdiv {
+  display: flex;
+}
+.inputdivimg50 {
+  display: flex;
+  flex-direction: column;
 }
 @media screen and (max-width: 780px) {
   .mainperdiv {
@@ -497,6 +578,7 @@
     width: 100%;
     height: 35px;
   }
+
   .mainqinput {
     border: 0.8px solid rgb(66, 66, 66) !important;
     width: 100% !important;
@@ -511,6 +593,16 @@
   }
 
   .inputdiv10 input {
+    width: 100%;
+    height: 35px;
+  }
+  .inputdiv20 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .inputdiv20 input {
     width: 100%;
     height: 35px;
   }

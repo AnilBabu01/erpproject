@@ -83,7 +83,7 @@ function Course() {
               "& .MuiDialog-container": {
                 "& .MuiPaper-root": {
                   width: "100%",
-                  maxWidth: "40rem",
+                  maxWidth: "60rem",
                 },
               },
             }}
@@ -104,7 +104,7 @@ function Course() {
               "& .MuiDialog-container": {
                 "& .MuiPaper-root": {
                   width: "100%",
-                  maxWidth: "40rem",
+                  maxWidth: "60rem",
                 },
               },
             }}

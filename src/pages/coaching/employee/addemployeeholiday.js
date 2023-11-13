@@ -6,8 +6,8 @@ import {
   getbatch,
   getstudent,
   deletestudent,
-  getfee,
 } from "../../../redux/actions/commanAction";
+import { getHolidays } from "../../../redux/actions/attendanceActions";
 import styles from "../../coaching/employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -16,19 +16,92 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
-import AddAdmission from "../../../component/Coaching/student/AddStudent";
-import UpdateAdmission from "../../../component/Coaching/student/UpdateStudent";
+import AddStudent from "../../../component/Coaching/student/AddHoliday";
+import UpdateStudent from "../../../component/Coaching/student/UpdateHoliday";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
-const studentStatus = [
-  { label: "Active", value: "Active" },
-  { label: "On Leave", value: "On Leave" },
-  { label: "Left In Middle", value: "Left In Middle" },
-  { label: "Completed", value: "Completed" },
-  { label: "Unknown", value: "Unknown" },
+
+const monthlist = [
+  {
+    id: 1,
+    name: "January",
+  },
+  {
+    id: 2,
+    name: "February",
+  },
+  {
+    id: 3,
+    name: "Mark",
+  },
+  {
+    id: 4,
+    name: "April",
+  },
+  ,
+  {
+    id: 5,
+    name: "May",
+  },
+  {
+    id: 6,
+    name: "Jun",
+  },
+  {
+    id: 7,
+    name: "July",
+  },
+  {
+    id: 8,
+    name: "August",
+  },
+  {
+    id: 9,
+    name: "September",
+  },
+  {
+    id: 10,
+    name: "October",
+  },
+  {
+    id: 11,
+    name: "November",
+  },
+  {
+    id: 12,
+    name: "December",
+  },
 ];
-function Studenthistory() {
+
+const monthnamelist = {
+  1: "January",
+
+  2: "February",
+
+  3: "Mark",
+
+  4: "April",
+
+  5: "May",
+
+  6: "Jun",
+
+  7: "July",
+
+  8: "August",
+
+  9: "September",
+
+  10: "October",
+
+  11: "November",
+
+  12: "December",
+};
+function Addemployeeholiday() {
   const dispatch = useDispatch();
+  let currmonth = new Date().getMonth();
+  const [month, setmonth] = useState(currmonth + 1);
   const [scoursename, setscoursename] = useState("");
   const [sfathers, setsfathers] = useState("");
   const [sstudent, setsstudent] = useState("");
@@ -36,20 +109,18 @@ function Studenthistory() {
   const [fromdate, setfromdate] = useState("");
   const [todate, settodate] = useState("");
   const [batchs, setbatchs] = useState([]);
+  const [holidays, setholidays] = useState([]);
   const [open, setOpen] = useState(false);
   const [openupdate, setOpenupdate] = useState(false);
   const [openalert, setOpenalert] = useState(false);
   const [updatedata, setupdatedata] = useState("");
   const [deleteid, setdeleteid] = useState("");
   const [isdata, setisData] = useState([]);
-  const [courselist, setcourselist] = useState([]);
-  const [status, setstatus] = useState("");
-  const [rollnumber, setrollnumber] = useState("");
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
   const { loading, student } = useSelector((state) => state.getstudent);
   const { batch } = useSelector((state) => state.getbatch);
-  const { course } = useSelector((state) => state.getcourse);
+  const { Holidays } = useSelector((state) => state.getHoliday);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -94,33 +165,24 @@ function Studenthistory() {
     if (user) {
       setuserdata(user);
     }
-    if (course) {
-      setcourselist(course);
+    if (Holidays) {
+      setholidays(Holidays);
+      console.log("holidays jus ", Holidays);
     }
-  }, [student, batch, user, course]);
+  }, [student, batch, user, Holidays]);
   useEffect(() => {
-    dispatch(getstudent());
+    dispatch(getHolidays(month));
   }, [open, openupdate, openalert]);
   useEffect(() => {
     dispatch(loadUser());
     dispatch(getbatch());
     dispatch(getcourse());
-    dispatch(getfee());
   }, []);
 
   const filterdata = (e) => {
     e.preventDefault();
     dispatch(
-      getstudent(
-        fromdate,
-        todate,
-        scoursename,
-        sbatch,
-        sstudent,
-        sfathers,
-        rollnumber,
-        status
-      )
+      getstudent(fromdate, todate, scoursename, sbatch, sstudent, sfathers)
     );
   };
 
@@ -151,7 +213,7 @@ function Studenthistory() {
               },
             }}
           >
-            <AddAdmission setOpen={setOpen} />
+            <AddStudent setOpen={setOpen} />
           </Dialog>
         </div>
       )}
@@ -171,7 +233,7 @@ function Studenthistory() {
               },
             }}
           >
-            <UpdateAdmission setOpen={setOpenupdate} updatedata={updatedata} />
+            <UpdateStudent setOpen={setOpenupdate} updatedata={updatedata} />
           </Dialog>
         </div>
       )}
@@ -205,23 +267,7 @@ function Studenthistory() {
         <div>
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
-              <form onSubmit={filterdata} className={styles.searchoptiondiv}>
-                {/* <label>From</label>
-                <input
-                  className={styles.opensearchinput}
-                  type="date"
-                  value={fromdate}
-                  name="fromdate"
-                  onChange={(e) => setfromdate(e.target.value)}
-                />
-                <label>To</label>
-                <input
-                  className={styles.opensearchinput}
-                  type="date"
-                  value={todate}
-                  name="todate"
-                  onChange={(e) => settodate(e.target.value)}
-                /> */}
+              <div className={styles.searchoptiondiv}>
                 <select
                   className={styles.opensearchinput}
                   sx={{
@@ -232,47 +278,11 @@ function Studenthistory() {
                       paddingBottom: "0.6em",
                     },
                   }}
-                  value={sbatch}
-                  name="sbatch"
-                  onChange={(e) => setsbatch(e.target.value)}
-                  displayEmpty
-                >
-                  <option
-                    sx={{
-                      fontSize: 14,
-                    }}
-                    value={""}
-                  >
-                    All Batch
-                  </option>
-                  {batchs?.map((item, index) => {
-                    return (
-                      <option
-                        key={index}
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={`${item?.StartingTime} TO ${item?.EndingTime}`}
-                      >
-                        {item?.StartingTime} TO {item?.EndingTime}
-                      </option>
-                    );
-                  })}
-                </select>
-
-                <select
-                  className={styles.opensearchinput}
-                  sx={{
-                    width: "18.8rem",
-                    fontSize: 14,
-                    "& .MuiSelect-select": {
-                      paddingTop: "0.6rem",
-                      paddingBottom: "0.6em",
-                    },
+                  value={month}
+                  name="month"
+                  onChange={(e) => {
+                    setmonth(e.target.value);
                   }}
-                  value={scoursename}
-                  name="scoursename"
-                  onChange={(e) => setscoursename(e.target.value)}
                   displayEmpty
                 >
                   <option
@@ -281,82 +291,27 @@ function Studenthistory() {
                     }}
                     value={""}
                   >
-                    ALL Course
+                    Month
                   </option>
-
-                  {courselist?.map((item, index) => {
+                  {monthlist?.map((item, index) => {
                     return (
                       <option
                         key={index}
                         sx={{
                           fontSize: 14,
                         }}
-                        value={item?.coursename}
+                        value={item?.id}
                       >
-                        {item?.coursename}
-                      </option>
-                    );
-                  })}
-                </select>
-                <select
-                  className={styles.opensearchinput}
-                  sx={{
-                    width: "18.8rem",
-                    fontSize: 14,
-                    "& .MuiSelect-select": {
-                      paddingTop: "0.6rem",
-                      paddingBottom: "0.6em",
-                    },
-                  }}
-                  value={status}
-                  name="status"
-                  onChange={(e) => setstatus(e.target.value)}
-                  displayEmpty
-                >
-                  <option
-                    sx={{
-                      fontSize: 14,
-                    }}
-                    value={""}
-                  >
-                    ALL Status
-                  </option>
-
-                  {studentStatus?.map((item, index) => {
-                    return (
-                      <option
-                        key={index}
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={item?.value}
-                      >
-                        {item?.value}
+                        {item?.name}
                       </option>
                     );
                   })}
                 </select>
 
-                <input
-                  className={styles.opensearchinput10}
-                  type="text"
-                  placeholder="Student's name"
-                  value={sstudent}
-                  name="sstudent}"
-                  onChange={(e) => setsstudent(e.target.value)}
-                />
-
-                <input
-                  className={styles.opensearchinput10}
-                  type="text"
-                  placeholder="Roll No"
-                  value={rollnumber}
-                  name="rollnumber"
-                  onChange={(e) => setrollnumber(e.target.value)}
-                />
-
-                <button>Search</button>
-              </form>
+                <button onClick={() => dispatch(getHolidays(month))}>
+                  Search
+                </button>
+              </div>
               <button onClick={() => reset()}>Reset</button>
             </div>
             <div className={styles.imgdivformat}>
@@ -392,7 +347,7 @@ function Studenthistory() {
               }
               onClick={() => handleClickOpen()}
             >
-              Add Student
+              Add Holiday
             </button>
           </div>
           <div className={styles.add_divmarginn}>
@@ -401,33 +356,21 @@ function Studenthistory() {
                 <tbody>
                   <tr className={styles.tabletr}>
                     <th className={styles.tableth}>S.NO</th>
-                    <th className={styles.tableth}>Roll No</th>
-                    <th className={styles.tableth}>Student_Name</th>
-                    <th className={styles.tableth}>Student_Email</th>
-                    <th className={styles.tableth}>Student_Phone</th>
-                    <th className={styles.tableth}>Adminssion_Date</th>
-                    <th className={styles.tableth}>Course</th>
-                    <th className={styles.tableth}>Batch</th>
-                    <th className={styles.tableth}>Student Status</th>
-                    {/* <th className={styles.tableth}>Action</th> */}
+                    <th className={styles.tableth}>Holiday Date</th>
+                    <th className={styles.tableth}>Comment</th>
+
+                    <th className={styles.tableth}>Action</th>
                   </tr>
-                  {isdata?.map((item, index) => {
+                  {holidays?.map((item, index) => {
                     return (
                       <tr key={index} className={styles.tabletr}>
                         <td className={styles.tabletd}>{index + 1}</td>
-                        <td className={styles.tabletd}>{item?.rollnumber}</td>
-                        <td className={styles.tabletd}>{item?.name}</td>
-                        <td className={styles.tabletd}>{item?.email}</td>
-                        <td className={styles.tabletd}>{item?.phoneno1}</td>
                         <td className={styles.tabletd}>
-                          {moment(item?.admissionDate).format("DD/MM/YYYY")}
+                          {moment(item?.attendancedate).format("DD/MM/YYYY")}
                         </td>
-                        <td className={styles.tabletd}>
-                          {item?.courseorclass}
-                        </td>
-                        <td className={styles.tabletd}>{item?.batch}</td>
-                        <td className={styles.tabletd}>{item?.Status}</td>
-                        {/* <td className={styles.tabkeddd}>
+                        <td className={styles.tabletd}>{item?.Comment}</td>
+
+                        <td className={styles.tabkeddd}>
                           <button
                             disabled={
                               userdata?.data &&
@@ -483,7 +426,7 @@ function Studenthistory() {
                               alt="imgss"
                             />
                           </button>
-                        </td> */}
+                        </td>
                       </tr>
                     );
                   })}
@@ -493,9 +436,10 @@ function Studenthistory() {
           </div>
         </div>
       </div>
+
       {loading && <LoadingSpinner />}
     </>
   );
 }
 
-export default Studenthistory;
+export default Addemployeeholiday;

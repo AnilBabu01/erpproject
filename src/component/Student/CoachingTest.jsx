@@ -11,16 +11,16 @@ function CoachingTest() {
   const [subject, setsubject] = useState(false);
   const [semester, setsemester] = useState(false);
   const [datewise, setdatewise] = useState(false);
-  const [testlist, settestlist] = useState('')
+  const [testlist, settestlist] = useState("");
+
   const { test } = useSelector((state) => state.getStudentTest);
 
   console.log("test from stuent site", test);
 
   useEffect(() => {
     dispatch(getStudenttest());
-    if(test)
-    {
-      settestlist(test)
+    if (test) {
+      settestlist(test);
     }
   }, []);
 
@@ -75,7 +75,7 @@ function CoachingTest() {
             </div> */}
             {today && (
               <>
-                <TodayTest  testlist={testlist}/>
+                <TodayTest testlist={testlist} />
               </>
             )}
             {monthly && (

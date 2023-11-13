@@ -1,13 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect, useRef } from "react";
 import { loadUser } from "../../../redux/actions/authActions";
-import {
-  getcourse,
-  getbatch,
-  getstudent,
-  deletestudent,
-  getfee,
-} from "../../../redux/actions/commanAction";
 import styles from "../../coaching/employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -15,41 +7,41 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
+import AddEnquiry from "@/component/Coaching/Frontoffice/AddEnquiry";
+import UpdateEnquiry from "@/component/Coaching/Frontoffice/UpdateEnquiry";
+import {
+  getenquiries,
+  deleteenquiry,
+  getFILTERenquiries,
+} from "../../../redux/actions/coachingAction";
+import { getcourse } from "../../../redux/actions/commanAction";
+import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@mui/material";
-import AddAdmission from "../../../component/Coaching/student/AddStudent";
-import UpdateAdmission from "../../../component/Coaching/student/UpdateStudent";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
-const studentStatus = [
-  { label: "Active", value: "Active" },
-  { label: "On Leave", value: "On Leave" },
-  { label: "Left In Middle", value: "Left In Middle" },
-  { label: "Completed", value: "Completed" },
-  { label: "Unknown", value: "Unknown" },
-];
-function Studenthistory() {
+import exportFromJSON from "export-from-json";
+import { useReactToPrint } from "react-to-print";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import { format } from "date-fns";
+function Addholidattype() {
+  const componentRef = useRef(null);
   const dispatch = useDispatch();
-  const [scoursename, setscoursename] = useState("");
-  const [sfathers, setsfathers] = useState("");
-  const [sstudent, setsstudent] = useState("");
-  const [sbatch, setsbatch] = useState("");
-  const [fromdate, setfromdate] = useState("");
-  const [todate, settodate] = useState("");
-  const [batchs, setbatchs] = useState([]);
   const [open, setOpen] = useState(false);
   const [openupdate, setOpenupdate] = useState(false);
   const [openalert, setOpenalert] = useState(false);
   const [updatedata, setupdatedata] = useState("");
   const [deleteid, setdeleteid] = useState("");
+  const [name, setname] = useState("");
+  const [fromdate, setfromdate] = useState("");
+  const [todate, settodate] = useState("");
   const [isdata, setisData] = useState([]);
-  const [courselist, setcourselist] = useState([]);
-  const [status, setstatus] = useState("");
-  const [rollnumber, setrollnumber] = useState("");
+  const [page, setPage] = useState(1);
+  let limit = 12;
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
-  const { loading, student } = useSelector((state) => state.getstudent);
-  const { batch } = useSelector((state) => state.getbatch);
-  const { course } = useSelector((state) => state.getcourse);
+  const { loading, enquiry } = useSelector((state) => state.enquiry);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -81,57 +73,114 @@ function Studenthistory() {
   };
 
   const handledelete = () => {
-    dispatch(deletestudent(deleteid, setOpenalert));
+    dispatch(deleteenquiry(deleteid, setOpenalert));
   };
-
   useEffect(() => {
-    if (student) {
-      setisData(student);
-    }
-    if (batch) {
-      setbatchs(batch);
+    dispatch(loadUser());
+    dispatch(getenquiries());
+    dispatch(getcourse());
+  }, []);
+  useEffect(() => {
+    if (enquiry) {
+      setisData(enquiry);
+      // setisData(prevItems => [...prevItems,[...enquiry]]);
     }
     if (user) {
       setuserdata(user);
     }
-    if (course) {
-      setcourselist(course);
-    }
-  }, [student, batch, user, course]);
+  }, [enquiry, user]);
   useEffect(() => {
-    dispatch(getstudent());
+    dispatch(getenquiries());
   }, [open, openupdate, openalert]);
-  useEffect(() => {
-    dispatch(loadUser());
-    dispatch(getbatch());
-    dispatch(getcourse());
-    dispatch(getfee());
-  }, []);
 
-  const filterdata = (e) => {
+  const handlefilter = (e) => {
     e.preventDefault();
-    dispatch(
-      getstudent(
-        fromdate,
-        todate,
-        scoursename,
-        sbatch,
-        sstudent,
-        sfathers,
-        rollnumber,
-        status
-      )
-    );
+    dispatch(getFILTERenquiries(fromdate, todate, name));
   };
-
   const reset = () => {
-    setsstudent("");
-    setsfathers("");
+    setname("");
     setfromdate("");
     settodate("");
-    setscoursename("");
-    setsbatch("");
-    dispatch(getstudent());
+    dispatch(getFILTERenquiries(fromdate, todate, name));
+  };
+  const handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop !==
+        document.documentElement.offsetHeight ||
+      loading
+    ) {
+      return;
+    }
+    dispatch(getenquiries(page, limit, setPage));
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [loading]);
+
+  const ExportToExcel = (isData) => {
+    const fileName = "EnquiryReport";
+    const exportType = "xls";
+    var data = [];
+
+    isData.map((item, index) => {
+      data.push({
+        Date: moment(item?.EnquiryDate).format("MM/DD/YYYY"),
+        "Student Name": item?.StudentName,
+        "Student Number": item?.StudentNumber,
+        "Student Email": item?.StudentEmail,
+        Address: item?.Address,
+        Course: item?.Course,
+        Comment: item?.Comment,
+        "Created Date": moment(item?.created_at).format("DD-MM-YYYY"),
+      });
+    });
+
+    exportFromJSON({ data, fileName, exportType });
+  };
+
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+  const ExportPdfEnquiry = (isData, fileName) => {
+    const doc = new jsPDF();
+  
+    const tableColumn = [
+      "date",
+      "Name",
+      "Number",
+      "Email",
+      "Address",
+      "Course",
+      "comment",
+    ];
+  
+    const tableRows = [];
+  
+    isData.forEach((item) => {
+      const ticketData = [
+        moment(item?.EnquiryDate).format("MM/DD/YYYY"),
+        item?.StudentName,
+        item?.StudentNumber,
+        item?.StudentEmail,
+        item?.Address,
+        item?.Course,
+        item?.Comment,
+      ];
+  
+      tableRows.push(ticketData);
+    });
+  
+    doc.autoTable(tableColumn, tableRows, { startY: 20 });
+    const date = Date().split(" ");
+  
+    const dateStr = date[0] + date[1] + date[2] + date[3] + date[4];
+  
+    doc.text(`${fileName}`, 8, 9);
+    doc.setFont("Lato-Regular", "normal");
+    doc.setFontSize(28);
+    doc.save(`${fileName}_${dateStr}.pdf`);
   };
   return (
     <>
@@ -151,7 +200,7 @@ function Studenthistory() {
               },
             }}
           >
-            <AddAdmission setOpen={setOpen} />
+            <AddEnquiry setOpen={setOpen} />
           </Dialog>
         </div>
       )}
@@ -171,7 +220,7 @@ function Studenthistory() {
               },
             }}
           >
-            <UpdateAdmission setOpen={setOpenupdate} updatedata={updatedata} />
+            <UpdateEnquiry setOpen={setOpenupdate} updatedata={updatedata} />
           </Dialog>
         </div>
       )}
@@ -205,8 +254,8 @@ function Studenthistory() {
         <div>
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
-              <form onSubmit={filterdata} className={styles.searchoptiondiv}>
-                {/* <label>From</label>
+              <form onSubmit={handlefilter} className={styles.searchoptiondiv}>
+                <label>From</label>
                 <input
                   className={styles.opensearchinput}
                   type="date"
@@ -221,138 +270,14 @@ function Studenthistory() {
                   value={todate}
                   name="todate"
                   onChange={(e) => settodate(e.target.value)}
-                /> */}
-                <select
-                  className={styles.opensearchinput}
-                  sx={{
-                    width: "18.8rem",
-                    fontSize: 14,
-                    "& .MuiSelect-select": {
-                      paddingTop: "0.6rem",
-                      paddingBottom: "0.6em",
-                    },
-                  }}
-                  value={sbatch}
-                  name="sbatch"
-                  onChange={(e) => setsbatch(e.target.value)}
-                  displayEmpty
-                >
-                  <option
-                    sx={{
-                      fontSize: 14,
-                    }}
-                    value={""}
-                  >
-                    All Batch
-                  </option>
-                  {batchs?.map((item, index) => {
-                    return (
-                      <option
-                        key={index}
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={`${item?.StartingTime} TO ${item?.EndingTime}`}
-                      >
-                        {item?.StartingTime} TO {item?.EndingTime}
-                      </option>
-                    );
-                  })}
-                </select>
-
-                <select
-                  className={styles.opensearchinput}
-                  sx={{
-                    width: "18.8rem",
-                    fontSize: 14,
-                    "& .MuiSelect-select": {
-                      paddingTop: "0.6rem",
-                      paddingBottom: "0.6em",
-                    },
-                  }}
-                  value={scoursename}
-                  name="scoursename"
-                  onChange={(e) => setscoursename(e.target.value)}
-                  displayEmpty
-                >
-                  <option
-                    sx={{
-                      fontSize: 14,
-                    }}
-                    value={""}
-                  >
-                    ALL Course
-                  </option>
-
-                  {courselist?.map((item, index) => {
-                    return (
-                      <option
-                        key={index}
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={item?.coursename}
-                      >
-                        {item?.coursename}
-                      </option>
-                    );
-                  })}
-                </select>
-                <select
-                  className={styles.opensearchinput}
-                  sx={{
-                    width: "18.8rem",
-                    fontSize: 14,
-                    "& .MuiSelect-select": {
-                      paddingTop: "0.6rem",
-                      paddingBottom: "0.6em",
-                    },
-                  }}
-                  value={status}
-                  name="status"
-                  onChange={(e) => setstatus(e.target.value)}
-                  displayEmpty
-                >
-                  <option
-                    sx={{
-                      fontSize: 14,
-                    }}
-                    value={""}
-                  >
-                    ALL Status
-                  </option>
-
-                  {studentStatus?.map((item, index) => {
-                    return (
-                      <option
-                        key={index}
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={item?.value}
-                      >
-                        {item?.value}
-                      </option>
-                    );
-                  })}
-                </select>
-
-                <input
-                  className={styles.opensearchinput10}
-                  type="text"
-                  placeholder="Student's name"
-                  value={sstudent}
-                  name="sstudent}"
-                  onChange={(e) => setsstudent(e.target.value)}
                 />
-
                 <input
-                  className={styles.opensearchinput10}
+                  className={styles.opensearchinput}
                   type="text"
-                  placeholder="Roll No"
-                  value={rollnumber}
-                  name="rollnumber"
-                  onChange={(e) => setrollnumber(e.target.value)}
+                  placeholder="Search By Name"
+                  value={name}
+                  name="name"
+                  onChange={(e) => setname(e.target.value)}
                 />
 
                 <button>Search</button>
@@ -361,16 +286,22 @@ function Studenthistory() {
             </div>
             <div className={styles.imgdivformat}>
               <img
+                onClick={() => handlePrint()}
                 className={styles.imgdivformatimg}
                 src="/images/Print.png"
                 alt="img"
               />
               <img
+                onClick={() => ExportPdfEnquiry(isdata, "EnquiryPdf")}
                 className={styles.imgdivformatimg}
                 src="/images/ExportPdf.png"
                 alt="img"
               />
-              <img src="/images/ExportExcel.png" alt="img" />
+              <img
+                onClick={() => ExportToExcel(isdata)}
+                src="/images/ExportExcel.png"
+                alt="img"
+              />
             </div>
           </div>
 
@@ -392,42 +323,41 @@ function Studenthistory() {
               }
               onClick={() => handleClickOpen()}
             >
-              Add Student
+              Add Enquiry
             </button>
           </div>
           <div className={styles.add_divmarginn}>
             <div className={styles.tablecontainer}>
-              <table className={styles.tabletable}>
+              <table className={styles.tabletable} ref={componentRef}>
                 <tbody>
                   <tr className={styles.tabletr}>
                     <th className={styles.tableth}>S.NO</th>
-                    <th className={styles.tableth}>Roll No</th>
-                    <th className={styles.tableth}>Student_Name</th>
-                    <th className={styles.tableth}>Student_Email</th>
-                    <th className={styles.tableth}>Student_Phone</th>
-                    <th className={styles.tableth}>Adminssion_Date</th>
+                    <th className={styles.tableth}>Enquiry Date</th>
+                    <th className={styles.tableth}>Student Name</th>
+                    <th className={styles.tableth}>Student Number</th>
+                    <th className={styles.tableth}>Student Email</th>
+                    <th className={styles.tableth}>Address</th>
                     <th className={styles.tableth}>Course</th>
-                    <th className={styles.tableth}>Batch</th>
-                    <th className={styles.tableth}>Student Status</th>
-                    {/* <th className={styles.tableth}>Action</th> */}
+                    <th className={styles.tableth}>Comment</th>
+                    <th className={styles.tableth}>Action</th>
                   </tr>
+
                   {isdata?.map((item, index) => {
                     return (
                       <tr key={index} className={styles.tabletr}>
                         <td className={styles.tabletd}>{index + 1}</td>
-                        <td className={styles.tabletd}>{item?.rollnumber}</td>
-                        <td className={styles.tabletd}>{item?.name}</td>
-                        <td className={styles.tabletd}>{item?.email}</td>
-                        <td className={styles.tabletd}>{item?.phoneno1}</td>
                         <td className={styles.tabletd}>
-                          {moment(item?.admissionDate).format("DD/MM/YYYY")}
+                          {moment(item?.EnquiryDate).format("MM/DD/YYYY")}
                         </td>
+                        <td className={styles.tabletd}>{item?.StudentName}</td>
                         <td className={styles.tabletd}>
-                          {item?.courseorclass}
+                          {item?.StudentNumber}
                         </td>
-                        <td className={styles.tabletd}>{item?.batch}</td>
-                        <td className={styles.tabletd}>{item?.Status}</td>
-                        {/* <td className={styles.tabkeddd}>
+                        <td className={styles.tabletd}>{item?.StudentEmail}</td>
+                        <td className={styles.tabletd}>{item?.Address}</td>
+                        <td className={styles.tabletd}>{item?.Course}</td>
+                        <td className={styles.tabletd}>{item?.Comment}</td>
+                        <td className={styles.tabkeddd}>
                           <button
                             disabled={
                               userdata?.data &&
@@ -483,7 +413,7 @@ function Studenthistory() {
                               alt="imgss"
                             />
                           </button>
-                        </td> */}
+                        </td>
                       </tr>
                     );
                   })}
@@ -498,4 +428,4 @@ function Studenthistory() {
   );
 }
 
-export default Studenthistory;
+export default Addholidattype;

@@ -18,6 +18,12 @@ import { Button } from "@mui/material";
 import AddEmp from "../../../component/Coaching/employee/AddEmp";
 import UpdateEmp from "../../../component/Coaching/employee/UpdateEmp";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
+import moment from "moment";
+const studentStatus = [
+  { label: "Active", value: "Active" },
+  { label: "On Leave", value: "On Leave" },
+  { label: "Left", value: "Left" },
+];
 function Staff() {
   const dispatch = useDispatch();
   const [scoursename, setscoursename] = useState("");
@@ -27,6 +33,7 @@ function Staff() {
   const [sbatch, setsbatch] = useState("");
   const [fromdate, setfromdate] = useState("");
   const [todate, settodate] = useState("");
+  const [status, setstatus] = useState("");
   const [batchs, setbatchs] = useState([]);
   const [open, setOpen] = useState(false);
   const [openupdate, setOpenupdate] = useState(false);
@@ -85,7 +92,7 @@ function Staff() {
 
   const filterdata = (e) => {
     e.preventDefault();
-    dispatch(getEmployee(fromdate, todate, sstudent));
+    dispatch(getEmployee(fromdate, todate, sstudent,status));
   };
 
   const reset = () => {
@@ -170,7 +177,7 @@ function Staff() {
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
               <form onSubmit={filterdata} className={styles.searchoptiondiv}>
-                <label>Joining Date</label>
+                {/* <label>Joining Date</label>
                 <input
                   className={styles.opensearchinput}
                   type="date"
@@ -185,7 +192,7 @@ function Staff() {
                   value={todate}
                   name="todate"
                   onChange={(e) => settodate(e.target.value)}
-                />
+                /> */}
 
                 <input
                   className={styles.opensearchinput10}
@@ -195,7 +202,44 @@ function Staff() {
                   name="sstudent}"
                   onChange={(e) => setsstudent(e.target.value)}
                 />
+                <select
+                  className={styles.opensearchinput}
+                  sx={{
+                    width: "18.8rem",
+                    fontSize: 14,
+                    "& .MuiSelect-select": {
+                      paddingTop: "0.6rem",
+                      paddingBottom: "0.6em",
+                    },
+                  }}
+                  value={status}
+                  name="status"
+                  onChange={(e) => setstatus(e.target.value)}
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={""}
+                  >
+                    ALL Status
+                  </option>
 
+                  {studentStatus?.map((item, index) => {
+                    return (
+                      <option
+                        key={index}
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={item?.value}
+                      >
+                        {item?.value}
+                      </option>
+                    );
+                  })}
+                </select>
                 <button>Search</button>
               </form>
               <button onClick={() => reset()}>Reset</button>
@@ -237,19 +281,21 @@ function Staff() {
                   </tr>
                   {isdata?.map((item, index) => {
                     return (
-                      <tr 
-                        key={index}
-                      className={styles.tabletr}>
+                      <tr key={index} className={styles.tabletr}>
                         <td className={styles.tabletd}>{index + 1}</td>
                         <td className={styles.tabletd}>{item?.name}</td>
                         <td className={styles.tabletd}>{item?.email}</td>
                         <td className={styles.tabletd}>{item?.phoneno1}</td>
                         <td className={styles.tabletd}>{item?.phoneno2}</td>
                         <td className={styles.tabletd}>{item?.employeeof}</td>
-                        <td className={styles.tabletd}>{item?.department}</td>
-                        <td className={styles.tabletd}>{item?.joiningdate}</td>
+                        <td className={styles.tabletd}>{item?.department} </td>
                         <td className={styles.tabletd}>
-                          {item?.resigndate ? item?.resigndate : "----------"}
+                          {moment(item?.joiningdate).format("MM/DD/YYYY")}
+                        </td>
+                        <td className={styles.tabletd}>
+                          {item?.resigndate
+                            ? moment(item?.resigndate).format("MM/DD/YYYY")
+                            : "----------"}
                         </td>
                         <td className={styles.tabletd}>{item?.status}</td>
                         <td className={styles.tabkeddd}>

@@ -20,6 +20,7 @@ function UpdateEmp({ setOpen, updatedata }) {
   const [empphone1, setempphone1] = useState("");
   const [empphone2, setempphone2] = useState("");
   const [joiningdate, setjoiningdate] = useState("");
+  const [resigndate, setresigndate] = useState('');
   const [frontoffice, setfrontoffice] = useState(false);
   const [frontofficeR, setfrontofficeR] = useState(false);
   const [frontofficeW, setfrontofficeW] = useState(false);
@@ -90,8 +91,9 @@ function UpdateEmp({ setOpen, updatedata }) {
     formData.set("state", state);
     formData.set("pincode", pincode);
     formData.set("employeeof", designationname);
-    formData.set("department", depart);
-    formData.set("joiningdate", joiningdate);
+    formData.set("department", depart);  
+    formData.set("resigndate", joiningdate);
+    formData.set("resigndate", resigndate);
     formData.set("address", address);
 
     formData.set("basicsalary", basicsalary);
@@ -173,7 +175,10 @@ function UpdateEmp({ setOpen, updatedata }) {
       setjoiningdate(
         new Date(updatedata?.joiningdate).toISOString().substring(0, 10)
       );
-      setstate(updatedata?.status);
+      setresigndate(
+        new Date(updatedata?.resigndate).toISOString().substring(0, 10)
+      );
+      setstatus(updatedata?.status);
       setfrontoffice(updatedata?.fronrofice);
       setstudent(updatedata?.student);
       setAttendance(updatedata?.attendance);
@@ -217,6 +222,7 @@ function UpdateEmp({ setOpen, updatedata }) {
       setifscCode(updatedata?.IfscCode);
     }
   }, []);
+
   return (
     <>
       <div className={styles.divmainlogin}>
@@ -590,7 +596,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                 </div>
               </div>
               <div className={styles.logbtnstylediv}>
-                <button className={styles.logbtnstyle}>Save</button>
+                <button className={styles.logbtnstyle}>Update</button>
               </div>
             </>
           ) : (
@@ -778,6 +784,16 @@ function UpdateEmp({ setOpen, updatedata }) {
                       value={joiningdate}
                       name="joiningdate"
                       onChange={(e) => setjoiningdate(e.target.value)}
+                    />
+                  </div>
+                  <div className={styles.inputdiv}>
+                    <label>Resign Date</label>
+                    <input
+                      required
+                      type="date"
+                      value={resigndate}
+                      name="resigndate"
+                      onChange={(e) => setresigndate(e.target.value)}
                     />
                   </div>
 

@@ -544,7 +544,7 @@ function AddEmp({ setOpen }) {
                     <p>Personal Details</p>
                   </div>
 
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Employee Name</label>
                     <input
                       required
@@ -556,7 +556,7 @@ function AddEmp({ setOpen }) {
                     />
                   </div>
 
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Employee Email</label>
                     <input
                       required
@@ -568,7 +568,7 @@ function AddEmp({ setOpen }) {
                     />
                   </div>
 
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Phone No1</label>
                     <input
                       required
@@ -579,7 +579,7 @@ function AddEmp({ setOpen }) {
                       onChange={(e) => setempphone1(e.target.value)}
                     />
                   </div>
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Phone No2</label>
                     <input
                       type="text"
@@ -589,7 +589,7 @@ function AddEmp({ setOpen }) {
                       onChange={(e) => setempphone2(e.target.value)}
                     />
                   </div>
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>City</label>
                     <input
                       required
@@ -600,7 +600,7 @@ function AddEmp({ setOpen }) {
                       onChange={(e) => setcity(e.target.value)}
                     />
                   </div>
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>State</label>
                     <input
                       required
@@ -611,7 +611,7 @@ function AddEmp({ setOpen }) {
                       onChange={(e) => setstate(e.target.value)}
                     />
                   </div>
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Pin Code</label>
                     <input
                       required
@@ -622,7 +622,7 @@ function AddEmp({ setOpen }) {
                       onChange={(e) => setpincode(e.target.value)}
                     />
                   </div>
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Address</label>
                     <input
                       required
@@ -633,7 +633,8 @@ function AddEmp({ setOpen }) {
                       onChange={(e) => setaddress(e.target.value)}
                     />
                   </div>
-                  <div className={styles.inputdiv}>
+
+                  <div className={styles.inputdiv20}>
                     <label>Status</label>
                     <Select
                       required
@@ -676,7 +677,7 @@ function AddEmp({ setOpen }) {
                       </MenuItem>
                     </Select>
                   </div>
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Photo</label>
                     <input
                       type="file"
@@ -712,7 +713,7 @@ function AddEmp({ setOpen }) {
                     <p>Organization Details</p>
                   </div>
 
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Joining Date</label>
                     <input
                       required
@@ -723,7 +724,7 @@ function AddEmp({ setOpen }) {
                     />
                   </div>
 
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Designation</label>
                     <Select
                       required
@@ -764,7 +765,7 @@ function AddEmp({ setOpen }) {
                         })}
                     </Select>
                   </div>
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Deparment</label>
                     <Select
                       required
@@ -808,7 +809,7 @@ function AddEmp({ setOpen }) {
                   <div className={styles.headingdivicon}>
                     <p>Account Login</p>
                   </div>
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Email</label>
                     <input
                       required
@@ -823,8 +824,8 @@ function AddEmp({ setOpen }) {
                   <div className={styles.headingdivicon}>
                     <p>Documents</p>
                   </div>
-                  <div className={styles.inputdiv}>
-                    <label>Resume File</label>
+                  <div className={styles.inputdiv20}>
+                    <label>Adhar Card</label>
                     <input
                       type="file"
                       onChange={(e) => {
@@ -835,8 +836,8 @@ function AddEmp({ setOpen }) {
                       }}
                     />
                   </div>
-                  <div className={styles.inputdiv}>
-                    <label>Offer Later</label>
+                  <div className={styles.inputdiv20}>
+                    <label>Driving Licence</label>
                     <input
                       type="file"
                       onChange={(e) => {
@@ -847,8 +848,77 @@ function AddEmp({ setOpen }) {
                       }}
                     />
                   </div>
-                  <div className={styles.inputdiv}>
-                    <label>Joning Later</label>
+                  <div className={styles.inputdiv20}>
+                    <label>10Th Marksheet</label>
+                    <input
+                      type="file"
+                      onChange={(e) => {
+                        setjoninglater(e.target.files[0]);
+                        setviewjoninglater(
+                          URL.createObjectURL(e.target.files[0])
+                        );
+                      }}
+                    />
+                  </div>
+                  <div className={styles.inputdiv20}>
+                    <label>12Th Marksheet</label>
+                    <input
+                      type="file"
+                      onChange={(e) => {
+                        setjoninglater(e.target.files[0]);
+                        setviewjoninglater(
+                          URL.createObjectURL(e.target.files[0])
+                        );
+                      }}
+                    />
+                  </div>
+                  <div className={styles.inputdiv20}>
+                    <label>Graduation Final Year</label>
+                    <input
+                      type="file"
+                      onChange={(e) => {
+                        setjoninglater(e.target.files[0]);
+                        setviewjoninglater(
+                          URL.createObjectURL(e.target.files[0])
+                        );
+                      }}
+                    />
+                  </div>
+                  <div className={styles.inputdiv20}>
+                    <label>Post Graduation Final Year</label>
+                    <input
+                      type="file"
+                      onChange={(e) => {
+                        setjoninglater(e.target.files[0]);
+                        setviewjoninglater(
+                          URL.createObjectURL(e.target.files[0])
+                        );
+                      }}
+                    />
+                  </div>
+                  <div className={styles.inputdiv20}>
+                    <label>Others Certificates</label>
+                    <label>Certificates No 1</label>
+                    <input
+                      type="file"
+                      onChange={(e) => {
+                        setjoninglater(e.target.files[0]);
+                        setviewjoninglater(
+                          URL.createObjectURL(e.target.files[0])
+                        );
+                      }}
+                    />
+                    <label>Certificates No 2</label>
+                    <input
+                      type="file"
+                      onChange={(e) => {
+                        setjoninglater(e.target.files[0]);
+                        setviewjoninglater(
+                          URL.createObjectURL(e.target.files[0])
+                        );
+                      }}
+                    />
+                    <label>Certificates No 3</label>
                     <input
                       type="file"
                       onChange={(e) => {
@@ -865,7 +935,7 @@ function AddEmp({ setOpen }) {
                   <div className={styles.headingdivicon}>
                     <p>Fianancial Details</p>
                   </div>
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Basic Salary</label>
                     <input
                       required
@@ -876,7 +946,7 @@ function AddEmp({ setOpen }) {
                       onChange={(e) => setbasicsalary(e.target.value)}
                     />
                   </div>
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Allowance</label>
                     <input
                       required
@@ -887,7 +957,7 @@ function AddEmp({ setOpen }) {
                       onChange={(e) => setallowance(e.target.value)}
                     />
                   </div>
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Deduction</label>
                     <input
                       required
@@ -898,7 +968,7 @@ function AddEmp({ setOpen }) {
                       onChange={(e) => setdeduction(e.target.value)}
                     />
                   </div>
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Total Salary</label>
                     <input
                       required
@@ -918,7 +988,7 @@ function AddEmp({ setOpen }) {
                     <p>Bank Details</p>
                   </div>
 
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Account Holder Name</label>
                     <input
                       required
@@ -929,7 +999,7 @@ function AddEmp({ setOpen }) {
                       onChange={(e) => setaccountholdername(e.target.value)}
                     />
                   </div>
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Account Number</label>
                     <input
                       required
@@ -940,7 +1010,7 @@ function AddEmp({ setOpen }) {
                       onChange={(e) => setaccountNumber(e.target.value)}
                     />
                   </div>
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Bank Name</label>
                     <input
                       required
@@ -951,7 +1021,7 @@ function AddEmp({ setOpen }) {
                       onChange={(e) => setbankName(e.target.value)}
                     />
                   </div>
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Branch </label>
                     <input
                       required
@@ -962,7 +1032,7 @@ function AddEmp({ setOpen }) {
                       onChange={(e) => setbranchname(e.target.value)}
                     />
                   </div>
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>IFSC CODE</label>
                     <input
                       required
