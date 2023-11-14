@@ -1,0 +1,62 @@
+.mainland {
+  border: 1px solid #093959;
+  width: auto;
+  margin-bottom: 2.5%;
+}
+.logoicon {
+  width: 4rem;
+  height: 4rem;
+}
+.logoicon10 {
+  width: 3rem;
+  height: 3rem;
+}
+.headermain {
+  display: flex;
+  border-bottom: 3px solid #093959;
+  /* padding-left: 2%;
+  padding-right: 2%; */
+}
+
+.headertext {
+  text-align: center;
+
+}
+
+.headertext p {
+  line-height: 1.2rem;
+}
+
+.maininfodiv {
+  padding: 0.2rem;
+  display: flex;
+}
+.profileicon {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 4px;
+}
+.infodivtext {
+  padding-left: 2%;
+}
+.infodivtext p {
+  line-height: 1.2rem;
+}
+
+
+.maininfodiv10 {
+  padding: 0.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.headermain10 {
+  display: flex;
+  border-top: 3px solid #093959;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.3rem;
+}

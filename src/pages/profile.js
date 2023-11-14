@@ -1,7 +1,7 @@
 import React from "react";
 import AdminProfile from "@/component/admin/AdminProfile";
 import CollegeProfile from "@/component/college/CollegeProfile";
-import SchoolProfile from "@/component/Institute/SchoolProfile";
+import SchoolProfile from "@/component/Institute/Profile/SchoolProfile";
 import CoachingProfile from "@/component/Coaching/Profile/CoachingProfile";
 import EmployeeProfile from "@/component/Emplyee/EmployeeProfile";
 import StudentProfile from "@/component/Student/StudentProfile";
@@ -9,7 +9,7 @@ import ParentProfile from "@/component/parent/ParentProfile";
 import { useSelector } from "react-redux";
 
 function Profile() {
-  const { isAuthenticated, user } = useSelector((state) => state.auth);  
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
   return (
     <>
       <div className="mainContainer">

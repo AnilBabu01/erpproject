@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+
 const SchoolNavbar = () => {
   const router = useRouter();
   const [navbar, setnavbar] = useState(false);
@@ -19,9 +20,10 @@ const SchoolNavbar = () => {
   useEffect(() => {
     window.addEventListener("scroll", changebackgrou);
   }, []);
+
   return (
     <>
-      {user?.data?.User?.userType === "school" && (    
+      {user?.data?.User?.userType === "school" && (
         <>
           <div>
             <Link
@@ -35,8 +37,8 @@ const SchoolNavbar = () => {
               Dashboard
             </Link>
           </div>
-          <ul class="nav_menu">
-            <li class="nav_list nav_list_menu">
+          <ul className="nav_menu">
+            <li className="nav_list nav_list_menu">
               <div className="nffffav_linka">
                 <Link
                   className={
@@ -44,31 +46,20 @@ const SchoolNavbar = () => {
                       ? "link_directActive"
                       : "link_direct"
                   }
-                  href="/school/dashboard"
+                  href="/institute/dashboard"
                 >
                   Front Office <KeyboardArrowDownIcon />
                 </Link>
               </div>
               <div className={navbar ? "dropdownscroll" : "dropdown"}>
-                <div class="dropdown-inner">
+                <div className="dropdown-inner">
                   <div className="main_report_dropdown">
                     <div className="main_report_dropdown_rightmargin">
                       <h1>General</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/school/frontoffice/studentenquiry">
+                        <Link href="/school/frontoffice/enquiry">
                           Admission Enquiry
                         </Link>
-                        <Link href="/school/masterstudentcategory">
-                          Visitor Book
-                        </Link>
-
-                        <Link href="/school/masteremployee">
-                          Postal Dispatch
-                        </Link>
-                        <Link href="/school/masteremployee">
-                          Postal Receive
-                        </Link>
-                        <Link href="/school/masteremployee">Complain</Link>
                       </div>
                     </div>
                   </div>
@@ -76,8 +67,8 @@ const SchoolNavbar = () => {
               </div>
             </li>
           </ul>
-          <ul class="nav_menu">
-            <li class="nav_list nav_list_menu">
+          <ul className="nav_menu">
+            <li className="nav_list nav_list_menu">
               <div className="nffffav_linka">
                 <Link
                   className={
@@ -85,26 +76,25 @@ const SchoolNavbar = () => {
                       ? "link_directActive"
                       : "link_direct"
                   }
-                  href="/school/dashboard"
+                  href="/institute/dashboard"
                 >
                   Students <KeyboardArrowDownIcon />
                 </Link>
               </div>
               <div className={navbar ? "dropdownscroll" : "dropdown"}>
-                <div class="dropdown-inner">
+                <div className="dropdown-inner">
                   <div className="main_report_dropdown">
                     <div className="main_report_dropdown_rightmargin">
                       <h1>General</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/school/student/registration">
-                          Student Registration
-                        </Link>
-                        <Link href="/school/student/admission">
-                          Student Admission
-                        </Link>
+                        {/* <Link href="/school/student/registration">
+                          Registration
+                        </Link> */}
+                        <Link href="/school/student/admission">Admission</Link>
                         <Link href="/school/student/addstudent">
                           Add Student
                         </Link>
+
                         <Link href="/school/student/studenthistory">
                           Student History
                         </Link>
@@ -117,14 +107,14 @@ const SchoolNavbar = () => {
                       </div>
                     </div>
 
-                    <div className="main_report_dropdown_rightmargin">
+                    {/* <div className="main_report_dropdown_rightmargin">
                       <h1>Attendance</h1>
                       <div className="main_innear_menu_dropdown">
                         <Link href="/school/student/attendance">
                           Student Attendance
                         </Link>
                       </div>
-                    </div>
+                    </div> */}
 
                     <div className="main_report_dropdown_rightmargin">
                       <h1>Parent</h1>
@@ -143,9 +133,7 @@ const SchoolNavbar = () => {
                         </Link>
                       </div>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/school/student/sendemail">
-                          Send Email
-                        </Link>
+                        <Link href="/school/student/sendemail">Send Email</Link>
                       </div>
                     </div>
 
@@ -165,15 +153,15 @@ const SchoolNavbar = () => {
                     </div>
 
                     <div className="main_report_dropdown_rightmargin">
-                      <h1>Assignment</h1>
+                      <h1>Test</h1>
                       <div className="main_innear_menu_dropdown">
                         <Link href="/school/student/assignment">
-                          Assign Assignment
+                          Assign Test
                         </Link>
                       </div>
                       <div className="main_innear_menu_dropdown">
                         <Link href="/school/student/receivedassignment">
-                          Received Assignment
+                          Received Test
                         </Link>
                       </div>
                     </div>
@@ -182,9 +170,8 @@ const SchoolNavbar = () => {
               </div>
             </li>
           </ul>
-
-          <ul class="nav_menu">
-            <li class="nav_list nav_list_menu">
+          <ul className="nav_menu">
+            <li className="nav_list nav_list_menu">
               <div className="nffffav_linka">
                 <Link
                   className={
@@ -192,20 +179,62 @@ const SchoolNavbar = () => {
                       ? "link_directActive"
                       : "link_direct"
                   }
-                  href="/school/dashboard"
+                  href="/#"
+                >
+                  Attendance
+                  <KeyboardArrowDownIcon />
+                </Link>
+              </div>
+              <div className={navbar ? "dropdownscroll" : "dropdown"}>
+                <div className="dropdown-inner">
+                  <div className="main_report_dropdown">
+                    <div className="main_report_dropdown_rightmargin">
+                      <h1>Attendance</h1>
+                      <div className="main_innear_menu_dropdown">
+                        <Link href="/school/student/attendance">
+                          Student Attendance
+                        </Link>
+                      </div>
+                      <div className="main_innear_menu_dropdown">
+                        <Link href="/school/student/holiday">Add Holiday</Link>
+                      </div>
+                      <div className="main_innear_menu_dropdown">
+                        <Link href="/school/student/particularattendance">
+                          Particular Student Attendance
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <ul className="nav_menu">
+            <li className="nav_list nav_list_menu">
+              <div className="nffffav_linka">
+                <Link
+                  className={
+                    router.pathname == "/institunnnte/dashboard"
+                      ? "link_directActive"
+                      : "link_direct"
+                  }
+                  href="/institute/dashboard"
                 >
                   Accounts
                   <KeyboardArrowDownIcon />
                 </Link>
               </div>
               <div className={navbar ? "dropdownscroll" : "dropdown"}>
-                <div class="dropdown-inner">
+                <div className="dropdown-inner">
                   <div className="main_report_dropdown">
                     <div className="main_report_dropdown_rightmargin">
                       <h1>General</h1>
                       <div className="main_innear_menu_dropdown">
                         <Link href="/school/accounts/collectfee">
                           Collect Fees
+                        </Link>
+                        <Link href="/school/accounts/printreceipt">
+                          Print Fee Receipt
                         </Link>
                         <Link href="/school/accounts/searchfee">
                           Search Fees Payment
@@ -244,9 +273,7 @@ const SchoolNavbar = () => {
                       <h1>General</h1>
                       <div className="main_innear_menu_dropdown">
                         <Link href="/school/transport/routes">Routes</Link>
-                        <Link href="/school/transport/vehicles">
-                          Vehicles
-                        </Link>
+                        <Link href="/school/transport/vehicles">Vehicles</Link>
                         <Link href="/school/transport/assingvehicles">
                           Assing Vehicle
                         </Link>
@@ -369,8 +396,8 @@ const SchoolNavbar = () => {
             </li>
           </ul>
 
-          <ul class="nav_menu">
-            <li class="nav_list nav_list_menu">
+          <ul className="nav_menu">
+            <li className="nav_list nav_list_menu">
               <div className="nffffav_linka">
                 <Link
                   className={
@@ -378,27 +405,36 @@ const SchoolNavbar = () => {
                       ? "link_directActive"
                       : "link_direct"
                   }
-                  href="/school/dashboard"
+                  href="/#"
                 >
                   Masters <KeyboardArrowDownIcon />
                 </Link>
               </div>
               <div className={navbar ? "dropdownscroll" : "dropdown"}>
-                <div class="dropdown-inner">
+                <div className="dropdown-inner">
                   <div className="main_report_dropdown">
                     <div className="main_report_dropdown_rightmargin">
                       <h1>General</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/school/masters/masterclass">Class</Link>
-                        <Link href="/school/masters/masterfee">
-                          Add Fees Structure
-                        </Link>
+                        <Link href="/school/masters/class">Class</Link>
                         <Link href="/school/masters/masterstudentcategory">
                           Student Category
                         </Link>
-                        <Link href="/school/masters/masteremployee">
-                          Type of Employee
+                        <Link href="/school/masters/receiptprefix">
+                          Receipt Prefix
                         </Link>
+
+                        <Link href="/school/masters/masterfee">
+                          Fees Structure
+                        </Link>
+
+                        <Link href="/school/masters/department">
+                          Department
+                        </Link>
+                        <Link href="/school/masters/masteremployee">
+                          Designation
+                        </Link>
+                        {/* <Link href="/school/masters/branch">Add Branch</Link> */}
                       </div>
                     </div>
                   </div>
@@ -511,8 +547,6 @@ const SchoolNavbar = () => {
           )}
         </>
       )}
-
-     
     </>
   );
 };

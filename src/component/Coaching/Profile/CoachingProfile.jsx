@@ -325,7 +325,7 @@ function CoachingProfile() {
           <div className="bottom-chart-left-div-inear1">
             <h4>Credentials Details</h4>
             <div className={styles.divmaininput}>
-              <div className={styles.inputdiv}>
+              <div className={styles.inputcreadentionals}>
                 <label>Student Default Password</label>
                 <input
                   id="donation-date"
@@ -338,7 +338,7 @@ function CoachingProfile() {
                   // onChange={(e) => setenquirydate(e.target.value)}
                 />
               </div>
-              <div className={styles.inputdiv}>
+              <div className={styles.inputcreadentionals}>
                 <label>Parent Default Password</label>
                 <input
                   required
@@ -353,7 +353,7 @@ function CoachingProfile() {
             </div>
 
             <div className={styles.divmaininput}>
-              <div className={styles.inputdiv}>
+              <div className={styles.inputcreadentionals}>
                 <label>Employee Default Password</label>
                 <input
                   id="donation-date"
@@ -380,7 +380,7 @@ function CoachingProfile() {
             <h4>Communication Details</h4>
             <p>Email Credentials For Send mail</p>
             <div className={styles.divmaininput}>
-              <div className={styles.inputdiv}>
+              <div className={styles.inputcreadentionals}>
                 <label>Email</label>
                 <input
                   id="donation-date"
@@ -393,7 +393,7 @@ function CoachingProfile() {
                   // onChange={(e) => setenquirydate(e.target.value)}
                 />
               </div>
-              <div className={styles.inputdiv}>
+              <div className={styles.inputcreadentionals}>
                 <label>Password</label>
                 <input
                   required

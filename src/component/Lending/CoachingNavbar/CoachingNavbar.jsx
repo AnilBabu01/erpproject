@@ -20,6 +20,7 @@ const CoachingNavbar = () => {
   useEffect(() => {
     window.addEventListener("scroll", changebackgrou);
   }, []);
+  
   return (
     <>
       {user?.data?.User?.userType === "institute" && (

@@ -520,10 +520,25 @@
   display: flex;
   flex-direction: column;
 }
-.idcarddiv{
+.idcarddiv {
   padding: 20%;
 }
+
+.inputcreadentionals {
+  display: flex;
+  flex-direction: column;
+}
+.inputcreadentionals input {
+  border: 1px solid #093959;
+  border-radius: 5px;
+  padding-left: 0.1rem;
+  height: 34px;
+  width: 17rem;
+}
 @media screen and (max-width: 780px) {
+  .inputcreadentionals input {
+    width: 100%;
+  }
   .mainperdiv {
     border: 1px solid #093959;
     height: 8rem;
@@ -575,6 +590,17 @@
   .divmaininput {
     display: block;
     margin-bottom: 0.5rem;
+  }
+
+  .inputdiv input {
+    width: 100%;
+    height: 35px;
+  }
+
+  .inputdiv {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
   }
 
   .inputdiv input {
