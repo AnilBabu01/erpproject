@@ -91,7 +91,7 @@ const monthnamelist = {
   12: "December",
 };
 
-function particularemployeeattendance() {
+function Particularemployeeattendance() {
   const dispatch = useDispatch();
   let currmonth = new Date().getMonth();
   const [month, setmonth] = useState(currmonth + 1);
@@ -548,4 +548,4 @@ function particularemployeeattendance() {
   );
 }
 
-export default particularemployeeattendance;
+export default Particularemployeeattendance;

@@ -29,9 +29,9 @@ const LandscapeCertificate = () => {
             </p>
             <p>
               PH:
-              {user?.data?.CredentailsData?.phoneno1},
-              {user?.data?.CredentailsData?.phoneno2},
-              {user?.data?.CredentailsData?.email},
+              {user?.data?.CredentailsData?.phoneno1}&lsquo;
+              {user?.data?.CredentailsData?.phoneno2}&lsquo;
+              {user?.data?.CredentailsData?.email}&lsquo;
             </p>
           </div>
         </div>
@@ -48,11 +48,11 @@ const LandscapeCertificate = () => {
         <div className={style.coachingtextaddress}>
           <p className={style.filldetails}>
             This is certify that Mr./Miss/Mrs……….DHARMENDRA SINGH………...…
-            S/o,D/o,W/o,Shri………….SURAJ PAL YADAV…............….Has completed the
+            S/o&lsquo;D/o&lsquo;W/o&lsquo;Shri………….SURAJ PAL YADAV…............….Has completed the
             certificate/Diploma Course of……………………. Fundamental+ Microsoft office
             +Accounting(Tally)9.0 + Hindi & English Typing (Krutidev + Mangal
             Typing) Duration From…........12 JAN 2022….TO….12 JUL
-            2022……..........…...…....
+            2022……..........…...…....    
           </p>
         </div>
         <div className={style.signaturediv}>
@@ -123,8 +123,8 @@ const LandscapeCertificate = () => {
         </div>
         <div className={style.maindivcalculate}>
           <p>
-            Grade Criteria 100 {"<"}90=A+,90 {"<"}80 = A,80 {"<"} 70 = B+,70
-            {"<"} 60 = B,60 {"<"} 33 = C
+            Grade Criteria 100 {"<"}90=A+&lsquo;90 {"<"}80 = A&lsquo;80 {"<"} 70 = B+&lsquo;70
+            {"<"} 60 = B&lsquo;60 {"<"} 33 = C
           </p>
         </div>
         <div className={style.footerdiv}>
@@ -136,9 +136,9 @@ const LandscapeCertificate = () => {
           </p>
           <p>
             PH:
-            {user?.data?.CredentailsData?.phoneno1},
-            {user?.data?.CredentailsData?.phoneno2},
-            {user?.data?.CredentailsData?.email},
+            {user?.data?.CredentailsData?.phoneno1}&lsquo;
+            {user?.data?.CredentailsData?.phoneno2}&lsquo;
+            {user?.data?.CredentailsData?.email}&lsquo;
           </p>
         </div>
       </div>

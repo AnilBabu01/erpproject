@@ -53,8 +53,8 @@ const LandscapeIdcard = ({ data }) => {
             <p>Roll No : {data?.rollnumber} </p>
             <p>Student Name : {data?.name}</p>
             <p>Phono No : {data?.phoneno1} </p>
-            <p>Father's name : {data?.fathersName} </p>
-            <p>Father's No : {data?.fathersPhoneNo} </p>
+            <p>Father&apos;s name : {data?.fathersName} </p>
+            <p>Father&apos;s No : {data?.fathersPhoneNo} </p>
             <p>Address : </p>
             <p>
               {data?.city} {data?.state} {data?.pincode}
