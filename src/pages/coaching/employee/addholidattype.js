@@ -7,8 +7,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
-import AddEnquiry from "@/component/Coaching/Frontoffice/AddEnquiry";
-import UpdateEnquiry from "@/component/Coaching/Frontoffice/UpdateEnquiry";
+import AddEnquiry from "@/component/Coaching/employee/AddHolidayType";
+import UpdateEnquiry from "@/component/Coaching/employee/UpdateHolidayType";
 import {
   getenquiries,
   deleteenquiry,
@@ -145,7 +145,7 @@ function Addholidattype() {
   });
   const ExportPdfEnquiry = (isData, fileName) => {
     const doc = new jsPDF();
-  
+
     const tableColumn = [
       "date",
       "Name",
@@ -155,9 +155,9 @@ function Addholidattype() {
       "Course",
       "comment",
     ];
-  
+
     const tableRows = [];
-  
+
     isData.forEach((item) => {
       const ticketData = [
         moment(item?.EnquiryDate).format("MM/DD/YYYY"),
@@ -168,15 +168,15 @@ function Addholidattype() {
         item?.Course,
         item?.Comment,
       ];
-  
+
       tableRows.push(ticketData);
     });
-  
+
     doc.autoTable(tableColumn, tableRows, { startY: 20 });
     const date = Date().split(" ");
-  
+
     const dateStr = date[0] + date[1] + date[2] + date[3] + date[4];
-  
+
     doc.text(`${fileName}`, 8, 9);
     doc.setFont("Lato-Regular", "normal");
     doc.setFontSize(28);
@@ -195,7 +195,7 @@ function Addholidattype() {
               "& .MuiDialog-container": {
                 "& .MuiPaper-root": {
                   width: "100%",
-                  maxWidth: "60rem",
+                  maxWidth: "21rem",
                 },
               },
             }}
@@ -215,7 +215,7 @@ function Addholidattype() {
               "& .MuiDialog-container": {
                 "& .MuiPaper-root": {
                   width: "100%",
-                  maxWidth: "60rem",
+                  maxWidth: "21rem",
                 },
               },
             }}
@@ -253,37 +253,6 @@ function Addholidattype() {
       <div className="mainContainer">
         <div>
           <div className={styles.topmenubar}>
-            <div className={styles.searchoptiondiv}>
-              <form onSubmit={handlefilter} className={styles.searchoptiondiv}>
-                <label>From</label>
-                <input
-                  className={styles.opensearchinput}
-                  type="date"
-                  value={fromdate}
-                  name="fromdate"
-                  onChange={(e) => setfromdate(e.target.value)}
-                />
-                <label>To</label>
-                <input
-                  className={styles.opensearchinput}
-                  type="date"
-                  value={todate}
-                  name="todate"
-                  onChange={(e) => settodate(e.target.value)}
-                />
-                <input
-                  className={styles.opensearchinput}
-                  type="text"
-                  placeholder="Search By Name"
-                  value={name}
-                  name="name"
-                  onChange={(e) => setname(e.target.value)}
-                />
-
-                <button>Search</button>
-              </form>
-              <button onClick={() => reset()}>Reset</button>
-            </div>
             <div className={styles.imgdivformat}>
               <img
                 onClick={() => handlePrint()}
@@ -323,7 +292,7 @@ function Addholidattype() {
               }
               onClick={() => handleClickOpen()}
             >
-              Add Enquiry
+              Add Holiday Type
             </button>
           </div>
           <div className={styles.add_divmarginn}>
@@ -332,13 +301,8 @@ function Addholidattype() {
                 <tbody>
                   <tr className={styles.tabletr}>
                     <th className={styles.tableth}>S.NO</th>
-                    <th className={styles.tableth}>Enquiry Date</th>
-                    <th className={styles.tableth}>Student Name</th>
-                    <th className={styles.tableth}>Student Number</th>
-                    <th className={styles.tableth}>Student Email</th>
-                    <th className={styles.tableth}>Address</th>
-                    <th className={styles.tableth}>Course</th>
-                    <th className={styles.tableth}>Comment</th>
+                    <th className={styles.tableth}>Holiday Type</th>
+
                     <th className={styles.tableth}>Action</th>
                   </tr>
 
@@ -346,17 +310,9 @@ function Addholidattype() {
                     return (
                       <tr key={index} className={styles.tabletr}>
                         <td className={styles.tabletd}>{index + 1}</td>
-                        <td className={styles.tabletd}>
-                          {moment(item?.EnquiryDate).format("MM/DD/YYYY")}
-                        </td>
+
                         <td className={styles.tabletd}>{item?.StudentName}</td>
-                        <td className={styles.tabletd}>
-                          {item?.StudentNumber}
-                        </td>
-                        <td className={styles.tabletd}>{item?.StudentEmail}</td>
-                        <td className={styles.tabletd}>{item?.Address}</td>
-                        <td className={styles.tabletd}>{item?.Course}</td>
-                        <td className={styles.tabletd}>{item?.Comment}</td>
+
                         <td className={styles.tabkeddd}>
                           <button
                             disabled={

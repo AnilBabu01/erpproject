@@ -2,15 +2,16 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../redux/actions/authActions";
 import { getbatch } from "../../../redux/actions/commanAction";
-import {
-  MarkStudentAttendance,
-  DoneStudentAttendance,
-  MonthlyStudentAttendance,
-} from "../../../redux/actions/attendanceActions";
+import // MarkStudentAttendance,
+// DoneStudentAttendance,
+// MonthlyStudentAttendance,
+"../../../redux/actions/attendanceActions";
 import { getEmployee } from "../../../redux/actions/commanAction";
 import styles from "../employee/employee.module.css";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
+import { serverInstance } from "../../../API/ServerInstance";
+import { toast } from "react-toastify";
 import CircularProgress from "@mui/material/CircularProgress";
 const monthlist = [
   {
@@ -130,7 +131,6 @@ function Attendance() {
     new Date()?.toISOString().slice(0, 16)
   );
 
-  console.log("date is date ", minDateTime);
   const {
     Markloading,
     markattendance,
@@ -147,20 +147,10 @@ function Attendance() {
   console.log("month name", monthnamelist[month?.toString()]);
 
   useEffect(() => {
-    if (markattendance) {
-      setisData(markattendance);
-      setattendancedetails(markattendance);
-    }
-    if (doneattendance) {
-      setattendancedetails(doneattendance);
-      dispatch(MarkStudentAttendance(date, sbatch));
-    }
     if (batch) {
       setbatchs(batch);
     }
-    if (monthlyattendance) {
-      setmonthly(monthlyattendance);
-    }
+
     if (user) {
       setuserdata(user);
     }
@@ -201,9 +191,62 @@ function Attendance() {
     setsbatch("");
     setattendancedetails("");
   };
+  const MarkStudentAttendance = (date, emp) => {
+    const data = {
+      Attendancedate: date,
+      emp: emp,
+    };
+    serverInstance("EmployeeAttendance/attendance", "post", data).then(
+      (res) => {
+        if (res?.status) {
+          toast.success(res?.msg, {
+            autoClose: 1000,
+          });
 
+          setattendancedetails(res?.data);
+        }
+
+        if (res?.status === false) {
+          toast.error("Something Went Wrong", { autoClose: 1000 });
+        }
+      }
+    );
+  };
+  const MonthlyStudentAttendance = () => {
+    const data = {
+      month: month,
+    };
+    serverInstance("EmployeeAttendance/analysisattendance", "post", data).then(
+      (res) => {
+        if (res?.status) {
+          toast.success(res?.msg, {
+            autoClose: 1000,
+          });
+
+          setmonthly(res?.data);
+        }
+
+        if (res?.status === false) {
+          toast.error("Something Went Wrong", { autoClose: 1000 });
+        }
+      }
+    );
+  };
   const saveAttendance = () => {
-    dispatch(DoneStudentAttendance(attendancedetails));
+    const data = {
+      data: attendancedetails,
+    };
+    serverInstance("EmployeeAttendance/attendance", "put", data).then((res) => {
+      if (res?.status) {
+        toast.success(res?.msg, {
+          autoClose: 1000,
+        });
+      }
+
+      if (res?.status === false) {
+        toast.error("Something Went Wrong", { autoClose: 1000 });
+      }
+    });
   };
 
   const endno = (date) => {
@@ -264,7 +307,7 @@ function Attendance() {
                             sx={{
                               fontSize: 14,
                             }}
-                            value={item?.name}
+                            value={item?.id}
                           >
                             {item?.name}
                           </option>
@@ -274,11 +317,11 @@ function Attendance() {
                   <button
                     className={styles.saveattendacebutton}
                     onClick={() => {
-                      if (date && sbatch) {
-                        dispatch(MarkStudentAttendance(date, sbatch));
+                      if (date) {
+                        MarkStudentAttendance(date, sbatch);
                       }
                     }}
-                    disabled={markloading ? true : false}
+                    // disabled={markloading ? true : false}
                   >
                     {markloading ? (
                       <CircularProgress size={17} style={{ color: "red" }} />
@@ -362,46 +405,6 @@ function Attendance() {
                         paddingBottom: "0.6em",
                       },
                     }}
-                    value={sbatch}
-                    name="sbatch"
-                    onChange={(e) => {
-                      setsbatch(e.target.value);
-                    }}
-                    displayEmpty
-                  >
-                    <option
-                      sx={{
-                        fontSize: 14,
-                      }}
-                      value={""}
-                    >
-                      Please Select Batch
-                    </option>
-                    {batchs?.map((item, index) => {
-                      return (
-                        <option
-                          key={index}
-                          sx={{
-                            fontSize: 14,
-                          }}
-                          value={`${item?.StartingTime} TO ${item?.EndingTime}`}
-                        >
-                          {item?.StartingTime} TO {item?.EndingTime}
-                        </option>
-                      );
-                    })}
-                  </select>
-
-                  <select
-                    className={styles.opensearchinput}
-                    sx={{
-                      width: "18.8rem",
-                      fontSize: 14,
-                      "& .MuiSelect-select": {
-                        paddingTop: "0.6rem",
-                        paddingBottom: "0.6em",
-                      },
-                    }}
                     value={month}
                     name="month"
                     onChange={(e) => {
@@ -434,22 +437,13 @@ function Attendance() {
                   <button
                     className={styles.saveattendacebutton}
                     onClick={() => {
-                      if (month && sbatch) {
-                        dispatch(MonthlyStudentAttendance(sbatch, month));
+                      if (month) {
+                        MonthlyStudentAttendance(month);
                       }
                     }}
                   >
                     Show result
                   </button>
-                  {/* <button
-                    className={styles.resetattendacebutton}
-                    onClick={() => {
-                      setsbatch('')
-                      dispatch(MonthlyStudentAttendance());
-                    }}
-                  >
-                    Reset
-                  </button> */}
                 </>
               )}
               <button
@@ -515,11 +509,9 @@ function Attendance() {
                   <table className={styles.tabletable}>
                     <tbody>
                       <tr className={styles.tabletr}>
-                        <th className={styles.tableth}>S.NO</th>
-                        <th className={styles.tableth}>Employee name</th>
-                        <th className={styles.tableth}>Student&lsquo;Name</th>
-                        <th className={styles.tableth}>Father&apos;s Name</th>
-                        <th className={styles.tableth}>Course</th>
+                        <th className={styles.tableth}>Sr.NO</th>
+                        <th className={styles.tableth}>Employee&lsquo;Id</th>
+                        <th className={styles.tableth}>Employee&lsquo; Name</th>
 
                         <th className={styles.tableth}>Status</th>
                       </tr>
@@ -529,19 +521,10 @@ function Attendance() {
                           return (
                             <tr className={styles.tabletr} key={index}>
                               <td className={styles.tabletd}>{index + 1}</td>
-
                               <td className={styles.tabletd}>
-                                {item?.rollnumber}
+                                {item?.EmployeeId}
                               </td>
                               <td className={styles.tabletd}>{item?.name}</td>
-
-                              <td className={styles.tabletd}>
-                                {item?.fathersName}
-                              </td>
-
-                              <td className={styles.tabletd}>
-                                {item?.courseorclass}
-                              </td>
 
                               <td className={styles.tabletdnew}>
                                 <button
@@ -590,12 +573,8 @@ function Attendance() {
                   <table className={styles.tabletable}>
                     <tbody>
                       <tr className={styles.tabletr}>
-                        <th className={styles.tableth10}>Roll_Number</th>
-                        <th className={styles.tableth10}>Name</th>
-                        <th className={styles.tableth10}>
-                          Father&apos;s&lsquo;Name
-                        </th>
-                        <th className={styles.tableth10}>Class&lsquo;Batch</th>
+                        <th className={styles.tableth}>Employee&lsquo;Id</th>
+                        <th className={styles.tableth}>Employee&lsquo;Name</th>
                         <th className={styles.tableth10}>Month</th>
                         {monthly[0]?.days?.map((item, index) => {
                           return (
@@ -610,16 +589,10 @@ function Attendance() {
                           return (
                             <tr className={styles.tabletr} key={index}>
                               <td className={styles.tabletd}>
-                                {item?.student?.rollnumber}
+                                {item?.student?.empId}
                               </td>
                               <td className={styles.tabletd}>
                                 {item?.student?.name}
-                              </td>
-                              <td className={styles.tabletd}>
-                                {item?.student?.fathersName}
-                              </td>
-                              <td className={styles.tabletd}>
-                                {item?.student?.batch}
                               </td>
                               <td className={styles.tabletd}>
                                 {monthnamelist[month?.toString()]}

@@ -16,8 +16,8 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
-import AddStudent from "../../../component/Coaching/student/AddHoliday";
-import UpdateStudent from "../../../component/Coaching/student/UpdateHoliday";
+import AddStudent from "../../../component/Coaching/employee/AddHoliday";
+import UpdateStudent from "../../../component/Coaching/employee/UpdateHoliday";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
 
@@ -98,6 +98,7 @@ const monthnamelist = {
 
   12: "December",
 };
+
 function Addemployeeholiday() {
   const dispatch = useDispatch();
   let currmonth = new Date().getMonth();
