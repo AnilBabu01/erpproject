@@ -4,65 +4,93 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import CloseIcon from "@mui/icons-material/Close";
 import { serverInstance } from "../../API/ServerInstance";
+import Resultshow from "./ShowResult";
+import moment from "moment";
+import Dialog from "@mui/material/Dialog";
+import Slide from "@mui/material/Slide";
 function ResultTest() {
   const [resultlist, setresultlist] = useState([]);
-
+  const [list, setlist] = useState([]);
+  const [openupdate, setOpenupdate] = useState(false);
+  const [date, setdate] = useState("");
+  const [titile, settitile] = useState("");
+  const [isdata, setisdata] = useState("");
   const getresult = () => {
-    serverInstance("test/studentresult", "post").then((res) => {
+    serverInstance("test/studentresult", "post", {
+      date: date,
+      title: titile,
+    }).then((res) => {
       if (res?.status) {
-        console.log("result", res?.data);
         setresultlist(res?.data);
       }
     });
   };
 
+  const getrsultlst = () => {
+    serverInstance("test/studentresult", "post",).then((res) => {
+      if (res?.status) {
+        setlist(res?.data);
+        setresultlist(res?.data);
+      }
+    });
+  };
   useEffect(() => {
     getresult();
+    getrsultlst();
   }, []);
+  const handleOpen = (data) => {
+    setisdata(data);
+    if (isdata) {
+      console.log("result isdata", isdata);
+      setOpenupdate(true);
+    }
+  };
 
+  const handleCloseupadte = () => {
+    setOpenupdate(false);
+  };
+
+  const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="top" ref={ref} {...props} />;
+  });
+
+  const reset = () => {
+    setdate("");
+    settitile("");
+    getrsultlst();
+  };
   return (
     <>
+      {openupdate && (
+        <div>
+          <Dialog
+            open={openupdate}
+            TransitionComponent={Transition}
+            onClose={handleCloseupadte}
+            aria-describedby="alert-dialog-slide-description"
+            sx={{
+              "& .MuiDialog-container": {
+                "& .MuiPaper-root": {
+                  width: "100%",
+                  maxWidth: "60rem",
+                },
+              },
+            }}
+          >
+            <Resultshow setOpen={setOpenupdate} data={isdata} />
+          </Dialog>
+        </div>
+      )}
       <div className={styles.maindivsearch}>
         <div className={styles.inputdiv}>
           <label>Test Date</label>
-          <Select
-            required
+          <input
+            type="date"
             className={styles.addwidth}
-            sx={{
-              width: "18.8rem",
-              fontSize: 14,
-              "& .MuiSelect-select": {
-                paddingTop: "0.6rem",
-                paddingBottom: "0.6em",
-              },
-            }}
-            // value={depart}
-            // onChange={(e) => setdepart(e.target.value)}
-            displayEmpty
-          >
-            <MenuItem
-              sx={{
-                fontSize: 14,
-              }}
-              value={""}
-            >
-              Please select
-            </MenuItem>
-            {/* {isdata1 &&
-                      isdata1?.map((item, index) => {
-                        return (
-                          <MenuItem
-                            key={index}
-                            sx={{
-                              fontSize: 14,
-                            }}
-                            value={item?.DepartmentName}
-                          >
-                            {item?.DepartmentName}
-                          </MenuItem>
-                        );
-                      })} */}
-          </Select>
+            value={date}
+            name="date"
+            onChange={(e) => setdate(e.target.value)}
+          />
         </div>
         <div className={styles.inputdiv}>
           <label>Test Title</label>
@@ -77,8 +105,8 @@ function ResultTest() {
                 paddingBottom: "0.6em",
               },
             }}
-            // value={depart}
-            // onChange={(e) => setdepart(e.target.value)}
+            value={titile}
+            onChange={(e) => settitile(e.target.value)}
             displayEmpty
           >
             <MenuItem
@@ -87,25 +115,30 @@ function ResultTest() {
               }}
               value={""}
             >
-              Please select
+              All Result
             </MenuItem>
-            {/* {isdata1 &&
-                      isdata1?.map((item, index) => {
-                        return (
-                          <MenuItem
-                            key={index}
-                            sx={{
-                              fontSize: 14,
-                            }}
-                            value={item?.DepartmentName}
-                          >
-                            {item?.DepartmentName}
-                          </MenuItem>
-                        );
-                      })} */}
+            {list &&
+              list?.map((item, index) => {
+                return (
+                  <MenuItem
+                    key={index}
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={item?.testname}
+                  >
+                    {item?.testname}
+                  </MenuItem>
+                );
+              })}
           </Select>
         </div>
-        <button className={styles.btnactive}>Show Result</button>
+        <button className={styles.btnactive} onClick={() => getresult()}>
+          Show Result
+        </button>
+        <button className={styles.btnactive} onClick={() => reset()}>
+          Reset
+        </button>
       </div>
 
       <div className={styles.tablecontainer}>
@@ -114,6 +147,8 @@ function ResultTest() {
             <tr className={styles.tabletr}>
               <th className={styles.tableth}>Test Title</th>
               <th className={styles.tableth}>Test Date</th>
+              <th className={styles.tableth}>Start Time</th>
+              <th className={styles.tableth}>End Time</th>
               <th className={styles.tableth}>Total Marks</th>
               <th className={styles.tableth}>obtain</th>
               <th className={styles.tableth}>Status</th>
@@ -121,12 +156,23 @@ function ResultTest() {
             {resultlist?.map((item, index) => {
               return (
                 <tr key={index} className={styles.tabletr}>
-                  <td className={styles.tabletd}>Demo</td>
-                  <td className={styles.tabletd}>{item?.testdate}</td>
-                  <td className={styles.tabletd}>{item?.testdate}</td>
+                  <td className={styles.tabletd}>{item?.testname}</td>
+                  <td className={styles.tabletd}>
+                    {moment(item?.testdate).format("MM/DD/YYYY")}
+                  </td>
+                  <td className={styles.tabletd}>{item?.teststarTime}</td>
+                  <td className={styles.tabletd}>{item?.testendTime}</td>
+                  <td className={styles.tabletd}>
+                    {moment(item?.testdate).format("MM/DD/YYYY")}
+                  </td>
                   <td className={styles.tabletd}>8</td>
                   <td className={styles.tabletd}>
-                    <button className={styles.btnactive}> Show Details </button>
+                    <button
+                      className={styles.btnactive}
+                      onClick={() => handleOpen(item)}
+                    >
+                      Show Details
+                    </button>
                   </td>
                 </tr>
               );

@@ -3,11 +3,10 @@ import styles from "@/styles/register.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { Adddresult } from "../../redux/actions/commanAction";
 import { useRouter } from "next/router";
-import { serverInstance } from "../../API/ServerInstance";
 import { backendUrl } from "../../config/config";
 const formData = new FormData();
 
-function McsQuestions({ setOpen, data }) {
+function ShowResult({ setOpen, data }) {
   const navigate = useRouter();
   const dispatch = useDispatch();
   const [isdata, setisData] = useState([]);
@@ -15,8 +14,6 @@ function McsQuestions({ setOpen, data }) {
   const { course } = useSelector((state) => state.getcourse);
   const { batch } = useSelector((state) => state.getbatch);
   const { user } = useSelector((state) => state.auth);
-
-  console.log("data of ,mcq", data);
 
   var today = new Date();
   var date = today.toISOString().substring(0, 10);
@@ -67,6 +64,7 @@ function McsQuestions({ setOpen, data }) {
       },
     ]);
   }
+  console.log("correct answer show result from com", data);
 
   function removeQuestionItem(item) {
     setquestionItems(
@@ -98,23 +96,10 @@ function McsQuestions({ setOpen, data }) {
       testtitle: data?.testname,
       questions: questionItems,
       testfile: data?.testfile,
-      marksperquestion: data?.marksperquestion,
-      passmark: data?.passmark,
-      testId: data?.id,
-      testFileUrl: data?.testFileUrl,
     };
 
-    serverInstance("test/addtestretult", "POST", savedata).then((res) => {
-      if (res?.status === true) {
-        console.log("data from mcq list ", res);
-        navigate.push({
-          pathname: "/student/ResultShow",
-          query: {
-            result: JSON.stringify(res?.data?.Result),
-          },
-        });
-      }
-    });
+    console.log("save data from show result", savedata);
+    dispatch(Adddresult(savedata, setOpen));
   };
   useEffect(() => {
     if (course) {
@@ -124,40 +109,89 @@ function McsQuestions({ setOpen, data }) {
       setbatchs(batch);
     }
     if (data) {
-      setquestionItems(data?.questions);
+      setquestionItems(data?.answerquestions);
     }
   }, [course, batch, data]);
   return (
     <>
-      <div className={styles.McsQuestionss}>
-        {data?.testFileUrl?.split(".")[1] === "pdf" ? (
+      <div className={styles.mainshowresuludetails}>
+        {data?.testFileUrl && (
           <>
-            <div className={styles.inputdivimg60}>
-              <label>Test Paper</label>
-              <iframe
-                src={`${backendUrl}public/upload/${data?.testFileUrl}`}
-                title="PDF Viewer"
-                width="100%"
-                height="500"
-                frameBorder="0"
-              >
-                This browser does not support PDFs. Please download the PDF to
-                view it.
-              </iframe>
-            </div>
-          </>
-        ) : (
-          <>
-            <div className={styles.inputdivimg60}>
-              <label>Test Paper</label>
-              <img
-                className="keydetailsdivlogoimg10"
-                src={`${backendUrl}public/upload/${data?.testFileUrl}`}
-                alt="imgdd"
-              />
-            </div>
+            {data?.testFileUrl?.split(".")[1] === "pdf" ? (
+              <>
+                <div className={styles.inputdivimg60}>
+                  <label>Test Paper</label>
+                  <iframe
+                    src={`${backendUrl}public/upload/${data?.testFileUrl}`}
+                    title="PDF Viewer"
+                    width="100%"
+                    height="500"
+                    frameBorder="0"
+                  >
+                    This browser does not support PDFs. Please download the PDF
+                    to view it.
+                  </iframe>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className={styles.inputdivimg60}>
+                  <label>Test Paper</label>
+                  <img
+                    className="keydetailsdivlogoimg10"
+                    src={`${backendUrl}public/upload/${data?.testFileUrl}`}
+                    alt="imgdd"
+                  />
+                </div>
+              </>
+            )}
           </>
         )}
+        <p>Your Result</p>
+        <div className={styles.tablecontainer10}>
+          <table className={styles.tabletable}>
+            <tbody>
+              <tr className={styles.tabletr}>
+                <th className={styles.tableth}>Test Title</th>
+                <th className={styles.tableth}>Start Time</th>
+                <th className={styles.tableth}>End Time</th>
+                <th className={styles.tableth}>Total Questions</th>
+                <th className={styles.tableth}>Correct Answer</th>
+                <th className={styles.tableth}>Wrong Answer</th>
+                <th className={styles.tableth}>Obtain Marks</th>
+                <th className={styles.tableth}>Status</th>
+                {/* <th className={styles.tableth}>Action</th> */}
+              </tr>
+
+              <tr className={styles.tabletr}>
+                <td className={styles.tabletd}>{data?.testname}</td>
+                <td className={styles.tabletd}>{data?.teststarTime}</td>
+                <td className={styles.tabletd}>{data?.testendTime}</td>
+                <td className={styles.tabletd}>
+                  {data?.answerquestions?.length}
+                </td>
+                <td className={styles.tabletd}>{data?.Totalmarks}</td>
+                <td className={styles.tabletd}>{data?.TotalWrongAnswer}</td>
+                <td className={styles.tabletd}>{data?.obtainmarks}</td>
+                <td className={styles.tabletd}>
+                  {Number(data?.obtainmarks) == Number(data?.passmark)
+                    ? "Pass"
+                    : "Fail"}
+                </td>
+                {/* <td className={styles.tabletd}>8</td> */}
+                {/* <td className={styles.tabletd}>
+                    <button
+                      className={styles.btnactive}
+                      onClick={() => ClickOpenupdate(item)}
+                    >
+                      Start Test
+                    </button>
+                  </td> */}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div>&nbsp;</div>
         {questionItems &&
           questionItems?.map((item, index) => {
             return (
@@ -256,7 +290,7 @@ function McsQuestions({ setOpen, data }) {
                 </div>
                 <div>
                   <div className={styles.deletediv}>
-                    <p>Select Correct Answer</p>
+                    <p>Your Selected Answer</p>
                   </div>
 
                   <div className={styles.optiondiv}>
@@ -380,6 +414,30 @@ function McsQuestions({ setOpen, data }) {
                       />
                       <label htmlFor="option4">D</label>
                     </div>
+                    <div className={styles.radiodiv}>
+                      {item?.answeroption === item?.correctoption ? (
+                        <>
+                          <img
+                            className={styles.answericon}
+                            src="/images/check1.png"
+                            alt="Logo"
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <img
+                            className={styles.answericon}
+                            src="/images/cancel.png"
+                            alt="Logo"
+                          />
+                        </>
+                      )}
+                    </div>
+                  </div>
+                  <div className={styles.deletediv10}>
+                    <p>
+                      Correct Answer &nbsp; <span>{item?.correctoption}</span>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -387,20 +445,8 @@ function McsQuestions({ setOpen, data }) {
           })}
 
         <div className={styles.startbtndiv}>
-          <button
-            className={styles.cancelbtn}
-            onClick={() => navigate.replace("test")}
-          >
+          <button className={styles.cancelbtn} onClick={() => setOpen(false)}>
             Back
-          </button>
-          {/* <button
-            className={styles.cancelbtn}
-            onClick={() => addQuestionItem()}
-          >
-            Save
-          </button> */}
-          <button className={styles.cancelbtn} onClick={() => submit()}>
-            Submit Test
           </button>
         </div>
       </div>
@@ -408,4 +454,4 @@ function McsQuestions({ setOpen, data }) {
   );
 }
 
-export default McsQuestions;
+export default ShowResult;

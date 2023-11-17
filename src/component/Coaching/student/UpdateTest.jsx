@@ -316,6 +316,7 @@ function UpdateTest({ setOpen, updatedata }) {
   }, [course, batch]);
 
   console.log("asjdf", typefileuploaded);
+  
   return (
     <>
       <div className={styles.divmainlogin}>

@@ -1,4 +1,4 @@
-import React, { useState ,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Coaching.module.css";
 import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
@@ -7,13 +7,12 @@ import TestAlrt from "./TestAlrt";
 import { serverInstance } from "../../API/ServerInstance";
 import { useDispatch, useSelector } from "react-redux";
 import { getStudenttest } from "../../redux/actions/commanAction";
-function TodayTest() {
+function TodayTest({ testlist }) {
   const dispatch = useDispatch();
   const [openupdate, setOpenupdate] = useState(false);
   const [openAlert, setopenAlert] = useState(false);
   const [starttestdata, setstarttestdata] = useState("");
-  const [alrtsms, setalrtsms] = useState('');
-  
+  const [alrtsms, setalrtsms] = useState("");
 
   const ClickOpenupdate = (data) => {
     const now = new Date();
@@ -23,6 +22,7 @@ function TodayTest() {
     const amOrPm = hours >= 12 ? "PM" : "AM";
     const twelveHourFormat = hours > 12 ? hours - 12 : hours;
     const formattedTime = `${twelveHourFormat}:${minutes}:${seconds} ${amOrPm}`;
+
     serverInstance("test/checktesttime", "post", {
       id: data?.id,
       currentTime: formattedTime,
@@ -30,7 +30,7 @@ function TodayTest() {
       if (res?.status === true) {
         setOpenupdate(true);
         setalrtsms(res);
-        setstarttestdata(data)
+        setstarttestdata(data);
       }
       if (res?.status === false) {
         setopenAlert(true);
@@ -47,21 +47,6 @@ function TodayTest() {
     return <Slide direction="top" ref={ref} {...props} />;
   });
 
-
-  const [testlist, settestlist] = useState('')
-  
-  const { test } = useSelector((state) => state.getStudentTest);
-
-  console.log("test from stuent site", test);
-
-  useEffect(() => {
-    dispatch(getStudenttest());
-    if(test)
-    {
-      settestlist(test)
-    }
-  }, []);
-  
   return (
     <>
       {openupdate && (
@@ -104,10 +89,7 @@ function TodayTest() {
               },
             }}
           >
-            <TestAlrt
-              setopenAlert={setopenAlert}
-              starttestdata={alrtsms}
-            />
+            <TestAlrt setopenAlert={setopenAlert} starttestdata={alrtsms} />
           </Dialog>
         </div>
       )}

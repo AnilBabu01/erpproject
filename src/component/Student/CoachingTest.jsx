@@ -4,24 +4,28 @@ import TodayTest from "./TodayTest";
 import ResultTest from "./ResultTest";
 import { useDispatch, useSelector } from "react-redux";
 import { getStudenttest } from "../../redux/actions/commanAction";
+import { serverInstance } from "../../API/ServerInstance";
 function CoachingTest() {
   const dispatch = useDispatch();
   const [today, settoday] = useState(true);
   const [monthly, setmonthly] = useState(false);
-  const [subject, setsubject] = useState(false);
-  const [semester, setsemester] = useState(false);
+  const [testdemo, settestdemo] = useState("");
   const [datewise, setdatewise] = useState(false);
   const [testlist, settestlist] = useState("");
 
   const { test } = useSelector((state) => state.getStudentTest);
 
-  console.log("test from stuent site", test);
+  const gettestlist = () => {
+    serverInstance("test/getstudentalltest", "get").then((res) => {
+      if (res?.status) {
+        settestdemo(res?.data);
+        console.log("res test",res?.data)
+      }
+    });
+  };
 
   useEffect(() => {
-    dispatch(getStudenttest());
-    if (test) {
-      settestlist(test);
-    }
+    gettestlist();
   }, []);
 
   return (
@@ -75,7 +79,7 @@ function CoachingTest() {
             </div> */}
             {today && (
               <>
-                <TodayTest testlist={testlist} />
+                <TodayTest testlist={testdemo} />
               </>
             )}
             {monthly && (
