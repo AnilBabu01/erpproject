@@ -774,13 +774,13 @@ function Attendance() {
                                         {item?.attendaceStatusIntext ===
                                           "Holiday" && <>H</>}
                                         {item?.attendaceStatusIntext ===
-                                          "Unknown" && <>Unknown</>}
+                                          "Unknown" && <>L</>}
                                         {item?.attendaceStatusIntext ===
                                           "Left In Middle" && (
-                                          <>Left In Middle</>
+                                          <>L</>
                                         )}
                                         {item?.attendaceStatusIntext ===
-                                          "On Leave" && <>On Leave</>}
+                                          "On Leave" && <>L</>}
                                       </button>
                                     </td>
                                   );

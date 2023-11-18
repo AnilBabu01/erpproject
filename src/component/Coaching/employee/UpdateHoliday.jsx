@@ -29,7 +29,7 @@ function UpdateHoliday({ setOpen, updatedata }) {
         forbatch: forallbatch,
         data: updatedata,
       };
-      serverInstance("attendanceatudent/holidy", "put", data).then((res) => {
+      serverInstance("EmployeeAttendance/holidy", "put", data).then((res) => {
         if (res?.status) {
           toast.success(res?.msg, {
             autoClose: 1000,
@@ -76,7 +76,6 @@ function UpdateHoliday({ setOpen, updatedata }) {
           <CloseIcon />
         </div>
         <h1>Update Holiday</h1>
-
         <form onSubmit={submit}>
           <div className={styles.divmaininput}>
             <div className={styles.inputdiv}>

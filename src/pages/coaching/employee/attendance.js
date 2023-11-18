@@ -207,7 +207,7 @@ function Attendance() {
         }
 
         if (res?.status === false) {
-          toast.error("Something Went Wrong", { autoClose: 1000 });
+          toast.error(res?.msg, { autoClose: 1000 });
         }
       }
     );
@@ -484,6 +484,7 @@ function Attendance() {
                   <div className={styles.saveattendacebutton}>Present</div>
                   <div className={styles.resetattendacebutton}>Absent</div>
                   <div className={styles.holidaybutton}>Holiday</div>
+                  <div className={styles.holidaybutton}>On Leave</div>
                 </>
               )}
             </div>
@@ -634,6 +635,8 @@ function Attendance() {
                                           "Absent" && <>A</>}
                                         {item?.attendaceStatusIntext ===
                                           "Holiday" && <>H</>}
+                                           {item?.attendaceStatusIntext ===
+                                          "On Leave" && <>L</>}
                                       </button>
                                     </td>
                                   );

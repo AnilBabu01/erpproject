@@ -215,6 +215,7 @@ function Particularemployeeattendance() {
   const MonthlyStudentAttendance = () => {
     const data = {
       month: month,
+      emp: Number(sbatch),
     };
     serverInstance("EmployeeAttendance/analysisattendance", "post", data).then(
       (res) => {
@@ -231,22 +232,6 @@ function Particularemployeeattendance() {
         }
       }
     );
-  };
-  const saveAttendance = () => {
-    const data = {
-      data: attendancedetails,
-    };
-    serverInstance("EmployeeAttendance/attendance", "put", data).then((res) => {
-      if (res?.status) {
-        toast.success(res?.msg, {
-          autoClose: 1000,
-        });
-      }
-
-      if (res?.status === false) {
-        toast.error("Something Went Wrong", { autoClose: 1000 });
-      }
-    });
   };
 
   const endno = (date) => {
@@ -314,12 +299,6 @@ function Particularemployeeattendance() {
                     name="sbatch"
                     onChange={(e) => {
                       setsbatch(e.target.value);
-                      dispatch(
-                        MarkStudentAttendance(
-                          new Date().toISOString().substring(0, 10),
-                          e.target.value
-                        )
-                      );
                     }}
                     displayEmpty
                   >
@@ -339,7 +318,7 @@ function Particularemployeeattendance() {
                             sx={{
                               fontSize: 14,
                             }}
-                            value={item?.name}
+                            value={item?.id}
                           >
                             {item?.name}
                           </option>
@@ -528,6 +507,8 @@ function Particularemployeeattendance() {
                                           "Absent" && <>A</>}
                                         {item?.attendaceStatusIntext ===
                                           "Holiday" && <>H</>}
+                                        {item?.attendaceStatusIntext ===
+                                          "On Leave" && <>L</>}
                                       </button>
                                     </td>
                                   );

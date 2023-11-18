@@ -20,7 +20,8 @@ import AddStudent from "../../../component/Coaching/employee/AddHoliday";
 import UpdateStudent from "../../../component/Coaching/employee/UpdateHoliday";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
-
+import { serverInstance } from "../../../API/ServerInstance";
+import { toast } from "react-toastify";
 const monthlist = [
   {
     id: 1,
@@ -139,13 +140,26 @@ function Addemployeeholiday() {
     setupdatedata(data);
   };
 
+  const deletestudent = (data) => {
+    serverInstance("EmployeeAttendance/holidy", "delete", {
+      data: data,
+    }).then((res) => {
+      if (res?.status) {
+        toast.success(res?.msg, {
+          autoClose: 1000,
+        });
+        handleClosedelete();
+        getHolidays();
+      }
+    });
+  };
   const handleCloseupadte = () => {
     setOpenupdate(false);
   };
 
-  const ClickOpendelete = (id) => {
+  const ClickOpendelete = (data) => {
     setOpenalert(true);
-    setdeleteid(id);
+    setupdatedata(data);
   };
 
   const handleClosedelete = () => {
@@ -153,7 +167,7 @@ function Addemployeeholiday() {
   };
 
   const handledelete = () => {
-    dispatch(deletestudent(deleteid, setOpenalert));
+    deletestudent(updatedata);
   };
 
   useEffect(() => {
@@ -171,8 +185,17 @@ function Addemployeeholiday() {
       console.log("holidays jus ", Holidays);
     }
   }, [student, batch, user, Holidays]);
+  const getHolidays = (month) => {
+    serverInstance("EmployeeAttendance/getholidy", "post", {
+      month: Number(month),
+    }).then((res) => {
+      if (res?.status) {
+        setholidays(res?.data);
+      }
+    });
+  };
   useEffect(() => {
-    dispatch(getHolidays(month));
+    getHolidays(month);
   }, [open, openupdate, openalert]);
   useEffect(() => {
     dispatch(loadUser());
@@ -182,9 +205,8 @@ function Addemployeeholiday() {
 
   const filterdata = (e) => {
     e.preventDefault();
-    dispatch(
-      getstudent(fromdate, todate, scoursename, sbatch, sstudent, sfathers)
-    );
+
+    getstudent(fromdate, todate, scoursename, sbatch, sstudent, sfathers);
   };
 
   const reset = () => {
@@ -309,9 +331,7 @@ function Addemployeeholiday() {
                   })}
                 </select>
 
-                <button onClick={() => dispatch(getHolidays(month))}>
-                  Search
-                </button>
+                <button onClick={() => getHolidays(month)}>Search</button>
               </div>
               <button onClick={() => reset()}>Reset</button>
             </div>
@@ -395,7 +415,7 @@ function Addemployeeholiday() {
                                   ? styles.tabkedddimgactive
                                   : styles.tabkedddimgdisable
                               }
-                              onClick={() => ClickOpendelete(item?.id)}
+                              onClick={() => ClickOpendelete(item)}
                               src="/images/Delete.png"
                               alt="imgss"
                             />

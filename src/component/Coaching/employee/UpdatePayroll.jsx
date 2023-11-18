@@ -7,8 +7,7 @@ import { getHolidays } from "../../../redux/actions/attendanceActions";
 import { useDispatch, useSelector } from "react-redux";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
-
-function AddHoliday({ setOpen }) {
+function UpdatePayroll({ setOpen, updatedata }) {
   const dispatch = useDispatch();
   const [isdata, setisData] = useState([]);
   const [batchs, setbatchs] = useState([]);
@@ -23,20 +22,26 @@ function AddHoliday({ setOpen }) {
     e.preventDefault();
     try {
       const data = {
+        id: updatedata?.id,
         holidaydate: Holidaydate,
+        batchname: batchname,
         comment: comment,
+        forbatch: forallbatch,
+        data: updatedata,
       };
-      serverInstance("EmployeeAttendance/holidy", "post", data).then((res) => {
+      serverInstance("attendanceatudent/holidy", "put", data).then((res) => {
         if (res?.status) {
           toast.success(res?.msg, {
             autoClose: 1000,
           });
-
+          dispatch(getHolidays());
+          // navigation.goBack();
           setOpen(false);
         }
 
         if (res?.status === false) {
           toast.error(res?.msg, { autoClose: 1000 });
+          dispatch(getHolidays());
         }
       });
     } catch (error) {
@@ -52,37 +57,37 @@ function AddHoliday({ setOpen }) {
       setbatchs(batch);
     }
   }, [course, batch]);
+
+  useEffect(() => {
+    if (updatedata) {
+      setforallbatch(updatedata?.holidaytype);
+    
+      setcomment(updatedata?.Comment);
+      setbatchname(updatedata?.batch);
+    }
+  }, []);
+
   return (
     <>
       <div className={styles.divmainlogin}>
         <div className={styles.closeicondiv} onClick={() => setOpen(false)}>
           <CloseIcon />
         </div>
-        <h1>Add Holiday</h1>
+        <h1>Update Holiday Type</h1>
         <form onSubmit={submit}>
-          <div className={styles.divmaininput}>
-            <div className={styles.inputdiv}>
-              <label>Holiday Date</label>
-              <input
-                type="date"
-                value={Holidaydate}
-                name="Holidaydate"
-                onChange={(e) => setHolidaydate(e.target.value)}
-              />
-            </div>
-            <div className={styles.inputdiv}>
-              <label>comment</label>
-              <input
-                type="text"
-                placeholder="Enter the Comment"
-                value={comment}
-                name="comment"
-                onChange={(e) => setcomment(e.target.value)}
-              />
-            </div>
+          <div className={styles.inputdiv}>
+            <label>Holiday Type</label>
+            <input
+              type="text"
+              value={Holidaydate}
+              name="Holidaydate"
+              placeholder="Enter Holday Type"
+              onChange={(e) => setHolidaydate(e.target.value)}
+            />
           </div>
+
           <div className={styles.logbtnstylediv}>
-            <button className={styles.logbtnstyle}>Save</button>
+            <button className={styles.logbtnstyle}>Update</button>
           </div>
         </form>
       </div>
@@ -90,4 +95,4 @@ function AddHoliday({ setOpen }) {
   );
 }
 
-export default AddHoliday;
+export default UpdatePayroll;

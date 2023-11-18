@@ -120,6 +120,13 @@
   margin-bottom: 1%;
   margin-bottom: 1%;
 }
+.inputdiv select {
+  border: 0.8px solid rgb(66, 66, 66);
+  width: 12.7rem;
+  height: 35px;
+  padding-left: 1rem;
+  border-radius: 5px;
+}
 .inputdiv input {
   border: 0.8px solid rgb(66, 66, 66);
   width: 18.7rem;
@@ -270,6 +277,14 @@
   color: white;
   border-radius: 7px;
   margin-right: 1rem;
+}
+.showdetails {
+  width: 50%;
+  height: 35px;
+  background: #093959;
+  color: white;
+  border-radius: 7px;
+  margin-left: 1rem;
 }
 .mainbtnndivcancel {
   display: flex;
@@ -541,8 +556,147 @@
   height: 34px;
   width: 17rem;
 }
-.mainshowresuludetails{
+.mainshowresuludetails {
   padding: 1rem;
+}
+.monthlist {
+  display: flex;
+  flex-wrap: wrap;
+}
+.monthlist10 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.5rem;
+}
+.mainshow {
+  display: flex;
+}
+.salarySlipMain {
+  border: 1px solid #093959;
+}
+.salarySlipHeader {
+  border-bottom: 1px solid #093959;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.salarySlippersonal {
+  border-bottom: 1px solid #093959;
+  margin-bottom: 1rem;
+}
+
+.tabletable {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.tabletd,
+.tableth {
+  border: 1px solid #093959;
+  text-align: center;
+  padding: 8px;
+}
+
+
+.tabletable10 {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 80%;
+  margin-bottom: 1rem;
+}
+
+.tabletd10,
+.tableth10 {
+  border: 1px solid #093959;
+  text-align: center;
+  padding: 8px;
+}
+.abtn {
+  color: red;
+  background: white;
+  font-weight: 300;
+  width: 34%;
+  border: 1px solid red;
+  border-radius: 5px;
+  margin-right: 0.5rem;
+}
+.abtnselected {
+  color: white;
+  background: red;
+  font-weight: 300;
+  width: 34%;
+  border-radius: 5px;
+  margin-right: 0.5rem;
+}
+
+.pbtn {
+  color: green;
+  background: white;
+  font-weight: 300;
+  width: 34%;
+  border-radius: 1px solid green;
+  border-radius: 5px;
+  border: 1px solid green;
+  margin-right: 0.5rem;
+}
+
+.pbtnselected {
+  color: white;
+  background: green;
+  font-weight: 300;
+  width: 34%;
+  border-radius: 5px;
+  margin-right: 0.5rem;
+}
+.mainattendhow{
+  display: flex;
+  flex-direction: column;
+}
+.commanbtn {
+  color: white;
+  background: yellowgreen;
+  font-weight: 300;
+  width: 2rem;
+  border-radius: 5px;
+  margin-right: 0.5rem;
+  text-align: center;
+}
+.holdaybtn {
+  color: white;
+  background: yellowgreen;
+  font-weight: 300;
+  width: 2rem;
+  border-radius: 5px;
+  margin-right: 0.5rem;
+  text-align: center;
+}
+.absentbtn {
+  color: white;
+  background: red;
+  font-weight: 300;
+  width: 2rem;
+  border-radius: 5px;
+  text-align: center;
+  margin-right: 0.5rem;
+}
+.presentbtn {
+  color: white;
+  background: green;
+  font-weight: 300;
+  width: 2rem;
+  border-radius: 5px;
+  margin-right: 0.5rem;
+  text-align: center;
+}
+.attendancediv{
+  display: flex;
+}
+.somepading{
+
+  /* padding-left: 0.5rem;
+  padding-right: 0.2rem; */
 }
 @media screen and (max-width: 780px) {
   .inputcreadentionals input {

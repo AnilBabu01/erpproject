@@ -293,11 +293,11 @@ const CoachingNavbar = () => {
                           Employee Attendance
                         </Link>
                       </div>
-                      <div className="main_innear_menu_dropdown">
+                      {/* <div className="main_innear_menu_dropdown">
                         <Link href="/coaching/employee/addholidattype">
                           Add Holiday Type
                         </Link>
-                      </div>
+                      </div> */}
                       <div className="main_innear_menu_dropdown">
                         <Link href="/coaching/employee/addemployeeholiday">
                           Add Holiday
