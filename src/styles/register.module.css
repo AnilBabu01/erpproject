@@ -19,7 +19,7 @@
 .verifybtn {
   background: #ff6900;
   color: white;
-  width: 18.8rem;
+  width: 100%;
   border-radius: 5px;
   height: 35px;
 }
@@ -28,7 +28,7 @@
   color: white;
   margin-top: 5%;
   border-radius: 5px;
-  width: 18.8rem;
+  width: 100%;
   border-radius: 5px;
   height: 35px;
 }
@@ -36,16 +36,17 @@
 .verifybtndisable {
   background: #f5ab76;
   color: white;
-  width: 18.8rem;
+  width: 100%;
   border-radius: 5px;
   height: 35px;
+  
 }
 .verifybtntopdisable {
   background: #f5ab76;
   color: white;
   margin-top: 5%;
   border-radius: 5px;
-  width: 18.8rem;
+  width: 100%;
   border-radius: 5px;
   height: 35px;
 }
@@ -599,7 +600,6 @@
   padding: 8px;
 }
 
-
 .tabletable10 {
   font-family: arial, sans-serif;
   border-collapse: collapse;
@@ -650,7 +650,7 @@
   border-radius: 5px;
   margin-right: 0.5rem;
 }
-.mainattendhow{
+.mainattendhow {
   display: flex;
   flex-direction: column;
 }
@@ -690,15 +690,20 @@
   margin-right: 0.5rem;
   text-align: center;
 }
-.attendancediv{
+.attendancediv {
   display: flex;
 }
-.somepading{
 
-  /* padding-left: 0.5rem;
-  padding-right: 0.2rem; */
-}
 @media screen and (max-width: 780px) {
+  .disabledinphone{
+    display: none;
+  }
+  .verifybtndisable {
+    margin-top: 0.5rem;
+  }
+  .verifybtntopdisable {
+    width: 100%;
+  }
   .inputcreadentionals input {
     width: 100%;
   }

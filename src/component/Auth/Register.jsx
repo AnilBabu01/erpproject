@@ -292,7 +292,7 @@ function Register({ setOpen, setOpen1 }) {
                 </div>
 
                 <div className={styles.inputdiv}>
-                  <p>&nbsp;</p>
+                  <p className={styles.disabledinphone}>&nbsp;</p>
                   <button
                     onClick={() => sendotpOnPhone()}
                     className={
