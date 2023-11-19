@@ -202,7 +202,7 @@ function Masterfee() {
                 <tbody>
                   <tr className={styles.tabletr}>
                     <th className={styles.tableth}>S.NO</th>
-                    <th className={styles.tableth}>Course</th>
+                    <th className={styles.tableth}>Class</th>
                     <th className={styles.tableth}>Registration Fee</th>
                     <th className={styles.tableth}>Per Month Fee</th>
                     <th className={styles.tableth}>Action</th>
@@ -246,7 +246,7 @@ function Masterfee() {
                           <button
                             disabled={
                               userdata?.data &&
-                              userdata?.data?.User?.userType === "institute"
+                              userdata?.data?.User?.userType === "school"
                                 ? false
                                 : userdata?.data &&
                                   userdata?.data?.User?.masterEdit === true
@@ -257,7 +257,7 @@ function Masterfee() {
                             <img
                               className={
                                 userdata?.data &&
-                                userdata?.data?.User?.userType === "institute"
+                                userdata?.data?.User?.userType === "school"
                                   ? styles.tabkedddimgactive
                                   : userdata?.data &&
                                     userdata?.data?.User?.masterEdit === true

@@ -16,8 +16,8 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
-import AddAdmission from "../../../component/Coaching/student/AddStudent";
-import UpdateAdmission from "../../../component/Coaching/student/UpdateStudent";
+import AddAdmission from "../../../component/Institute/student/AddStudent";
+import UpdateAdmission from "../../../component/Institute/student/UpdateStudent";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
 const studentStatus = [
@@ -222,44 +222,7 @@ function Admission() {
                   name="todate"
                   onChange={(e) => settodate(e.target.value)}
                 /> */}
-                <select
-                  className={styles.opensearchinput}
-                  sx={{
-                    width: "18.8rem",
-                    fontSize: 14,
-                    "& .MuiSelect-select": {
-                      paddingTop: "0.6rem",
-                      paddingBottom: "0.6em",
-                    },
-                  }}
-                  value={sbatch}
-                  name="sbatch"
-                  onChange={(e) => setsbatch(e.target.value)}
-                  displayEmpty
-                >
-                  <option
-                    sx={{
-                      fontSize: 14,
-                    }}
-                    value={""}
-                  >
-                    All Batch
-                  </option>
-                  {batchs?.map((item, index) => {
-                    return (
-                      <option
-                        key={index}
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={`${item?.StartingTime} TO ${item?.EndingTime}`}
-                      >
-                        {item?.StartingTime} TO {item?.EndingTime}
-                      </option>
-                    );
-                  })}
-                </select>
-
+               
                 <select
                   className={styles.opensearchinput}
                   sx={{
@@ -281,7 +244,7 @@ function Admission() {
                     }}
                     value={""}
                   >
-                    ALL Course
+                    ALL Class
                   </option>
 
                   {courselist?.map((item, index) => {
@@ -406,8 +369,7 @@ function Admission() {
                     <th className={styles.tableth}>Student_Email</th>
                     <th className={styles.tableth}>Student_Phone</th>
                     <th className={styles.tableth}>Adminssion_Date</th>
-                    <th className={styles.tableth}>Course</th>
-                    <th className={styles.tableth}>Batch</th>
+                    <th className={styles.tableth}>Class</th>
                     <th className={styles.tableth}>Student Status</th>
                     <th className={styles.tableth}>Action</th>
                   </tr>
@@ -425,13 +387,13 @@ function Admission() {
                         <td className={styles.tabletd}>
                           {item?.courseorclass}
                         </td>
-                        <td className={styles.tabletd}>{item?.batch}</td>
+
                         <td className={styles.tabletd}>{item?.Status}</td>
                         <td className={styles.tabkeddd}>
                           <button
                             disabled={
                               userdata?.data &&
-                              userdata?.data?.User?.userType === "institute"
+                              userdata?.data?.User?.userType === "school"
                                 ? false
                                 : userdata?.data &&
                                   userdata?.data?.User?.fronroficeDelete ===
@@ -443,7 +405,7 @@ function Admission() {
                             <img
                               className={
                                 userdata?.data &&
-                                userdata?.data?.User?.userType === "institute"
+                                userdata?.data?.User?.userType === "school"
                                   ? styles.tabkedddimgactive
                                   : userdata?.data &&
                                     userdata?.data?.User?.fronroficeDelete ===
@@ -459,7 +421,7 @@ function Admission() {
                           <button
                             disabled={
                               userdata?.data &&
-                              userdata?.data?.User?.userType === "institute"
+                              userdata?.data?.User?.userType === "school"
                                 ? false
                                 : userdata?.data &&
                                   userdata?.data?.User?.fronroficeEdit === true
@@ -470,7 +432,7 @@ function Admission() {
                             <img
                               className={
                                 userdata?.data &&
-                                userdata?.data?.User?.userType === "institute"
+                                userdata?.data?.User?.userType === "school"
                                   ? styles.tabkedddimgactive
                                   : userdata?.data &&
                                     userdata?.data?.User?.fronroficeEdit ===

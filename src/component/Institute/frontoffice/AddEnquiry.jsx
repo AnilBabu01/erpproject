@@ -117,7 +117,7 @@ function AddEnquiry({ setOpen }) {
               />
             </div>
             <div className={styles.inputdiv}>
-              <label>Type of Course</label>
+              <label>Class</label>
               <Select
                 required
                 className={styles.addwidth}

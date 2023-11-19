@@ -944,48 +944,7 @@ function UpdateTest({ setOpen, updatedata }) {
 
               <div className={styles.divmaininput}>
                 <div className={styles.inputdiv}>
-                  <label>Batch</label>
-                  <Select
-                    // required
-                    className={styles.addwidth}
-                    sx={{
-                      width: "18.8rem",
-                      fontSize: 14,
-                      "& .MuiSelect-select": {
-                        paddingTop: "0.6rem",
-                        paddingBottom: "0.6em",
-                      },
-                    }}
-                    value={batchname}
-                    name="batchname"
-                    onChange={(e) => setbatchname(e.target.value)}
-                    displayEmpty
-                  >
-                    <MenuItem
-                      sx={{
-                        fontSize: 14,
-                      }}
-                      value={""}
-                    >
-                      Please Select
-                    </MenuItem>
-                    {batchs?.map((item, index) => {
-                      return (
-                        <MenuItem
-                          key={index}
-                          sx={{
-                            fontSize: 14,
-                          }}
-                          value={`${item?.StartingTime} TO ${item?.EndingTime}`}
-                        >
-                          {item?.StartingTime} TO {item?.EndingTime}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </div>
-                <div className={styles.inputdiv}>
-                  <label>Course</label>
+                  <label>Class</label>
                   <div></div>
                   <Select
                     // required
@@ -1066,6 +1025,10 @@ function UpdateTest({ setOpen, updatedata }) {
                       );
                     })}
                   </Select>
+                </div>
+                <div className={styles.inputdiv}>
+                  <label>&nbsp;</label>
+                  <label>&nbsp;</label>
                 </div>
               </div>
               <div className={styles.divmaininput}>

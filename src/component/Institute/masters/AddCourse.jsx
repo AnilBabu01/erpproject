@@ -18,6 +18,7 @@ function AddCourse({ setOpen }) {
     };
     dispatch(Addcourse(data, setOpen));
   };
+
   useEffect(() => {
     if (course?.status) {
       dispatch(getcourse());

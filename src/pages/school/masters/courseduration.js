@@ -219,7 +219,7 @@ function Courseduration() {
                           <button
                             disabled={
                               userdata?.data &&
-                              userdata?.data?.User?.userType === "institute"
+                              userdata?.data?.User?.userType === "school"
                                 ? false
                                 : userdata?.data &&
                                   userdata?.data?.User?.masterEdit === true
@@ -230,7 +230,7 @@ function Courseduration() {
                             <img
                               className={
                                 userdata?.data &&
-                                userdata?.data?.User?.userType === "institute"
+                                userdata?.data?.User?.userType === "school"
                                   ? styles.tabkedddimgactive
                                   : userdata?.data &&
                                     userdata?.data?.User?.masterEdit === true

@@ -16,8 +16,8 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
-import AddTest from "../../../component/Coaching/student/AddTest";
-import UpdateTest from "../../../component/Coaching/student/UpdateTest";
+import AddTest from "../../../component/Institute/student/AddTest";
+import UpdateTest from "../../../component/Institute/student/UpdateTest";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment  from 'moment';
 function Assignment() {
@@ -193,43 +193,7 @@ function Assignment() {
                   name="todate"
                   onChange={(e) => settodate(e.target.value)}
                 />
-                <select
-                  className={styles.opensearchinput}
-                  sx={{
-                    width: "18.8rem",
-                    fontSize: 14,
-                    "& .MuiSelect-select": {
-                      paddingTop: "0.6rem",
-                      paddingBottom: "0.6em",
-                    },
-                  }}
-                  value={sbatch}
-                  name="sbatch"
-                  onChange={(e) => setsbatch(e.target.value)}
-                  displayEmpty
-                >
-                  <option
-                    sx={{
-                      fontSize: 14,
-                    }}
-                    value={""}
-                  >
-                    Please Select Batch
-                  </option>
-                  {batchs?.map((item, index) => {
-                    return (
-                      <option
-                        key={index}
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={`${item?.StartingTime} TO ${item?.EndingTime}`}
-                      >
-                        {item?.StartingTime} TO {item?.EndingTime}
-                      </option>
-                    );
-                  })}
-                </select>
+               
 
                 <select
                   className={styles.opensearchinput}
@@ -252,7 +216,7 @@ function Assignment() {
                     }}
                     value={""}
                   >
-                    Please Select Course
+                    All Class
                   </option>
                   {course?.map((item, index) => {
                     return (
@@ -320,8 +284,8 @@ function Assignment() {
                     <th className={styles.tableth}>Start Time</th>
                     <th className={styles.tableth}>End Time</th>
                     <th className={styles.tableth}>Test Type</th>
-                    <th className={styles.tableth}>Course</th>
-                    <th className={styles.tableth}>Batch</th>
+                    <th className={styles.tableth}>Class</th>
+                    
 
                     <th className={styles.tableth}>Action</th>
                   </tr>
@@ -335,13 +299,13 @@ function Assignment() {
                         <td className={styles.tabletd}>{item?.testendTime}</td>
                         <td className={styles.tabletd}>{item?.testtype}</td>
                         <td className={styles.tabletd}>{item?.course}</td>
-                        <td className={styles.tabletd}>{item?.batch}</td>
+                       
 
                         <td className={styles.tabkeddd}>
                           <button
                             disabled={
                               userdata?.data &&
-                              userdata?.data?.User?.userType === "institute"
+                              userdata?.data?.User?.userType === "school"
                                 ? false
                                 : userdata?.data &&
                                   userdata?.data?.User?.fronroficeDelete === true
@@ -352,7 +316,7 @@ function Assignment() {
                             <img
                               className={
                                 userdata?.data &&
-                                userdata?.data?.User?.userType === "institute"
+                                userdata?.data?.User?.userType === "school"
                                   ? styles.tabkedddimgactive
                                   : userdata?.data &&
                                     userdata?.data?.User?.fronroficeDelete === true
@@ -367,7 +331,7 @@ function Assignment() {
                           <button
                             disabled={
                               userdata?.data &&
-                              userdata?.data?.User?.userType === "institute"
+                              userdata?.data?.User?.userType === "school"
                                 ? false
                                 : userdata?.data &&
                                   userdata?.data?.User?.fronroficeEdit === true
@@ -378,7 +342,7 @@ function Assignment() {
                             <img
                               className={
                                 userdata?.data &&
-                                userdata?.data?.User?.userType === "institute"
+                                userdata?.data?.User?.userType === "school"
                                   ? styles.tabkedddimgactive
                                   : userdata?.data &&
                                     userdata?.data?.User?.fronroficeEdit === true

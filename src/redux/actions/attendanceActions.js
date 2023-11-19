@@ -16,7 +16,7 @@ import {
   DONE_ATTENDANCE_FAIL,
 } from "../constants/attendanceConstants";
 
-export const MarkStudentAttendance = (date, batch) => async (dispatch) => {
+export const MarkStudentAttendance = (date, batch,classname) => async (dispatch) => {
   try {
     const config = {
       headers: {
@@ -30,6 +30,7 @@ export const MarkStudentAttendance = (date, batch) => async (dispatch) => {
       {
         Attendancedate: date,
         batch: batch,
+        classname:classname
       },
       config
     );
@@ -91,7 +92,7 @@ export const DoneStudentAttendance = (udata) => async (dispatch) => {
 };
 
 export const MonthlyStudentAttendance =
-  (udata, months, rollname, studentname,status) => async (dispatch) => {
+  (udata, months, rollname, studentname,status, classname) => async (dispatch) => {
     try {
       const config = {
         headers: {
@@ -107,7 +108,8 @@ export const MonthlyStudentAttendance =
           month: months,
           rollname: rollname,
           studentname: studentname,
-          status:status
+          status:status,
+          classname: classname
         },
         config
       );

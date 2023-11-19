@@ -7,8 +7,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
-import AddEnquiry from "@/component/Coaching/Frontoffice/AddEnquiry";
-import UpdateEnquiry from "@/component/Coaching/Frontoffice/UpdateEnquiry";
+import AddEnquiry from "@/component/Institute/frontoffice/AddEnquiry";
+import UpdateEnquiry from "@/component/Institute/frontoffice/UpdateEnquiry";
 import {
   getenquiries,
   deleteenquiry,
@@ -24,6 +24,7 @@ import { useReactToPrint } from "react-to-print";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { format } from "date-fns";
+
 function Enquiry() {
   const componentRef = useRef(null);
   const dispatch = useDispatch();
@@ -337,7 +338,7 @@ function Enquiry() {
                     <th className={styles.tableth}>Student Number</th>
                     <th className={styles.tableth}>Student Email</th>
                     <th className={styles.tableth}>Address</th>
-                    <th className={styles.tableth}>Course</th>
+                    <th className={styles.tableth}>Class</th>
                     <th className={styles.tableth}>Comment</th>
                     <th className={styles.tableth}>Action</th>
                   </tr>
@@ -361,7 +362,7 @@ function Enquiry() {
                           <button
                             disabled={
                               userdata?.data &&
-                              userdata?.data?.User?.userType === "institute"
+                              userdata?.data?.User?.userType === "school"
                                 ? false
                                 : userdata?.data &&
                                   userdata?.data?.User?.fronroficeDelete ===
@@ -373,7 +374,7 @@ function Enquiry() {
                             <img
                               className={
                                 userdata?.data &&
-                                userdata?.data?.User?.userType === "institute"
+                                userdata?.data?.User?.userType === "school"
                                   ? styles.tabkedddimgactive
                                   : userdata?.data &&
                                     userdata?.data?.User?.fronroficeDelete ===
@@ -389,7 +390,7 @@ function Enquiry() {
                           <button
                             disabled={
                               userdata?.data &&
-                              userdata?.data?.User?.userType === "institute"
+                              userdata?.data?.User?.userType === "school"
                                 ? false
                                 : userdata?.data &&
                                   userdata?.data?.User?.fronroficeEdit === true
@@ -400,7 +401,7 @@ function Enquiry() {
                             <img
                               className={
                                 userdata?.data &&
-                                userdata?.data?.User?.userType === "institute"
+                                userdata?.data?.User?.userType === "school"
                                   ? styles.tabkedddimgactive
                                   : userdata?.data &&
                                     userdata?.data?.User?.fronroficeEdit ===

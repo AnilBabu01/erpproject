@@ -4,7 +4,11 @@ import MenuItem from "@mui/material/MenuItem";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { Addstudent, getstudent,Updatestudent } from "../../../redux/actions/commanAction";
+import {
+  Addstudent,
+  getstudent,
+  Updatestudent,
+} from "../../../redux/actions/commanAction";
 import { useRouter } from "next/router";
 import { ADD_STUDENT_RESET } from "../../../redux/constants/commanConstants";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -115,7 +119,7 @@ function UpdateStudent({ setOpen, updatedata }) {
       user?.data[0]?.Parentpassword ? user?.data[0]?.Parentpassword : "parent"
     );
 
-    dispatch(Updatestudent(formData,setOpen));
+    dispatch(Updatestudent(formData, setOpen));
   };
 
   useEffect(() => {
@@ -603,47 +607,6 @@ function UpdateStudent({ setOpen, updatedata }) {
                 <>
                   <div className={styles.divmaininput}>
                     <div className={styles.inputdiv}>
-                      <label>Batch</label>
-                      <Select
-                        required
-                        className={styles.addwidth}
-                        sx={{
-                          width: "18.8rem",
-                          fontSize: 14,
-                          "& .MuiSelect-select": {
-                            paddingTop: "0.6rem",
-                            paddingBottom: "0.6em",
-                          },
-                        }}
-                        value={batchname}
-                        name="batchname"
-                        onChange={(e) => setbatchname(e.target.value)}
-                        displayEmpty
-                      >
-                        <MenuItem
-                          sx={{
-                            fontSize: 14,
-                          }}
-                          value={""}
-                        >
-                          Please Select
-                        </MenuItem>
-                        {batchs?.map((item, index) => {
-                          return (
-                            <MenuItem
-                              key={index}
-                              sx={{
-                                fontSize: 14,
-                              }}
-                              value={`${item?.StartingTime} TO ${item?.EndingTime}`}
-                            >
-                              {item?.StartingTime} TO {item?.EndingTime}
-                            </MenuItem>
-                          );
-                        })}
-                      </Select>
-                    </div>
-                    <div className={styles.inputdiv}>
                       <label>Course</label>
                       <Select
                         required
@@ -692,14 +655,8 @@ function UpdateStudent({ setOpen, updatedata }) {
                       </Select>
                     </div>
                     <div className={styles.inputdiv}>
-                      <label>Course Duration</label>
-                      <input
-                        required
-                        disabled={true}
-                        type="text"
-                        placeholder="Duration"
-                        value={noofMonth}
-                      />
+                      <label>&nbsp;</label>
+                      <label>&nbsp;</label>
                     </div>
                   </div>
                   {courses ? (
@@ -734,15 +691,8 @@ function UpdateStudent({ setOpen, updatedata }) {
                             />
                           </div>
                           <div className={styles.inputdiv}>
-                            <label>Total Fee</label>
-                            <input
-                              required
-                              disabled={true}
-                              type="email"
-                              value={
-                                Number(onlyshowmonthfee) * Number(noofMonth)
-                              }
-                            />
+                            <label>&nbsp;</label>
+                            <label>&nbsp;</label>
                           </div>
                         </div>
                       </div>
@@ -783,14 +733,8 @@ function UpdateStudent({ setOpen, updatedata }) {
                                 />
                               </div>
                               <div className={styles.inputdiv}>
-                                <label>Total Fee</label>
-                                <input
-                                  required
-                                  type="email"
-                                  placeholder="Enter the "
-                                  value={Number(monthlyfee) * Number(noofMonth)}
-                                  disabled={true}
-                                />
+                                <label>&nbsp;</label>
+                                <label>&nbsp;</label>
                               </div>
                             </div>
                           </>

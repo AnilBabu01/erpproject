@@ -134,7 +134,7 @@ function AddAdmission({ setOpen }) {
 
   const gotoreceipt = () => {
     navigation.push({
-      pathname: "/coaching/accounts/collectfee",
+      pathname: "/school/accounts/collectfee",
       query: {
         receiptdata: JSON.stringify(student?.data[0]?.user),
       },
@@ -323,7 +323,7 @@ function AddAdmission({ setOpen }) {
                     type="file"
                     onChange={(e) => {
                       const file = e.target.files[0];
-                      const maxFileSize = 20 * 1024*1024; // 5 MB in bytes
+                      const maxFileSize = 20 * 1024 * 1024; // 5 MB in bytes
                       console.log("file size", file.size, maxFileSize);
                       if (file && file.size > maxFileSize) {
                         alert("File size exceeds the limit of 5 MB.");
@@ -404,7 +404,7 @@ function AddAdmission({ setOpen }) {
                     type="file"
                     onChange={(e) => {
                       const file = e.target.files[0];
-                      const maxFileSize = 20 * 1024*1024; // 5 MB in bytes
+                      const maxFileSize = 20 * 1024 * 1024; // 5 MB in bytes
                       console.log("file size", file.size, maxFileSize);
                       if (file && file.size > maxFileSize) {
                         alert("File size exceeds the limit of 5 MB.");
@@ -573,48 +573,7 @@ function AddAdmission({ setOpen }) {
                 <>
                   <div className={styles.divmaininput}>
                     <div className={styles.inputdiv}>
-                      <label>Batch</label>
-                      <Select
-                        required
-                        className={styles.addwidth}
-                        sx={{
-                          width: "18.8rem",
-                          fontSize: 14,
-                          "& .MuiSelect-select": {
-                            paddingTop: "0.6rem",
-                            paddingBottom: "0.6em",
-                          },
-                        }}
-                        value={batchname}
-                        name="batchname"
-                        onChange={(e) => setbatchname(e.target.value)}
-                        displayEmpty
-                      >
-                        <MenuItem
-                          sx={{
-                            fontSize: 14,
-                          }}
-                          value={""}
-                        >
-                          Please Select
-                        </MenuItem>
-                        {batchs?.map((item, index) => {
-                          return (
-                            <MenuItem
-                              key={index}
-                              sx={{
-                                fontSize: 14,
-                              }}
-                              value={`${item?.StartingTime} TO ${item?.EndingTime}`}
-                            >
-                              {item?.StartingTime} TO {item?.EndingTime}
-                            </MenuItem>
-                          );
-                        })}
-                      </Select>
-                    </div>
-                    <div className={styles.inputdiv}>
-                      <label>Course</label>
+                      <label>Class</label>
                       <Select
                         required
                         className={styles.addwidth}
@@ -662,14 +621,12 @@ function AddAdmission({ setOpen }) {
                       </Select>
                     </div>
                     <div className={styles.inputdiv}>
-                      <label>Course Duration</label>
-                      <input
-                        required
-                        disabled={true}
-                        type="text"
-                        placeholder="Duration"
-                        value={noofMonth}
-                      />
+                      <label>&nbsp;</label>
+                      <label>&nbsp;</label>
+                    </div>
+                    <div className={styles.inputdiv}>
+                      <label>&nbsp;</label>
+                      <label>&nbsp;</label>
                     </div>
                   </div>
                   {courses ? (
@@ -704,15 +661,8 @@ function AddAdmission({ setOpen }) {
                             />
                           </div>
                           <div className={styles.inputdiv}>
-                            <label>Total Fee</label>
-                            <input
-                              required
-                              disabled={true}
-                              type="email"
-                              value={
-                                Number(onlyshowmonthfee) * Number(noofMonth)
-                              }
-                            />
+                            <label>&nbsp;</label>
+                            <label>&nbsp;</label>
                           </div>
                         </div>
                       </div>
@@ -753,14 +703,8 @@ function AddAdmission({ setOpen }) {
                                 />
                               </div>
                               <div className={styles.inputdiv}>
-                                <label>Total Fee</label>
-                                <input
-                                  required
-                                  type="email"
-                                  placeholder="Enter the "
-                                  value={Number(monthlyfee) * Number(noofMonth)}
-                                  disabled={true}
-                                />
+                                <label>&nbsp;</label>
+                                <label>&nbsp;</label>
                               </div>
                             </div>
                           </>

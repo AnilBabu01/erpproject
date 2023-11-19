@@ -222,43 +222,6 @@ function Studenthistory() {
                   name="todate"
                   onChange={(e) => settodate(e.target.value)}
                 /> */}
-                <select
-                  className={styles.opensearchinput}
-                  sx={{
-                    width: "18.8rem",
-                    fontSize: 14,
-                    "& .MuiSelect-select": {
-                      paddingTop: "0.6rem",
-                      paddingBottom: "0.6em",
-                    },
-                  }}
-                  value={sbatch}
-                  name="sbatch"
-                  onChange={(e) => setsbatch(e.target.value)}
-                  displayEmpty
-                >
-                  <option
-                    sx={{
-                      fontSize: 14,
-                    }}
-                    value={""}
-                  >
-                    All Batch
-                  </option>
-                  {batchs?.map((item, index) => {
-                    return (
-                      <option
-                        key={index}
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={`${item?.StartingTime} TO ${item?.EndingTime}`}
-                      >
-                        {item?.StartingTime} TO {item?.EndingTime}
-                      </option>
-                    );
-                  })}
-                </select>
 
                 <select
                   className={styles.opensearchinput}
@@ -281,7 +244,7 @@ function Studenthistory() {
                     }}
                     value={""}
                   >
-                    ALL Course
+                    ALL Class
                   </option>
 
                   {courselist?.map((item, index) => {
@@ -374,27 +337,6 @@ function Studenthistory() {
             </div>
           </div>
 
-          <div className={styles.addtopmenubar}>
-            <button
-              className={
-                userdata?.data && userdata?.data?.User?.userType === "school"
-                  ? styles.addtopmenubarbuttonactive
-                  : userdata?.data && userdata?.data?.User?.masterWrite === true
-                  ? styles.addtopmenubarbuttonactive
-                  : styles.addtopmenubarbuttondisable
-              }
-              disabled={
-                userdata?.data && userdata?.data?.User?.userType === "school"
-                  ? false
-                  : userdata?.data && userdata?.data?.User?.masterWrite === true
-                  ? false
-                  : true
-              }
-              onClick={() => handleClickOpen()}
-            >
-              Add Student
-            </button>
-          </div>
           <div className={styles.add_divmarginn}>
             <div className={styles.tablecontainer}>
               <table className={styles.tabletable}>
@@ -406,8 +348,8 @@ function Studenthistory() {
                     <th className={styles.tableth}>Student_Email</th>
                     <th className={styles.tableth}>Student_Phone</th>
                     <th className={styles.tableth}>Adminssion_Date</th>
-                    <th className={styles.tableth}>Course</th>
-                    <th className={styles.tableth}>Batch</th>
+                    <th className={styles.tableth}>Class</th>
+
                     <th className={styles.tableth}>Student Status</th>
                     {/* <th className={styles.tableth}>Action</th> */}
                   </tr>
@@ -425,7 +367,7 @@ function Studenthistory() {
                         <td className={styles.tabletd}>
                           {item?.courseorclass}
                         </td>
-                        <td className={styles.tabletd}>{item?.batch}</td>
+
                         <td className={styles.tabletd}>{item?.Status}</td>
                         {/* <td className={styles.tabkeddd}>
                           <button

@@ -7,6 +7,7 @@ import {
   DoneStudentAttendance,
   MonthlyStudentAttendance,
 } from "../../../redux/actions/attendanceActions";
+import { getcourse } from "../../../redux/actions/commanAction";
 import styles from "../employee/employee.module.css";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
@@ -112,6 +113,7 @@ function Attendance() {
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
   const [status, setstatus] = useState("");
+  const [classname, setclassname] = useState("");
   const { course } = useSelector((state) => state.getcourse);
   const [courselist, setcourselist] = useState([]);
   const [attendancedetails, setattendancedetails] = useState([
@@ -187,6 +189,7 @@ function Attendance() {
   useEffect(() => {
     dispatch(loadUser());
     dispatch(getbatch());
+    dispatch(getcourse());
   }, []);
 
   function handleItemUpdate(originalItem, key, value) {
@@ -247,10 +250,10 @@ function Attendance() {
                         paddingBottom: "0.6em",
                       },
                     }}
-                    value={sbatch}
-                    name="sbatch"
+                    value={classname}
+                    name="classname"
                     onChange={(e) => {
-                      setsbatch(e.target.value);
+                      setclassname(e.target.value);
                     }}
                     displayEmpty
                   >
@@ -260,18 +263,18 @@ function Attendance() {
                       }}
                       value={""}
                     >
-                      Please Select Batch
+                      Class
                     </option>
-                    {batchs?.map((item, index) => {
+                    {courselist?.map((item, index) => {
                       return (
                         <option
                           key={index}
                           sx={{
                             fontSize: 14,
                           }}
-                          value={`${item?.StartingTime} TO ${item?.EndingTime}`}
+                          value={item?.coursename}
                         >
-                          {item?.StartingTime} TO {item?.EndingTime}
+                          {item?.coursename}
                         </option>
                       );
                     })}
@@ -280,8 +283,10 @@ function Attendance() {
                   <button
                     className={styles.saveattendacebutton}
                     onClick={() => {
-                      if (date && sbatch) {
-                        dispatch(MarkStudentAttendance(date, sbatch));
+                      if (date && classname) {
+                        dispatch(
+                          MarkStudentAttendance(date, sbatch, classname)
+                        );
                       }
                     }}
                     disabled={markloading ? true : false}
@@ -306,55 +311,7 @@ function Attendance() {
                   </button>
                 </>
               )}
-              {todatatten && (
-                <>
-                  <select
-                    className={styles.opensearchinput}
-                    sx={{
-                      width: "18.8rem",
-                      fontSize: 14,
-                      "& .MuiSelect-select": {
-                        paddingTop: "0.6rem",
-                        paddingBottom: "0.6em",
-                      },
-                    }}
-                    value={sbatch}
-                    name="sbatch"
-                    onChange={(e) => {
-                      setsbatch(e.target.value);
-                      dispatch(
-                        MarkStudentAttendance(
-                          new Date().toISOString().substring(0, 10),
-                          e.target.value
-                        )
-                      );
-                    }}
-                    displayEmpty
-                  >
-                    <option
-                      sx={{
-                        fontSize: 14,
-                      }}
-                      value={""}
-                    >
-                      Batch
-                    </option>
-                    {batchs?.map((item, index) => {
-                      return (
-                        <option
-                          key={index}
-                          sx={{
-                            fontSize: 14,
-                          }}
-                          value={`${item?.StartingTime} TO ${item?.EndingTime}`}
-                        >
-                          {item?.StartingTime} TO {item?.EndingTime}
-                        </option>
-                      );
-                    })}
-                  </select>
-                </>
-              )}
+
               {Analysisatten && (
                 <>
                   <select
@@ -367,10 +324,10 @@ function Attendance() {
                         paddingBottom: "0.6em",
                       },
                     }}
-                    value={sbatch}
-                    name="sbatch"
+                    value={classname}
+                    name="classname"
                     onChange={(e) => {
-                      setsbatch(e.target.value);
+                      setclassname(e.target.value);
                     }}
                     displayEmpty
                   >
@@ -380,18 +337,18 @@ function Attendance() {
                       }}
                       value={""}
                     >
-                      Please Select Batch
+                      Class
                     </option>
-                    {batchs?.map((item, index) => {
+                    {courselist?.map((item, index) => {
                       return (
                         <option
                           key={index}
                           sx={{
                             fontSize: 14,
                           }}
-                          value={`${item?.StartingTime} TO ${item?.EndingTime}`}
+                          value={item?.coursename}
                         >
-                          {item?.StartingTime} TO {item?.EndingTime}
+                          {item?.coursename}
                         </option>
                       );
                     })}
@@ -478,9 +435,16 @@ function Attendance() {
                   <button
                     className={styles.saveattendacebutton}
                     onClick={() => {
-                      if (month && sbatch) {
+                      if (month && classname) {
                         dispatch(
-                          MonthlyStudentAttendance(sbatch, month,"","",status)
+                          MonthlyStudentAttendance(
+                            sbatch,
+                            month,
+                            "",
+                            "",
+                            status,
+                            classname
+                          )
                         );
                       }
                     }}
@@ -510,26 +474,12 @@ function Attendance() {
                   setAnalysisatten(false);
                   setattendancedetails("");
                   setsbatch("");
+                  setclassname("");
                 }}
               >
                 Take Attendance
               </button>
-              {/* <button
-                onClick={() => {
-                  settakeatten(false);
-                  settodatatten(true);
-                  setAnalysisatten(false);
-                  setattendancedetails("");
-                  setsbatch("");
-                }}
-                className={
-                  todatatten
-                    ? styles.searchbtnactive
-                    : styles.searchoptiondivbutton
-                }
-              >
-                Today Attendance
-              </button> */}
+
               <button
                 onClick={() => {
                   settakeatten(false);
@@ -537,6 +487,7 @@ function Attendance() {
                   setAnalysisatten(true);
                   setattendancedetails("");
                   setsbatch("");
+                  setclassname("");
                 }}
                 className={
                   Analysisatten
@@ -580,7 +531,7 @@ function Attendance() {
                         <th className={styles.tableth}>Roll&lsquo;No</th>
                         <th className={styles.tableth}>Student&lsquo;Name</th>
                         <th className={styles.tableth}>Father&apos;s Name</th>
-                        <th className={styles.tableth}>Course</th>
+                        <th className={styles.tableth}>Class</th>
 
                         <th className={styles.tableth}>Status</th>
                       </tr>
@@ -655,7 +606,7 @@ function Attendance() {
                         <th className={styles.tableth}>Roll No</th>
                         <th className={styles.tableth}>Student Name</th>
                         <th className={styles.tableth}>Father&apos;s Name</th>
-                        <th className={styles.tableth}>Course</th>
+                        <th className={styles.tableth}>Class</th>
 
                         <th className={styles.tableth}>Status</th>
                       </tr>
@@ -676,7 +627,7 @@ function Attendance() {
                               </td>
 
                               <td className={styles.tabletd}>
-                                {item?.courseorclass}
+                                {item?.batch}
                               </td>
 
                               <td className={styles.tabletdnew}>
@@ -707,7 +658,7 @@ function Attendance() {
                         <th className={styles.tableth10}>
                           Father&apos;s&lsquo;Name
                         </th>
-                        <th className={styles.tableth10}>Class&lsquo;Batch</th>
+                        <th className={styles.tableth10}>Class</th>
                         <th className={styles.tableth10}>Month</th>
                         {monthly[0]?.days?.map((item, index) => {
                           return (
@@ -731,7 +682,7 @@ function Attendance() {
                                 {item?.student?.fathersName}
                               </td>
                               <td className={styles.tabletd}>
-                                {item?.student?.batch}
+                                {item?.student?.courseorclass}
                               </td>
                               <td className={styles.tabletd}>
                                 {monthnamelist[month?.toString()]}
@@ -758,8 +709,7 @@ function Attendance() {
                                     <td key={index} className={styles.tabletd}>
                                       <button
                                         className={
-                                          item?.	attendaceStatus ===
-                                          "Present"
+                                          item?.attendaceStatus === "Present"
                                             ? styles.presentbtn
                                             : item?.attendaceStatusIntext ===
                                               "Absent"
@@ -774,13 +724,11 @@ function Attendance() {
                                         {item?.attendaceStatusIntext ===
                                           "Holiday" && <>H</>}
                                         {item?.attendaceStatusIntext ===
-                                          "Unknown" && <>Unknown</>}
+                                          "Unknown" && <>L</>}
                                         {item?.attendaceStatusIntext ===
-                                          "Left In Middle" && (
-                                          <>Left In Middle</>
-                                        )}
+                                          "Left In Middle" && <>L</>}
                                         {item?.attendaceStatusIntext ===
-                                          "On Leave" && <>On Leave</>}
+                                          "On Leave" && <>L</>}
                                       </button>
                                     </td>
                                   );

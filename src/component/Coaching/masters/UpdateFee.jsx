@@ -50,7 +50,7 @@ function UpdateFee({ updatedata, setOpen }) {
         <form onSubmit={submit}>
           <div className={styles.divmaininput}>
             <div className={styles.inputdiv}>
-              <label>Course</label>
+              <label>Class</label>
               <Select
                 disabled={true}
                 required
