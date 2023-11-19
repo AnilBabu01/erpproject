@@ -202,6 +202,17 @@
   justify-content: flex-end;
   color: black;
 }
+.opensearchinput20 {
+  border: 1px solid #093959;
+  padding: 0.2rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: 5px;
+  margin-right: 1rem;
+  /* display: flex; */
+  justify-content: flex-end;
+  color: black;
+}
 .opensearchinput10 {
   border: 1px solid #093959;
   padding: 0.2rem;
@@ -321,7 +332,7 @@
 }
 .tabletdnew {
   border: 1px solid #dddddd;
-  text-align: left;
+  text-align: center;
   padding: 8px;
 }
 .idcarddiv{
@@ -345,7 +356,7 @@
   .tabletdnew {
     display: flex;
     border: 1px solid #dddddd;
-    text-align: left;
+    text-align: center;
     padding: 8px;
   }
   .abtn {

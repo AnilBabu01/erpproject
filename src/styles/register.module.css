@@ -692,7 +692,27 @@
 .attendancediv {
   display: flex;
 }
-
+.addmargin {
+  margin-bottom: 1rem;
+}
+.opicon {
+  width: 20px;
+  height: 20px;
+}
+.opicon10 {
+  width: 20px;
+  height: 20px;
+  margin-right: 1rem;
+}
+.showimgdiv {
+  display: flex;
+}
+.showimgdiv10 {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+}
 @media screen and (max-width: 780px) {
   .disabledinphone {
     display: none;

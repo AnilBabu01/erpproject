@@ -124,6 +124,7 @@ function Attendance() {
       institutename: "",
       attendaceStatus: "",
       attendancedate: "",
+      attendanceType: "",
     },
   ]);
   const { loading, employees } = useSelector((state) => state.getemp);
@@ -513,8 +514,8 @@ function Attendance() {
                         <th className={styles.tableth}>Sr.NO</th>
                         <th className={styles.tableth}>Employee&lsquo;Id</th>
                         <th className={styles.tableth}>Employee&lsquo; Name</th>
-
                         <th className={styles.tableth}>Status</th>
+                        <th className={styles.tableth}>Attendance Type</th>
                       </tr>
                       {attendancedetails &&
                         attendancedetails[0]?.rollnumber != "" &&
@@ -560,6 +561,30 @@ function Attendance() {
                                 >
                                   Absent
                                 </button>
+                              </td>
+                              <td className={styles.tabletd}>
+                                <select
+                                  className={styles.opensearchinput20}
+                                  sx={{
+                                    width: "18.8rem",
+                                    fontSize: 14,
+                                    "& .MuiSelect-select": {
+                                      paddingTop: "0.6rem",
+                                      paddingBottom: "0.6em",
+                                    },
+                                  }}
+                                  value={item?.attendanceType}
+                                  onChange={(e) => {
+                                    handleItemUpdate(
+                                      item,
+                                      "attendanceType",
+                                      e.target.value
+                                    );
+                                  }}
+                                >
+                                  <option value={"Full"}>Full Day</option>
+                                  <option value={"Half"}>Half Day</option>
+                                </select>
                               </td>
                             </tr>
                           );
@@ -632,10 +657,12 @@ function Attendance() {
                                         {item?.attendaceStatusIntext ===
                                           "Present" && <>P</>}
                                         {item?.attendaceStatusIntext ===
+                                          "Present Half" && <>HD</>}
+                                        {item?.attendaceStatusIntext ===
                                           "Absent" && <>A</>}
                                         {item?.attendaceStatusIntext ===
                                           "Holiday" && <>H</>}
-                                           {item?.attendaceStatusIntext ===
+                                        {item?.attendaceStatusIntext ===
                                           "On Leave" && <>L</>}
                                       </button>
                                     </td>

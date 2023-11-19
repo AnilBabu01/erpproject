@@ -20,7 +20,17 @@ function UpdateEmp({ setOpen, updatedata }) {
   const [empphone1, setempphone1] = useState("");
   const [empphone2, setempphone2] = useState("");
   const [joiningdate, setjoiningdate] = useState("");
-  const [resigndate, setresigndate] = useState('');
+  const [resigndate, setresigndate] = useState("");
+  const [leaveNo, setleaveNo] = useState("");
+  const [aadharcard, setaadharcard] = useState("");
+  const [Drivingimg, setDrivingimg] = useState("");
+  const [tenthimg, settenthimg] = useState("");
+  const [twethimg, settwethimg] = useState("");
+  const [Graduationimg, setGraduationimg] = useState("");
+  const [postgraduationimg, setpostgraduationimg] = useState("");
+  const [certificateimg1, setcertificateimg1] = useState("");
+  const [certificateimg2, setcertificateimg2] = useState("");
+  const [certificateimg3, setcertificateimg3] = useState("");
   const [frontoffice, setfrontoffice] = useState(false);
   const [frontofficeR, setfrontofficeR] = useState(false);
   const [frontofficeW, setfrontofficeW] = useState(false);
@@ -53,6 +63,7 @@ function UpdateEmp({ setOpen, updatedata }) {
   const [MastersD, setMastersD] = useState(false);
   const [reports, setreports] = useState(false);
   const [address, setaddress] = useState("");
+  const [empId, setempId] = useState("");
   const [city, setcity] = useState("");
   const [pincode, setpincode] = useState("");
   const [state, setstate] = useState("");
@@ -70,18 +81,23 @@ function UpdateEmp({ setOpen, updatedata }) {
   const [branchname, setbranchname] = useState("");
   const [ifscCode, setifscCode] = useState("");
   const [basicsalary, setbasicsalary] = useState("");
-  const [allowance, setallowance] = useState("");
-  const [deduction, setdeduction] = useState("");
+  const [allowance1, setallowance1] = useState("");
+  const [allowanceAmount1, setallowanceAmount1] = useState("");
+  const [allowance2, setallowance2] = useState("");
+  const [allowanceAmount2, setallowanceAmount2] = useState("");
+  const [allowance3, setallowance3] = useState("");
+  const [allowanceAmount3, setallowanceAmount3] = useState("");
+  const [deduction1, setdeduction1] = useState("");
+  const [deductionAmount1, setdeductionAmount1] = useState("");
+  const [deduction2, setdeduction2] = useState("");
+  const [deductionAmount2, setdeductionAmount2] = useState("");
+  const [fathetrsname, setfathetrsname] = useState("");
   const [totalsalary, settotalsalary] = useState("");
   const { designation } = useSelector((state) => state.getdesignation);
   const { department } = useSelector((state) => state.getpart);
   const { user } = useSelector((state) => state.auth);
-
- 
-
   const submit = (e) => {
     e.preventDefault();
-     // console.log("send in payload",profileimg);
     formData.set("id", updatedata?.id);
     formData.set("name", empname);
     formData.set("email", empemail);
@@ -91,18 +107,42 @@ function UpdateEmp({ setOpen, updatedata }) {
     formData.set("state", state);
     formData.set("pincode", pincode);
     formData.set("employeeof", designationname);
-    formData.set("department", depart);  
-    formData.set("resigndate", joiningdate);
-    formData.set("resigndate", resigndate);
+    formData.set("department", depart);
+    formData.set("joiningdate", joiningdate);
     formData.set("address", address);
-
+    formData.set("profileurl", profileimg);
     formData.set("basicsalary", basicsalary);
-    formData.set("Allowance", allowance);
-    formData.set("Deduction", deduction);
+    formData.set("Allowance1", allowance1);
+    formData.set("AllowanceAmount1", allowanceAmount1);
+    formData.set("Allowance2", allowance2);
+    formData.set("AllowanceAmount2", allowanceAmount2);
+    formData.set("Allowance3", allowance3);
+    formData.set("AllowanceAmount3", allowanceAmount3);
+    formData.set("Deduction1", deduction1);
+    formData.set("DeductionAmount1", deductionAmount1);
+    formData.set("Deduction2", deduction2);
+    formData.set("DeductionAmount2", deductionAmount2);
+    formData.set("AllowLeave", leaveNo);
+    formData.set("FathersName", fathetrsname);
+    formData.set("Aadharurl", aadharcard);
+    formData.set("Drivingurl", Drivingimg);
+    formData.set("tenurl", tenthimg);
+    formData.set("twelturl", twethimg);
+    formData.set("Graduationurl", Graduationimg);
+    formData.set("PostGraduationurl", postgraduationimg);
+    formData.set("Certificate1url", certificateimg1);
+    formData.set("Certificate2url", certificateimg2);
+    formData.set("Certificate3url", certificateimg3);
     formData.set(
       "TotalSalary",
-      Number(basicsalary) + Number(allowance) - Number(deduction)
+      Number(basicsalary) +
+        Number(allowanceAmount1) +
+        Number(allowanceAmount2) +
+        Number(allowanceAmount3) -
+        Number(deductionAmount1) -
+        Number(deductionAmount2)
     );
+    formData.set("empId", empId);
     formData.set("AccountHolder", accountholdername);
     formData.set("AccountNumber", accountNumber);
     formData.set("BankName", bankName);
@@ -111,7 +151,6 @@ function UpdateEmp({ setOpen, updatedata }) {
     formData.set("ResumeFile", resumeimg);
     formData.set("OfferLater", offerlater);
     formData.set("JoningLater", joninglater);
-    formData.set("profileurl", profileimg);
 
     formData.set("fronrofice", frontoffice);
     formData.set("fronroficeRead", frontoffice);
@@ -212,17 +251,29 @@ function UpdateEmp({ setOpen, updatedata }) {
       setAccountsE(updatedata?.accountsEdit);
       setAccountsD(updatedata?.accountsDelete);
       setbasicsalary(updatedata?.basicsalary);
-      setallowance(updatedata?.Allowance);
-      setdeduction(updatedata?.Deduction);
+      // setallowance(updatedata?.Allowance);
+      // setdeduction(updatedata?.Deduction);
       settotalsalary(updatedata?.TotalSalary);
       setaccountholdername(updatedata?.AccountHolder);
       setaccountNumber(updatedata?.AccountNumber);
       setbankName(updatedata?.BankName);
       setbranchname(updatedata?.Branch);
       setifscCode(updatedata?.IfscCode);
+      setempId(updatedata?.empId);
+      setfathetrsname(updatedata?.FathersName);
+      setleaveNo(updatedata?.AllowLeave);
+      setallowance1(updatedata?.Allowance1);
+      setallowanceAmount1(updatedata?.AllowanceAmount1);
+      setallowance2(updatedata?.Allowance2);
+      setallowanceAmount2(updatedata?.AllowanceAmount2);
+      setallowance3(updatedata?.Allowance3);
+      setallowanceAmount3(updatedata?.AllowanceAmount3);
+      setdeduction1(updatedata?.Deduction1);
+      setdeductionAmount1(updatedata?.DeductionAmount1);
+      setdeduction2(updatedata?.Deduction2);
+      setdeductionAmount2(updatedata?.DeductionAmount2);
     }
   }, []);
-
   return (
     <>
       <div className={styles.divmainlogin}>
@@ -606,8 +657,29 @@ function UpdateEmp({ setOpen, updatedata }) {
                   <div className={styles.headingdivicon}>
                     <p>Personal Details</p>
                   </div>
-
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
+                    <label>Employee Id</label>
+                    <input
+                      required
+                      type="text"
+                      placeholder="Enter the Employee Id"
+                      value={empId}
+                      name="empId"
+                      onChange={(e) => setempId(e.target.value)}
+                    />
+                  </div>
+                  <div className={styles.inputdiv20}>
+                    <label>Allow Leave</label>
+                    <input
+                      required
+                      type="text"
+                      placeholder="Enter the Leave"
+                      value={leaveNo}
+                      name="leaveNo"
+                      onChange={(e) => setleaveNo(e.target.value)}
+                    />
+                  </div>
+                  <div className={styles.inputdiv20}>
                     <label>Employee Name</label>
                     <input
                       required
@@ -619,7 +691,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                     />
                   </div>
 
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Employee Email</label>
                     <input
                       required
@@ -630,8 +702,19 @@ function UpdateEmp({ setOpen, updatedata }) {
                       onChange={(e) => setempemail(e.target.value)}
                     />
                   </div>
+                  <div className={styles.inputdiv20}>
+                    <label>Father&lsquo;s Name</label>
+                    <input
+                      required
+                      type="email"
+                      placeholder="Enter The Father's Name"
+                      value={fathetrsname}
+                      name="fathetrsname"
+                      onChange={(e) => setfathetrsname(e.target.value)}
+                    />
+                  </div>
 
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Phone No1</label>
                     <input
                       required
@@ -642,7 +725,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                       onChange={(e) => setempphone1(e.target.value)}
                     />
                   </div>
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Phone No2</label>
                     <input
                       type="text"
@@ -652,7 +735,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                       onChange={(e) => setempphone2(e.target.value)}
                     />
                   </div>
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>City</label>
                     <input
                       required
@@ -663,7 +746,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                       onChange={(e) => setcity(e.target.value)}
                     />
                   </div>
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>State</label>
                     <input
                       required
@@ -674,7 +757,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                       onChange={(e) => setstate(e.target.value)}
                     />
                   </div>
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Pin Code</label>
                     <input
                       required
@@ -685,7 +768,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                       onChange={(e) => setpincode(e.target.value)}
                     />
                   </div>
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Address</label>
                     <input
                       required
@@ -696,7 +779,8 @@ function UpdateEmp({ setOpen, updatedata }) {
                       onChange={(e) => setaddress(e.target.value)}
                     />
                   </div>
-                  <div className={styles.inputdiv}>
+
+                  <div className={styles.inputdiv20}>
                     <label>Status</label>
                     <Select
                       required
@@ -739,13 +823,12 @@ function UpdateEmp({ setOpen, updatedata }) {
                       </MenuItem>
                     </Select>
                   </div>
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Photo</label>
                     <input
                       type="file"
                       onChange={(e) => {
                         setprofileimg(e.target.files[0]);
-                        console.log(e.target.files[0])
                         setviewprofile(URL.createObjectURL(e.target.files[0]));
                       }}
                     />
@@ -776,7 +859,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                     <p>Organization Details</p>
                   </div>
 
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Joining Date</label>
                     <input
                       required
@@ -786,18 +869,8 @@ function UpdateEmp({ setOpen, updatedata }) {
                       onChange={(e) => setjoiningdate(e.target.value)}
                     />
                   </div>
-                  <div className={styles.inputdiv}>
-                    <label>Resign Date</label>
-                    <input
-                      required
-                      type="date"
-                      value={resigndate}
-                      name="resigndate"
-                      onChange={(e) => setresigndate(e.target.value)}
-                    />
-                  </div>
 
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Designation</label>
                     <Select
                       required
@@ -838,7 +911,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                         })}
                     </Select>
                   </div>
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Deparment</label>
                     <Select
                       required
@@ -879,57 +952,229 @@ function UpdateEmp({ setOpen, updatedata }) {
                         })}
                     </Select>
                   </div>
-                  <div className={styles.headingdivicon}>
+                  {/* <div className={styles.headingdivicon}>
                     <p>Account Login</p>
                   </div>
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Email</label>
                     <input
                       required
-                      type="text"
+                      type="email"
                       placeholder="Enter the Email"
-                      value={address}
-                      name="address"
-                      onChange={(e) => setaddress(e.target.value)}
+                      value={empemail}
+                      name="empemail"
+                      onChange={(e) => setempemail(e.target.value)}
                     />
-                  </div>
+                  </div> */}
 
                   <div className={styles.headingdivicon}>
                     <p>Documents</p>
                   </div>
-                  <div className={styles.inputdiv}>
-                    <label>Resume File</label>
+                  <div className={styles.inputdiv20}>
+                    <div className={styles.showimgdiv10}>
+                      <label>Adhar Card</label>
+                      <div className={styles.showimgdiv}>
+                        <img
+                          className={styles.opicon10}
+                          src="/images/down.png"
+                          alt="img"
+                        />
+                        <img
+                          className={styles.opicon}
+                          src="/images/can.png"
+                          alt="img"
+                        />
+                      </div>
+                    </div>
+
                     <input
                       type="file"
                       onChange={(e) => {
-                        setresumeimg(e.target.files[0]);
-                        setviewresumefile(
-                          URL.createObjectURL(e.target.files[0])
-                        );
+                        setaadharcard(e.target.files[0]);
                       }}
                     />
                   </div>
-                  <div className={styles.inputdiv}>
-                    <label>Offer Later</label>
+                  <div className={styles.inputdiv20}>
+                    <div className={styles.showimgdiv10}>
+                      <label>Driving Licence</label>
+                      <div className={styles.showimgdiv}>
+                        <img
+                          className={styles.opicon10}
+                          src="/images/down.png"
+                          alt="img"
+                        />
+                        <img
+                          className={styles.opicon}
+                          src="/images/can.png"
+                          alt="img"
+                        />
+                      </div>
+                    </div>
                     <input
                       type="file"
                       onChange={(e) => {
-                        setofferlater(e.target.files[0]);
-                        setviewofferlater(
-                          URL.createObjectURL(e.target.files[0])
-                        );
+                        setDrivingimg(e.target.files[0]);
                       }}
                     />
                   </div>
-                  <div className={styles.inputdiv}>
-                    <label>Joning Later</label>
+                  <div className={styles.inputdiv20}>
+                    <div className={styles.showimgdiv10}>
+                      <label>10Th Marksheet</label>
+                      <div className={styles.showimgdiv}>
+                        <img
+                          className={styles.opicon10}
+                          src="/images/down.png"
+                          alt="img"
+                        />
+                        <img
+                          className={styles.opicon}
+                          src="/images/can.png"
+                          alt="img"
+                        />
+                      </div>
+                    </div>
                     <input
                       type="file"
                       onChange={(e) => {
-                        setjoninglater(e.target.files[0]);
-                        setviewjoninglater(
-                          URL.createObjectURL(e.target.files[0])
-                        );
+                        settenthimg(e.target.files[0]);
+                      }}
+                    />
+                  </div>
+                  <div className={styles.inputdiv20}>
+                    <div className={styles.showimgdiv10}>
+                      <label>12Th Marksheet</label>
+                      <div className={styles.showimgdiv}>
+                        <img
+                          className={styles.opicon10}
+                          src="/images/down.png"
+                          alt="img"
+                        />
+                        <img
+                          className={styles.opicon}
+                          src="/images/can.png"
+                          alt="img"
+                        />
+                      </div>
+                    </div>
+                    <input
+                      type="file"
+                      onChange={(e) => {
+                        settwethimg(e.target.files[0]);
+                      }}
+                    />
+                  </div>
+                  <div className={styles.inputdiv20}>
+                    <div className={styles.showimgdiv10}>
+                      <label>Graduation Final Year</label>
+                      <div className={styles.showimgdiv}>
+                        <img
+                          className={styles.opicon10}
+                          src="/images/down.png"
+                          alt="img"
+                        />
+                        <img
+                          className={styles.opicon}
+                          src="/images/can.png"
+                          alt="img"
+                        />
+                      </div>
+                    </div>
+                    <input
+                      type="file"
+                      onChange={(e) => {
+                        setGraduationimg(e.target.files[0]);
+                      }}
+                    />
+                  </div>
+                  <div className={styles.inputdiv20}>
+                    <div className={styles.showimgdiv10}>
+                      <label>Post Graduation Final Year</label>
+                      <div className={styles.showimgdiv}>
+                        <img
+                          className={styles.opicon10}
+                          src="/images/down.png"
+                          alt="img"
+                        />
+                        <img
+                          className={styles.opicon}
+                          src="/images/can.png"
+                          alt="img"
+                        />
+                      </div>
+                    </div>
+                    <input
+                      type="file"
+                      onChange={(e) => {
+                        setpostgraduationimg(e.target.files[0]);
+                      }}
+                    />
+                  </div>
+                  <div className={styles.inputdiv20}>
+                    <label>Others Certificates</label>
+
+                    <div className={styles.showimgdiv10}>
+                      <label>Certificates No 1</label>
+                      <div className={styles.showimgdiv}>
+                        <img
+                          className={styles.opicon10}
+                          src="/images/down.png"
+                          alt="img"
+                        />
+                        <img
+                          className={styles.opicon}
+                          src="/images/can.png"
+                          alt="img"
+                        />
+                      </div>
+                    </div>
+                    <input
+                      type="file"
+                      onChange={(e) => {
+                        setcertificateimg1(e.target.files[0]);
+                      }}
+                    />
+
+                    <div className={styles.showimgdiv10}>
+                      <label>Certificates No 2</label>
+                      <div className={styles.showimgdiv}>
+                        <img
+                          className={styles.opicon10}
+                          src="/images/down.png"
+                          alt="img"
+                        />
+                        <img
+                          className={styles.opicon}
+                          src="/images/can.png"
+                          alt="img"
+                        />
+                      </div>
+                    </div>
+                    <input
+                      type="file"
+                      onChange={(e) => {
+                        setcertificateimg2(e.target.files[0]);
+                      }}
+                    />
+
+                    <div className={styles.showimgdiv10}>
+                      <label>Certificates No 3</label>
+                      <div className={styles.showimgdiv}>
+                        <img
+                          className={styles.opicon10}
+                          src="/images/down.png"
+                          alt="img"
+                        />
+                        <img
+                          className={styles.opicon}
+                          src="/images/can.png"
+                          alt="img"
+                        />
+                      </div>
+                    </div>
+                    <input
+                      type="file"
+                      onChange={(e) => {
+                        setcertificateimg3(e.target.files[0]);
                       }}
                     />
                   </div>
@@ -939,7 +1184,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                   <div className={styles.headingdivicon}>
                     <p>Fianancial Details</p>
                   </div>
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Basic Salary</label>
                     <input
                       required
@@ -950,29 +1195,102 @@ function UpdateEmp({ setOpen, updatedata }) {
                       onChange={(e) => setbasicsalary(e.target.value)}
                     />
                   </div>
-                  <div className={styles.inputdiv}>
-                    <label>Allowance</label>
+                  <div className={styles.inputdiv20}>
+                    <label>Allowances</label>
                     <input
+                      className={styles.addmargin}
                       required
                       type="text"
-                      placeholder="Enter the Allowance"
-                      value={allowance}
-                      name="allowance"
-                      onChange={(e) => setallowance(e.target.value)}
+                      placeholder="Allowance Name 1"
+                      value={allowance1}
+                      name="allowance1"
+                      onChange={(e) => setallowance1(e.target.value)}
                     />
-                  </div>
-                  <div className={styles.inputdiv}>
-                    <label>Deduction</label>
                     <input
+                      className={styles.addmargin}
+                      required
+                      type="number"
+                      placeholder="Allowance Amount"
+                      value={allowanceAmount1}
+                      name="allowanceAmount1"
+                      onChange={(e) => setallowanceAmount1(e.target.value)}
+                    />
+                    <input
+                      className={styles.addmargin}
                       required
                       type="text"
-                      placeholder="Enter the Deduction"
-                      value={deduction}
-                      name="deduction"
-                      onChange={(e) => setdeduction(e.target.value)}
+                      placeholder="Allowance Name 2"
+                      value={allowance2}
+                      name="allowance2"
+                      onChange={(e) => setallowance2(e.target.value)}
+                    />
+                    <input
+                      className={styles.addmargin}
+                      required
+                      type="number"
+                      placeholder="Allowance Amount"
+                      value={allowanceAmount2}
+                      name="allowanceAmount2"
+                      onChange={(e) => setallowanceAmount2(e.target.value)}
+                    />
+                    <input
+                      className={styles.addmargin}
+                      required
+                      type="text"
+                      placeholder="Allowance Name 3"
+                      value={allowance3}
+                      name="allowance3"
+                      onChange={(e) => setallowance3(e.target.value)}
+                    />
+                    <input
+                      required
+                      type="number"
+                      placeholder="Allowance Amount"
+                      value={allowanceAmount3}
+                      name="allowanceAmount3"
+                      onChange={(e) => setallowanceAmount3(e.target.value)}
                     />
                   </div>
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
+                    <label>Deductions</label>
+                    <input
+                      className={styles.addmargin}
+                      required
+                      type="text"
+                      placeholder="Deduction 1"
+                      value={deduction1}
+                      name="deduction1"
+                      onChange={(e) => setdeduction1(e.target.value)}
+                    />
+                    <input
+                      className={styles.addmargin}
+                      required
+                      type="number"
+                      placeholder="Amount"
+                      value={deductionAmount1}
+                      name="deductionAmount1"
+                      onChange={(e) => setdeductionAmount1(e.target.value)}
+                    />
+                    <input
+                      className={styles.addmargin}
+                      required
+                      type="text"
+                      placeholder="Deduction 2"
+                      value={deduction2}
+                      name="deduction2"
+                      onChange={(e) => setdeduction2(e.target.value)}
+                    />
+                    <input
+                      className={styles.addmargin}
+                      required
+                      type="number"
+                      placeholder="Amount"
+                      value={deductionAmount2}
+                      name="deductionAmount2"
+                      onChange={(e) => setdeductionAmount2(e.target.value)}
+                    />
+                  </div>
+                  <div className={styles.inputdiv20}>
                     <label>Total Salary</label>
                     <input
                       required
@@ -981,8 +1299,11 @@ function UpdateEmp({ setOpen, updatedata }) {
                       placeholder="Enter the total salary"
                       value={
                         Number(basicsalary) +
-                        Number(allowance) -
-                        Number(deduction)
+                        Number(allowanceAmount1) +
+                        Number(allowanceAmount2) +
+                        Number(allowanceAmount3) -
+                        Number(deductionAmount1) -
+                        Number(deductionAmount2)
                       }
                       name="totalsalary"
                       onChange={(e) => settotalsalary(e.target.value)}
@@ -992,7 +1313,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                     <p>Bank Details</p>
                   </div>
 
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Account Holder Name</label>
                     <input
                       required
@@ -1003,7 +1324,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                       onChange={(e) => setaccountholdername(e.target.value)}
                     />
                   </div>
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Account Number</label>
                     <input
                       required
@@ -1014,7 +1335,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                       onChange={(e) => setaccountNumber(e.target.value)}
                     />
                   </div>
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Bank Name</label>
                     <input
                       required
@@ -1025,7 +1346,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                       onChange={(e) => setbankName(e.target.value)}
                     />
                   </div>
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>Branch </label>
                     <input
                       required
@@ -1036,7 +1357,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                       onChange={(e) => setbranchname(e.target.value)}
                     />
                   </div>
-                  <div className={styles.inputdiv}>
+                  <div className={styles.inputdiv20}>
                     <label>IFSC CODE</label>
                     <input
                       required
@@ -1052,36 +1373,7 @@ function UpdateEmp({ setOpen, updatedata }) {
             </>
           )}
         </form>
-        {viewresumefile && (
-          <>
-            <p>Resume Preview</p>
-            <img
-              alt="img"
-              className="dharamshala_imgggg"
-              src={viewresumefile}
-            />
-          </>
-        )}
-        {viewofferlater && (
-          <>
-            <p>Offer Later Preview</p>
-            <img
-              alt="img"
-              className="dharamshala_imgggg"
-              src={viewofferlater}
-            />
-          </>
-        )}
-        {viewjoninglater && (
-          <>
-            <p>Joining Later Preview</p>
-            <img
-              alt="img"
-              className="dharamshala_imgggg"
-              src={viewjoninglater}
-            />
-          </>
-        )}
+
         {showpermission ? (
           <>
             <div className={styles.logbtnstylediv}>

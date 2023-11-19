@@ -20,6 +20,16 @@ function AddEmp({ setOpen }) {
   const [empphone1, setempphone1] = useState("");
   const [empphone2, setempphone2] = useState("");
   const [joiningdate, setjoiningdate] = useState("");
+  const [leaveNo, setleaveNo] = useState("");
+  const [aadharcard, setaadharcard] = useState("");
+  const [Drivingimg, setDrivingimg] = useState("");
+  const [tenthimg, settenthimg] = useState("");
+  const [twethimg, settwethimg] = useState("");
+  const [Graduationimg, setGraduationimg] = useState("");
+  const [postgraduationimg, setpostgraduationimg] = useState("");
+  const [certificateimg1, setcertificateimg1] = useState("");
+  const [certificateimg2, setcertificateimg2] = useState("");
+  const [certificateimg3, setcertificateimg3] = useState("");
   const [frontoffice, setfrontoffice] = useState(false);
   const [frontofficeR, setfrontofficeR] = useState(false);
   const [frontofficeW, setfrontofficeW] = useState(false);
@@ -52,6 +62,7 @@ function AddEmp({ setOpen }) {
   const [MastersD, setMastersD] = useState(false);
   const [reports, setreports] = useState(false);
   const [address, setaddress] = useState("");
+  const [empId, setempId] = useState("");
   const [city, setcity] = useState("");
   const [pincode, setpincode] = useState("");
   const [state, setstate] = useState("");
@@ -69,8 +80,17 @@ function AddEmp({ setOpen }) {
   const [branchname, setbranchname] = useState("");
   const [ifscCode, setifscCode] = useState("");
   const [basicsalary, setbasicsalary] = useState("");
-  const [allowance, setallowance] = useState("");
-  const [deduction, setdeduction] = useState("");
+  const [allowance1, setallowance1] = useState("");
+  const [allowanceAmount1, setallowanceAmount1] = useState("");
+  const [allowance2, setallowance2] = useState("");
+  const [allowanceAmount2, setallowanceAmount2] = useState("");
+  const [allowance3, setallowance3] = useState("");
+  const [allowanceAmount3, setallowanceAmount3] = useState("");
+  const [deduction1, setdeduction1] = useState("");
+  const [deductionAmount1, setdeductionAmount1] = useState("");
+  const [deduction2, setdeduction2] = useState("");
+  const [deductionAmount2, setdeductionAmount2] = useState("");
+  const [fathetrsname, setfathetrsname] = useState("");
   const [totalsalary, settotalsalary] = useState("");
   const { designation } = useSelector((state) => state.getdesignation);
   const { department } = useSelector((state) => state.getpart);
@@ -90,12 +110,37 @@ function AddEmp({ setOpen }) {
     formData.set("address", address);
     formData.set("profileurl", profileimg);
     formData.set("basicsalary", basicsalary);
-    formData.set("Allowance", allowance);
-    formData.set("Deduction", deduction);
+    formData.set("Allowance1", allowance1);
+    formData.set("AllowanceAmount1", allowanceAmount1);
+    formData.set("Allowance2", allowance2);
+    formData.set("AllowanceAmount2", allowanceAmount2);
+    formData.set("Allowance3", allowance3);
+    formData.set("AllowanceAmount3", allowanceAmount3);
+    formData.set("Deduction1", deduction1);
+    formData.set("DeductionAmount1", deductionAmount1);
+    formData.set("Deduction2", deduction2);
+    formData.set("DeductionAmount2", deductionAmount2);
+    formData.set("AllowLeave", leaveNo);
+    formData.set("FathersName", fathetrsname);
+    formData.set("Aadharurl", aadharcard);
+    formData.set("Drivingurl", Drivingimg);
+    formData.set("tenurl", tenthimg);
+    formData.set("twelturl", twethimg);
+    formData.set("Graduationurl", Graduationimg);
+    formData.set("PostGraduationurl", postgraduationimg);
+    formData.set("Certificate1url", certificateimg1);
+    formData.set("Certificate2url", certificateimg2);
+    formData.set("Certificate3url", certificateimg3);
     formData.set(
       "TotalSalary",
-      Number(basicsalary) + Number(allowance) - Number(deduction)
+      Number(basicsalary) +
+        Number(allowanceAmount1) +
+        Number(allowanceAmount2) +
+        Number(allowanceAmount3) -
+        Number(deductionAmount1) -
+        Number(deductionAmount2)
     );
+    formData.set("empId", empId);
     formData.set("AccountHolder", accountholdername);
     formData.set("AccountNumber", accountNumber);
     formData.set("BankName", bankName);
@@ -543,7 +588,28 @@ function AddEmp({ setOpen }) {
                   <div className={styles.headingdivicon}>
                     <p>Personal Details</p>
                   </div>
-
+                  <div className={styles.inputdiv20}>
+                    <label>Employee Id</label>
+                    <input
+                      required
+                      type="text"
+                      placeholder="Enter the Employee Id"
+                      value={empId}
+                      name="empId"
+                      onChange={(e) => setempId(e.target.value)}
+                    />
+                  </div>
+                  <div className={styles.inputdiv20}>
+                    <label>Allow Leave</label>
+                    <input
+                      required
+                      type="text"
+                      placeholder="Enter the Leave"
+                      value={leaveNo}
+                      name="leaveNo"
+                      onChange={(e) => setleaveNo(e.target.value)}
+                    />
+                  </div>
                   <div className={styles.inputdiv20}>
                     <label>Employee Name</label>
                     <input
@@ -565,6 +631,17 @@ function AddEmp({ setOpen }) {
                       value={empemail}
                       name="empemail"
                       onChange={(e) => setempemail(e.target.value)}
+                    />
+                  </div>
+                  <div className={styles.inputdiv20}>
+                    <label>Father&lsquo;s Name</label>
+                    <input
+                      required
+                      type="email"
+                      placeholder="Enter The Father's Name"
+                      value={fathetrsname}
+                      name="fathetrsname"
+                      onChange={(e) => setfathetrsname(e.target.value)}
                     />
                   </div>
 
@@ -806,7 +883,7 @@ function AddEmp({ setOpen }) {
                         })}
                     </Select>
                   </div>
-                  <div className={styles.headingdivicon}>
+                  {/* <div className={styles.headingdivicon}>
                     <p>Account Login</p>
                   </div>
                   <div className={styles.inputdiv20}>
@@ -819,7 +896,7 @@ function AddEmp({ setOpen }) {
                       name="empemail"
                       onChange={(e) => setempemail(e.target.value)}
                     />
-                  </div>
+                  </div> */}
 
                   <div className={styles.headingdivicon}>
                     <p>Documents</p>
@@ -829,10 +906,7 @@ function AddEmp({ setOpen }) {
                     <input
                       type="file"
                       onChange={(e) => {
-                        setresumeimg(e.target.files[0]);
-                        setviewresumefile(
-                          URL.createObjectURL(e.target.files[0])
-                        );
+                        setaadharcard(e.target.files[0]);
                       }}
                     />
                   </div>
@@ -841,10 +915,7 @@ function AddEmp({ setOpen }) {
                     <input
                       type="file"
                       onChange={(e) => {
-                        setofferlater(e.target.files[0]);
-                        setviewofferlater(
-                          URL.createObjectURL(e.target.files[0])
-                        );
+                        setDrivingimg(e.target.files[0]);
                       }}
                     />
                   </div>
@@ -853,10 +924,7 @@ function AddEmp({ setOpen }) {
                     <input
                       type="file"
                       onChange={(e) => {
-                        setjoninglater(e.target.files[0]);
-                        setviewjoninglater(
-                          URL.createObjectURL(e.target.files[0])
-                        );
+                        settenthimg(e.target.files[0]);
                       }}
                     />
                   </div>
@@ -865,10 +933,7 @@ function AddEmp({ setOpen }) {
                     <input
                       type="file"
                       onChange={(e) => {
-                        setjoninglater(e.target.files[0]);
-                        setviewjoninglater(
-                          URL.createObjectURL(e.target.files[0])
-                        );
+                        settwethimg(e.target.files[0]);
                       }}
                     />
                   </div>
@@ -877,10 +942,7 @@ function AddEmp({ setOpen }) {
                     <input
                       type="file"
                       onChange={(e) => {
-                        setjoninglater(e.target.files[0]);
-                        setviewjoninglater(
-                          URL.createObjectURL(e.target.files[0])
-                        );
+                        setGraduationimg(e.target.files[0]);
                       }}
                     />
                   </div>
@@ -889,10 +951,7 @@ function AddEmp({ setOpen }) {
                     <input
                       type="file"
                       onChange={(e) => {
-                        setjoninglater(e.target.files[0]);
-                        setviewjoninglater(
-                          URL.createObjectURL(e.target.files[0])
-                        );
+                        setpostgraduationimg(e.target.files[0]);
                       }}
                     />
                   </div>
@@ -902,30 +961,21 @@ function AddEmp({ setOpen }) {
                     <input
                       type="file"
                       onChange={(e) => {
-                        setjoninglater(e.target.files[0]);
-                        setviewjoninglater(
-                          URL.createObjectURL(e.target.files[0])
-                        );
+                        setcertificateimg1(e.target.files[0]);
                       }}
                     />
                     <label>Certificates No 2</label>
                     <input
                       type="file"
                       onChange={(e) => {
-                        setjoninglater(e.target.files[0]);
-                        setviewjoninglater(
-                          URL.createObjectURL(e.target.files[0])
-                        );
+                        setcertificateimg2(e.target.files[0]);
                       }}
                     />
                     <label>Certificates No 3</label>
                     <input
                       type="file"
                       onChange={(e) => {
-                        setjoninglater(e.target.files[0]);
-                        setviewjoninglater(
-                          URL.createObjectURL(e.target.files[0])
-                        );
+                        setcertificateimg3(e.target.files[0]);
                       }}
                     />
                   </div>
@@ -947,25 +997,98 @@ function AddEmp({ setOpen }) {
                     />
                   </div>
                   <div className={styles.inputdiv20}>
-                    <label>Allowance</label>
+                    <label>Allowances</label>
                     <input
+                      className={styles.addmargin}
                       required
                       type="text"
-                      placeholder="Enter the Allowance"
-                      value={allowance}
-                      name="allowance"
-                      onChange={(e) => setallowance(e.target.value)}
+                      placeholder="Allowance Name 1"
+                      value={allowance1}
+                      name="allowance1"
+                      onChange={(e) => setallowance1(e.target.value)}
+                    />
+                    <input
+                      className={styles.addmargin}
+                      required
+                      type="number"
+                      placeholder="Allowance Amount"
+                      value={allowanceAmount1}
+                      name="allowanceAmount1"
+                      onChange={(e) => setallowanceAmount1(e.target.value)}
+                    />
+                    <input
+                      className={styles.addmargin}
+                      required
+                      type="text"
+                      placeholder="Allowance Name 2"
+                      value={allowance2}
+                      name="allowance2"
+                      onChange={(e) => setallowance2(e.target.value)}
+                    />
+                    <input
+                      className={styles.addmargin}
+                      required
+                      type="number"
+                      placeholder="Allowance Amount"
+                      value={allowanceAmount2}
+                      name="allowanceAmount2"
+                      onChange={(e) => setallowanceAmount2(e.target.value)}
+                    />
+                    <input
+                      className={styles.addmargin}
+                      required
+                      type="text"
+                      placeholder="Allowance Name 3"
+                      value={allowance3}
+                      name="allowance3"
+                      onChange={(e) => setallowance3(e.target.value)}
+                    />
+                    <input
+                      required
+                      type="number"
+                      placeholder="Allowance Amount"
+                      value={allowanceAmount3}
+                      name="allowanceAmount3"
+                      onChange={(e) => setallowanceAmount3(e.target.value)}
                     />
                   </div>
                   <div className={styles.inputdiv20}>
-                    <label>Deduction</label>
+                    <label>Deductions</label>
                     <input
+                      className={styles.addmargin}
                       required
                       type="text"
-                      placeholder="Enter the Deduction"
-                      value={deduction}
-                      name="deduction"
-                      onChange={(e) => setdeduction(e.target.value)}
+                      placeholder="Deduction 1"
+                      value={deduction1}
+                      name="deduction1"
+                      onChange={(e) => setdeduction1(e.target.value)}
+                    />
+                    <input
+                      className={styles.addmargin}
+                      required
+                      type="number"
+                      placeholder="Amount"
+                      value={deductionAmount1}
+                      name="deductionAmount1"
+                      onChange={(e) => setdeductionAmount1(e.target.value)}
+                    />
+                    <input
+                      className={styles.addmargin}
+                      required
+                      type="text"
+                      placeholder="Deduction 2"
+                      value={deduction2}
+                      name="deduction2"
+                      onChange={(e) => setdeduction2(e.target.value)}
+                    />
+                    <input
+                      className={styles.addmargin}
+                      required
+                      type="number"
+                      placeholder="Amount"
+                      value={deductionAmount2}
+                      name="deductionAmount2"
+                      onChange={(e) => setdeductionAmount2(e.target.value)}
                     />
                   </div>
                   <div className={styles.inputdiv20}>
@@ -977,8 +1100,11 @@ function AddEmp({ setOpen }) {
                       placeholder="Enter the total salary"
                       value={
                         Number(basicsalary) +
-                        Number(allowance) -
-                        Number(deduction)
+                        Number(allowanceAmount1) +
+                        Number(allowanceAmount2) +
+                        Number(allowanceAmount3) -
+                        Number(deductionAmount1) -
+                        Number(deductionAmount2)
                       }
                       name="totalsalary"
                       onChange={(e) => settotalsalary(e.target.value)}
@@ -1048,36 +1174,7 @@ function AddEmp({ setOpen }) {
             </>
           )}
         </form>
-        {viewresumefile && (
-          <>
-            <p>Resume Preview</p>
-            <img
-              alt="img"
-              className="dharamshala_imgggg"
-              src={viewresumefile}
-            />
-          </>
-        )}
-        {viewofferlater && (
-          <>
-            <p>Offer Later Preview</p>
-            <img
-              alt="img"
-              className="dharamshala_imgggg"
-              src={viewofferlater}
-            />
-          </>
-        )}
-        {viewjoninglater && (
-          <>
-            <p>Joining Later Preview</p>
-            <img
-              alt="img"
-              className="dharamshala_imgggg"
-              src={viewjoninglater}
-            />
-          </>
-        )}
+
         {showpermission ? (
           <>
             <div className={styles.logbtnstylediv}>

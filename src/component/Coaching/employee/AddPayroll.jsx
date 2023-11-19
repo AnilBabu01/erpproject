@@ -89,7 +89,11 @@ function AddPayroll({ setOpen }) {
   const totalopen = (attendance) => {
     let count = 0;
     attendance?.filter((item) => {
-      if (item?.attendaceStatusIntext === "Present"||item?.attendaceStatusIntext === "Absent") {
+      if (
+        item?.attendaceStatusIntext === "Present" ||
+        item?.attendaceStatusIntext === "Absent" ||
+        item?.attendaceStatusIntext === "Present Half"
+      ) {
         count = count + 1;
       }
     });
@@ -100,7 +104,10 @@ function AddPayroll({ setOpen }) {
   const totalpresent = (attendance) => {
     let count = 0;
     attendance?.filter((item) => {
-      if (item?.attendaceStatusIntext === "Present") {
+      if (
+        item?.attendaceStatusIntext === "Present" ||
+        item?.attendaceStatusIntext === "Present Half"
+      ) {
         count = count + 1;
       }
     });
@@ -261,6 +268,8 @@ function AddPayroll({ setOpen }) {
                                 <td className={styles.tableth} key={index}>
                                   {item?.attendaceStatusIntext ===
                                     "Present" && <>P</>}
+                                  {item?.attendaceStatusIntext ===
+                                    "Present Half" && <>HD</>}
                                   {item?.attendaceStatusIntext === "Absent" && (
                                     <>A</>
                                   )}

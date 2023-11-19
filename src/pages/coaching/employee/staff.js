@@ -267,7 +267,8 @@ function Staff() {
               <table className={styles.tabletable}>
                 <tbody>
                   <tr className={styles.tabletr}>
-                    <th className={styles.tableth}>S.NO</th>
+                    <th className={styles.tableth}>Sr.NO</th>
+                    <th className={styles.tableth}>Emp_Id</th>
                     <th className={styles.tableth}>Emp_Name</th>
                     <th className={styles.tableth}>Emp_Email</th>
                     <th className={styles.tableth}>Emp_Phone</th>
@@ -283,6 +284,7 @@ function Staff() {
                     return (
                       <tr key={index} className={styles.tabletr}>
                         <td className={styles.tabletd}>{index + 1}</td>
+                        <td className={styles.tabletd}>{item?.empId}</td>
                         <td className={styles.tabletd}>{item?.name}</td>
                         <td className={styles.tabletd}>{item?.email}</td>
                         <td className={styles.tabletd}>{item?.phoneno1}</td>
