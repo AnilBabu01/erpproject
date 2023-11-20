@@ -55,7 +55,7 @@ const CollegeNavbar = () => {
                     <div className="main_report_dropdown_rightmargin">
                       <h1>General</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/institute/frontoffice/studentenquiry">
+                        <Link href="/college/frontoffice/enquiry">
                           Admission Enquiry
                         </Link>
                         <Link href="/institute/masterstudentcategory">
@@ -513,8 +513,6 @@ const CollegeNavbar = () => {
           )}
         </>
       )}
-
-     
     </>
   );
 };

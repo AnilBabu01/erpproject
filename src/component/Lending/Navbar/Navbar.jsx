@@ -179,6 +179,16 @@ function Navbar({ open, setOpen, setLoadingshow }) {
               </MenuItem>
             </>
           )}
+          {user?.data?.User?.userType === "college" && (
+            <>
+              <MenuItem onClick={() => router.push("/profile")}>
+                <ListItemIcon>
+                  <Settings fontSize="small" />
+                </ListItemIcon>
+                Update Your Profile
+              </MenuItem>
+            </>
+          )}
 
           <MenuItem>
             <ListItemIcon>

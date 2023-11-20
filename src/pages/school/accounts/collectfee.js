@@ -282,43 +282,7 @@ function Collectfee() {
                   name="todate"
                   onChange={(e) => settodate(e.target.value)}
                 /> */}
-                <select
-                  className={styles.opensearchinput}
-                  sx={{
-                    width: "18.8rem",
-                    fontSize: 14,
-                    "& .MuiSelect-select": {
-                      paddingTop: "0.6rem",
-                      paddingBottom: "0.6em",
-                    },
-                  }}
-                  value={sbatch}
-                  name="sbatch"
-                  onChange={(e) => setsbatch(e.target.value)}
-                  displayEmpty
-                >
-                  <option
-                    sx={{
-                      fontSize: 14,
-                    }}
-                    value={""}
-                  >
-                    ALL Batch
-                  </option>
-                  {batchs?.map((item, index) => {
-                    return (
-                      <option
-                        key={index}
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={`${item?.StartingTime} TO ${item?.EndingTime}`}
-                      >
-                        {item?.StartingTime} TO {item?.EndingTime}
-                      </option>
-                    );
-                  })}
-                </select>
+               
                 <select
                   className={styles.opensearchinput}
                   sx={{
@@ -340,7 +304,7 @@ function Collectfee() {
                     }}
                     value={""}
                   >
-                    ALL Course
+                    ALL Class
                   </option>
 
                   {courselist?.map((item, index) => {
@@ -459,7 +423,7 @@ function Collectfee() {
                       </>
                     )}
                     <th className={styles.tableth}>Adminssion_Date</th>
-                    <th className={styles.tableth}>Registration_Fee</th>
+                    <th className={styles.tableth}>Addmission_Fee</th>
                     <th className={styles.tableth}>Status</th>
                     <th className={styles.tableth}>Total Fee</th>
                     <th className={styles.tableth}>Paid Fee</th>
@@ -523,7 +487,7 @@ function Collectfee() {
                           <button
                             disabled={
                               userdata?.data &&
-                              userdata?.data?.User?.userType === "institute"
+                              userdata?.data?.User?.userType === "school"
                                 ? false
                                 : userdata?.data &&
                                   userdata?.data[0]?.fronroficeEdit === true
@@ -534,7 +498,7 @@ function Collectfee() {
                             <img
                               className={
                                 userdata?.data &&
-                                userdata?.data?.User?.userType === "institute"
+                                userdata?.data?.User?.userType === "school"
                                   ? styles.tabkedddimgactive
                                   : userdata?.data &&
                                     userdata?.data[0]?.fronroficeEdit === true

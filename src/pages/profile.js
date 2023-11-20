@@ -1,6 +1,6 @@
 import React from "react";
 import AdminProfile from "@/component/admin/AdminProfile";
-import CollegeProfile from "@/component/college/CollegeProfile";
+import CollegeProfile from "@/component/college/Profile/CollegeProfile";
 import SchoolProfile from "@/component/Institute/Profile/SchoolProfile";
 import CoachingProfile from "@/component/Coaching/Profile/CoachingProfile";
 import EmployeeProfile from "@/component/Emplyee/EmployeeProfile";
