@@ -15,8 +15,6 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
 import UpdateAdmission from "../../../component/Institute/student/UpdateFacility";
-import IssueBook from "@/component/Institute/student/IssueBook";
-import ReturnBook from "@/component/Institute/student/ReturnBook";
 const studentStatus = [
   { label: "Active", value: "Active" },
   { label: "On Leave", value: "On Leave" },
@@ -102,14 +100,13 @@ const monthnamelist = {
   12: "December",
 };
 
-function Issuereturn() {
+function Addstudent() {
   const dispatch = useDispatch();
   let currmonth = new Date().getMonth();
   const [month, setmonth] = useState(currmonth + 1);
   const [takeatten, settakeatten] = useState(true);
   const [todatatten, settodatatten] = useState(false);
   const [Analysisatten, setAnalysisatten] = useState(false);
-  const [open, setOpen] = useState(false);
   const [openupdate, setOpenupdate] = useState(false);
   const [updatedata, setupdatedata] = useState("");
   const [sbatch, setsbatch] = useState("");
@@ -132,14 +129,6 @@ function Issuereturn() {
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="top" ref={ref} {...props} />;
   });
-  const handleClickOpen = (data) => {
-    setOpen(true);
-    setupdatedata(data);
-  };
-
-  const handleCloseregister = () => {
-    setOpen(false);
-  };
 
   const ClickOpenupdate = (data) => {
     setOpenupdate(true);
@@ -201,41 +190,21 @@ function Issuereturn() {
     dispatch(loadUser());
     dispatch(getbatch());
     dispatch(getcourse());
-    dispatch(getstudent("", "", classname, "", "", "", rollnumber, "", "", 1));
+    dispatch(getstudent("", "", classname, "", "", "", rollnumber, "", "", ""));
   }, [openupdate]);
 
   const filter = () => {
-    dispatch(getstudent("", "", classname, "", "", "", rollnumber, "", "", 1));
+    dispatch(getstudent("", "", classname, "", "", "", rollnumber, "", "", ""));
   };
   const reset = () => {
     setdate("");
     setsbatch("");
     setrollnumber("");
-    dispatch(getstudent("", "", classname, "", "", "", "", "", "", 1));
+    dispatch(getstudent("", "", "", "", "", "", "", "", "", ""));
   };
 
   return (
     <>
-      {open && (
-        <div>
-          <Dialog
-            open={open}
-            TransitionComponent={Transition}
-            onClose={handleCloseregister}
-            aria-describedby="alert-dialog-slide-description"
-            sx={{
-              "& .MuiDialog-container": {
-                "& .MuiPaper-root": {
-                  width: "100%",
-                  maxWidth: "60rem",
-                },
-              },
-            }}
-          >
-         <IssueBook setOpen={setOpen}  updatedata={updatedata}/>
-          </Dialog>
-        </div>
-      )}
       {openupdate && (
         <div>
           <Dialog
@@ -247,12 +216,12 @@ function Issuereturn() {
               "& .MuiDialog-container": {
                 "& .MuiPaper-root": {
                   width: "100%",
-                  maxWidth: "60rem",
+                  maxWidth: "21rem",
                 },
               },
             }}
           >
-            <ReturnBook setOpen={setOpenupdate} updatedata={updatedata} />
+            <UpdateAdmission setOpen={setOpenupdate} updatedata={updatedata} />
           </Dialog>
         </div>
       )}
@@ -335,117 +304,6 @@ function Issuereturn() {
                   </button>
                 </>
               )}
-
-              {Analysisatten && (
-                <>
-                  <select
-                    className={styles.opensearchinput}
-                    sx={{
-                      width: "18.8rem",
-                      fontSize: 14,
-                      "& .MuiSelect-select": {
-                        paddingTop: "0.6rem",
-                        paddingBottom: "0.6em",
-                      },
-                    }}
-                    value={classname}
-                    name="classname"
-                    onChange={(e) => {
-                      setclassname(e.target.value);
-                    }}
-                    displayEmpty
-                  >
-                    <option
-                      sx={{
-                        fontSize: 14,
-                      }}
-                      value={""}
-                    >
-                      Class
-                    </option>
-                    {courselist?.map((item, index) => {
-                      return (
-                        <option
-                          key={index}
-                          sx={{
-                            fontSize: 14,
-                          }}
-                          value={item?.coursename}
-                        >
-                          {item?.coursename}
-                        </option>
-                      );
-                    })}
-                  </select>
-                  <input
-                    className={styles.opensearchinput}
-                    type="Text"
-                    value={date}
-                    name="date"
-                    placeholder="Enter Roll Number"
-                    min={minDateTime}
-                    onChange={(e) => {
-                      setdate(e.target.value);
-                      console.log(e.target.value);
-                    }}
-                  />
-                  <button
-                    className={styles.saveattendacebutton}
-                    onClick={() => {
-                      filter();
-                    }}
-                    disabled={markloading ? true : false}
-                  >
-                    {markloading ? (
-                      <CircularProgress size={17} style={{ color: "red" }} />
-                    ) : (
-                      "Search"
-                    )}
-                  </button>
-
-                  <button
-                    className={styles.resetattendacebutton}
-                    onClick={() => reset()}
-                  >
-                    Reset
-                  </button>
-                </>
-              )}
-              <button
-                className={
-                  takeatten
-                    ? styles.searchbtnactive
-                    : styles.searchoptiondivbutton
-                }
-                onClick={() => {
-                  settakeatten(true);
-                  settodatatten(false);
-                  setAnalysisatten(false);
-
-                  setsbatch("");
-                  setclassname("");
-                }}
-              >
-                Issue Book
-              </button>
-
-              <button
-                onClick={() => {
-                  settakeatten(false);
-                  settodatatten(false);
-                  setAnalysisatten(true);
-
-                  setsbatch("");
-                  setclassname("");
-                }}
-                className={
-                  Analysisatten
-                    ? styles.searchbtnactive
-                    : styles.searchoptiondivbutton
-                }
-              >
-                Return Book
-              </button>
             </div>
             <div className={styles.imgdivformat}>
               <img
@@ -521,79 +379,8 @@ function Issuereturn() {
                                       ? styles.tabkedddimgactive
                                       : styles.tabkedddimgdisable
                                   }
-                                  onClick={() => handleClickOpen(item)}
-                                  src="/images/issuebook.png"
-                                  alt="imgss"
-                                />
-                              </button>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </>
-              )}
-
-              {Analysisatten && (
-                <>
-                  <table className={styles.tabletable}>
-                    <tbody>
-                      <tr className={styles.tabletr}>
-                        <th className={styles.tableth}>S.NO</th>
-                        <th className={styles.tableth}>Roll No</th>
-                        <th className={styles.tableth}>Student_Name</th>
-                        <th className={styles.tableth}>Student_Email</th>
-                        <th className={styles.tableth}>Student_Phone</th>
-                        <th className={styles.tableth}>Adminssion_Date</th>
-                        <th className={styles.tableth}>Class</th>
-                        <th className={styles.tableth}>Student Status</th>
-                        <th className={styles.tableth}>Action</th>
-                      </tr>
-                      {studentlist?.map((item, index) => {
-                        return (
-                          <tr key={index} className={styles.tabletr}>
-                            <td className={styles.tabletd}>{index + 1}</td>
-                            <td className={styles.tabletd}>
-                              {item?.rollnumber}
-                            </td>
-                            <td className={styles.tabletd}>{item?.name}</td>
-                            <td className={styles.tabletd}>{item?.email}</td>
-                            <td className={styles.tabletd}>{item?.phoneno1}</td>
-                            <td className={styles.tabletd}>
-                              {moment(item?.admissionDate).format("DD/MM/YYYY")}
-                            </td>
-                            <td className={styles.tabletd}>
-                              {item?.courseorclass}
-                            </td>
-
-                            <td className={styles.tabletd}>{item?.Status}</td>
-                            <td className={styles.tabkeddd}>
-                              <button
-                                disabled={
-                                  userdata?.data &&
-                                  userdata?.data?.User?.userType === "school"
-                                    ? false
-                                    : userdata?.data &&
-                                      userdata?.data?.User?.fronroficeEdit ===
-                                        true
-                                    ? false
-                                    : true
-                                }
-                              >
-                                <img
-                                  className={
-                                    userdata?.data &&
-                                    userdata?.data?.User?.userType === "school"
-                                      ? styles.tabkedddimgactive
-                                      : userdata?.data &&
-                                        userdata?.data?.User?.fronroficeEdit ===
-                                          true
-                                      ? styles.tabkedddimgactive
-                                      : styles.tabkedddimgdisable
-                                  }
                                   onClick={() => ClickOpenupdate(item)}
-                                  src="/images/issuebook.png"
+                                  src="/images/Edit.png"
                                   alt="imgss"
                                 />
                               </button>
@@ -614,4 +401,4 @@ function Issuereturn() {
   );
 }
 
-export default Issuereturn;
+export default Addstudent;

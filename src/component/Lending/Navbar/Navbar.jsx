@@ -169,7 +169,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
               </MenuItem>
             </>
           )}
-            {user?.data?.User?.userType === "school" && (
+          {user?.data?.User?.userType === "school" && (
             <>
               <MenuItem onClick={() => router.push("/profile")}>
                 <ListItemIcon>
@@ -303,8 +303,6 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       src={`${backendUrl}public/upload/${user?.data?.CredentailsData?.logourl}`}
                       alt="Logo"
                     />
-
-                   
                   </>
                 ) : (
                   <>

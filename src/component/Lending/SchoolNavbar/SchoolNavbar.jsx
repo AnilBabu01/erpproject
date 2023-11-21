@@ -307,6 +307,9 @@ const SchoolNavbar = () => {
                     <div className="main_report_dropdown_rightmargin">
                       <h1>General</h1>
                       <div className="main_innear_menu_dropdown">
+                        <Link href="/school/library/addstudent">
+                          Add Student In Library
+                        </Link>
                         <Link href="/school/library/addbook">Add Book</Link>
                         <Link href="/school/library/issuereturn">
                           Issue Return
@@ -338,13 +341,15 @@ const SchoolNavbar = () => {
                     <div className="main_report_dropdown_rightmargin">
                       <h1>General</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/school/hostel/hostelrooms">
-                          Hostel Rooms
+                        <Link href="/school/hostel/category">Add Category</Link>
+                        <Link href="/school/hostel/facility">Add Facility</Link>
+                        <Link href="/school/hostel/addhostel">Add Hostel</Link>
+                        <Link href="/school/hostel/addroom">Add Room</Link>
+                        <Link href="/school/hostel/assignhostel">
+                          Give Room To Student
                         </Link>
-                        <Link href="/school/hostel/roomtype">Room Type</Link>
-                        <Link href="/school/hostel/hostel">Hostel</Link>
-                        <Link href="/school/hostel/studenthostelreport">
-                          Student Hostel Report
+                        <Link href="/school/hostel/addstudent">
+                          Add Student In Room
                         </Link>
                       </div>
                     </div>

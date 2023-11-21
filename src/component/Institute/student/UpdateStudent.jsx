@@ -45,6 +45,8 @@ function UpdateStudent({ setOpen, updatedata }) {
   const [photo, setphoto] = useState("");
   const [adharcard, setadharcard] = useState("");
   const [marksheet, setmarksheet] = useState("");
+  const [categoryname, setcategoryname] = useState("Please Select");
+  const [categorylist, setcategorylist] = useState([]);
   const [pano, setpano] = useState("");
   const [adharcardno, setadharcardno] = useState("");
   const [fathersname, setfathersname] = useState("");
@@ -53,6 +55,9 @@ function UpdateStudent({ setOpen, updatedata }) {
   const [preview1, setpreview1] = useState("");
   const [preview2, setpreview2] = useState("");
   const [preview3, setpreview3] = useState("");
+  const [hostal, sethostal] = useState(false);
+  const [transport, settransport] = useState(false);
+  const [Library, setLibrary] = useState(false);
   const [birth, setbirth] = useState("");
   const [birthcerpreview, setbirthcerpreview] = useState("");
   const [others, setothers] = useState("");
@@ -65,7 +70,7 @@ function UpdateStudent({ setOpen, updatedata }) {
   const { fee } = useSelector((state) => state.getfee);
   const { batch } = useSelector((state) => state.getbatch);
   const { user } = useSelector((state) => state.auth);
-
+  const { category } = useSelector((state) => state.getcategory);
   const { studentaddstatus, student } = useSelector(
     (state) => state.addstudent
   );
@@ -98,6 +103,10 @@ function UpdateStudent({ setOpen, updatedata }) {
     formData.set("othersdocName", othersname);
     formData.set("BirthDocument", birth);
     formData.set("Status", status);
+    formData.set("Transport", transport);
+    formData.set("Library", Library);
+    formData.set("hostal", hostal);
+    formData.set("StudentCategory", categoryname);
     formData.set(
       "permonthfee",
       getfee === "default" ? Number(onlyshowmonthfee) : Number(monthlyfee)
@@ -129,7 +138,10 @@ function UpdateStudent({ setOpen, updatedata }) {
     if (batch) {
       setbatchs(batch);
     }
-  }, [fee, batch]);
+    if (category) {
+      setcategorylist(category);
+    }
+  }, [fee, batch, category]);
 
   const gotoreceipt = () => {
     navigation.push({
@@ -172,6 +184,10 @@ function UpdateStudent({ setOpen, updatedata }) {
       setmonthlyfee(updatedata?.permonthfee);
       setonlyshowmonthfee(updatedata?.permonthfee);
       setonlyshowrefee(updatedata?.regisgrationfee);
+      settransport(updatedata?.Transport);
+      setLibrary(updatedata?.Library);
+      sethostal(updatedata?.hostal);
+      setcategoryname(updatedata?.StudentCategory);
     }
   }, []);
   return (
@@ -186,16 +202,64 @@ function UpdateStudent({ setOpen, updatedata }) {
         <form>
           {shownext ? (
             <>
-              <div className={styles.inputdiv}>
-                <label>Admission Date</label>
-                <input
-                  required
-                  type="date"
-                  value={adminssiondate}
-                  name="adminssiondate"
-                  onChange={(e) => setadminssiondate(e.target.value)}
-                />
+              <div className={styles.divmaininput}>
+                <div className={styles.inputdiv}>
+                  <label>Admission Date</label>
+                  <input
+                    required
+                    type="date"
+                    value={adminssiondate}
+                    name="adminssiondate"
+                    onChange={(e) => setadminssiondate(e.target.value)}
+                  />
+                </div>
+                <div className={styles.inputdiv}>
+                  <label>Category</label>
+                  <Select
+                    required
+                    className={styles.addwidth}
+                    sx={{
+                      width: "18.8rem",
+                      fontSize: 14,
+                      "& .MuiSelect-select": {
+                        paddingTop: "0.6rem",
+                        paddingBottom: "0.6em",
+                      },
+                    }}
+                    value={categoryname}
+                    name="categoryname"
+                    onChange={(e) => setcategoryname(e.target.value)}
+                    // displayEmpty
+                  >
+                    <MenuItem
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={"Please Select"}
+                    >
+                      Please Select
+                    </MenuItem>
+                    {categorylist?.map((item, index) => {
+                      return (
+                        <MenuItem
+                          key={index}
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={item?.category}
+                        >
+                          {item?.category}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </div>
+                <div className={styles.inputdiv}>
+                  <label>&nbsp;</label>
+                  <label>&nbsp;</label>
+                </div>
               </div>
+
               <div className={styles.divmaininput}>
                 <div className={styles.inputdiv}>
                   <label>Student Name</label>
@@ -744,6 +808,116 @@ function UpdateStudent({ setOpen, updatedata }) {
                   ) : (
                     <></>
                   )}
+                  <div className={styles.divmaininput}>
+                    <div className={styles.inputdiv}>
+                      <label>Hostal</label>
+                      <Select
+                        required
+                        className={styles.addwidth}
+                        sx={{
+                          width: "18.8rem",
+                          fontSize: 14,
+                          "& .MuiSelect-select": {
+                            paddingTop: "0.6rem",
+                            paddingBottom: "0.6em",
+                          },
+                        }}
+                        value={hostal}
+                        name="hostal"
+                        onChange={(e) => sethostal(e.target.value)}
+                        displayEmpty
+                      >
+                        <MenuItem
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={false}
+                        >
+                          No
+                        </MenuItem>
+                        <MenuItem
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={true}
+                        >
+                          Yes
+                        </MenuItem>
+                      </Select>
+                    </div>
+                    <div className={styles.inputdiv}>
+                      <label>Transport</label>
+                      <Select
+                        required
+                        className={styles.addwidth}
+                        sx={{
+                          width: "18.8rem",
+                          fontSize: 14,
+                          "& .MuiSelect-select": {
+                            paddingTop: "0.6rem",
+                            paddingBottom: "0.6em",
+                          },
+                        }}
+                        value={transport}
+                        name="transport"
+                        onChange={(e) => settransport(e.target.value)}
+                        displayEmpty
+                      >
+                        <MenuItem
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={false}
+                        >
+                          No
+                        </MenuItem>
+                        <MenuItem
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={true}
+                        >
+                          Yes
+                        </MenuItem>
+                      </Select>
+                    </div>
+                    <div className={styles.inputdiv}>
+                      <label>Library</label>
+                      <Select
+                        required
+                        className={styles.addwidth}
+                        sx={{
+                          width: "18.8rem",
+                          fontSize: 14,
+                          "& .MuiSelect-select": {
+                            paddingTop: "0.6rem",
+                            paddingBottom: "0.6em",
+                          },
+                        }}
+                        value={Library}
+                        name="Library"
+                        onChange={(e) => setLibrary(e.target.value)}
+                        displayEmpty
+                      >
+                        <MenuItem
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={false}
+                        >
+                          No
+                        </MenuItem>
+                        <MenuItem
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={true}
+                        >
+                          Yes
+                        </MenuItem>
+                      </Select>
+                    </div>
+                  </div>
                 </>
               )}
             </>

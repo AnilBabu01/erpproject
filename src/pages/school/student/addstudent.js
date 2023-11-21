@@ -7,6 +7,7 @@ import {
   getstudent,
   deletestudent,
   getfee,
+  getcategory,
 } from "../../../redux/actions/commanAction";
 import styles from "../../coaching/employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
@@ -45,18 +46,18 @@ function Admission() {
   const [courselist, setcourselist] = useState([]);
   const [status, setstatus] = useState("");
   const [rollnumber, setrollnumber] = useState("");
+  const [categoryname, setcategoryname] = useState("Please Select");
+  const [categorylist, setcategorylist] = useState([]);
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
   const { loading, student } = useSelector((state) => state.getstudent);
   const { batch } = useSelector((state) => state.getbatch);
   const { course } = useSelector((state) => state.getcourse);
+  const { category } = useSelector((state) => state.getcategory);
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="top" ref={ref} {...props} />;
-  });
 
   const handleCloseregister = () => {
     setOpen(false);
@@ -83,6 +84,10 @@ function Admission() {
   const handledelete = () => {
     dispatch(deletestudent(deleteid, setOpenalert));
   };
+  const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="top" ref={ref} {...props} />;
+  });
+
 
   useEffect(() => {
     if (student) {
@@ -97,7 +102,11 @@ function Admission() {
     if (course) {
       setcourselist(course);
     }
-  }, [student, batch, user, course]);
+    if (category) {
+      setcategorylist(category);
+    }
+   
+  }, [student, batch, user, course, category]);
   useEffect(() => {
     dispatch(getstudent());
   }, [open, openupdate, openalert]);
@@ -106,6 +115,7 @@ function Admission() {
     dispatch(getbatch());
     dispatch(getcourse());
     dispatch(getfee());
+    dispatch(getcategory());
   }, []);
 
   const filterdata = (e) => {
@@ -119,7 +129,8 @@ function Admission() {
         sstudent,
         sfathers,
         rollnumber,
-        status
+        status,
+        categoryname
       )
     );
   };
@@ -131,6 +142,7 @@ function Admission() {
     settodate("");
     setscoursename("");
     setsbatch("");
+    setcategoryname("");
     dispatch(getstudent());
   };
   return (
@@ -222,7 +234,7 @@ function Admission() {
                   name="todate"
                   onChange={(e) => settodate(e.target.value)}
                 /> */}
-               
+
                 <select
                   className={styles.opensearchinput}
                   sx={{
@@ -299,7 +311,44 @@ function Admission() {
                     );
                   })}
                 </select>
+                <select
+                  className={styles.opensearchinput}
+                  sx={{
+                    width: "18.8rem",
+                    fontSize: 14,
+                    "& .MuiSelect-select": {
+                      paddingTop: "0.6rem",
+                      paddingBottom: "0.6em",
+                    },
+                  }}
+                  value={categoryname}
+                  name="categoryname"
+                  onChange={(e) => setcategoryname(e.target.value)}
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={""}
+                  >
+                    Category
+                  </option>
 
+                  {categorylist?.map((item, index) => {
+                    return (
+                      <option
+                        key={index}
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={item?.category}
+                      >
+                        {item?.category}
+                      </option>
+                    );
+                  })}
+                </select>
                 <input
                   className={styles.opensearchinput10}
                   type="text"
@@ -370,6 +419,7 @@ function Admission() {
                     <th className={styles.tableth}>Student_Phone</th>
                     <th className={styles.tableth}>Adminssion_Date</th>
                     <th className={styles.tableth}>Class</th>
+                    <th className={styles.tableth}>Category</th>
                     <th className={styles.tableth}>Student Status</th>
                     <th className={styles.tableth}>Action</th>
                   </tr>
@@ -387,7 +437,9 @@ function Admission() {
                         <td className={styles.tabletd}>
                           {item?.courseorclass}
                         </td>
-
+                        <td className={styles.tabletd}>
+                          {item?.StudentCategory}
+                        </td>
                         <td className={styles.tabletd}>{item?.Status}</td>
                         <td className={styles.tabkeddd}>
                           <button

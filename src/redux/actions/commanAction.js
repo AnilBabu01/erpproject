@@ -1040,7 +1040,9 @@ export const getstudent =
     sstudent,
     sfathers,
     rollnumber,
-    status
+    status,
+    categoryname,
+    library
   ) =>
   async (dispatch) => {
     try {
@@ -1058,11 +1060,13 @@ export const getstudent =
         sfathers ||
         sstudent ||
         rollnumber ||
-        status
+        status ||
+        categoryname ||
+        library
       ) {
         dispatch({ type: ALL_STUDENT_REQUEST });
         const { data } = await axios.get(
-          `${backendApiUrl}student/addstudent?name=${scoursename}&batch=${sbatch}&fromdate=${fromdate}&todate=${todate}&fathers=${sfathers}&studentname=${sstudent}&rollnumber=${rollnumber}&status=${status}`,
+          `${backendApiUrl}student/addstudent?name=${scoursename}&batch=${sbatch}&fromdate=${fromdate}&todate=${todate}&fathers=${sfathers}&studentname=${sstudent}&rollnumber=${rollnumber}&status=${status}&categoryname=${categoryname}&library=${library}`,
           config
         );
         dispatch({
@@ -1192,43 +1196,44 @@ export const deleteEmployee = (deleteid, setOpenalert) => async (dispatch) => {
 };
 
 // Get all Enquiry
-export const getEmployee = (fromdate, todate, sstudent,status) => async (dispatch) => {
-  try {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `${localStorage.getItem("erptoken")}`,
-      },
-    };
-    dispatch({ type: ALL_EMPLOYEETYPE_REQUEST });
-    if (fromdate || todate || sstudent||status) {
-      dispatch({ type: ALL_STUDENT_REQUEST });
-      const { data } = await axios.get(
-        `${backendApiUrl}comman/allemployee?name=${sstudent}&fromdate=${fromdate}&todate=${todate}&status=${status}`,
-        config
-      );
-      dispatch({
-        type: ALL_EMPLOYEETYPE_SUCCESS,
-        payload: data?.data,
-      });
-    } else {
-      const { data } = await axios.get(
-        `${backendApiUrl}comman/allemployee`,
-        config
-      );
+export const getEmployee =
+  (fromdate, todate, sstudent, status) => async (dispatch) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${localStorage.getItem("erptoken")}`,
+        },
+      };
+      dispatch({ type: ALL_EMPLOYEETYPE_REQUEST });
+      if (fromdate || todate || sstudent || status) {
+        dispatch({ type: ALL_STUDENT_REQUEST });
+        const { data } = await axios.get(
+          `${backendApiUrl}comman/allemployee?name=${sstudent}&fromdate=${fromdate}&todate=${todate}&status=${status}`,
+          config
+        );
+        dispatch({
+          type: ALL_EMPLOYEETYPE_SUCCESS,
+          payload: data?.data,
+        });
+      } else {
+        const { data } = await axios.get(
+          `${backendApiUrl}comman/allemployee`,
+          config
+        );
 
+        dispatch({
+          type: ALL_EMPLOYEETYPE_SUCCESS,
+          payload: data?.data,
+        });
+      }
+    } catch (error) {
       dispatch({
-        type: ALL_EMPLOYEETYPE_SUCCESS,
-        payload: data?.data,
+        type: ALL_EMPLOYEETYPE_FAIL,
+        payload: error?.response?.data?.msg,
       });
     }
-  } catch (error) {
-    dispatch({
-      type: ALL_EMPLOYEETYPE_FAIL,
-      payload: error?.response?.data?.msg,
-    });
-  }
-};
+  };
 
 export const AddDepartment = (datas, setOpen) => async (dispatch) => {
   try {
@@ -1749,7 +1754,6 @@ export const getStudenttest = (page, limit, setPage) => async (dispatch) => {
     });
   }
 };
-
 
 export const AddReceiptPrefix = (datas, setOpen) => async (dispatch) => {
   try {

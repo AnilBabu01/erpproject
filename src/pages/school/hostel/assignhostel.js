@@ -2,11 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../redux/actions/authActions";
 import { getbatch, getstudent } from "../../../redux/actions/commanAction";
-import {
-  MarkStudentAttendance,
-  DoneStudentAttendance,
-  MonthlyStudentAttendance,
-} from "../../../redux/actions/attendanceActions";
 import { getcourse } from "../../../redux/actions/commanAction";
 import styles from "../employee/employee.module.css";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
@@ -14,95 +9,10 @@ import moment from "moment";
 import CircularProgress from "@mui/material/CircularProgress";
 import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
-import UpdateAdmission from "../../../component/Institute/student/UpdateFacility";
-import IssueBook from "@/component/Institute/student/IssueBook";
-import ReturnBook from "@/component/Institute/student/ReturnBook";
-const studentStatus = [
-  { label: "Active", value: "Active" },
-  { label: "On Leave", value: "On Leave" },
-  { label: "Left In Middle", value: "Left In Middle" },
-  { label: "Completed", value: "Completed" },
-  { label: "Unknown", value: "Unknown" },
-];
-const monthlist = [
-  {
-    id: 1,
-    name: "January",
-  },
-  {
-    id: 2,
-    name: "February",
-  },
-  {
-    id: 3,
-    name: "Mark",
-  },
-  {
-    id: 4,
-    name: "April",
-  },
-  ,
-  {
-    id: 5,
-    name: "May",
-  },
-  {
-    id: 6,
-    name: "Jun",
-  },
-  {
-    id: 7,
-    name: "July",
-  },
-  {
-    id: 8,
-    name: "August",
-  },
-  {
-    id: 8,
-    name: "September",
-  },
-  {
-    id: 10,
-    name: "October",
-  },
-  {
-    id: 11,
-    name: "November",
-  },
-  {
-    id: 12,
-    name: "December",
-  },
-];
+import IssueBook from "@/component/Institute/hostel/GIveRoom";
+import ReturnBook from "@/component/Institute/hostel/UpdateGiveRoom";
 
-const monthnamelist = {
-  1: "January",
-
-  2: "February",
-
-  3: "Mark",
-
-  4: "April",
-
-  5: "May",
-
-  6: "Jun",
-
-  7: "July",
-
-  8: "August",
-
-  9: "September",
-
-  10: "October",
-
-  11: "November",
-
-  12: "December",
-};
-
-function Issuereturn() {
+function Assignhostel() {
   const dispatch = useDispatch();
   let currmonth = new Date().getMonth();
   const [month, setmonth] = useState(currmonth + 1);
@@ -167,8 +77,6 @@ function Issuereturn() {
   );
   const { batch } = useSelector((state) => state.getbatch);
 
-  console.log("month name", monthnamelist[month?.toString()]);
-
   useEffect(() => {
     if (batch) {
       setbatchs(batch);
@@ -232,7 +140,7 @@ function Issuereturn() {
               },
             }}
           >
-         <IssueBook setOpen={setOpen}  updatedata={updatedata}/>
+            <IssueBook setOpen={setOpen} updatedata={updatedata} />
           </Dialog>
         </div>
       )}
@@ -426,7 +334,7 @@ function Issuereturn() {
                   setclassname("");
                 }}
               >
-                Issue Book
+                Assign Room
               </button>
 
               <button
@@ -444,7 +352,7 @@ function Issuereturn() {
                     : styles.searchoptiondivbutton
                 }
               >
-                Return Book
+                UnAssign Room
               </button>
             </div>
             <div className={styles.imgdivformat}>
@@ -522,7 +430,7 @@ function Issuereturn() {
                                       : styles.tabkedddimgdisable
                                   }
                                   onClick={() => handleClickOpen(item)}
-                                  src="/images/issuebook.png"
+                                  src="/images/hostelicon.png"
                                   alt="imgss"
                                 />
                               </button>
@@ -593,7 +501,7 @@ function Issuereturn() {
                                       : styles.tabkedddimgdisable
                                   }
                                   onClick={() => ClickOpenupdate(item)}
-                                  src="/images/issuebook.png"
+                                  src="/images/hostelicon.png"
                                   alt="imgss"
                                 />
                               </button>
@@ -614,4 +522,4 @@ function Issuereturn() {
   );
 }
 
-export default Issuereturn;
+export default Assignhostel;

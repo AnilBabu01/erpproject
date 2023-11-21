@@ -713,6 +713,40 @@
   padding-top: 0.2rem;
   padding-bottom: 0.2rem;
 }
+.backbtn {
+  width: 40%;
+  height: 35px;
+  background: #093959;
+  color: white;
+  border-radius: 7px;
+  margin: 0.5rem;
+}
+.main_img_divvvv {
+  margin-top: 3%;
+  height: 205px;
+  width: 18.7rem;
+  background: #e8e8e8;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+}
+.formdivvv_imf {
+  position: absolute;
+}
+.formdivvv_imf input {
+  height: 200px;
+  width: 16rem;
+  margin-top: 3%;
+  width: 18.7rem;
+  opacity: 0;
+}
+
+.dharamshala_imgggg {
+  height: 200px;
+  width: auto;
+}
 @media screen and (max-width: 780px) {
   .disabledinphone {
     display: none;

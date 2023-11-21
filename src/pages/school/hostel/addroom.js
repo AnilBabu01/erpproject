@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getcourse, deletecourse } from "../../../redux/actions/commanAction";
+import {
+  deletecategory,
+  getcategory,
+} from "../../../redux/actions/commanAction";
 import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -9,14 +12,12 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import AddBook from "@/component/Institute/student/AddBook";
-import UpdateBook from "@/component/Institute/student/UpdateBook";
-function Addbook() {
+import AddStudentCategory from "@/component/Institute/hostel/AddRoom";
+import UpdateCategory from "@/component/Institute/hostel/UpdateRoom";
+
+function AddRoom() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const [courses, setcourses] = useState("");
   const [openupdate, setOpenupdate] = useState(false);
   const [openalert, setOpenalert] = useState(false);
   const [updatedata, setupdatedata] = useState("");
@@ -24,7 +25,7 @@ function Addbook() {
   const [isdata, setisData] = useState([]);
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
-  const { course } = useSelector((state) => state.getcourse);
+  const { category } = useSelector((state) => state.getcategory);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -57,19 +58,19 @@ function Addbook() {
   };
 
   const handledelete = () => {
-    dispatch(deletecourse(deleteid, setOpenalert));
+    dispatch(deletecategory(deleteid, setOpenalert));
   };
 
   useEffect(() => {
-    if (course) {
-      setisData(course);
+    if (category) {
+      setisData(category);
     }
     if (user) {
       setuserdata(user);
     }
-  }, [course, user]);
+  }, [category, user]);
   useEffect(() => {
-    dispatch(getcourse());
+    dispatch(getcategory());
   }, [open, openupdate, openalert]);
 
   return (
@@ -90,11 +91,10 @@ function Addbook() {
               },
             }}
           >
-            <AddBook setOpen={setOpen} />
+            <AddStudentCategory setOpen={setOpen} />
           </Dialog>
         </div>
       )}
-
       {openupdate && (
         <div>
           <Dialog
@@ -111,7 +111,7 @@ function Addbook() {
               },
             }}
           >
-            <UpdateBook setOpen={setOpenupdate} updatedata={updatedata} />
+            <UpdateCategory setOpen={setOpenupdate} updatedata={updatedata} />
           </Dialog>
         </div>
       )}
@@ -146,44 +146,10 @@ function Addbook() {
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
               <form className={styles.searchoptiondiv}>
-                <select
-                  className={styles.opensearchinput}
-                  value={courses}
-                  name="courses"
-                  onChange={(e) => setcourses(e.target.value)}
-                  displayEmpty
-                >
-                  <option
-                    sx={{
-                      fontSize: 14,
-                    }}
-                    value={""}
-                  >
-                    All Class
-                  </option>
-                  {isdata?.map((item, index) => {
-                    return (
-                      <option
-                        key={index}
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={item?.coursename}
-                      >
-                        {item?.coursename}
-                      </option>
-                    );
-                  })}
-                </select>
                 <input
                   className={styles.opensearchinput}
                   type="text"
-                  placeholder="Search by Book Id"
-                />
-                <input
-                  className={styles.opensearchinput}
-                  type="text"
-                  placeholder="Search by Auther"
+                  placeholder="Room No"
                 />
 
                 <button>Search</button>
@@ -223,35 +189,24 @@ function Addbook() {
               }
               onClick={() => handleClickOpen()}
             >
-              Add Book
+              Add Room
             </button>
           </div>
+
           <div className={styles.add_divmarginn}>
             <div className={styles.tablecontainer}>
               <table className={styles.tabletable}>
                 <tbody>
                   <tr className={styles.tabletr}>
-                    <th className={styles.tableth}>Sr.No</th>
-                    <th className={styles.tableth}>Class_Name</th>
-                    <th className={styles.tableth}>Book Id</th>
-                    <th className={styles.tableth}>Book Title</th>
-                    <th className={styles.tableth}>Auther Name</th>
-                    <th className={styles.tableth}>Publisher</th>
-                    <th className={styles.tableth}>Public Date</th>
-                    <th className={styles.tableth}>Book Quantity</th>
+                    <th className={styles.tableth}>S.NO</th>
+                    <th className={styles.tableth}>Category_Name</th>
                     <th className={styles.tableth}>Action</th>
                   </tr>
                   {isdata?.map((item, index) => {
                     return (
                       <tr key={index} className={styles.tabletr}>
                         <td className={styles.tabletd}>{index + 1}</td>
-                        <td className={styles.tableth}>Class_Name</td>
-                        <td className={styles.tableth}>Book Id</td>
-                        <td className={styles.tableth}>Book Title</td>
-                        <td className={styles.tableth}>Auther Name</td>
-                        <td className={styles.tableth}>Publisher</td>
-                        <td className={styles.tableth}>Public Date</td>
-                        <th className={styles.tableth}>Book Quantity</th>
+                        <td className={styles.tabletd}>{item?.category}</td>
                         <td className={styles.tabkeddd}>
                           <button
                             disabled={
@@ -319,4 +274,4 @@ function Addbook() {
   );
 }
 
-export default Addbook;
+export default AddRoom;
