@@ -174,7 +174,6 @@ function AddTest({ setOpen }) {
     },
   ]);
 
-  console.log("MQR", questionItems);
 
   function addQuestionItem() {
     setquestionItems([
@@ -209,6 +208,7 @@ function AddTest({ setOpen }) {
     );
   }
 
+
   const [questionItems1, setquestionItems1] = useState([
     {
       question: "",
@@ -220,6 +220,7 @@ function AddTest({ setOpen }) {
     },
   ]);
 
+  
   function addQuestionItem1() {
     setquestionItems1([
       ...questionItems1,

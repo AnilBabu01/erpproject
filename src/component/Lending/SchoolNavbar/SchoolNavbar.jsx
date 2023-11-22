@@ -107,15 +107,6 @@ const SchoolNavbar = () => {
                       </div>
                     </div>
 
-                    {/* <div className="main_report_dropdown_rightmargin">
-                      <h1>Attendance</h1>
-                      <div className="main_innear_menu_dropdown">
-                        <Link href="/school/student/attendance">
-                          Student Attendance
-                        </Link>
-                      </div>
-                    </div> */}
-
                     <div className="main_report_dropdown_rightmargin">
                       <h1>Parent</h1>
                       <div className="main_innear_menu_dropdown">
@@ -272,13 +263,23 @@ const SchoolNavbar = () => {
                     <div className="main_report_dropdown_rightmargin">
                       <h1>General</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/school/transport/routes">Routes</Link>
-                        <Link href="/school/transport/vehicles">Vehicles</Link>
-                        <Link href="/school/transport/assingvehicles">
-                          Assing Vehicle
+                        <Link href="/school/transport/vehicletype">
+                          Add Vehicle Type
                         </Link>
-                        <Link href="/school/transport/studenttransport">
-                          Student Transport Report
+                        <Link href="/school/transport/vehicledetails">
+                          Vehicle Details
+                        </Link>
+                        <Link href="/school/transport/addroutes">
+                          Add Routes
+                        </Link>
+                        <Link href="/school/transport/adddriver">
+                          Add Driver
+                        </Link>
+                        <Link href="/school/transport/addstudent">
+                          Add Student To Transport
+                        </Link>
+                        <Link href="/school/transport/assignbus">
+                          Assign Bus To Student
                         </Link>
                       </div>
                     </div>
