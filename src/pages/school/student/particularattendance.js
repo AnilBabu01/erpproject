@@ -7,6 +7,7 @@ import {
   DoneStudentAttendance,
   MonthlyStudentAttendance,
 } from "../../../redux/actions/attendanceActions";
+import { getcourse } from "../../../redux/actions/commanAction";
 import styles from "../employee/employee.module.css";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
@@ -95,6 +96,8 @@ function ParticularStudentAttendance() {
   const [month, setmonth] = useState(currmonth + 1);
   const [rollname, setrollname] = useState("");
   const [studentname, setstudentname] = useState("");
+  const [classname, setclassname] = useState("");
+  const [courselist, setcourselist] = useState([]);
   const [sbatch, setsbatch] = useState("");
   const [date, setdate] = useState("");
   const [batchs, setbatchs] = useState([]);
@@ -137,7 +140,7 @@ function ParticularStudentAttendance() {
     (state) => state.monthlyatten
   );
   const { batch } = useSelector((state) => state.getbatch);
-
+  const { course } = useSelector((state) => state.getcourse);
   console.log("month name", monthnamelist[month?.toString()]);
 
   useEffect(() => {
@@ -158,10 +161,22 @@ function ParticularStudentAttendance() {
     if (user) {
       setuserdata(user);
     }
-  }, [markattendance, batch, isdata, doneattendance, monthlyattendance, user]);
+    if (course) {
+      setcourselist(course);
+    }
+  }, [
+    markattendance,
+    batch,
+    isdata,
+    doneattendance,
+    monthlyattendance,
+    user,
+    course,
+  ]);
 
   useEffect(() => {
     dispatch(loadUser());
+    dispatch(getbatch());
     dispatch(getbatch());
   }, []);
 
@@ -181,6 +196,45 @@ function ParticularStudentAttendance() {
         <div>
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
+              <select
+                className={styles.opensearchinput}
+                sx={{
+                  width: "18.8rem",
+                  fontSize: 14,
+                  "& .MuiSelect-select": {
+                    paddingTop: "0.6rem",
+                    paddingBottom: "0.6em",
+                  },
+                }}
+                value={classname}
+                name="classname"
+                onChange={(e) => {
+                  setclassname(e.target.value);
+                }}
+                displayEmpty
+              >
+                <option
+                  sx={{
+                    fontSize: 14,
+                  }}
+                  value={""}
+                >
+                  Class
+                </option>
+                {courselist?.map((item, index) => {
+                  return (
+                    <option
+                      key={index}
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={item?.coursename}
+                    >
+                      {item?.coursename}
+                    </option>
+                  );
+                })}
+              </select>
               <input
                 className={styles.opensearchinput}
                 type="text"
@@ -189,14 +243,6 @@ function ParticularStudentAttendance() {
                 name="rollname"
                 onChange={(e) => setrollname(e.target.value)}
               />
-              {/* <input
-                className={styles.opensearchinput}
-                type="text"
-                placeholder="Student Name"
-                value={studentname}
-                name="studentname"
-                onChange={(e) => setstudentname(e.target.value)}
-              /> */}
 
               <select
                 className={styles.opensearchinput}
@@ -246,7 +292,9 @@ function ParticularStudentAttendance() {
                         sbatch,
                         month,
                         rollname,
-                        studentname
+                        studentname,
+                        "",
+                        classname
                       )
                     );
                   }
@@ -293,7 +341,7 @@ function ParticularStudentAttendance() {
                     <th className={styles.tableth10}>
                       Father&apos;s&lsquo;Name
                     </th>
-                    <th className={styles.tableth10}>Class&lsquo;Batch</th>
+                    <th className={styles.tableth10}>Class</th>
                     <th className={styles.tableth10}>Month</th>
                     {monthly[0]?.days?.map((item, index) => {
                       return (
@@ -317,7 +365,7 @@ function ParticularStudentAttendance() {
                             {item?.student?.fathersName}
                           </td>
                           <td className={styles.tabletd}>
-                            {item?.student?.batch}
+                            {item?.student?.courseorclass}
                           </td>
                           <td className={styles.tabletd}>
                             {monthnamelist[month?.toString()]}

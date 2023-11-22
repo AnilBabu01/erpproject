@@ -128,7 +128,8 @@ function Admission() {
         sfathers,
         rollnumber,
         status,
-        categoryname
+        categoryname,
+        ""
       )
     );
   };
@@ -141,6 +142,7 @@ function Admission() {
     setscoursename("");
     setsbatch("");
     setcategoryname("");
+    setrollnumber("");
     dispatch(getstudent());
   };
   return (

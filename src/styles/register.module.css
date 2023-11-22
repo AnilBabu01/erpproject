@@ -176,7 +176,7 @@
 .selectinnear {
   display: flex;
   justify-content: space-between;
-  width: 30%;
+  width: 40%;
 }
 .selectinnearinput {
   border: 1px solid #093959;
