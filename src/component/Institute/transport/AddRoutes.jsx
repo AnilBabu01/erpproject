@@ -110,7 +110,18 @@ function AddRoutes({ setOpen }) {
                 {stop?.map((item, index) => {
                   return (
                     <tr key={index} className={styles.tabletr}>
-                      <td className={styles.tableth}>BS01</td>
+                      <td className={styles.tableth}>
+                        <div className={styles.inputdiv}>
+                       
+                          <input
+                            type="text"
+                            placeholder="Enter To Route"
+                            // value={Categoryname}
+                            // name="Categoryname"
+                            // onChange={(e) => setCategoryname(e.target.value)}
+                          />
+                        </div>
+                      </td>
                       <td className={styles.tableth}>
                         <Select
                           required

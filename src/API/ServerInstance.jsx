@@ -16,3 +16,4 @@ export const serverInstance = (path, method = "get", payload, token) => {
       .catch((err) => reject(err));
   });
 };
+

@@ -3,11 +3,11 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
-import { AddEmployee } from "../../../redux/actions/commanAction";
+import { UpdateEmployee } from "../../../redux/actions/commanAction";
 import { useDispatch, useSelector } from "react-redux";
 
 const formData = new FormData();
-function AddEmp({ setOpen }) {
+function UpdateEmp({ setOpen, updatedata }) {
   const dispatch = useDispatch();
   const [isdata, setisData] = useState([]);
   const [isdata1, setisdata1] = useState([]);
@@ -20,6 +20,7 @@ function AddEmp({ setOpen }) {
   const [empphone1, setempphone1] = useState("");
   const [empphone2, setempphone2] = useState("");
   const [joiningdate, setjoiningdate] = useState("");
+  const [resigndate, setresigndate] = useState("");
   const [leaveNo, setleaveNo] = useState("");
   const [aadharcard, setaadharcard] = useState("");
   const [Drivingimg, setDrivingimg] = useState("");
@@ -112,6 +113,7 @@ function AddEmp({ setOpen }) {
   const { user } = useSelector((state) => state.auth);
   const submit = (e) => {
     e.preventDefault();
+    formData.set("id", updatedata?.id);
     formData.set("name", empname);
     formData.set("email", empemail);
     formData.set("phoneno1", empphone1);
@@ -220,9 +222,8 @@ function AddEmp({ setOpen }) {
     formData.set("libraryDelete", libraryDelete);
 
     formData.set("report", reports);
-
     formData.set("status", status);
-    dispatch(AddEmployee(formData, setOpen));
+    dispatch(UpdateEmployee(formData, setOpen));
   };
 
   useEffect(() => {
@@ -230,21 +231,103 @@ function AddEmp({ setOpen }) {
     setisdata1(department, department);
   }, [designation]);
 
-  console.log(
-    "data from show checkbox",
-    frontoffice,
-    frontofficeR,
-    frontofficeW,
-    frontofficeE,
-    frontofficeD
-  );
+  useEffect(() => {
+    if (updatedata) {
+      setaddress(updatedata?.address);
+      setempname(updatedata?.name);
+      setempemail(updatedata?.email);
+      setdesignationname(updatedata?.employeeof);
+      setdepart(updatedata?.department);
+      setcity(updatedata?.city);
+      setstate(updatedata?.state);
+      setpincode(updatedata?.pincode);
+      setempphone1(updatedata?.phoneno1);
+      setempphone2(updatedata?.phoneno2);
+      setjoiningdate(
+        new Date(updatedata?.joiningdate).toISOString().substring(0, 10)
+      );
+      setresigndate(
+        new Date(updatedata?.resigndate).toISOString().substring(0, 10)
+      );
+      setstatus(updatedata?.status);
+      setfrontoffice(updatedata?.fronrofice);
+      setstudent(updatedata?.student);
+      setAttendance(updatedata?.attendance);
+      setAccounts(updatedata?.accounts);
+      setHumanResourse(updatedata?.HumanResource);
+      setMasters(updatedata?.master);
+      setreports(updatedata?.report);
+      setfrontofficeR(updatedata?.fronroficeRead);
+      setfrontofficeW(updatedata?.fronroficeWrite);
+      setfrontofficeE(updatedata?.fronroficeEdit);
+      setfrontofficeD(updatedata?.fronroficeDelete);
+      setstudentR(updatedata?.studentRead);
+      setstudentW(updatedata?.studentWrite);
+      setstudentE(updatedata?.studentEdit);
+      setstudentD(updatedata?.studentDelete);
+      setAttendance(updatedata?.attendance);
+      setAttendanceR(updatedata?.attendanceRead);
+      setAttendanceW(updatedata?.attendanceWrite);
+      setAttendanceE(updatedata?.attendanceEdit);
+      setAttendanceD(updatedata?.attendanceDelete);
+      setMastersR(updatedata?.masterRead);
+      setMastersW(updatedata?.masterWrite);
+      setMastersE(updatedata?.masterEdit);
+      setMastersD(updatedata?.masterDelete);
+      setHumanResourseR(updatedata?.HumanResourceRead);
+      setHumanResourseW(updatedata?.HumanResourceWrite);
+      setHumanResourseE(updatedata?.HumanResourceEdit);
+      setHumanResourseD(updatedata?.HumanResourceDelete);
+      setAccountsR(updatedata?.accountsRead);
+      setAccountsW(updatedata?.accountsWrite);
+      setAccountsE(updatedata?.accountsEdit);
+      setAccountsD(updatedata?.accountsDelete);
+      setbasicsalary(updatedata?.basicsalary);
+      // setallowance(updatedata?.Allowance);
+      // setdeduction(updatedata?.Deduction);
+      settotalsalary(updatedata?.TotalSalary);
+      setaccountholdername(updatedata?.AccountHolder);
+      setaccountNumber(updatedata?.AccountNumber);
+      setbankName(updatedata?.BankName);
+      setbranchname(updatedata?.Branch);
+      setifscCode(updatedata?.IfscCode);
+      setempId(updatedata?.empId);
+      setfathetrsname(updatedata?.FathersName);
+      setleaveNo(updatedata?.AllowLeave);
+      setallowance1(updatedata?.Allowance1);
+      setallowanceAmount1(updatedata?.AllowanceAmount1);
+      setallowance2(updatedata?.Allowance2);
+      setallowanceAmount2(updatedata?.AllowanceAmount2);
+      setallowance3(updatedata?.Allowance3);
+      setallowanceAmount3(updatedata?.AllowanceAmount3);
+      setdeduction1(updatedata?.Deduction1);
+      setdeductionAmount1(updatedata?.DeductionAmount1);
+      setdeduction2(updatedata?.Deduction2);
+      setdeductionAmount2(updatedata?.DeductionAmount2);
+      settransport(updatedata?.transport);
+      settransportRead(updatedata?.transportRead);
+      settransportEdit(updatedata?.transportEdit);
+      settransportWrite(updatedata?.transportWrite);
+      settransportDelete(updatedata?.transportDelete);
+      sethostel(updatedata?.hostel);
+      sethostelRead(updatedata?.hostelRead);
+      sethostelWrite(updatedata?.hostelWrite);
+      sethostelEdit(updatedata?.hostelEdit);
+      sethostelDelete(updatedata?.hostelDelete);
+      setlibrary(updatedata?.library);
+      setlibraryRead(updatedata?.libraryRead);
+      setlibraryWrite(updatedata?.libraryWrite);
+      setlibraryDelete(updatedata?.libraryDelete);
+      setlibraryEdit(updatedata?.libraryEdit);
+    }
+  }, []);
   return (
     <>
       <div className={styles.divmainlogin}>
         <div className={styles.closeicondiv} onClick={() => setOpen(false)}>
           <CloseIcon />
         </div>
-        <h1>Add New Employee</h1>
+        <h1>Update Employee</h1>
         <form onSubmit={submit}>
           {showpermission ? (
             <>
@@ -573,7 +656,6 @@ function AddEmp({ setOpen }) {
                     </>
                   )}
                 </div>
-
                 <div className={styles.mainperdiv}>
                   <div>
                     <input
@@ -776,9 +858,8 @@ function AddEmp({ setOpen }) {
                   )}
                 </div>
               </div>
-
               <div className={styles.logbtnstylediv}>
-                <button className={styles.logbtnstyle}>Save</button>
+                <button className={styles.logbtnstyle}>Update</button>
               </div>
             </>
           ) : (
@@ -1102,7 +1183,22 @@ function AddEmp({ setOpen }) {
                     <p>Documents</p>
                   </div>
                   <div className={styles.inputdiv20}>
-                    <label>Adhar Card</label>
+                    <div className={styles.showimgdiv10}>
+                      <label>Adhar Card</label>
+                      <div className={styles.showimgdiv}>
+                        <img
+                          className={styles.opicon10}
+                          src="/images/down.png"
+                          alt="img"
+                        />
+                        <img
+                          className={styles.opicon}
+                          src="/images/can.png"
+                          alt="img"
+                        />
+                      </div>
+                    </div>
+
                     <input
                       type="file"
                       onChange={(e) => {
@@ -1111,7 +1207,21 @@ function AddEmp({ setOpen }) {
                     />
                   </div>
                   <div className={styles.inputdiv20}>
-                    <label>Driving Licence</label>
+                    <div className={styles.showimgdiv10}>
+                      <label>Driving Licence</label>
+                      <div className={styles.showimgdiv}>
+                        <img
+                          className={styles.opicon10}
+                          src="/images/down.png"
+                          alt="img"
+                        />
+                        <img
+                          className={styles.opicon}
+                          src="/images/can.png"
+                          alt="img"
+                        />
+                      </div>
+                    </div>
                     <input
                       type="file"
                       onChange={(e) => {
@@ -1120,7 +1230,21 @@ function AddEmp({ setOpen }) {
                     />
                   </div>
                   <div className={styles.inputdiv20}>
-                    <label>10Th Marksheet</label>
+                    <div className={styles.showimgdiv10}>
+                      <label>10Th Marksheet</label>
+                      <div className={styles.showimgdiv}>
+                        <img
+                          className={styles.opicon10}
+                          src="/images/down.png"
+                          alt="img"
+                        />
+                        <img
+                          className={styles.opicon}
+                          src="/images/can.png"
+                          alt="img"
+                        />
+                      </div>
+                    </div>
                     <input
                       type="file"
                       onChange={(e) => {
@@ -1129,7 +1253,21 @@ function AddEmp({ setOpen }) {
                     />
                   </div>
                   <div className={styles.inputdiv20}>
-                    <label>12Th Marksheet</label>
+                    <div className={styles.showimgdiv10}>
+                      <label>12Th Marksheet</label>
+                      <div className={styles.showimgdiv}>
+                        <img
+                          className={styles.opicon10}
+                          src="/images/down.png"
+                          alt="img"
+                        />
+                        <img
+                          className={styles.opicon}
+                          src="/images/can.png"
+                          alt="img"
+                        />
+                      </div>
+                    </div>
                     <input
                       type="file"
                       onChange={(e) => {
@@ -1138,7 +1276,21 @@ function AddEmp({ setOpen }) {
                     />
                   </div>
                   <div className={styles.inputdiv20}>
-                    <label>Graduation Final Year</label>
+                    <div className={styles.showimgdiv10}>
+                      <label>Graduation Final Year</label>
+                      <div className={styles.showimgdiv}>
+                        <img
+                          className={styles.opicon10}
+                          src="/images/down.png"
+                          alt="img"
+                        />
+                        <img
+                          className={styles.opicon}
+                          src="/images/can.png"
+                          alt="img"
+                        />
+                      </div>
+                    </div>
                     <input
                       type="file"
                       onChange={(e) => {
@@ -1147,7 +1299,21 @@ function AddEmp({ setOpen }) {
                     />
                   </div>
                   <div className={styles.inputdiv20}>
-                    <label>Post Graduation Final Year</label>
+                    <div className={styles.showimgdiv10}>
+                      <label>Post Graduation Final Year</label>
+                      <div className={styles.showimgdiv}>
+                        <img
+                          className={styles.opicon10}
+                          src="/images/down.png"
+                          alt="img"
+                        />
+                        <img
+                          className={styles.opicon}
+                          src="/images/can.png"
+                          alt="img"
+                        />
+                      </div>
+                    </div>
                     <input
                       type="file"
                       onChange={(e) => {
@@ -1157,21 +1323,66 @@ function AddEmp({ setOpen }) {
                   </div>
                   <div className={styles.inputdiv20}>
                     <label>Others Certificates</label>
-                    <label>Certificates No 1</label>
+
+                    <div className={styles.showimgdiv10}>
+                      <label>Certificates No 1</label>
+                      <div className={styles.showimgdiv}>
+                        <img
+                          className={styles.opicon10}
+                          src="/images/down.png"
+                          alt="img"
+                        />
+                        <img
+                          className={styles.opicon}
+                          src="/images/can.png"
+                          alt="img"
+                        />
+                      </div>
+                    </div>
                     <input
                       type="file"
                       onChange={(e) => {
                         setcertificateimg1(e.target.files[0]);
                       }}
                     />
-                    <label>Certificates No 2</label>
+
+                    <div className={styles.showimgdiv10}>
+                      <label>Certificates No 2</label>
+                      <div className={styles.showimgdiv}>
+                        <img
+                          className={styles.opicon10}
+                          src="/images/down.png"
+                          alt="img"
+                        />
+                        <img
+                          className={styles.opicon}
+                          src="/images/can.png"
+                          alt="img"
+                        />
+                      </div>
+                    </div>
                     <input
                       type="file"
                       onChange={(e) => {
                         setcertificateimg2(e.target.files[0]);
                       }}
                     />
-                    <label>Certificates No 3</label>
+
+                    <div className={styles.showimgdiv10}>
+                      <label>Certificates No 3</label>
+                      <div className={styles.showimgdiv}>
+                        <img
+                          className={styles.opicon10}
+                          src="/images/down.png"
+                          alt="img"
+                        />
+                        <img
+                          className={styles.opicon}
+                          src="/images/can.png"
+                          alt="img"
+                        />
+                      </div>
+                    </div>
                     <input
                       type="file"
                       onChange={(e) => {
@@ -1404,4 +1615,4 @@ function AddEmp({ setOpen }) {
   );
 }
 
-export default AddEmp;
+export default UpdateEmp;

@@ -163,6 +163,52 @@ function AddDriver({ setOpen }) {
         <form>
           <div className={styles.divmaininput}>
             <div className={styles.inputdiv}>
+              <label>Fathers Name</label>
+              <input
+                required
+                type="text"
+                placeholder="Enter Father's Name"
+                value={fathersname}
+                name="fathersname"
+                onChange={(e) => setfathersname(e.target.value)}
+              />
+            </div>
+
+            <div className={styles.inputdiv}>
+              <label>Phone No</label>
+              <input
+                required
+                type="text"
+                placeholder="Enter Phone No"
+                value={fathersphone}
+                name="fathersphone"
+                onChange={(e) => setfathersphone(e.target.value)}
+              />
+            </div>
+            <div className={styles.inputdiv}>
+              <label>
+                <input
+                  className={styles.checkpreview}
+                  value={true}
+                  onChange={(e) => setusepreview(e.target.checked)}
+                  type="checkbox"
+                />
+                WhatsApp Use Previous
+              </label>
+              <input
+                required
+                type="text"
+                placeholder="Enter Whatsapp No"
+                value={usepreview ? fathersphone : whatsaapnumber}
+                name="whatsaapnumber"
+                onChange={(e) =>
+                  setwhatsaapnumber(usepreview ? fathersphone : e.target.value)
+                }
+              />
+            </div>
+          </div>
+          <div className={styles.divmaininput}>
+            <div className={styles.inputdiv}>
               <label>Bus No</label>
               <Select
                 required
@@ -253,52 +299,6 @@ function AddDriver({ setOpen }) {
                 value={studentemail}
                 name="studentemail"
                 onChange={(e) => setstudentemail(e.target.value)}
-              />
-            </div>
-          </div>
-          <div className={styles.divmaininput}>
-            <div className={styles.inputdiv}>
-              <label>Fathers Name</label>
-              <input
-                required
-                type="text"
-                placeholder="Enter Father's Name"
-                value={fathersname}
-                name="fathersname"
-                onChange={(e) => setfathersname(e.target.value)}
-              />
-            </div>
-
-            <div className={styles.inputdiv}>
-              <label>Phone No</label>
-              <input
-                required
-                type="text"
-                placeholder="Enter Phone No"
-                value={fathersphone}
-                name="fathersphone"
-                onChange={(e) => setfathersphone(e.target.value)}
-              />
-            </div>
-            <div className={styles.inputdiv}>
-              <label>
-                <input
-                  className={styles.checkpreview}
-                  value={true}
-                  onChange={(e) => setusepreview(e.target.checked)}
-                  type="checkbox"
-                />
-                WhatsApp Use Previous
-              </label>
-              <input
-                required
-                type="text"
-                placeholder="Enter Whatsapp No"
-                value={usepreview ? fathersphone : whatsaapnumber}
-                name="whatsaapnumber"
-                onChange={(e) =>
-                  setwhatsaapnumber(usepreview ? fathersphone : e.target.value)
-                }
               />
             </div>
           </div>

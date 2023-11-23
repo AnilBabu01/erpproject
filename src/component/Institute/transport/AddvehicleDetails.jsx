@@ -119,16 +119,6 @@ function AddvehicleDetails({ setOpen }) {
           </div>
           <div className={styles.divmaininput}>
             <div className={styles.inputdiv}>
-              <label>Registration Expires</label>
-              <input
-                type="date"
-                placeholder="Enter The Bus Number"
-                // value={Categoryname}
-                // name="Categoryname"
-                // onChange={(e) => setCategoryname(e.target.value)}
-              />
-            </div>
-            <div className={styles.inputdiv}>
               <label>Fuel Type</label>
               <input
                 type="text"
@@ -148,16 +138,16 @@ function AddvehicleDetails({ setOpen }) {
                 // onChange={(e) => setCategoryname(e.target.value)}
               />
             </div>
-          </div>
-          <div className={styles.inputdiv}>
-            <label>GPS Device URL</label>
-            <input
-              type="text"
-              placeholder="Enter The GPS Device URL"
-              // value={Categoryname}
-              // name="Categoryname"
-              // onChange={(e) => setCategoryname(e.target.value)}
-            />
+            <div className={styles.inputdiv}>
+              <label>GPS Device URL</label>
+              <input
+                type="text"
+                placeholder="Enter The GPS Device URL"
+                // value={Categoryname}
+                // name="Categoryname"
+                // onChange={(e) => setCategoryname(e.target.value)}
+              />
+            </div>
           </div>
 
           <div className={styles.logbtnstylediv}>

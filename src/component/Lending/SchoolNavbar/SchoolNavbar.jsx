@@ -359,8 +359,8 @@ const SchoolNavbar = () => {
               </div>
             </li>
           </ul>
-          <ul class="nav_menu">
-            <li class="nav_list nav_list_menu">
+          <ul className="nav_menu">
+            <li className="nav_list nav_list_menu">
               <div className="nffffav_linka">
                 <Link
                   className={
@@ -368,31 +368,57 @@ const SchoolNavbar = () => {
                       ? "link_directActive"
                       : "link_direct"
                   }
-                  href="/school/dashboard"
+                  href="/institute/dashboard"
                 >
                   Human Resource <KeyboardArrowDownIcon />
                 </Link>
               </div>
               <div className={navbar ? "dropdownscroll" : "dropdown"}>
-                <div class="dropdown-inner">
+                <div className="dropdown-inner">
                   <div className="main_report_dropdown">
                     <div className="main_report_dropdown_rightmargin">
                       <h1>General</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/school/employee/staff">Add Staff</Link>
-                        <Link href="/school/employee/attendance">
-                          Staff Attendance
+                        <Link href="/school/employee/staff">
+                          Add Employee
                         </Link>
-
-                        <Link href="/school/employee/payroll">Payroll</Link>
-                        <Link href="/school/employee/payrollreport">
-                          Payroll Report
-                        </Link>
-                        <Link href="/school/employee/department">
-                          Department
+                        <Link href="/school/employee/employeeidcard">
+                          Employee Id Card
                         </Link>
                         <Link href="/school/employee/disabledstaff">
-                          Disabled Staff
+                          Disabled Employee
+                        </Link>
+                      </div>
+                    </div>
+                    <div className="main_report_dropdown_rightmargin">
+                      <h1>Attendance</h1>
+                      <div className="main_innear_menu_dropdown">
+                        <Link href="/school/employee/attendance">
+                          Employee Attendance
+                        </Link>
+                      </div>
+
+                      <div className="main_innear_menu_dropdown">
+                        <Link href="/school/employee/addemployeeholiday">
+                          Add Holiday
+                        </Link>
+                      </div>
+                      <div className="main_innear_menu_dropdown">
+                        <Link href="/school/employee/particularemployeeattendance">
+                          Particular Employee Attendance
+                        </Link>
+                      </div>
+                    </div>
+                    <div className="main_report_dropdown_rightmargin">
+                      <h1>PayRoll</h1>
+                      <div className="main_innear_menu_dropdown">
+                        <Link href="/school/employee/payroll">
+                          Add Payroll
+                        </Link>
+                      </div>
+                      <div className="main_innear_menu_dropdown">
+                        <Link href="/school/employee/payrollreport">
+                          PayRoll Report
                         </Link>
                       </div>
                     </div>

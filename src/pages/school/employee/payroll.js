@@ -1,15 +1,48 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../redux/actions/authActions";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import styles from "./employee.module.css";
+import {
+  getEmployee,
+  deleteEmployee,
+  getDepartment,
+  getDesignation,
+} from "../../../redux/actions/commanAction";
+import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
-import AddEmp from "@/component/Institute/employee/AddEmp";
+import { Button } from "@mui/material";
+import AddEmp from "../../../component/Institute/employee/AddPayroll";
+import UpdateEmp from "../../../component/Institute/employee/UpdatePayroll";
+import LoadingSpinner from "@/component/loader/LoadingSpinner";
+import moment from "moment";
+
+const studentStatus = [
+  { label: "Active", value: "Active" },
+  { label: "On Leave", value: "On Leave" },
+  { label: "Left", value: "Left" },
+];
 function Payroll() {
   const dispatch = useDispatch();
+  const [scoursename, setscoursename] = useState("");
+  const [sfathers, setsfathers] = useState("");
+  const [sstudent, setsstudent] = useState("");
+  const [empname, setempname] = useState("");
+  const [sbatch, setsbatch] = useState("");
+  const [fromdate, setfromdate] = useState("");
+  const [todate, settodate] = useState("");
+  const [status, setstatus] = useState("");
+  const [batchs, setbatchs] = useState([]);
   const [open, setOpen] = useState(false);
-
+  const [openupdate, setOpenupdate] = useState(false);
+  const [openalert, setOpenalert] = useState(false);
+  const [updatedata, setupdatedata] = useState("");
+  const [deleteid, setdeleteid] = useState("");
+  const [isdata, setisData] = useState([]);
+  const { loading, employees } = useSelector((state) => state.getemp);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -21,10 +54,57 @@ function Payroll() {
   const handleCloseregister = () => {
     setOpen(false);
   };
+
+  const ClickOpenupdate = (data) => {
+    setOpenupdate(true);
+    setupdatedata(data);
+  };
+
+  const handleCloseupadte = () => {
+    setOpenupdate(false);
+  };
+
+  const ClickOpendelete = (id) => {
+    setOpenalert(true);
+    setdeleteid(id);
+  };
+
+  const handleClosedelete = () => {
+    setOpenalert(false);
+  };
+
+  const handledelete = () => {
+    dispatch(deleteEmployee(deleteid, setOpenalert));
+  };
+
+  useEffect(() => {
+    if (employees) {
+      setisData(employees);
+    }
+  }, [employees]);
+  useEffect(() => {
+    dispatch(getEmployee());
+  }, [open, openupdate, openalert]);
   useEffect(() => {
     dispatch(loadUser());
+    dispatch(getDepartment());
+    dispatch(getDesignation());
   }, []);
 
+  const filterdata = (e) => {
+    e.preventDefault();
+    dispatch(getEmployee(fromdate, todate, sstudent,status));
+  };
+
+  const reset = () => {
+    setsstudent("");
+    setsfathers("");
+    setfromdate("");
+    settodate("");
+    setscoursename("");
+    setsbatch("");
+    dispatch(getEmployee());
+  };
   return (
     <>
       {open && (
@@ -38,7 +118,7 @@ function Payroll() {
               "& .MuiDialog-container": {
                 "& .MuiPaper-root": {
                   width: "100%",
-                  maxWidth: "60rem",
+                  maxWidth: "70rem",
                 },
               },
             }}
@@ -47,26 +127,123 @@ function Payroll() {
           </Dialog>
         </div>
       )}
+      {openupdate && (
+        <div>
+          <Dialog
+            open={openupdate}
+            TransitionComponent={Transition}
+            onClose={handleCloseupadte}
+            aria-describedby="alert-dialog-slide-description"
+            sx={{
+              "& .MuiDialog-container": {
+                "& .MuiPaper-root": {
+                  width: "100%",
+                  maxWidth: "70rem",
+                },
+              },
+            }}
+          >
+            <UpdateEmp setOpen={setOpenupdate} updatedata={updatedata} />
+          </Dialog>
+        </div>
+      )}
+
+      {openalert && (
+        <>
+          <Dialog
+            open={openalert}
+            onClose={handleClosedelete}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"Do you want to delete"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                After delete you cannot get again
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClosedelete}>Disagree</Button>
+              <Button onClick={handledelete} autoFocus>
+                Agree
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </>
+      )}
       <div className="mainContainer">
         <div>
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
-              <form className={styles.searchoptiondiv}>
-                <div className={styles.opensearch}>
-                  <p>Joining Date</p>
-                  <span>
-                    <KeyboardArrowDownIcon />
-                  </span>
-                </div>
-                <div className={styles.opensearch}>
-                  <p>Resign Date</p>
-                  <span>
-                    <KeyboardArrowDownIcon />
-                  </span>
-                </div>
+              <form onSubmit={filterdata} className={styles.searchoptiondiv}>
+                {/* <label>Joining Date</label>
+                <input
+                  className={styles.opensearchinput}
+                  type="date"
+                  value={fromdate}
+                  name="fromdate"
+                  onChange={(e) => setfromdate(e.target.value)}
+                />
+                <label>Resign Date</label>
+                <input
+                  className={styles.opensearchinput}
+                  type="date"
+                  value={todate}
+                  name="todate"
+                  onChange={(e) => settodate(e.target.value)}
+                /> */}
+
+                <input
+                  className={styles.opensearchinput10}
+                  type="text"
+                  placeholder="Name"
+                  value={sstudent}
+                  name="sstudent}"
+                  onChange={(e) => setsstudent(e.target.value)}
+                />
+                <select
+                  className={styles.opensearchinput}
+                  sx={{
+                    width: "18.8rem",
+                    fontSize: 14,
+                    "& .MuiSelect-select": {
+                      paddingTop: "0.6rem",
+                      paddingBottom: "0.6em",
+                    },
+                  }}
+                  value={status}
+                  name="status"
+                  onChange={(e) => setstatus(e.target.value)}
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={""}
+                  >
+                    ALL Status
+                  </option>
+
+                  {studentStatus?.map((item, index) => {
+                    return (
+                      <option
+                        key={index}
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={item?.value}
+                      >
+                        {item?.value}
+                      </option>
+                    );
+                  })}
+                </select>
                 <button>Search</button>
               </form>
-              <button>Reset</button>
+              <button onClick={() => reset()}>Reset</button>
             </div>
             <div className={styles.imgdivformat}>
               <img
@@ -84,72 +261,67 @@ function Payroll() {
           </div>
 
           <div className={styles.addtopmenubar}>
-            <button onClick={() => handleClickOpen()}>Add Employee</button>
+            <button onClick={() => handleClickOpen()}>Add Payroll</button>
           </div>
           <div className={styles.add_divmarginn}>
             <div className={styles.tablecontainer}>
-              <div className={styles.tablecontainer}>
-                <table className={styles.tabletable}>
-                  <tbody>
-                    <tr className={styles.tabletr}>
-                      <th className={styles.tableth}>S.NO</th>
-                      <th className={styles.tableth}>Emp_Name</th>
-                      <th className={styles.tableth}>Emp_Email</th>
-                      <th className={styles.tableth}>Emp_Phone</th>
-                      <th className={styles.tableth}>Emp_Joining_Date</th>
-                      <th className={styles.tableth}>Emp_Resign_Date</th>
-                      <th className={styles.tableth}>Address</th>
-                      <th className={styles.tableth}>Action</th>
-                    </tr>
-                    <tr className={styles.tabletr}>
-                      <td className={styles.tabletd}>1</td>
-                      <td className={styles.tabletd}>Akash Gangwar</td>
-                      <td className={styles.tabletd}>ak12@gmail.com</td>
-                      <td className={styles.tabletd}>7505786956</td>
-                      <td className={styles.tabletd}>28/07/2023</td>
-                      <td className={styles.tabletd}>--------</td>
-                      <td className={styles.tabletd}>Bisalpur Pilibhit</td>
-                      <td className={styles.tabkeddd}>
-                        <img src="/images/Delete.png" alt="imgss" />
-                        <img src="/images/Edit.png" alt="imgss" />
-                        <img src="/images/eye.png" alt="imgss" />
-                      </td>
-                    </tr>
-                    <tr className={styles.tabletr}>
-                      <td className={styles.tabletd}>1</td>
-                      <td className={styles.tabletd}>Akash Gangwar</td>
-                      <td className={styles.tabletd}>ak12@gmail.com</td>
-                      <td className={styles.tabletd}>7505786956</td>
-                      <td className={styles.tabletd}>28/07/2023</td>
-                      <td className={styles.tabletd}>--------</td>
-                      <td className={styles.tabletd}>Bisalpur Pilibhit</td>
-                      <td className={styles.tabkeddd}>
-                        <img src="/images/Delete.png" alt="imgss" />
-                        <img src="/images/Edit.png" alt="imgss" />
-                        <img src="/images/eye.png" alt="imgss" />
-                      </td>
-                    </tr>
-                    <tr className={styles.tabletr}>
-                      <td className={styles.tabletd}>1</td>
-                      <td className={styles.tabletd}>Akash Gangwar</td>
-                      <td className={styles.tabletd}>ak12@gmail.com</td>
-                      <td className={styles.tabletd}>7505786956</td>
-                      <td className={styles.tabletd}>28/07/2023</td>
-                      <td className={styles.tabletd}>--------</td>
-                      <td className={styles.tabletd}>Bisalpur Pilibhit</td>
-                      <td className={styles.tabkeddd}>
-                        <img src="/images/Delete.png" alt="imgss" />
-                        <img src="/images/Edit.png" alt="imgss" />
-                        <img src="/images/eye.png" alt="imgss" />
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+              <table className={styles.tabletable}>
+                <tbody>
+                  <tr className={styles.tabletr}>
+                    <th className={styles.tableth}>S.NO</th>
+                    <th className={styles.tableth}>Emp_Name</th>
+                    <th className={styles.tableth}>Emp_Email</th>
+                    <th className={styles.tableth}>Emp_Phone</th>
+                    <th className={styles.tableth}>Emp_Phone</th>
+                    <th className={styles.tableth}>Designation</th>
+                    <th className={styles.tableth}>Department</th>
+                    <th className={styles.tableth}>Joining_Date</th>
+                    <th className={styles.tableth}>Resign_Date</th>
+                    <th className={styles.tableth}>Status</th>
+                    <th className={styles.tableth}>Action</th>
+                  </tr>
+                  {isdata?.map((item, index) => {
+                    return (
+                      <tr key={index} className={styles.tabletr}>
+                        <td className={styles.tabletd}>{index + 1}</td>
+                        <td className={styles.tabletd}>{item?.name}</td>
+                        <td className={styles.tabletd}>{item?.email}</td>
+                        <td className={styles.tabletd}>{item?.phoneno1}</td>
+                        <td className={styles.tabletd}>{item?.phoneno2}</td>
+                        <td className={styles.tabletd}>{item?.employeeof}</td>
+                        <td className={styles.tabletd}>{item?.department} </td>
+                        <td className={styles.tabletd}>
+                          {moment(item?.joiningdate).format("MM/DD/YYYY")}
+                        </td>
+                        <td className={styles.tabletd}>
+                          {item?.resigndate
+                            ? moment(item?.resigndate).format("MM/DD/YYYY")
+                            : "----------"}
+                        </td>
+                        <td className={styles.tabletd}>{item?.status}</td>
+                        <td className={styles.tabkeddd}>
+                          <img
+                            onClick={() => ClickOpendelete(item?.id)}
+                            src="/images/Delete.png"
+                            alt="imgss"
+                          />
+                          <img
+                            onClick={() => ClickOpenupdate(item)}
+                            src="/images/Edit.png"
+                            alt="imgss"
+                          />
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       </div>
+
+      {loading && <LoadingSpinner />}
     </>
   );
 }

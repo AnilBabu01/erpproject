@@ -91,13 +91,13 @@ const monthnamelist = {
   12: "December",
 };
 
-function Attendance() {
+function Particularemployeeattendance() {
   const dispatch = useDispatch();
   let currmonth = new Date().getMonth();
   const [month, setmonth] = useState(currmonth + 1);
-  const [takeatten, settakeatten] = useState(true);
+  const [takeatten, settakeatten] = useState(false);
   const [todatatten, settodatatten] = useState(false);
-  const [Analysisatten, setAnalysisatten] = useState(false);
+  const [Analysisatten, setAnalysisatten] = useState(true);
   const [sbatch, setsbatch] = useState("");
   const [date, setdate] = useState("");
   const [batchs, setbatchs] = useState([]);
@@ -124,7 +124,6 @@ function Attendance() {
       institutename: "",
       attendaceStatus: "",
       attendancedate: "",
-      attendanceType: "",
     },
   ]);
   const { loading, employees } = useSelector((state) => state.getemp);
@@ -208,7 +207,7 @@ function Attendance() {
         }
 
         if (res?.status === false) {
-          toast.error(res?.msg, { autoClose: 1000 });
+          toast.error("Something Went Wrong", { autoClose: 1000 });
         }
       }
     );
@@ -216,6 +215,7 @@ function Attendance() {
   const MonthlyStudentAttendance = () => {
     const data = {
       month: month,
+      emp: Number(sbatch),
     };
     serverInstance("EmployeeAttendance/analysisattendance", "post", data).then(
       (res) => {
@@ -233,22 +233,6 @@ function Attendance() {
       }
     );
   };
-  const saveAttendance = () => {
-    const data = {
-      data: attendancedetails,
-    };
-    serverInstance("EmployeeAttendance/attendance", "put", data).then((res) => {
-      if (res?.status) {
-        toast.success(res?.msg, {
-          autoClose: 1000,
-        });
-      }
-
-      if (res?.status === false) {
-        toast.error("Something Went Wrong", { autoClose: 1000 });
-      }
-    });
-  };
 
   const endno = (date) => {
     let end = new Date(date).getDate();
@@ -260,21 +244,47 @@ function Attendance() {
         <div>
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
-              {takeatten && (
+              {Analysisatten && (
                 <>
-                  <label>Date</label>
-                  <input
+                  <select
                     className={styles.opensearchinput}
-                    type="date"
-                    value={date}
-                    name="date"
-                    min={minDateTime}
-                    onChange={(e) => {
-                      setdate(e.target.value);
-                      console.log(e.target.value);
+                    sx={{
+                      width: "18.8rem",
+                      fontSize: 14,
+                      "& .MuiSelect-select": {
+                        paddingTop: "0.6rem",
+                        paddingBottom: "0.6em",
+                      },
                     }}
-                  />
-
+                    value={month}
+                    name="month"
+                    onChange={(e) => {
+                      setmonth(e.target.value);
+                    }}
+                    displayEmpty
+                  >
+                    <option
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={""}
+                    >
+                      Month
+                    </option>
+                    {monthlist?.map((item, index) => {
+                      return (
+                        <option
+                          key={index}
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={item?.id}
+                        >
+                          {item?.name}
+                        </option>
+                      );
+                    })}
+                  </select>
                   <select
                     className={styles.opensearchinput}
                     sx={{
@@ -318,126 +328,6 @@ function Attendance() {
                   <button
                     className={styles.saveattendacebutton}
                     onClick={() => {
-                      if (date) {
-                        MarkStudentAttendance(date, sbatch);
-                      }
-                    }}
-                    // disabled={markloading ? true : false}
-                  >
-                    {markloading ? (
-                      <CircularProgress size={17} style={{ color: "red" }} />
-                    ) : (
-                      "Mark Attendance"
-                    )}
-                  </button>
-                  <button
-                    className={styles.saveattendacebutton}
-                    onClick={() => saveAttendance()}
-                  >
-                    Save
-                  </button>
-                  <button
-                    className={styles.resetattendacebutton}
-                    onClick={() => reset()}
-                  >
-                    Reset
-                  </button>
-                </>
-              )}
-              {todatatten && (
-                <>
-                  <select
-                    className={styles.opensearchinput}
-                    sx={{
-                      width: "18.8rem",
-                      fontSize: 14,
-                      "& .MuiSelect-select": {
-                        paddingTop: "0.6rem",
-                        paddingBottom: "0.6em",
-                      },
-                    }}
-                    value={sbatch}
-                    name="sbatch"
-                    onChange={(e) => {
-                      setsbatch(e.target.value);
-                      dispatch(
-                        MarkStudentAttendance(
-                          new Date().toISOString().substring(0, 10),
-                          e.target.value
-                        )
-                      );
-                    }}
-                    displayEmpty
-                  >
-                    <option
-                      sx={{
-                        fontSize: 14,
-                      }}
-                      value={""}
-                    >
-                      Batch
-                    </option>
-                    {emplist &&
-                      emplist?.map((item, index) => {
-                        return (
-                          <option
-                            key={index}
-                            sx={{
-                              fontSize: 14,
-                            }}
-                            value={item?.name}
-                          >
-                            {item?.name}
-                          </option>
-                        );
-                      })}
-                  </select>
-                </>
-              )}
-              {Analysisatten && (
-                <>
-                  <select
-                    className={styles.opensearchinput}
-                    sx={{
-                      width: "18.8rem",
-                      fontSize: 14,
-                      "& .MuiSelect-select": {
-                        paddingTop: "0.6rem",
-                        paddingBottom: "0.6em",
-                      },
-                    }}
-                    value={month}
-                    name="month"
-                    onChange={(e) => {
-                      setmonth(e.target.value);
-                    }}
-                    displayEmpty
-                  >
-                    <option
-                      sx={{
-                        fontSize: 14,
-                      }}
-                      value={""}
-                    >
-                      Month
-                    </option>
-                    {monthlist?.map((item, index) => {
-                      return (
-                        <option
-                          key={index}
-                          sx={{
-                            fontSize: 14,
-                          }}
-                          value={item?.id}
-                        >
-                          {item?.name}
-                        </option>
-                      );
-                    })}
-                  </select>
-                  <button
-                    className={styles.saveattendacebutton}
-                    onClick={() => {
                       if (month) {
                         MonthlyStudentAttendance(month);
                       }
@@ -447,27 +337,9 @@ function Attendance() {
                   </button>
                 </>
               )}
-              <button
-                className={
-                  takeatten
-                    ? styles.searchbtnactive
-                    : styles.searchoptiondivbutton
-                }
-                onClick={() => {
-                  settakeatten(true);
-                  settodatatten(false);
-                  setAnalysisatten(false);
-                  setattendancedetails("");
-                  setsbatch("");
-                }}
-              >
-                Take Attendance
-              </button>
 
               <button
                 onClick={() => {
-                  settakeatten(false);
-                  settodatatten(false);
                   setAnalysisatten(true);
                   setattendancedetails("");
                   setsbatch("");
@@ -485,7 +357,6 @@ function Attendance() {
                   <div className={styles.saveattendacebutton}>Present</div>
                   <div className={styles.resetattendacebutton}>Absent</div>
                   <div className={styles.holidaybutton}>Holiday</div>
-                  <div className={styles.holidaybutton}>On Leave</div>
                 </>
               )}
             </div>
@@ -514,8 +385,8 @@ function Attendance() {
                         <th className={styles.tableth}>Sr.NO</th>
                         <th className={styles.tableth}>Employee&lsquo;Id</th>
                         <th className={styles.tableth}>Employee&lsquo; Name</th>
+
                         <th className={styles.tableth}>Status</th>
-                        <th className={styles.tableth}>Attendance Type</th>
                       </tr>
                       {attendancedetails &&
                         attendancedetails[0]?.rollnumber != "" &&
@@ -561,30 +432,6 @@ function Attendance() {
                                 >
                                   Absent
                                 </button>
-                              </td>
-                              <td className={styles.tabletd}>
-                                <select
-                                  className={styles.opensearchinput20}
-                                  sx={{
-                                    width: "18.8rem",
-                                    fontSize: 14,
-                                    "& .MuiSelect-select": {
-                                      paddingTop: "0.6rem",
-                                      paddingBottom: "0.6em",
-                                    },
-                                  }}
-                                  value={item?.attendanceType}
-                                  onChange={(e) => {
-                                    handleItemUpdate(
-                                      item,
-                                      "attendanceType",
-                                      e.target.value
-                                    );
-                                  }}
-                                >
-                                  <option value={"Full"}>Full Day</option>
-                                  <option value={"Half"}>Half Day</option>
-                                </select>
                               </td>
                             </tr>
                           );
@@ -657,8 +504,6 @@ function Attendance() {
                                         {item?.attendaceStatusIntext ===
                                           "Present" && <>P</>}
                                         {item?.attendaceStatusIntext ===
-                                          "Present Half" && <>HD</>}
-                                        {item?.attendaceStatusIntext ===
                                           "Absent" && <>A</>}
                                         {item?.attendaceStatusIntext ===
                                           "Holiday" && <>H</>}
@@ -684,4 +529,4 @@ function Attendance() {
   );
 }
 
-export default Attendance;
+export default Particularemployeeattendance;
