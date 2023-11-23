@@ -1,37 +1,98 @@
 import React, { useState, useEffect } from "react";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { Addtest } from "../../../redux/actions/commanAction";
 import CircularProgress from "@mui/material/CircularProgress";
-
+import { serverInstance } from "../../../API/ServerInstance";
+import { toast } from "react-toastify";
 const formData = new FormData();
-function IssueBook({ setOpen }) {
+function IssueBook({ setOpen, updatedata }) {
   const dispatch = useDispatch();
-
-  const [batchs, setbatchs] = useState([]);
-  const [classlist, setclasslist] = useState([]);
-  const [courses, setcourses] = useState("");
-
+  // const [classlist, setclasslist] = useState([]);
+  // const [batchs, setbatchs] = useState([]);
+  const [rollnumber, setrollnumber] = useState("");
+  const [courseorclass, setcourseorclass] = useState("");
+  const [studentname, setstudentname] = useState("");
+  const [studentbooklist, setstudentbooklist] = useState([
+    {
+      id: "",
+      ClientCode: "",
+      courseorclass: "",
+      BookId: "",
+      BookTitle: "",
+      auther: "",
+      quantity: "",
+      addDate: "",
+      issueStatus: 0,
+    },
+  ]);
   const { course } = useSelector((state) => state.getcourse);
   const { batch } = useSelector((state) => state.getbatch);
   const { user } = useSelector((state) => state.auth);
   const { loading, test } = useSelector((state) => state.addTest);
-  ///2:39:35 PM
+
+  function handlestudentbooklistUpdate(originalDonationItem, key, value) {
+    setstudentbooklist(
+      studentbooklist.map((studentbooklist) =>
+        studentbooklist === originalDonationItem
+          ? {
+              ...studentbooklist,
+              [key]: value,
+            }
+          : studentbooklist
+      )
+    );
+  }
 
   const submit = () => {
-    dispatch(Addtest(formData, setOpen));
+    serverInstance("library/bookissue", "post", {
+      studentid: updatedata?.id,
+      rollnumber: rollnumber,
+      courseorclass: courseorclass,
+      bookDeatils: studentbooklist,
+    }).then((res) => {
+      if (res?.status === true) {
+        toast.success(res?.msg, {
+          autoClose: 1000,
+        });
+        setOpen(false);
+        // dispatch(GetBooks());
+      }
+      if (res?.status === false) {
+        toast.error(res?.msg, {
+          autoClose: 1000,
+        });
+      }
+    });
+  };
+  // useEffect(() => {
+  //   if (course) {
+  //     setclasslist(course);
+  //   }
+  //   if (batch) {
+  //     setbatchs(batch);
+  //   }
+  // }, [course, batch]);
+
+  const getstudentbook = (courseorclass) => {
+    serverInstance(
+      `library/addbook?courseorclass=${courseorclass}&studentid=${updatedata?.id}&rollnumber=${updatedata?.rollnumber}`,
+      "get"
+    ).then((res) => {
+      if (res?.status) {
+        setstudentbooklist(res?.data);
+      }
+    });
   };
   useEffect(() => {
-    if (course) {
-      setclasslist(course);
+    if (updatedata) {
+      setcourseorclass(updatedata?.courseorclass);
+      setstudentname(updatedata?.name);
+      setrollnumber(updatedata?.rollnumber);
+      getstudentbook(updatedata?.courseorclass);
     }
-    if (batch) {
-      setbatchs(batch);
-    }
-  }, [course, batch]);
+  }, []);
+
   return (
     <>
       <div className={styles.divmainlogin}>
@@ -47,9 +108,9 @@ function IssueBook({ setOpen }) {
                 required
                 type="text"
                 placeholder="Enter Name"
-                // value={testname}
-                // name="testname"
-                // onChange={(e) => settestname(e.target.value)}
+                value={studentname}
+                name="studentname"
+                onChange={(e) => setstudentname(e.target.value)}
               />
             </div>
             <div className={styles.inputdiv}>
@@ -58,9 +119,9 @@ function IssueBook({ setOpen }) {
                 required
                 type="text"
                 placeholder="Enter Class"
-                // value={testname}
-                // name="testname"
-                // onChange={(e) => settestname(e.target.value)}
+                value={courseorclass}
+                name="courseorclass"
+                onChange={(e) => setcourseorclass(e.target.value)}
               />
             </div>
             <div className={styles.inputdiv}>
@@ -69,9 +130,9 @@ function IssueBook({ setOpen }) {
                 required
                 type="text"
                 placeholder="Enter Roll Number"
-                // value={testname}
-                // name="testname"
-                // onChange={(e) => settestname(e.target.value)}
+                value={rollnumber}
+                name="rollnumber"
+                onChange={(e) => setrollnumber(e.target.value)}
               />
             </div>
           </div>
@@ -82,17 +143,30 @@ function IssueBook({ setOpen }) {
                   <th className={styles.tableth}>Book Id</th>
                   <th className={styles.tableth}>Titile</th>
                   <th className={styles.tableth}>Issue</th>
-               
                 </tr>
-
-                <tr className={styles.tabletr}>
-                  <td className={styles.tableth}>BK01</td>
-                  <td className={styles.tableth}>Hindi Book</td>
-                 
-                  <td className={styles.tableth}>
-                    <input type="checkbox" name="vehicle1" value="Bike" />
-                  </td>
-                </tr>
+                {studentbooklist?.map((item, index) => {
+                  return (
+                    <tr className={styles.tabletr}>
+                      <td className={styles.tableth}>{item?.BookId}</td>
+                      <td className={styles.tableth}>{item?.BookTitle}</td>
+                      <td className={styles.tableth}>
+                        <input
+                          type="checkbox"
+                          name="vehicle1"
+                          checked={item?.issueStatus === true}
+                          value={item?.issueStatus}
+                          onClick={() =>
+                            handlestudentbooklistUpdate(
+                              item,
+                              "issueStatus",
+                              !item?.issueStatus
+                            )
+                          }
+                        />
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

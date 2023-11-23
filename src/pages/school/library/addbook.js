@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getcourse, deletecourse } from "../../../redux/actions/commanAction";
+import { GetBooks } from "../../../redux/actions/liraryAction";
 import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -9,12 +9,18 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
 import AddBook from "@/component/Institute/student/AddBook";
 import UpdateBook from "@/component/Institute/student/UpdateBook";
+import moment from "moment";
+import { getcourse } from "@/redux/actions/commanAction";
+import { serverInstance } from "../../../API/ServerInstance";
+import { toast } from "react-toastify";
+import LoadingSpinner from "@/component/loader/LoadingSpinner";
 function Addbook() {
   const dispatch = useDispatch();
+  const [courseorclass, setcourseorclass] = useState("");
+  const [BookId, setBookId] = useState("");
+  const [auther, setauther] = useState("");
   const [open, setOpen] = useState(false);
   const [courses, setcourses] = useState("");
   const [openupdate, setOpenupdate] = useState(false);
@@ -23,8 +29,11 @@ function Addbook() {
   const [deleteid, setdeleteid] = useState("");
   const [isdata, setisData] = useState([]);
   const [userdata, setuserdata] = useState("");
+  const [courselist, setcourselist] = useState([]);
   const { user } = useSelector((state) => state.auth);
-  const { course } = useSelector((state) => state.getcourse);
+  const { loading, books } = useSelector((state) => state.GetBookslist);
+  const {course } = useSelector((state) => state.getcourse);
+
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -57,20 +66,50 @@ function Addbook() {
   };
 
   const handledelete = () => {
-    dispatch(deletecourse(deleteid, setOpenalert));
+    serverInstance("library/addbook", "delete", {
+      id: deleteid,
+    }).then((res) => {
+      if (res?.status === true) {
+        toast.success(res?.msg, {
+          autoClose: 1000,
+        });
+        dispatch(GetBooks());
+        handleClosedelete();
+      }
+      if (res?.status === false) {
+        toast.error(res?.msg, {
+          autoClose: 1000,
+        });
+        handleClosedelete();
+      }
+    });
   };
-
+  const filter = (e) => {
+    e.preventDefault();
+    dispatch(GetBooks(courseorclass, BookId, auther));
+  };
+  const reset = () => {
+    setcourseorclass("");
+    setauther("");
+    setBookId("");
+    dispatch(GetBooks());
+  };
   useEffect(() => {
-    if (course) {
-      setisData(course);
+    if (books) {
+      setisData(books);
     }
     if (user) {
       setuserdata(user);
     }
-  }, [course, user]);
+    if(course)
+    {
+      setcourselist(course);
+    }
+  }, [books, user,course]);
   useEffect(() => {
+    dispatch(GetBooks());
     dispatch(getcourse());
-  }, [open, openupdate, openalert]);
+  }, []);
 
   return (
     <>
@@ -145,12 +184,12 @@ function Addbook() {
         <div>
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
-              <form className={styles.searchoptiondiv}>
+              <form onSubmit={filter} className={styles.searchoptiondiv}>
                 <select
                   className={styles.opensearchinput}
-                  value={courses}
-                  name="courses"
-                  onChange={(e) => setcourses(e.target.value)}
+                  value={courseorclass}
+                  name="courseorclass"
+                  onChange={(e) => setcourseorclass(e.target.value)}
                   displayEmpty
                 >
                   <option
@@ -161,7 +200,7 @@ function Addbook() {
                   >
                     All Class
                   </option>
-                  {isdata?.map((item, index) => {
+                  {courselist?.map((item, index) => {
                     return (
                       <option
                         key={index}
@@ -179,16 +218,22 @@ function Addbook() {
                   className={styles.opensearchinput}
                   type="text"
                   placeholder="Search by Book Id"
+                  value={BookId}
+                  name="BookId"
+                  onChange={(e) => setBookId(e.target.value)}
                 />
                 <input
                   className={styles.opensearchinput}
                   type="text"
                   placeholder="Search by Auther"
+                  value={auther}
+                  name="auther"
+                  onChange={(e) => setauther(e.target.value)}
                 />
 
                 <button>Search</button>
               </form>
-              <button>Reset</button>
+              <button onClick={() => reset()}>Reset</button>
             </div>
             <div className={styles.imgdivformat}>
               <img
@@ -236,22 +281,25 @@ function Addbook() {
                     <th className={styles.tableth}>Book Id</th>
                     <th className={styles.tableth}>Book Title</th>
                     <th className={styles.tableth}>Auther Name</th>
-                    <th className={styles.tableth}>Publisher</th>
                     <th className={styles.tableth}>Public Date</th>
                     <th className={styles.tableth}>Book Quantity</th>
                     <th className={styles.tableth}>Action</th>
                   </tr>
+
                   {isdata?.map((item, index) => {
                     return (
                       <tr key={index} className={styles.tabletr}>
                         <td className={styles.tabletd}>{index + 1}</td>
-                        <td className={styles.tableth}>Class_Name</td>
-                        <td className={styles.tableth}>Book Id</td>
-                        <td className={styles.tableth}>Book Title</td>
-                        <td className={styles.tableth}>Auther Name</td>
-                        <td className={styles.tableth}>Publisher</td>
-                        <td className={styles.tableth}>Public Date</td>
-                        <th className={styles.tableth}>Book Quantity</th>
+                        <td className={styles.tableth}>
+                          {item?.courseorclass}
+                        </td>
+                        <td className={styles.tableth}>{item?.BookId}</td>
+                        <td className={styles.tableth}>{item?.BookTitle}</td>
+                        <td className={styles.tableth}>{item?.auther}</td>
+                        <td className={styles.tableth}>
+                          {moment(item?.addDate).format("DD/MM/YYYY")}
+                        </td>
+                        <th className={styles.tableth}>{item?.quantity}</th>
                         <td className={styles.tabkeddd}>
                           <button
                             disabled={
@@ -315,6 +363,11 @@ function Addbook() {
           </div>
         </div>
       </div>
+      {loading && (
+        <>
+          <LoadingSpinner />
+        </>
+      )}
     </>
   );
 }

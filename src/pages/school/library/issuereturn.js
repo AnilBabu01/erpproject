@@ -167,8 +167,6 @@ function Issuereturn() {
   );
   const { batch } = useSelector((state) => state.getbatch);
 
-  console.log("month name", monthnamelist[month?.toString()]);
-
   useEffect(() => {
     if (batch) {
       setbatchs(batch);
@@ -202,7 +200,7 @@ function Issuereturn() {
     dispatch(getbatch());
     dispatch(getcourse());
     dispatch(getstudent("", "", classname, "", "", "", rollnumber, "", "", 1));
-  }, [openupdate]);
+  }, []);
 
   const filter = () => {
     dispatch(getstudent("", "", classname, "", "", "", rollnumber, "", "", 1));
@@ -232,7 +230,7 @@ function Issuereturn() {
               },
             }}
           >
-         <IssueBook setOpen={setOpen}  updatedata={updatedata}/>
+            <IssueBook setOpen={setOpen} updatedata={updatedata} />
           </Dialog>
         </div>
       )}
@@ -256,6 +254,7 @@ function Issuereturn() {
           </Dialog>
         </div>
       )}
+
       <div className="mainContainer">
         <div>
           <div className={styles.topmenubar}>
