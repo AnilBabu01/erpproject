@@ -272,9 +272,6 @@ const SchoolNavbar = () => {
                         <Link href="/school/transport/addroutes">
                           Add Routes
                         </Link>
-                        <Link href="/school/transport/adddriver">
-                          Add Driver
-                        </Link>
                         <Link href="/school/transport/addstudent">
                           Add Student To Transport
                         </Link>
@@ -379,9 +376,7 @@ const SchoolNavbar = () => {
                     <div className="main_report_dropdown_rightmargin">
                       <h1>General</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/school/employee/staff">
-                          Add Employee
-                        </Link>
+                        <Link href="/school/employee/staff">Add Employee</Link>
                         <Link href="/school/employee/employeeidcard">
                           Employee Id Card
                         </Link>
@@ -412,9 +407,7 @@ const SchoolNavbar = () => {
                     <div className="main_report_dropdown_rightmargin">
                       <h1>PayRoll</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/school/employee/payroll">
-                          Add Payroll
-                        </Link>
+                        <Link href="/school/employee/payroll">Add Payroll</Link>
                       </div>
                       <div className="main_innear_menu_dropdown">
                         <Link href="/school/employee/payrollreport">

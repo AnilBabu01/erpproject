@@ -17,6 +17,7 @@ function AddVehiceType({ setOpen }) {
     };
     dispatch(Addcategory(data, setOpen));
   };
+  
   useEffect(() => {
     if (category?.status) {
       dispatch(getcategory());

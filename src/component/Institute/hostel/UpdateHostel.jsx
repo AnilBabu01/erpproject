@@ -1,27 +1,59 @@
 import React, { useState, useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
-import { getcategory, Addcategory } from "../../../redux/actions/commanAction";
-import { useDispatch, useSelector } from "react-redux";
+import { GetHostel } from "../../../redux/actions/hostelActions";
+import { useDispatch } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
-
-function UpdateHostel({ setOpen }) {
+import { toast } from "react-toastify";
+import axios from "axios";
+import { backendApiUrl, backendUrl } from "../../../config/config";
+const formData = new FormData();
+function UpdateHostel({ setOpen, updatedata }) {
   const dispatch = useDispatch();
-  const [Categoryname, setCategoryname] = useState("");
+  const [HostelName, setHostelName] = useState("");
+  const [DescripTion, setDescripTion] = useState("");
   const [previewprofile1, setpreviewprofile1] = useState("");
-  const [img1,setimg1] = useState("");
-  const { loading, category } = useSelector((state) => state.addcategory);
+  const [loading, setloading] = useState(false);
+  const [img1, setimg1] = useState("");
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
-    const data = {
-      category: Categoryname,
-    };
-    dispatch(Addcategory(data, setOpen));
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `${localStorage.getItem("erptoken")}`,
+        },
+      };
+      formData.set("id", updatedata?.id);
+      formData.set("HostelName", HostelName);
+      formData.set("DescripTion", DescripTion);
+      formData.set("Hostelurl", img1 ? img1 : updatedata?.Hostelurl);
+      const res = await axios.put(
+        `${backendApiUrl}hostel/addhostel`,
+        formData,
+        config
+      );
+
+      if (res?.data?.status === true) {
+        toast.success(res?.data?.msg, {
+          autoClose: 1000,
+        });
+        setOpen(false);
+        setloading(false);
+        dispatch(GetHostel());
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.msg, {
+        autoClose: 1000,
+      });
+    }
   };
+
   useEffect(() => {
-    if (category?.status) {
-      dispatch(getcategory());
+    if (updatedata) {
+      setHostelName(updatedata?.HostelName);
+      setDescripTion(updatedata?.DescripTion);
     }
   }, []);
 
@@ -38,9 +70,9 @@ function UpdateHostel({ setOpen }) {
             <input
               type="text"
               placeholder="Enter the Hostel Name"
-              value={Categoryname}
-              name="Categoryname"
-              onChange={(e) => setCategoryname(e.target.value)}
+              value={HostelName}
+              name="HostelName"
+              onChange={(e) => setHostelName(e.target.value)}
             />
           </div>
           <div className={styles.inputdiv20}>
@@ -48,12 +80,11 @@ function UpdateHostel({ setOpen }) {
             <input
               type="text"
               placeholder="Enter the Description"
-              value={Categoryname}
-              name="Categoryname"
-              onChange={(e) => setCategoryname(e.target.value)}
+              value={DescripTion}
+              name="DescripTion"
+              onChange={(e) => setDescripTion(e.target.value)}
             />
           </div>
-         
 
           <div className={styles.inputdiv20}>
             {previewprofile1 ? (
@@ -67,9 +98,21 @@ function UpdateHostel({ setOpen }) {
               </>
             ) : (
               <>
-                <div className={styles.main_img_divvvv}>
-                  <img src="/images/camera.png" />
-                </div>
+                {updatedata?.Hostelurl ? (
+                  <>
+                    <div className={styles.main_img_divvvv}>
+                      <img
+                        src={`${backendUrl}public/upload/${updatedata?.Hostelurl}`}
+                      />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className={styles.main_img_divvvv}>
+                      <img src="/images/camera.png" />
+                    </div>
+                  </>
+                )}
               </>
             )}
 
@@ -77,7 +120,7 @@ function UpdateHostel({ setOpen }) {
               <input
                 type="file"
                 onChange={(e) => {
-                    setimg1(e.target.files[0]);
+                  setimg1(e.target.files[0]);
                   console.log(e.target.files[0]);
                   setpreviewprofile1(URL.createObjectURL(e.target.files[0]));
                 }}
@@ -92,7 +135,7 @@ function UpdateHostel({ setOpen }) {
               {loading ? (
                 <CircularProgress size={25} style={{ color: "red" }} />
               ) : (
-                "Update Hostel"
+                "Update"
               )}
             </button>
           </div>

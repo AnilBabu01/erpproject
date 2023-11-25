@@ -764,6 +764,12 @@
   height: 200px;
   width: auto;
 }
+.typeofemployee{
+  display: flex;
+  justify-content: space-between;
+  width: 10rem;
+  margin-bottom: 0.5rem;
+}
 @media screen and (max-width: 780px) {
   .disabledinphone {
     display: none;

@@ -1,24 +1,44 @@
 import React, { useState, useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
-import { getcourse, Updatecategory } from "../../../redux/actions/commanAction";
-import { useDispatch, useSelector } from "react-redux";
+import { GetFacility } from "../../../redux/actions/hostelActions";
+import { useDispatch } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
+import { serverInstance } from "../../../API/ServerInstance";
+import { toast } from "react-toastify";
 function UpdateFacility({ updatedata, setOpen }) {
   const dispatch = useDispatch();
   const [Categoryname, setCategoryname] = useState("");
-  const { batch, loading } = useSelector((state) => state.editcategory);
+  const [loading, setloading] = useState(false);
+
   const submit = (e) => {
     e.preventDefault();
-    const data = {
+    setloading(true);
+    serverInstance("hostel/facility", "put", {
       id: updatedata?.id,
-      category: Categoryname,
-    };
-    dispatch(Updatecategory(data, setOpen));
+      roomFacility: Categoryname,
+    }).then((res) => {
+      if (res?.status === true) {
+        toast.success(res?.msg, {
+          autoClose: 1000,
+        });
+        setOpen(false);
+
+        setloading(false);
+        dispatch(GetFacility());
+      }
+      if (res?.status === false) {
+        toast.error(res?.msg, {
+          autoClose: 1000,
+        });
+
+        setloading(false);
+      }
+    });
   };
   useEffect(() => {
     if (updatedata) {
-      setCategoryname(updatedata?.category);
+      setCategoryname(updatedata?.roomFacility);
     }
   }, []);
   return (
@@ -49,7 +69,7 @@ function UpdateFacility({ updatedata, setOpen }) {
               {loading ? (
                 <CircularProgress size={25} style={{ color: "red" }} />
               ) : (
-                "Save Category"
+                "Update"
               )}
             </button>
           </div>

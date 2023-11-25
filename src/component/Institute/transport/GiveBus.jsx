@@ -150,7 +150,7 @@ function GiveBus({ setOpen }) {
               {loading ? (
                 <CircularProgress size={25} style={{ color: "red" }} />
               ) : (
-                "Save Room"
+                "Save"
               )}
             </button>
           </div>

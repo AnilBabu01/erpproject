@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  deletecategory,
-  getcategory,
-} from "../../../redux/actions/commanAction";
+import { GetHostel } from "../../../redux/actions/hostelActions";
 import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -14,6 +11,9 @@ import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
 import AddStudentCategory from "@/component/Institute/hostel/Addhostel";
 import UpdateCategory from "@/component/Institute/hostel/UpdateHostel";
+import { serverInstance } from "../../../API/ServerInstance";
+import { toast } from "react-toastify";
+import LoadingSpinner from "@/component/loader/LoadingSpinner";
 function Addhostel() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -21,10 +21,13 @@ function Addhostel() {
   const [openalert, setOpenalert] = useState(false);
   const [updatedata, setupdatedata] = useState("");
   const [deleteid, setdeleteid] = useState("");
+  const [hostelname, sethostelname] = useState("");
   const [isdata, setisData] = useState([]);
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
-  const { category } = useSelector((state) => state.getcategory);
+  const { hostel, loading } = useSelector((state) => state.GetHostel);
+
+  console.log("hostel data is ", hostel);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -57,20 +60,43 @@ function Addhostel() {
   };
 
   const handledelete = () => {
-    dispatch(deletecategory(deleteid, setOpenalert));
+    serverInstance("hostel/addhostel", "delete", {
+      id: deleteid,
+    }).then((res) => {
+      if (res?.status === true) {
+        toast.success(res?.msg, {
+          autoClose: 1000,
+        });
+        setOpenalert(false);
+        dispatch(GetHostel());
+      }
+      if (res?.status === false) {
+        toast.error(res?.msg, {
+          autoClose: 1000,
+        });
+        setOpenalert(false);
+      }
+    });
+  };
+  const filter = () => {
+    dispatch(GetHostel(hostelname));
   };
 
+  const reset = () => {
+    sethostelname("");
+    dispatch(GetHostel());
+  };
   useEffect(() => {
-    if (category) {
-      setisData(category);
+    if (hostel) {
+      setisData(hostel);
     }
     if (user) {
       setuserdata(user);
     }
-  }, [category, user]);
+  }, [hostel, user]);
   useEffect(() => {
-    dispatch(getcategory());
-  }, [open, openupdate, openalert]);
+    dispatch(GetHostel());
+  }, []);
 
   return (
     <>
@@ -128,16 +154,19 @@ function Addhostel() {
         <div>
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
-              <form className={styles.searchoptiondiv}>
+              <div className={styles.searchoptiondiv}>
                 <input
                   className={styles.opensearchinput}
                   type="text"
                   placeholder="Hostel Name"
+                  value={hostelname}
+                  name="hostelname"
+                  onChange={(e) => sethostelname(e.target.value)}
                 />
 
-                <button>Search</button>
-              </form>
-              <button>Reset</button>
+                <button onClick={() => filter()}>Search</button>
+              </div>
+              <button onClick={() => reset()}>Reset</button>
             </div>
             <div className={styles.imgdivformat}>
               <img
@@ -186,75 +215,80 @@ function Addhostel() {
                     <th className={styles.tableth}>Description</th>
                     <th className={styles.tableth}>Action</th>
                   </tr>
-                  {isdata?.map((item, index) => {
-                    return (
-                      <tr key={index} className={styles.tabletr}>
-                        <td className={styles.tabletd}>{index + 1}</td>
-                        <td className={styles.tabletd}>{item?.category}</td>
-                        <td className={styles.tabletd}>{item?.category}</td>
-                        <td className={styles.tabkeddd}>
-                          <button
-                            disabled={
-                              userdata?.data &&
-                              userdata?.data?.User?.userType === "school"
-                                ? false
-                                : userdata?.data &&
-                                  userdata?.data?.User?.masterDelete === true
-                                ? false
-                                : true
-                            }
-                          >
-                            <img
-                              className={
+                  {isdata?.length > 0 &&
+                    isdata?.map((item, index) => {
+                      return (
+                        <tr key={index} className={styles.tabletr}>
+                          <td className={styles.tabletd}>{index + 1}</td>
+                          <td className={styles.tabletd}>{item?.HostelName}</td>
+                          <td className={styles.tabletd}>
+                            {item?.DescripTion}
+                          </td>
+                          <td className={styles.tabkeddd}>
+                            <button
+                              disabled={
                                 userdata?.data &&
                                 userdata?.data?.User?.userType === "school"
-                                  ? styles.tabkedddimgactive
+                                  ? false
                                   : userdata?.data &&
                                     userdata?.data?.User?.masterDelete === true
-                                  ? styles.tabkedddimgactive
-                                  : styles.tabkedddimgdisable
+                                  ? false
+                                  : true
                               }
-                              onClick={() => ClickOpendelete(item?.id)}
-                              src="/images/Delete.png"
-                              alt="imgss"
-                            />
-                          </button>
-                          <button
-                            disabled={
-                              userdata?.data &&
-                              userdata?.data?.User?.userType === "school"
-                                ? false
-                                : userdata?.data &&
-                                  userdata?.data?.User?.masterEdit === true
-                                ? false
-                                : true
-                            }
-                          >
-                            <img
-                              className={
+                            >
+                              <img
+                                className={
+                                  userdata?.data &&
+                                  userdata?.data?.User?.userType === "school"
+                                    ? styles.tabkedddimgactive
+                                    : userdata?.data &&
+                                      userdata?.data?.User?.masterDelete ===
+                                        true
+                                    ? styles.tabkedddimgactive
+                                    : styles.tabkedddimgdisable
+                                }
+                                onClick={() => ClickOpendelete(item?.id)}
+                                src="/images/Delete.png"
+                                alt="imgss"
+                              />
+                            </button>
+                            <button
+                              disabled={
                                 userdata?.data &&
                                 userdata?.data?.User?.userType === "school"
-                                  ? styles.tabkedddimgactive
+                                  ? false
                                   : userdata?.data &&
                                     userdata?.data?.User?.masterEdit === true
-                                  ? styles.tabkedddimgactive
-                                  : styles.tabkedddimgdisable
+                                  ? false
+                                  : true
                               }
-                              onClick={() => ClickOpenupdate(item)}
-                              src="/images/Edit.png"
-                              alt="imgss"
-                            />
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                            >
+                              <img
+                                className={
+                                  userdata?.data &&
+                                  userdata?.data?.User?.userType === "school"
+                                    ? styles.tabkedddimgactive
+                                    : userdata?.data &&
+                                      userdata?.data?.User?.masterEdit === true
+                                    ? styles.tabkedddimgactive
+                                    : styles.tabkedddimgdisable
+                                }
+                                onClick={() => ClickOpenupdate(item)}
+                                src="/images/Edit.png"
+                                alt="imgss"
+                              />
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
                 </tbody>
               </table>
             </div>
           </div>
         </div>
       </div>
+      {loading&&<LoadingSpinner/>}
     </>
   );
 }

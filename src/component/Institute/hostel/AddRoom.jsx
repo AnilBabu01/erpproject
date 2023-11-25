@@ -1,29 +1,81 @@
 import React, { useState, useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
-import { getcategory, Addcategory } from "../../../redux/actions/commanAction";
+import {
+  GetCategory,
+  GetHostel,
+  GetFacility,
+  GetRoom,
+} from "../../../redux/actions/hostelActions";
 import { useDispatch, useSelector } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import { serverInstance } from "../../../API/ServerInstance";
+import { toast } from "react-toastify";
 function AddRoom({ setOpen }) {
   const dispatch = useDispatch();
-  const [Categoryname, setCategoryname] = useState("");
-
-  const { loading, category } = useSelector((state) => state.addcategory);
-
+  const [loading, setloading] = useState(false);
+  const [Facilitys, setFacilitys] = useState([]);
+  const [Categorys, setCategorys] = useState([]);
+  const [hostels, sethostels] = useState([]);
+  const [Facilityname, setFacilityname] = useState("");
+  const [categoryname, setcategoryname] = useState("");
+  const [hostelname, sethostelname] = useState("");
+  const [fromroom, setfromroom] = useState("");
+  const [toroom, settoroom] = useState("");
+  const [comment, setcomment] = useState("");
+  const [amountpermonth, setamountpermonth] = useState("");
+  const { roomfacility } = useSelector((state) => state.GetFacility);
+  const { roomcategory } = useSelector((state) => state.GetCategory);
+  const { hostel } = useSelector((state) => state.GetHostel);
   const submit = (e) => {
     e.preventDefault();
-    const data = {
-      category: Categoryname,
-    };
-    dispatch(Addcategory(data, setOpen));
+    setloading(true);
+    serverInstance("hostel/addroom", "post", {
+      HostelName: hostelname,
+      Category: categoryname,
+      Facility: Facilityname,
+      FromRoom: fromroom,
+      ToRoom: toroom,
+      PermonthFee: amountpermonth,
+    }).then((res) => {
+      if (res?.status === true) {
+        toast.success(res?.msg, {
+          autoClose: 1000,
+        });
+        setOpen(false);
+
+        setloading(false);
+        dispatch(GetRoom());
+      }
+      if (res?.status === false) {
+        toast.error(res?.msg, {
+          autoClose: 1000,
+        });
+
+        setloading(false);
+      }
+    });
   };
+
   useEffect(() => {
-    if (category?.status) {
-      dispatch(getcategory());
-    }
+    dispatch(GetCategory());
+    dispatch(GetFacility());
+    dispatch(GetHostel());
   }, []);
+
+  useEffect(() => {
+    if (roomcategory) {
+      setCategorys(roomcategory);
+    }
+    if (roomfacility) {
+      setFacilitys(roomfacility);
+    }
+    if (hostel) {
+      sethostels(hostel);
+    }
+  }, [roomcategory, roomfacility, hostel]);
 
   return (
     <>
@@ -47,27 +99,32 @@ function AddRoom({ setOpen }) {
                     paddingBottom: "0.6em",
                   },
                 }}
-                // value={hostal}
-                // name="hostal"
-                // onChange={(e) => sethostal(e.target.value)}
+                value={hostelname}
+                name="hostelname"
+                onChange={(e) => sethostelname(e.target.value)}
                 displayEmpty
               >
                 <MenuItem
                   sx={{
                     fontSize: 14,
                   }}
-                  value={false}
+                  value={""}
                 >
-                  BH1
+                  Please Select
                 </MenuItem>
-                <MenuItem
-                  sx={{
-                    fontSize: 14,
-                  }}
-                  value={true}
-                >
-                  BH1
-                </MenuItem>
+                {hostels?.map((item, index) => {
+                  return (
+                    <MenuItem
+                      key={index}
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={item?.HostelName}
+                    >
+                      {item?.HostelName}
+                    </MenuItem>
+                  );
+                })}
               </Select>
             </div>
             <div className={styles.inputdiv}>
@@ -83,27 +140,32 @@ function AddRoom({ setOpen }) {
                     paddingBottom: "0.6em",
                   },
                 }}
-                // value={transport}
-                // name="transport"
-                // onChange={(e) => settransport(e.target.value)}
+                value={categoryname}
+                name="categoryname"
+                onChange={(e) => setcategoryname(e.target.value)}
                 displayEmpty
               >
                 <MenuItem
                   sx={{
                     fontSize: 14,
                   }}
-                  value={false}
+                  value={""}
                 >
-                  2BED
+                  Please Select
                 </MenuItem>
-                <MenuItem
-                  sx={{
-                    fontSize: 14,
-                  }}
-                  value={true}
-                >
-                  2BED
-                </MenuItem>
+                {Categorys?.map((item, index) => {
+                  return (
+                    <MenuItem
+                      key={index}
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={item?.roomCategory}
+                    >
+                      {item?.roomCategory}
+                    </MenuItem>
+                  );
+                })}
               </Select>
             </div>
             <div className={styles.inputdiv}>
@@ -119,27 +181,32 @@ function AddRoom({ setOpen }) {
                     paddingBottom: "0.6em",
                   },
                 }}
-                // value={Library}
-                // name="Library"
-                // onChange={(e) => setLibrary(e.target.value)}
+                value={Facilityname}
+                name="Facilityname"
+                onChange={(e) => setFacilityname(e.target.value)}
                 displayEmpty
               >
                 <MenuItem
                   sx={{
                     fontSize: 14,
                   }}
-                  value={false}
+                  value={""}
                 >
-                  AC
+                  Please Select
                 </MenuItem>
-                <MenuItem
-                  sx={{
-                    fontSize: 14,
-                  }}
-                  value={true}
-                >
-                  AC
-                </MenuItem>
+                {Facilitys?.map((item, index) => {
+                  return (
+                    <MenuItem
+                      key={index}
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={item?.roomFacility}
+                    >
+                      {item?.roomFacility}
+                    </MenuItem>
+                  );
+                })}
               </Select>
             </div>
           </div>
@@ -149,9 +216,9 @@ function AddRoom({ setOpen }) {
               <input
                 type="text"
                 placeholder="Enter the From Room Range"
-                // value={Categoryname}
-                // name="Categoryname"
-                // onChange={(e) => setCategoryname(e.target.value)}
+                value={fromroom}
+                name="fromroom"
+                onChange={(e) => setfromroom(e.target.value)}
               />
             </div>
             <div className={styles.inputdiv}>
@@ -159,32 +226,23 @@ function AddRoom({ setOpen }) {
               <input
                 type="text"
                 placeholder="Enter the To Room Range"
-                // value={Categoryname}
-                // name="Categoryname"
-                // onChange={(e) => setCategoryname(e.target.value)}
+                value={toroom}
+                name="toroom"
+                onChange={(e) => settoroom(e.target.value)}
               />
             </div>
             <div className={styles.inputdiv}>
-              <label>Comment</label>
+              <label>Price Per Month</label>
               <input
                 type="text"
-                placeholder="Enter the Comment"
-                // value={Categoryname}
-                // name="Categoryname"
-                // onChange={(e) => setCategoryname(e.target.value)}
+                placeholder="Enter The Price Per Month"
+                value={amountpermonth}
+                name="amountpermonth"
+                onChange={(e) => setamountpermonth(e.target.value)}
               />
             </div>
           </div>
-          <div className={styles.inputdiv}>
-            <label>Price Per Month</label>
-            <input
-              type="text"
-              placeholder="Enter The Price Per Month"
-              // value={Categoryname}
-              // name="Categoryname"
-              // onChange={(e) => setCategoryname(e.target.value)}
-            />
-          </div>
+
           <div className={styles.logbtnstylediv}>
             <button
               disabled={loading ? true : false}
@@ -193,7 +251,7 @@ function AddRoom({ setOpen }) {
               {loading ? (
                 <CircularProgress size={25} style={{ color: "red" }} />
               ) : (
-                "Save Room"
+                "Save"
               )}
             </button>
           </div>

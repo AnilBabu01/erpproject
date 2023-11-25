@@ -1,27 +1,39 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
-import { getcategory, Addcategory } from "../../../redux/actions/commanAction";
-import { useDispatch, useSelector } from "react-redux";
+import { GetCategory } from "../../../redux/actions/hostelActions";
+import { useDispatch } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
+import { serverInstance } from "../../../API/ServerInstance";
+import { toast } from "react-toastify";
 function AddCategory({ setOpen }) {
   const dispatch = useDispatch();
-  const [Categoryname, setCategoryname] = useState("");
-
-  const { loading, category } = useSelector((state) => state.addcategory);
-
+  const [roomCategory, setroomCategory] = useState("");
+  const [loading, setloading] = useState(false);
   const submit = (e) => {
     e.preventDefault();
-    const data = {
-      category: Categoryname,
-    };
-    dispatch(Addcategory(data, setOpen));
+    setloading(true);
+    serverInstance("hostel/category", "post", {
+      roomCategory: roomCategory,
+    }).then((res) => {
+      if (res?.status === true) {
+        toast.success(res?.msg, {
+          autoClose: 1000,
+        });
+        setOpen(false);
+
+        setloading(false);
+        dispatch(GetCategory());
+      }
+      if (res?.status === false) {
+        toast.error(res?.msg, {
+          autoClose: 1000,
+        });
+
+        setloading(false);
+      }
+    });
   };
-  useEffect(() => {
-    if (category?.status) {
-      dispatch(getcategory());
-    }
-  }, []);
 
   return (
     <>
@@ -37,9 +49,9 @@ function AddCategory({ setOpen }) {
               <input
                 type="text"
                 placeholder="Enter the Category"
-                value={Categoryname}
-                name="Categoryname"
-                onChange={(e) => setCategoryname(e.target.value)}
+                value={roomCategory}
+                name="roomCategory"
+                onChange={(e) => setroomCategory(e.target.value)}
               />
             </div>
           </div>
@@ -51,7 +63,7 @@ function AddCategory({ setOpen }) {
               {loading ? (
                 <CircularProgress size={25} style={{ color: "red" }} />
               ) : (
-                "Save Category"
+                "Save"
               )}
             </button>
           </div>

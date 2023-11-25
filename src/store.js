@@ -77,6 +77,12 @@ import {
 } from "./redux/reducers/attendanceReducers";
 import { getChoachingMonthlyFeeReducer } from "./redux/reducers/reportReducers";
 import { GetBooks } from "./redux/reducers/libraryReducers";
+import {
+  GetCategory,
+  GetHostel,
+  GetRoom,
+  GetFacility,
+} from "./redux/reducers/hostelReducers";
 const reducer = combineReducers({
   auth: authReducer,
   user: userReducer,
@@ -146,6 +152,10 @@ const reducer = combineReducers({
   getReceiptPrint: getReceiptPrintReducer,
   getChoachingMonthlyFee: getChoachingMonthlyFeeReducer,
   GetBookslist: GetBooks,
+  GetCategory: GetCategory,
+  GetHostel: GetHostel,
+  GetRoom: GetRoom,
+  GetFacility: GetFacility,
 });
 const middlware = [thunk];
 export const store = createStore(

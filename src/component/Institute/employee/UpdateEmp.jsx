@@ -11,7 +11,8 @@ function UpdateEmp({ setOpen, updatedata }) {
   const dispatch = useDispatch();
   const [isdata, setisData] = useState([]);
   const [isdata1, setisdata1] = useState([]);
-  const [showpermission, setshowpermission] = useState(false);
+  const [showpermission, setshowpermission] = useState(true);
+  const [typeemployee, settypeemployee] = useState(true);
   const [designationname, setdesignationname] = useState("");
   const [depart, setdepart] = useState("");
   const [status, setstatus] = useState("Active");
@@ -331,533 +332,623 @@ function UpdateEmp({ setOpen, updatedata }) {
         <form onSubmit={submit}>
           {showpermission ? (
             <>
-              <div className={styles.divmaininput}>
-                <div className={styles.mainperdiv}>
-                  <div>
-                    <input
-                      type="checkbox"
-                      onChange={(e) => {
-                        setfrontoffice(e.target.checked);
-                      }}
-                    />
-                    <label className={styles.mainper}>F Office</label>
-                  </div>
-                  {frontoffice && (
-                    <>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          disabled={true}
-                          checked={frontoffice}
-                          value={frontoffice}
-                          onChange={(e) => {
-                            setfrontofficeR(e.target.checked);
-                          }}
-                        />
-                        <label>Read</label>
-                      </div>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          onChange={(e) => {
-                            setfrontofficeW(e.target.checked);
-                          }}
-                        />
-                        <label>Write</label>
-                      </div>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          onChange={(e) => {
-                            setfrontofficeE(e.target.checked);
-                          }}
-                        />
-                        <label>Edit</label>
-                      </div>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          onChange={(e) => {
-                            setfrontofficeD(e.target.checked);
-                          }}
-                        />
-                        <label>Delete</label>
-                      </div>
-                    </>
-                  )}
+              <div className={styles.typeofemployee}>
+                <div>
+                  <input
+                    type="radio"
+                    value={true}
+                    name="same"
+                    checked={typeemployee === true}
+                    onClick={() => settypeemployee(true)}
+                  />
+                  <label>Employee</label>
                 </div>
-                <div className={styles.mainperdiv}>
-                  <div>
-                    <input
-                      type="checkbox"
-                      onChange={(e) => {
-                        setstudent(e.target.checked);
-                      }}
-                    />
-                    <label className={styles.mainper}>Student</label>
-                  </div>
-                  {student && (
-                    <>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          value={student}
-                          disabled={true}
-                          checked={student}
-                          onChange={(e) => {
-                            setstudentR(e.target.checked);
-                          }}
-                        />
-                        <label>Read</label>
-                      </div>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          onChange={(e) => {
-                            setstudentW(e.target.checked);
-                          }}
-                        />
-                        <label>Write</label>
-                      </div>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          onChange={(e) => {
-                            setstudentE(e.target.checked);
-                          }}
-                        />
-                        <label>Edit</label>
-                      </div>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          onChange={(e) => {
-                            setstudentD(e.target.checked);
-                          }}
-                        />
-                        <label>Delete</label>
-                      </div>
-                    </>
-                  )}
-                </div>
-                <div className={styles.mainperdiv}>
-                  <div>
-                    <input
-                      type="checkbox"
-                      onChange={(e) => {
-                        setAttendance(e.target.checked);
-                      }}
-                    />
-                    <label className={styles.mainper}>Attendance</label>
-                  </div>
-                  {Attendance && (
-                    <>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          value={Attendance}
-                          disabled={true}
-                          checked={Attendance}
-                          onChange={(e) => {
-                            setAttendanceR(e.target.checked);
-                          }}
-                        />
-                        <label>Read</label>
-                      </div>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          onChange={(e) => {
-                            setAttendanceW(e.target.checked);
-                          }}
-                        />
-                        <label>Write</label>
-                      </div>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          onChange={(e) => {
-                            setAttendanceE(e.target.checked);
-                          }}
-                        />
-                        <label>Edit</label>
-                      </div>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          onChange={(e) => {
-                            setAttendanceD(e.target.checked);
-                          }}
-                        />
-                        <label>Delete</label>
-                      </div>
-                    </>
-                  )}
-                </div>
-                <div className={styles.mainperdiv}>
-                  <div>
-                    <input
-                      type="checkbox"
-                      onChange={(e) => {
-                        setAccounts(e.target.checked);
-                      }}
-                    />
-                    <label className={styles.mainper}>Accounts</label>
-                  </div>
-                  {Accounts && (
-                    <>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          value={Accounts}
-                          disabled={true}
-                          checked={Accounts}
-                          onChange={(e) => {
-                            setAccountsR(e.target.checked);
-                          }}
-                        />
-                        <label>Read</label>
-                      </div>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          onChange={(e) => {
-                            setAccountsW(e.target.checked);
-                          }}
-                        />
-                        <label>Write</label>
-                      </div>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          onChange={(e) => {
-                            setAccountsE(e.target.checked);
-                          }}
-                        />
-                        <label>Edit</label>
-                      </div>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          onChange={(e) => {
-                            setAccountsD(e.target.checked);
-                          }}
-                        />
-                        <label>Delete</label>
-                      </div>
-                    </>
-                  )}
-                </div>
-                <div className={styles.mainperdiv}>
-                  <div>
-                    <input
-                      type="checkbox"
-                      onChange={(e) => {
-                        setHumanResourse(e.target.checked);
-                      }}
-                    />
-                    <label className={styles.mainper}>HR</label>
-                  </div>
-                  {HumanResourse && (
-                    <>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          value={HumanResourse}
-                          disabled={true}
-                          checked={HumanResourse}
-                          onChange={(e) => {
-                            setHumanResourseR(e.target.checked);
-                          }}
-                        />
-                        <label>Read</label>
-                      </div>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          onChange={(e) => {
-                            setHumanResourseW(e.target.checked);
-                          }}
-                        />
-                        <label>Write</label>
-                      </div>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          onChange={(e) => {
-                            setHumanResourseE(e.target.checked);
-                          }}
-                        />
-                        <label>Edit</label>
-                      </div>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          onChange={(e) => {
-                            setHumanResourseD(e.target.checked);
-                          }}
-                        />
-                        <label>Delete</label>
-                      </div>
-                    </>
-                  )}
-                </div>
-                <div className={styles.mainperdiv}>
-                  <div>
-                    <input
-                      type="checkbox"
-                      onChange={(e) => {
-                        setMasters(e.target.checked);
-                      }}
-                    />
-                    <label className={styles.mainper}>Masters</label>
-                  </div>
-                  {Masters && (
-                    <>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          value={Masters}
-                          disabled={true}
-                          checked={Masters}
-                          onChange={(e) => {
-                            setMastersR(e.target.checked);
-                          }}
-                        />
-                        <label>Read</label>
-                      </div>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          onChange={(e) => {
-                            setMastersW(e.target.checked);
-                          }}
-                        />
-                        <label>Write</label>
-                      </div>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          onChange={(e) => {
-                            setMastersE(e.target.checked);
-                          }}
-                        />
-                        <label>Edit</label>
-                      </div>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          onChange={(e) => {
-                            setMastersD(e.target.checked);
-                          }}
-                        />
-                        <label>Delete</label>
-                      </div>
-                    </>
-                  )}
-                </div>
-                <div className={styles.mainperdiv}>
-                  <div>
-                    <input
-                      type="checkbox"
-                      onChange={(e) => {
-                        setreports(e.target.checked);
-                      }}
-                    />
-                    <label className={styles.mainper}>Reports</label>
-                  </div>
-                  {reports && (
-                    <>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          checked={reports}
-                          disabled={true}
-                        />
-                        <label>Read</label>
-                        <label>&nbsp;</label>
-                      </div>
-                      <div className={styles.marginper}>
-                        <label>&nbsp;</label>
-                        <label>&nbsp;</label>
-                      </div>
-                      <div className={styles.marginper}>
-                        <label>&nbsp;</label>
-                        <label>&nbsp;</label>
-                      </div>
-                      <div className={styles.marginper}>
-                        <label>&nbsp;</label>
-                        <label>&nbsp;</label>
-                      </div>
-                    </>
-                  )}
+                <div>
+                  <input
+                    type="radio"
+                    name="same"
+                    value={false}
+                    checked={typeemployee === false}
+                    onClick={() => settypeemployee(false)}
+                  />
+                  <label>Other</label>
                 </div>
               </div>
 
-              <div className={styles.divmaininput}>
-                <div className={styles.mainperdiv}>
-                  <div>
-                    <input
-                      type="checkbox"
-                      onChange={(e) => {
-                        settransport(e.target.checked);
-                      }}
-                    />
-                    <label className={styles.mainper}>Transport</label>
+              {typeemployee === true ? (
+                <>
+                  <div className={styles.divmaininput}>
+                    <div className={styles.mainperdiv}>
+                      <div>
+                        <input
+                          type="checkbox"
+                          onChange={(e) => {
+                            setfrontoffice(e.target.checked);
+                          }}
+                        />
+                        <label className={styles.mainper}>F Office</label>
+                      </div>
+                      {frontoffice && (
+                        <>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              disabled={true}
+                              checked={frontoffice}
+                              value={frontoffice}
+                              onChange={(e) => {
+                                setfrontofficeR(e.target.checked);
+                              }}
+                            />
+                            <label>Read</label>
+                          </div>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              onChange={(e) => {
+                                setfrontofficeW(e.target.checked);
+                              }}
+                            />
+                            <label>Write</label>
+                          </div>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              onChange={(e) => {
+                                setfrontofficeE(e.target.checked);
+                              }}
+                            />
+                            <label>Edit</label>
+                          </div>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              onChange={(e) => {
+                                setfrontofficeD(e.target.checked);
+                              }}
+                            />
+                            <label>Delete</label>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                    <div className={styles.mainperdiv}>
+                      <div>
+                        <input
+                          type="checkbox"
+                          onChange={(e) => {
+                            setstudent(e.target.checked);
+                          }}
+                        />
+                        <label className={styles.mainper}>Student</label>
+                      </div>
+                      {student && (
+                        <>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              value={student}
+                              disabled={true}
+                              checked={student}
+                              onChange={(e) => {
+                                setstudentR(e.target.checked);
+                              }}
+                            />
+                            <label>Read</label>
+                          </div>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              onChange={(e) => {
+                                setstudentW(e.target.checked);
+                              }}
+                            />
+                            <label>Write</label>
+                          </div>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              onChange={(e) => {
+                                setstudentE(e.target.checked);
+                              }}
+                            />
+                            <label>Edit</label>
+                          </div>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              onChange={(e) => {
+                                setstudentD(e.target.checked);
+                              }}
+                            />
+                            <label>Delete</label>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                    <div className={styles.mainperdiv}>
+                      <div>
+                        <input
+                          type="checkbox"
+                          onChange={(e) => {
+                            setAttendance(e.target.checked);
+                          }}
+                        />
+                        <label className={styles.mainper}>Attendance</label>
+                      </div>
+                      {Attendance && (
+                        <>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              value={Attendance}
+                              disabled={true}
+                              checked={Attendance}
+                              onChange={(e) => {
+                                setAttendanceR(e.target.checked);
+                              }}
+                            />
+                            <label>Read</label>
+                          </div>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              onChange={(e) => {
+                                setAttendanceW(e.target.checked);
+                              }}
+                            />
+                            <label>Write</label>
+                          </div>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              onChange={(e) => {
+                                setAttendanceE(e.target.checked);
+                              }}
+                            />
+                            <label>Edit</label>
+                          </div>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              onChange={(e) => {
+                                setAttendanceD(e.target.checked);
+                              }}
+                            />
+                            <label>Delete</label>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                    <div className={styles.mainperdiv}>
+                      <div>
+                        <input
+                          type="checkbox"
+                          onChange={(e) => {
+                            setAccounts(e.target.checked);
+                          }}
+                        />
+                        <label className={styles.mainper}>Accounts</label>
+                      </div>
+                      {Accounts && (
+                        <>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              value={Accounts}
+                              disabled={true}
+                              checked={Accounts}
+                              onChange={(e) => {
+                                setAccountsR(e.target.checked);
+                              }}
+                            />
+                            <label>Read</label>
+                          </div>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              onChange={(e) => {
+                                setAccountsW(e.target.checked);
+                              }}
+                            />
+                            <label>Write</label>
+                          </div>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              onChange={(e) => {
+                                setAccountsE(e.target.checked);
+                              }}
+                            />
+                            <label>Edit</label>
+                          </div>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              onChange={(e) => {
+                                setAccountsD(e.target.checked);
+                              }}
+                            />
+                            <label>Delete</label>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                    <div className={styles.mainperdiv}>
+                      <div>
+                        <input
+                          type="checkbox"
+                          onChange={(e) => {
+                            setHumanResourse(e.target.checked);
+                          }}
+                        />
+                        <label className={styles.mainper}>HR</label>
+                      </div>
+                      {HumanResourse && (
+                        <>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              value={HumanResourse}
+                              disabled={true}
+                              checked={HumanResourse}
+                              onChange={(e) => {
+                                setHumanResourseR(e.target.checked);
+                              }}
+                            />
+                            <label>Read</label>
+                          </div>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              onChange={(e) => {
+                                setHumanResourseW(e.target.checked);
+                              }}
+                            />
+                            <label>Write</label>
+                          </div>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              onChange={(e) => {
+                                setHumanResourseE(e.target.checked);
+                              }}
+                            />
+                            <label>Edit</label>
+                          </div>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              onChange={(e) => {
+                                setHumanResourseD(e.target.checked);
+                              }}
+                            />
+                            <label>Delete</label>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                    <div className={styles.mainperdiv}>
+                      <div>
+                        <input
+                          type="checkbox"
+                          onChange={(e) => {
+                            setMasters(e.target.checked);
+                          }}
+                        />
+                        <label className={styles.mainper}>Masters</label>
+                      </div>
+                      {Masters && (
+                        <>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              value={Masters}
+                              disabled={true}
+                              checked={Masters}
+                              onChange={(e) => {
+                                setMastersR(e.target.checked);
+                              }}
+                            />
+                            <label>Read</label>
+                          </div>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              onChange={(e) => {
+                                setMastersW(e.target.checked);
+                              }}
+                            />
+                            <label>Write</label>
+                          </div>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              onChange={(e) => {
+                                setMastersE(e.target.checked);
+                              }}
+                            />
+                            <label>Edit</label>
+                          </div>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              onChange={(e) => {
+                                setMastersD(e.target.checked);
+                              }}
+                            />
+                            <label>Delete</label>
+                          </div>
+                        </>
+                      )}
+                    </div>
+
+                    <div className={styles.mainperdiv}>
+                      <div>
+                        <input
+                          type="checkbox"
+                          onChange={(e) => {
+                            setreports(e.target.checked);
+                          }}
+                        />
+                        <label className={styles.mainper}>Reports</label>
+                      </div>
+                      {reports && (
+                        <>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              checked={reports}
+                              disabled={true}
+                            />
+                            <label>Read</label>
+                            <label>&nbsp;</label>
+                          </div>
+                          <div className={styles.marginper}>
+                            <label>&nbsp;</label>
+                            <label>&nbsp;</label>
+                          </div>
+                          <div className={styles.marginper}>
+                            <label>&nbsp;</label>
+                            <label>&nbsp;</label>
+                          </div>
+                          <div className={styles.marginper}>
+                            <label>&nbsp;</label>
+                            <label>&nbsp;</label>
+                          </div>
+                        </>
+                      )}
+                    </div>
                   </div>
-                  {transport && (
-                    <>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          value={transport}
-                          disabled={true}
-                          checked={transport}
-                          onChange={(e) => {
-                            transportRead(e.target.checked);
-                          }}
-                        />
-                        <label>Read</label>
-                      </div>
-                      <div className={styles.marginper}>
+
+                  <div className={styles.divmaininput}>
+                    <div className={styles.mainperdiv}>
+                      <div>
                         <input
                           type="checkbox"
                           onChange={(e) => {
-                            settransportWrite(e.target.checked);
+                            settransport(e.target.checked);
                           }}
                         />
-                        <label>Write</label>
+                        <label className={styles.mainper}>Transport</label>
                       </div>
-                      <div className={styles.marginper}>
+                      {transport && (
+                        <>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              value={transport}
+                              disabled={true}
+                              checked={transport}
+                              onChange={(e) => {
+                                transportRead(e.target.checked);
+                              }}
+                            />
+                            <label>Read</label>
+                          </div>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              onChange={(e) => {
+                                settransportWrite(e.target.checked);
+                              }}
+                            />
+                            <label>Write</label>
+                          </div>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              onChange={(e) => {
+                                settransportEdit(e.target.checked);
+                              }}
+                            />
+                            <label>Edit</label>
+                          </div>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              onChange={(e) => {
+                                settransportDelete(e.target.checked);
+                              }}
+                            />
+                            <label>Delete</label>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                    <div className={styles.mainperdiv}>
+                      <div>
                         <input
                           type="checkbox"
                           onChange={(e) => {
-                            settransportEdit(e.target.checked);
+                            sethostel(e.target.checked);
                           }}
                         />
-                        <label>Edit</label>
+                        <label className={styles.mainper}>Hostel</label>
                       </div>
-                      <div className={styles.marginper}>
+                      {hostel && (
+                        <>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              value={hostel}
+                              disabled={true}
+                              checked={hostel}
+                              onChange={(e) => {
+                                sethostelRead(e.target.checked);
+                              }}
+                            />
+                            <label>Read</label>
+                          </div>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              onChange={(e) => {
+                                sethostelWrite(e.target.checked);
+                              }}
+                            />
+                            <label>Write</label>
+                          </div>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              onChange={(e) => {
+                                sethostelEdit(e.target.checked);
+                              }}
+                            />
+                            <label>Edit</label>
+                          </div>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              onChange={(e) => {
+                                sethostelDelete(e.target.checked);
+                              }}
+                            />
+                            <label>Delete</label>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                    <div className={styles.mainperdiv}>
+                      <div>
                         <input
                           type="checkbox"
                           onChange={(e) => {
-                            settransportDelete(e.target.checked);
+                            setlibrary(e.target.checked);
                           }}
                         />
-                        <label>Delete</label>
+                        <label className={styles.mainper}>Library</label>
                       </div>
-                    </>
-                  )}
-                </div>
-                <div className={styles.mainperdiv}>
-                  <div>
-                    <input
-                      type="checkbox"
-                      onChange={(e) => {
-                        sethostel(e.target.checked);
-                      }}
-                    />
-                    <label className={styles.mainper}>Hostel</label>
+                      {library && (
+                        <>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              value={library}
+                              disabled={true}
+                              checked={library}
+                              onChange={(e) => {
+                                setlibraryRead(e.target.checked);
+                              }}
+                            />
+                            <label>Read</label>
+                          </div>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              onChange={(e) => {
+                                setlibraryWrite(e.target.checked);
+                              }}
+                            />
+                            <label>Write</label>
+                          </div>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              onChange={(e) => {
+                                setlibraryEdit(e.target.checked);
+                              }}
+                            />
+                            <label>Edit</label>
+                          </div>
+                          <div className={styles.marginper}>
+                            <input
+                              type="checkbox"
+                              onChange={(e) => {
+                                setlibraryDelete(e.target.checked);
+                              }}
+                            />
+                            <label>Delete</label>
+                          </div>
+                        </>
+                      )}
+                    </div>
                   </div>
-                  {hostel && (
-                    <>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          value={hostel}
-                          disabled={true}
-                          checked={hostel}
-                          onChange={(e) => {
-                            sethostelRead(e.target.checked);
+                </>
+              ) : (
+                <>
+                  <div className={styles.divmaininput}>
+                    <div className={styles.inputdiv}>
+                      <label>Bus No</label>
+                      <Select
+                        required
+                        className={styles.addwidth}
+                        sx={{
+                          width: "18.8rem",
+                          fontSize: 14,
+                          "& .MuiSelect-select": {
+                            paddingTop: "0.6rem",
+                            paddingBottom: "0.6em",
+                          },
+                        }}
+                        // value={categoryname}
+                        // name="categoryname"
+                        // onChange={(e) => setcategoryname(e.target.value)}
+                        // displayEmpty
+                      >
+                        <MenuItem
+                          sx={{
+                            fontSize: 14,
                           }}
-                        />
-                        <label>Read</label>
-                      </div>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          onChange={(e) => {
-                            sethostelWrite(e.target.checked);
-                          }}
-                        />
-                        <label>Write</label>
-                      </div>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          onChange={(e) => {
-                            sethostelEdit(e.target.checked);
-                          }}
-                        />
-                        <label>Edit</label>
-                      </div>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          onChange={(e) => {
-                            sethostelDelete(e.target.checked);
-                          }}
-                        />
-                        <label>Delete</label>
-                      </div>
-                    </>
-                  )}
-                </div>
-                <div className={styles.mainperdiv}>
-                  <div>
-                    <input
-                      type="checkbox"
-                      onChange={(e) => {
-                        setlibrary(e.target.checked);
-                      }}
-                    />
-                    <label className={styles.mainper}>Library</label>
+                          value={"Please Select"}
+                        >
+                          Please Select
+                        </MenuItem>
+                        {/* {categorylist?.map((item, index) => {
+                          return (
+                            <MenuItem
+                              key={index}
+                              sx={{
+                                fontSize: 14,
+                              }}
+                              value={item?.category}
+                            >
+                              {item?.category}
+                            </MenuItem>
+                          );
+                        })} */}
+                      </Select>
+                    </div>
+
+                    <div className={styles.inputdiv}>
+                      <label>Comment</label>
+                      <input
+                        required
+                        type="email"
+                        placeholder="Enter Comment"
+                        // value={studentemail}
+                        // name="studentemail"
+                        // onChange={(e) => setstudentemail(e.target.value)}
+                      />
+                    </div>
+                    <div className={styles.inputdiv}>
+                      <label>&nbsp;</label>
+                      <label>&nbsp;</label>
+                    </div>
                   </div>
-                  {library && (
-                    <>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          value={library}
-                          disabled={true}
-                          checked={library}
-                          onChange={(e) => {
-                            setlibraryRead(e.target.checked);
-                          }}
-                        />
-                        <label>Read</label>
-                      </div>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          onChange={(e) => {
-                            setlibraryWrite(e.target.checked);
-                          }}
-                        />
-                        <label>Write</label>
-                      </div>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          onChange={(e) => {
-                            setlibraryEdit(e.target.checked);
-                          }}
-                        />
-                        <label>Edit</label>
-                      </div>
-                      <div className={styles.marginper}>
-                        <input
-                          type="checkbox"
-                          onChange={(e) => {
-                            setlibraryDelete(e.target.checked);
-                          }}
-                        />
-                        <label>Delete</label>
-                      </div>
-                    </>
-                  )}
-                </div>
-              </div>
+                </>
+              )}
               <div className={styles.logbtnstylediv}>
                 <button className={styles.logbtnstyle}>Update</button>
               </div>
