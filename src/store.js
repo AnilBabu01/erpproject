@@ -83,6 +83,11 @@ import {
   GetRoom,
   GetFacility,
 } from "./redux/reducers/hostelReducers";
+import {
+  GetRoute,
+  GetVehicle,
+  GetVehicleType,
+} from "./redux/reducers/transportReducers";
 const reducer = combineReducers({
   auth: authReducer,
   user: userReducer,
@@ -156,6 +161,9 @@ const reducer = combineReducers({
   GetHostel: GetHostel,
   GetRoom: GetRoom,
   GetFacility: GetFacility,
+  GetRoute: GetRoute,
+  GetVehicle: GetVehicle,
+  GetVehicleType: GetVehicleType,
 });
 const middlware = [thunk];
 export const store = createStore(
