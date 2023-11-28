@@ -46,7 +46,7 @@ const SchoolNavbar = () => {
                       ? "link_directActive"
                       : "link_direct"
                   }
-                  href="/institute/dashboard"
+                  href="/school/frontoffice/enquiry"
                 >
                   Front Office <KeyboardArrowDownIcon />
                 </Link>
@@ -76,7 +76,7 @@ const SchoolNavbar = () => {
                       ? "link_directActive"
                       : "link_direct"
                   }
-                  href="/institute/dashboard"
+                  href="/school/student/admission"
                 >
                   Students <KeyboardArrowDownIcon />
                 </Link>
@@ -90,18 +90,18 @@ const SchoolNavbar = () => {
                         {/* <Link href="/school/student/registration">
                           Registration
                         </Link> */}
-                        <Link href="/school/student/admission">Admission</Link>
-                        <Link href="/school/student/addstudent">
+                        <Link href="/school/student/Admission">Admission</Link>
+                        <Link href="/school/student/AddStudent">
                           Add Student
                         </Link>
 
-                        <Link href="/school/student/studenthistory">
+                        <Link href="/school/student/Studenthistory">
                           Student History
                         </Link>
-                        <Link href="/school/student/studentlogincreadential">
+                        <Link href="/school/student/Studentlogincreadential">
                           Student Login Creadential
                         </Link>
-                        <Link href="/school/student/disabledstudent">
+                        <Link href="/school/student/Disabledstudent">
                           Disabled Students
                         </Link>
                       </div>
@@ -110,7 +110,7 @@ const SchoolNavbar = () => {
                     <div className="main_report_dropdown_rightmargin">
                       <h1>Parent</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/school/student/parentlogincreadential">
+                        <Link href="/school/student/Parentlogincreadential">
                           Parent Login Creadential
                         </Link>
                       </div>
@@ -119,25 +119,25 @@ const SchoolNavbar = () => {
                     <div className="main_report_dropdown_rightmargin">
                       <h1>Communication</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/school/student/sendmessage">
+                        <Link href="/school/student/Sendmessage">
                           Send Message
                         </Link>
                       </div>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/school/student/sendemail">Send Email</Link>
+                        <Link href="/school/student/Sendemail">Send Email</Link>
                       </div>
                     </div>
 
                     <div className="main_report_dropdown_rightmargin">
                       <h1>Certificate</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/school/student/studentcertificate">
+                        <Link href="/school/student/Studentcertificate">
                           Student Certificate
                         </Link>
                       </div>
 
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/school/student/studentidcard">
+                        <Link href="/school/student/Studentidcard">
                           Student Id Card
                         </Link>
                       </div>
@@ -146,12 +146,12 @@ const SchoolNavbar = () => {
                     <div className="main_report_dropdown_rightmargin">
                       <h1>Test</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/school/student/assignment">
+                        <Link href="/school/student/Assignment">
                           Assign Test
                         </Link>
                       </div>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/school/student/receivedassignment">
+                        <Link href="/school/student/Receivedassignment">
                           Received Test
                         </Link>
                       </div>
@@ -170,7 +170,7 @@ const SchoolNavbar = () => {
                       ? "link_directActive"
                       : "link_direct"
                   }
-                  href="/#"
+                  href="/school/student/attendance"
                 >
                   Attendance
                   <KeyboardArrowDownIcon />
@@ -182,15 +182,15 @@ const SchoolNavbar = () => {
                     <div className="main_report_dropdown_rightmargin">
                       <h1>Attendance</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/school/student/attendance">
+                        <Link href="/school/student/Attendance">
                           Student Attendance
                         </Link>
                       </div>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/school/student/holiday">Add Holiday</Link>
+                        <Link href="/school/student/Holiday">Add Holiday</Link>
                       </div>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/school/student/particularattendance">
+                        <Link href="/school/student/Particularattendance">
                           Particular Student Attendance
                         </Link>
                       </div>
@@ -209,7 +209,7 @@ const SchoolNavbar = () => {
                       ? "link_directActive"
                       : "link_direct"
                   }
-                  href="/institute/dashboard"
+                  href="/school/accounts/collectfee"
                 >
                   Accounts
                   <KeyboardArrowDownIcon />
@@ -221,19 +221,19 @@ const SchoolNavbar = () => {
                     <div className="main_report_dropdown_rightmargin">
                       <h1>General</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/school/accounts/collectfee">
+                        <Link href="/school/accounts/Collectfee">
                           Collect Fees
                         </Link>
-                        <Link href="/school/accounts/printreceipt">
+                        <Link href="/school/accounts/Printreceipt">
                           Print Fee Receipt
                         </Link>
-                        <Link href="/school/accounts/searchfee">
+                        <Link href="/school/accounts/Searchfee">
                           Search Fees Payment
                         </Link>
-                        <Link href="/school/accounts/balancefee">
+                        <Link href="/school/accounts/Balancefee">
                           Balance Fees Report
                         </Link>
-                        <Link href="/school/accounts/feediscount">
+                        <Link href="/school/accounts/Fediscount">
                           Fee Discount
                         </Link>
                       </div>
@@ -252,7 +252,7 @@ const SchoolNavbar = () => {
                       ? "link_directActive"
                       : "link_direct"
                   }
-                  href="/school/dashboard"
+                  href="/school/transport/vehicletype"
                 >
                   Transport <KeyboardArrowDownIcon />
                 </Link>
@@ -263,19 +263,19 @@ const SchoolNavbar = () => {
                     <div className="main_report_dropdown_rightmargin">
                       <h1>General</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/school/transport/vehicletype">
+                        <Link href="/school/transport/Vehicletype">
                           Add Vehicle Type
                         </Link>
-                        <Link href="/school/transport/vehicledetails">
+                        <Link href="/school/transport/Vehicledetails">
                           Vehicle Details
                         </Link>
-                        <Link href="/school/transport/addroutes">
+                        <Link href="/school/transport/Addroutes">
                           Add Routes
                         </Link>
-                        <Link href="/school/transport/addstudent">
+                        <Link href="/school/transport/Addstudent">
                           Add Student To Transport
                         </Link>
-                        <Link href="/school/transport/assignbus">
+                        <Link href="/school/transport/Assignbus">
                           Assign Bus To Student
                         </Link>
                       </div>
@@ -294,7 +294,7 @@ const SchoolNavbar = () => {
                       ? "link_directActive"
                       : "link_direct"
                   }
-                  href="/school/dashboard"
+                  href="/school/library/addstudent"
                 >
                   Library <KeyboardArrowDownIcon />
                 </Link>
@@ -305,11 +305,11 @@ const SchoolNavbar = () => {
                     <div className="main_report_dropdown_rightmargin">
                       <h1>General</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/school/library/addstudent">
+                        <Link href="/school/library/Addstudent">
                           Add Student In Library
                         </Link>
-                        <Link href="/school/library/addbook">Add Book</Link>
-                        <Link href="/school/library/issuereturn">
+                        <Link href="/school/library/Addbook">Add Book</Link>
+                        <Link href="/school/library/Issuereturn">
                           Issue Return
                         </Link>
                       </div>
@@ -328,7 +328,7 @@ const SchoolNavbar = () => {
                       ? "link_directActive"
                       : "link_direct"
                   }
-                  href="/school/dashboard"
+                  href="/school/hostel/Category"
                 >
                   Hostel <KeyboardArrowDownIcon />
                 </Link>
@@ -339,14 +339,14 @@ const SchoolNavbar = () => {
                     <div className="main_report_dropdown_rightmargin">
                       <h1>General</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/school/hostel/category">Add Category</Link>
-                        <Link href="/school/hostel/facility">Add Facility</Link>
-                        <Link href="/school/hostel/addhostel">Add Hostel</Link>
-                        <Link href="/school/hostel/addroom">Add Room</Link>
-                        <Link href="/school/hostel/assignhostel">
+                        <Link href="/school/hostel/Category">Add Category</Link>
+                        <Link href="/school/hostel/Facility">Add Facility</Link>
+                        <Link href="/school/hostel/Addhostel">Add Hostel</Link>
+                        <Link href="/school/hostel/Addroom">Add Room</Link>
+                        <Link href="/school/hostel/Assignhostel">
                           Give Room To Student
                         </Link>
-                        <Link href="/school/hostel/addstudent">
+                        <Link href="/school/hostel/Addstudent">
                           Add Student In Room
                         </Link>
                       </div>
@@ -365,7 +365,7 @@ const SchoolNavbar = () => {
                       ? "link_directActive"
                       : "link_direct"
                   }
-                  href="/institute/dashboard"
+                  href="/school/employee/Staff"
                 >
                   Human Resource <KeyboardArrowDownIcon />
                 </Link>
@@ -376,11 +376,11 @@ const SchoolNavbar = () => {
                     <div className="main_report_dropdown_rightmargin">
                       <h1>General</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/school/employee/staff">Add Employee</Link>
-                        <Link href="/school/employee/employeeidcard">
+                        <Link href="/school/employee/Staff">Add Employee</Link>
+                        <Link href="/school/employee/Employeeidcard">
                           Employee Id Card
                         </Link>
-                        <Link href="/school/employee/disabledstaff">
+                        <Link href="/school/employee/Disabledstaff">
                           Disabled Employee
                         </Link>
                       </div>
@@ -388,18 +388,18 @@ const SchoolNavbar = () => {
                     <div className="main_report_dropdown_rightmargin">
                       <h1>Attendance</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/school/employee/attendance">
+                        <Link href="/school/employee/Attendance">
                           Employee Attendance
                         </Link>
                       </div>
 
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/school/employee/addemployeeholiday">
+                        <Link href="/school/employee/Addemployeeholiday">
                           Add Holiday
                         </Link>
                       </div>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/school/employee/particularemployeeattendance">
+                        <Link href="/school/employee/Particularemployeeattendance">
                           Particular Employee Attendance
                         </Link>
                       </div>
@@ -407,10 +407,10 @@ const SchoolNavbar = () => {
                     <div className="main_report_dropdown_rightmargin">
                       <h1>PayRoll</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/school/employee/payroll">Add Payroll</Link>
+                        <Link href="/school/employee/Payroll">Add Payroll</Link>
                       </div>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/school/employee/payrollreport">
+                        <Link href="/school/employee/Payrollreport">
                           PayRoll Report
                         </Link>
                       </div>
@@ -430,7 +430,7 @@ const SchoolNavbar = () => {
                       ? "link_directActive"
                       : "link_direct"
                   }
-                  href="/#"
+                  href="/school/masters/class"
                 >
                   Masters <KeyboardArrowDownIcon />
                 </Link>

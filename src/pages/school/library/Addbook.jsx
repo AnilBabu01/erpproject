@@ -32,8 +32,7 @@ function Addbook() {
   const [courselist, setcourselist] = useState([]);
   const { user } = useSelector((state) => state.auth);
   const { loading, books } = useSelector((state) => state.GetBookslist);
-  const {course } = useSelector((state) => state.getcourse);
-
+  const { course } = useSelector((state) => state.getcourse);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -101,11 +100,10 @@ function Addbook() {
     if (user) {
       setuserdata(user);
     }
-    if(course)
-    {
+    if (course) {
       setcourselist(course);
     }
-  }, [books, user,course]);
+  }, [books, user, course]);
   useEffect(() => {
     dispatch(GetBooks());
     dispatch(getcourse());
@@ -286,77 +284,79 @@ function Addbook() {
                     <th className={styles.tableth}>Action</th>
                   </tr>
 
-                  {isdata?.map((item, index) => {
-                    return (
-                      <tr key={index} className={styles.tabletr}>
-                        <td className={styles.tabletd}>{index + 1}</td>
-                        <td className={styles.tableth}>
-                          {item?.courseorclass}
-                        </td>
-                        <td className={styles.tableth}>{item?.BookId}</td>
-                        <td className={styles.tableth}>{item?.BookTitle}</td>
-                        <td className={styles.tableth}>{item?.auther}</td>
-                        <td className={styles.tableth}>
-                          {moment(item?.addDate).format("DD/MM/YYYY")}
-                        </td>
-                        <th className={styles.tableth}>{item?.quantity}</th>
-                        <td className={styles.tabkeddd}>
-                          <button
-                            disabled={
-                              userdata?.data &&
-                              userdata?.data?.User?.userType === "school"
-                                ? false
-                                : userdata?.data &&
-                                  userdata?.data?.User?.masterDelete === true
-                                ? false
-                                : true
-                            }
-                          >
-                            <img
-                              className={
+                  {isdata?.length > 0 &&
+                    isdata?.map((item, index) => {
+                      return (
+                        <tr key={index} className={styles.tabletr}>
+                          <td className={styles.tabletd}>{index + 1}</td>
+                          <td className={styles.tableth}>
+                            {item?.courseorclass}
+                          </td>
+                          <td className={styles.tableth}>{item?.BookId}</td>
+                          <td className={styles.tableth}>{item?.BookTitle}</td>
+                          <td className={styles.tableth}>{item?.auther}</td>
+                          <td className={styles.tableth}>
+                            {moment(item?.addDate).format("DD/MM/YYYY")}
+                          </td>
+                          <th className={styles.tableth}>{item?.quantity}</th>
+                          <td className={styles.tabkeddd}>
+                            <button
+                              disabled={
                                 userdata?.data &&
                                 userdata?.data?.User?.userType === "school"
-                                  ? styles.tabkedddimgactive
+                                  ? false
                                   : userdata?.data &&
                                     userdata?.data?.User?.masterDelete === true
-                                  ? styles.tabkedddimgactive
-                                  : styles.tabkedddimgdisable
+                                  ? false
+                                  : true
                               }
-                              onClick={() => ClickOpendelete(item?.id)}
-                              src="/images/Delete.png"
-                              alt="imgss"
-                            />
-                          </button>
-                          <button
-                            disabled={
-                              userdata?.data &&
-                              userdata?.data?.User?.userType === "school"
-                                ? false
-                                : userdata?.data &&
-                                  userdata?.data?.User?.masterEdit === true
-                                ? false
-                                : true
-                            }
-                          >
-                            <img
-                              className={
+                            >
+                              <img
+                                className={
+                                  userdata?.data &&
+                                  userdata?.data?.User?.userType === "school"
+                                    ? styles.tabkedddimgactive
+                                    : userdata?.data &&
+                                      userdata?.data?.User?.masterDelete ===
+                                        true
+                                    ? styles.tabkedddimgactive
+                                    : styles.tabkedddimgdisable
+                                }
+                                onClick={() => ClickOpendelete(item?.id)}
+                                src="/images/Delete.png"
+                                alt="imgss"
+                              />
+                            </button>
+                            <button
+                              disabled={
                                 userdata?.data &&
                                 userdata?.data?.User?.userType === "school"
-                                  ? styles.tabkedddimgactive
+                                  ? false
                                   : userdata?.data &&
                                     userdata?.data?.User?.masterEdit === true
-                                  ? styles.tabkedddimgactive
-                                  : styles.tabkedddimgdisable
+                                  ? false
+                                  : true
                               }
-                              onClick={() => ClickOpenupdate(item)}
-                              src="/images/Edit.png"
-                              alt="imgss"
-                            />
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                            >
+                              <img
+                                className={
+                                  userdata?.data &&
+                                  userdata?.data?.User?.userType === "school"
+                                    ? styles.tabkedddimgactive
+                                    : userdata?.data &&
+                                      userdata?.data?.User?.masterEdit === true
+                                    ? styles.tabkedddimgactive
+                                    : styles.tabkedddimgdisable
+                                }
+                                onClick={() => ClickOpenupdate(item)}
+                                src="/images/Edit.png"
+                                alt="imgss"
+                              />
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
                 </tbody>
               </table>
             </div>

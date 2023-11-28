@@ -26,19 +26,16 @@ function UpdateStudent({ setOpen, updatedata }) {
   const [TransportFeePermonth, setTransportFeePermonth] = useState("");
   const [fromroute, setfromroute] = useState("");
   const [toroute, settoroute] = useState("");
-  const [hostelfeeperMonth, sethostelfeeperMonth] = useState("");
-  const [hostenname, sethostenname] = useState("");
-  const [hostelcategory, sethostelcategory] = useState("");
-  const [hostelfacility, sethostelfacility] = useState("");
-  const [hostellist, sethostellist] = useState([]);
-  const [hostelcategorylist, sethostelcategorylist] = useState([]);
-  const [hostelfacilitylist, sethostelfacilitylist] = useState([]);
-  const [routelist, setroutelist] = useState([]);
   const [amount, setamount] = useState("");
   const [monthlyfee, setmonthlyfee] = useState("");
   const [noofMonth, setnoofMonth] = useState("");
   const [onlyshowmonthfee, setonlyshowmonthfee] = useState("");
   const [onlyshowrefee, setonlyshowrefee] = useState("");
+  const [annualfee, setannualfee] = useState("");
+  const [hostelManualFee, sethostelManualFee] = useState("default");
+  const [TransportManualFee, setTransportManualFee] = useState("default");
+  const [onlyHostelFee, setonlyHostelFee] = useState("");
+  const [onlyTransport, setonlyTransport] = useState("");
   const [getfee, setgetfee] = useState("default");
   const [isdata, setisData] = useState([]);
   const [batchs, setbatchs] = useState([]);
@@ -50,14 +47,15 @@ function UpdateStudent({ setOpen, updatedata }) {
   const [adminssiondate, setadminssiondate] = useState("");
   const [whatsaapnumber, setwhatsaapnumber] = useState("");
   const [usepreview, setusepreview] = useState(false);
+  const [hostal, sethostal] = useState(false);
+  const [transport, settransport] = useState(false);
+  const [Library, setLibrary] = useState(false);
   const [city, setcity] = useState("");
   const [state, setstate] = useState("");
   const [Pincode, setPincode] = useState("");
   const [photo, setphoto] = useState("");
   const [adharcard, setadharcard] = useState("");
   const [marksheet, setmarksheet] = useState("");
-  const [categoryname, setcategoryname] = useState("Please Select");
-  const [categorylist, setcategorylist] = useState([]);
   const [pano, setpano] = useState("");
   const [adharcardno, setadharcardno] = useState("");
   const [fathersname, setfathersname] = useState("");
@@ -66,9 +64,6 @@ function UpdateStudent({ setOpen, updatedata }) {
   const [preview1, setpreview1] = useState("");
   const [preview2, setpreview2] = useState("");
   const [preview3, setpreview3] = useState("");
-  const [hostal, sethostal] = useState(false);
-  const [transport, settransport] = useState(false);
-  const [Library, setLibrary] = useState(false);
   const [birth, setbirth] = useState("");
   const [birthcerpreview, setbirthcerpreview] = useState("");
   const [others, setothers] = useState("");
@@ -77,7 +72,17 @@ function UpdateStudent({ setOpen, updatedata }) {
   const [status, setstatus] = useState("Active");
   const [marksheetName, setmarksheetName] = useState("");
   const [shownext, setshownext] = useState(true);
+  const [categoryname, setcategoryname] = useState("Please Select");
+  const [categorylist, setcategorylist] = useState([]);
   const [showdownload, setshowdownload] = useState(false);
+  const [hostelfeeperMonth, sethostelfeeperMonth] = useState("");
+  const [hostenname, sethostenname] = useState("");
+  const [hostelcategory, sethostelcategory] = useState("");
+  const [hostelfacility, sethostelfacility] = useState("");
+  const [hostellist, sethostellist] = useState([]);
+  const [hostelcategorylist, sethostelcategorylist] = useState([]);
+  const [hostelfacilitylist, sethostelfacilitylist] = useState([]);
+  const [routelist, setroutelist] = useState([]);
   const { fee } = useSelector((state) => state.getfee);
   const { batch } = useSelector((state) => state.getbatch);
   const { user } = useSelector((state) => state.auth);
@@ -122,10 +127,31 @@ function UpdateStudent({ setOpen, updatedata }) {
     formData.set("Library", Library);
     formData.set("hostal", hostal);
     formData.set("StudentCategory", categoryname);
-    formData.set("HostelPerMonthFee", Number(hostelfeeperMonth));
-    formData.set("TotalHostelFee", Number(hostelfeeperMonth) * 12);
-    formData.set("TransportPerMonthFee", Number(TransportFeePermonth));
-    formData.set("TransportTotalHostelFee", Number(TransportFeePermonth) * 12);
+    formData.set("AnnualFee", annualfee);
+    formData.set(
+      "HostelPerMonthFee",
+      hostelManualFee === "manual"
+        ? Number(onlyHostelFee)
+        : Number(hostelfeeperMonth)
+    );
+    formData.set(
+      "TotalHostelFee",
+      hostelManualFee === "manual"
+        ? Number(onlyHostelFee) * 12
+        : Number(hostelfeeperMonth) * 12
+    );
+    formData.set(
+      "TransportPerMonthFee",
+      TransportManualFee === "manual"
+        ? Number(onlyTransport)
+        : Number(TransportFeePermonth)
+    );
+    formData.set(
+      "TransportTotalHostelFee",
+      TransportManualFee === "manual"
+        ? Number(onlyTransport) * 12
+        : Number(TransportFeePermonth) * 12
+    );
     formData.set(
       "permonthfee",
       getfee === "default" ? Number(onlyshowmonthfee) : Number(monthlyfee)
@@ -133,8 +159,8 @@ function UpdateStudent({ setOpen, updatedata }) {
     formData.set(
       "studentTotalFee",
       getfee === "default"
-        ? Number(onlyshowmonthfee) * Number(noofMonth)
-        : Number(monthlyfee) * Number(noofMonth)
+        ? Number(onlyshowmonthfee) * 12
+        : Number(monthlyfee) * 12
     );
     formData.set(
       "Studentpassword",
@@ -160,7 +186,6 @@ function UpdateStudent({ setOpen, updatedata }) {
     if (category) {
       setcategorylist(category);
     }
-
     if (hostel) {
       sethostellist(hostel);
     }
@@ -222,50 +247,9 @@ function UpdateStudent({ setOpen, updatedata }) {
       setcategoryname(updatedata?.StudentCategory);
       setTransportFeePermonth(updatedata?.TransportPerMonthFee);
       sethostelfeeperMonth(updatedata?.HostelPerMonthFee);
+      setannualfee(updatedata?.AnnualFee);
     }
   }, []);
-
-  const gethostelFee = () => {
-    try {
-      setloading1(true);
-      serverInstance("hostel/gethostelfee", "post", {
-        hostelname: hostenname,
-        Category: hostelcategory,
-        Facility: hostelfacility,
-      }).then((res) => {
-        if (res?.status === true) {
-          toast.success(res?.msg, {
-            autoClose: 1000,
-          });
-          setloading1(false);
-          sethostelfeeperMonth(res?.data?.PermonthFee);
-        }
-      });
-    } catch (error) {
-      setloading1(false);
-    }
-  };
-
-  const gettransportFee = () => {
-    try {
-      setloading2(true);
-      serverInstance("transport/gettransportfee", "post", {
-        FromRoute: fromroute,
-        ToRoute: toroute,
-      }).then((res) => {
-        if (res?.status === true) {
-          toast.success(res?.msg, {
-            autoClose: 1000,
-          });
-          setloading2(false);
-          // console.log(res?.data);
-          setTransportFeePermonth(res?.data?.BusRentPermonth);
-        }
-      });
-    } catch (error) {
-      setloading2(false);
-    }
-  };
   return (
     <>
       <div className={styles.divmainlogin}>
@@ -273,9 +257,9 @@ function UpdateStudent({ setOpen, updatedata }) {
           <CloseIcon />
         </div>
         <h1>
-          {shownext ? "Update Student" : showdownload ? "" : "Fee Structure"}{" "}
+          {shownext ? "Update Student" : showdownload ? "" : "Fee Structure"}
         </h1>
-        <>
+        <form>
           {shownext ? (
             <>
               <div className={styles.divmaininput}>
@@ -335,7 +319,6 @@ function UpdateStudent({ setOpen, updatedata }) {
                   <label>&nbsp;</label>
                 </div>
               </div>
-
               <div className={styles.divmaininput}>
                 <div className={styles.inputdiv}>
                   <label>Student Name</label>
@@ -747,7 +730,7 @@ function UpdateStudent({ setOpen, updatedata }) {
                 <>
                   <div className={styles.divmaininput}>
                     <div className={styles.inputdiv}>
-                      <label>Course</label>
+                      <label>Class</label>
                       <Select
                         required
                         className={styles.addwidth}
@@ -798,6 +781,10 @@ function UpdateStudent({ setOpen, updatedata }) {
                       <label>&nbsp;</label>
                       <label>&nbsp;</label>
                     </div>
+                    <div className={styles.inputdiv}>
+                      <label>&nbsp;</label>
+                      <label>&nbsp;</label>
+                    </div>
                   </div>
                   {courses ? (
                     <>
@@ -831,8 +818,14 @@ function UpdateStudent({ setOpen, updatedata }) {
                             />
                           </div>
                           <div className={styles.inputdiv}>
-                            <label>&nbsp;</label>
-                            <label>&nbsp;</label>
+                            <label>Annual Fee</label>
+                            <input
+                              required
+                              type="text"
+                              placeholder="Enter Annual fee"
+                              value={annualfee}
+                              onChange={(e) => setannualfee(e.target.value)}
+                            />
                           </div>
                         </div>
                       </div>
@@ -873,8 +866,14 @@ function UpdateStudent({ setOpen, updatedata }) {
                                 />
                               </div>
                               <div className={styles.inputdiv}>
-                                <label>&nbsp;</label>
-                                <label>&nbsp;</label>
+                                <label>Annual Fee</label>
+                                <input
+                                  required
+                                  type="text"
+                                  placeholder="Enter Annual fee"
+                                  value={annualfee}
+                                  onChange={(e) => setannualfee(e.target.value)}
+                                />
                               </div>
                             </div>
                           </>
@@ -994,7 +993,6 @@ function UpdateStudent({ setOpen, updatedata }) {
                       </Select>
                     </div>
                   </div>
-
                   {hostal === true && (
                     <>
                       <label>Hostel Details</label>
@@ -1025,19 +1023,20 @@ function UpdateStudent({ setOpen, updatedata }) {
                             >
                               Please Select
                             </MenuItem>
-                            {hostellist?.map((item, index) => {
-                              return (
-                                <MenuItem
-                                  key={index}
-                                  sx={{
-                                    fontSize: 14,
-                                  }}
-                                  value={item?.HostelName}
-                                >
-                                  {item?.HostelName}
-                                </MenuItem>
-                              );
-                            })}
+                            {hostellist?.length > 0 &&
+                              hostellist?.map((item, index) => {
+                                return (
+                                  <MenuItem
+                                    key={index}
+                                    sx={{
+                                      fontSize: 14,
+                                    }}
+                                    value={item?.HostelName}
+                                  >
+                                    {item?.HostelName}
+                                  </MenuItem>
+                                );
+                              })}
                           </Select>
                         </div>
                         <div className={styles.inputdiv}>
@@ -1066,19 +1065,20 @@ function UpdateStudent({ setOpen, updatedata }) {
                             >
                               Please Select
                             </MenuItem>
-                            {hostelcategorylist?.map((item, index) => {
-                              return (
-                                <MenuItem
-                                  key={index}
-                                  sx={{
-                                    fontSize: 14,
-                                  }}
-                                  value={item?.roomCategory}
-                                >
-                                  {item?.roomCategory}
-                                </MenuItem>
-                              );
-                            })}
+                            {hostelcategorylist?.length > 0 &&
+                              hostelcategorylist?.map((item, index) => {
+                                return (
+                                  <MenuItem
+                                    key={index}
+                                    sx={{
+                                      fontSize: 14,
+                                    }}
+                                    value={item?.roomCategory}
+                                  >
+                                    {item?.roomCategory}
+                                  </MenuItem>
+                                );
+                              })}
                           </Select>
                         </div>
                         <div className={styles.inputdiv}>
@@ -1107,22 +1107,32 @@ function UpdateStudent({ setOpen, updatedata }) {
                             >
                               Please Select
                             </MenuItem>
-                            {hostelfacilitylist?.map((item, index) => {
-                              return (
-                                <MenuItem
-                                  key={index}
-                                  sx={{
-                                    fontSize: 14,
-                                  }}
-                                  value={item?.roomFacility}
-                                >
-                                  {item?.roomFacility}
-                                </MenuItem>
-                              );
-                            })}
+                            {hostelfacilitylist?.length > 0 &&
+                              hostelfacilitylist?.map((item, index) => {
+                                return (
+                                  <MenuItem
+                                    key={index}
+                                    sx={{
+                                      fontSize: 14,
+                                    }}
+                                    value={item?.roomFacility}
+                                  >
+                                    {item?.roomFacility}
+                                  </MenuItem>
+                                );
+                              })}
                           </Select>
                         </div>
                       </div>
+                      <input
+                        type="radio"
+                        name="hostelManualFee"
+                        value="default"
+                        checked={hostelManualFee === "default"}
+                        onChange={(e) => sethostelManualFee(e.target.value)}
+                      />
+                      <label>Default Fee Structure</label>
+
                       <div className={styles.divmaininput}>
                         <div className={styles.inputdiv}>
                           <label>Monthly Hostel Fee</label>
@@ -1161,9 +1171,47 @@ function UpdateStudent({ setOpen, updatedata }) {
                           </button>
                         </div>
                       </div>
+                      <input
+                        type="radio"
+                        name="hostelManualFee"
+                        value="manual"
+                        checked={hostelManualFee === "manual"}
+                        onChange={(e) => sethostelManualFee(e.target.value)}
+                      />
+                      <label>Manual Fee Structure</label>
+                      {hostelManualFee === "manual" && (
+                        <>
+                          <div className={styles.divmaininput}>
+                            <div className={styles.inputdiv}>
+                              <label>Monthly Hostel Fee</label>
+                              <input
+                                required
+                                type="text"
+                                placeholder="Amount"
+                                value={onlyHostelFee}
+                                onChange={(e) =>
+                                  setonlyHostelFee(e.target.value)
+                                }
+                              />
+                            </div>
+                            <div className={styles.inputdiv}>
+                              <label>Total Hostel Fee</label>
+                              <input
+                                required
+                                type="text"
+                                disabled={true}
+                                value={Number(onlyHostelFee) * 12}
+                              />
+                            </div>
+                            <div className={styles.inputdiv}>
+                              <label>&nbsp;</label>
+                              <label>&nbsp;</label>
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </>
                   )}
-
                   {transport === true && (
                     <>
                       <label>Transpost Details</label>
@@ -1268,6 +1316,14 @@ function UpdateStudent({ setOpen, updatedata }) {
                           </button>
                         </div>
                       </div>
+                      <input
+                        type="radio"
+                        name="TransportManualFee"
+                        value="default"
+                        checked={TransportManualFee === "default"}
+                        onChange={(e) => setTransportManualFee(e.target.value)}
+                      />
+                      <label>Default Fee Structure</label>
                       <div className={styles.divmaininput}>
                         <div className={styles.inputdiv}>
                           <label>Monthly Transport Fee</label>
@@ -1293,13 +1349,51 @@ function UpdateStudent({ setOpen, updatedata }) {
                           <label>&nbsp;</label>
                         </div>
                       </div>
+                      <input
+                        type="radio"
+                        name="TransportManualFee"
+                        value="manual"
+                        checked={TransportManualFee === "manual"}
+                        onChange={(e) => setTransportManualFee(e.target.value)}
+                      />
+                      <label>Manaul Fee Structure</label>
+                      {TransportManualFee === "manual" && (
+                        <>
+                          <div className={styles.divmaininput}>
+                            <div className={styles.inputdiv}>
+                              <label>Monthly Transport Fee</label>
+                              <input
+                                required
+                                type="text"
+                                placeholder="Amount"
+                                value={onlyTransport}
+                                onChange={(e) =>
+                                  setonlyTransport(e.target.value)
+                                }
+                              />
+                            </div>
+                            <div className={styles.inputdiv}>
+                              <label>Total Transport Fee</label>
+                              <input
+                                required
+                                type="text"
+                                value={Number(onlyTransport) * 12}
+                              />
+                            </div>
+                            <div className={styles.inputdiv}>
+                              <label>&nbsp;</label>
+                              <label>&nbsp;</label>
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </>
                   )}
                 </>
               )}
             </>
           )}
-        </>
+        </form>
         {shownext ? (
           <>
             <div className={styles.logbtnstylediv}>

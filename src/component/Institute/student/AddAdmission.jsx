@@ -28,6 +28,7 @@ function AddAdmission({ setOpen }) {
   const [toroute, settoroute] = useState("");
   const [amount, setamount] = useState("");
   const [monthlyfee, setmonthlyfee] = useState("");
+  const [annualfee, setannualfee] = useState("");
   const [noofMonth, setnoofMonth] = useState("");
   const [onlyshowmonthfee, setonlyshowmonthfee] = useState("");
   const [onlyshowrefee, setonlyshowrefee] = useState("");
@@ -71,6 +72,8 @@ function AddAdmission({ setOpen }) {
   const [shownext, setshownext] = useState(true);
   const [showdownload, setshowdownload] = useState(false);
   const [hostelfeeperMonth, sethostelfeeperMonth] = useState("");
+  const [onlyHostelFee, setonlyHostelFee] = useState("");
+  const [onlyTransport, setonlyTransport] = useState("");
   const [hostenname, sethostenname] = useState("");
   const [hostelcategory, sethostelcategory] = useState("");
   const [hostelfacility, sethostelfacility] = useState("");
@@ -78,6 +81,8 @@ function AddAdmission({ setOpen }) {
   const [hostelcategorylist, sethostelcategorylist] = useState([]);
   const [hostelfacilitylist, sethostelfacilitylist] = useState([]);
   const [routelist, setroutelist] = useState([]);
+  const [hostelManualFee, sethostelManualFee] = useState("default");
+  const [TransportManualFee, setTransportManualFee] = useState("default");
   const { fee } = useSelector((state) => state.getfee);
   const { batch } = useSelector((state) => state.getbatch);
   const { user } = useSelector((state) => state.auth);
@@ -121,10 +126,31 @@ function AddAdmission({ setOpen }) {
     formData.set("Library", Library);
     formData.set("hostal", hostal);
     formData.set("StudentCategory", categoryname);
-    formData.set("HostelPerMonthFee", Number(hostelfeeperMonth));
-    formData.set("TotalHostelFee", Number(hostelfeeperMonth) * 12);
-    formData.set("TransportPerMonthFee", Number(TransportFeePermonth));
-    formData.set("TransportTotalHostelFee", Number(TransportFeePermonth) * 12);
+    formData.set("AnnualFee", annualfee);
+    formData.set(
+      "HostelPerMonthFee",
+      hostelManualFee === "manual"
+        ? Number(onlyHostelFee)
+        : Number(hostelfeeperMonth)
+    );
+    formData.set(
+      "TotalHostelFee",
+      hostelManualFee === "manual"
+        ? Number(onlyHostelFee) * 12
+        : Number(hostelfeeperMonth) * 12
+    );
+    formData.set(
+      "TransportPerMonthFee",
+      TransportManualFee === "manual"
+        ? Number(onlyTransport)
+        : Number(TransportFeePermonth)
+    );
+    formData.set(
+      "TransportTotalHostelFee",
+      TransportManualFee === "manual"
+        ? Number(onlyTransport) * 12
+        : Number(TransportFeePermonth) * 12
+    );
     formData.set(
       "permonthfee",
       getfee === "default" ? Number(onlyshowmonthfee) : Number(monthlyfee)
@@ -132,8 +158,8 @@ function AddAdmission({ setOpen }) {
     formData.set(
       "studentTotalFee",
       getfee === "default"
-        ? Number(onlyshowmonthfee) * Number(noofMonth)
-        : Number(monthlyfee) * Number(noofMonth)
+        ? Number(onlyshowmonthfee) * 12
+        : Number(monthlyfee) * 12
     );
     formData.set(
       "Studentpassword",
@@ -211,6 +237,7 @@ function AddAdmission({ setOpen }) {
           });
           setloading1(false);
           sethostelfeeperMonth(res?.data?.PermonthFee);
+          setonlyHostelFee(res?.data?.PermonthFee);
         }
       });
     } catch (error) {
@@ -232,6 +259,7 @@ function AddAdmission({ setOpen }) {
           setloading2(false);
           // console.log(res?.data);
           setTransportFeePermonth(res?.data?.BusRentPermonth);
+          setonlyTransport(res?.data?.BusRentPermonth);
         }
       });
     } catch (error) {
@@ -806,8 +834,14 @@ function AddAdmission({ setOpen }) {
                             />
                           </div>
                           <div className={styles.inputdiv}>
-                            <label>&nbsp;</label>
-                            <label>&nbsp;</label>
+                            <label>Annual Fee</label>
+                            <input
+                              required
+                              type="text"
+                              placeholder="Enter Annual fee"
+                              value={annualfee}
+                              onChange={(e) => setannualfee(e.target.value)}
+                            />
                           </div>
                         </div>
                       </div>
@@ -820,6 +854,7 @@ function AddAdmission({ setOpen }) {
                           onChange={(e) => setgetfee(e.target.value)}
                         />
                         <label>Manual fee Structure</label>
+
                         {getfee === "manual" && (
                           <>
                             <div className={styles.divmaininput}>
@@ -848,8 +883,14 @@ function AddAdmission({ setOpen }) {
                                 />
                               </div>
                               <div className={styles.inputdiv}>
-                                <label>&nbsp;</label>
-                                <label>&nbsp;</label>
+                                <label>Annual Fee</label>
+                                <input
+                                  required
+                                  type="text"
+                                  placeholder="Enter Annual fee"
+                                  value={annualfee}
+                                  onChange={(e) => setannualfee(e.target.value)}
+                                />
                               </div>
                             </div>
                           </>
@@ -1100,6 +1141,15 @@ function AddAdmission({ setOpen }) {
                           </Select>
                         </div>
                       </div>
+                      <input
+                        type="radio"
+                        name="hostelManualFee"
+                        value="default"
+                        checked={hostelManualFee === "default"}
+                        onChange={(e) => sethostelManualFee(e.target.value)}
+                      />
+                      <label>Default Fee Structure</label>
+
                       <div className={styles.divmaininput}>
                         <div className={styles.inputdiv}>
                           <label>Monthly Hostel Fee</label>
@@ -1138,6 +1188,45 @@ function AddAdmission({ setOpen }) {
                           </button>
                         </div>
                       </div>
+                      <input
+                        type="radio"
+                        name="hostelManualFee"
+                        value="manual"
+                        checked={hostelManualFee === "manual"}
+                        onChange={(e) => sethostelManualFee(e.target.value)}
+                      />
+                      <label>Manual Fee Structure</label>
+                      {hostelManualFee === "manual" && (
+                        <>
+                          <div className={styles.divmaininput}>
+                            <div className={styles.inputdiv}>
+                              <label>Monthly Hostel Fee</label>
+                              <input
+                                required
+                                type="text"
+                                placeholder="Amount"
+                                value={onlyHostelFee}
+                                onChange={(e) =>
+                                  setonlyHostelFee(e.target.value)
+                                }
+                              />
+                            </div>
+                            <div className={styles.inputdiv}>
+                              <label>Total Hostel Fee</label>
+                              <input
+                                required
+                                type="text"
+                                disabled={true}
+                                value={Number(onlyHostelFee) * 12}
+                              />
+                            </div>
+                            <div className={styles.inputdiv}>
+                              <label>&nbsp;</label>
+                              <label>&nbsp;</label>
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </>
                   )}
                   {transport === true && (
@@ -1244,6 +1333,14 @@ function AddAdmission({ setOpen }) {
                           </button>
                         </div>
                       </div>
+                      <input
+                        type="radio"
+                        name="TransportManualFee"
+                        value="default"
+                        checked={TransportManualFee === "default"}
+                        onChange={(e) => setTransportManualFee(e.target.value)}
+                      />
+                      <label>Default Fee Structure</label>
                       <div className={styles.divmaininput}>
                         <div className={styles.inputdiv}>
                           <label>Monthly Transport Fee</label>
@@ -1269,6 +1366,44 @@ function AddAdmission({ setOpen }) {
                           <label>&nbsp;</label>
                         </div>
                       </div>
+                      <input
+                        type="radio"
+                        name="TransportManualFee"
+                        value="manual"
+                        checked={TransportManualFee === "manual"}
+                        onChange={(e) => setTransportManualFee(e.target.value)}
+                      />
+                      <label>Manaul Fee Structure</label>
+                      {TransportManualFee === "manual" && (
+                        <>
+                          <div className={styles.divmaininput}>
+                            <div className={styles.inputdiv}>
+                              <label>Monthly Transport Fee</label>
+                              <input
+                                required
+                                type="text"
+                                placeholder="Amount"
+                                value={onlyTransport}
+                                onChange={(e) =>
+                                  setonlyTransport(e.target.value)
+                                }
+                              />
+                            </div>
+                            <div className={styles.inputdiv}>
+                              <label>Total Transport Fee</label>
+                              <input
+                                required
+                                type="text"
+                                value={Number(onlyTransport) * 12}
+                              />
+                            </div>
+                            <div className={styles.inputdiv}>
+                              <label>&nbsp;</label>
+                              <label>&nbsp;</label>
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </>
                   )}
                 </>

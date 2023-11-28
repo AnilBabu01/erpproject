@@ -34,7 +34,7 @@ const studentStatus = [
   { label: "Completed", value: "Completed" },
   { label: "Unknown", value: "Unknown" },
 ];
-function Admission() {
+function AddStudent() {
   const dispatch = useDispatch();
   const [scoursename, setscoursename] = useState("");
   const [sfathers, setsfathers] = useState("");
@@ -504,4 +504,4 @@ function Admission() {
   );
 }
 
-export default Admission;
+export default AddStudent;

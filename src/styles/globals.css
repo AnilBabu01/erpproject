@@ -276,6 +276,7 @@ input#donation-date {
 .menu-div {
   display: none;
 }
+
 .keydetailsdivproimg {
   width: 10rem;
   height: 11rem;
@@ -301,6 +302,10 @@ input#donation-date {
 .keydetailsdiveditimg {
   width: 25px;
   height: 25px;
+}
+
+.fontweight{
+  font-weight: 500;
 }
 @media screen and (max-width: 780px) {
   .mainprofile {

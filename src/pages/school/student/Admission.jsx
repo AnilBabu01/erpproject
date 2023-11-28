@@ -4,10 +4,17 @@ import { loadUser } from "../../../redux/actions/authActions";
 import {
   getcourse,
   getbatch,
+  getstudent,
+  deletestudent,
   getfee,
-  getTest,
-  deleteTest
+  getcategory,
 } from "../../../redux/actions/commanAction";
+import {
+  GetHostel,
+  GetFacility,
+  GetCategory,
+} from "../../../redux/actions/hostelActions";
+import { GetRoute } from "../../../redux/actions/transportActions";
 import styles from "../../coaching/employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -16,14 +23,19 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
-import AddTest from "../../../component/Institute/student/AddTest";
-import UpdateTest from "../../../component/Institute/student/UpdateTest";
+import AddAdmission from "../../../component/Institute/student/AddAdmission";
+import UpdateAdmission from "../../../component/Institute/student/UpdateAdmission";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
-import moment  from 'moment';
-function Assignment() {
+import moment from "moment";
+const studentStatus = [
+  { label: "Active", value: "Active" },
+  { label: "On Leave", value: "On Leave" },
+  { label: "Left In Middle", value: "Left In Middle" },
+  { label: "Completed", value: "Completed" },
+  { label: "Unknown", value: "Unknown" },
+];
+function Admission() {
   const dispatch = useDispatch();
-  const [courselist, setcourselist] = useState("");
-  const [coursename, setcoursename] = useState("");
   const [scoursename, setscoursename] = useState("");
   const [sfathers, setsfathers] = useState("");
   const [sstudent, setsstudent] = useState("");
@@ -37,11 +49,17 @@ function Assignment() {
   const [updatedata, setupdatedata] = useState("");
   const [deleteid, setdeleteid] = useState("");
   const [isdata, setisData] = useState([]);
+  const [courselist, setcourselist] = useState([]);
+  const [status, setstatus] = useState("");
+  const [rollnumber, setrollnumber] = useState("");
   const [userdata, setuserdata] = useState("");
+  const [categoryname, setcategoryname] = useState("Please Select");
+  const [categorylist, setcategorylist] = useState([]);
   const { user } = useSelector((state) => state.auth);
-  const { loading, test } = useSelector((state) => state.gettest);
+  const { loading, student } = useSelector((state) => state.getstudent);
   const { batch } = useSelector((state) => state.getbatch);
   const { course } = useSelector((state) => state.getcourse);
+  const { category } = useSelector((state) => state.getcategory);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -73,12 +91,12 @@ function Assignment() {
   };
 
   const handledelete = () => {
-    dispatch(deleteTest(deleteid, setOpenalert));
+    dispatch(deletestudent(deleteid, setOpenalert));
   };
 
   useEffect(() => {
-    if (test) {
-      setisData(test);
+    if (student) {
+      setisData(student);
     }
     if (batch) {
       setbatchs(batch);
@@ -89,28 +107,49 @@ function Assignment() {
     if (course) {
       setcourselist(course);
     }
-  }, [test, batch, user, course]);
+    {
+      setcategorylist(category);
+    }
+  }, [student, batch, user, course, category]);
   useEffect(() => {
-    dispatch(getTest());
+    dispatch(getstudent());
   }, [open, openupdate, openalert]);
   useEffect(() => {
     dispatch(loadUser());
     dispatch(getbatch());
     dispatch(getcourse());
     dispatch(getfee());
+    dispatch(getcategory());
   }, []);
 
-  console.log("data from test table", isdata);
   const filterdata = (e) => {
     e.preventDefault();
-    dispatch(getTest(fromdate, todate, scoursename, sbatch));
+    dispatch(
+      getstudent(
+        fromdate,
+        todate,
+        scoursename,
+        sbatch,
+        sstudent,
+        sfathers,
+        rollnumber,
+        status,
+        categoryname,
+        ""
+      )
+    );
   };
 
   const reset = () => {
+    setsstudent("");
+    setsfathers("");
+    setfromdate("");
     settodate("");
     setscoursename("");
     setsbatch("");
-    dispatch(getTest());
+    setcategoryname("");
+    setrollnumber("");
+    dispatch(getstudent());
   };
   return (
     <>
@@ -130,7 +169,7 @@ function Assignment() {
               },
             }}
           >
-            <AddTest setOpen={setOpen} />
+            <AddAdmission setOpen={setOpen} />
           </Dialog>
         </div>
       )}
@@ -150,7 +189,7 @@ function Assignment() {
               },
             }}
           >
-            <UpdateTest setOpen={setOpenupdate} updatedata={updatedata} />
+            <UpdateAdmission setOpen={setOpenupdate} updatedata={updatedata} />
           </Dialog>
         </div>
       )}
@@ -185,15 +224,22 @@ function Assignment() {
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
               <form onSubmit={filterdata} className={styles.searchoptiondiv}>
-                <label>Test Date</label>
+                {/* <label>From</label>
+                <input
+                  className={styles.opensearchinput}
+                  type="date"
+                  value={fromdate}
+                  name="fromdate"
+                  onChange={(e) => setfromdate(e.target.value)}
+                />
+                <label>To</label>
                 <input
                   className={styles.opensearchinput}
                   type="date"
                   value={todate}
                   name="todate"
                   onChange={(e) => settodate(e.target.value)}
-                />
-               
+                /> */}
 
                 <select
                   className={styles.opensearchinput}
@@ -216,9 +262,10 @@ function Assignment() {
                     }}
                     value={""}
                   >
-                    All Class
+                    ALL Class
                   </option>
-                  {course?.map((item, index) => {
+
+                  {courselist?.map((item, index) => {
                     return (
                       <option
                         key={index}
@@ -232,6 +279,99 @@ function Assignment() {
                     );
                   })}
                 </select>
+                <select
+                  className={styles.opensearchinput}
+                  sx={{
+                    width: "18.8rem",
+                    fontSize: 14,
+                    "& .MuiSelect-select": {
+                      paddingTop: "0.6rem",
+                      paddingBottom: "0.6em",
+                    },
+                  }}
+                  value={status}
+                  name="status"
+                  onChange={(e) => setstatus(e.target.value)}
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={""}
+                  >
+                    ALL Status
+                  </option>
+
+                  {studentStatus?.map((item, index) => {
+                    return (
+                      <option
+                        key={index}
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={item?.value}
+                      >
+                        {item?.value}
+                      </option>
+                    );
+                  })}
+                </select>
+                <select
+                  className={styles.opensearchinput}
+                  sx={{
+                    width: "18.8rem",
+                    fontSize: 14,
+                    "& .MuiSelect-select": {
+                      paddingTop: "0.6rem",
+                      paddingBottom: "0.6em",
+                    },
+                  }}
+                  value={categoryname}
+                  name="categoryname"
+                  onChange={(e) => setcategoryname(e.target.value)}
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={""}
+                  >
+                    Category
+                  </option>
+
+                  {categorylist?.map((item, index) => {
+                    return (
+                      <option
+                        key={index}
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={item?.category}
+                      >
+                        {item?.category}
+                      </option>
+                    );
+                  })}
+                </select>
+                <input
+                  className={styles.opensearchinput10}
+                  type="text"
+                  placeholder="Student's name"
+                  value={sstudent}
+                  name="sstudent}"
+                  onChange={(e) => setsstudent(e.target.value)}
+                />
+
+                <input
+                  className={styles.opensearchinput10}
+                  type="text"
+                  placeholder="Roll No"
+                  value={rollnumber}
+                  name="rollnumber"
+                  onChange={(e) => setrollnumber(e.target.value)}
+                />
 
                 <button>Search</button>
               </form>
@@ -270,7 +410,7 @@ function Assignment() {
               }
               onClick={() => handleClickOpen()}
             >
-              Add Test
+              Take Admission
             </button>
           </div>
           <div className={styles.add_divmarginn}>
@@ -279,28 +419,34 @@ function Assignment() {
                 <tbody>
                   <tr className={styles.tabletr}>
                     <th className={styles.tableth}>S.NO</th>
-                    <th className={styles.tableth}>Test Title</th>
-                    <th className={styles.tableth}>Date</th>
-                    <th className={styles.tableth}>Start Time</th>
-                    <th className={styles.tableth}>End Time</th>
-                    <th className={styles.tableth}>Test Type</th>
+                    <th className={styles.tableth}>Roll No</th>
+                    <th className={styles.tableth}>Student_Name</th>
+                    <th className={styles.tableth}>Student_Email</th>
+                    <th className={styles.tableth}>Student_Phone</th>
+                    <th className={styles.tableth}>Adminssion_Date</th>
                     <th className={styles.tableth}>Class</th>
-                    
-
+                    <th className={styles.tableth}>Category</th>
+                    <th className={styles.tableth}>Student Status</th>
                     <th className={styles.tableth}>Action</th>
                   </tr>
                   {isdata?.map((item, index) => {
                     return (
                       <tr key={index} className={styles.tabletr}>
                         <td className={styles.tabletd}>{index + 1}</td>
-                        <td className={styles.tabletd}>{item?.testname}</td>
-                        <td className={styles.tabletd}>{ moment(item?.testdate).format('MM/DD/YYYY')}</td>
-                        <td className={styles.tabletd}>{item?.teststarTime}</td>
-                        <td className={styles.tabletd}>{item?.testendTime}</td>
-                        <td className={styles.tabletd}>{item?.testtype}</td>
-                        <td className={styles.tabletd}>{item?.course}</td>
-                       
-
+                        <td className={styles.tabletd}>{item?.rollnumber}</td>
+                        <td className={styles.tabletd}>{item?.name}</td>
+                        <td className={styles.tabletd}>{item?.email}</td>
+                        <td className={styles.tabletd}>{item?.phoneno1}</td>
+                        <td className={styles.tabletd}>
+                          {moment(item?.admissionDate).format("DD/MM/YYYY")}
+                        </td>
+                        <td className={styles.tabletd}>
+                          {item?.courseorclass}
+                        </td>
+                        <td className={styles.tabletd}>
+                          {item?.StudentCategory}
+                        </td>
+                        <td className={styles.tabletd}>{item?.Status}</td>
                         <td className={styles.tabkeddd}>
                           <button
                             disabled={
@@ -308,7 +454,8 @@ function Assignment() {
                               userdata?.data?.User?.userType === "school"
                                 ? false
                                 : userdata?.data &&
-                                  userdata?.data?.User?.fronroficeDelete === true
+                                  userdata?.data?.User?.fronroficeDelete ===
+                                    true
                                 ? false
                                 : true
                             }
@@ -319,7 +466,8 @@ function Assignment() {
                                 userdata?.data?.User?.userType === "school"
                                   ? styles.tabkedddimgactive
                                   : userdata?.data &&
-                                    userdata?.data?.User?.fronroficeDelete === true
+                                    userdata?.data?.User?.fronroficeDelete ===
+                                      true
                                   ? styles.tabkedddimgactive
                                   : styles.tabkedddimgdisable
                               }
@@ -345,7 +493,8 @@ function Assignment() {
                                 userdata?.data?.User?.userType === "school"
                                   ? styles.tabkedddimgactive
                                   : userdata?.data &&
-                                    userdata?.data?.User?.fronroficeEdit === true
+                                    userdata?.data?.User?.fronroficeEdit ===
+                                      true
                                   ? styles.tabkedddimgactive
                                   : styles.tabkedddimgdisable
                               }
@@ -369,4 +518,4 @@ function Assignment() {
   );
 }
 
-export default Assignment;
+export default Admission;
