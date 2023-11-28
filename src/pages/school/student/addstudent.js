@@ -9,6 +9,12 @@ import {
   getfee,
   getcategory,
 } from "../../../redux/actions/commanAction";
+import {
+  GetHostel,
+  GetFacility,
+  GetCategory,
+} from "../../../redux/actions/hostelActions";
+import { GetRoute } from "../../../redux/actions/transportActions";
 import styles from "../../coaching/employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -58,7 +64,6 @@ function Admission() {
     setOpen(true);
   };
 
-
   const handleCloseregister = () => {
     setOpen(false);
   };
@@ -88,7 +93,6 @@ function Admission() {
     return <Slide direction="top" ref={ref} {...props} />;
   });
 
-
   useEffect(() => {
     if (student) {
       setisData(student);
@@ -105,7 +109,6 @@ function Admission() {
     if (category) {
       setcategorylist(category);
     }
-   
   }, [student, batch, user, course, category]);
   useEffect(() => {
     dispatch(getstudent());
@@ -116,6 +119,10 @@ function Admission() {
     dispatch(getcourse());
     dispatch(getfee());
     dispatch(getcategory());
+    dispatch(GetCategory());
+    dispatch(GetHostel());
+    dispatch(GetFacility());
+    dispatch(GetRoute());
   }, []);
 
   const filterdata = (e) => {
@@ -130,7 +137,8 @@ function Admission() {
         sfathers,
         rollnumber,
         status,
-        categoryname
+        categoryname,
+        ""
       )
     );
   };
@@ -218,23 +226,6 @@ function Admission() {
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
               <form onSubmit={filterdata} className={styles.searchoptiondiv}>
-                {/* <label>From</label>
-                <input
-                  className={styles.opensearchinput}
-                  type="date"
-                  value={fromdate}
-                  name="fromdate"
-                  onChange={(e) => setfromdate(e.target.value)}
-                />
-                <label>To</label>
-                <input
-                  className={styles.opensearchinput}
-                  type="date"
-                  value={todate}
-                  name="todate"
-                  onChange={(e) => settodate(e.target.value)}
-                /> */}
-
                 <select
                   className={styles.opensearchinput}
                   sx={{
@@ -273,6 +264,7 @@ function Admission() {
                     );
                   })}
                 </select>
+
                 <select
                   className={styles.opensearchinput}
                   sx={{

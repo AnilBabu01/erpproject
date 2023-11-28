@@ -12,11 +12,10 @@ import {
   GET_VEHICLE_TYPE_REQUEST,
   GET_VEHICLE_TYPE_SUCCESS,
   GET_VEHICLE_TYPE_FAIL,
-  CLEAR_ERRORS,
 } from "../constants/transportConstants";
 
 // Get all Category
-export const GetVehicle = (categoryname) => async (dispatch) => {
+export const GetVehiclelist = (BusNumber) => async (dispatch) => {
   try {
     const config = {
       headers: {
@@ -26,9 +25,9 @@ export const GetVehicle = (categoryname) => async (dispatch) => {
     };
     dispatch({ type: GET_VEHICLEDETAILS_REQUEST });
 
-    if (categoryname) {
+    if (BusNumber) {
       const { data } = await axios.get(
-        `${backendApiUrl}transport/vehicledetails?categoryname=${categoryname}`,
+        `${backendApiUrl}transport/vehicledetails?BusNumber=${BusNumber}`,
         config
       );
 
@@ -57,7 +56,7 @@ export const GetVehicle = (categoryname) => async (dispatch) => {
 };
 
 // Get all Facility
-export const GetVehicleType = (facilityname) => async (dispatch) => {
+export const GetVehicleType = (VehicleType) => async (dispatch) => {
   try {
     const config = {
       headers: {
@@ -67,9 +66,9 @@ export const GetVehicleType = (facilityname) => async (dispatch) => {
     };
     dispatch({ type: GET_VEHICLE_TYPE_REQUEST });
 
-    if (facilityname) {
+    if (VehicleType) {
       const { data } = await axios.get(
-        `${backendApiUrl}transport/vehicletype?facilityname=${facilityname}`,
+        `${backendApiUrl}transport/vehicletype?VehicleType=${VehicleType}`,
         config
       );
       console.log("get book list from actions", data?.data);
@@ -98,7 +97,7 @@ export const GetVehicleType = (facilityname) => async (dispatch) => {
 };
 
 // Get all Facility
-export const GetRoute = (hostelname) => async (dispatch) => {
+export const GetRoute = (stopName) => async (dispatch) => {
   try {
     const config = {
       headers: {
@@ -108,9 +107,9 @@ export const GetRoute = (hostelname) => async (dispatch) => {
     };
     dispatch({ type: GET_ROUTES_REQUEST });
 
-    if (hostelname) {
+    if (stopName) {
       const { data } = await axios.get(
-        `${backendApiUrl}transport/vehicleroute?hostelname=${hostelname}`,
+        `${backendApiUrl}transport/vehicleroute?stopName=${stopName}`,
         config
       );
 

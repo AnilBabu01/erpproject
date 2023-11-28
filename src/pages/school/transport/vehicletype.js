@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  deletecategory,
-  getcategory,
-} from "../../../redux/actions/commanAction";
+import { GetVehicleType } from "../../../redux/actions/transportActions";
 import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -14,22 +11,26 @@ import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
 import AddStudentCategory from "@/component/Institute/transport/AddVehiceType";
 import UpdateCategory from "@/component/Institute/transport/UpdateVehicleType";
-
+import LoadingSpinner from "@/component/loader/LoadingSpinner";
+import { serverInstance } from "../../../API/ServerInstance";
+import { toast } from "react-toastify";
 function Vehicletype() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [openupdate, setOpenupdate] = useState(false);
   const [openalert, setOpenalert] = useState(false);
   const [updatedata, setupdatedata] = useState("");
+  const [Vehicletype, setVehicletype] = useState("");
   const [deleteid, setdeleteid] = useState("");
   const [isdata, setisData] = useState([]);
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
-  const { category } = useSelector((state) => state.getcategory);
+  const { vehicletype, loading } = useSelector((state) => state.GetVehicleType);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
+
 
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="top" ref={ref} {...props} />;
@@ -58,20 +59,43 @@ function Vehicletype() {
   };
 
   const handledelete = () => {
-    dispatch(deletecategory(deleteid, setOpenalert));
+    serverInstance("transport/vehicletype", "delete", {
+      id: deleteid,
+    }).then((res) => {
+      if (res?.status === true) {
+        toast.success(res?.msg, {
+          autoClose: 1000,
+        });
+        setOpenalert(false);
+        dispatch(GetVehicleType());
+      }
+      if (res?.status === false) {
+        toast.error(res?.msg, {
+          autoClose: 1000,
+        });
+        setOpenalert(false);
+      }
+    });
+  };
+  const filter = () => {
+    dispatch(GetVehicleType(Vehicletype));
   };
 
+  const reset = () => {
+    setVehicletype("");
+    dispatch(GetVehicleType());
+  };
   useEffect(() => {
-    if (category) {
-      setisData(category);
+    if (vehicletype) {
+      setisData(vehicletype);
     }
     if (user) {
       setuserdata(user);
     }
-  }, [category, user]);
+  }, [vehicletype, user]);
   useEffect(() => {
-    dispatch(getcategory());
-  }, [open, openupdate, openalert]);
+    dispatch(GetVehicleType());
+  }, []);
 
   return (
     <>
@@ -129,16 +153,19 @@ function Vehicletype() {
         <div>
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
-              <form className={styles.searchoptiondiv}>
+              <div className={styles.searchoptiondiv}>
                 <input
                   className={styles.opensearchinput}
                   type="text"
                   placeholder="Vahicle Type"
+                  value={Vehicletype}
+                  name="Vehicletype"
+                  onChange={(e) => setVehicletype(e.target.value)}
                 />
 
-                <button>Search</button>
-              </form>
-              <button>Reset</button>
+                <button onClick={() => filter()}>Search</button>
+              </div>
+              <button onClick={() => reset()}>Reset</button>
             </div>
             <div className={styles.imgdivformat}>
               <img
@@ -186,74 +213,79 @@ function Vehicletype() {
                     <th className={styles.tableth}>Vehicle Type</th>
                     <th className={styles.tableth}>Action</th>
                   </tr>
-                  {isdata?.map((item, index) => {
-                    return (
-                      <tr key={index} className={styles.tabletr}>
-                        <td className={styles.tabletd}>{index + 1}</td>
-                        <td className={styles.tabletd}>{item?.category}</td>
-                        <td className={styles.tabkeddd}>
-                          <button
-                            disabled={
-                              userdata?.data &&
-                              userdata?.data?.User?.userType === "school"
-                                ? false
-                                : userdata?.data &&
-                                  userdata?.data?.User?.masterDelete === true
-                                ? false
-                                : true
-                            }
-                          >
-                            <img
-                              className={
+                  {isdata?.length > 0 &&
+                    isdata?.map((item, index) => {
+                      return (
+                        <tr key={index} className={styles.tabletr}>
+                          <td className={styles.tabletd}>{index + 1}</td>
+                          <td className={styles.tabletd}>
+                            {item?.Vahicletype}
+                          </td>
+                          <td className={styles.tabkeddd}>
+                            <button
+                              disabled={
                                 userdata?.data &&
                                 userdata?.data?.User?.userType === "school"
-                                  ? styles.tabkedddimgactive
+                                  ? false
                                   : userdata?.data &&
                                     userdata?.data?.User?.masterDelete === true
-                                  ? styles.tabkedddimgactive
-                                  : styles.tabkedddimgdisable
+                                  ? false
+                                  : true
                               }
-                              onClick={() => ClickOpendelete(item?.id)}
-                              src="/images/Delete.png"
-                              alt="imgss"
-                            />
-                          </button>
-                          <button
-                            disabled={
-                              userdata?.data &&
-                              userdata?.data?.User?.userType === "school"
-                                ? false
-                                : userdata?.data &&
-                                  userdata?.data?.User?.masterEdit === true
-                                ? false
-                                : true
-                            }
-                          >
-                            <img
-                              className={
+                            >
+                              <img
+                                className={
+                                  userdata?.data &&
+                                  userdata?.data?.User?.userType === "school"
+                                    ? styles.tabkedddimgactive
+                                    : userdata?.data &&
+                                      userdata?.data?.User?.masterDelete ===
+                                        true
+                                    ? styles.tabkedddimgactive
+                                    : styles.tabkedddimgdisable
+                                }
+                                onClick={() => ClickOpendelete(item?.id)}
+                                src="/images/Delete.png"
+                                alt="imgss"
+                              />
+                            </button>
+                            <button
+                              disabled={
                                 userdata?.data &&
                                 userdata?.data?.User?.userType === "school"
-                                  ? styles.tabkedddimgactive
+                                  ? false
                                   : userdata?.data &&
                                     userdata?.data?.User?.masterEdit === true
-                                  ? styles.tabkedddimgactive
-                                  : styles.tabkedddimgdisable
+                                  ? false
+                                  : true
                               }
-                              onClick={() => ClickOpenupdate(item)}
-                              src="/images/Edit.png"
-                              alt="imgss"
-                            />
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                            >
+                              <img
+                                className={
+                                  userdata?.data &&
+                                  userdata?.data?.User?.userType === "school"
+                                    ? styles.tabkedddimgactive
+                                    : userdata?.data &&
+                                      userdata?.data?.User?.masterEdit === true
+                                    ? styles.tabkedddimgactive
+                                    : styles.tabkedddimgdisable
+                                }
+                                onClick={() => ClickOpenupdate(item)}
+                                src="/images/Edit.png"
+                                alt="imgss"
+                              />
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
                 </tbody>
               </table>
             </div>
           </div>
         </div>
       </div>
+      {loading && <LoadingSpinner />}
     </>
   );
 }

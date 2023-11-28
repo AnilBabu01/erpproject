@@ -4,14 +4,12 @@ import MenuItem from "@mui/material/MenuItem";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Addstudent,
-  getstudent,
-  Updatestudent,
-} from "../../../redux/actions/commanAction";
+import { Updatestudent } from "../../../redux/actions/commanAction";
 import { useRouter } from "next/router";
 import { ADD_STUDENT_RESET } from "../../../redux/constants/commanConstants";
 import CircularProgress from "@mui/material/CircularProgress";
+import { serverInstance } from "../../../API/ServerInstance";
+import { toast } from "react-toastify";
 const formData = new FormData();
 const studentStatus = [
   { label: "Active", value: "Active" },
@@ -23,6 +21,11 @@ const studentStatus = [
 function UpdateAdmission({ setOpen, updatedata }) {
   const navigation = useRouter();
   const dispatch = useDispatch();
+  const [loading1, setloading1] = useState(false);
+  const [loading2, setloading2] = useState(false);
+  const [TransportFeePermonth, setTransportFeePermonth] = useState("");
+  const [fromroute, setfromroute] = useState("");
+  const [toroute, settoroute] = useState("");
   const [amount, setamount] = useState("");
   const [monthlyfee, setmonthlyfee] = useState("");
   const [noofMonth, setnoofMonth] = useState("");
@@ -67,10 +70,22 @@ function UpdateAdmission({ setOpen, updatedata }) {
   const [categoryname, setcategoryname] = useState("Please Select");
   const [categorylist, setcategorylist] = useState([]);
   const [showdownload, setshowdownload] = useState(false);
+  const [hostelfeeperMonth, sethostelfeeperMonth] = useState("");
+  const [hostenname, sethostenname] = useState("");
+  const [hostelcategory, sethostelcategory] = useState("");
+  const [hostelfacility, sethostelfacility] = useState("");
+  const [hostellist, sethostellist] = useState([]);
+  const [hostelcategorylist, sethostelcategorylist] = useState([]);
+  const [hostelfacilitylist, sethostelfacilitylist] = useState([]);
+  const [routelist, setroutelist] = useState([]);
   const { fee } = useSelector((state) => state.getfee);
   const { batch } = useSelector((state) => state.getbatch);
   const { user } = useSelector((state) => state.auth);
   const { category } = useSelector((state) => state.getcategory);
+  const { hostel } = useSelector((state) => state.GetHostel);
+  const { roomcategory } = useSelector((state) => state.GetCategory);
+  const { roomfacility } = useSelector((state) => state.GetFacility);
+  const { route } = useSelector((state) => state.GetRoute);
   const { studentaddstatus, student } = useSelector(
     (state) => state.addstudent
   );
@@ -107,6 +122,10 @@ function UpdateAdmission({ setOpen, updatedata }) {
     formData.set("Library", Library);
     formData.set("hostal", hostal);
     formData.set("StudentCategory", categoryname);
+    formData.set("HostelPerMonthFee", Number(hostelfeeperMonth));
+    formData.set("TotalHostelFee", Number(hostelfeeperMonth) * 12);
+    formData.set("TransportPerMonthFee", Number(TransportFeePermonth));
+    formData.set("TransportTotalHostelFee", Number(TransportFeePermonth) * 12);
     formData.set(
       "permonthfee",
       getfee === "default" ? Number(onlyshowmonthfee) : Number(monthlyfee)
@@ -141,7 +160,19 @@ function UpdateAdmission({ setOpen, updatedata }) {
     if (category) {
       setcategorylist(category);
     }
-  }, [fee, batch, category]);
+    if (hostel) {
+      sethostellist(hostel);
+    }
+    if (roomcategory) {
+      sethostelcategorylist(roomcategory);
+    }
+    if (roomfacility) {
+      sethostelfacilitylist(roomfacility);
+    }
+    if (route) {
+      setroutelist(route);
+    }
+  }, [fee, batch, category, roomcategory, roomfacility, hostel, route]);
 
   const gotoreceipt = () => {
     navigation.push({
@@ -188,6 +219,8 @@ function UpdateAdmission({ setOpen, updatedata }) {
       setLibrary(updatedata?.Library);
       sethostal(updatedata?.hostal);
       setcategoryname(updatedata?.StudentCategory);
+      setTransportFeePermonth(updatedata?.TransportPerMonthFee);
+      sethostelfeeperMonth(updatedata?.HostelPerMonthFee);
     }
   }, []);
   return (
@@ -921,6 +954,308 @@ function UpdateAdmission({ setOpen, updatedata }) {
                       </Select>
                     </div>
                   </div>
+                  {hostal === true && (
+                    <>
+                      <label>Hostel Details</label>
+                      <div className={styles.divmaininput}>
+                        <div className={styles.inputdiv}>
+                          <label>Hostal Name</label>
+                          <Select
+                            required
+                            className={styles.addwidth}
+                            sx={{
+                              width: "18.8rem",
+                              fontSize: 14,
+                              "& .MuiSelect-select": {
+                                paddingTop: "0.6rem",
+                                paddingBottom: "0.6em",
+                              },
+                            }}
+                            value={hostenname}
+                            name="hostenname"
+                            onChange={(e) => sethostenname(e.target.value)}
+                            displayEmpty
+                          >
+                            <MenuItem
+                              sx={{
+                                fontSize: 14,
+                              }}
+                              value={""}
+                            >
+                              Please Select
+                            </MenuItem>
+                            {hostellist?.length > 0 &&
+                              hostellist?.map((item, index) => {
+                                return (
+                                  <MenuItem
+                                    key={index}
+                                    sx={{
+                                      fontSize: 14,
+                                    }}
+                                    value={item?.HostelName}
+                                  >
+                                    {item?.HostelName}
+                                  </MenuItem>
+                                );
+                              })}
+                          </Select>
+                        </div>
+                        <div className={styles.inputdiv}>
+                          <label>Category</label>
+                          <Select
+                            required
+                            className={styles.addwidth}
+                            sx={{
+                              width: "18.8rem",
+                              fontSize: 14,
+                              "& .MuiSelect-select": {
+                                paddingTop: "0.6rem",
+                                paddingBottom: "0.6em",
+                              },
+                            }}
+                            value={hostelcategory}
+                            name="hostelcategory"
+                            onChange={(e) => sethostelcategory(e.target.value)}
+                            displayEmpty
+                          >
+                            <MenuItem
+                              sx={{
+                                fontSize: 14,
+                              }}
+                              value={""}
+                            >
+                              Please Select
+                            </MenuItem>
+                            {hostelcategorylist?.length > 0 &&
+                              hostelcategorylist?.map((item, index) => {
+                                return (
+                                  <MenuItem
+                                    key={index}
+                                    sx={{
+                                      fontSize: 14,
+                                    }}
+                                    value={item?.roomCategory}
+                                  >
+                                    {item?.roomCategory}
+                                  </MenuItem>
+                                );
+                              })}
+                          </Select>
+                        </div>
+                        <div className={styles.inputdiv}>
+                          <label>Facility</label>
+                          <Select
+                            required
+                            className={styles.addwidth}
+                            sx={{
+                              width: "18.8rem",
+                              fontSize: 14,
+                              "& .MuiSelect-select": {
+                                paddingTop: "0.6rem",
+                                paddingBottom: "0.6em",
+                              },
+                            }}
+                            value={hostelfacility}
+                            name="hostelfacility"
+                            onChange={(e) => sethostelfacility(e.target.value)}
+                            displayEmpty
+                          >
+                            <MenuItem
+                              sx={{
+                                fontSize: 14,
+                              }}
+                              value={""}
+                            >
+                              Please Select
+                            </MenuItem>
+                            {hostelfacilitylist?.length > 0 &&
+                              hostelfacilitylist?.map((item, index) => {
+                                return (
+                                  <MenuItem
+                                    key={index}
+                                    sx={{
+                                      fontSize: 14,
+                                    }}
+                                    value={item?.roomFacility}
+                                  >
+                                    {item?.roomFacility}
+                                  </MenuItem>
+                                );
+                              })}
+                          </Select>
+                        </div>
+                      </div>
+                      <div className={styles.divmaininput}>
+                        <div className={styles.inputdiv}>
+                          <label>Monthly Hostel Fee</label>
+                          <input
+                            required
+                            disabled={true}
+                            type="text"
+                            placeholder="Amount"
+                            value={hostelfeeperMonth}
+                          />
+                        </div>
+                        <div className={styles.inputdiv}>
+                          <label>Total Hostel Fee</label>
+                          <input
+                            required
+                            type="text"
+                            disabled={true}
+                            value={Number(hostelfeeperMonth) * 12}
+                          />
+                        </div>
+                        <div className={styles.inputdiv}>
+                          <label>&nbsp;</label>
+                          <button
+                            disabled={loading ? true : false}
+                            className={styles.logbtnstyle}
+                            onClick={() => gethostelFee()}
+                          >
+                            {loading1 ? (
+                              <CircularProgress
+                                size={25}
+                                style={{ color: "red" }}
+                              />
+                            ) : (
+                              "Get Hostel Fee"
+                            )}
+                          </button>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                  {transport === true && (
+                    <>
+                      <label>Transpost Details</label>
+                      <div className={styles.divmaininput}>
+                        <div className={styles.inputdiv}>
+                          <label>From Route</label>
+                          <Select
+                            required
+                            className={styles.addwidth}
+                            sx={{
+                              width: "18.8rem",
+                              fontSize: 14,
+                              "& .MuiSelect-select": {
+                                paddingTop: "0.6rem",
+                                paddingBottom: "0.6em",
+                              },
+                            }}
+                            value={fromroute}
+                            name="fromroute"
+                            onChange={(e) => setfromroute(e.target.value)}
+                            displayEmpty
+                          >
+                            <MenuItem
+                              sx={{
+                                fontSize: 14,
+                              }}
+                              value={""}
+                            >
+                              Please Select
+                            </MenuItem>
+                            {routelist?.length > 0 &&
+                              routelist?.map((item) => {
+                                return (
+                                  <MenuItem
+                                    sx={{
+                                      fontSize: 14,
+                                    }}
+                                    value={item?.routeName?.FromRoute}
+                                  >
+                                    {item?.routeName?.FromRoute}
+                                  </MenuItem>
+                                );
+                              })}
+                          </Select>
+                        </div>
+                        <div className={styles.inputdiv}>
+                          <label>To Route</label>
+                          <Select
+                            required
+                            className={styles.addwidth}
+                            sx={{
+                              width: "18.8rem",
+                              fontSize: 14,
+                              "& .MuiSelect-select": {
+                                paddingTop: "0.6rem",
+                                paddingBottom: "0.6em",
+                              },
+                            }}
+                            value={toroute}
+                            name="toroute"
+                            onChange={(e) => settoroute(e.target.value)}
+                            displayEmpty
+                          >
+                            <MenuItem
+                              sx={{
+                                fontSize: 14,
+                              }}
+                              value={""}
+                            >
+                              Please Select
+                            </MenuItem>
+                            {routelist?.length > 0 &&
+                              routelist?.map((item) => {
+                                return (
+                                  <MenuItem
+                                    sx={{
+                                      fontSize: 14,
+                                    }}
+                                    value={item?.routeName?.ToRoute}
+                                  >
+                                    {item?.routeName?.ToRoute}
+                                  </MenuItem>
+                                );
+                              })}
+                          </Select>
+                        </div>
+                        <div className={styles.inputdiv}>
+                          <label>&nbsp;</label>
+                          <button
+                            disabled={loading ? true : false}
+                            className={styles.logbtnstyle}
+                            onClick={() => gettransportFee()}
+                          >
+                            {loading2 ? (
+                              <CircularProgress
+                                size={25}
+                                style={{ color: "red" }}
+                              />
+                            ) : (
+                              "Get Transport Fee"
+                            )}
+                          </button>
+                        </div>
+                      </div>
+                      <div className={styles.divmaininput}>
+                        <div className={styles.inputdiv}>
+                          <label>Monthly Transport Fee</label>
+                          <input
+                            required
+                            disabled={true}
+                            type="text"
+                            placeholder="Amount"
+                            value={TransportFeePermonth}
+                          />
+                        </div>
+                        <div className={styles.inputdiv}>
+                          <label>Total Transport Fee</label>
+                          <input
+                            required
+                            type="text"
+                            disabled={true}
+                            value={Number(TransportFeePermonth) * 12}
+                          />
+                        </div>
+                        <div className={styles.inputdiv}>
+                          <label>&nbsp;</label>
+                          <label>&nbsp;</label>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </>
               )}
             </>

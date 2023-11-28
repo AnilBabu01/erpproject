@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  deletecategory,
-  getcategory,
-} from "../../../redux/actions/commanAction";
+import { GetRoute } from "../../../redux/actions/transportActions";
 import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -14,19 +11,23 @@ import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
 import AddStudentCategory from "@/component/Institute/transport/AddRoutes";
 import UpdateCategory from "@/component/Institute/transport/UpdateRoutes";
-
+import LoadingSpinner from "@/component/loader/LoadingSpinner";
+import { serverInstance } from "../../../API/ServerInstance";
+import { toast } from "react-toastify";
 function Addroutes() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [openupdate, setOpenupdate] = useState(false);
   const [openalert, setOpenalert] = useState(false);
   const [updatedata, setupdatedata] = useState("");
+  const [stopName, setstopName] = useState("");
   const [deleteid, setdeleteid] = useState("");
   const [isdata, setisData] = useState([]);
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
-  const { category } = useSelector((state) => state.getcategory);
+  const { route, loadinng } = useSelector((state) => state.GetRoute);
 
+  console.log("routes list", route);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -58,20 +59,44 @@ function Addroutes() {
   };
 
   const handledelete = () => {
-    dispatch(deletecategory(deleteid, setOpenalert));
+    serverInstance("transport/vehicleroute", "delete", {
+      id: deleteid,
+    }).then((res) => {
+      if (res?.status === true) {
+        toast.success(res?.msg, {
+          autoClose: 1000,
+        });
+        setOpenalert(false);
+        dispatch(GetRoute());
+      }
+      if (res?.status === false) {
+        toast.error(res?.msg, {
+          autoClose: 1000,
+        });
+        setOpenalert(false);
+      }
+    });
+  };
+  const filter = () => {
+    dispatch(GetRoute(stopName));
   };
 
+  const reset = () => {
+    setstopName("");
+    dispatch(GetRoute());
+  };
   useEffect(() => {
-    if (category) {
-      setisData(category);
+    if (route) {
+      setisData(route);
     }
     if (user) {
       setuserdata(user);
     }
-  }, [category, user]);
+  }, [route, user]);
+
   useEffect(() => {
-    dispatch(getcategory());
-  }, [open, openupdate, openalert]);
+    dispatch(GetRoute());
+  }, []);
 
   return (
     <>
@@ -145,16 +170,19 @@ function Addroutes() {
         <div>
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
-              <form className={styles.searchoptiondiv}>
+              <div className={styles.searchoptiondiv}>
                 <input
                   className={styles.opensearchinput}
                   type="text"
-                  placeholder="Category"
+                  placeholder="Stops Name"
+                  value={stopName}
+                  name="stopName"
+                  onChange={(e) => setstopName(e.target.value)}
                 />
 
-                <button>Search</button>
-              </form>
-              <button>Reset</button>
+                <button onClick={() => filter()}>Search</button>
+              </div>
+              <button onClick={() => reset()}>Reset</button>
             </div>
             <div className={styles.imgdivformat}>
               <img
@@ -201,77 +229,99 @@ function Addroutes() {
                     <th className={styles.tableth}>S.NO</th>
                     <th className={styles.tableth}>From</th>
                     <th className={styles.tableth}>To</th>
+                    <th className={styles.tableth}>Bus Fee Per Month</th>
+                    <th className={styles.tableth}>Stop Name</th>
                     <th className={styles.tableth}>Action</th>
                   </tr>
-                  {isdata?.map((item, index) => {
-                    return (
-                      <tr key={index} className={styles.tabletr}>
-                        <td className={styles.tabletd}>{index + 1}</td>
-                        <td className={styles.tabletd}>{item?.category}</td>
-                        <td className={styles.tabletd}>{item?.category}</td>
-                        <td className={styles.tabkeddd}>
-                          <button
-                            disabled={
-                              userdata?.data &&
-                              userdata?.data?.User?.userType === "school"
-                                ? false
-                                : userdata?.data &&
-                                  userdata?.data?.User?.masterDelete === true
-                                ? false
-                                : true
-                            }
-                          >
-                            <img
-                              className={
+                  {isdata?.length > 0 &&
+                    isdata?.map((item, index) => {
+                      return (
+                        <tr key={index} className={styles.tabletr}>
+                          <td className={styles.tabletd}>{index + 1}</td>
+                          <td className={styles.tabletd}>
+                            {item?.routeName?.FromRoute}
+                          </td>
+                          <td className={styles.tabletd}>
+                            {item?.routeName?.ToRoute}
+                          </td>
+                          <td className={styles.tabletd}>
+                            {item?.routeName?.BusRentPermonth}
+                          </td>
+                          <td className={styles.tabletd}>
+                            {item?.StopName?.map((items, index) => {
+                              return (
+                                <span key={index}>{items?.StopName} , </span>
+                              );
+                            })}
+                          </td>
+                          <td className={styles.tabkeddd}>
+                            <button
+                              disabled={
                                 userdata?.data &&
                                 userdata?.data?.User?.userType === "school"
-                                  ? styles.tabkedddimgactive
+                                  ? false
                                   : userdata?.data &&
                                     userdata?.data?.User?.masterDelete === true
-                                  ? styles.tabkedddimgactive
-                                  : styles.tabkedddimgdisable
+                                  ? false
+                                  : true
                               }
-                              onClick={() => ClickOpendelete(item?.id)}
-                              src="/images/Delete.png"
-                              alt="imgss"
-                            />
-                          </button>
-                          <button
-                            disabled={
-                              userdata?.data &&
-                              userdata?.data?.User?.userType === "school"
-                                ? false
-                                : userdata?.data &&
-                                  userdata?.data?.User?.masterEdit === true
-                                ? false
-                                : true
-                            }
-                          >
-                            <img
-                              className={
+                            >
+                              <img
+                                className={
+                                  userdata?.data &&
+                                  userdata?.data?.User?.userType === "school"
+                                    ? styles.tabkedddimgactive
+                                    : userdata?.data &&
+                                      userdata?.data?.User?.masterDelete ===
+                                        true
+                                    ? styles.tabkedddimgactive
+                                    : styles.tabkedddimgdisable
+                                }
+                                onClick={() =>
+                                  ClickOpendelete(item?.routeName?.id)
+                                }
+                                src="/images/Delete.png"
+                                alt="imgss"
+                              />
+                            </button>
+                            <button
+                              disabled={
                                 userdata?.data &&
                                 userdata?.data?.User?.userType === "school"
-                                  ? styles.tabkedddimgactive
+                                  ? false
                                   : userdata?.data &&
                                     userdata?.data?.User?.masterEdit === true
-                                  ? styles.tabkedddimgactive
-                                  : styles.tabkedddimgdisable
+                                  ? false
+                                  : true
                               }
-                              onClick={() => ClickOpenupdate(item)}
-                              src="/images/Edit.png"
-                              alt="imgss"
-                            />
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                            >
+                              <img
+                                className={
+                                  userdata?.data &&
+                                  userdata?.data?.User?.userType === "school"
+                                    ? styles.tabkedddimgactive
+                                    : userdata?.data &&
+                                      userdata?.data?.User?.masterEdit === true
+                                    ? styles.tabkedddimgactive
+                                    : styles.tabkedddimgdisable
+                                }
+                                onClick={() => ClickOpenupdate(item)}
+                                src="/images/Edit.png"
+                                alt="imgss"
+                              />
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
                 </tbody>
               </table>
             </div>
           </div>
         </div>
       </div>
+
+      {loadinng && <LoadingSpinner />}
     </>
   );
 }

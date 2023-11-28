@@ -1,26 +1,46 @@
 import React, { useState, useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
-import { getcourse, Updatecategory } from "../../../redux/actions/commanAction";
-import { useDispatch, useSelector } from "react-redux";
+import { GetVehicleType } from "../../../redux/actions/transportActions";
+import { useDispatch } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
+import { serverInstance } from "../../../API/ServerInstance";
+import { toast } from "react-toastify";
 function UpdateVehicleType({ updatedata, setOpen }) {
   const dispatch = useDispatch();
-  const [Categoryname, setCategoryname] = useState("");
-  const { batch, loading } = useSelector((state) => state.editcategory);
+  const [VehicleType, setVehicleType] = useState("");
+  const [loading, setloading] = useState(false);
   const submit = (e) => {
     e.preventDefault();
-    const data = {
-      id: updatedata?.id,
-      category: Categoryname,
-    };
-    dispatch(Updatecategory(data, setOpen));
+    setloading(true);
+    serverInstance("transport/vehicletype", "put", {
+      id:updatedata?.id,
+      Vahicletype: VehicleType,
+    }).then((res) => {
+      if (res?.status === true) {
+        toast.success(res?.msg, {
+          autoClose: 1000,
+        });
+        setOpen(false);
+
+        setloading(false);
+        dispatch(GetVehicleType());
+      }
+      if (res?.status === false) {
+        toast.error(res?.msg, {
+          autoClose: 1000,
+        });
+
+        setloading(false);
+      }
+    });
   };
   useEffect(() => {
     if (updatedata) {
-      setCategoryname(updatedata?.category);
+      setVehicleType(updatedata?.Vahicletype);
     }
   }, []);
+
   return (
     <>
       <div className={styles.divmainlogin}>
@@ -35,9 +55,9 @@ function UpdateVehicleType({ updatedata, setOpen }) {
               <input
                 type="text"
                 placeholder="Enter the Vehicle Type"
-                value={Categoryname}
-                name="Categoryname"
-                onChange={(e) => setCategoryname(e.target.value)}
+                value={VehicleType}
+                name="VehicleType"
+                onChange={(e) => setVehicleType(e.target.value)}
               />
             </div>
           </div>
@@ -49,7 +69,7 @@ function UpdateVehicleType({ updatedata, setOpen }) {
               {loading ? (
                 <CircularProgress size={25} style={{ color: "red" }} />
               ) : (
-                "Save"
+                "Update"
               )}
             </button>
           </div>

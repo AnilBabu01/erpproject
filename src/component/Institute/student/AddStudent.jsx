@@ -8,7 +8,8 @@ import { Addstudent, getstudent } from "../../../redux/actions/commanAction";
 import { useRouter } from "next/router";
 import { ADD_STUDENT_RESET } from "../../../redux/constants/commanConstants";
 import CircularProgress from "@mui/material/CircularProgress";
-
+import { serverInstance } from "../../../API/ServerInstance";
+import { toast } from "react-toastify";
 const formData = new FormData();
 const studentStatus = [
   { label: "Active", value: "Active" },
@@ -20,6 +21,11 @@ const studentStatus = [
 function AddStudent({ setOpen }) {
   const navigation = useRouter();
   const dispatch = useDispatch();
+  const [loading1, setloading1] = useState(false);
+  const [loading2, setloading2] = useState(false);
+  const [TransportFeePermonth, setTransportFeePermonth] = useState("");
+  const [fromroute, setfromroute] = useState("");
+  const [toroute, settoroute] = useState("");
   const [amount, setamount] = useState("");
   const [monthlyfee, setmonthlyfee] = useState("");
   const [noofMonth, setnoofMonth] = useState("");
@@ -60,17 +66,31 @@ function AddStudent({ setOpen }) {
   const [othersname, setothersname] = useState("");
   const [status, setstatus] = useState("Active");
   const [marksheetName, setmarksheetName] = useState("");
-  const [shownext, setshownext] = useState(false);
+  const [shownext, setshownext] = useState(true);
   const [categoryname, setcategoryname] = useState("Please Select");
   const [categorylist, setcategorylist] = useState([]);
   const [showdownload, setshowdownload] = useState(false);
+  const [hostelfeeperMonth, sethostelfeeperMonth] = useState("");
+  const [hostenname, sethostenname] = useState("");
+  const [hostelcategory, sethostelcategory] = useState("");
+  const [hostelfacility, sethostelfacility] = useState("");
+  const [hostellist, sethostellist] = useState([]);
+  const [hostelcategorylist, sethostelcategorylist] = useState([]);
+  const [hostelfacilitylist, sethostelfacilitylist] = useState([]);
+  const [routelist, setroutelist] = useState([]);
   const { fee } = useSelector((state) => state.getfee);
   const { batch } = useSelector((state) => state.getbatch);
   const { user } = useSelector((state) => state.auth);
   const { category } = useSelector((state) => state.getcategory);
+  const { hostel } = useSelector((state) => state.GetHostel);
+  const { roomcategory } = useSelector((state) => state.GetCategory);
+  const { roomfacility } = useSelector((state) => state.GetFacility);
+  const { route } = useSelector((state) => state.GetRoute);
   const { studentaddstatus, student, loading } = useSelector(
     (state) => state.addstudent
   );
+
+  console.log("route list details from", routelist);
 
   const submit = () => {
     formData.set("name", studentname);
@@ -113,6 +133,10 @@ function AddStudent({ setOpen }) {
         ? Number(onlyshowmonthfee) * Number(noofMonth)
         : Number(monthlyfee) * Number(noofMonth)
     );
+    formData.set("HostelPerMonthFee", Number(hostelfeeperMonth));
+    formData.set("TotalHostelFee", Number(hostelfeeperMonth) * 12);
+    formData.set("TransportPerMonthFee", Number(TransportFeePermonth));
+    formData.set("TransportTotalHostelFee", Number(TransportFeePermonth) * 12);
     formData.set(
       "Studentpassword",
       user?.data[0]?.Studentpassword
@@ -140,10 +164,31 @@ function AddStudent({ setOpen }) {
     if (category) {
       setcategorylist(category);
     }
+    if (hostel) {
+      sethostellist(hostel);
+    }
+    if (roomcategory) {
+      sethostelcategorylist(roomcategory);
+    }
+    if (roomfacility) {
+      sethostelfacilitylist(roomfacility);
+    }
+    if (route) {
+      setroutelist(route);
+    }
     dispatch({
       type: ADD_STUDENT_RESET,
     });
-  }, [fee, batch, studentaddstatus, category]);
+  }, [
+    fee,
+    batch,
+    studentaddstatus,
+    category,
+    roomcategory,
+    roomfacility,
+    hostel,
+    route,
+  ]);
 
   const gotoreceipt = () => {
     navigation.push({
@@ -152,6 +197,48 @@ function AddStudent({ setOpen }) {
         receiptdata: JSON.stringify(student?.data[0]?.user),
       },
     });
+  };
+
+  const gethostelFee = () => {
+    try {
+      setloading1(true);
+      serverInstance("hostel/gethostelfee", "post", {
+        hostelname: hostenname,
+        Category: hostelcategory,
+        Facility: hostelfacility,
+      }).then((res) => {
+        if (res?.status === true) {
+          toast.success(res?.msg, {
+            autoClose: 1000,
+          });
+          setloading1(false);
+          sethostelfeeperMonth(res?.data?.PermonthFee);
+        }
+      });
+    } catch (error) {
+      setloading1(false);
+    }
+  };
+
+  const gettransportFee = () => {
+    try {
+      setloading2(true);
+      serverInstance("transport/gettransportfee", "post", {
+        FromRoute: fromroute,
+        ToRoute: toroute,
+      }).then((res) => {
+        if (res?.status === true) {
+          toast.success(res?.msg, {
+            autoClose: 1000,
+          });
+          setloading2(false);
+          // console.log(res?.data);
+          setTransportFeePermonth(res?.data?.BusRentPermonth);
+        }
+      });
+    } catch (error) {
+      setloading2(false);
+    }
   };
   return (
     <>
@@ -162,7 +249,7 @@ function AddStudent({ setOpen }) {
         <h1>
           {shownext ? "Add Student" : showdownload ? "" : "Fee Structure"}
         </h1>
-        <form>
+        <div>
           {shownext ? (
             <>
               <div className={styles.divmaininput}>
@@ -885,6 +972,8 @@ function AddStudent({ setOpen }) {
                       </Select>
                     </div>
                   </div>
+
+                  
                   {hostal === true && (
                     <>
                       <label>Hostel Details</label>
@@ -902,27 +991,32 @@ function AddStudent({ setOpen }) {
                                 paddingBottom: "0.6em",
                               },
                             }}
-                            value={hostal}
-                            name="hostal"
-                            onChange={(e) => sethostal(e.target.value)}
+                            value={hostenname}
+                            name="hostenname"
+                            onChange={(e) => sethostenname(e.target.value)}
                             displayEmpty
                           >
                             <MenuItem
                               sx={{
                                 fontSize: 14,
                               }}
-                              value={false}
+                              value={""}
                             >
-                              BH1
+                              Please Select
                             </MenuItem>
-                            <MenuItem
-                              sx={{
-                                fontSize: 14,
-                              }}
-                              value={true}
-                            >
-                              BH1
-                            </MenuItem>
+                            {hostellist?.map((item, index) => {
+                              return (
+                                <MenuItem
+                                  key={index}
+                                  sx={{
+                                    fontSize: 14,
+                                  }}
+                                  value={item?.HostelName}
+                                >
+                                  {item?.HostelName}
+                                </MenuItem>
+                              );
+                            })}
                           </Select>
                         </div>
                         <div className={styles.inputdiv}>
@@ -938,27 +1032,32 @@ function AddStudent({ setOpen }) {
                                 paddingBottom: "0.6em",
                               },
                             }}
-                            value={transport}
-                            name="transport"
-                            onChange={(e) => settransport(e.target.value)}
+                            value={hostelcategory}
+                            name="hostelcategory"
+                            onChange={(e) => sethostelcategory(e.target.value)}
                             displayEmpty
                           >
                             <MenuItem
                               sx={{
                                 fontSize: 14,
                               }}
-                              value={false}
+                              value={""}
                             >
-                              2BED
+                              Please Select
                             </MenuItem>
-                            <MenuItem
-                              sx={{
-                                fontSize: 14,
-                              }}
-                              value={true}
-                            >
-                              2BED
-                            </MenuItem>
+                            {hostelcategorylist?.map((item, index) => {
+                              return (
+                                <MenuItem
+                                  key={index}
+                                  sx={{
+                                    fontSize: 14,
+                                  }}
+                                  value={item?.roomCategory}
+                                >
+                                  {item?.roomCategory}
+                                </MenuItem>
+                              );
+                            })}
                           </Select>
                         </div>
                         <div className={styles.inputdiv}>
@@ -974,27 +1073,32 @@ function AddStudent({ setOpen }) {
                                 paddingBottom: "0.6em",
                               },
                             }}
-                            value={Library}
-                            name="Library"
-                            onChange={(e) => setLibrary(e.target.value)}
+                            value={hostelfacility}
+                            name="hostelfacility"
+                            onChange={(e) => sethostelfacility(e.target.value)}
                             displayEmpty
                           >
                             <MenuItem
                               sx={{
                                 fontSize: 14,
                               }}
-                              value={false}
+                              value={""}
                             >
-                              AC
+                              Please Select
                             </MenuItem>
-                            <MenuItem
-                              sx={{
-                                fontSize: 14,
-                              }}
-                              value={true}
-                            >
-                              AC
-                            </MenuItem>
+                            {hostelfacilitylist?.map((item, index) => {
+                              return (
+                                <MenuItem
+                                  key={index}
+                                  sx={{
+                                    fontSize: 14,
+                                  }}
+                                  value={item?.roomFacility}
+                                >
+                                  {item?.roomFacility}
+                                </MenuItem>
+                              );
+                            })}
                           </Select>
                         </div>
                       </div>
@@ -1006,7 +1110,7 @@ function AddStudent({ setOpen }) {
                             disabled={true}
                             type="text"
                             placeholder="Amount"
-                            value={onlyshowrefee}
+                            value={hostelfeeperMonth}
                           />
                         </div>
                         <div className={styles.inputdiv}>
@@ -1015,12 +1119,25 @@ function AddStudent({ setOpen }) {
                             required
                             type="text"
                             disabled={true}
-                            value={onlyshowmonthfee}
+                            value={Number(hostelfeeperMonth) * 12}
                           />
                         </div>
                         <div className={styles.inputdiv}>
                           <label>&nbsp;</label>
-                          <label>&nbsp;</label>
+                          <button
+                            disabled={loading ? true : false}
+                            className={styles.logbtnstyle}
+                            onClick={() => gethostelFee()}
+                          >
+                            {loading1 ? (
+                              <CircularProgress
+                                size={25}
+                                style={{ color: "red" }}
+                              />
+                            ) : (
+                              "Get Hostel Fee"
+                            )}
+                          </button>
                         </div>
                       </div>
                     </>
@@ -1030,7 +1147,7 @@ function AddStudent({ setOpen }) {
                       <label>Transpost Details</label>
                       <div className={styles.divmaininput}>
                         <div className={styles.inputdiv}>
-                          <label>Route Name</label>
+                          <label>From Route</label>
                           <Select
                             required
                             className={styles.addwidth}
@@ -1042,31 +1159,36 @@ function AddStudent({ setOpen }) {
                                 paddingBottom: "0.6em",
                               },
                             }}
-                            value={hostal}
-                            name="hostal"
-                            onChange={(e) => sethostal(e.target.value)}
+                            value={fromroute}
+                            name="fromroute"
+                            onChange={(e) => setfromroute(e.target.value)}
                             displayEmpty
                           >
                             <MenuItem
                               sx={{
                                 fontSize: 14,
                               }}
-                              value={false}
+                              value={""}
                             >
-                              Bisalpur To Pilibhit
+                              Please Select
                             </MenuItem>
-                            <MenuItem
-                              sx={{
-                                fontSize: 14,
-                              }}
-                              value={true}
-                            >
-                              Bisalpur To Pilibhit
-                            </MenuItem>
+                            {routelist?.length > 0 &&
+                              routelist?.map((item) => {
+                                return (
+                                  <MenuItem
+                                    sx={{
+                                      fontSize: 14,
+                                    }}
+                                    value={item?.routeName?.FromRoute}
+                                  >
+                                    {item?.routeName?.FromRoute}
+                                  </MenuItem>
+                                );
+                              })}
                           </Select>
                         </div>
                         <div className={styles.inputdiv}>
-                          <label>Bus</label>
+                          <label>To Route</label>
                           <Select
                             required
                             className={styles.addwidth}
@@ -1078,32 +1200,50 @@ function AddStudent({ setOpen }) {
                                 paddingBottom: "0.6em",
                               },
                             }}
-                            value={transport}
-                            name="transport"
-                            onChange={(e) => settransport(e.target.value)}
+                            value={toroute}
+                            name="toroute"
+                            onChange={(e) => settoroute(e.target.value)}
                             displayEmpty
                           >
                             <MenuItem
                               sx={{
                                 fontSize: 14,
                               }}
-                              value={false}
+                              value={""}
                             >
-                              BUS01
+                              Please Select
                             </MenuItem>
-                            <MenuItem
-                              sx={{
-                                fontSize: 14,
-                              }}
-                              value={true}
-                            >
-                              BUS01
-                            </MenuItem>
+                            {routelist?.length > 0 &&
+                              routelist?.map((item) => {
+                                return (
+                                  <MenuItem
+                                    sx={{
+                                      fontSize: 14,
+                                    }}
+                                    value={item?.routeName?.ToRoute}
+                                  >
+                                    {item?.routeName?.ToRoute}
+                                  </MenuItem>
+                                );
+                              })}
                           </Select>
                         </div>
                         <div className={styles.inputdiv}>
                           <label>&nbsp;</label>
-                          <label>&nbsp;</label>
+                          <button
+                            disabled={loading ? true : false}
+                            className={styles.logbtnstyle}
+                            onClick={() => gettransportFee()}
+                          >
+                            {loading2 ? (
+                              <CircularProgress
+                                size={25}
+                                style={{ color: "red" }}
+                              />
+                            ) : (
+                              "Get Transport Fee"
+                            )}
+                          </button>
                         </div>
                       </div>
                       <div className={styles.divmaininput}>
@@ -1114,7 +1254,7 @@ function AddStudent({ setOpen }) {
                             disabled={true}
                             type="text"
                             placeholder="Amount"
-                            value={onlyshowrefee}
+                            value={TransportFeePermonth}
                           />
                         </div>
                         <div className={styles.inputdiv}>
@@ -1123,7 +1263,7 @@ function AddStudent({ setOpen }) {
                             required
                             type="text"
                             disabled={true}
-                            value={onlyshowmonthfee}
+                            value={Number(TransportFeePermonth) * 12}
                           />
                         </div>
                         <div className={styles.inputdiv}>
@@ -1137,7 +1277,7 @@ function AddStudent({ setOpen }) {
               )}
             </>
           )}
-        </form>
+        </div>
 
         {shownext ? (
           <>

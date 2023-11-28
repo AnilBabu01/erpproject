@@ -591,13 +591,13 @@
   width: 100%;
   margin-bottom: 1rem;
 }
-.tableth10{
-    /* border: 1px solid #093959; */
-    text-align: center;
-    padding: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.tableth10 {
+  /* border: 1px solid #093959; */
+  text-align: center;
+  padding: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .tabletd,
@@ -620,7 +620,6 @@
   text-align: center;
   padding: 8px;
 }
-
 
 .tabletd20,
 .tableth20 {
@@ -764,11 +763,15 @@
   height: 200px;
   width: auto;
 }
-.typeofemployee{
+.typeofemployee {
   display: flex;
   justify-content: space-between;
   width: 10rem;
   margin-bottom: 0.5rem;
+}
+.mainbtnndivcancel10 {
+  display: flex;
+  justify-content: space-between;
 }
 @media screen and (max-width: 780px) {
   .disabledinphone {

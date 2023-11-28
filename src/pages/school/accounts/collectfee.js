@@ -12,11 +12,12 @@ import {
 import styles from "../../coaching/employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
-import Addfee from "../../../component/Coaching/accounts/Addfee";
+import Addfee from "../../../component/Institute/accounts/Addfee";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+
 const studentStatus = [
   { label: "Active", value: "Active" },
   { label: "On Leave", value: "On Leave" },
@@ -138,20 +139,6 @@ function Collectfee() {
     }
   };
 
-  const convetobjectsinglekey = (obj, admindate) => {
-    let start = new Date(admindate).getMonth();
-
-    let localityParameterSets = Object.entries(obj).map(([key, val]) => ({
-      startmonth: start,
-      value: val,
-    }));
-    // let localityParameterSets = Object.entries(obj).map(([key, val]) => ({
-    //   name: key,
-    //   value: val,
-    // }));
-    return localityParameterSets?.slice(4, months + 4);
-  };
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -197,7 +184,7 @@ function Collectfee() {
 
   useEffect(() => {
     dispatch(getstudent());
-  }, [open, openupdate, openalert]);
+  }, []);
   useEffect(() => {
     dispatch(loadUser());
     dispatch(getbatch());
@@ -217,7 +204,9 @@ function Collectfee() {
         sstudent,
         sfathers,
         rollnumber,
-        status
+        status,
+        "",
+        ""
       )
     );
   };
@@ -230,6 +219,7 @@ function Collectfee() {
     setscoursename("");
     setsbatch("");
     setstatus("");
+    setrollnumber("");
     dispatch(getstudent());
   };
 
@@ -246,7 +236,7 @@ function Collectfee() {
               "& .MuiDialog-container": {
                 "& .MuiPaper-root": {
                   width: "100%",
-                  maxWidth: "60rem",
+                  maxWidth: "80rem",
                 },
               },
             }}
@@ -266,23 +256,6 @@ function Collectfee() {
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
               <form onSubmit={filterdata} className={styles.searchoptiondiv}>
-                {/* <label>From</label>
-                <input
-                  className={styles.opensearchinput}
-                  type="date"
-                  value={fromdate}
-                  name="fromdate"
-                  onChange={(e) => setfromdate(e.target.value)}
-                />
-                <label>To</label>
-                <input
-                  className={styles.opensearchinput}
-                  type="date"
-                  value={todate}
-                  name="todate"
-                  onChange={(e) => settodate(e.target.value)}
-                /> */}
-               
                 <select
                   className={styles.opensearchinput}
                   sx={{
@@ -464,24 +437,6 @@ function Collectfee() {
                           {item?.studentTotalFee}
                         </td>
                         <td className={styles.tabletd}>{item?.paidfee}</td>
-                        {item?.coachingfeestatus &&
-                          convetobjectsinglekey(
-                            item?.coachingfeestatus,
-                            item?.admissionDate
-                          )?.map((item, i) => {
-                            return (
-                              <td
-                                key={i}
-                                className={
-                                  i === item?.startmonth
-                                    ? styles.tablethstart
-                                    : styles.tableth
-                                }
-                              >
-                                {i >= item?.startmonth ? item?.value : "No"}
-                              </td>
-                            );
-                          })}
 
                         <td className={styles.tabkeddd}>
                           <button
@@ -505,16 +460,7 @@ function Collectfee() {
                                   ? styles.tabkedddimgactive
                                   : styles.tabkedddimgdisable
                               }
-                              onClick={() =>
-                                ClickOpenupdate(
-                                  item,
-                                  convetobjectsinglekey(
-                                    item?.coachingfeestatus,
-                                    item?.admissionDate
-                                  ),
-                                  newmonthnames
-                                )
-                              }
+                              onClick={() => ClickOpenupdate(item)}
                               src="/images/payicons.png"
                               alt="imgss"
                             />

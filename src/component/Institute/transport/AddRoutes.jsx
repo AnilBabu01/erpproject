@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
-import { getcategory, Addcategory } from "../../../redux/actions/commanAction";
-import { useDispatch, useSelector } from "react-redux";
+import { GetRoute } from "../../../redux/actions/transportActions";
+import { useDispatch } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
@@ -10,14 +10,19 @@ import AddBoxIcon from "@mui/icons-material/AddBox";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import { serverInstance } from "../../../API/ServerInstance";
+import { toast } from "react-toastify";
 function AddRoutes({ setOpen }) {
   const dispatch = useDispatch();
-  const [Categoryname, setCategoryname] = useState("");
-  const { loading, category } = useSelector((state) => state.addcategory);
+  const [fromroute, setfromroute] = useState("");
+  const [toroute, settoroute] = useState("");
+  const [permonthRent, setpermonthRent] = useState("");
+  const [loading, setloading] = useState(false);
 
   const [stop, setstop] = useState([
     {
-      Stop: "",
+      StopName: "",
+      StopStatus: true,
     },
   ]);
 
@@ -25,7 +30,8 @@ function AddRoutes({ setOpen }) {
     setstop([
       ...stop,
       {
-        Stop: "",
+        StopName: "",
+        StopStatus: true,
       },
     ]);
   }
@@ -35,7 +41,7 @@ function AddRoutes({ setOpen }) {
   }
 
   function handleQuestionItemUpdate(originalDonationItem, key, value) {
-    setquestionItems(
+    setstop(
       stop.map((stop) =>
         stop === originalDonationItem
           ? {
@@ -49,17 +55,31 @@ function AddRoutes({ setOpen }) {
 
   const submit = (e) => {
     e.preventDefault();
-    const data = {
-      category: Categoryname,
-    };
-    dispatch(Addcategory(data, setOpen));
-  };
+    setloading(true);
+    serverInstance("transport/vehicleroute", "post", {
+      FromRoute: fromroute,
+      ToRoute: toroute,
+      BusRentPermonth:permonthRent,
+      stopslist: stop,
+    }).then((res) => {
+      if (res?.status === true) {
+        toast.success(res?.msg, {
+          autoClose: 1000,
+        });
+        setOpen(false);
 
-  useEffect(() => {
-    if (category?.status) {
-      dispatch(getcategory());
-    }
-  }, []);
+        setloading(false);
+        dispatch(GetRoute());
+      }
+      if (res?.status === false) {
+        toast.error(res?.msg, {
+          autoClose: 1000,
+        });
+
+        setloading(false);
+      }
+    });
+  };
 
   return (
     <>
@@ -75,9 +95,9 @@ function AddRoutes({ setOpen }) {
               <input
                 type="text"
                 placeholder="Enter From Route"
-                // value={Categoryname}
-                // name="Categoryname"
-                // onChange={(e) => setCategoryname(e.target.value)}
+                value={fromroute}
+                name="fromroute"
+                onChange={(e) => setfromroute(e.target.value)}
               />
             </div>
             <div className={styles.inputdiv}>
@@ -85,14 +105,20 @@ function AddRoutes({ setOpen }) {
               <input
                 type="text"
                 placeholder="Enter To Route"
-                // value={Categoryname}
-                // name="Categoryname"
-                // onChange={(e) => setCategoryname(e.target.value)}
+                value={toroute}
+                name="toroute"
+                onChange={(e) => settoroute(e.target.value)}
               />
             </div>
             <div className={styles.inputdiv}>
-              <label>&nbsp;</label>
-              <label>&nbsp;</label>
+              <label>Per Month Rent</label>
+              <input
+                type="text"
+                placeholder="Enter To Route"
+                value={permonthRent}
+                name="permonthRent"
+                onChange={(e) => setpermonthRent(e.target.value)}
+              />
             </div>
           </div>
           <div>
@@ -112,13 +138,17 @@ function AddRoutes({ setOpen }) {
                     <tr key={index} className={styles.tabletr}>
                       <td className={styles.tableth}>
                         <div className={styles.inputdiv}>
-                       
                           <input
                             type="text"
                             placeholder="Enter To Route"
-                            // value={Categoryname}
-                            // name="Categoryname"
-                            // onChange={(e) => setCategoryname(e.target.value)}
+                            value={item.StopName}
+                            onChange={(e) =>
+                              handleQuestionItemUpdate(
+                                item,
+                                "StopName",
+                                e.target.value
+                              )
+                            }
                           />
                         </div>
                       </td>
@@ -134,9 +164,14 @@ function AddRoutes({ setOpen }) {
                               paddingBottom: "0.6em",
                             },
                           }}
-                          // value={transport}
-                          // name="transport"
-                          // onChange={(e) => settransport(e.target.value)}
+                          value={item.StopStatus}
+                          onChange={(e) =>
+                            handleQuestionItemUpdate(
+                              item,
+                              "StopStatus",
+                              e.target.value
+                            )
+                          }
                           displayEmpty
                           endAdornment={
                             index > 0 && (
@@ -160,7 +195,7 @@ function AddRoutes({ setOpen }) {
                             sx={{
                               fontSize: 14,
                             }}
-                            value={false}
+                            value={true}
                           >
                             Enable
                           </MenuItem>
@@ -168,7 +203,7 @@ function AddRoutes({ setOpen }) {
                             sx={{
                               fontSize: 14,
                             }}
-                            value={true}
+                            value={false}
                           >
                             Disable
                           </MenuItem>

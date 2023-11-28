@@ -1,29 +1,83 @@
 import React, { useState, useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
-import { getcategory, Addcategory } from "../../../redux/actions/commanAction";
+import { GetVehiclelist } from "../../../redux/actions/transportActions";
 import { useDispatch, useSelector } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-function UpdateVehicleDetails({ setOpen }) {
+import { serverInstance } from "../../../API/ServerInstance";
+import { toast } from "react-toastify";
+function UpdateVehicleDetails({ setOpen,updatedata }) {
   const dispatch = useDispatch();
-  const [Categoryname, setCategoryname] = useState("");
+  const [routeId, setrouteId] = useState("");
+  const [BusNumber, setBusNumber] = useState("");
+  const [FualType, setFualType] = useState("");
+  const [Color, setColor] = useState("");
+  const [vehicletypename, setvehicletypename] = useState("");
+  const [GPSDeviceURL, setGPSDeviceURL] = useState("");
+  const [loading, setloading] = useState(false);
+  const [routelist, setroutelist] = useState([]);
+  const [vehiclelist, setvehiclelist] = useState([]);
 
-  const { loading, category } = useSelector((state) => state.addcategory);
+  const { route } = useSelector((state) => state.GetRoute);
+  const { vehicletype } = useSelector((state) => state.GetVehicleType);
+
+  console.log("data from add bus details", routelist, vehiclelist);
 
   const submit = (e) => {
     e.preventDefault();
-    const data = {
-      category: Categoryname,
-    };
-    dispatch(Addcategory(data, setOpen));
+    setloading(true);
+    serverInstance("transport/vehicledetails", "put", {
+      id:updatedata?.bus?.id,
+      routeId: routeId,
+      Vahicletype: vehicletypename,
+      BusNumber: BusNumber,
+      FualType: FualType,
+      Color: Color,
+      GPSDeviceURL: GPSDeviceURL,
+    }).then((res) => {
+      if (res?.status === true) {
+        toast.success(res?.msg, {
+          autoClose: 1000,
+        });
+        setOpen(false);
+
+        setloading(false);
+        dispatch(GetVehiclelist());
+      }
+      if (res?.status === false) {
+        toast.error(res?.msg, {
+          autoClose: 1000,
+        });
+
+        setloading(false);
+      }
+    });
   };
+
   useEffect(() => {
-    if (category?.status) {
-      dispatch(getcategory());
+    if (route) {
+      setroutelist(route);
     }
-  }, []);
+    if (vehicletype) {
+      setvehiclelist(vehicletype);
+    }
+  }, [route, vehicletype]);
+
+
+  useEffect(() => {
+    if(updatedata)
+    {
+      setColor(updatedata?.bus?.Color)
+      setBusNumber(updatedata?.bus?.BusNumber);
+      setFualType(updatedata?.bus?.FualType);
+      setGPSDeviceURL(updatedata?.bus?.GPSDeviceURL);
+      setvehicletypename(updatedata?.bus?.Vahicletype);
+      setrouteId(updatedata?.bus?.routeId);
+    }
+  }, [])
+  
 
   return (
     <>
@@ -31,7 +85,7 @@ function UpdateVehicleDetails({ setOpen }) {
         <div className={styles.closeicondiv} onClick={() => setOpen(false)}>
           <CloseIcon />
         </div>
-        <h1>Update Vehicle Details</h1>
+        <h1>Update Bus</h1>
         <form onSubmit={submit}>
           <div className={styles.divmaininput}>
             <div className={styles.inputdiv}>
@@ -47,27 +101,32 @@ function UpdateVehicleDetails({ setOpen }) {
                     paddingBottom: "0.6em",
                   },
                 }}
-                // value={hostal}
-                // name="hostal"
-                // onChange={(e) => sethostal(e.target.value)}
+                value={vehicletypename}
+                name="vehicletypename"
+                onChange={(e) => setvehicletypename(e.target.value)}
                 displayEmpty
               >
                 <MenuItem
                   sx={{
                     fontSize: 14,
                   }}
-                  value={false}
+                  value={""}
                 >
-                  BH1
+                  Please Select
                 </MenuItem>
-                <MenuItem
-                  sx={{
-                    fontSize: 14,
-                  }}
-                  value={true}
-                >
-                  BH1
-                </MenuItem>
+                {vehiclelist?.map((item, index) => {
+                  return (
+                    <MenuItem
+                      key={index}
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={item?.id}
+                    >
+                      {item?.Vahicletype}
+                    </MenuItem>
+                  );
+                })}
               </Select>
             </div>
             <div className={styles.inputdiv}>
@@ -83,27 +142,33 @@ function UpdateVehicleDetails({ setOpen }) {
                     paddingBottom: "0.6em",
                   },
                 }}
-                // value={transport}
-                // name="transport"
-                // onChange={(e) => settransport(e.target.value)}
+                value={routeId}
+                name="routeId"
+                onChange={(e) => setrouteId(e.target.value)}
                 displayEmpty
               >
                 <MenuItem
                   sx={{
                     fontSize: 14,
                   }}
-                  value={false}
+                  value={""}
                 >
-                  2BED
+                  Please Select
                 </MenuItem>
-                <MenuItem
-                  sx={{
-                    fontSize: 14,
-                  }}
-                  value={true}
-                >
-                  2BED
-                </MenuItem>
+                {routelist?.length > 0 &&
+                  routelist?.map((item, index) => {
+                    return (
+                      <MenuItem
+                        key={index}
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={item?.routeName?.id}
+                      >
+                        {`${item?.routeName?.FromRoute} To ${item?.routeName?.ToRoute}`}
+                      </MenuItem>
+                    );
+                  })}
               </Select>
             </div>
             <div className={styles.inputdiv}>
@@ -111,31 +176,21 @@ function UpdateVehicleDetails({ setOpen }) {
               <input
                 type="text"
                 placeholder="Enter The Bus Number"
-                // value={Categoryname}
-                // name="Categoryname"
-                // onChange={(e) => setCategoryname(e.target.value)}
+                value={BusNumber}
+                name="BusNumber"
+                onChange={(e) => setBusNumber(e.target.value)}
               />
             </div>
           </div>
           <div className={styles.divmaininput}>
             <div className={styles.inputdiv}>
-              <label>Registration Expires</label>
-              <input
-                type="date"
-                placeholder="Enter The Bus Number"
-                // value={Categoryname}
-                // name="Categoryname"
-                // onChange={(e) => setCategoryname(e.target.value)}
-              />
-            </div>
-            <div className={styles.inputdiv}>
               <label>Fuel Type</label>
               <input
                 type="text"
                 placeholder="Enter The Fuel Type"
-                // value={Categoryname}
-                // name="Categoryname"
-                // onChange={(e) => setCategoryname(e.target.value)}
+                value={FualType}
+                name="FualType"
+                onChange={(e) => setFualType(e.target.value)}
               />
             </div>
             <div className={styles.inputdiv}>
@@ -143,22 +198,22 @@ function UpdateVehicleDetails({ setOpen }) {
               <input
                 type="text"
                 placeholder="Enter The Color"
-                // value={Categoryname}
-                // name="Categoryname"
-                // onChange={(e) => setCategoryname(e.target.value)}
+                value={Color}
+                name="Color"
+                onChange={(e) => setColor(e.target.value)}
               />
             </div>
-          </div>
-          <div className={styles.inputdiv}>
+            <div className={styles.inputdiv}>
               <label>GPS Device URL</label>
               <input
                 type="text"
                 placeholder="Enter The GPS Device URL"
-                // value={Categoryname}
-                // name="Categoryname"
-                // onChange={(e) => setCategoryname(e.target.value)}
+                value={GPSDeviceURL}
+                name="GPSDeviceURL"
+                onChange={(e) => setGPSDeviceURL(e.target.value)}
               />
             </div>
+          </div>
 
           <div className={styles.logbtnstylediv}>
             <button
