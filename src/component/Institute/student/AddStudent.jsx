@@ -71,7 +71,7 @@ function AddStudent({ setOpen }) {
   const [othersname, setothersname] = useState("");
   const [status, setstatus] = useState("Active");
   const [marksheetName, setmarksheetName] = useState("");
-  const [shownext, setshownext] = useState(false);
+  const [shownext, setshownext] = useState(true);
   const [categoryname, setcategoryname] = useState("Please Select");
   const [categorylist, setcategorylist] = useState([]);
   const [showdownload, setshowdownload] = useState(false);

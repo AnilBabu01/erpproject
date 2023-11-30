@@ -9,7 +9,7 @@ import {
   getfee,
   getEmployee,
 } from "../../../redux/actions/commanAction";
-import styles from "../../Institute/employee/employee.module.css";
+import styles from "../../school/employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";

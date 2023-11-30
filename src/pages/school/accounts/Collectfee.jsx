@@ -397,8 +397,12 @@ function Collectfee() {
                     )}
                     <th className={styles.tableth}>Adminssion_Date</th>
                     <th className={styles.tableth}>Addmission_Fee</th>
-                    <th className={styles.tableth}>Status</th>
-                    <th className={styles.tableth}>Total Fee</th>
+                    {/* <th className={styles.tableth}>Status</th> */}
+                    <th className={styles.tableth}>Academy Fee</th>
+                    <th className={styles.tableth}>Paid Fee</th>
+                    <th className={styles.tableth}>Hostel Fee</th>
+                    <th className={styles.tableth}>Paid Fee</th>
+                    <th className={styles.tableth}>Transport Fee</th>
                     <th className={styles.tableth}>Paid Fee</th>
                     {newmonthnames &&
                       newmonthnames?.map((item, index) => {
@@ -432,11 +436,22 @@ function Collectfee() {
                             ? `Paid (${item?.regisgrationfee})`
                             : item?.regisgrationfee}
                         </td>
-                        <td className={styles.tabletd}>{item?.Status}</td>
+                        {/* <td className={styles.tabletd}>{item?.Status}</td> */}
                         <td className={styles.tabletd}>
                           {item?.studentTotalFee}
                         </td>
                         <td className={styles.tabletd}>{item?.paidfee}</td>
+
+                        <td className={styles.tabletd}>
+                          {item?.TotalHostelFee}
+                        </td>
+                        <td className={styles.tabletd}>{item?.HostelPaidFee}</td>
+
+                        <td className={styles.tabletd}>
+                          {item?.TransportTotalHostelFee}
+                        </td>
+                        <td className={styles.tabletd}>{item?.TransportPaidFee}</td>
+
 
                         <td className={styles.tabkeddd}>
                           <button

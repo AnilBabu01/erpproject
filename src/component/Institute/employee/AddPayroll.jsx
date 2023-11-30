@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
-function AddPayroll({ setOpen }) {
+function AddPayroll({ setOpen, updatedata }) {
   const componentRef = useRef(null);
   const dispatch = useDispatch();
   const [isdata, setisData] = useState([]);
@@ -24,6 +24,7 @@ function AddPayroll({ setOpen }) {
   const { batch } = useSelector((state) => state.getbatch);
   const { loading, employees } = useSelector((state) => state.getemp);
   const { user } = useSelector((state) => state.auth);
+
   const submit = (e) => {
     e.preventDefault();
     try {
@@ -125,6 +126,19 @@ function AddPayroll({ setOpen }) {
 
     return count;
   };
+
+  const totalhalfdays = (attendance) => {
+    let count = 0;
+    attendance?.filter((item) => {
+      if (item?.attendaceStatusIntext === "Present Half") {
+        count = count + 1;
+      }
+    });
+
+    return count;
+  };
+
+  console.log("hhdhsfd", monthlist);
   return (
     <>
       <div className={styles.divmainlogin}>
@@ -193,7 +207,7 @@ function AddPayroll({ setOpen }) {
                         console.log("details", allDetails?.attendance);
                       }}
                     />
-                    {item?.monthdetials?.MonthName},{item?.monthdetials?.Yeay}
+                    {item?.monthName},{item?.year}
                   </div>
                 );
               })}
@@ -229,23 +243,65 @@ function AddPayroll({ setOpen }) {
                           <th className={styles.tableth}>Amount</th>
                         </tr>
                         <tr className={styles.tabletr}>
-                          <td className={styles.tableth}>Basic</td>
+                          <td className={styles.tableth}>Basic</td>  
                           <td className={styles.tableth}>
-                            {allDetails?.monthdetials?.BasicSlary}
+                            {allDetails?.monthdetials?.basicsalary}
                           </td>
-                          <td className={styles.tableth}>Deduction</td>
                           <td className={styles.tableth}>
-                            {allDetails?.monthdetials?.Deduction}
+                            {allDetails?.monthdetials?.Deduction1}
+                          </td>
+                          <td className={styles.tableth}>
+                            {allDetails?.monthdetials?.DeductionAmount1}
                           </td>
                         </tr>
-                        <tr className={styles.tabletr}>
-                          <td className={styles.tableth}>Allowance</td>
-                          <td className={styles.tableth}>
-                            {allDetails?.monthdetials?.Allowance}
-                          </td>
-                          <td className={styles.tableth}>&nbsp;</td>
-                          <td className={styles.tableth}>&nbsp;</td>
-                        </tr>
+                        {allDetails?.monthdetials?.Allowance1 && (
+                          <>
+                            <tr className={styles.tabletr}>
+                              <td className={styles.tableth}>
+                                {allDetails?.monthdetials?.Allowance1}
+                              </td>
+                              <td className={styles.tableth}>
+                                {allDetails?.monthdetials?.AllowanceAmount1}
+                              </td>
+                              <td className={styles.tableth}>
+                                {allDetails?.monthdetials?.Deduction2}
+                              </td>
+                              <td className={styles.tableth}>
+                                {allDetails?.monthdetials?.DeductionAmount2}
+                              </td>
+                            </tr>
+                          </>
+                        )}
+                        {allDetails?.monthdetials?.Allowance2 && (
+                          <>
+                            <tr className={styles.tabletr}>
+                              <td className={styles.tableth}>
+                                {allDetails?.monthdetials?.Allowance2}
+                              </td>
+                              <td className={styles.tableth}>
+                                {allDetails?.monthdetials?.AllowanceAmount2}
+                              </td>
+
+                              <td className={styles.tableth}>&nbsp;</td>
+                              <td className={styles.tableth}>&nbsp;</td>
+                            </tr>
+                          </>
+                        )}
+                        {allDetails?.monthdetials?.Allowance3 && (
+                          <>
+                            <tr className={styles.tabletr}>
+                              <td className={styles.tableth}>
+                                {allDetails?.monthdetials?.Allowance3}
+                              </td>
+                              <td className={styles.tableth}>
+                                {allDetails?.monthdetials?.AllowanceAmount3}
+                              </td>
+
+                              <td className={styles.tableth}>&nbsp;</td>
+                              <td className={styles.tableth}>&nbsp;</td>
+                            </tr>
+                          </>
+                        )}
                       </tbody>
                     </table>
                   </div>
@@ -284,19 +340,64 @@ function AddPayroll({ setOpen }) {
                       </tbody>
                     </table>
                   </div>
-                  <div>
-                    <p>
-                      Total Open Coaching &nbsp; (
-                      {allDetails && totalopen(allDetails?.attendance)})
-                    </p>
-                    <p>
-                      Total Present &nbsp; (
-                      {allDetails && totalpresent(allDetails?.attendance)} )
-                    </p>
-                    <p>
-                      Total Absent &nbsp; (
-                      {allDetails && totalabsent(allDetails?.attendance)})
-                    </p>
+                  <div className={styles.maindivflesxs}>
+                    <div>
+                      <p>
+                        Total Open Coaching &nbsp; (
+                        {allDetails && totalopen(allDetails?.attendance)})
+                      </p>
+                      <p>
+                        Total Present &nbsp; (
+                        {allDetails && totalpresent(allDetails?.attendance)} )
+                      </p>
+                      <p>
+                        Total Absent &nbsp; (
+                        {allDetails && totalabsent(allDetails?.attendance)})
+                      </p>
+                    </div>
+                    <div>
+                      <p>
+                        Per Day Amount &nbsp; (
+                        {Math.floor(
+                          Number(allDetails?.monthdetials?.basicsalary) / 30
+                        )}
+                        )
+                      </p>
+                      <p>
+                        Basic Salary + Allowances &nbsp; (
+                        {Number(allDetails?.monthdetials?.basicsalary) +
+                          Number(allDetails?.monthdetials?.AllowanceAmount1) +
+                          Number(allDetails?.monthdetials?.AllowanceAmount2) +
+                          Number(allDetails?.monthdetials?.AllowanceAmount3)}
+                        )
+                      </p>
+                      <p>
+                        Total Deduction&nbsp; (
+                        {Number(allDetails?.monthdetials?.DeductionAmount1) +
+                          Number(allDetails?.monthdetials?.DeductionAmount2)}
+                        )
+                      </p>
+                      <p>
+                        Payable Amount &nbsp; (
+                        {Math.floor(
+                          Number(allDetails?.monthdetials?.basicsalary) / 30
+                        ) *
+                          totalpresent(allDetails?.attendance) +
+                          Number(allDetails?.monthdetials?.AllowanceAmount1) +
+                          Number(allDetails?.monthdetials?.AllowanceAmount2) +
+                          Number(allDetails?.monthdetials?.AllowanceAmount3) -
+                          (Number(allDetails?.monthdetials?.DeductionAmount1) +
+                            Number(
+                              allDetails?.monthdetials?.DeductionAmount2
+                            )) -
+                          (Math.floor(
+                            Number(allDetails?.monthdetials?.basicsalary) / 30
+                          ) /
+                            2) *
+                            totalhalfdays(allDetails?.attendance)}
+                        )
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>

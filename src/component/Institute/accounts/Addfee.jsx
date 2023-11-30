@@ -8,32 +8,25 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useDispatch } from "react-redux";
-const MonthanameArray = {
-  1: "April",
-  2: "May",
-  3: "June",
-  4: "July",
-  5: "August",
-  6: "September",
-  7: "October",
-  8: "November",
-  9: "December",
-  10: "January",
-  11: "February",
-  12: "March",
-};
-
 
 function Addfee({ data, setOpen }) {
   const navigation = useRouter();
   const dispatch = useDispatch();
+  const [checked, setChecked] = useState([]);
   const [montharray, setmontharray] = useState([]);
+  const [acadminfee, setacadminfee] = useState(true);
+  const [hostelfee, sethostelfee] = useState(false);
+  const [transport, settransport] = useState(false);
+  const [acadminArray, setacadminArray] = useState([]);
+  const [hostelArray, sethostelArray] = useState([]);
+  const [transportArray, settransportArray] = useState([]);
   const [feetype, setfeetype] = useState("Registration");
   const [discount, setdiscount] = useState(false);
-  const [showreceiptotions, setshowreceiptotions] = useState("");
+  const [showreceiptotions, setshowreceiptotions] = useState(false);
   const [receiptdata, setreceiptdata] = useState("");
   const [schoolfee, setschoolfee] = useState([]);
   const [addloading, setaddloading] = useState(false);
+
   const submit = () => {
     try {
       setaddloading(true);
@@ -55,6 +48,138 @@ function Addfee({ data, setOpen }) {
           setOpen(false);
           setshowreceiptotions(true);
           setreceiptdata(res?.data[0]?.receiptdata);
+          navigation.push({
+            pathname: "/coaching/student/receipt",
+            query: {
+              receiptdata: JSON.stringify(res?.data[0]?.receiptdata),
+            },
+          });
+        }
+
+        if (res?.status === false) {
+          toast.error(res?.msg, { autoClose: 1000 });
+          dispatch(getstudent());
+          setOpen(false);
+          setaddloading(false);
+        }
+      });
+    } catch (error) {
+      console.log(error);
+      setaddloading(false);
+    }
+  };
+
+  const addSchoolFee = () => {
+    try {
+      setaddloading(true);
+      const datas = {
+        id: data?.id,
+        acadminArray: acadminArray,
+        studentData: data,
+        feetype: "Academy Fee",
+      };
+
+      serverInstance("Student/addacadmyfee", "post", datas).then((res) => {
+        console.log("Receipt data is ", res);
+        if (res?.status) {
+          toast.success(res?.msg, {
+            autoClose: 1000,
+          });
+          dispatch(getstudent());
+          setaddloading(false);
+          setOpen(false);
+          setshowreceiptotions(true);
+          setreceiptdata(res?.data[0]?.receiptdata);
+          navigation.push({
+            pathname: "/coaching/student/receipt",
+            query: {
+              receiptdata: JSON.stringify(res?.data),
+            },
+          });
+        }
+
+        if (res?.status === false) {
+          toast.error(res?.msg, { autoClose: 1000 });
+          dispatch(getstudent());
+          setOpen(false);
+          setaddloading(false);
+        }
+      });
+    } catch (error) {
+      console.log(error);
+      setaddloading(false);
+    }
+  };
+
+  const addHostelFee = () => {
+    try {
+      setaddloading(true);
+      const datas = {
+        id: data?.id,
+        acadminArray: hostelArray,
+        studentData: data,
+        feetype: "Hostel Fee",
+      };
+
+      serverInstance("Student/addhostelfee", "post", datas).then((res) => {
+        console.log("Receipt data is ", res);
+        if (res?.status) {
+          toast.success(res?.msg, {
+            autoClose: 1000,
+          });
+          dispatch(getstudent());
+          setaddloading(false);
+          setOpen(false);
+          setshowreceiptotions(true);
+          setreceiptdata(res?.data[0]?.receiptdata);
+          navigation.push({
+            pathname: "/coaching/student/receipt",
+            query: {
+              receiptdata: JSON.stringify(res?.data),
+            },
+          });
+        }
+
+        if (res?.status === false) {
+          toast.error(res?.msg, { autoClose: 1000 });
+          dispatch(getstudent());
+          setOpen(false);
+          setaddloading(false);
+        }
+      });
+    } catch (error) {
+      console.log(error);
+      setaddloading(false);
+    }
+  };
+
+  const addTransportFee = () => {
+    try {
+      setaddloading(true);
+      const datas = {
+        id: data?.id,
+        acadminArray: transportArray,
+        studentData: data,
+        feetype: "Transport Fee",
+      };
+
+      serverInstance("Student/addtransportfee", "post", datas).then((res) => {
+        console.log("Receipt data is ", res);
+        if (res?.status) {
+          toast.success(res?.msg, {
+            autoClose: 1000,
+          });
+          dispatch(getstudent());
+          setaddloading(false);
+          setOpen(false);
+          setshowreceiptotions(true);
+          setreceiptdata(res?.data[0]?.receiptdata);
+          navigation.push({
+            pathname: "/coaching/student/receipt",
+            query: {
+              receiptdata: JSON.stringify(res?.data),
+            },
+          });
         }
 
         if (res?.status === false) {
@@ -90,6 +215,24 @@ function Addfee({ data, setOpen }) {
     });
   }, []);
 
+  const compareMonths = (a, b) => {
+    const monthsOrder = [
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+      "January",
+      "February",
+      "March",
+    ];
+
+    return monthsOrder.indexOf(a.MonthName) - monthsOrder.indexOf(b.MonthName);
+  };
   return (
     <>
       <div className={styles.divmainlogin}>
@@ -119,120 +262,614 @@ function Addfee({ data, setOpen }) {
           <>
             {data?.Registrationfeestatus ? (
               <>
+                <div className={styles.paybtndiv}>
+                  <button
+                    className={
+                      acadminfee
+                        ? styles.searchbtnactive
+                        : styles.searchoptiondivbutton
+                    }
+                    onClick={() => {
+                      setacadminfee(true);
+                      sethostelfee(false);
+                      settransport(false);
+                    }}
+                  >
+                    Academin Fee
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setacadminfee(false);
+                      sethostelfee(true);
+                      settransport(false);
+                    }}
+                    className={
+                      hostelfee
+                        ? styles.searchbtnactive
+                        : styles.searchoptiondivbutton
+                    }
+                  >
+                    Hostel Fee
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setacadminfee(false);
+                      sethostelfee(false);
+                      settransport(true);
+                    }}
+                    className={
+                      transport
+                        ? styles.searchbtnactive
+                        : styles.searchoptiondivbutton
+                    }
+                  >
+                    Transport Fee
+                  </button>
+                </div>
+
                 <div className={styles.mainbtnndivcancel10}>
-                  <div>
-                    <h1> Academin Fee</h1>
-                    <div>
-                      <table className={styles.tabletable}>
-                        <tbody>
-                          <tr className={styles.tabletr}>
-                            <th className={styles.tableth}>Month Name</th>
-                            <th className={styles.tableth}>Year</th>
-                            <th className={styles.tableth}>Amount</th>
-                            <th className={styles.tableth}>Mark Paid</th>
-                            <th className={styles.tableth}>Status</th>
-                          </tr>
-                          {schoolfee?.schollfee?.map((item, index) => {
-                            return (
-                              <tr key={index} className={styles.tabletr}>
-                                <th className={styles.tableth}>
-                                  {MonthanameArray[index + 1]}
-                                </th>
-                                <th className={styles.tableth}>
-                                  {item?.PerMonthFee}
-                                </th>
-                                <th className={styles.tableth}>{item?.Year}</th>
-                                <th className={styles.tableth}>
-                                  <input
-                                    type="checkbox"
-                                    name="vehicle1"
-                                    value="Bike"
-                                  />
-                                </th>
+                  {acadminfee === true && (
+                    <>
+                      <div className={styles.mainpaiddiv}>
+                        <div>
+                          <table className={styles.tabletable}>
+                            <tbody>
+                              <tr className={styles.tabletr}>
+                                <th className={styles.tableth}>Month/Year</th>
+                                <th className={styles.tableth}>Amount</th>
+                                <th className={styles.tableth}>Mark</th>
                                 <th className={styles.tableth}>Status</th>
                               </tr>
-                            );
-                          })}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                  <div>
-                    <h1> Hostel Fee</h1>
-                    <div>
-                      <table className={styles.tabletable}>
-                        <tbody>
-                          <tr className={styles.tabletr}>
-                            <th className={styles.tableth}>Month Name</th>
-                            <th className={styles.tableth}>Year</th>
-                            <th className={styles.tableth}>Amount</th>
-                            <th className={styles.tableth}>Mark Paid</th>
-                            <th className={styles.tableth}>Status</th>
-                          </tr>
+                              {schoolfee?.schollfee
+                                ?.sort(compareMonths)
+                                ?.map((item, index) => {
+                                  return (
+                                    <tr key={index} className={styles.tabletr}>
+                                      <th className={styles.tableth}>
+                                        {item?.MonthName}/ {item?.Year}
+                                      </th>
+                                      <th className={styles.tableth}>
+                                        {item?.PerMonthFee}
+                                      </th>
 
-                          {schoolfee?.hostelfee?.map((item, index) => {
-                            return (
-                              <tr key={index} className={styles.tabletr}>
-                                <th className={styles.tableth}>
-                                  {MonthanameArray[index + 1]}
-                                </th>
-                                <th className={styles.tableth}>
-                                  {item?.PerMonthFee}
-                                </th>
-                                <th className={styles.tableth}>{item?.Year}</th>
-                                <th className={styles.tableth}>
-                                  <input
-                                    type="checkbox"
-                                    name="vehicle1"
-                                    value="Bike"
-                                  />
-                                </th>
-                                <th className={styles.tableth}>Status</th>
-                              </tr>
-                            );
-                          })}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                  <div>
-                    <h1>Transport Fee</h1>
-                    <div>
-                      <table className={styles.tabletable}>
-                        <tbody>
-                          <tr className={styles.tabletr}>
-                            <th className={styles.tableth}>Month Name</th>
-                            <th className={styles.tableth}>Year</th>
-                            <th className={styles.tableth}>Amount</th>
-                            <th className={styles.tableth}>Mark Paid</th>
-                            <th className={styles.tableth}>Status</th>
-                          </tr>
+                                      <th className={styles.tableth}>
+                                        {item?.paidStatus === true ? (
+                                          <>
+                                            <input
+                                              type="checkbox"
+                                              checked={true}
+                                              disabled={true}
+                                              value={item}
+                                              onChange={(e) => {
+                                                let updatedList = [
+                                                  ...acadminArray,
+                                                ];
+                                                if (e.target.checked) {
+                                                  updatedList = [
+                                                    ...acadminArray,
+                                                    item,
+                                                  ];
+                                                } else {
+                                                  updatedList.splice(
+                                                    checked.indexOf(item),
+                                                    1
+                                                  );
+                                                }
+                                                setacadminArray(updatedList);
+                                              }}
+                                            />
+                                          </>
+                                        ) : (
+                                          <>
+                                            <input
+                                              type="checkbox"
+                                              value={item}
+                                              onChange={(e) => {
+                                                let updatedList = [
+                                                  ...acadminArray,
+                                                ];
+                                                if (e.target.checked) {
+                                                  updatedList = [
+                                                    ...acadminArray,
+                                                    item,
+                                                  ];
+                                                } else {
+                                                  updatedList.splice(
+                                                    checked.indexOf(item),
+                                                    1
+                                                  );
+                                                }
+                                                setacadminArray(updatedList);
+                                              }}
+                                            />
+                                          </>
+                                        )}
+                                      </th>
+                                      <th className={styles.tableth}>
+                                        {item?.paidStatus === true
+                                          ? "Paid"
+                                          : "Dues"}
+                                      </th>
+                                    </tr>
+                                  );
+                                })}
+                            </tbody>
+                          </table>
+                        </div>
+                        <div className={styles.candidateDetails}>
+                          <h1>Student Details</h1>
+                          <div className={styles.mainwrapdiv}>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Student Name</p>
+                              <p>{data?.name}</p>
+                            </div>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Class</p>
+                              <p>{data?.courseorclass}</p>
+                            </div>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Roll No</p>
+                              <p>{data?.rollnumber}</p>
+                            </div>
+                          </div>
+                          <div className={styles.mainwrapdiv}>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Fathers Name</p>
+                              <p>{data?.fathersName}</p>
+                            </div>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Fathers Phone No</p>
+                              <p>{data?.fathersPhoneNo}</p>
+                            </div>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Student Phone No</p>
+                              <p>{data?.phoneno1}</p>
+                            </div>
+                          </div>
+                          <div className={styles.mainwrapdiv}>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Per Month Fee</p>
+                              <p>{data?.permonthfee}</p>
+                            </div>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Total Fee</p>
+                              <p>{data?.studentTotalFee}</p>
+                            </div>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Paid Fee</p>
+                              <p>{data?.paidfee}</p>
+                            </div>
+                          </div>
+                          <div className={styles.mainwrapdiv}>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Pendinng Amount</p>
+                              <p>
+                                {Number(data?.pendingfee) -
+                                  Number(
+                                    acadminArray &&
+                                      acadminArray?.reduce(
+                                        (n, { PerMonthFee }) =>
+                                          parseFloat(n) +
+                                          parseFloat(PerMonthFee),
+                                        0
+                                      )
+                                  )}
+                              </p>
+                            </div>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Payable Amount</p>
+                              <p>
+                                {acadminArray &&
+                                  acadminArray?.reduce(
+                                    (n, { PerMonthFee }) =>
+                                      parseFloat(n) + parseFloat(PerMonthFee),
+                                    0
+                                  )}
+                              </p>
+                            </div>
+                            <div className={styles.fixInnearDivWidth10}>
+                              <p>&nbsp;</p>
+                              <p>&nbsp;</p>
+                            </div>
+                          </div>
+                          <div className={styles.mainbtnndivcancel}>
+                            <button
+                              onClick={() => setOpen(false)}
+                              className={styles.cancelbtn}
+                            >
+                              Back
+                            </button>
 
-                          {schoolfee?.transportfee?.map((item, index) => {
-                            return (
-                              <tr key={index} className={styles.tabletr}>
-                                <th className={styles.tableth}>
-                                  {MonthanameArray[index + 1]}
-                                </th>
-                                <th className={styles.tableth}>
-                                  {item?.PerMonthFee}
-                                </th>
-                                <th className={styles.tableth}>{item?.Year}</th>
-                                <th className={styles.tableth}>
-                                  <input
-                                    type="checkbox"
-                                    name="vehicle1"
-                                    value="Bike"
-                                  />
-                                </th>
+                            <button
+                              disable={montharray.length === 0 ? true : false}
+                              className={styles.cancelbtn}
+                              onClick={() => addSchoolFee()}
+                              disabled={addloading ? true : false}
+                            >
+                              {addloading ? (
+                                <CircularProgress
+                                  size={25}
+                                  style={{ color: "red" }}
+                                />
+                              ) : (
+                                "Save"
+                              )}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
+
+                  {hostelfee === true && (
+                    <>
+                      <div className={styles.mainpaiddiv}>
+                        <div>
+                          <table className={styles.tabletable}>
+                            <tbody>
+                              <tr className={styles.tabletr}>
+                                <th className={styles.tableth}>Month/Year</th>
+                                <th className={styles.tableth}>Amount</th>
+                                <th className={styles.tableth}>Mark</th>
                                 <th className={styles.tableth}>Status</th>
                               </tr>
-                            );
-                          })}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
+                              {schoolfee?.hostelfee
+                                ?.sort(compareMonths)
+                                ?.map((item, index) => {
+                                  return (
+                                    <tr key={index} className={styles.tabletr}>
+                                      <th className={styles.tableth}>
+                                        {item?.MonthName}/ {item?.Year}
+                                      </th>
+                                      <th className={styles.tableth}>
+                                        {item?.PerMonthFee}
+                                      </th>
+
+                                      <th className={styles.tableth}>
+                                        {item?.paidStatus === true ? (
+                                          <>
+                                            <input
+                                              type="checkbox"
+                                              checked={true}
+                                              disabled={true}
+                                              value={item}
+                                              onChange={(e) => {
+                                                let updatedList = [
+                                                  ...hostelArray,
+                                                ];
+                                                if (e.target.checked) {
+                                                  updatedList = [
+                                                    ...hostelArray,
+                                                    item,
+                                                  ];
+                                                } else {
+                                                  updatedList.splice(
+                                                    checked.indexOf(item),
+                                                    1
+                                                  );
+                                                }
+                                                sethostelArray(updatedList);
+                                              }}
+                                            />
+                                          </>
+                                        ) : (
+                                          <>
+                                            <input
+                                              type="checkbox"
+                                              value={item}
+                                              onChange={(e) => {
+                                                let updatedList = [
+                                                  ...hostelArray,
+                                                ];
+                                                if (e.target.checked) {
+                                                  updatedList = [
+                                                    ...hostelArray,
+                                                    item,
+                                                  ];
+                                                } else {
+                                                  updatedList.splice(
+                                                    checked.indexOf(item),
+                                                    1
+                                                  );
+                                                }
+                                                sethostelArray(updatedList);
+                                              }}
+                                            />
+                                          </>
+                                        )}
+                                      </th>
+                                      <th className={styles.tableth}>
+                                        {item?.paidStatus === true
+                                          ? "Paid"
+                                          : "Dues"}
+                                      </th>
+                                    </tr>
+                                  );
+                                })}
+                            </tbody>
+                          </table>
+                        </div>
+                        <div className={styles.candidateDetails}>
+                          <h1>Student Details</h1>
+                          <div className={styles.mainwrapdiv}>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Student Name</p>
+                              <p>{data?.name}</p>
+                            </div>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Class</p>
+                              <p>{data?.courseorclass}</p>
+                            </div>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Roll No</p>
+                              <p>{data?.rollnumber}</p>
+                            </div>
+                          </div>
+                          <div className={styles.mainwrapdiv}>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Fathers Name</p>
+                              <p>{data?.fathersName}</p>
+                            </div>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Fathers Phone No</p>
+                              <p>{data?.fathersPhoneNo}</p>
+                            </div>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Student Phone No</p>
+                              <p>{data?.phoneno1}</p>
+                            </div>
+                          </div>
+                          <div className={styles.mainwrapdiv}>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Per Month Fee</p>
+                              <p>{data?.HostelPerMonthFee}</p>
+                            </div>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Total Fee</p>
+                              <p>{data?.TotalHostelFee}</p>
+                            </div>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Paid Fee</p>
+                              <p>{data?.HostelPaidFee}</p>
+                            </div>
+                          </div>
+                          <div className={styles.mainwrapdiv}>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Pendinng Amount</p>
+                              <p>
+                                {Number(data?.HostelPendingFee) -
+                                  Number(
+                                    hostelArray &&
+                                      hostelArray?.reduce(
+                                        (n, { PerMonthFee }) =>
+                                          parseFloat(n) +
+                                          parseFloat(PerMonthFee),
+                                        0
+                                      )
+                                  )}
+                              </p>
+                            </div>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Payable Amount</p>
+                              <p>
+                                {hostelArray &&
+                                  hostelArray?.reduce(
+                                    (n, { PerMonthFee }) =>
+                                      parseFloat(n) + parseFloat(PerMonthFee),
+                                    0
+                                  )}
+                              </p>
+                            </div>
+                            <div className={styles.fixInnearDivWidth10}>
+                              <p>&nbsp;</p>
+                              <p>&nbsp;</p>
+                            </div>
+                          </div>
+                          <div className={styles.mainbtnndivcancel}>
+                            <button
+                              onClick={() => setOpen(false)}
+                              className={styles.cancelbtn}
+                            >
+                              Back
+                            </button>
+
+                            <button
+                              disable={montharray.length === 0 ? true : false}
+                              className={styles.cancelbtn}
+                              onClick={() => addHostelFee()}
+                              disabled={addloading ? true : false}
+                            >
+                              {addloading ? (
+                                <CircularProgress
+                                  size={25}
+                                  style={{ color: "red" }}
+                                />
+                              ) : (
+                                "Save"
+                              )}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                  {transport === true && (
+                    <>
+                      <div className={styles.mainpaiddiv}>
+                        <div>
+                          <table className={styles.tabletable}>
+                            <tbody>
+                              <tr className={styles.tabletr}>
+                                <th className={styles.tableth}>Month/Year</th>
+                                <th className={styles.tableth}>Amount</th>
+                                <th className={styles.tableth}>Mark</th>
+                                <th className={styles.tableth}>Status</th>
+                              </tr>
+                              {schoolfee?.transportfee
+                                ?.sort(compareMonths)
+                                ?.map((item, index) => {
+                                  return (
+                                    <tr key={index} className={styles.tabletr}>
+                                      <th className={styles.tableth}>
+                                        {item?.MonthName}/ {item?.Year}
+                                      </th>
+                                      <th className={styles.tableth}>
+                                        {item?.PerMonthFee}
+                                      </th>
+
+                                      <th className={styles.tableth}>
+                                        {item?.paidStatus === true ? (
+                                          <>
+                                            <input
+                                              type="checkbox"
+                                              checked={true}
+                                              disabled={true}
+                                              value={item}
+                                            />
+                                          </>
+                                        ) : (
+                                          <>
+                                            <input
+                                              type="checkbox"
+                                              value={item}
+                                              onChange={(e) => {
+                                                let updatedList = [
+                                                  ...transportArray,
+                                                ];
+                                                if (e.target.checked) {
+                                                  updatedList = [
+                                                    ...transportArray,
+                                                    item,
+                                                  ];
+                                                } else {
+                                                  updatedList.splice(
+                                                    checked.indexOf(item),
+                                                    1
+                                                  );
+                                                }
+                                                settransportArray(updatedList);
+                                              }}
+                                            />
+                                          </>
+                                        )}
+                                      </th>
+                                      <th className={styles.tableth}>
+                                        {item?.paidStatus === true
+                                          ? "Paid"
+                                          : "Dues"}
+                                      </th>
+                                    </tr>
+                                  );
+                                })}
+                            </tbody>
+                          </table>
+                        </div>
+                        <div className={styles.candidateDetails}>
+                          <h1>Student Details</h1>
+                          <div className={styles.mainwrapdiv}>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Student Name</p>
+                              <p>{data?.name}</p>
+                            </div>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Class</p>
+                              <p>{data?.courseorclass}</p>
+                            </div>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Roll No</p>
+                              <p>{data?.rollnumber}</p>
+                            </div>
+                          </div>
+                          <div className={styles.mainwrapdiv}>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Fathers Name</p>
+                              <p>{data?.fathersName}</p>
+                            </div>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Fathers Phone No</p>
+                              <p>{data?.fathersPhoneNo}</p>
+                            </div>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Student Phone No</p>
+                              <p>{data?.phoneno1}</p>
+                            </div>
+                          </div>
+                          <div className={styles.mainwrapdiv}>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Per Month Fee</p>
+                              <p>{data?.TransportPerMonthFee}</p>
+                            </div>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Total Fee</p>
+                              <p>{data?.TransportTotalHostelFee}</p>
+                            </div>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Paid Fee</p>
+                              <p>{data?.TransportPaidFee}</p>
+                            </div>
+                          </div>
+                          <div className={styles.mainwrapdiv}>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Pendinng Amount</p>
+                              <p>
+                                {Number(data?.TransportPendingFee) -
+                                  Number(
+                                    transportArray &&
+                                      transportArray?.reduce(
+                                        (n, { PerMonthFee }) =>
+                                          parseFloat(n) +
+                                          parseFloat(PerMonthFee),
+                                        0
+                                      )
+                                  )}
+                              </p>
+                            </div>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Payable Amount</p>
+                              <p>
+                                {transportArray &&
+                                  transportArray?.reduce(
+                                    (n, { PerMonthFee }) =>
+                                      parseFloat(n) + parseFloat(PerMonthFee),
+                                    0
+                                  )}
+                              </p>
+                            </div>
+                            <div className={styles.fixInnearDivWidth10}>
+                              <p>&nbsp;</p>
+                              <p>&nbsp;</p>
+                            </div>
+                          </div>
+                          <div className={styles.mainbtnndivcancel}>
+                            <button
+                              onClick={() => setOpen(false)}
+                              className={styles.cancelbtn}
+                            >
+                              Back
+                            </button>
+
+                            <button
+                              disable={montharray.length === 0 ? true : false}
+                              className={styles.cancelbtn}
+                              onClick={() => addTransportFee()}
+                              disabled={addloading ? true : false}
+                            >
+                              {addloading ? (
+                                <CircularProgress
+                                  size={25}
+                                  style={{ color: "red" }}
+                                />
+                              ) : (
+                                "Save"
+                              )}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               </>
             ) : (
@@ -261,30 +898,29 @@ function Addfee({ data, setOpen }) {
                     </div>
                   </div>
                 </div>
+                <div className={styles.mainbtnndivcancel}>
+                  <button
+                    onClick={() => setOpen(false)}
+                    className={styles.cancelbtn}
+                  >
+                    Back
+                  </button>
+
+                  <button
+                    disable={montharray.length === 0 ? true : false}
+                    className={styles.cancelbtn}
+                    onClick={() => submit()}
+                    disabled={addloading ? true : false}
+                  >
+                    {addloading ? (
+                      <CircularProgress size={25} style={{ color: "red" }} />
+                    ) : (
+                      "Save"
+                    )}
+                  </button>
+                </div>
               </>
             )}
-
-            <div className={styles.mainbtnndivcancel}>
-              <button
-                onClick={() => setOpen(false)}
-                className={styles.cancelbtn}
-              >
-                Back
-              </button>
-
-              <button
-                disable={montharray.length === 0 ? true : false}
-                className={styles.cancelbtn}
-                onClick={() => submit()}
-                disabled={addloading ? true : false}
-              >
-                {addloading ? (
-                  <CircularProgress size={25} style={{ color: "red" }} />
-                ) : (
-                  "Save"
-                )}
-              </button>
-            </div>
           </>
         )}
       </div>

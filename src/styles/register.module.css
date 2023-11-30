@@ -773,7 +773,83 @@
   display: flex;
   justify-content: space-between;
 }
+.searchbtnactive {
+  background: #093959;
+  color: white;
+  border-radius: 6px;
+  font-weight: 600;
+  padding: 0.3rem;
+  font-size: 14px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-right: 1rem;
+}
+.searchoptiondivbutton {
+  border: 1px solid #093959;
+  font-weight: 600;
+  padding: 0.3rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-size: 14px;
+  margin-right: 1rem;
+  border-radius: 5px;
+  color: #093959 !important;
+  background-color: white !important;
+}
+.paybtndiv {
+  margin-bottom: 0.2rem;
+}
+.mainpaiddiv {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.candidateDetails {
+  border: 1px solid #093959;
+  width: 70%;
+  margin-bottom: 1rem;
+}
+.mainwrapdiv {
+  display: flex;
+  justify-content: space-around;
+}
+.fixInnearDivWidth {
+  border: 1px solid #093959;
+  width: 30%;
+  margin-bottom: 1%;
+  text-align: center;
+}
+.fixInnearDivWidth10 {
+  width: 30%;
+  margin-bottom: 1%;
+  text-align: center;
+}
+.maindivflesxs {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 1rem;
+}
 @media screen and (max-width: 780px) {
+  .searchbtnactive {
+    font-size: 10px;
+    margin-right: 0rem;
+  }
+  .paybtndiv {
+    display: flex;
+    justify-content: space-between;
+    padding: 1%;
+  }
+  .searchoptiondivbutton {
+    font-size: 10px;
+    margin-right: 0rem;
+  }
+
+  .divmainlogin {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
   .disabledinphone {
     display: none;
   }

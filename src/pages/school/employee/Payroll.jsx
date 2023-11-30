@@ -82,6 +82,7 @@ function Payroll() {
       setisData(employees);
     }
   }, [employees]);
+  
   useEffect(() => {
     dispatch(getEmployee());
   }, [open, openupdate, openalert]);
@@ -93,7 +94,7 @@ function Payroll() {
 
   const filterdata = (e) => {
     e.preventDefault();
-    dispatch(getEmployee(fromdate, todate, sstudent,status));
+    dispatch(getEmployee(fromdate, todate, sstudent, status));
   };
 
   const reset = () => {
@@ -123,7 +124,7 @@ function Payroll() {
               },
             }}
           >
-            <AddEmp setOpen={setOpen} />
+            <AddEmp setOpen={setOpen} updatedata={updatedata} />
           </Dialog>
         </div>
       )}

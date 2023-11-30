@@ -11,7 +11,7 @@ function AddEmp({ setOpen }) {
   const dispatch = useDispatch();
   const [isdata, setisData] = useState([]);
   const [isdata1, setisdata1] = useState([]);
-  const [showpermission, setshowpermission] = useState(true);
+  const [showpermission, setshowpermission] = useState(false);
   const [typeemployee, settypeemployee] = useState(true);
   const [designationname, setdesignationname] = useState("");
   const [depart, setdepart] = useState("");
