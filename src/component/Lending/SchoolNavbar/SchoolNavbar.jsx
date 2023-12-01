@@ -458,6 +458,8 @@ const SchoolNavbar = () => {
                     <div className="main_report_dropdown_rightmargin">
                       <h1>General</h1>
                       <div className="main_innear_menu_dropdown">
+                        <Link href="/school/masters/AddSession">Seesion</Link>
+                        <Link href="/school/masters/AddSection">Section</Link>
                         <Link href="/school/masters/class">Class</Link>
                         <Link href="/school/masters/masterstudentcategory">
                           Student Category

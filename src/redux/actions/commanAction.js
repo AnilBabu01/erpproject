@@ -172,6 +172,12 @@ import {
   ALL_RECEIPTDATA_REQUEST,
   ALL_RECEIPTDATA_SUCCESS,
   ALL_RECEIPTDATA_FAIL,
+  GET_SECTION_REQUEST,
+  GET_SECTION__SUCCESS,
+  GET_SECTION__FAIL,
+  GET_SESSION_REQUEST,
+  GET_SESSION_SUCCESS,
+  GET_SESSION_FAIL,
 } from "../constants/commanConstants";
 
 // Get all College
@@ -1895,3 +1901,85 @@ export const getPrintReceipt =
       });
     }
   };
+
+// Get all Facility
+export const GetSession = (stopName) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("erptoken")}`,
+      },
+    };
+    dispatch({ type: GET_SESSION_REQUEST });
+
+    if (stopName) {
+      const { data } = await axios.get(
+        `${backendApiUrl}comman/session?stopName=${stopName}`,
+        config
+      );
+
+      dispatch({
+        type: GET_SESSION_SUCCESS,
+        payload: data?.data,
+      });
+    } else {
+      dispatch({ type: GET_SESSION_REQUEST });
+      const { data } = await axios.get(
+        `${backendApiUrl}comman/session`,
+        config
+      );
+
+      dispatch({
+        type: GET_SESSION_SUCCESS,
+        payload: data?.data,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: GET_SESSION_FAIL,
+      payload: error?.response?.data?.msg,
+    });
+  }
+};
+
+// Get all Facility
+export const GetSection = (stopName) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("erptoken")}`,
+      },
+    };
+    dispatch({ type: GET_SECTION_REQUEST });
+
+    if (stopName) {
+      const { data } = await axios.get(
+        `${backendApiUrl}comman/section?stopName=${stopName}`,
+        config
+      );
+
+      dispatch({
+        type: GET_SECTION__SUCCESS,
+        payload: data?.data,
+      });
+    } else {
+      dispatch({ type: GET_SECTION_REQUEST });
+      const { data } = await axios.get(
+        `${backendApiUrl}comman/section`,
+        config
+      );
+
+      dispatch({
+        type: GET_SECTION__SUCCESS,
+        payload: data?.data,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: GET_SESSION_FAIL,
+      payload: error?.response?.data?.msg,
+    });
+  }
+};

@@ -60,6 +60,8 @@ import {
   getReceiptFormatReducer,
   updateReceiptFormatReducer,
   getReceiptPrintReducer,
+  GetSection,
+  GetSession,
 } from "./redux/reducers/commanReducers";
 import {
   getenquiriesReducer,
@@ -166,6 +168,8 @@ const reducer = combineReducers({
   GetVehicle: GetVehicle,
   GetVehicleType: GetVehicleType,
   GetPayRoll: GetPayRoll,
+  GetSection: GetSection,
+  GetSession: GetSession,
 });
 const middlware = [thunk];
 export const store = createStore(

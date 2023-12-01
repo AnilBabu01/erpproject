@@ -169,6 +169,12 @@ import {
   ALL_RECEIPTPREFIX_FAIL,
   ALL_RECEIPTDATA_REQUEST,
   ALL_RECEIPTDATA_SUCCESS,
+  GET_SECTION_REQUEST,
+  GET_SECTION__SUCCESS,
+  GET_SECTION__FAIL,
+  GET_SESSION_REQUEST,
+  GET_SESSION_SUCCESS,
+  GET_SESSION_FAIL,
   ALL_RECEIPTDATA_FAIL,
 } from "../constants/commanConstants";
 
@@ -1882,6 +1888,74 @@ export const getChoachingMonthlyFeeReducer = (state = { receiptdata: [] }, actio
       return {
         loading: false,
         receiptdata: null,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+
+export const GetSection = (state = { sections: {} }, action) => {
+  switch (action.type) {
+    case GET_SECTION_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case GET_SECTION__SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        sections: action.payload,
+      };
+
+    case GET_SECTION__FAIL:
+      return {
+        loading: false,
+        sections: null,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+
+
+
+export const GetSession = (state = { Sessions: {} }, action) => {
+  switch (action.type) {
+    case GET_SESSION_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case GET_SESSION_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        Sessions: action.payload,
+      };
+
+    case GET_SESSION_FAIL:
+      return {
+        loading: false,
+        Sessions: null,
         error: action.payload,
       };
 
