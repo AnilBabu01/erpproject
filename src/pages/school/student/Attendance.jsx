@@ -527,7 +527,7 @@ function Attendance() {
                   <table className={styles.tabletable}>
                     <tbody>
                       <tr className={styles.tabletr}>
-                        <th className={styles.tableth}>S.NO</th>
+                        <th className={styles.tableth}>Sr.No</th>
                         <th className={styles.tableth}>Roll&lsquo;No</th>
                         <th className={styles.tableth}>Student&lsquo;Name</th>
                         <th className={styles.tableth}>Father&apos;s Name</th>

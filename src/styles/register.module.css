@@ -286,6 +286,14 @@
   border-radius: 7px;
   margin-left: 1rem;
 }
+.showdetails10 {
+  width: 50%;
+  height: 35px;
+  background: #80a6be;
+  color: white;
+  border-radius: 7px;
+  margin-left: 1rem;
+}
 .mainbtnndivcancel {
   display: flex;
   justify-content: center;
@@ -574,15 +582,28 @@
 }
 .salarySlipMain {
   border: 1px solid #093959;
+  background-image: url("../../public//images//receiptbg.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+.overlaydiv {
+  padding: 1rem 1rem 0rem 1rem;
+  background: rgba(255, 255, 255, 0.582);
+  opacity: 1;
 }
 .salarySlipHeader {
   border-bottom: 1px solid #093959;
   margin-bottom: 1rem;
   text-align: center;
+  background-color: #4a8fbd;
+  padding-bottom: 1%;
 }
 .salarySlippersonal {
   border-bottom: 1px solid #093959;
   margin-bottom: 1rem;
+  background-color: #4a8fbd;
+  padding-left: 1%;
+  padding-bottom: 1%;
 }
 
 .tabletable {
@@ -590,6 +611,14 @@
   border-collapse: collapse;
   width: 100%;
   margin-bottom: 1rem;
+}
+.tabletablemain {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1rem;
+  background-color: #4a8fbd;
+  color: black;
 }
 .tableth10 {
   /* border: 1px solid #093959; */
@@ -830,6 +859,32 @@
   padding-left: 1rem;
   padding-right: 1rem;
   padding-bottom: 1rem;
+}
+
+.maindivflesxs {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 1rem;
+  background-color: #4a8fbd;
+}
+.mainslipdivtop {
+  padding: 5%;
+  padding-left: 15%;
+  padding-right: 15%;
+}
+.optionDiv {
+  display: flex;
+  justify-content: space-between;
+}
+.optionbtn {
+  width: 20%;
+  height: 35px;
+  background: #093959;
+  color: white;
+  border-radius: 7px;
+  margin-bottom: 1rem;
 }
 @media screen and (max-width: 780px) {
   .searchbtnactive {

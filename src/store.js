@@ -88,6 +88,7 @@ import {
   GetVehicle,
   GetVehicleType,
 } from "./redux/reducers/transportReducers";
+import { GetPayRoll } from "./redux/reducers/payrollReducers";
 const reducer = combineReducers({
   auth: authReducer,
   user: userReducer,
@@ -164,6 +165,7 @@ const reducer = combineReducers({
   GetRoute: GetRoute,
   GetVehicle: GetVehicle,
   GetVehicleType: GetVehicleType,
+  GetPayRoll: GetPayRoll,
 });
 const middlware = [thunk];
 export const store = createStore(

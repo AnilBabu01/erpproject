@@ -7,6 +7,7 @@ import {
   getDepartment,
   getDesignation,
 } from "../../../redux/actions/commanAction";
+import { GetPayRoll } from "../../../redux/actions/payrollActions";
 import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -19,7 +20,7 @@ import AddEmp from "../../../component/Institute/employee/AddPayroll";
 import UpdateEmp from "../../../component/Institute/employee/UpdatePayroll";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
-
+import { useRouter } from "next/router";
 const studentStatus = [
   { label: "Active", value: "Active" },
   { label: "On Leave", value: "On Leave" },
@@ -27,8 +28,11 @@ const studentStatus = [
 ];
 function Payroll() {
   const dispatch = useDispatch();
+  const navigation = useRouter();
   const [scoursename, setscoursename] = useState("");
   const [sfathers, setsfathers] = useState("");
+  const [empnamee, setempnamee] = useState("");
+  const [empid, setempid] = useState("");
   const [sstudent, setsstudent] = useState("");
   const [empname, setempname] = useState("");
   const [sbatch, setsbatch] = useState("");
@@ -42,7 +46,9 @@ function Payroll() {
   const [updatedata, setupdatedata] = useState("");
   const [deleteid, setdeleteid] = useState("");
   const [isdata, setisData] = useState([]);
-  const { loading, employees } = useSelector((state) => state.getemp);
+  const [isemployee, setisemployee] = useState([]);
+  const { employees } = useSelector((state) => state.getemp);
+  const { loading, payroll } = useSelector((state) => state.GetPayRoll);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -78,33 +84,42 @@ function Payroll() {
   };
 
   useEffect(() => {
-    if (employees) {
-      setisData(employees);
+    if (payroll) {
+      setisData(payroll);
     }
-  }, [employees]);
-  
+    if (employees) {
+      setisemployee(employees);
+    }
+  }, [payroll, employees]);
+
   useEffect(() => {
     dispatch(getEmployee());
   }, [open, openupdate, openalert]);
   useEffect(() => {
     dispatch(loadUser());
+    dispatch(GetPayRoll());
     dispatch(getDepartment());
     dispatch(getDesignation());
   }, []);
 
   const filterdata = (e) => {
     e.preventDefault();
-    dispatch(getEmployee(fromdate, todate, sstudent, status));
+    dispatch(GetPayRoll(empid, empname));
   };
 
   const reset = () => {
-    setsstudent("");
-    setsfathers("");
-    setfromdate("");
-    settodate("");
-    setscoursename("");
-    setsbatch("");
-    dispatch(getEmployee());
+    setempid("");
+    setempname("");
+    dispatch(GetPayRoll());
+  };
+
+  const downloadReceipt = (data) => {
+    navigation.push({
+      pathname: "/school/employee/PrintSlip",
+      query: {
+        receiptdata: JSON.stringify(data),
+      },
+    });
   };
   return (
     <>
@@ -179,30 +194,13 @@ function Payroll() {
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
               <form onSubmit={filterdata} className={styles.searchoptiondiv}>
-                {/* <label>Joining Date</label>
-                <input
-                  className={styles.opensearchinput}
-                  type="date"
-                  value={fromdate}
-                  name="fromdate"
-                  onChange={(e) => setfromdate(e.target.value)}
-                />
-                <label>Resign Date</label>
-                <input
-                  className={styles.opensearchinput}
-                  type="date"
-                  value={todate}
-                  name="todate"
-                  onChange={(e) => settodate(e.target.value)}
-                /> */}
-
                 <input
                   className={styles.opensearchinput10}
                   type="text"
-                  placeholder="Name"
-                  value={sstudent}
-                  name="sstudent}"
-                  onChange={(e) => setsstudent(e.target.value)}
+                  placeholder="Employee Id"
+                  value={empid}
+                  name="empid"
+                  onChange={(e) => setempid(e.target.value)}
                 />
                 <select
                   className={styles.opensearchinput}
@@ -214,9 +212,9 @@ function Payroll() {
                       paddingBottom: "0.6em",
                     },
                   }}
-                  value={status}
-                  name="status"
-                  onChange={(e) => setstatus(e.target.value)}
+                  value={empname}
+                  name="empname"
+                  onChange={(e) => setempname(e.target.value)}
                   displayEmpty
                 >
                   <option
@@ -225,23 +223,24 @@ function Payroll() {
                     }}
                     value={""}
                   >
-                    ALL Status
+                    ALL Employee
                   </option>
 
-                  {studentStatus?.map((item, index) => {
+                  {isemployee?.map((item, index) => {
                     return (
                       <option
                         key={index}
                         sx={{
                           fontSize: 14,
                         }}
-                        value={item?.value}
+                        value={item?.name}
                       >
-                        {item?.value}
+                        {item?.name}
                       </option>
                     );
                   })}
                 </select>
+
                 <button>Search</button>
               </form>
               <button onClick={() => reset()}>Reset</button>
@@ -269,52 +268,54 @@ function Payroll() {
               <table className={styles.tabletable}>
                 <tbody>
                   <tr className={styles.tabletr}>
-                    <th className={styles.tableth}>S.NO</th>
+                    <th className={styles.tableth}>Sr.No</th>
+                    <th className={styles.tableth}>Emp_ID</th>
                     <th className={styles.tableth}>Emp_Name</th>
-                    <th className={styles.tableth}>Emp_Email</th>
-                    <th className={styles.tableth}>Emp_Phone</th>
-                    <th className={styles.tableth}>Emp_Phone</th>
+
                     <th className={styles.tableth}>Designation</th>
                     <th className={styles.tableth}>Department</th>
-                    <th className={styles.tableth}>Joining_Date</th>
-                    <th className={styles.tableth}>Resign_Date</th>
-                    <th className={styles.tableth}>Status</th>
+
+                    <th className={styles.tableth}>Paid Amount</th>
+                    <th className={styles.tableth}>Paid Date</th>
                     <th className={styles.tableth}>Action</th>
                   </tr>
-                  {isdata?.map((item, index) => {
-                    return (
-                      <tr key={index} className={styles.tabletr}>
-                        <td className={styles.tabletd}>{index + 1}</td>
-                        <td className={styles.tabletd}>{item?.name}</td>
-                        <td className={styles.tabletd}>{item?.email}</td>
-                        <td className={styles.tabletd}>{item?.phoneno1}</td>
-                        <td className={styles.tabletd}>{item?.phoneno2}</td>
-                        <td className={styles.tabletd}>{item?.employeeof}</td>
-                        <td className={styles.tabletd}>{item?.department} </td>
-                        <td className={styles.tabletd}>
-                          {moment(item?.joiningdate).format("MM/DD/YYYY")}
-                        </td>
-                        <td className={styles.tabletd}>
-                          {item?.resigndate
-                            ? moment(item?.resigndate).format("MM/DD/YYYY")
-                            : "----------"}
-                        </td>
-                        <td className={styles.tabletd}>{item?.status}</td>
-                        <td className={styles.tabkeddd}>
-                          <img
-                            onClick={() => ClickOpendelete(item?.id)}
-                            src="/images/Delete.png"
-                            alt="imgss"
-                          />
-                          <img
-                            onClick={() => ClickOpenupdate(item)}
-                            src="/images/Edit.png"
-                            alt="imgss"
-                          />
-                        </td>
-                      </tr>
-                    );
-                  })}
+                  {isdata?.length > 0 &&
+                    isdata?.map((item, index) => {
+                      return (
+                        <tr key={index} className={styles.tabletr}>
+                          <td className={styles.tabletd}>{index + 1}</td>
+                          <td className={styles.tabletd}>
+                            {item?.monthdetials?.OrEmpId}
+                          </td>
+                          <td className={styles.tabletd}>
+                            {item?.monthdetials?.name}
+                          </td>
+
+                          <td className={styles.tabletd}>
+                            {item?.monthdetials?.employeeof}
+                          </td>
+                          <td className={styles.tabletd}>
+                            {item?.monthdetials?.department}
+                          </td>
+
+                          <td className={styles.tableth}>
+                            {item?.monthdetials?.PaidAmount}
+                          </td>
+                          <td className={styles.tableth}>
+                            {moment(item?.monthdetials?.PaidDate).format(
+                              "MM/DD/YYYY"
+                            )}
+                          </td>
+                          <td className={styles.tabkeddd}>
+                            <img
+                              onClick={() => downloadReceipt(item)}
+                              src="/images/Print.png"
+                              alt="imgss"
+                            />
+                          </td>
+                        </tr>
+                      );
+                    })}
                 </tbody>
               </table>
             </div>
