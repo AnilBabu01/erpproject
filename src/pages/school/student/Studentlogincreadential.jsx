@@ -127,7 +127,8 @@ function Studentlogincreadential() {
     setcategoryname("");
     let date = new Date();
     let fullyear = date.getFullYear();
-    setsessionname(fullyear);
+    let lastyear = date.getFullYear() - 1;
+    setsessionname(`${lastyear}-${fullyear}`);
     setsectionname("");
     dispatch(getstudent());
   };
@@ -135,10 +136,11 @@ function Studentlogincreadential() {
   useEffect(() => {
     let date = new Date();
     let fullyear = date.getFullYear();
-    setsessionname(fullyear);
+    let lastyear = date.getFullYear() - 1;
+    setsessionname(`${lastyear}-${fullyear}`);
   }, []);
 
-  console.log("cccccc", userdata);
+
   return (
     <>
       <div className="mainContainer">

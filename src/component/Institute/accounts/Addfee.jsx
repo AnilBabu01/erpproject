@@ -233,6 +233,8 @@ function Addfee({ data, setOpen }) {
 
     return monthsOrder.indexOf(a.MonthName) - monthsOrder.indexOf(b.MonthName);
   };
+
+  console.log("data is data is ", data);
   return (
     <>
       <div className={styles.divmainlogin}>

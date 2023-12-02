@@ -127,7 +127,8 @@ function Parentlogincreadential() {
     setcategoryname("");
     let date = new Date();
     let fullyear = date.getFullYear();
-    setsessionname(fullyear);
+    let lastyear = date.getFullYear() - 1;
+    setsessionname(`${lastyear}-${fullyear}`);
     setsectionname("");
     dispatch(getstudent());
   };
@@ -135,10 +136,10 @@ function Parentlogincreadential() {
   useEffect(() => {
     let date = new Date();
     let fullyear = date.getFullYear();
-    setsessionname(fullyear);
+    let lastyear = date.getFullYear() - 1;
+    setsessionname(`${lastyear}-${fullyear}`);
   }, []);
 
-  console.log("cccccc", userdata);
   return (
     <>
       <div className="mainContainer">
@@ -394,7 +395,9 @@ function Parentlogincreadential() {
                         <td className={styles.tabletd}>{item?.rollnumber}</td>
                         <td className={styles.tabletd}>{item?.Section}</td>
                         <td className={styles.tabletd}>{item?.name}</td>
-                        <td className={styles.tabletd}>{item?.fathersPhoneNo}</td>
+                        <td className={styles.tabletd}>
+                          {item?.fathersPhoneNo}
+                        </td>
                         <td className={styles.tabletd}>
                           {userdata?.data?.CredentailsData?.Parentpassword}
                         </td>

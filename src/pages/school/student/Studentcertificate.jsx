@@ -163,7 +163,8 @@ function Studentcertificate() {
     dispatch(getstudent());
     let date = new Date();
     let fullyear = date.getFullYear();
-    setsessionname(fullyear);
+    let lastyear = date.getFullYear() - 1;
+    setsessionname(`${lastyear}-${fullyear}`);
   };
 
   const LandscapePrint = useReactToPrint({
@@ -176,8 +177,10 @@ function Studentcertificate() {
   useEffect(() => {
     let date = new Date();
     let fullyear = date.getFullYear();
-    setsessionname(fullyear);
+    let lastyear = date.getFullYear() - 1;
+    setsessionname(`${lastyear}-${fullyear}`);
   }, []);
+
   return (
     <>
       {open && (
@@ -249,8 +252,6 @@ function Studentcertificate() {
       <div className="mainContainer">
         <div>
           <div className={styles.topmenubar}>
-
-
             <div className={styles.searchoptiondiv}>
               <form onSubmit={filterdata} className={styles.searchoptiondiv}>
                 <select

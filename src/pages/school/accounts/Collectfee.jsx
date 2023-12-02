@@ -252,7 +252,8 @@ function Collectfee() {
     setrollnumber("");
     let date = new Date();
     let fullyear = date.getFullYear();
-    setsessionname(fullyear);
+    let lastyear = date.getFullYear() - 1;
+    setsessionname(`${lastyear}-${fullyear}`);
     setcategoryname("");
     setsectionname("");
     dispatch(getstudent());
@@ -260,8 +261,10 @@ function Collectfee() {
   useEffect(() => {
     let date = new Date();
     let fullyear = date.getFullYear();
-    setsessionname(fullyear);
+    let lastyear = date.getFullYear() - 1;
+    setsessionname(`${lastyear}-${fullyear}`);
   }, []);
+  
   return (
     <>
       {openupdate && (
@@ -538,11 +541,12 @@ function Collectfee() {
               <label>Show Father&apos s Name</label>
             </div>
           </div>
-          <div className={styles.add_divmarginn10}>
+          <div className={styles.add_divmarginn}>
             <div className={styles.tablecontainer}>
               <table className={styles.tabletable}>
                 <tbody>
                   <tr className={styles.tabletr}>
+                    <th className={styles.tableth}>Session</th>
                     <th className={styles.tableth}>Roll No</th>
                     <th className={styles.tableth}>Student_Name</th>
                     {showfathers && (
@@ -553,12 +557,12 @@ function Collectfee() {
                     <th className={styles.tableth}>Adminssion_Date</th>
                     <th className={styles.tableth}>Addmission_Fee</th>
                     {/* <th className={styles.tableth}>Status</th> */}
-                    <th className={styles.tableth}>Academy Fee</th>
+                    <th className={styles.tableth}>Academy_Fee</th>
+                    <th className={styles.tableth}>Paid_Fee</th>
+                    <th className={styles.tableth}>Hostel_Fee</th>
                     <th className={styles.tableth}>Paid Fee</th>
-                    <th className={styles.tableth}>Hostel Fee</th>
-                    <th className={styles.tableth}>Paid Fee</th>
-                    <th className={styles.tableth}>Transport Fee</th>
-                    <th className={styles.tableth}>Paid Fee</th>
+                    <th className={styles.tableth}>Transport_Fee</th>
+                    <th className={styles.tableth}>Paid_Fee</th>
                     {newmonthnames &&
                       newmonthnames?.map((item, index) => {
                         return (
@@ -574,6 +578,7 @@ function Collectfee() {
                   {isdata?.map((item, index) => {
                     return (
                       <tr key={index} className={styles.tabletr}>
+                        <td className={styles.tabletd}>{item?.Session}</td>
                         <td className={styles.tabletd}>{item?.rollnumber}</td>
                         <td className={styles.tabletd}>{item?.name}</td>
                         {showfathers && (

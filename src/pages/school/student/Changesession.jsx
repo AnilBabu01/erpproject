@@ -139,7 +139,8 @@ function Changesession() {
     setcategoryname("");
     let date = new Date();
     let fullyear = date.getFullYear();
-    setsessionname(fullyear);
+    let lastyear = date.getFullYear() - 1;
+    setsessionname(`${lastyear}-${fullyear}`);
     setsectionname("");
     dispatch(getstudent());
   };
@@ -147,7 +148,8 @@ function Changesession() {
   useEffect(() => {
     let date = new Date();
     let fullyear = date.getFullYear();
-    setsessionname(fullyear);
+    let lastyear = date.getFullYear() - 1;
+    setsessionname(`${lastyear}-${fullyear}`);
   }, []);
 
   console.log("seesion is data is ", studentlist);

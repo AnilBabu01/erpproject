@@ -515,7 +515,8 @@ function AddStudent() {
               <table className={styles.tabletable}>
                 <tbody>
                   <tr className={styles.tabletr}>
-                    <th className={styles.tableth}>S.NO</th>
+                    <th className={styles.tableth}>Sr.No</th>
+                    <th className={styles.tableth}>Session</th>
                     <th className={styles.tableth}>SNO</th>
                     <th className={styles.tableth}>Roll No</th>
                     <th className={styles.tableth}>Section</th>
@@ -532,6 +533,7 @@ function AddStudent() {
                     return (
                       <tr key={index} className={styles.tabletr}>
                         <td className={styles.tabletd}>{index + 1}</td>
+                        <td className={styles.tabletd}>{item?.Session}</td>
                         <td className={styles.tabletd}>{item?.SrNumber}</td>
                         <td className={styles.tabletd}>{item?.rollnumber}</td>
                         <td className={styles.tabletd}>{item?.Section}</td>

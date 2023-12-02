@@ -886,6 +886,15 @@
   border-radius: 7px;
   margin-bottom: 1rem;
 }
+
+.textareadiv {
+  width: 100%;
+}
+.textareadiv textarea {
+  border: 1px solid #093959;
+  width: 100%;
+  height: 10rem;
+}
 @media screen and (max-width: 780px) {
   .searchbtnactive {
     font-size: 10px;

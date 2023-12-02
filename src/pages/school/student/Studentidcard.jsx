@@ -162,13 +162,15 @@ function Studentidcard() {
     setsbatch("");
     let date = new Date();
     let fullyear = date.getFullYear();
-    setsessionname(fullyear);
+    let lastyear = date.getFullYear() - 1;
+    setsessionname(`${lastyear}-${fullyear}`);
     dispatch(getstudent());
   };
   useEffect(() => {
     let date = new Date();
     let fullyear = date.getFullYear();
-    setsessionname(fullyear);
+    let lastyear = date.getFullYear() - 1;
+    setsessionname(`${lastyear}-${fullyear}`);
   }, []);
   const LandscapePrint = useReactToPrint({
     content: () => LandscapeRef.current,
