@@ -5,7 +5,6 @@ import {
   getcourse,
   getbatch,
   getstudent,
-  deletestudent,
   getfee,
   getcategory,
   GetSession,
@@ -16,12 +15,13 @@ import {
   GetFacility,
   GetCategory,
 } from "../../../redux/actions/hostelActions";
-
 import { GetRoute } from "../../../redux/actions/transportActions";
 import styles from "../../coaching/employee/employee.module.css";
+import Slide from "@mui/material/Slide";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
-
+import { serverInstance } from "../../../API/ServerInstance";
+import { toast } from "react-toastify";
 const studentStatus = [
   { label: "Active", value: "Active" },
   { label: "On Leave", value: "On Leave" },
@@ -29,8 +29,15 @@ const studentStatus = [
   { label: "Completed", value: "Completed" },
   { label: "Unknown", value: "Unknown" },
 ];
-function Studentlogincreadential() {
+function Changesession() {
   const dispatch = useDispatch();
+  const [allselectStatus, setallselectStatus] = useState(false);
+  const [transsection, settranssection] = useState("NONE");
+  const [transClass, settransClass] = useState("");
+  const [transSession, settransSession] = useState("");
+  const [checked, setChecked] = useState([]);
+  const [studentlist, setstudentlist] = useState([]);
+  const [studentlist1, setstudentlist1] = useState("");
   const [scoursename, setscoursename] = useState("");
   const [sfathers, setsfathers] = useState("");
   const [sstudent, setsstudent] = useState("");
@@ -49,6 +56,7 @@ function Studentlogincreadential() {
   const [sessionname, setsessionname] = useState("");
   const [sectionname, setsectionname] = useState("NONE");
   const [userdata, setuserdata] = useState("");
+
   const { user } = useSelector((state) => state.auth);
   const { loading, student } = useSelector((state) => state.getstudent);
   const { batch } = useSelector((state) => state.getbatch);
@@ -56,6 +64,10 @@ function Studentlogincreadential() {
   const { category } = useSelector((state) => state.getcategory);
   const { sections } = useSelector((state) => state.GetSection);
   const { Sessions } = useSelector((state) => state.GetSession);
+
+  const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="top" ref={ref} {...props} />;
+  });
 
   useEffect(() => {
     if (student) {
@@ -138,7 +150,46 @@ function Studentlogincreadential() {
     setsessionname(fullyear);
   }, []);
 
-  console.log("cccccc", userdata);
+  console.log("seesion is data is ", studentlist);
+
+  const handlesession = () => {
+    try {
+      // if (studentlist?.length === 0 || studentlist1?.length === 0) {
+      //   toast.error("Please Select Student!!", {
+      //     autoClose: 1000,
+      //   });
+      //   return 0;
+      // }
+      serverInstance("student/changesession", "post", {
+        studentlist: allselectStatus ? isdata : studentlist,
+        session: transSession,
+        section: transsection,
+        classname: transClass,
+      }).then((res) => {
+        if (res?.status === true) {
+          setisData(res?.data);
+
+          console.log("changes session data is", res);
+
+          toast.success(res?.msg, {
+            autoClose: 1000,
+          });
+          dispatch(GetSection());
+          // handleClosedelete();
+        }
+        if (res?.status === false) {
+          toast.error(res?.msg, {
+            autoClose: 1000,
+          });
+          // handleClosedelete();
+        }
+      });
+    } catch (error) {
+      toast.error("Something Went Wrong!!", {
+        autoClose: 1000,
+      });
+    }
+  };
   return (
     <>
       <div className="mainContainer">
@@ -356,7 +407,7 @@ function Studentlogincreadential() {
                   onChange={(e) => setrollnumber(e.target.value)}
                 />
 
-                <button>Search</button>
+                <button>Get Student</button>
               </form>
               <button onClick={() => reset()}>Reset</button>
             </div>
@@ -375,28 +426,229 @@ function Studentlogincreadential() {
             </div>
           </div>
 
+          <div className={styles.addtopmenubar}>
+            <select
+              className={styles.opensearchinput}
+              sx={{
+                width: "18.8rem",
+                fontSize: 14,
+                "& .MuiSelect-select": {
+                  paddingTop: "0.6rem",
+                  paddingBottom: "0.6em",
+                },
+              }}
+              value={transSession}
+              name="transSession"
+              onChange={(e) => settransSession(e.target.value)}
+              displayEmpty
+            >
+              <option
+                sx={{
+                  fontSize: 14,
+                }}
+                value={""}
+              >
+                Select Session
+              </option>
+
+              {sessionList?.length > 0 &&
+                sessionList?.map((item, index) => {
+                  return (
+                    <option
+                      key={index}
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={item?.Session}
+                    >
+                      {item?.Session}
+                    </option>
+                  );
+                })}
+            </select>
+            <select
+              className={styles.opensearchinput}
+              sx={{
+                width: "18.8rem",
+                fontSize: 14,
+                "& .MuiSelect-select": {
+                  paddingTop: "0.6rem",
+                  paddingBottom: "0.6em",
+                },
+              }}
+              value={transClass}
+              name="transClass"
+              onChange={(e) => settransClass(e.target.value)}
+              displayEmpty
+            >
+              <option
+                sx={{
+                  fontSize: 14,
+                }}
+                value={""}
+              >
+                Transport To Class
+              </option>
+
+              {courselist?.map((item, index) => {
+                return (
+                  <option
+                    key={index}
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={item?.coursename}
+                  >
+                    {item?.coursename}
+                  </option>
+                );
+              })}
+            </select>
+            <select
+              className={styles.opensearchinput}
+              sx={{
+                width: "18.8rem",
+                fontSize: 14,
+                "& .MuiSelect-select": {
+                  paddingTop: "0.6rem",
+                  paddingBottom: "0.6em",
+                },
+              }}
+              value={transsection}
+              name="transsection"
+              onChange={(e) => settranssection(e.target.value)}
+              displayEmpty
+            >
+              <option
+                sx={{
+                  fontSize: 14,
+                }}
+                value={"NONE"}
+              >
+                NONE
+              </option>
+
+              {sectionList?.length > 0 &&
+                sectionList?.map((item, index) => {
+                  return (
+                    <option
+                      key={index}
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={item?.section}
+                    >
+                      {item?.section}
+                    </option>
+                  );
+                })}
+            </select>
+            <button
+              className={
+                userdata?.data && userdata?.data?.User?.userType === "school"
+                  ? styles.addtopmenubarbuttonactive
+                  : userdata?.data && userdata?.data?.User?.masterWrite === true
+                  ? styles.addtopmenubarbuttonactive
+                  : styles.addtopmenubarbuttondisable
+              }
+              disabled={
+                userdata?.data && userdata?.data?.User?.userType === "school"
+                  ? false
+                  : userdata?.data && userdata?.data?.User?.masterWrite === true
+                  ? false
+                  : true
+              }
+              onClick={() => handlesession()}
+            >
+              Change Session
+            </button>
+          </div>
           <div className={styles.add_divmarginn}>
             <div className={styles.tablecontainer}>
               <table className={styles.tabletable}>
                 <tbody>
                   <tr className={styles.tabletr}>
-                    <th className={styles.tableth}>Session</th>
+                    <th className={styles.tableth}>S.NO</th>
+                    <th className={styles.tableth}>SNO</th>
                     <th className={styles.tableth}>Roll No</th>
                     <th className={styles.tableth}>Section</th>
                     <th className={styles.tableth}>Student_Name</th>
-                    <th className={styles.tableth}>SNO (Login Id)</th>
-                    <th className={styles.tableth}>Password</th>
+                    <th className={styles.tableth}>Student_Email</th>
+                    <th className={styles.tableth}>Student_Phone</th>
+                    <th className={styles.tableth}>Adminssion_Date</th>
+                    <th className={styles.tableth}>Class</th>
+                    <th className={styles.tableth}>Category</th>
+                    <th className={styles.tableth}>Student Status</th>
+                    <th className={styles.tableth}>
+                      All Select{" "}
+                      <input
+                        type="checkbox"
+                        // checked={true}
+                        // disabled={true}
+                        value={isdata}
+                        onChange={(e) => {
+                          let updatedList = [...studentlist1];
+                          if (e.target.checked) {
+                            updatedList = [...studentlist1, isdata];
+                            setallselectStatus(true);
+                          } else {
+                            updatedList.splice(checked.indexOf(isdata), 1);
+                            setallselectStatus(false);
+                          }
+                          setstudentlist1(updatedList);
+                        }}
+                      />
+                    </th>
                   </tr>
                   {isdata?.map((item, index) => {
                     return (
                       <tr key={index} className={styles.tabletr}>
-                        <td className={styles.tabletd}>{item?.Session}</td>
+                        <td className={styles.tabletd}>{index + 1}</td>
+                        <td className={styles.tabletd}>{item?.SrNumber}</td>
                         <td className={styles.tabletd}>{item?.rollnumber}</td>
                         <td className={styles.tabletd}>{item?.Section}</td>
                         <td className={styles.tabletd}>{item?.name}</td>
-                        <td className={styles.tabletd}>{item?.SrNumber}</td>
+                        <td className={styles.tabletd}>{item?.email}</td>
+                        <td className={styles.tabletd}>{item?.phoneno1}</td>
                         <td className={styles.tabletd}>
-                          {userdata?.data?.CredentailsData?.Studentpassword}
+                          {moment(item?.admissionDate).format("DD/MM/YYYY")}
+                        </td>
+                        <td className={styles.tabletd}>
+                          {item?.courseorclass}
+                        </td>
+                        <td className={styles.tabletd}>
+                          {item?.StudentCategory}
+                        </td>
+                        <td className={styles.tabletd}>{item?.Status}</td>
+                        <td className={styles.tabkeddd}>
+                          {allselectStatus ? (
+                            <>
+                              <input
+                                type="checkbox"
+                                checked={true}
+                                disabled={true}
+                              />
+                            </>
+                          ) : (
+                            <>
+                              <input
+                                type="checkbox"
+                                value={item}
+                                onChange={(e) => {
+                                  let updatedList = [...studentlist];
+                                  if (e.target.checked) {
+                                    updatedList = [...studentlist, item];
+                                  } else {
+                                    updatedList.splice(
+                                      checked.indexOf(item),
+                                      1
+                                    );
+                                  }
+                                  setstudentlist(updatedList);
+                                }}
+                              />
+                            </>
+                          )}
                         </td>
                       </tr>
                     );
@@ -412,4 +664,4 @@ function Studentlogincreadential() {
   );
 }
 
-export default Studentlogincreadential;
+export default Changesession;

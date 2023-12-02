@@ -23,6 +23,9 @@ function UpdateStudent({ setOpen, updatedata }) {
   const dispatch = useDispatch();
   const [loading1, setloading1] = useState(false);
   const [loading2, setloading2] = useState(false);
+  const [sessionname, setsessionname] = useState("");
+  const [sectionname, setsectionname] = useState("NONE");
+  const [sectionlist, setsectionlist] = useState([]);
   const [TransportFeePermonth, setTransportFeePermonth] = useState("");
   const [fromroute, setfromroute] = useState("");
   const [toroute, settoroute] = useState("");
@@ -91,6 +94,7 @@ function UpdateStudent({ setOpen, updatedata }) {
   const { roomcategory } = useSelector((state) => state.GetCategory);
   const { roomfacility } = useSelector((state) => state.GetFacility);
   const { route } = useSelector((state) => state.GetRoute);
+  const { sections } = useSelector((state) => state.GetSection);
   const { studentaddstatus, student } = useSelector(
     (state) => state.addstudent
   );
@@ -126,6 +130,8 @@ function UpdateStudent({ setOpen, updatedata }) {
     formData.set("Transport", transport);
     formData.set("Library", Library);
     formData.set("hostal", hostal);
+    formData.set("Section", sectionname);
+    formData.set("Session", sessionname);
     formData.set("StudentCategory", categoryname);
     formData.set("AnnualFee", annualfee);
     formData.set(
@@ -198,7 +204,19 @@ function UpdateStudent({ setOpen, updatedata }) {
     if (route) {
       setroutelist(route);
     }
-  }, [fee, batch, category, roomcategory, roomfacility, hostel, route]);
+    if (sections) {
+      setsectionlist(sections);
+    }
+  }, [
+    fee,
+    batch,
+    category,
+    roomcategory,
+    roomfacility,
+    hostel,
+    route,
+    sections,
+  ]);
 
   const gotoreceipt = () => {
     navigation.push({
@@ -248,6 +266,8 @@ function UpdateStudent({ setOpen, updatedata }) {
       setTransportFeePermonth(updatedata?.TransportPerMonthFee);
       sethostelfeeperMonth(updatedata?.HostelPerMonthFee);
       setannualfee(updatedata?.AnnualFee);
+      setsessionname(updatedata?.Session);
+      setsectionname(updatedata?.Section);
     }
   }, []);
   return (
@@ -315,10 +335,18 @@ function UpdateStudent({ setOpen, updatedata }) {
                   </Select>
                 </div>
                 <div className={styles.inputdiv}>
-                  <label>&nbsp;</label>
-                  <label>&nbsp;</label>
+                  <label>Sr Number</label>
+                  <input
+                    required
+                    type="text"
+                    placeholder="Enter the Roll Number"
+                    value={studentrollno}
+                    name="studentrollno"
+                    onChange={(e) => setstudentrollno(e.target.value)}
+                  />
                 </div>
               </div>
+
               <div className={styles.divmaininput}>
                 <div className={styles.inputdiv}>
                   <label>Student Name</label>
@@ -462,15 +490,46 @@ function UpdateStudent({ setOpen, updatedata }) {
                   />
                 </div>
                 <div className={styles.inputdiv}>
-                  <label>Sr Number</label>
-                  <input
+                  <label>Section</label>
+                  <Select
                     required
-                    type="text"
-                    placeholder="Enter the Roll Number"
-                    value={studentrollno}
-                    name="studentrollno"
-                    onChange={(e) => setstudentrollno(e.target.value)}
-                  />
+                    className={styles.addwidth}
+                    sx={{
+                      width: "18.8rem",
+                      fontSize: 14,
+                      "& .MuiSelect-select": {
+                        paddingTop: "0.6rem",
+                        paddingBottom: "0.6em",
+                      },
+                    }}
+                    value={sectionname}
+                    name="sectionname"
+                    onChange={(e) => setsectionname(e.target.value)}
+                    displayEmpty
+                  >
+                    <MenuItem
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={"NONE"}
+                    >
+                      NONE
+                    </MenuItem>
+                    {sectionlist?.length > 0 &&
+                      sectionlist?.map((item, index) => {
+                        return (
+                          <MenuItem
+                            key={index}
+                            sx={{
+                              fontSize: 14,
+                            }}
+                            value={item?.section}
+                          >
+                            {item?.section}
+                          </MenuItem>
+                        );
+                      })}
+                  </Select>
                 </div>
               </div>
               <div className={styles.divmaininput}>
@@ -655,18 +714,18 @@ function UpdateStudent({ setOpen, updatedata }) {
                   </Select>
                 </div>
               </div>
-              {preview1 && (
-                <>
-                  <div className={styles.inputdivimg}>
-                    <label>Passport Size Photo</label>
-                    <img
-                      className="keydetailsdivproimg"
-                      src={preview1}
-                      alt="imgdd"
-                    />
-                  </div>
-                </>
-              )}
+
+              <div className={styles.inputdiv}>
+                <label>Session</label>
+                <input
+                  required
+                  type="text"
+                  placeholder="Enter Session"
+                  value={sessionname}
+                  name="sessionname"
+                  onChange={(e) => setsessionname(e.target.value)}
+                />
+              </div>
 
               {preview2 && (
                 <>

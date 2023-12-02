@@ -41,6 +41,10 @@ function Studentidcard() {
   const LandscapeRef = useRef(null);
   const PortraitRef = useRef(null);
   const dispatch = useDispatch();
+  const [sessionList, setsessionList] = useState([]);
+  const [sectionList, setsectionList] = useState([]);
+  const [sessionname, setsessionname] = useState("");
+  const [sectionname, setsectionname] = useState("NONE");
   const [scoursename, setscoursename] = useState("");
   const [sfathers, setsfathers] = useState("");
   const [sstudent, setsstudent] = useState("");
@@ -63,6 +67,8 @@ function Studentidcard() {
   const { loading, student } = useSelector((state) => state.getstudent);
   const { batch } = useSelector((state) => state.getbatch);
   const { course } = useSelector((state) => state.getcourse);
+  const { sections } = useSelector((state) => state.GetSection);
+  const { Sessions } = useSelector((state) => state.GetSession);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -110,7 +116,13 @@ function Studentidcard() {
     if (course) {
       setcourselist(course);
     }
-  }, [student, batch, user, course]);
+    if (sections) {
+      setsectionList(sections);
+    }
+    if (Sessions) {
+      setsessionList(Sessions);
+    }
+  }, [student, batch, user, course, Sessions, sections]);
   useEffect(() => {
     dispatch(getstudent());
   }, [open, openupdate, openalert]);
@@ -132,7 +144,11 @@ function Studentidcard() {
         sstudent,
         sfathers,
         rollnumber,
-        status
+        status,
+        "",
+        "",
+        sessionname,
+        sectionname
       )
     );
   };
@@ -144,9 +160,16 @@ function Studentidcard() {
     settodate("");
     setscoursename("");
     setsbatch("");
+    let date = new Date();
+    let fullyear = date.getFullYear();
+    setsessionname(fullyear);
     dispatch(getstudent());
   };
-
+  useEffect(() => {
+    let date = new Date();
+    let fullyear = date.getFullYear();
+    setsessionname(fullyear);
+  }, []);
   const LandscapePrint = useReactToPrint({
     content: () => LandscapeRef.current,
   });
@@ -227,22 +250,6 @@ function Studentidcard() {
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
               <form onSubmit={filterdata} className={styles.searchoptiondiv}>
-                {/* <label>From</label>
-                <input
-                  className={styles.opensearchinput}
-                  type="date"
-                  value={fromdate}
-                  name="fromdate"
-                  onChange={(e) => setfromdate(e.target.value)}
-                />
-                <label>To</label>
-                <input
-                  className={styles.opensearchinput}
-                  type="date"
-                  value={todate}
-                  name="todate"
-                  onChange={(e) => settodate(e.target.value)}
-                /> */}
                 <select
                   className={styles.opensearchinput}
                   sx={{
@@ -253,9 +260,9 @@ function Studentidcard() {
                       paddingBottom: "0.6em",
                     },
                   }}
-                  value={sbatch}
-                  name="sbatch"
-                  onChange={(e) => setsbatch(e.target.value)}
+                  value={sessionname}
+                  name="sessionname"
+                  onChange={(e) => setsessionname(e.target.value)}
                   displayEmpty
                 >
                   <option
@@ -264,23 +271,24 @@ function Studentidcard() {
                     }}
                     value={""}
                   >
-                    All Batch
+                    Select Session
                   </option>
-                  {batchs?.map((item, index) => {
-                    return (
-                      <option
-                        key={index}
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={`${item?.StartingTime} TO ${item?.EndingTime}`}
-                      >
-                        {item?.StartingTime} TO {item?.EndingTime}
-                      </option>
-                    );
-                  })}
-                </select>
 
+                  {sessionList?.length > 0 &&
+                    sessionList?.map((item, index) => {
+                      return (
+                        <option
+                          key={index}
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={item?.Session}
+                        >
+                          {item?.Session}
+                        </option>
+                      );
+                    })}
+                </select>
                 <select
                   className={styles.opensearchinput}
                   sx={{
@@ -302,7 +310,7 @@ function Studentidcard() {
                     }}
                     value={""}
                   >
-                    ALL Course
+                    ALL Class
                   </option>
 
                   {courselist?.map((item, index) => {
@@ -318,6 +326,45 @@ function Studentidcard() {
                       </option>
                     );
                   })}
+                </select>
+                <select
+                  className={styles.opensearchinput}
+                  sx={{
+                    width: "18.8rem",
+                    fontSize: 14,
+                    "& .MuiSelect-select": {
+                      paddingTop: "0.6rem",
+                      paddingBottom: "0.6em",
+                    },
+                  }}
+                  value={sectionname}
+                  name="sectionname"
+                  onChange={(e) => setsectionname(e.target.value)}
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={"NONE"}
+                  >
+                    NONE
+                  </option>
+
+                  {sectionList?.length > 0 &&
+                    sectionList?.map((item, index) => {
+                      return (
+                        <option
+                          key={index}
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={item?.section}
+                        >
+                          {item?.section}
+                        </option>
+                      );
+                    })}
                 </select>
                 <select
                   className={styles.opensearchinput}
@@ -387,8 +434,7 @@ function Studentidcard() {
                     );
                   })}
                 </select>
-
-                {/* <input
+                <input
                   className={styles.opensearchinput10}
                   type="text"
                   placeholder="Student's name"
@@ -404,12 +450,13 @@ function Studentidcard() {
                   value={rollnumber}
                   name="rollnumber"
                   onChange={(e) => setrollnumber(e.target.value)}
-                /> */}
+                />
 
-                <button>Generate ID Card</button>
+                <button>Search</button>
               </form>
               <button onClick={() => reset()}>Reset</button>
             </div>
+
             <div className={styles.imgdivformat}>
               <img
                 onClick={() => {

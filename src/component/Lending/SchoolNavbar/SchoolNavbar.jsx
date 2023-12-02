@@ -101,8 +101,8 @@ const SchoolNavbar = () => {
                         <Link href="/school/student/Studentlogincreadential">
                           Student Login Creadential
                         </Link>
-                        <Link href="/school/student/Disabledstudent">
-                          Disabled Students
+                        <Link href="/school/student/Changesession">
+                          Change Session
                         </Link>
                       </div>
                     </div>

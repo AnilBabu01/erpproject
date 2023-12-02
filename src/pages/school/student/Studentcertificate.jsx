@@ -41,6 +41,10 @@ function Studentcertificate() {
   const LandscapeRef = useRef(null);
   const PortraitRef = useRef(null);
   const dispatch = useDispatch();
+  const [sessionList, setsessionList] = useState([]);
+  const [sectionList, setsectionList] = useState([]);
+  const [sessionname, setsessionname] = useState("");
+  const [sectionname, setsectionname] = useState("NONE");
   const [scoursename, setscoursename] = useState("");
   const [sfathers, setsfathers] = useState("");
   const [sstudent, setsstudent] = useState("");
@@ -63,6 +67,8 @@ function Studentcertificate() {
   const { loading, student } = useSelector((state) => state.getstudent);
   const { batch } = useSelector((state) => state.getbatch);
   const { course } = useSelector((state) => state.getcourse);
+  const { sections } = useSelector((state) => state.GetSection);
+  const { Sessions } = useSelector((state) => state.GetSession);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -110,7 +116,13 @@ function Studentcertificate() {
     if (course) {
       setcourselist(course);
     }
-  }, [student, batch, user, course]);
+    if (sections) {
+      setsectionList(sections);
+    }
+    if (Sessions) {
+      setsessionList(Sessions);
+    }
+  }, [student, batch, user, course, sections, Sessions]);
   useEffect(() => {
     dispatch(getstudent());
   }, [open, openupdate, openalert]);
@@ -132,7 +144,11 @@ function Studentcertificate() {
         sstudent,
         sfathers,
         rollnumber,
-        "Active"
+        "Active",
+        "",
+        "",
+        sessionname,
+        sectionname
       )
     );
   };
@@ -145,6 +161,9 @@ function Studentcertificate() {
     setscoursename("");
     setsbatch("");
     dispatch(getstudent());
+    let date = new Date();
+    let fullyear = date.getFullYear();
+    setsessionname(fullyear);
   };
 
   const LandscapePrint = useReactToPrint({
@@ -154,6 +173,11 @@ function Studentcertificate() {
   const PortraitPrint = useReactToPrint({
     content: () => PortraitRef.current,
   });
+  useEffect(() => {
+    let date = new Date();
+    let fullyear = date.getFullYear();
+    setsessionname(fullyear);
+  }, []);
   return (
     <>
       {open && (
@@ -225,25 +249,49 @@ function Studentcertificate() {
       <div className="mainContainer">
         <div>
           <div className={styles.topmenubar}>
+
+
             <div className={styles.searchoptiondiv}>
               <form onSubmit={filterdata} className={styles.searchoptiondiv}>
-                {/* <label>From</label>
-                <input
+                <select
                   className={styles.opensearchinput}
-                  type="date"
-                  value={fromdate}
-                  name="fromdate"
-                  onChange={(e) => setfromdate(e.target.value)}
-                />
-                <label>To</label>
-                <input
-                  className={styles.opensearchinput}
-                  type="date"
-                  value={todate}
-                  name="todate"
-                  onChange={(e) => settodate(e.target.value)}
-                /> */}
+                  sx={{
+                    width: "18.8rem",
+                    fontSize: 14,
+                    "& .MuiSelect-select": {
+                      paddingTop: "0.6rem",
+                      paddingBottom: "0.6em",
+                    },
+                  }}
+                  value={sessionname}
+                  name="sessionname"
+                  onChange={(e) => setsessionname(e.target.value)}
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={""}
+                  >
+                    Select Session
+                  </option>
 
+                  {sessionList?.length > 0 &&
+                    sessionList?.map((item, index) => {
+                      return (
+                        <option
+                          key={index}
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={item?.Session}
+                        >
+                          {item?.Session}
+                        </option>
+                      );
+                    })}
+                </select>
                 <select
                   className={styles.opensearchinput}
                   sx={{
@@ -281,6 +329,45 @@ function Studentcertificate() {
                       </option>
                     );
                   })}
+                </select>
+                <select
+                  className={styles.opensearchinput}
+                  sx={{
+                    width: "18.8rem",
+                    fontSize: 14,
+                    "& .MuiSelect-select": {
+                      paddingTop: "0.6rem",
+                      paddingBottom: "0.6em",
+                    },
+                  }}
+                  value={sectionname}
+                  name="sectionname"
+                  onChange={(e) => setsectionname(e.target.value)}
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={"NONE"}
+                  >
+                    NONE
+                  </option>
+
+                  {sectionList?.length > 0 &&
+                    sectionList?.map((item, index) => {
+                      return (
+                        <option
+                          key={index}
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={item?.section}
+                        >
+                          {item?.section}
+                        </option>
+                      );
+                    })}
                 </select>
                 <select
                   className={styles.opensearchinput}
@@ -350,7 +437,6 @@ function Studentcertificate() {
                     );
                   })}
                 </select>
-                {/* 
                 <input
                   className={styles.opensearchinput10}
                   type="text"
@@ -358,7 +444,7 @@ function Studentcertificate() {
                   value={sstudent}
                   name="sstudent}"
                   onChange={(e) => setsstudent(e.target.value)}
-                /> */}
+                />
 
                 <input
                   className={styles.opensearchinput10}
@@ -369,10 +455,11 @@ function Studentcertificate() {
                   onChange={(e) => setrollnumber(e.target.value)}
                 />
 
-                <button>Generate Certificate</button>
+                <button>Search</button>
               </form>
               <button onClick={() => reset()}>Reset</button>
             </div>
+
             <div className={styles.imgdivformat}>
               <img
                 onClick={() => {

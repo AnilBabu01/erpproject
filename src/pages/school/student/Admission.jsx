@@ -8,12 +8,15 @@ import {
   deletestudent,
   getfee,
   getcategory,
+  GetSession,
+  GetSection,
 } from "../../../redux/actions/commanAction";
 import {
   GetHostel,
   GetFacility,
   GetCategory,
 } from "../../../redux/actions/hostelActions";
+
 import { GetRoute } from "../../../redux/actions/transportActions";
 import styles from "../../coaching/employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
@@ -27,6 +30,7 @@ import AddAdmission from "../../../component/Institute/student/AddAdmission";
 import UpdateAdmission from "../../../component/Institute/student/UpdateAdmission";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
+
 const studentStatus = [
   { label: "Active", value: "Active" },
   { label: "On Leave", value: "On Leave" },
@@ -52,21 +56,23 @@ function Admission() {
   const [courselist, setcourselist] = useState([]);
   const [status, setstatus] = useState("");
   const [rollnumber, setrollnumber] = useState("");
-  const [userdata, setuserdata] = useState("");
-  const [categoryname, setcategoryname] = useState("Please Select");
+  const [categoryname, setcategoryname] = useState("");
   const [categorylist, setcategorylist] = useState([]);
+  const [sessionList, setsessionList] = useState([]);
+  const [sectionList, setsectionList] = useState([]);
+  const [sessionname, setsessionname] = useState("");
+  const [sectionname, setsectionname] = useState("NONE");
+  const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
   const { loading, student } = useSelector((state) => state.getstudent);
   const { batch } = useSelector((state) => state.getbatch);
   const { course } = useSelector((state) => state.getcourse);
   const { category } = useSelector((state) => state.getcategory);
+  const { sections } = useSelector((state) => state.GetSection);
+  const { Sessions } = useSelector((state) => state.GetSession);
   const handleClickOpen = () => {
     setOpen(true);
   };
-
-  const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="top" ref={ref} {...props} />;
-  });
 
   const handleCloseregister = () => {
     setOpen(false);
@@ -93,6 +99,9 @@ function Admission() {
   const handledelete = () => {
     dispatch(deletestudent(deleteid, setOpenalert));
   };
+  const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="top" ref={ref} {...props} />;
+  });
 
   useEffect(() => {
     if (student) {
@@ -107,10 +116,16 @@ function Admission() {
     if (course) {
       setcourselist(course);
     }
-    {
+    if (category) {
       setcategorylist(category);
     }
-  }, [student, batch, user, course, category]);
+    if (Sessions) {
+      setsessionList(Sessions);
+    }
+    if (sections) {
+      setsectionList(sections);
+    }
+  }, [student, batch, user, course, category, Sessions, sections]);
   useEffect(() => {
     dispatch(getstudent());
   }, [open, openupdate, openalert]);
@@ -120,6 +135,12 @@ function Admission() {
     dispatch(getcourse());
     dispatch(getfee());
     dispatch(getcategory());
+    dispatch(GetCategory());
+    dispatch(GetHostel());
+    dispatch(GetFacility());
+    dispatch(GetRoute());
+    dispatch(GetSection());
+    dispatch(GetSession());
   }, []);
 
   const filterdata = (e) => {
@@ -135,7 +156,9 @@ function Admission() {
         rollnumber,
         status,
         categoryname,
-        ""
+        "",
+        sessionname,
+        sectionname
       )
     );
   };
@@ -148,9 +171,21 @@ function Admission() {
     setscoursename("");
     setsbatch("");
     setcategoryname("");
-    setrollnumber("");
+    let date = new Date();
+    let fullyear = date.getFullYear();
+    let lastyear = date.getFullYear() - 1;
+    setsessionname(`${lastyear}-${fullyear}`);
+    setsectionname("");
     dispatch(getstudent());
   };
+
+  useEffect(() => {
+    let date = new Date();
+    let fullyear = date.getFullYear();
+    let lastyear = date.getFullYear() - 1;
+    setsessionname(`${lastyear}-${fullyear}`);
+  }, []);
+
   return (
     <>
       {open && (
@@ -222,25 +257,48 @@ function Admission() {
       <div className="mainContainer">
         <div>
           <div className={styles.topmenubar}>
+
             <div className={styles.searchoptiondiv}>
               <form onSubmit={filterdata} className={styles.searchoptiondiv}>
-                {/* <label>From</label>
-                <input
+                <select
                   className={styles.opensearchinput}
-                  type="date"
-                  value={fromdate}
-                  name="fromdate"
-                  onChange={(e) => setfromdate(e.target.value)}
-                />
-                <label>To</label>
-                <input
-                  className={styles.opensearchinput}
-                  type="date"
-                  value={todate}
-                  name="todate"
-                  onChange={(e) => settodate(e.target.value)}
-                /> */}
+                  sx={{
+                    width: "18.8rem",
+                    fontSize: 14,
+                    "& .MuiSelect-select": {
+                      paddingTop: "0.6rem",
+                      paddingBottom: "0.6em",
+                    },
+                  }}
+                  value={sessionname}
+                  name="sessionname"
+                  onChange={(e) => setsessionname(e.target.value)}
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={""}
+                  >
+                    Select Session
+                  </option>
 
+                  {sessionList?.length > 0 &&
+                    sessionList?.map((item, index) => {
+                      return (
+                        <option
+                          key={index}
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={item?.Session}
+                        >
+                          {item?.Session}
+                        </option>
+                      );
+                    })}
+                </select>
                 <select
                   className={styles.opensearchinput}
                   sx={{
@@ -278,6 +336,45 @@ function Admission() {
                       </option>
                     );
                   })}
+                </select>
+                <select
+                  className={styles.opensearchinput}
+                  sx={{
+                    width: "18.8rem",
+                    fontSize: 14,
+                    "& .MuiSelect-select": {
+                      paddingTop: "0.6rem",
+                      paddingBottom: "0.6em",
+                    },
+                  }}
+                  value={sectionname}
+                  name="sectionname"
+                  onChange={(e) => setsectionname(e.target.value)}
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={"NONE"}
+                  >
+                    NONE
+                  </option>
+
+                  {sectionList?.length > 0 &&
+                    sectionList?.map((item, index) => {
+                      return (
+                        <option
+                          key={index}
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={item?.section}
+                        >
+                          {item?.section}
+                        </option>
+                      );
+                    })}
                 </select>
                 <select
                   className={styles.opensearchinput}
@@ -377,6 +474,8 @@ function Admission() {
               </form>
               <button onClick={() => reset()}>Reset</button>
             </div>
+
+            
             <div className={styles.imgdivformat}>
               <img
                 className={styles.imgdivformatimg}
@@ -419,7 +518,9 @@ function Admission() {
                 <tbody>
                   <tr className={styles.tabletr}>
                     <th className={styles.tableth}>S.NO</th>
+                    <th className={styles.tableth}>SNO</th>
                     <th className={styles.tableth}>Roll No</th>
+                    <th className={styles.tableth}>Section</th>
                     <th className={styles.tableth}>Student_Name</th>
                     <th className={styles.tableth}>Student_Email</th>
                     <th className={styles.tableth}>Student_Phone</th>
@@ -433,7 +534,9 @@ function Admission() {
                     return (
                       <tr key={index} className={styles.tabletr}>
                         <td className={styles.tabletd}>{index + 1}</td>
+                        <td className={styles.tabletd}>{item?.SrNumber}</td>
                         <td className={styles.tabletd}>{item?.rollnumber}</td>
+                        <td className={styles.tabletd}>{item?.Section}</td>
                         <td className={styles.tabletd}>{item?.name}</td>
                         <td className={styles.tabletd}>{item?.email}</td>
                         <td className={styles.tabletd}>{item?.phoneno1}</td>

@@ -6,7 +6,7 @@ import {
   getbatch,
   getfee,
   getTest,
-  deleteTest
+  deleteTest,
 } from "../../../redux/actions/commanAction";
 import styles from "../../coaching/employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
@@ -19,7 +19,7 @@ import { Button } from "@mui/material";
 import AddTest from "../../../component/Institute/student/AddTest";
 import UpdateTest from "../../../component/Institute/student/UpdateTest";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
-import moment  from 'moment';
+import moment from "moment";
 function Assignment() {
   const dispatch = useDispatch();
   const [courselist, setcourselist] = useState("");
@@ -98,9 +98,6 @@ function Assignment() {
     dispatch(getbatch());
     dispatch(getcourse());
     dispatch(getfee());
-    dispatch(GetHostel());
-    dispatch(GetFacility());
-    dispatch(GetRoute());
   }, []);
 
   console.log("data from test table", isdata);
@@ -196,7 +193,6 @@ function Assignment() {
                   name="todate"
                   onChange={(e) => settodate(e.target.value)}
                 />
-               
 
                 <select
                   className={styles.opensearchinput}
@@ -288,7 +284,6 @@ function Assignment() {
                     <th className={styles.tableth}>End Time</th>
                     <th className={styles.tableth}>Test Type</th>
                     <th className={styles.tableth}>Class</th>
-                    
 
                     <th className={styles.tableth}>Action</th>
                   </tr>
@@ -297,12 +292,13 @@ function Assignment() {
                       <tr key={index} className={styles.tabletr}>
                         <td className={styles.tabletd}>{index + 1}</td>
                         <td className={styles.tabletd}>{item?.testname}</td>
-                        <td className={styles.tabletd}>{ moment(item?.testdate).format('MM/DD/YYYY')}</td>
+                        <td className={styles.tabletd}>
+                          {moment(item?.testdate).format("MM/DD/YYYY")}
+                        </td>
                         <td className={styles.tabletd}>{item?.teststarTime}</td>
                         <td className={styles.tabletd}>{item?.testendTime}</td>
                         <td className={styles.tabletd}>{item?.testtype}</td>
                         <td className={styles.tabletd}>{item?.course}</td>
-                       
 
                         <td className={styles.tabkeddd}>
                           <button
@@ -311,7 +307,8 @@ function Assignment() {
                               userdata?.data?.User?.userType === "school"
                                 ? false
                                 : userdata?.data &&
-                                  userdata?.data?.User?.fronroficeDelete === true
+                                  userdata?.data?.User?.fronroficeDelete ===
+                                    true
                                 ? false
                                 : true
                             }
@@ -322,7 +319,8 @@ function Assignment() {
                                 userdata?.data?.User?.userType === "school"
                                   ? styles.tabkedddimgactive
                                   : userdata?.data &&
-                                    userdata?.data?.User?.fronroficeDelete === true
+                                    userdata?.data?.User?.fronroficeDelete ===
+                                      true
                                   ? styles.tabkedddimgactive
                                   : styles.tabkedddimgdisable
                               }
@@ -348,7 +346,8 @@ function Assignment() {
                                 userdata?.data?.User?.userType === "school"
                                   ? styles.tabkedddimgactive
                                   : userdata?.data &&
-                                    userdata?.data?.User?.fronroficeEdit === true
+                                    userdata?.data?.User?.fronroficeEdit ===
+                                      true
                                   ? styles.tabkedddimgactive
                                   : styles.tabkedddimgdisable
                               }

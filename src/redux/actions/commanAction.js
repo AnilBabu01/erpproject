@@ -1048,7 +1048,9 @@ export const getstudent =
     rollnumber,
     status,
     categoryname,
-    library
+    library,
+    sessionname,
+    sectionname
   ) =>
   async (dispatch) => {
     try {
@@ -1068,11 +1070,13 @@ export const getstudent =
         rollnumber ||
         status ||
         categoryname ||
-        library
+        library ||
+        sectionname ||
+        sessionname
       ) {
         dispatch({ type: ALL_STUDENT_REQUEST });
         const { data } = await axios.get(
-          `${backendApiUrl}student/addstudent?name=${scoursename}&batch=${sbatch}&fromdate=${fromdate}&todate=${todate}&fathers=${sfathers}&studentname=${sstudent}&rollnumber=${rollnumber}&status=${status}&categoryname=${categoryname}&library=${library}`,
+          `${backendApiUrl}student/addstudent?name=${scoursename}&batch=${sbatch}&fromdate=${fromdate}&todate=${todate}&fathers=${sfathers}&studentname=${sstudent}&rollnumber=${rollnumber}&status=${status}&categoryname=${categoryname}&library=${library}&sessionname=${sessionname}&sectionname=${sectionname}`,
           config
         );
         dispatch({
@@ -1080,9 +1084,14 @@ export const getstudent =
           payload: data?.data,
         });
       } else {
+        let date = new Date();
+        let fullyear = date.getFullYear();
+        let lastyear = date.getFullYear() - 1;
+        let currentsession = `${lastyear}-${fullyear}`;
+
         dispatch({ type: ALL_STUDENT_REQUEST });
         const { data } = await axios.get(
-          `${backendApiUrl}student/addstudent`,
+          `${backendApiUrl}student/addstudent?sessionname=${currentsession}`,
 
           config
         );

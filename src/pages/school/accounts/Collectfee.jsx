@@ -5,7 +5,8 @@ import {
   getcourse,
   getbatch,
   getstudent,
-  deletestudent,
+  GetSection,
+  GetSession,
   getfee,
   getCourseDuration,
 } from "../../../redux/actions/commanAction";
@@ -15,8 +16,6 @@ import Slide from "@mui/material/Slide";
 import Addfee from "../../../component/Institute/accounts/Addfee";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
 
 const studentStatus = [
   { label: "Active", value: "Active" },
@@ -25,8 +24,15 @@ const studentStatus = [
   { label: "Completed", value: "Completed" },
   { label: "Unknown", value: "Unknown" },
 ];
+
 function Collectfee() {
   const dispatch = useDispatch();
+  const [categoryname, setcategoryname] = useState("");
+  const [categorylist, setcategorylist] = useState([]);
+  const [sessionList, setsessionList] = useState([]);
+  const [sectionList, setsectionList] = useState([]);
+  const [sessionname, setsessionname] = useState("");
+  const [sectionname, setsectionname] = useState("NONE");
   const [noOfMonth, setnoOfMonth] = useState("");
   const [scoursename, setscoursename] = useState("");
   const [rollnumber, setrollnumber] = useState("");
@@ -51,7 +57,9 @@ function Collectfee() {
   const { batch } = useSelector((state) => state.getbatch);
   const { courseduarion } = useSelector((state) => state.getCourseDur);
   const { course } = useSelector((state) => state.getcourse);
-
+  const { category } = useSelector((state) => state.getcategory);
+  const { sections } = useSelector((state) => state.GetSection);
+  const { Sessions } = useSelector((state) => state.GetSession);
   console.log("student", status);
   var newmonthnames = [];
   var feestatusarray = [];
@@ -180,7 +188,25 @@ function Collectfee() {
     if (course) {
       setcourselist(course);
     }
-  }, [student, batch, user, courseduarion, course]);
+    if (category) {
+      setcategorylist(category);
+    }
+    if (Sessions) {
+      setsessionList(Sessions);
+    }
+    if (sections) {
+      setsectionList(sections);
+    }
+  }, [
+    student,
+    batch,
+    user,
+    courseduarion,
+    course,
+    category,
+    Sessions,
+    sections,
+  ]);
 
   useEffect(() => {
     dispatch(getstudent());
@@ -191,6 +217,8 @@ function Collectfee() {
     dispatch(getcourse());
     dispatch(getfee());
     dispatch(getCourseDuration());
+    dispatch(GetSection());
+    dispatch(GetSession());
   }, []);
 
   const filterdata = (e) => {
@@ -205,8 +233,10 @@ function Collectfee() {
         sfathers,
         rollnumber,
         status,
+        categoryname,
         "",
-        ""
+        sessionname,
+        sectionname
       )
     );
   };
@@ -220,9 +250,18 @@ function Collectfee() {
     setsbatch("");
     setstatus("");
     setrollnumber("");
+    let date = new Date();
+    let fullyear = date.getFullYear();
+    setsessionname(fullyear);
+    setcategoryname("");
+    setsectionname("");
     dispatch(getstudent());
   };
-
+  useEffect(() => {
+    let date = new Date();
+    let fullyear = date.getFullYear();
+    setsessionname(fullyear);
+  }, []);
   return (
     <>
       {openupdate && (
@@ -256,6 +295,45 @@ function Collectfee() {
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
               <form onSubmit={filterdata} className={styles.searchoptiondiv}>
+                <select
+                  className={styles.opensearchinput}
+                  sx={{
+                    width: "18.8rem",
+                    fontSize: 14,
+                    "& .MuiSelect-select": {
+                      paddingTop: "0.6rem",
+                      paddingBottom: "0.6em",
+                    },
+                  }}
+                  value={sessionname}
+                  name="sessionname"
+                  onChange={(e) => setsessionname(e.target.value)}
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={""}
+                  >
+                    Select Session
+                  </option>
+
+                  {sessionList?.length > 0 &&
+                    sessionList?.map((item, index) => {
+                      return (
+                        <option
+                          key={index}
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={item?.Session}
+                        >
+                          {item?.Session}
+                        </option>
+                      );
+                    })}
+                </select>
                 <select
                   className={styles.opensearchinput}
                   sx={{
@@ -304,6 +382,45 @@ function Collectfee() {
                       paddingBottom: "0.6em",
                     },
                   }}
+                  value={sectionname}
+                  name="sectionname"
+                  onChange={(e) => setsectionname(e.target.value)}
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={"NONE"}
+                  >
+                    NONE
+                  </option>
+
+                  {sectionList?.length > 0 &&
+                    sectionList?.map((item, index) => {
+                      return (
+                        <option
+                          key={index}
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={item?.section}
+                        >
+                          {item?.section}
+                        </option>
+                      );
+                    })}
+                </select>
+                <select
+                  className={styles.opensearchinput}
+                  sx={{
+                    width: "18.8rem",
+                    fontSize: 14,
+                    "& .MuiSelect-select": {
+                      paddingTop: "0.6rem",
+                      paddingBottom: "0.6em",
+                    },
+                  }}
                   value={status}
                   name="status"
                   onChange={(e) => setstatus(e.target.value)}
@@ -332,7 +449,44 @@ function Collectfee() {
                     );
                   })}
                 </select>
+                <select
+                  className={styles.opensearchinput}
+                  sx={{
+                    width: "18.8rem",
+                    fontSize: 14,
+                    "& .MuiSelect-select": {
+                      paddingTop: "0.6rem",
+                      paddingBottom: "0.6em",
+                    },
+                  }}
+                  value={categoryname}
+                  name="categoryname"
+                  onChange={(e) => setcategoryname(e.target.value)}
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={""}
+                  >
+                    Category
+                  </option>
 
+                  {categorylist?.map((item, index) => {
+                    return (
+                      <option
+                        key={index}
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={item?.category}
+                      >
+                        {item?.category}
+                      </option>
+                    );
+                  })}
+                </select>
                 <input
                   className={styles.opensearchinput10}
                   type="text"
@@ -355,6 +509,7 @@ function Collectfee() {
               </form>
               <button onClick={() => reset()}>Reset</button>
             </div>
+
             <div className={styles.imgdivformat}>
               <img
                 className={styles.imgdivformatimg}
@@ -445,13 +600,16 @@ function Collectfee() {
                         <td className={styles.tabletd}>
                           {item?.TotalHostelFee}
                         </td>
-                        <td className={styles.tabletd}>{item?.HostelPaidFee}</td>
+                        <td className={styles.tabletd}>
+                          {item?.HostelPaidFee}
+                        </td>
 
                         <td className={styles.tabletd}>
                           {item?.TransportTotalHostelFee}
                         </td>
-                        <td className={styles.tabletd}>{item?.TransportPaidFee}</td>
-
+                        <td className={styles.tabletd}>
+                          {item?.TransportPaidFee}
+                        </td>
 
                         <td className={styles.tabkeddd}>
                           <button

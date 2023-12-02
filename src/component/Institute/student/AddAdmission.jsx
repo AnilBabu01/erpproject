@@ -21,6 +21,10 @@ const studentStatus = [
 function AddAdmission({ setOpen }) {
   const navigation = useRouter();
   const dispatch = useDispatch();
+  const [SrNumber, setSrNumber] = useState("");
+  const [sessionname, setsessionname] = useState("");
+  const [sectionname, setsectionname] = useState("NONE");
+  const [sectionlist, setsectionlist] = useState([]);
   const [loading1, setloading1] = useState(false);
   const [loading2, setloading2] = useState(false);
   const [TransportFeePermonth, setTransportFeePermonth] = useState("");
@@ -91,6 +95,7 @@ function AddAdmission({ setOpen }) {
   const { roomcategory } = useSelector((state) => state.GetCategory);
   const { roomfacility } = useSelector((state) => state.GetFacility);
   const { route } = useSelector((state) => state.GetRoute);
+  const { sections } = useSelector((state) => state.GetSection);
   const { studentaddstatus, student, loading } = useSelector(
     (state) => state.addstudent
   );
@@ -127,6 +132,12 @@ function AddAdmission({ setOpen }) {
     formData.set("hostal", hostal);
     formData.set("StudentCategory", categoryname);
     formData.set("AnnualFee", annualfee);
+    formData.set("Section", sectionname);
+    formData.set("Session", sessionname);
+    formData.set("SrNumber", SrNumber);
+    formData.set("hostelname", hostenname);
+    formData.set("Category", hostelcategory);
+    formData.set("Facility", hostelfacility);
     formData.set(
       "HostelPerMonthFee",
       hostelManualFee === "manual"
@@ -200,6 +211,9 @@ function AddAdmission({ setOpen }) {
     if (route) {
       setroutelist(route);
     }
+    if (sections) {
+      setsectionlist(sections);
+    }
     dispatch({
       type: ADD_STUDENT_RESET,
     });
@@ -212,6 +226,7 @@ function AddAdmission({ setOpen }) {
     roomfacility,
     hostel,
     route,
+    sections,
   ]);
 
   const gotoreceipt = () => {
@@ -266,6 +281,13 @@ function AddAdmission({ setOpen }) {
       setloading2(false);
     }
   };
+  useEffect(() => {
+    let date = new Date();
+    let fullyear = date.getFullYear();
+    let lastyear = date.getFullYear() - 1;
+    setsessionname(`${lastyear}-${fullyear}`);
+    setadminssiondate(date?.toISOString().substring(0, 10));
+  }, []);
   return (
     <>
       <div className={styles.divmainlogin}>
@@ -335,13 +357,49 @@ function AddAdmission({ setOpen }) {
                   <label>&nbsp;</label>
                 </div>
               </div>
+
+              <div className={styles.divmaininput}>
+                <div className={styles.inputdiv}>
+                  <label>Roll Number</label>
+                  <input
+                    required
+                    type="text"
+                    placeholder="Enter the Roll Number"
+                    value={studentrollno}
+                    name="studentrollno"
+                    onChange={(e) => setstudentrollno(e.target.value)}
+                  />
+                </div>
+                <div className={styles.inputdiv}>
+                  <label>Sr Number</label>
+                  <input
+                    required
+                    type="text"
+                    placeholder="Enter St Number"
+                    value={SrNumber}
+                    name="SrNumber"
+                    onChange={(e) => setSrNumber(e.target.value)}
+                  />
+                </div>
+                <div className={styles.inputdiv}>
+                  <label>Session</label>
+                  <input
+                    required
+                    type="text"
+                    placeholder="Enter Session"
+                    value={sessionname}
+                    name="sessionname"
+                    onChange={(e) => setsessionname(e.target.value)}
+                  />
+                </div>
+              </div>
               <div className={styles.divmaininput}>
                 <div className={styles.inputdiv}>
                   <label>Student Name</label>
                   <input
                     required
                     type="text"
-                    placeholder="Enter the name"
+                    placeholder="Enter The name"
                     value={studentname}
                     name="studentname"
                     onChange={(e) => setstudentname(e.target.value)}
@@ -370,6 +428,7 @@ function AddAdmission({ setOpen }) {
                   />
                 </div>
               </div>
+
               <div className={styles.divmaininput}>
                 <div className={styles.inputdiv}>
                   <label>Fathers Name</label>
@@ -478,15 +537,46 @@ function AddAdmission({ setOpen }) {
                   />
                 </div>
                 <div className={styles.inputdiv}>
-                  <label>Sr Number</label>
-                  <input
+                  <label>Section</label>
+                  <Select
                     required
-                    type="text"
-                    placeholder="Enter the Roll Number"
-                    value={studentrollno}
-                    name="studentrollno"
-                    onChange={(e) => setstudentrollno(e.target.value)}
-                  />
+                    className={styles.addwidth}
+                    sx={{
+                      width: "18.8rem",
+                      fontSize: 14,
+                      "& .MuiSelect-select": {
+                        paddingTop: "0.6rem",
+                        paddingBottom: "0.6em",
+                      },
+                    }}
+                    value={sectionname}
+                    name="sectionname"
+                    onChange={(e) => setsectionname(e.target.value)}
+                    displayEmpty
+                  >
+                    <MenuItem
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={"NONE"}
+                    >
+                      NONE
+                    </MenuItem>
+                    {sectionlist?.length > 0 &&
+                      sectionlist?.map((item, index) => {
+                        return (
+                          <MenuItem
+                            key={index}
+                            sx={{
+                              fontSize: 14,
+                            }}
+                            value={item?.section}
+                          >
+                            {item?.section}
+                          </MenuItem>
+                        );
+                      })}
+                  </Select>
                 </div>
               </div>
               <div className={styles.divmaininput}>
