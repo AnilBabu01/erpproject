@@ -27,6 +27,7 @@ const studentStatus = [
 
 function Collectfee() {
   const dispatch = useDispatch();
+  const [seno, setseno] = useState('');
   const [categoryname, setcategoryname] = useState("");
   const [categorylist, setcategorylist] = useState([]);
   const [sessionList, setsessionList] = useState([]);
@@ -236,7 +237,8 @@ function Collectfee() {
         categoryname,
         "",
         sessionname,
-        sectionname
+        sectionname,
+        seno
       )
     );
   };
@@ -250,6 +252,7 @@ function Collectfee() {
     setsbatch("");
     setstatus("");
     setrollnumber("");
+    setseno('');
     let date = new Date();
     let fullyear = date.getFullYear();
     let lastyear = date.getFullYear() - 1;
@@ -258,13 +261,14 @@ function Collectfee() {
     setsectionname("");
     dispatch(getstudent());
   };
+
   useEffect(() => {
     let date = new Date();
     let fullyear = date.getFullYear();
     let lastyear = date.getFullYear() - 1;
     setsessionname(`${lastyear}-${fullyear}`);
   }, []);
-  
+
   return (
     <>
       {openupdate && (
@@ -490,14 +494,6 @@ function Collectfee() {
                     );
                   })}
                 </select>
-                <input
-                  className={styles.opensearchinput10}
-                  type="text"
-                  placeholder="Student's name"
-                  value={sstudent}
-                  name="sstudent}"
-                  onChange={(e) => setsstudent(e.target.value)}
-                />
 
                 <input
                   className={styles.opensearchinput10}
@@ -507,7 +503,14 @@ function Collectfee() {
                   name="rollnumber"
                   onChange={(e) => setrollnumber(e.target.value)}
                 />
-
+                <input
+                  className={styles.opensearchinput10}
+                  type="text"
+                  placeholder="SNO"
+                  value={seno}
+                  name="seno}"
+                  onChange={(e) => setseno(e.target.value)}
+                />
                 <button>Search</button>
               </form>
               <button onClick={() => reset()}>Reset</button>
@@ -547,6 +550,7 @@ function Collectfee() {
                 <tbody>
                   <tr className={styles.tabletr}>
                     <th className={styles.tableth}>Session</th>
+                    <th className={styles.tableth}>SNO</th>
                     <th className={styles.tableth}>Roll No</th>
                     <th className={styles.tableth}>Student_Name</th>
                     {showfathers && (
@@ -556,6 +560,7 @@ function Collectfee() {
                     )}
                     <th className={styles.tableth}>Adminssion_Date</th>
                     <th className={styles.tableth}>Addmission_Fee</th>
+                    <th className={styles.tableth}>Annual_Fee</th>
                     {/* <th className={styles.tableth}>Status</th> */}
                     <th className={styles.tableth}>Academy_Fee</th>
                     <th className={styles.tableth}>Paid_Fee</th>
@@ -579,6 +584,7 @@ function Collectfee() {
                     return (
                       <tr key={index} className={styles.tabletr}>
                         <td className={styles.tabletd}>{item?.Session}</td>
+                        <td className={styles.tabletd}>{item?.SrNumber}</td>
                         <td className={styles.tabletd}>{item?.rollnumber}</td>
                         <td className={styles.tabletd}>{item?.name}</td>
                         {showfathers && (
@@ -595,6 +601,11 @@ function Collectfee() {
                           {item?.Registrationfeestatus == true
                             ? `Paid (${item?.regisgrationfee})`
                             : item?.regisgrationfee}
+                        </td>
+                        <td className={styles.tabletd}>
+                          {item?.AnnualFeeStatus == true
+                            ? `Paid (${item?.AnnualFee})`
+                            : item?.AnnualFee}
                         </td>
                         {/* <td className={styles.tabletd}>{item?.Status}</td> */}
                         <td className={styles.tabletd}>

@@ -87,9 +87,6 @@ const SchoolNavbar = () => {
                     <div className="main_report_dropdown_rightmargin">
                       <h1>General</h1>
                       <div className="main_innear_menu_dropdown">
-                        {/* <Link href="/school/student/registration">
-                          Registration
-                        </Link> */}
                         <Link href="/school/student/Admission">Admission</Link>
                         <Link href="/school/student/AddStudent">
                           Add Student
@@ -103,6 +100,9 @@ const SchoolNavbar = () => {
                         </Link>
                         <Link href="/school/student/Changesession">
                           Change Session
+                        </Link>
+                        <Link href="/school/student/OtherFee">
+                          Add Other Fee
                         </Link>
                       </div>
                     </div>

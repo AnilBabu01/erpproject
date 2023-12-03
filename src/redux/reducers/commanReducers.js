@@ -176,6 +176,9 @@ import {
   GET_SESSION_SUCCESS,
   GET_SESSION_FAIL,
   ALL_RECEIPTDATA_FAIL,
+  GET_OTHERFEE_REQUEST,
+  GET_OTHERFEE_SUCCESS,
+  GET_OTHERFEE_FAIL,
 } from "../constants/commanConstants";
 
 export const getCollegeReducer = (state = { college: {} }, action) => {
@@ -1689,7 +1692,7 @@ export const getStudentTestReducer = (state = { test: [] }, action) => {
 };
 
 export const updateStudentTestReducer = (state = { result: [] }, action) => {
-  console.log('data from addresult action',action.payload);
+  console.log("data from addresult action", action.payload);
   switch (action.type) {
     case UPDATE_STUDENT_TEST_REQUEST:
       return {
@@ -1703,8 +1706,7 @@ export const updateStudentTestReducer = (state = { result: [] }, action) => {
         loading: false,
         result: action.payload,
       };
-  
-   
+
     case UPDATE_STUDENT_TEST_RESET_SUCCESS:
       setTimeout(() => {
         return {
@@ -1729,7 +1731,6 @@ export const updateStudentTestReducer = (state = { result: [] }, action) => {
       return state;
   }
 };
-
 
 export const addReceiptFormatReducer = (
   state = { ReceiptFormat: [] },
@@ -1868,9 +1869,10 @@ export const getReceiptPrintReducer = (state = { receiptdata: [] }, action) => {
   }
 };
 
-
-
-export const getChoachingMonthlyFeeReducer = (state = { receiptdata: [] }, action) => {
+export const getChoachingMonthlyFeeReducer = (
+  state = { receiptdata: [] },
+  action
+) => {
   switch (action.type) {
     case ALL_RECEIPTDATA_REQUEST:
       return {
@@ -1902,7 +1904,6 @@ export const getChoachingMonthlyFeeReducer = (state = { receiptdata: [] }, actio
   }
 };
 
-
 export const GetSection = (state = { sections: {} }, action) => {
   switch (action.type) {
     case GET_SECTION_REQUEST:
@@ -1931,12 +1932,10 @@ export const GetSection = (state = { sections: {} }, action) => {
       };
 
     default:
+
       return state;
   }
 };
-
-
-
 
 export const GetSession = (state = { Sessions: {} }, action) => {
   switch (action.type) {
@@ -1956,6 +1955,38 @@ export const GetSession = (state = { Sessions: {} }, action) => {
       return {
         loading: false,
         Sessions: null,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const GetOtherFeeReducer = (state = { otherfee: {} }, action) => {
+  switch (action.type) {
+    case GET_OTHERFEE_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case GET_OTHERFEE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        otherfee: action.payload,
+      };
+
+    case GET_OTHERFEE_FAIL:
+      return {
+        loading: false,
+        otherfee: null,
         error: action.payload,
       };
 

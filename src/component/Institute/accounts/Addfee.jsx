@@ -12,57 +12,63 @@ import { useDispatch } from "react-redux";
 function Addfee({ data, setOpen }) {
   const navigation = useRouter();
   const dispatch = useDispatch();
+  const [annualfee, setannualfee] = useState("");
   const [checked, setChecked] = useState([]);
   const [montharray, setmontharray] = useState([]);
   const [acadminfee, setacadminfee] = useState(true);
   const [hostelfee, sethostelfee] = useState(false);
   const [transport, settransport] = useState(false);
+  const [othersfee, setothersfee] = useState(false);
+  const [otherfeearray, setotherfeearray] = useState([]);
   const [acadminArray, setacadminArray] = useState([]);
   const [hostelArray, sethostelArray] = useState([]);
   const [transportArray, settransportArray] = useState([]);
-  const [feetype, setfeetype] = useState("Registration");
+  const [feetype, setfeetype] = useState("");
   const [discount, setdiscount] = useState(false);
   const [showreceiptotions, setshowreceiptotions] = useState(false);
   const [receiptdata, setreceiptdata] = useState("");
   const [schoolfee, setschoolfee] = useState([]);
   const [addloading, setaddloading] = useState(false);
 
+  console.log("otherfeearray is otherfeearray ", otherfeearray);
+
   const submit = () => {
     try {
       setaddloading(true);
       const datas = {
         id: data?.id,
-        paymonths: montharray,
-        studentData: data,
         feetype: feetype,
-        discount: discount,
+        annualfee: annualfee,
       };
 
-      serverInstance("Student/pacoachingfee", "post", datas).then((res) => {
-        if (res?.status) {
-          toast.success(res?.msg, {
-            autoClose: 1000,
-          });
-          dispatch(getstudent());
-          setaddloading(false);
-          setOpen(false);
-          setshowreceiptotions(true);
-          setreceiptdata(res?.data[0]?.receiptdata);
-          navigation.push({
-            pathname: "/coaching/student/receipt",
-            query: {
-              receiptdata: JSON.stringify(res?.data[0]?.receiptdata),
-            },
-          });
-        }
+      serverInstance("Student/payschoolanualregister", "post", datas).then(
+        (res) => {
+          console.log("paid receipt data is", res);
+          if (res?.status) {
+            toast.success(res?.msg, {
+              autoClose: 1000,
+            });
+            dispatch(getstudent());
+            setaddloading(false);
+            setOpen(false);
+            setshowreceiptotions(true);
+            setreceiptdata(res?.data[0]?.receiptdata);
+            navigation.push({
+              pathname: "/coaching/student/receipt",
+              query: {
+                receiptdata: JSON.stringify(res?.data),
+              },
+            });
+          }
 
-        if (res?.status === false) {
-          toast.error(res?.msg, { autoClose: 1000 });
-          dispatch(getstudent());
-          setOpen(false);
-          setaddloading(false);
+          if (res?.status === false) {
+            toast.error(res?.msg, { autoClose: 1000 });
+            dispatch(getstudent());
+            setOpen(false);
+            setaddloading(false);
+          }
         }
-      });
+      );
     } catch (error) {
       console.log(error);
       setaddloading(false);
@@ -195,6 +201,48 @@ function Addfee({ data, setOpen }) {
     }
   };
 
+  const addOtherFee = () => {
+    try {
+      setaddloading(true);
+      const datas = {
+        id: data?.id,
+        acadminArray: otherfeearray,
+        studentData: data,
+        feetype: "Other Fee",
+      };
+
+      serverInstance("Student/addotherfee", "post", datas).then((res) => {
+        console.log("other fee  data is ", res);
+        if (res?.status) {
+          toast.success(res?.msg, {
+            autoClose: 1000,
+          });
+          dispatch(getstudent());
+          setaddloading(false);
+          setOpen(false);
+          setshowreceiptotions(true);
+          setreceiptdata(res?.data[0]?.receiptdata);
+          navigation.push({
+            pathname: "/coaching/student/receipt",
+            query: {
+              receiptdata: JSON.stringify(res?.data),
+            },
+          });
+        }
+
+        if (res?.status === false) {
+          toast.error(res?.msg, { autoClose: 1000 });
+          dispatch(getstudent());
+          setOpen(false);
+          setaddloading(false);
+        }
+      });
+    } catch (error) {
+      console.log(error);
+      setaddloading(false);
+    }
+  };
+
   const downloadReceipt = () => {
     navigation.push({
       pathname: "/coaching/student/receipt",
@@ -233,8 +281,15 @@ function Addfee({ data, setOpen }) {
 
     return monthsOrder.indexOf(a.MonthName) - monthsOrder.indexOf(b.MonthName);
   };
-
-  console.log("data is data is ", data);
+  const TotalOtherFee = (data) => {
+    let total = 0;
+    data?.map((item) => {
+      if (item?.PaidStatus === false) {
+        total = total + Number(item?.FeeAmount);
+      }
+    });
+    return total;
+  };
   return (
     <>
       <div className={styles.divmainlogin}>
@@ -262,7 +317,7 @@ function Addfee({ data, setOpen }) {
           </>
         ) : (
           <>
-            {data?.Registrationfeestatus ? (
+            {data?.Registrationfeestatus && data?.AnnualFeeStatus ? (
               <>
                 <div className={styles.paybtndiv}>
                   <button
@@ -275,6 +330,7 @@ function Addfee({ data, setOpen }) {
                       setacadminfee(true);
                       sethostelfee(false);
                       settransport(false);
+                      setothersfee(false);
                     }}
                   >
                     Academin Fee
@@ -285,6 +341,7 @@ function Addfee({ data, setOpen }) {
                       setacadminfee(false);
                       sethostelfee(true);
                       settransport(false);
+                      setothersfee(false);
                     }}
                     className={
                       hostelfee
@@ -300,6 +357,7 @@ function Addfee({ data, setOpen }) {
                       setacadminfee(false);
                       sethostelfee(false);
                       settransport(true);
+                      setothersfee(false);
                     }}
                     className={
                       transport
@@ -308,6 +366,21 @@ function Addfee({ data, setOpen }) {
                     }
                   >
                     Transport Fee
+                  </button>
+                  <button
+                    onClick={() => {
+                      setacadminfee(false);
+                      sethostelfee(false);
+                      settransport(false);
+                      setothersfee(true);
+                    }}
+                    className={
+                      othersfee
+                        ? styles.searchbtnactive
+                        : styles.searchoptiondivbutton
+                    }
+                  >
+                    Others Fee
                   </button>
                 </div>
 
@@ -872,34 +945,260 @@ function Addfee({ data, setOpen }) {
                       </div>
                     </>
                   )}
+
+                  {othersfee === true && (
+                    <>
+                      <div className={styles.mainpaiddiv}>
+                        <div>
+                          <table className={styles.tabletable}>
+                            <tbody>
+                              <tr className={styles.tabletr}>
+                                <th className={styles.tableth}>Fee_Type</th>
+                                <th className={styles.tableth}>Amount</th>
+                                <th className={styles.tableth}>Mark</th>
+                                <th className={styles.tableth}>Status</th>
+                              </tr>
+                              {schoolfee?.otherfee?.map((item, index) => {
+                                return (
+                                  <tr key={index} className={styles.tabletr}>
+                                    <th className={styles.tableth}>
+                                      {item?.OtherFeeName}
+                                    </th>
+                                    <th className={styles.tableth}>
+                                      {item?.FeeAmount}
+                                    </th>
+
+                                    <th className={styles.tableth}>
+                                      {item?.PaidStatus === true ? (
+                                        <>
+                                          <input
+                                            type="checkbox"
+                                            checked={true}
+                                            disabled={true}
+                                            value={item}
+                                          />
+                                        </>
+                                      ) : (
+                                        <>
+                                          <input
+                                            type="checkbox"
+                                            value={item}
+                                            onChange={(e) => {
+                                              let updatedList = [
+                                                ...otherfeearray,
+                                              ];
+                                              if (e.target.checked) {
+                                                updatedList = [
+                                                  ...otherfeearray,
+                                                  item,
+                                                ];
+                                              } else {
+                                                updatedList.splice(
+                                                  checked.indexOf(item),
+                                                  1
+                                                );
+                                              }
+                                              setotherfeearray(updatedList);
+                                            }}
+                                          />
+                                        </>
+                                      )}
+                                    </th>
+                                    <th className={styles.tableth}>
+                                      {item?.paidStatus === true
+                                        ? "Paid"
+                                        : "Dues"}
+                                    </th>
+                                  </tr>
+                                );
+                              })}
+                            </tbody>
+                          </table>
+                        </div>
+                        <div className={styles.candidateDetails}>
+                          <h1>Student Details</h1>
+                          <div className={styles.mainwrapdiv}>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Student Name</p>
+                              <p>{data?.name}</p>
+                            </div>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Class</p>
+                              <p>{data?.courseorclass}</p>
+                            </div>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Roll No</p>
+                              <p>{data?.rollnumber}</p>
+                            </div>
+                          </div>
+                          <div className={styles.mainwrapdiv}>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Fathers Name</p>
+                              <p>{data?.fathersName}</p>
+                            </div>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Fathers Phone No</p>
+                              <p>{data?.fathersPhoneNo}</p>
+                            </div>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Student Phone No</p>
+                              <p>{data?.phoneno1}</p>
+                            </div>
+                          </div>
+
+                          <div className={styles.mainwrapdiv}>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Pendinng Amount</p>
+                              <p>
+                                {TotalOtherFee(schoolfee?.otherfee) -
+                                  Number(
+                                    otherfeearray &&
+                                      otherfeearray?.reduce(
+                                        (n, { FeeAmount }) =>
+                                          parseFloat(n) + parseFloat(FeeAmount),
+                                        0
+                                      )
+                                  )}
+                              </p>
+                            </div>
+                            <div className={styles.fixInnearDivWidth}>
+                              <p>Payable Amount</p>
+                              <p>
+                                {otherfeearray &&
+                                  otherfeearray?.reduce(
+                                    (n, { FeeAmount }) =>
+                                      parseFloat(n) + parseFloat(FeeAmount),
+                                    0
+                                  )}
+                              </p>
+                            </div>
+                            <div className={styles.fixInnearDivWidth10}>
+                              <p>&nbsp;</p>
+                              <p>&nbsp;</p>
+                            </div>
+                          </div>
+                          <div className={styles.mainbtnndivcancel}>
+                            <button
+                              onClick={() => setOpen(false)}
+                              className={styles.cancelbtn}
+                            >
+                              Back
+                            </button>
+
+                            <button
+                              disable={montharray.length === 0 ? true : false}
+                              className={styles.cancelbtn}
+                              onClick={() => addOtherFee()}
+                              disabled={addloading ? true : false}
+                            >
+                              {addloading ? (
+                                <CircularProgress
+                                  size={25}
+                                  style={{ color: "red" }}
+                                />
+                              ) : (
+                                "Save"
+                              )}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               </>
             ) : (
               <>
-                <h1>Registration Fee</h1>
-                <h1>Payable Amount ({data?.regisgrationfee})</h1>
+                <h1>Registration And Annual Fee</h1>
+
                 <div className={styles.regisFeepayDiv}>
                   <div className={styles.regisFeepayDiv}>
                     <div className={styles.regisFeepayDivinnear}>
-                      <input
-                        type="radio"
-                        value={"Registration"}
-                        onChange={(e) => setfeetype(e.target.value)}
-                        name="same"
-                      />
-                      <label>Pay</label>
+                      {data?.Registrationfeestatus === true ? (
+                        <>
+                          <input
+                            type="checkbox"
+                            value={"Registration"}
+                            disabled={true}
+                            checked={true}
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                setfeetype(e.target.value);
+                              } else {
+                                setfeetype("");
+                              }
+                            }}
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <input
+                            type="checkbox"
+                            value={"Registration"}
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                setfeetype(e.target.value);
+                              } else {
+                                setfeetype("");
+                              }
+                            }}
+                          />
+                        </>
+                      )}
+
+                      <label>Registration Fee ({data?.regisgrationfee})</label>
                     </div>
                     <div className={styles.regisFeepayDivinnear}>
-                      <input
-                        type="radio"
-                        value={discount}
-                        onChange={(e) => setdiscount(e.target.value)}
-                        name="same"
-                      />
-                      <label>Discount</label>
+                      {data?.AnnualFeeStatus === true ? (
+                        <>
+                          <input
+                            type="checkbox"
+                            value={"Annual"}
+                            disabled={true}
+                            checked={true}
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                setannualfee(e.target.value);
+                              } else {
+                                setannualfee("");
+                              }
+                            }}
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <input
+                            type="checkbox"
+                            value={"Annual"}
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                setannualfee(e.target.value);
+                              } else {
+                                setannualfee("");
+                              }
+                            }}
+                          />
+                        </>
+                      )}
+
+                      <label>Annual Fee ({data?.AnnualFee})</label>
                     </div>
                   </div>
                 </div>
+                <div className={styles.regisFeepayDiv}>
+                  <p>
+                    Payable Amount (
+                    {feetype === "Registration" && annualfee === "Annual"
+                      ? Number(data?.regisgrationfee) + Number(data?.AnnualFee)
+                      : feetype === "Registration"
+                      ? Number(data?.regisgrationfee)
+                      : annualfee === "Annual"
+                      ? Number(data?.AnnualFee)
+                      : 0}
+                    )
+                  </p>
+                </div>
+
                 <div className={styles.mainbtnndivcancel}>
                   <button
                     onClick={() => setOpen(false)}
@@ -917,7 +1216,7 @@ function Addfee({ data, setOpen }) {
                     {addloading ? (
                       <CircularProgress size={25} style={{ color: "red" }} />
                     ) : (
-                      "Save"
+                      "Pay"
                     )}
                   </button>
                 </div>

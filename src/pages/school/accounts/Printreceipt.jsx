@@ -22,7 +22,7 @@ import { useRouter } from "next/router";
 function PrintReceipt() {
   const navigation = useRouter();
   const dispatch = useDispatch();
-  const [categoryname, setcategoryname] = useState("");
+  const [sno, setsno] = useState("");
   const [courselist, setcourselist] = useState([]);
   const [sessionList, setsessionList] = useState([]);
   const [sectionList, setsectionList] = useState([]);
@@ -237,15 +237,18 @@ function PrintReceipt() {
         sstudent,
         rollnumber,
         sessionname,
-        sectionname
+        sectionname,
+        sno
       )
     );
   };
 
+  console.log(fromdate)
   const reset = () => {
     setsstudent("");
     setsfathers("");
     setfromdate("");
+    setsno("");
     settodate("");
     setscoursename("");
     setsectionname("");
@@ -274,6 +277,7 @@ function PrintReceipt() {
     let lastyear = date.getFullYear() - 1;
     setsessionname(`${lastyear}-${fullyear}`);
   }, []);
+
   return (
     <>
       {openupdate && (
@@ -435,20 +439,19 @@ function PrintReceipt() {
                 <input
                   className={styles.opensearchinput10}
                   type="text"
-                  placeholder="Student's name"
-                  value={sstudent}
-                  name="sstudent}"
-                  onChange={(e) => setsstudent(e.target.value)}
-                />
-                <input
-                  className={styles.opensearchinput10}
-                  type="text"
                   placeholder="Roll No"
                   value={rollnumber}
                   name="rollnumber"
                   onChange={(e) => setrollnumber(e.target.value)}
                 />
-
+                <input
+                  className={styles.opensearchinput10}
+                  type="text"
+                  placeholder="SNO"
+                  value={sno}
+                  name="sno"
+                  onChange={(e) => setsno(e.target.value)}
+                />
                 <button>Search</button>
               </form>
               <button onClick={() => reset()}>Reset</button>
@@ -468,12 +471,15 @@ function PrintReceipt() {
               <table className={styles.tabletable}>
                 <tbody>
                   <tr className={styles.tabletr}>
+                    <th className={styles.tableth}>Sr.No</th>
+                    <th className={styles.tableth}>Session</th>
+                    <th className={styles.tableth}>SNO</th>
                     <th className={styles.tableth}>Roll No</th>
                     <th className={styles.tableth}>Student_Name</th>
                     <th className={styles.tableth}>Course</th>
                     <th className={styles.tableth}>Paid_Date</th>
-                    <th className={styles.tableth}>Receipt_Types</th>
-                    <th className={styles.tableth}>Paid Amount</th>
+                    <th className={styles.tableth}>Receipt_Type</th>
+                    <th className={styles.tableth}>Paid_Amount</th>
 
                     <th className={styles.tableth}>Action</th>
                   </tr>
@@ -481,6 +487,9 @@ function PrintReceipt() {
                   {isdata?.map((item, index) => {
                     return (
                       <tr key={index} className={styles.tabletr}>
+                        <td className={styles.tabletd}>{index + 1}</td>
+                        <td className={styles.tabletd}>{item?.Session}</td>
+                        <td className={styles.tabletd}>{item?.SNO}</td>
                         <td className={styles.tabletd}>{item?.RollNo}</td>
                         <td className={styles.tabletd}>{item?.studentName}</td>
                         <td className={styles.tabletd}>{item?.Course}</td>

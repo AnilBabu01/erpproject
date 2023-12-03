@@ -174,10 +174,12 @@ import {
   ALL_RECEIPTDATA_FAIL,
   GET_SECTION_REQUEST,
   GET_SECTION__SUCCESS,
-  GET_SECTION__FAIL,
   GET_SESSION_REQUEST,
   GET_SESSION_SUCCESS,
   GET_SESSION_FAIL,
+  GET_OTHERFEE_REQUEST,
+  GET_OTHERFEE_SUCCESS,
+  GET_OTHERFEE_FAIL,
 } from "../constants/commanConstants";
 
 // Get all College
@@ -190,7 +192,7 @@ export const allCollege = () => async (dispatch) => {
     };
     dispatch({ type: ALL_COLLEGE_REQUEST });
     const { data } = await axios.get(
-      `${backendApiUrl}comman/allcollege`,
+      `${backendApiUrl}student/otherfee`,
 
       config
     );
@@ -1050,7 +1052,8 @@ export const getstudent =
     categoryname,
     library,
     sessionname,
-    sectionname
+    sectionname,
+    seno
   ) =>
   async (dispatch) => {
     try {
@@ -1072,11 +1075,12 @@ export const getstudent =
         categoryname ||
         library ||
         sectionname ||
-        sessionname
+        sessionname ||
+        seno
       ) {
         dispatch({ type: ALL_STUDENT_REQUEST });
         const { data } = await axios.get(
-          `${backendApiUrl}student/addstudent?name=${scoursename}&batch=${sbatch}&fromdate=${fromdate}&todate=${todate}&fathers=${sfathers}&studentname=${sstudent}&rollnumber=${rollnumber}&status=${status}&categoryname=${categoryname}&library=${library}&sessionname=${sessionname}&sectionname=${sectionname}`,
+          `${backendApiUrl}student/addstudent?name=${scoursename}&batch=${sbatch}&fromdate=${fromdate}&todate=${todate}&fathers=${sfathers}&studentname=${sstudent}&rollnumber=${rollnumber}&status=${status}&categoryname=${categoryname}&library=${library}&sessionname=${sessionname}&sectionname=${sectionname}&seno=${seno}`,
           config
         );
         dispatch({
@@ -1873,7 +1877,16 @@ export const getReceiptPrefix = (page, limit, setPage) => async (dispatch) => {
 
 // Get all Enquiry
 export const getPrintReceipt =
-  (fromdate, scoursename, sstudent, rollnumber) => async (dispatch) => {
+  (
+    fromdate,
+    scoursename,
+    sstudent,
+    rollnumber,
+    sessionname,
+    sectionname,
+    sno
+  ) =>
+  async (dispatch) => {
     try {
       const config = {
         headers: {
@@ -1881,10 +1894,18 @@ export const getPrintReceipt =
           Authorization: `${localStorage.getItem("erptoken")}`,
         },
       };
-      if (fromdate || scoursename || sstudent || rollnumber) {
+      if (
+        fromdate ||
+        scoursename ||
+        sstudent ||
+        rollnumber ||
+        sessionname ||
+        sectionname ||
+        sno
+      ) {
         dispatch({ type: ALL_RECEIPTDATA_REQUEST });
         const { data } = await axios.get(
-          `${backendApiUrl}student/getreceiptdata?name=${scoursename}&fromdate=${fromdate}&studentname=${sstudent}&rollnumber=${rollnumber}`,
+          `${backendApiUrl}student/getreceiptdata?name=${scoursename}&fromdate=${fromdate}&studentname=${sstudent}&rollnumber=${rollnumber}&sessionname=${sessionname}&sectionname=${sectionname}&sno=${sno}`,
           config
         );
         dispatch({
@@ -1892,9 +1913,13 @@ export const getPrintReceipt =
           payload: data?.data,
         });
       } else {
+        let date = new Date();
+        let fullyear = date.getFullYear();
+        let lastyear = date.getFullYear() - 1;
+        let sessionss = `${lastyear}-${fullyear}`;
         dispatch({ type: ALL_RECEIPTDATA_REQUEST });
         const { data } = await axios.get(
-          `${backendApiUrl}student/getreceiptdata`,
+          `${backendApiUrl}student/getreceiptdata?sessionname=${sessionss}`,
 
           config
         );
@@ -1992,3 +2017,49 @@ export const GetSection = (stopName) => async (dispatch) => {
     });
   }
 };
+
+// Get all Facility
+export const GeOtherFees =
+  (scoursename, datedues, sessionname, sectionname) => async (dispatch) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${localStorage.getItem("erptoken")}`,
+        },
+      };
+      dispatch({ type: GET_OTHERFEE_REQUEST });
+
+      if ((scoursename, datedues, sessionname, sectionname)) {
+        const { data } = await axios.get(
+          `${backendApiUrl}student/otherfee?courseorclass=${scoursename}&sessionname=${sessionname}&sectionname=${sectionname}&date=${datedues}`,
+          config
+        );
+
+        dispatch({
+          type: GET_OTHERFEE_SUCCESS,
+          payload: data?.data,
+        });
+      } else {
+        let date = new Date();
+        let fullyear = date.getFullYear();
+        let lastyear = date.getFullYear() - 1;
+        let session = `${lastyear}-${fullyear}`;
+        dispatch({ type: GET_OTHERFEE_REQUEST });
+        const { data } = await axios.get(
+          `${backendApiUrl}student/otherfee?sessionname=${session}`,
+          config
+        );
+
+        dispatch({
+          type: GET_OTHERFEE_SUCCESS,
+          payload: data?.data,
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: GET_OTHERFEE_FAIL,
+        payload: error?.response?.data?.msg,
+      });
+    }
+  };

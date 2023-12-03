@@ -62,6 +62,7 @@ import {
   getReceiptPrintReducer,
   GetSection,
   GetSession,
+  GetOtherFeeReducer
 } from "./redux/reducers/commanReducers";
 import {
   getenquiriesReducer,
@@ -170,6 +171,7 @@ const reducer = combineReducers({
   GetPayRoll: GetPayRoll,
   GetSection: GetSection,
   GetSession: GetSession,
+  GetOtherFee:GetOtherFeeReducer
 });
 const middlware = [thunk];
 export const store = createStore(

@@ -450,7 +450,7 @@
 }
 .regisFeepayDivinnear {
   display: flex;
-  width: 5rem;
+  width: auto;
   justify-content: space-evenly;
   margin-right: 2rem;
   margin-left: 2rem;
