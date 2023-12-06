@@ -134,29 +134,39 @@ function UpdateAdmission({ setOpen, updatedata }) {
     formData.set("Session", sessionname);
     formData.set("StudentCategory", categoryname);
     formData.set("AnnualFee", annualfee);
+    formData.set("hostelstatus", hostal === true ? false : true);
+    formData.set("transportstatus", transport === true ? false : true);
     formData.set(
       "HostelPerMonthFee",
-      hostelManualFee === "manual"
-        ? Number(onlyHostelFee)
-        : Number(hostelfeeperMonth)
+      hostal === true
+        ? hostelManualFee === "manual"
+          ? Number(onlyHostelFee)
+          : Number(hostelfeeperMonth)
+        : 0
     );
     formData.set(
       "TotalHostelFee",
-      hostelManualFee === "manual"
-        ? Number(onlyHostelFee) * 12
-        : Number(hostelfeeperMonth) * 12
+      hostal === true
+        ? hostelManualFee === "manual"
+          ? Number(onlyHostelFee) * 12
+          : Number(hostelfeeperMonth) * 12
+        : 0
     );
     formData.set(
       "TransportPerMonthFee",
-      TransportManualFee === "manual"
-        ? Number(onlyTransport)
-        : Number(TransportFeePermonth)
+      transport === true
+        ? TransportManualFee === "manual"
+          ? Number(onlyTransport)
+          : Number(TransportFeePermonth)
+        : 0
     );
     formData.set(
       "TransportTotalHostelFee",
-      TransportManualFee === "manual"
-        ? Number(onlyTransport) * 12
-        : Number(TransportFeePermonth) * 12
+      transport === true
+        ? TransportManualFee === "manual"
+          ? Number(onlyTransport) * 12
+          : Number(TransportFeePermonth) * 12
+        : 0
     );
     formData.set(
       "permonthfee",
@@ -268,8 +278,58 @@ function UpdateAdmission({ setOpen, updatedata }) {
       setannualfee(updatedata?.AnnualFee);
       setsessionname(updatedata?.Session);
       setsectionname(updatedata?.Section);
+      sethostelfacility(updatedata?.Facility);
+      sethostenname(updatedata?.hostelname);
+      sethostelcategory(updatedata?.Category);
+      setfromroute(updatedata?.FromRoute);
+      settoroute(updatedata?.ToRoute);
     }
   }, []);
+
+  const gethostelFee = () => {
+    try {
+      setloading1(true);
+      serverInstance("hostel/gethostelfee", "post", {
+        hostelname: hostenname,
+        Category: hostelcategory,
+        Facility: hostelfacility,
+      }).then((res) => {
+        if (res?.status === true) {
+          toast.success(res?.msg, {
+            autoClose: 1000,
+          });
+          setloading1(false);
+          sethostelfeeperMonth(res?.data?.PermonthFee);
+          setonlyHostelFee(res?.data?.PermonthFee);
+        }
+      });
+    } catch (error) {
+      setloading1(false);
+    }
+  };
+
+  const gettransportFee = () => {
+    try {
+      setloading2(true);
+      serverInstance("transport/gettransportfee", "post", {
+        FromRoute: fromroute,
+        ToRoute: toroute,
+      }).then((res) => {
+        if (res?.status === true) {
+          toast.success(res?.msg, {
+            autoClose: 1000,
+          });
+          setloading2(false);
+          // console.log(res?.data);
+          setTransportFeePermonth(res?.data?.BusRentPermonth);
+          setonlyTransport(res?.data?.BusRentPermonth);
+        }
+      });
+    } catch (error) {
+      setloading2(false);
+    }
+  };
+
   return (
     <>
       <div className={styles.divmainlogin}>
@@ -279,7 +339,7 @@ function UpdateAdmission({ setOpen, updatedata }) {
         <h1>
           {shownext ? "Update Student" : showdownload ? "" : "Fee Structure"}
         </h1>
-        <form>
+        <div>
           {shownext ? (
             <>
               <div className={styles.divmaininput}>
@@ -1452,7 +1512,7 @@ function UpdateAdmission({ setOpen, updatedata }) {
               )}
             </>
           )}
-        </form>
+        </div>
         {shownext ? (
           <>
             <div className={styles.logbtnstylediv}>

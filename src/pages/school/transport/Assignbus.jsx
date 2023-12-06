@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../redux/actions/authActions";
-import { getbatch, getstudent } from "../../../redux/actions/commanAction";
-import { getcourse } from "../../../redux/actions/commanAction";
+import {
+  getcourse,
+  getbatch,
+  getstudent,
+  getcategory,
+  GetSession,
+  GetSection,
+} from "../../../redux/actions/commanAction";
+import { GetRoute } from "../../../redux/actions/transportActions";
 import styles from "../employee/employee.module.css";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
@@ -11,7 +18,13 @@ import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
 import IssueBook from "@/component/Institute/transport/GiveBus";
 import ReturnBook from "@/component/Institute/transport/UpdateGiveBus";
-
+const studentStatus = [
+  { label: "Active", value: "Active" },
+  { label: "On Leave", value: "On Leave" },
+  { label: "Left In Middle", value: "Left In Middle" },
+  { label: "Completed", value: "Completed" },
+  { label: "Unknown", value: "Unknown" },
+];
 function Assignbus() {
   const dispatch = useDispatch();
   let currmonth = new Date().getMonth();
@@ -31,8 +44,20 @@ function Assignbus() {
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
   const [classname, setclassname] = useState("");
+  const [scoursename, setscoursename] = useState("");
   const [studentlist, setstudentlist] = useState([]);
+  const [categoryname, setcategoryname] = useState("");
+  const [categorylist, setcategorylist] = useState([]);
+  const [sessionList, setsessionList] = useState([]);
+  const [sectionList, setsectionList] = useState([]);
+  const [sessionname, setsessionname] = useState("");
+  const [sectionname, setsectionname] = useState("NONE");
+  const [sno, setsno] = useState("");
+  const [status, setstatus] = useState("Active");
   const { course } = useSelector((state) => state.getcourse);
+  const { category } = useSelector((state) => state.getcategory);
+  const { sections } = useSelector((state) => state.GetSection);
+  const { Sessions } = useSelector((state) => state.GetSession);
   const { loading, student } = useSelector((state) => state.getstudent);
   const [courselist, setcourselist] = useState([]);
 
@@ -94,6 +119,15 @@ function Assignbus() {
     {
       setstudentlist(student);
     }
+    if (sections) {
+      setsectionList(sections);
+    }
+    if (Sessions) {
+      setsessionList(Sessions);
+    }
+    if (category) {
+      setcategorylist(category);
+    }
   }, [
     markattendance,
     batch,
@@ -103,25 +137,75 @@ function Assignbus() {
     user,
     course,
     student,
+    sections,
+    Sessions,
+    category,
   ]);
 
   useEffect(() => {
     dispatch(loadUser());
     dispatch(getbatch());
     dispatch(getcourse());
-    dispatch(getstudent("", "", classname, "", "", "", rollnumber, "", "", 1));
-  }, [openupdate]);
+    dispatch(GetSection());
+    dispatch(GetSession());
+    dispatch(getcategory());
+    dispatch(GetRoute());
+    dispatch(
+      getstudent(
+        "",
+        "",
+        scoursename,
+        sbatch,
+        "",
+        "",
+        rollnumber,
+        status,
+        categoryname,
+        "",
+        sessionname,
+        sectionname,
+        sno
+      )
+    );
+  }, []);
 
   const filter = () => {
-    dispatch(getstudent("", "", classname, "", "", "", rollnumber, "", "", 1));
+    dispatch(
+      getstudent(
+        "",
+        "",
+        scoursename,
+        sbatch,
+        "",
+        "",
+        rollnumber,
+        status,
+        categoryname,
+        "",
+        sessionname,
+        sectionname,
+        sno
+      )
+    );
   };
   const reset = () => {
-    setdate("");
+    setscoursename("");
     setsbatch("");
-    setrollnumber("");
-    dispatch(getstudent("", "", classname, "", "", "", "", "", "", 1));
+    setcategoryname("");
+    setsno("");
+    let date = new Date();
+    let fullyear = date.getFullYear();
+    let lastyear = date.getFullYear() - 1;
+    setsessionname(`${lastyear}-${fullyear}`);
+    setsectionname("");
+    dispatch(getstudent());
   };
-
+  useEffect(() => {
+    let date = new Date();
+    let fullyear = date.getFullYear();
+    let lastyear = date.getFullYear() - 1;
+    setsessionname(`${lastyear}-${fullyear}`);
+  }, []);
   return (
     <>
       {open && (
@@ -144,6 +228,7 @@ function Assignbus() {
           </Dialog>
         </div>
       )}
+
       {openupdate && (
         <div>
           <Dialog
@@ -168,191 +253,236 @@ function Assignbus() {
         <div>
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
-              {takeatten && (
-                <>
-                  <select
-                    className={styles.opensearchinput}
-                    sx={{
-                      width: "18.8rem",
-                      fontSize: 14,
-                      "& .MuiSelect-select": {
-                        paddingTop: "0.6rem",
-                        paddingBottom: "0.6em",
-                      },
-                    }}
-                    value={classname}
-                    name="classname"
-                    onChange={(e) => {
-                      setclassname(e.target.value);
-                    }}
-                    displayEmpty
-                  >
-                    <option
-                      sx={{
-                        fontSize: 14,
-                      }}
-                      value={""}
-                    >
-                      Class
-                    </option>
-                    {courselist?.map((item, index) => {
-                      return (
-                        <option
-                          key={index}
-                          sx={{
-                            fontSize: 14,
-                          }}
-                          value={item?.coursename}
-                        >
-                          {item?.coursename}
-                        </option>
-                      );
-                    })}
-                  </select>
-
-                  <input
-                    className={styles.opensearchinput}
-                    type="Text"
-                    value={rollnumber}
-                    name="rollnumber"
-                    placeholder="Enter Roll Number"
-                    onChange={(e) => {
-                      setrollnumber(e.target.value);
-                    }}
-                  />
-
-                  <button
-                    className={styles.saveattendacebutton}
-                    onClick={() => {
-                      filter();
-                    }}
-                    disabled={markloading ? true : false}
-                  >
-                    {markloading ? (
-                      <CircularProgress size={17} style={{ color: "red" }} />
-                    ) : (
-                      "Search"
-                    )}
-                  </button>
-
-                  <button
-                    className={styles.resetattendacebutton}
-                    onClick={() => reset()}
-                  >
-                    Reset
-                  </button>
-                </>
-              )}
-
-              {Analysisatten && (
-                <>
-                  <select
-                    className={styles.opensearchinput}
-                    sx={{
-                      width: "18.8rem",
-                      fontSize: 14,
-                      "& .MuiSelect-select": {
-                        paddingTop: "0.6rem",
-                        paddingBottom: "0.6em",
-                      },
-                    }}
-                    value={classname}
-                    name="classname"
-                    onChange={(e) => {
-                      setclassname(e.target.value);
-                    }}
-                    displayEmpty
-                  >
-                    <option
-                      sx={{
-                        fontSize: 14,
-                      }}
-                      value={""}
-                    >
-                      Class
-                    </option>
-                    {courselist?.map((item, index) => {
-                      return (
-                        <option
-                          key={index}
-                          sx={{
-                            fontSize: 14,
-                          }}
-                          value={item?.coursename}
-                        >
-                          {item?.coursename}
-                        </option>
-                      );
-                    })}
-                  </select>
-                  <input
-                    className={styles.opensearchinput}
-                    type="Text"
-                    value={date}
-                    name="date"
-                    placeholder="Enter Roll Number"
-                    min={minDateTime}
-                    onChange={(e) => {
-                      setdate(e.target.value);
-                      console.log(e.target.value);
-                    }}
-                  />
-                  <button
-                    className={styles.saveattendacebutton}
-                    onClick={() => {
-                      filter();
-                    }}
-                    disabled={markloading ? true : false}
-                  >
-                    {markloading ? (
-                      <CircularProgress size={17} style={{ color: "red" }} />
-                    ) : (
-                      "Search"
-                    )}
-                  </button>
-
-                  <button
-                    className={styles.resetattendacebutton}
-                    onClick={() => reset()}
-                  >
-                    Reset
-                  </button>
-                </>
-              )}
-              <button
-                className={
-                  takeatten
-                    ? styles.searchbtnactive
-                    : styles.searchoptiondivbutton
-                }
-                onClick={() => {
-                  settakeatten(true);
-                  settodatatten(false);
-                  setAnalysisatten(false);
-
-                  setsbatch("");
-                  setclassname("");
+              
+              <select
+                className={styles.opensearchinput}
+                sx={{
+                  width: "18.8rem",
+                  fontSize: 14,
+                  "& .MuiSelect-select": {
+                    paddingTop: "0.6rem",
+                    paddingBottom: "0.6em",
+                  },
                 }}
+                value={sessionname}
+                name="sessionname"
+                onChange={(e) => setsessionname(e.target.value)}
+                displayEmpty
               >
-                Assign Bus
+                <option
+                  sx={{
+                    fontSize: 14,
+                  }}
+                  value={""}
+                >
+                  Select Session
+                </option>
+
+                {sessionList?.length > 0 &&
+                  sessionList?.map((item, index) => {
+                    return (
+                      <option
+                        key={index}
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={item?.Session}
+                      >
+                        {item?.Session}
+                      </option>
+                    );
+                  })}
+              </select>
+              <select
+                className={styles.opensearchinput}
+                sx={{
+                  width: "18.8rem",
+                  fontSize: 14,
+                  "& .MuiSelect-select": {
+                    paddingTop: "0.6rem",
+                    paddingBottom: "0.6em",
+                  },
+                }}
+                value={scoursename}
+                name="scoursename"
+                onChange={(e) => setscoursename(e.target.value)}
+                displayEmpty
+              >
+                <option
+                  sx={{
+                    fontSize: 14,
+                  }}
+                  value={""}
+                >
+                  ALL Class
+                </option>
+
+                {courselist?.map((item, index) => {
+                  return (
+                    <option
+                      key={index}
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={item?.coursename}
+                    >
+                      {item?.coursename}
+                    </option>
+                  );
+                })}
+              </select>
+              {/* <select
+                className={styles.opensearchinput}
+                sx={{
+                  width: "18.8rem",
+                  fontSize: 14,
+                  "& .MuiSelect-select": {
+                    paddingTop: "0.6rem",
+                    paddingBottom: "0.6em",
+                  },
+                }}
+                value={sectionname}
+                name="sectionname"
+                onChange={(e) => setsectionname(e.target.value)}
+                displayEmpty
+              >
+                <option
+                  sx={{
+                    fontSize: 14,
+                  }}
+                  value={"NONE"}
+                >
+                  NONE
+                </option>
+
+                {sectionList?.length > 0 &&
+                  sectionList?.map((item, index) => {
+                    return (
+                      <option
+                        key={index}
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={item?.section}
+                      >
+                        {item?.section}
+                      </option>
+                    );
+                  })}
+              </select> */}
+              <select
+                className={styles.opensearchinput}
+                sx={{
+                  width: "18.8rem",
+                  fontSize: 14,
+                  "& .MuiSelect-select": {
+                    paddingTop: "0.6rem",
+                    paddingBottom: "0.6em",
+                  },
+                }}
+                value={status}
+                name="status"
+                onChange={(e) => setstatus(e.target.value)}
+                displayEmpty
+              >
+                <option
+                  sx={{
+                    fontSize: 14,
+                  }}
+                  value={""}
+                >
+                  ALL Status
+                </option>
+
+                {studentStatus?.map((item, index) => {
+                  return (
+                    <option
+                      key={index}
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={item?.value}
+                    >
+                      {item?.value}
+                    </option>
+                  );
+                })}
+              </select>
+              {/* <select
+                className={styles.opensearchinput}
+                sx={{
+                  width: "18.8rem",
+                  fontSize: 14,
+                  "& .MuiSelect-select": {
+                    paddingTop: "0.6rem",
+                    paddingBottom: "0.6em",
+                  },
+                }}
+                value={categoryname}
+                name="categoryname"
+                onChange={(e) => setcategoryname(e.target.value)}
+                displayEmpty
+              >
+                <option
+                  sx={{
+                    fontSize: 14,
+                  }}
+                  value={""}
+                >
+                  Category
+                </option>
+
+                {categorylist?.map((item, index) => {
+                  return (
+                    <option
+                      key={index}
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={item?.category}
+                    >
+                      {item?.category}
+                    </option>
+                  );
+                })}
+              </select> */}
+              {/* 
+              <input
+                className={styles.opensearchinput10}
+                type="text"
+                placeholder="Roll No"
+                value={rollnumber}
+                name="rollnumber"
+                onChange={(e) => setrollnumber(e.target.value)}
+              /> */}
+              <input
+                className={styles.opensearchinput10}
+                type="text"
+                placeholder="SNO"
+                value={sno}
+                name="sno"
+                onChange={(e) => setsno(e.target.value)}
+              />
+
+              <button
+                className={styles.saveattendacebutton}
+                onClick={() => {
+                  filter();
+                }}
+                disabled={markloading ? true : false}
+              >
+                {markloading ? (
+                  <CircularProgress size={17} style={{ color: "red" }} />
+                ) : (
+                  "Search"
+                )}
               </button>
 
               <button
-                onClick={() => {
-                  settakeatten(false);
-                  settodatatten(false);
-                  setAnalysisatten(true);
-
-                  setsbatch("");
-                  setclassname("");
-                }}
-                className={
-                  Analysisatten
-                    ? styles.searchbtnactive
-                    : styles.searchoptiondivbutton
-                }
+                className={styles.resetattendacebutton}
+                onClick={() => reset()}
               >
-                UnAssign Bus
+                Reset
               </button>
             </div>
             <div className={styles.imgdivformat}>
@@ -370,149 +500,87 @@ function Assignbus() {
             </div>
           </div>
 
-          <div className={styles.add_divmarginn10}>
+          <div className={styles.add_divmarginn}>
             <div className={styles.tablecontainer}>
-              {takeatten && (
-                <>
-                  <table className={styles.tabletable}>
-                    <tbody>
-                      <tr className={styles.tabletr}>
-                        <th className={styles.tableth}>S.NO</th>
-                        <th className={styles.tableth}>Roll No</th>
-                        <th className={styles.tableth}>Student_Name</th>
-                        <th className={styles.tableth}>Student_Email</th>
-                        <th className={styles.tableth}>Student_Phone</th>
-                        <th className={styles.tableth}>Adminssion_Date</th>
-                        <th className={styles.tableth}>Class</th>
-                        <th className={styles.tableth}>Student Status</th>
-                        <th className={styles.tableth}>Action</th>
-                      </tr>
-                      {studentlist?.map((item, index) => {
-                        return (
-                          <tr key={index} className={styles.tabletr}>
-                            <td className={styles.tabletd}>{index + 1}</td>
-                            <td className={styles.tabletd}>
-                              {item?.rollnumber}
-                            </td>
-                            <td className={styles.tabletd}>{item?.name}</td>
-                            <td className={styles.tabletd}>{item?.email}</td>
-                            <td className={styles.tabletd}>{item?.phoneno1}</td>
-                            <td className={styles.tabletd}>
+              <table className={styles.tabletable}>
+                <tbody>
+                  <tr className={styles.tabletr}>
+                    <th className={styles.tableth}>Sr.No</th>
+                    <th className={styles.tableth}>SNO</th>
+                    <th className={styles.tableth}>Roll No</th>
+                    <th className={styles.tableth}>Student_Name</th>
+                    {/* <th className={styles.tableth}>Student_Email</th> */}
+                    <th className={styles.tableth}>Student_Phone</th>
+                    {/* <th className={styles.tableth}>Adminssion_Date</th> */}
+                    <th className={styles.tableth}>Class</th>
+                    <th className={styles.tableth}>From Route</th>
+                    <th className={styles.tableth}>To Route</th>
+                    <th className={styles.tableth}>Bus Number</th>
+                    <th className={styles.tableth}>Status</th>
+                    <th className={styles.tableth}>Action</th>
+                  </tr>
+                  {studentlist?.map((item, index) => {
+                    return (
+                      <tr key={index} className={styles.tabletr}>
+                        <td className={styles.tabletd}>{index + 1}</td>
+                        <td className={styles.tabletd}>{item?.SrNumber}</td>
+                        <td className={styles.tabletd}>{item?.rollnumber}</td>
+                        <td className={styles.tabletd}>{item?.name}</td>
+                        {/* <td className={styles.tabletd}>{item?.email}</td> */}
+                        <td className={styles.tabletd}>{item?.phoneno1}</td>
+                        {/* <td className={styles.tabletd}>
                               {moment(item?.admissionDate).format("DD/MM/YYYY")}
-                            </td>
-                            <td className={styles.tabletd}>
-                              {item?.courseorclass}
-                            </td>
+                            </td> */}
+                        <td className={styles.tabletd}>
+                          {item?.courseorclass}
+                        </td>
 
-                            <td className={styles.tabletd}>{item?.Status}</td>
-                            <td className={styles.tabkeddd}>
-                              <button
-                                disabled={
-                                  userdata?.data &&
-                                  userdata?.data?.User?.userType === "school"
-                                    ? false
-                                    : userdata?.data &&
-                                      userdata?.data?.User?.fronroficeEdit ===
-                                        true
-                                    ? false
-                                    : true
-                                }
-                              >
-                                <img
-                                  className={
-                                    userdata?.data &&
-                                    userdata?.data?.User?.userType === "school"
-                                      ? styles.tabkedddimgactive
-                                      : userdata?.data &&
-                                        userdata?.data?.User?.fronroficeEdit ===
-                                          true
-                                      ? styles.tabkedddimgactive
-                                      : styles.tabkedddimgdisable
-                                  }
-                                  onClick={() => handleClickOpen(item)}
-                                  src="/images/Bus.png"
-                                  alt="imgss"
-                                />
-                              </button>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </>
-              )}
-
-              {Analysisatten && (
-                <>
-                  <table className={styles.tabletable}>
-                    <tbody>
-                      <tr className={styles.tabletr}>
-                        <th className={styles.tableth}>S.NO</th>
-                        <th className={styles.tableth}>Roll No</th>
-                        <th className={styles.tableth}>Student_Name</th>
-                        <th className={styles.tableth}>Student_Email</th>
-                        <th className={styles.tableth}>Student_Phone</th>
-                        <th className={styles.tableth}>Adminssion_Date</th>
-                        <th className={styles.tableth}>Class</th>
-                        <th className={styles.tableth}>Student Status</th>
-                        <th className={styles.tableth}>Action</th>
+                        <td className={styles.tabletd}>
+                          {item?.FromRoute ? item?.FromRoute : "----"}
+                        </td>
+                        <td className={styles.tabletd}>
+                          {item?.ToRoute ? item?.ToRoute : "----"}
+                        </td>
+                        <td className={styles.tabletd}>
+                          {item?.BusNumber ? item?.BusNumber : "----"}
+                        </td>
+                        <td className={styles.tabletd}>
+                          {item?.Transport === true ? "Active" : "Disable"}
+                        </td>
+                        <td className={styles.tabkeddd}>
+                          <button
+                            disabled={
+                              userdata?.data &&
+                              userdata?.data?.User?.userType === "school"
+                                ? false
+                                : userdata?.data &&
+                                  userdata?.data?.User?.fronroficeEdit === true
+                                ? false
+                                : true
+                            }
+                          >
+                            <img
+                              className={
+                                userdata?.data &&
+                                userdata?.data?.User?.userType === "school"
+                                  ? styles.tabkedddimgactive
+                                  : userdata?.data &&
+                                    userdata?.data?.User?.fronroficeEdit ===
+                                      true
+                                  ? styles.tabkedddimgactive
+                                  : styles.tabkedddimgdisable
+                              }
+                              onClick={() => ClickOpenupdate(item)}
+                              src="/images/Bus.png"
+                              alt="imgss"
+                            />
+                          </button>
+                        </td>
                       </tr>
-                      {studentlist?.map((item, index) => {
-                        return (
-                          <tr key={index} className={styles.tabletr}>
-                            <td className={styles.tabletd}>{index + 1}</td>
-                            <td className={styles.tabletd}>
-                              {item?.rollnumber}
-                            </td>
-                            <td className={styles.tabletd}>{item?.name}</td>
-                            <td className={styles.tabletd}>{item?.email}</td>
-                            <td className={styles.tabletd}>{item?.phoneno1}</td>
-                            <td className={styles.tabletd}>
-                              {moment(item?.admissionDate).format("DD/MM/YYYY")}
-                            </td>
-                            <td className={styles.tabletd}>
-                              {item?.courseorclass}
-                            </td>
-
-                            <td className={styles.tabletd}>{item?.Status}</td>
-                            <td className={styles.tabkeddd}>
-                              <button
-                                disabled={
-                                  userdata?.data &&
-                                  userdata?.data?.User?.userType === "school"
-                                    ? false
-                                    : userdata?.data &&
-                                      userdata?.data?.User?.fronroficeEdit ===
-                                        true
-                                    ? false
-                                    : true
-                                }
-                              >
-                                <img
-                                  className={
-                                    userdata?.data &&
-                                    userdata?.data?.User?.userType === "school"
-                                      ? styles.tabkedddimgactive
-                                      : userdata?.data &&
-                                        userdata?.data?.User?.fronroficeEdit ===
-                                          true
-                                      ? styles.tabkedddimgactive
-                                      : styles.tabkedddimgdisable
-                                  }
-                                  onClick={() => ClickOpenupdate(item)}
-                                  src="/images/Bus.png"
-                                  alt="imgss"
-                                />
-                              </button>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </>
-              )}
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

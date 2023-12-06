@@ -9,6 +9,7 @@ import {
   GetVehicleType,
   GetVehiclelist,
 } from "../../../redux/actions/transportActions";
+import { GetAssetType } from "../../../redux/actions/expensesActions";
 import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -99,12 +100,14 @@ function AddAsset() {
     if (user) {
       setuserdata(user);
     }
-  }, [Vehicle, user]);
+  
+  }, [Vehicle, user, ]);
   useEffect(() => {
     dispatch(getcategory());
     dispatch(GetRoute());
     dispatch(GetVehicleType());
     dispatch(GetVehiclelist());
+    dispatch(GetAssetType());
   }, []);
 
   return (

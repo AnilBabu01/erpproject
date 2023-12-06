@@ -10,31 +10,24 @@ import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
 function AddAsset({ setOpen }) {
   const dispatch = useDispatch();
-  const [routeId, setrouteId] = useState("");
-  const [BusNumber, setBusNumber] = useState("");
-  const [FualType, setFualType] = useState("");
-  const [Color, setColor] = useState("");
-  const [vehicletypename, setvehicletypename] = useState("");
-  const [GPSDeviceURL, setGPSDeviceURL] = useState("");
   const [loading, setloading] = useState(false);
-  const [routelist, setroutelist] = useState([]);
-  const [vehiclelist, setvehiclelist] = useState([]);
-
-  const { route } = useSelector((state) => state.GetRoute);
-  const { vehicletype } = useSelector((state) => state.GetVehicleType);
-
-  console.log("data from add bus details", routelist, vehiclelist);
+  const [addDate, setaddDate] = useState("");
+  const [assetName, setassetName] = useState("");
+  const [assetAmount, setassetAmount] = useState("");
+  const [assetComment, setassetComment] = useState("");
+  const [assesstypename, setassesstypename] = useState("");
+  const [assettypelist, setassettypelist] = useState([]);
+  const { assettype } = useSelector((state) => state.GetAssetType);
 
   const submit = (e) => {
     e.preventDefault();
     setloading(true);
-    serverInstance("transport/vehicledetails", "post", {
-      routeId: routeId,
-      Vahicletype: vehicletypename,
-      BusNumber: BusNumber,
-      FualType: FualType,
-      Color: Color,
-      GPSDeviceURL: GPSDeviceURL,
+    serverInstance("expenses/addasset", "post", {
+      AssetType: assesstypename,
+      Date: addDate,
+      AssetName: assetName,
+      AssetAmount: assetAmount,
+      Comment: assetComment,
     }).then((res) => {
       if (res?.status === true) {
         toast.success(res?.msg, {
@@ -56,13 +49,10 @@ function AddAsset({ setOpen }) {
   };
 
   useEffect(() => {
-    if (route) {
-      setroutelist(route);
+    if (assettype) {
+      setassettypelist(assettype);
     }
-    if (vehicletype) {
-      setvehiclelist(vehicletype);
-    }
-  }, [route, vehicletype]);
+  }, [assettype]);
 
   return (
     <>
@@ -73,6 +63,15 @@ function AddAsset({ setOpen }) {
         <h1>Add Asset</h1>
         <form onSubmit={submit}>
           <div className={styles.divmaininput}>
+            <div className={styles.inputdiv}>
+              <label>Date</label>
+              <input
+                type="Date"
+                value={addDate}
+                name="addDate"
+                onChange={(e) => setaddDate(e.target.value)}
+              />
+            </div>
             <div className={styles.inputdiv}>
               <label>Asset Type</label>
               <Select
@@ -86,9 +85,9 @@ function AddAsset({ setOpen }) {
                     paddingBottom: "0.6em",
                   },
                 }}
-                value={vehicletypename}
-                name="vehicletypename"
-                onChange={(e) => setvehicletypename(e.target.value)}
+                value={assesstypename}
+                name="assesstypename"
+                onChange={(e) => setassesstypename(e.target.value)}
                 displayEmpty
               >
                 <MenuItem
@@ -99,19 +98,20 @@ function AddAsset({ setOpen }) {
                 >
                   Please Select
                 </MenuItem>
-                {vehiclelist?.map((item, index) => {
-                  return (
-                    <MenuItem
-                      key={index}
-                      sx={{
-                        fontSize: 14,
-                      }}
-                      value={item?.id}
-                    >
-                      {item?.Vahicletype}
-                    </MenuItem>
-                  );
-                })}
+                {assettypelist?.length > 0 &&
+                  assettypelist?.map((item, index) => {
+                    return (
+                      <MenuItem
+                        key={index}
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={item?.AssetType}
+                      >
+                        {item?.AssetType}
+                      </MenuItem>
+                    );
+                  })}
               </Select>
             </div>
             <div className={styles.inputdiv}>
@@ -119,31 +119,39 @@ function AddAsset({ setOpen }) {
               <input
                 type="text"
                 placeholder="Enter Asset Name"
-                value={Color}
-                name="Color"
-                onChange={(e) => setColor(e.target.value)}
+                value={assetName}
+                name="assetName"
+                onChange={(e) => setassetName(e.target.value)}
               />
             </div>
+          </div>
+
+          <div className={styles.divmaininput}>
             <div className={styles.inputdiv}>
               <label>Asset Amount</label>
               <input
                 type="text"
                 placeholder="Enter Asset Amount"
-                value={GPSDeviceURL}
-                name="GPSDeviceURL"
-                onChange={(e) => setGPSDeviceURL(e.target.value)}
+                value={assetAmount}
+                name="assetAmount"
+                onChange={(e) => setassetAmount(e.target.value)}
               />
             </div>
-          </div>
-          <div className={styles.inputdiv}>
-            <label>Comment</label>
-            <input
-              type="text"
-              placeholder="Enter Comment"
-              value={GPSDeviceURL}
-              name="GPSDeviceURL"
-              onChange={(e) => setGPSDeviceURL(e.target.value)}
-            />
+            <div className={styles.inputdiv}>
+              <label>Comment</label>
+              <input
+                type="text"
+                placeholder="Enter Comment"
+                value={assetComment}
+                name="assetComment"
+                onChange={(e) => setassetComment(e.target.value)}
+              />
+            </div>
+
+            <div className={styles.inputdiv}>
+              <label>&nbsp;</label>
+              <label>&nbsp;</label>
+            </div>
           </div>
 
           <div className={styles.logbtnstylediv}>

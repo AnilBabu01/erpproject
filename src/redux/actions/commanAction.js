@@ -1080,7 +1080,7 @@ export const getstudent =
       ) {
         dispatch({ type: ALL_STUDENT_REQUEST });
         const { data } = await axios.get(
-          `${backendApiUrl}student/addstudent?name=${scoursename}&batch=${sbatch}&fromdate=${fromdate}&todate=${todate}&fathers=${sfathers}&studentname=${sstudent}&rollnumber=${rollnumber}&status=${status}&categoryname=${categoryname}&library=${library}&sessionname=${sessionname}&sectionname=${sectionname}&seno=${seno}`,
+          `${backendApiUrl}student/addstudent?name=${scoursename}&batch=${sbatch}&fromdate=${fromdate}&todate=${todate}&fathers=${sfathers}&studentname=${sstudent}&rollnumber=${rollnumber}&status=${status}&categoryname=${categoryname}&library=${library}&sessionname=${sessionname}&sectionname=${sectionname}&sno=${seno}`,
           config
         );
         dispatch({

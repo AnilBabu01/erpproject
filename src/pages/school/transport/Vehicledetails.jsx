@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   deletecategory,
   getcategory,
+  getEmployee,
 } from "../../../redux/actions/commanAction";
 import {
   GetRoute,
@@ -83,8 +84,6 @@ function Vehicledetails() {
         setOpenalert(false);
       }
     });
-
-
   };
   const filter = () => {
     dispatch(GetVehiclelist(BusNumber));
@@ -107,6 +106,7 @@ function Vehicledetails() {
     dispatch(GetRoute());
     dispatch(GetVehicleType());
     dispatch(GetVehiclelist());
+    dispatch(getEmployee());
   }, []);
 
   return (
@@ -267,7 +267,9 @@ function Vehicledetails() {
                           </td>
                           <td className={styles.tableth}>
                             {item?.StopNames?.map((item, index) => {
-                              return <span key={index}>{item?.StopName} , </span>;
+                              return (
+                                <span key={index}>{item?.StopName} , </span>
+                              );
                             })}
                           </td>
                           {/* <td className={styles.tabletd}>

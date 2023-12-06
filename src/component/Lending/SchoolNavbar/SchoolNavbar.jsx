@@ -116,6 +116,7 @@ const SchoolNavbar = () => {
                       </div>
                     </div>
 
+
                     <div className="main_report_dropdown_rightmargin">
                       <h1>Communication</h1>
                       <div className="main_innear_menu_dropdown">
@@ -284,7 +285,7 @@ const SchoolNavbar = () => {
                           Add Vehicle Type
                         </Link>
                         <Link href="/school/transport/Vehicledetails">
-                          Vehicle Details
+                          Add Bus
                         </Link>
                         <Link href="/school/transport/Addroutes">
                           Add Routes

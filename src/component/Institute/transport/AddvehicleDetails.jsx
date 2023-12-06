@@ -11,7 +11,12 @@ import { toast } from "react-toastify";
 function AddvehicleDetails({ setOpen }) {
   const dispatch = useDispatch();
   const [routeId, setrouteId] = useState("");
+  const [driverid1, setdriverid1] = useState("");
+  const [helperid1, sethelperid1] = useState("");
+  const [driverid2, setdriverid2] = useState("");
+  const [helperid2, sethelperid2] = useState("");
   const [BusNumber, setBusNumber] = useState("");
+  const [sheets, setsheets] = useState("");
   const [FualType, setFualType] = useState("");
   const [Color, setColor] = useState("");
   const [vehicletypename, setvehicletypename] = useState("");
@@ -19,10 +24,10 @@ function AddvehicleDetails({ setOpen }) {
   const [loading, setloading] = useState(false);
   const [routelist, setroutelist] = useState([]);
   const [vehiclelist, setvehiclelist] = useState([]);
-
+  const [emplist, setemplist] = useState([]);
   const { route } = useSelector((state) => state.GetRoute);
   const { vehicletype } = useSelector((state) => state.GetVehicleType);
-
+  const { employees } = useSelector((state) => state.getemp);
   console.log("data from add bus details", routelist, vehiclelist);
 
   const submit = (e) => {
@@ -35,6 +40,11 @@ function AddvehicleDetails({ setOpen }) {
       FualType: FualType,
       Color: Color,
       GPSDeviceURL: GPSDeviceURL,
+      NoOfSheets: sheets,
+      DriverId1: driverid1,
+      DriverId2: driverid2,
+      HelferId1: helperid1,
+      HelferId2: helperid2,
     }).then((res) => {
       if (res?.status === true) {
         toast.success(res?.msg, {
@@ -62,7 +72,10 @@ function AddvehicleDetails({ setOpen }) {
     if (vehicletype) {
       setvehiclelist(vehicletype);
     }
-  }, [route, vehicletype]);
+    if (employees) {
+      setemplist(employees);
+    }
+  }, [route, vehicletype, employees]);
 
   return (
     <>
@@ -197,6 +210,193 @@ function AddvehicleDetails({ setOpen }) {
                 name="GPSDeviceURL"
                 onChange={(e) => setGPSDeviceURL(e.target.value)}
               />
+            </div>
+          </div>
+
+          <div className={styles.divmaininput}>
+            <div className={styles.inputdiv}>
+              <label>Driver No 1</label>
+              <Select
+                required
+                className={styles.addwidth}
+                sx={{
+                  width: "18.8rem",
+                  fontSize: 14,
+                  "& .MuiSelect-select": {
+                    paddingTop: "0.6rem",
+                    paddingBottom: "0.6em",
+                  },
+                }}
+                value={driverid1}
+                name="driverid1"
+                onChange={(e) => setdriverid1(e.target.value)}
+                displayEmpty
+              >
+                <MenuItem
+                  sx={{
+                    fontSize: 14,
+                  }}
+                  value={""}
+                >
+                  Please Select
+                </MenuItem>
+                {emplist?.length > 0 &&
+                  emplist?.map((item, index) => {
+                    return (
+                      <MenuItem
+                        key={index}
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={item?.id}
+                      >
+                        {item?.name}
+                      </MenuItem>
+                    );
+                  })}
+              </Select>
+            </div>
+            <div className={styles.inputdiv}>
+              <label>Helper No 1</label>
+              <Select
+                required
+                className={styles.addwidth}
+                sx={{
+                  width: "18.8rem",
+                  fontSize: 14,
+                  "& .MuiSelect-select": {
+                    paddingTop: "0.6rem",
+                    paddingBottom: "0.6em",
+                  },
+                }}
+                value={helperid1}
+                name="helperid1"
+                onChange={(e) => sethelperid1(e.target.value)}
+                displayEmpty
+              >
+                <MenuItem
+                  sx={{
+                    fontSize: 14,
+                  }}
+                  value={""}
+                >
+                  Please Select
+                </MenuItem>
+                {emplist?.length > 0 &&
+                  emplist?.map((item, index) => {
+                    return (
+                      <MenuItem
+                        key={index}
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={item?.id}
+                      >
+                        {item?.name}
+                      </MenuItem>
+                    );
+                  })}
+              </Select>
+            </div>
+            <div className={styles.inputdiv}>
+              <label>Driver No 2</label>
+              <Select
+                required
+                className={styles.addwidth}
+                sx={{
+                  width: "18.8rem",
+                  fontSize: 14,
+                  "& .MuiSelect-select": {
+                    paddingTop: "0.6rem",
+                    paddingBottom: "0.6em",
+                  },
+                }}
+                value={driverid2}
+                name="driverid2"
+                onChange={(e) => setdriverid2(e.target.value)}
+                displayEmpty
+              >
+                <MenuItem
+                  sx={{
+                    fontSize: 14,
+                  }}
+                  value={""}
+                >
+                  Please Select
+                </MenuItem>
+                {emplist?.length > 0 &&
+                  emplist?.map((item, index) => {
+                    return (
+                      <MenuItem
+                        key={index}
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={item?.id}
+                      >
+                        {item?.name}
+                      </MenuItem>
+                    );
+                  })}
+              </Select>
+            </div>
+          </div>
+          <div className={styles.divmaininput}>
+            <div className={styles.inputdiv}>
+              <label>helper No 2</label>
+              <Select
+                required
+                className={styles.addwidth}
+                sx={{
+                  width: "18.8rem",
+                  fontSize: 14,
+                  "& .MuiSelect-select": {
+                    paddingTop: "0.6rem",
+                    paddingBottom: "0.6em",
+                  },
+                }}
+                value={helperid2}
+                name="helperid2"
+                onChange={(e) => sethelperid2(e.target.value)}
+                displayEmpty
+              >
+                <MenuItem
+                  sx={{
+                    fontSize: 14,
+                  }}
+                  value={""}
+                >
+                  Please Select
+                </MenuItem>
+                {emplist?.length > 0 &&
+                  emplist?.map((item, index) => {
+                    return (
+                      <MenuItem
+                        key={index}
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={item?.id}
+                      >
+                        {item?.name}
+                      </MenuItem>
+                    );
+                  })}
+              </Select>
+            </div>
+            <div className={styles.inputdiv}>
+              <label>No Of Sheets</label>
+              <input
+                type="text"
+                placeholder="Enter The No Of Sheets"
+                value={sheets}
+                name="sheets"
+                onChange={(e) => setsheets(e.target.value)}
+              />
+            </div>
+            <div className={styles.inputdiv}>
+              <label>&nbsp;</label>
+              <label>&nbsp;</label>
             </div>
           </div>
 

@@ -62,7 +62,7 @@ import {
   getReceiptPrintReducer,
   GetSection,
   GetSession,
-  GetOtherFeeReducer
+  GetOtherFeeReducer,
 } from "./redux/reducers/commanReducers";
 import {
   getenquiriesReducer,
@@ -92,6 +92,12 @@ import {
   GetVehicleType,
 } from "./redux/reducers/transportReducers";
 import { GetPayRoll } from "./redux/reducers/payrollReducers";
+import {
+  GetAssetTypReducer,
+  GetAssetReducer,
+  GetExpensesTypeReducer,
+  GetExpensesReducer,
+} from "./redux/reducers/expensesReducers";
 const reducer = combineReducers({
   auth: authReducer,
   user: userReducer,
@@ -171,7 +177,11 @@ const reducer = combineReducers({
   GetPayRoll: GetPayRoll,
   GetSection: GetSection,
   GetSession: GetSession,
-  GetOtherFee:GetOtherFeeReducer
+  GetOtherFee: GetOtherFeeReducer,
+  GetAssetType: GetAssetTypReducer,
+  GetAsset: GetAssetReducer,
+  GetExpensesType: GetExpensesTypeReducer,
+  GetExpenses: GetExpensesReducer,
 });
 const middlware = [thunk];
 export const store = createStore(

@@ -189,7 +189,7 @@ function UpdateFacility({ setOpen, updatedata }) {
         <div className={styles.closeicondiv} onClick={() => setOpen(false)}>
           <CloseIcon />
         </div>
-        <h1>Update Student Facility</h1>
+        <h1>Add STudent To Library</h1>
         <form>
           <div className={styles.divmaininput}>
             <div className={styles.inputdiv}>

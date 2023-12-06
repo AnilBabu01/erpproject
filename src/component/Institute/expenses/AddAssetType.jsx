@@ -1,21 +1,22 @@
 import React, { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
-import { GetVehicleType } from "../../../redux/actions/transportActions";
+import { GetAssetType } from "../../../redux/actions/expensesActions";
 import { useDispatch } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
 function AddAssetType({ setOpen }) {
   const dispatch = useDispatch();
-  const [VehicleType, setVehicleType] = useState("");
+
+  const [AssetType, setAssetType] = useState("");
   const [loading, setloading] = useState(false);
 
   const submit = (e) => {
     e.preventDefault();
     setloading(true);
-    serverInstance("transport/vehicletype", "post", {
-      Vahicletype: VehicleType,
+    serverInstance("expenses/addassettype", "post", {
+      AssetType: AssetType,
     }).then((res) => {
       if (res?.status === true) {
         toast.success(res?.msg, {
@@ -24,7 +25,7 @@ function AddAssetType({ setOpen }) {
         setOpen(false);
 
         setloading(false);
-        dispatch(GetVehicleType());
+        dispatch(GetAssetType());
       }
       if (res?.status === false) {
         toast.error(res?.msg, {
@@ -50,9 +51,9 @@ function AddAssetType({ setOpen }) {
               <input
                 type="text"
                 placeholder="Enter The Asset Type"
-                value={VehicleType}
-                name="VehicleType"
-                onChange={(e) => setVehicleType(e.target.value)}
+                value={AssetType}
+                name="AssetType"
+                onChange={(e) => setAssetType(e.target.value)}
               />
             </div>
           </div>

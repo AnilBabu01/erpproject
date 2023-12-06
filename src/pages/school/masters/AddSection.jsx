@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { GetSection} from "../../../redux/actions/commanAction";
+import { GetSection } from "../../../redux/actions/commanAction";
 import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -25,7 +25,7 @@ function AddSection() {
   const { user } = useSelector((state) => state.auth);
   const { sections } = useSelector((state) => state.GetSection);
 
-  console.log("section data is",sections);
+  console.log("section data is", sections);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -206,69 +206,71 @@ function AddSection() {
                     <th className={styles.tableth}>Section</th>
                     <th className={styles.tableth}>Action</th>
                   </tr>
-                  {isdata?.map((item, index) => {
-                    return (
-                      <tr key={index} className={styles.tabletr}>
-                        <td className={styles.tabletd}>{index + 1}</td>
-                        <td className={styles.tabletd}>{item?.section}</td>
+                  {isdata?.length > 0 &&
+                    isdata?.map((item, index) => {
+                      return (
+                        <tr key={index} className={styles.tabletr}>
+                          <td className={styles.tabletd}>{index + 1}</td>
+                          <td className={styles.tabletd}>{item?.section}</td>
 
-                        <td className={styles.tabkeddd}>
-                          <button
-                            disabled={
-                              userdata?.data &&
-                              userdata?.data?.User?.userType === "school"
-                                ? false
-                                : userdata?.data &&
-                                  userdata?.data?.User?.masterDelete === true
-                                ? false
-                                : true
-                            }
-                          >
-                            <img
-                              className={
+                          <td className={styles.tabkeddd}>
+                            <button
+                              disabled={
                                 userdata?.data &&
                                 userdata?.data?.User?.userType === "school"
-                                  ? styles.tabkedddimgactive
+                                  ? false
                                   : userdata?.data &&
                                     userdata?.data?.User?.masterDelete === true
-                                  ? styles.tabkedddimgactive
-                                  : styles.tabkedddimgdisable
+                                  ? false
+                                  : true
                               }
-                              onClick={() => ClickOpendelete(item?.id)}
-                              src="/images/Delete.png"
-                              alt="imgss"
-                            />
-                          </button>
-                          <button
-                            disabled={
-                              userdata?.data &&
-                              userdata?.data?.User?.userType === "school"
-                                ? false
-                                : userdata?.data &&
-                                  userdata?.data?.User?.masterEdit === true
-                                ? false
-                                : true
-                            }
-                          >
-                            <img
-                              className={
+                            >
+                              <img
+                                className={
+                                  userdata?.data &&
+                                  userdata?.data?.User?.userType === "school"
+                                    ? styles.tabkedddimgactive
+                                    : userdata?.data &&
+                                      userdata?.data?.User?.masterDelete ===
+                                        true
+                                    ? styles.tabkedddimgactive
+                                    : styles.tabkedddimgdisable
+                                }
+                                onClick={() => ClickOpendelete(item?.id)}
+                                src="/images/Delete.png"
+                                alt="imgss"
+                              />
+                            </button>
+                            <button
+                              disabled={
                                 userdata?.data &&
                                 userdata?.data?.User?.userType === "school"
-                                  ? styles.tabkedddimgactive
+                                  ? false
                                   : userdata?.data &&
                                     userdata?.data?.User?.masterEdit === true
-                                  ? styles.tabkedddimgactive
-                                  : styles.tabkedddimgdisable
+                                  ? false
+                                  : true
                               }
-                              onClick={() => ClickOpenupdate(item)}
-                              src="/images/Edit.png"
-                              alt="imgss"
-                            />
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                            >
+                              <img
+                                className={
+                                  userdata?.data &&
+                                  userdata?.data?.User?.userType === "school"
+                                    ? styles.tabkedddimgactive
+                                    : userdata?.data &&
+                                      userdata?.data?.User?.masterEdit === true
+                                    ? styles.tabkedddimgactive
+                                    : styles.tabkedddimgdisable
+                                }
+                                onClick={() => ClickOpenupdate(item)}
+                                src="/images/Edit.png"
+                                alt="imgss"
+                              />
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
                 </tbody>
               </table>
             </div>

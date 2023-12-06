@@ -1,8 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../redux/actions/authActions";
-import { getbatch, getstudent } from "../../../redux/actions/commanAction";
-import { getcourse } from "../../../redux/actions/commanAction";
+import {
+  getcourse,
+  getbatch,
+  getstudent,
+  getcategory,
+  GetSession,
+  GetSection,
+} from "../../../redux/actions/commanAction";
+import {
+  GetHostel,
+  GetCategory,
+  GetFacility,
+} from "../../../redux/actions/hostelActions";
 import styles from "../employee/employee.module.css";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
@@ -11,6 +22,93 @@ import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
 import IssueBook from "@/component/Institute/hostel/GIveRoom";
 import ReturnBook from "@/component/Institute/hostel/UpdateGiveRoom";
+import { serverInstance } from "../../../API/ServerInstance";
+import { toast } from "react-toastify";
+
+const studentStatus = [
+  { label: "Active", value: "Active" },
+  { label: "On Leave", value: "On Leave" },
+  { label: "Left In Middle", value: "Left In Middle" },
+  { label: "Completed", value: "Completed" },
+  { label: "Unknown", value: "Unknown" },
+];
+const monthlist = [
+  {
+    id: 1,
+    name: "January",
+  },
+  {
+    id: 2,
+    name: "February",
+  },
+  {
+    id: 3,
+    name: "Mark",
+  },
+  {
+    id: 4,
+    name: "April",
+  },
+  ,
+  {
+    id: 5,
+    name: "May",
+  },
+  {
+    id: 6,
+    name: "Jun",
+  },
+  {
+    id: 7,
+    name: "July",
+  },
+  {
+    id: 8,
+    name: "August",
+  },
+  {
+    id: 8,
+    name: "September",
+  },
+  {
+    id: 10,
+    name: "October",
+  },
+  {
+    id: 11,
+    name: "November",
+  },
+  {
+    id: 12,
+    name: "December",
+  },
+];
+
+const monthnamelist = {
+  1: "January",
+
+  2: "February",
+
+  3: "Mark",
+
+  4: "April",
+
+  5: "May",
+
+  6: "Jun",
+
+  7: "July",
+
+  8: "August",
+
+  9: "September",
+
+  10: "October",
+
+  11: "November",
+
+  12: "December",
+};
 
 function Assignhostel() {
   const dispatch = useDispatch();
@@ -31,10 +129,22 @@ function Assignhostel() {
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
   const [classname, setclassname] = useState("");
+  const [scoursename, setscoursename] = useState("");
   const [studentlist, setstudentlist] = useState([]);
-  const { course } = useSelector((state) => state.getcourse);
-  const { loading, student } = useSelector((state) => state.getstudent);
+  const [categoryname, setcategoryname] = useState("");
+  const [categorylist, setcategorylist] = useState([]);
+  const [sessionList, setsessionList] = useState([]);
+  const [sectionList, setsectionList] = useState([]);
   const [courselist, setcourselist] = useState([]);
+  const [sessionname, setsessionname] = useState("");
+  const [sectionname, setsectionname] = useState("NONE");
+  const [sno, setsno] = useState("");
+  const [status, setstatus] = useState("Active");
+  const { course } = useSelector((state) => state.getcourse);
+  const { category } = useSelector((state) => state.getcategory);
+  const { sections } = useSelector((state) => state.GetSection);
+  const { Sessions } = useSelector((state) => state.GetSession);
+  const { loading, student } = useSelector((state) => state.getstudent);
 
   const [minDateTime, setMinDateTime] = useState(
     new Date()?.toISOString().slice(0, 16)
@@ -94,6 +204,15 @@ function Assignhostel() {
     {
       setstudentlist(student);
     }
+    if (Sessions) {
+      setsessionList(Sessions);
+    }
+    if (sections) {
+      setsectionList(sections);
+    }
+    if (category) {
+      setcategorylist(category);
+    }
   }, [
     markattendance,
     batch,
@@ -103,25 +222,79 @@ function Assignhostel() {
     user,
     course,
     student,
+    Sessions,
+    sections,
+    category,
   ]);
 
   useEffect(() => {
     dispatch(loadUser());
     dispatch(getbatch());
     dispatch(getcourse());
-    dispatch(getstudent("", "", classname, "", "", "", rollnumber, "", "", 1));
-  }, [openupdate]);
+    dispatch(GetSection());
+    dispatch(GetSession());
+    dispatch(getcategory());
+    dispatch(GetFacility());
+    dispatch(GetHostel());
+    dispatch(GetCategory());
+    dispatch(
+      getstudent(
+        "",
+        "",
+        scoursename,
+        sbatch,
+        "",
+        "",
+        rollnumber,
+        status,
+        categoryname,
+        "",
+        sessionname,
+        sectionname,
+        sno
+      )
+    );
+  }, []);
 
   const filter = () => {
-    dispatch(getstudent("", "", classname, "", "", "", rollnumber, "", "", 1));
+    dispatch(
+      getstudent(
+        "",
+        "",
+        scoursename,
+        sbatch,
+        "",
+        "",
+        rollnumber,
+        status,
+        categoryname,
+        "",
+        sessionname,
+        sectionname,
+        sno
+      )
+    );
   };
   const reset = () => {
-    setdate("");
+    setsfathers("");
+    setfromdate("");
+    setscoursename("");
     setsbatch("");
-    setrollnumber("");
-    dispatch(getstudent("", "", classname, "", "", "", "", "", "", 1));
+    setcategoryname("");
+    setsno("");
+    let date = new Date();
+    let fullyear = date.getFullYear();
+    let lastyear = date.getFullYear() - 1;
+    setsessionname(`${lastyear}-${fullyear}`);
+    setsectionname("");
+    dispatch(getstudent());
   };
-
+  useEffect(() => {
+    let date = new Date();
+    let fullyear = date.getFullYear();
+    let lastyear = date.getFullYear() - 1;
+    setsessionname(`${lastyear}-${fullyear}`);
+  }, []);
   return (
     <>
       {open && (
@@ -164,6 +337,7 @@ function Assignhostel() {
           </Dialog>
         </div>
       )}
+
       <div className="mainContainer">
         <div>
           <div className={styles.topmenubar}>
@@ -180,11 +354,9 @@ function Assignhostel() {
                         paddingBottom: "0.6em",
                       },
                     }}
-                    value={classname}
-                    name="classname"
-                    onChange={(e) => {
-                      setclassname(e.target.value);
-                    }}
+                    value={sessionname}
+                    name="sessionname"
+                    onChange={(e) => setsessionname(e.target.value)}
                     displayEmpty
                   >
                     <option
@@ -193,8 +365,48 @@ function Assignhostel() {
                       }}
                       value={""}
                     >
-                      Class
+                      Select Session
                     </option>
+
+                    {sessionList?.length > 0 &&
+                      sessionList?.map((item, index) => {
+                        return (
+                          <option
+                            key={index}
+                            sx={{
+                              fontSize: 14,
+                            }}
+                            value={item?.Session}
+                          >
+                            {item?.Session}
+                          </option>
+                        );
+                      })}
+                  </select>
+                  <select
+                    className={styles.opensearchinput}
+                    sx={{
+                      width: "18.8rem",
+                      fontSize: 14,
+                      "& .MuiSelect-select": {
+                        paddingTop: "0.6rem",
+                        paddingBottom: "0.6em",
+                      },
+                    }}
+                    value={scoursename}
+                    name="scoursename"
+                    onChange={(e) => setscoursename(e.target.value)}
+                    displayEmpty
+                  >
+                    <option
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={""}
+                    >
+                      ALL Class
+                    </option>
+
                     {courselist?.map((item, index) => {
                       return (
                         <option
@@ -209,16 +421,137 @@ function Assignhostel() {
                       );
                     })}
                   </select>
+                  {/* <select
+                className={styles.opensearchinput}
+                sx={{
+                  width: "18.8rem",
+                  fontSize: 14,
+                  "& .MuiSelect-select": {
+                    paddingTop: "0.6rem",
+                    paddingBottom: "0.6em",
+                  },
+                }}
+                value={sectionname}
+                name="sectionname"
+                onChange={(e) => setsectionname(e.target.value)}
+                displayEmpty
+              >
+                <option
+                  sx={{
+                    fontSize: 14,
+                  }}
+                  value={"NONE"}
+                >
+                  NONE
+                </option>
 
-                  <input
+                {sectionList?.length > 0 &&
+                  sectionList?.map((item, index) => {
+                    return (
+                      <option
+                        key={index}
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={item?.section}
+                      >
+                        {item?.section}
+                      </option>
+                    );
+                  })}
+              </select> */}
+                  <select
                     className={styles.opensearchinput}
-                    type="Text"
-                    value={rollnumber}
-                    name="rollnumber"
-                    placeholder="Enter Roll Number"
-                    onChange={(e) => {
-                      setrollnumber(e.target.value);
+                    sx={{
+                      width: "18.8rem",
+                      fontSize: 14,
+                      "& .MuiSelect-select": {
+                        paddingTop: "0.6rem",
+                        paddingBottom: "0.6em",
+                      },
                     }}
+                    value={status}
+                    name="status"
+                    onChange={(e) => setstatus(e.target.value)}
+                    displayEmpty
+                  >
+                    <option
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={""}
+                    >
+                      ALL Status
+                    </option>
+
+                    {studentStatus?.map((item, index) => {
+                      return (
+                        <option
+                          key={index}
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={item?.value}
+                        >
+                          {item?.value}
+                        </option>
+                      );
+                    })}
+                  </select>
+                  {/* <select
+                className={styles.opensearchinput}
+                sx={{
+                  width: "18.8rem",
+                  fontSize: 14,
+                  "& .MuiSelect-select": {
+                    paddingTop: "0.6rem",
+                    paddingBottom: "0.6em",
+                  },
+                }}
+                value={categoryname}
+                name="categoryname"
+                onChange={(e) => setcategoryname(e.target.value)}
+                displayEmpty
+              >
+                <option
+                  sx={{
+                    fontSize: 14,
+                  }}
+                  value={""}
+                >
+                  Category
+                </option>
+
+                {categorylist?.map((item, index) => {
+                  return (
+                    <option
+                      key={index}
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={item?.category}
+                    >
+                      {item?.category}
+                    </option>
+                  );
+                })}
+              </select> */}
+                  {/* 
+              <input
+                className={styles.opensearchinput10}
+                type="text"
+                placeholder="Roll No"
+                value={rollnumber}
+                name="rollnumber"
+                onChange={(e) => setrollnumber(e.target.value)}
+              /> */}
+                  <input
+                    className={styles.opensearchinput10}
+                    type="text"
+                    placeholder="SNO"
+                    value={sno}
+                    name="sno"
+                    onChange={(e) => setsno(e.target.value)}
                   />
 
                   <button
@@ -256,11 +589,9 @@ function Assignhostel() {
                         paddingBottom: "0.6em",
                       },
                     }}
-                    value={classname}
-                    name="classname"
-                    onChange={(e) => {
-                      setclassname(e.target.value);
-                    }}
+                    value={sessionname}
+                    name="sessionname"
+                    onChange={(e) => setsessionname(e.target.value)}
                     displayEmpty
                   >
                     <option
@@ -269,8 +600,48 @@ function Assignhostel() {
                       }}
                       value={""}
                     >
-                      Class
+                      Select Session
                     </option>
+
+                    {sessionList?.length > 0 &&
+                      sessionList?.map((item, index) => {
+                        return (
+                          <option
+                            key={index}
+                            sx={{
+                              fontSize: 14,
+                            }}
+                            value={item?.Session}
+                          >
+                            {item?.Session}
+                          </option>
+                        );
+                      })}
+                  </select>
+                  <select
+                    className={styles.opensearchinput}
+                    sx={{
+                      width: "18.8rem",
+                      fontSize: 14,
+                      "& .MuiSelect-select": {
+                        paddingTop: "0.6rem",
+                        paddingBottom: "0.6em",
+                      },
+                    }}
+                    value={scoursename}
+                    name="scoursename"
+                    onChange={(e) => setscoursename(e.target.value)}
+                    displayEmpty
+                  >
+                    <option
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={""}
+                    >
+                      ALL Class
+                    </option>
+
                     {courselist?.map((item, index) => {
                       return (
                         <option
@@ -285,17 +656,137 @@ function Assignhostel() {
                       );
                     })}
                   </select>
-                  <input
+                  {/* <select
+                className={styles.opensearchinput}
+                sx={{
+                  width: "18.8rem",
+                  fontSize: 14,
+                  "& .MuiSelect-select": {
+                    paddingTop: "0.6rem",
+                    paddingBottom: "0.6em",
+                  },
+                }}
+                value={sectionname}
+                name="sectionname"
+                onChange={(e) => setsectionname(e.target.value)}
+                displayEmpty
+              >
+                <option
+                  sx={{
+                    fontSize: 14,
+                  }}
+                  value={"NONE"}
+                >
+                  NONE
+                </option>
+
+                {sectionList?.length > 0 &&
+                  sectionList?.map((item, index) => {
+                    return (
+                      <option
+                        key={index}
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={item?.section}
+                      >
+                        {item?.section}
+                      </option>
+                    );
+                  })}
+              </select> */}
+                  <select
                     className={styles.opensearchinput}
-                    type="Text"
-                    value={date}
-                    name="date"
-                    placeholder="Enter Roll Number"
-                    min={minDateTime}
-                    onChange={(e) => {
-                      setdate(e.target.value);
-                      console.log(e.target.value);
+                    sx={{
+                      width: "18.8rem",
+                      fontSize: 14,
+                      "& .MuiSelect-select": {
+                        paddingTop: "0.6rem",
+                        paddingBottom: "0.6em",
+                      },
                     }}
+                    value={status}
+                    name="status"
+                    onChange={(e) => setstatus(e.target.value)}
+                    displayEmpty
+                  >
+                    <option
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={""}
+                    >
+                      ALL Status
+                    </option>
+
+                    {studentStatus?.map((item, index) => {
+                      return (
+                        <option
+                          key={index}
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={item?.value}
+                        >
+                          {item?.value}
+                        </option>
+                      );
+                    })}
+                  </select>
+                  {/* <select
+                className={styles.opensearchinput}
+                sx={{
+                  width: "18.8rem",
+                  fontSize: 14,
+                  "& .MuiSelect-select": {
+                    paddingTop: "0.6rem",
+                    paddingBottom: "0.6em",
+                  },
+                }}
+                value={categoryname}
+                name="categoryname"
+                onChange={(e) => setcategoryname(e.target.value)}
+                displayEmpty
+              >
+                <option
+                  sx={{
+                    fontSize: 14,
+                  }}
+                  value={""}
+                >
+                  Category
+                </option>
+
+                {categorylist?.map((item, index) => {
+                  return (
+                    <option
+                      key={index}
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={item?.category}
+                    >
+                      {item?.category}
+                    </option>
+                  );
+                })}
+              </select> */}
+                  {/* 
+              <input
+                className={styles.opensearchinput10}
+                type="text"
+                placeholder="Roll No"
+                value={rollnumber}
+                name="rollnumber"
+                onChange={(e) => setrollnumber(e.target.value)}
+              /> */}
+                  <input
+                    className={styles.opensearchinput10}
+                    type="text"
+                    placeholder="SNO"
+                    value={sno}
+                    name="sno"
+                    onChange={(e) => setsno(e.target.value)}
                   />
                   <button
                     className={styles.saveattendacebutton}
@@ -334,7 +825,7 @@ function Assignhostel() {
                   setclassname("");
                 }}
               >
-                Assign Room
+                Give Room
               </button>
 
               <button
@@ -352,7 +843,7 @@ function Assignhostel() {
                     : styles.searchoptiondivbutton
                 }
               >
-                UnAssign Room
+                Remove Room
               </button>
             </div>
             <div className={styles.imgdivformat}>
@@ -370,7 +861,7 @@ function Assignhostel() {
             </div>
           </div>
 
-          <div className={styles.add_divmarginn10}>
+          <div className={styles.add_divmarginn}>
             <div className={styles.tablecontainer}>
               {takeatten && (
                 <>
@@ -501,7 +992,7 @@ function Assignhostel() {
                                       : styles.tabkedddimgdisable
                                   }
                                   onClick={() => ClickOpenupdate(item)}
-                                  src="/images/hostelicon.png"
+                                  src="/images/issuebook.png"
                                   alt="imgss"
                                 />
                               </button>
@@ -517,6 +1008,7 @@ function Assignhostel() {
           </div>
         </div>
       </div>
+
       {loading && <LoadingSpinner />}
     </>
   );

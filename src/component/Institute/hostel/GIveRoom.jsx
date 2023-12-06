@@ -6,18 +6,42 @@ import { useDispatch, useSelector } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-function GIveRoom({ setOpen }) {
+import { serverInstance } from "../../../API/ServerInstance";
+import { toast } from "react-toastify";
+
+function GIveRoom({ setOpen, updatedata }) {
   const dispatch = useDispatch();
   const [Categoryname, setCategoryname] = useState("");
-
-  const { loading, category } = useSelector((state) => state.addcategory);
+  const [loading1, setloading1] = useState(false);
+  const [loading, setloading] = useState(false);
+  const { category } = useSelector((state) => state.addcategory);
 
   const submit = (e) => {
     e.preventDefault();
-    const data = {
-      category: Categoryname,
-    };
-    dispatch(Addcategory(data, setOpen));
+    setloading(true);
+    serverInstance("transport/assignbus", "post", {
+      studentid: updatedata?.id,
+      busdetails: busdata,
+      fromroute,
+      toroute,
+    }).then((res) => {
+      if (res?.status === true) {
+        toast.success(res?.msg, {
+          autoClose: 1000,
+        });
+        dispatch(getstudent());
+        setOpen(false);
+        setloading(false);
+      }
+      if (res?.status === false) {
+        toast.error(res?.msg, {
+          autoClose: 1000,
+        });
+        dispatch(getstudent());
+        setOpen(false);
+        setloading(false);
+      }
+    });
   };
   useEffect(() => {
     if (category?.status) {
@@ -32,7 +56,7 @@ function GIveRoom({ setOpen }) {
           <CloseIcon />
         </div>
         <h1>Assign Room To Student</h1>
-        <form onSubmit={submit}>
+        <div>
           <div className={styles.divmaininput}>
             <div className={styles.inputdiv}>
               <label>Hostal Name</label>
@@ -109,6 +133,7 @@ function GIveRoom({ setOpen }) {
             <div className={styles.inputdiv}>
               <label>&nbsp;</label>
               <button
+                onClick={() => submit()}
                 disabled={loading ? true : false}
                 className={styles.logbtnstyle}
               >
@@ -155,7 +180,7 @@ function GIveRoom({ setOpen }) {
               )}
             </button>
           </div>
-        </form>
+        </div>
       </div>
     </>
   );

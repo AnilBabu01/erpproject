@@ -8,8 +8,6 @@ import { toast } from "react-toastify";
 
 function ReturnBook({ setOpen, updatedata }) {
   const dispatch = useDispatch();
-  // const [classlist, setclasslist] = useState([]);
-  // const [batchs, setbatchs] = useState([]);
   const [rollnumber, setrollnumber] = useState("");
   const [courseorclass, setcourseorclass] = useState("");
   const [studentname, setstudentname] = useState("");
@@ -30,8 +28,6 @@ function ReturnBook({ setOpen, updatedata }) {
   const { batch } = useSelector((state) => state.getbatch);
   const { user } = useSelector((state) => state.auth);
   const { loading, test } = useSelector((state) => state.addTest);
-
-  console.log("data is ",studentbooklist);
 
   function handlestudentbooklistUpdate(originalDonationItem, key, value) {
     setstudentbooklist(

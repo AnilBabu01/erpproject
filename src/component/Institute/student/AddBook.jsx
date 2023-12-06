@@ -161,7 +161,7 @@ function AddBook({ setOpen }) {
           </div>
         </form>
         <div className={styles.mainbtnndivcancel}>
-          <button onClick={() => setnext(false)} className={styles.cancelbtn}>
+          <button onClick={() => setOpen(false)} className={styles.cancelbtn}>
             Back
           </button>
           <button className={styles.cancelbtn} onClick={() => submit()}>

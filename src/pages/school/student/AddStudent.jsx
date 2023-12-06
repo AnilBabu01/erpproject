@@ -158,7 +158,8 @@ function AddStudent() {
         categoryname,
         "",
         sessionname,
-        sectionname
+        sectionname,
+        ""
       )
     );
   };

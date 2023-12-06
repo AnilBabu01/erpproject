@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { GetVehicleType } from "../../../redux/actions/transportActions";
+import { GetAssetType } from "../../../redux/actions/expensesActions";
 import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -14,6 +14,7 @@ import UpdateCategory from "@/component/Institute/expenses/UpdateAssetTYpe";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
+
 function AddAssesType() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -25,7 +26,7 @@ function AddAssesType() {
   const [isdata, setisData] = useState([]);
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
-  const { vehicletype, loading } = useSelector((state) => state.GetVehicleType);
+  const { assettype, loading } = useSelector((state) => state.GetAssetType);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -66,7 +67,7 @@ function AddAssesType() {
           autoClose: 1000,
         });
         setOpenalert(false);
-        dispatch(GetVehicleType());
+        dispatch(GetAssetType());
       }
       if (res?.status === false) {
         toast.error(res?.msg, {
@@ -77,23 +78,23 @@ function AddAssesType() {
     });
   };
   const filter = () => {
-    dispatch(GetVehicleType(Vehicletype));
+    dispatch(GetAssetType(Vehicletype));
   };
 
   const reset = () => {
     setVehicletype("");
-    dispatch(GetVehicleType());
+    dispatch(GetAssetType());
   };
   useEffect(() => {
-    if (vehicletype) {
-      setisData(vehicletype);
+    if (assettype) {
+      setisData(assettype);
     }
     if (user) {
       setuserdata(user);
     }
-  }, [vehicletype, user]);
+  }, [assettype, user]);
   useEffect(() => {
-    dispatch(GetVehicleType());
+    dispatch(GetAssetType());
   }, []);
 
   return (
@@ -218,7 +219,7 @@ function AddAssesType() {
                         <tr key={index} className={styles.tabletr}>
                           <td className={styles.tabletd}>{index + 1}</td>
                           <td className={styles.tabletd}>
-                            {item?.Vahicletype}
+                            {item?.AssetType}
                           </td>
                           <td className={styles.tabkeddd}>
                             <button
