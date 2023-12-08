@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState,useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
-import { GetVehicleType } from "../../../redux/actions/transportActions";
+import { GetExpensesType } from "../../../redux/actions/expensesActions";
 import { useDispatch } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
-function UpdateExpensesType({ updatedata, setOpen }) {
+function UpdateExpensesType({ setOpen, updatedata }) {
   const dispatch = useDispatch();
   const [VehicleType, setVehicleType] = useState("");
   const [loading, setloading] = useState(false);
+
   const submit = (e) => {
     e.preventDefault();
     setloading(true);
-    serverInstance("transport/vehicletype", "put", {
-      id:updatedata?.id,
-      Vahicletype: VehicleType,
+    serverInstance("expenses/addexpensestype", "put", {
+      id: updatedata?.id,
+      Expensestype: VehicleType,
     }).then((res) => {
       if (res?.status === true) {
         toast.success(res?.msg, {
@@ -24,7 +25,7 @@ function UpdateExpensesType({ updatedata, setOpen }) {
         setOpen(false);
 
         setloading(false);
-        dispatch(GetVehicleType());
+        dispatch(GetExpensesType());
       }
       if (res?.status === false) {
         toast.error(res?.msg, {
@@ -35,9 +36,10 @@ function UpdateExpensesType({ updatedata, setOpen }) {
       }
     });
   };
+
   useEffect(() => {
     if (updatedata) {
-      setVehicleType(updatedata?.Vahicletype);
+      setVehicleType(updatedata?.Expensestype);
     }
   }, []);
 

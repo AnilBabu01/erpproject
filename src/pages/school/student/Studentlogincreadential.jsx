@@ -112,13 +112,15 @@ function Studentlogincreadential() {
         categoryname,
         "",
         sessionname,
-        sectionname
+        sectionname,
+        ""
       )
     );
   };
 
   const reset = () => {
     setsstudent("");
+    setrollnumber("");
     setsfathers("");
     setfromdate("");
     settodate("");

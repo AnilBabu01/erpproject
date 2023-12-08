@@ -7,11 +7,11 @@ import { getHolidays } from "../../../redux/actions/attendanceActions";
 import { useDispatch, useSelector } from "react-redux";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
-
 function AddHoliday({ setOpen }) {
   const dispatch = useDispatch();
   const [isdata, setisData] = useState([]);
   const [batchs, setbatchs] = useState([]);
+  const [status, setstatus] = useState("Enable");
   const [comment, setcomment] = useState("");
   const [Holidaydate, setHolidaydate] = useState("");
   const [batchname, setbatchname] = useState("");
@@ -25,18 +25,21 @@ function AddHoliday({ setOpen }) {
       const data = {
         holidaydate: Holidaydate,
         comment: comment,
+        status: status,
       };
       serverInstance("EmployeeAttendance/holidy", "post", data).then((res) => {
         if (res?.status) {
           toast.success(res?.msg, {
             autoClose: 1000,
           });
-
+          dispatch(getHolidays());
+          // navigation.goBack();
           setOpen(false);
         }
 
         if (res?.status === false) {
           toast.error(res?.msg, { autoClose: 1000 });
+          dispatch(getHolidays());
         }
       });
     } catch (error) {
@@ -59,6 +62,7 @@ function AddHoliday({ setOpen }) {
           <CloseIcon />
         </div>
         <h1>Add Holiday</h1>
+
         <form onSubmit={submit}>
           <div className={styles.divmaininput}>
             <div className={styles.inputdiv}>
@@ -70,6 +74,7 @@ function AddHoliday({ setOpen }) {
                 onChange={(e) => setHolidaydate(e.target.value)}
               />
             </div>
+
             <div className={styles.inputdiv}>
               <label>comment</label>
               <input
@@ -80,7 +85,44 @@ function AddHoliday({ setOpen }) {
                 onChange={(e) => setcomment(e.target.value)}
               />
             </div>
+            <div className={styles.inputdiv}>
+              <label>Status</label>
+              <Select
+                disabled={true}
+                className={styles.addwidth}
+                sx={{
+                  width: "18.8rem",
+                  fontSize: 14,
+                  "& .MuiSelect-select": {
+                    paddingTop: "0.6rem",
+                    paddingBottom: "0.6em",
+                  },
+                }}
+                value={status}
+                name="status"
+                onChange={(e) => setstatus(e.target.value)}
+                displayEmpty
+              >
+                <MenuItem
+                  sx={{
+                    fontSize: 14,
+                  }}
+                  value={"Enable"}
+                >
+                  Enable
+                </MenuItem>
+                <MenuItem
+                  sx={{
+                    fontSize: 14,
+                  }}
+                  value={"Disable"}
+                >
+                  Disable
+                </MenuItem>
+              </Select>
+            </div>
           </div>
+
           <div className={styles.logbtnstylediv}>
             <button className={styles.logbtnstyle}>Save</button>
           </div>

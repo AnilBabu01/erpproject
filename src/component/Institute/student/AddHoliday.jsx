@@ -11,6 +11,7 @@ function AddHoliday({ setOpen }) {
   const dispatch = useDispatch();
   const [isdata, setisData] = useState([]);
   const [batchs, setbatchs] = useState([]);
+  const [status, setstatus] = useState("Enable");
   const [comment, setcomment] = useState("");
   const [Holidaydate, setHolidaydate] = useState("");
   const [batchname, setbatchname] = useState("");
@@ -23,9 +24,8 @@ function AddHoliday({ setOpen }) {
     try {
       const data = {
         holidaydate: Holidaydate,
-        batchname: batchname,
         comment: comment,
-        forbatch: forallbatch,
+        status: status,
       };
       serverInstance("attendanceatudent/holidy", "post", data).then((res) => {
         if (res?.status) {
@@ -84,6 +84,42 @@ function AddHoliday({ setOpen }) {
                 name="comment"
                 onChange={(e) => setcomment(e.target.value)}
               />
+            </div>
+            <div className={styles.inputdiv}>
+              <label>Status</label>
+              <Select
+                disabled={true}
+                className={styles.addwidth}
+                sx={{
+                  width: "18.8rem",
+                  fontSize: 14,
+                  "& .MuiSelect-select": {
+                    paddingTop: "0.6rem",
+                    paddingBottom: "0.6em",
+                  },
+                }}
+                value={status}
+                name="status"
+                onChange={(e) => setstatus(e.target.value)}
+                displayEmpty
+              >
+                <MenuItem
+                  sx={{
+                    fontSize: 14,
+                  }}
+                  value={"Enable"}
+                >
+                  Enable
+                </MenuItem>
+                <MenuItem
+                  sx={{
+                    fontSize: 14,
+                  }}
+                  value={"Disable"}
+                >
+                  Disable
+                </MenuItem>
+              </Select>
             </div>
           </div>
 

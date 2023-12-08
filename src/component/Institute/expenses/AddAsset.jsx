@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
-import { GetVehiclelist } from "../../../redux/actions/transportActions";
+import { GetAsset } from "../../../redux/actions/expensesActions";
 import { useDispatch, useSelector } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
 import Select from "@mui/material/Select";
@@ -11,14 +11,15 @@ import { toast } from "react-toastify";
 function AddAsset({ setOpen }) {
   const dispatch = useDispatch();
   const [loading, setloading] = useState(false);
-  const [addDate, setaddDate] = useState("");
   const [assetName, setassetName] = useState("");
   const [assetAmount, setassetAmount] = useState("");
   const [assetComment, setassetComment] = useState("");
   const [assesstypename, setassesstypename] = useState("");
   const [assettypelist, setassettypelist] = useState([]);
   const { assettype } = useSelector((state) => state.GetAssetType);
-
+  var today = new Date();
+  var date = today.toISOString().substring(0, 10);
+  const [addDate, setaddDate] = useState(date);
   const submit = (e) => {
     e.preventDefault();
     setloading(true);
@@ -36,7 +37,7 @@ function AddAsset({ setOpen }) {
         setOpen(false);
 
         setloading(false);
-        dispatch(GetVehiclelist());
+        dispatch(GetAsset());
       }
       if (res?.status === false) {
         toast.error(res?.msg, {

@@ -8,7 +8,7 @@ import {
   deletestudent,
 } from "../../../redux/actions/commanAction";
 import { getHolidays } from "../../../redux/actions/attendanceActions";
-import styles from "../../Institute/employee/employee.module.css";
+import styles from "./employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -353,14 +353,14 @@ function Addemployeeholiday() {
           <div className={styles.addtopmenubar}>
             <button
               className={
-                userdata?.data && userdata?.data?.User?.userType === "institute"
+                userdata?.data && userdata?.data?.User?.userType === "school"
                   ? styles.addtopmenubarbuttonactive
                   : userdata?.data && userdata?.data?.User?.masterWrite === true
                   ? styles.addtopmenubarbuttonactive
                   : styles.addtopmenubarbuttondisable
               }
               disabled={
-                userdata?.data && userdata?.data?.User?.userType === "institute"
+                userdata?.data && userdata?.data?.User?.userType === "school"
                   ? false
                   : userdata?.data && userdata?.data?.User?.masterWrite === true
                   ? false
@@ -392,10 +392,10 @@ function Addemployeeholiday() {
                         <td className={styles.tabletd}>{item?.Comment}</td>
 
                         <td className={styles.tabkeddd}>
-                          <button
+                          {/* <button
                             disabled={
                               userdata?.data &&
-                              userdata?.data?.User?.userType === "institute"
+                              userdata?.data?.User?.userType === "school"
                                 ? false
                                 : userdata?.data &&
                                   userdata?.data?.User?.fronroficeDelete ===
@@ -407,7 +407,7 @@ function Addemployeeholiday() {
                             <img
                               className={
                                 userdata?.data &&
-                                userdata?.data?.User?.userType === "institute"
+                                userdata?.data?.User?.userType === "school"
                                   ? styles.tabkedddimgactive
                                   : userdata?.data &&
                                     userdata?.data?.User?.fronroficeDelete ===
@@ -419,11 +419,11 @@ function Addemployeeholiday() {
                               src="/images/Delete.png"
                               alt="imgss"
                             />
-                          </button>
+                          </button> */}
                           <button
                             disabled={
                               userdata?.data &&
-                              userdata?.data?.User?.userType === "institute"
+                              userdata?.data?.User?.userType === "school"
                                 ? false
                                 : userdata?.data &&
                                   userdata?.data?.User?.fronroficeEdit === true
@@ -434,7 +434,7 @@ function Addemployeeholiday() {
                             <img
                               className={
                                 userdata?.data &&
-                                userdata?.data?.User?.userType === "institute"
+                                userdata?.data?.User?.userType === "school"
                                   ? styles.tabkedddimgactive
                                   : userdata?.data &&
                                     userdata?.data?.User?.fronroficeEdit ===

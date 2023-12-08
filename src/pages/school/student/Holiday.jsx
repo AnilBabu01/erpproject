@@ -21,6 +21,7 @@ import UpdateStudent from "../../../component/Institute/student/UpdateHoliday";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
 
+
 const monthlist = [
   {
     id: 1,
@@ -371,7 +372,7 @@ function Holiday() {
                         <td className={styles.tabletd}>{item?.Comment}</td>
 
                         <td className={styles.tabkeddd}>
-                          <button
+                          {/* <button
                             disabled={
                               userdata?.data &&
                               userdata?.data?.User?.userType === "school"
@@ -398,7 +399,7 @@ function Holiday() {
                               src="/images/Delete.png"
                               alt="imgss"
                             />
-                          </button>
+                          </button> */}
                           <button
                             disabled={
                               userdata?.data &&

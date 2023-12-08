@@ -44,7 +44,7 @@ function UpdateEnquiry({ updatedata, setOpen }) {
       setcourses(updatedata?.Course);
       setcomment(updatedata?.Comment);
       setenquirydate(
-        new Date(updatedata?.EnquiryDate).toISOString().substring(0, 10)
+        new Date(updatedata?.EnquiryDate)?.toISOString().substring(0, 10)
       );
     }
   }, []);

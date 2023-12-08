@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  deletecategory,
-  getcategory,
-} from "../../../redux/actions/commanAction";
+import { getcategory } from "../../../redux/actions/commanAction";
 import {
   GetRoute,
   GetVehicleType,
   GetVehiclelist,
 } from "../../../redux/actions/transportActions";
+import {
+  GetExpenses,
+  GetExpensesType,
+} from "../../../redux/actions/expensesActions";
 import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -22,8 +23,13 @@ import UpdateCategory from "@/component/Institute/expenses/UpdateExpenses";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
+import moment from "moment";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 function AddExpenses() {
   const dispatch = useDispatch();
+  const [fromdate, setfromdate] = useState("");
+  const [todate, settodate] = useState("");
   const [open, setOpen] = useState(false);
   const [openupdate, setOpenupdate] = useState(false);
   const [openalert, setOpenalert] = useState(false);
@@ -32,9 +38,11 @@ function AddExpenses() {
   const [deleteid, setdeleteid] = useState("");
   const [isdata, setisData] = useState([]);
   const [userdata, setuserdata] = useState("");
+  const [Expensestype, setExpensestype] = useState("");
+  const [expenseslist, setexpenseslist] = useState([]);
   const { user } = useSelector((state) => state.auth);
-  const { Vehicle, loading } = useSelector((state) => state.GetVehicle);
-
+  const { expenses, loading } = useSelector((state) => state.GetExpenses);
+  const { expensestype } = useSelector((state) => state.GetExpensesType);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -66,7 +74,7 @@ function AddExpenses() {
   };
 
   const handledelete = () => {
-    serverInstance("transport/vehicledetails", "delete", {
+    serverInstance("expenses/addexpenses", "delete", {
       id: deleteid,
     }).then((res) => {
       if (res?.status === true) {
@@ -74,7 +82,7 @@ function AddExpenses() {
           autoClose: 1000,
         });
         setOpenalert(false);
-        dispatch(GetVehiclelist());
+        dispatch(GetExpenses());
       }
       if (res?.status === false) {
         toast.error(res?.msg, {
@@ -85,26 +93,33 @@ function AddExpenses() {
     });
   };
   const filter = () => {
-    dispatch(GetVehiclelist(BusNumber));
+    dispatch(GetExpenses(fromdate, todate, Expensestype));
   };
 
   const reset = () => {
-    setBusNumber("");
-    dispatch(GetVehiclelist());
+    setfromdate("");
+    settodate("");
+    setExpensestype("");
+    dispatch(GetExpenses());
   };
   useEffect(() => {
-    if (Vehicle) {
-      setisData(Vehicle);
+    if (expenses) {
+      setisData(expenses);
     }
     if (user) {
       setuserdata(user);
     }
-  }, [Vehicle, user]);
+    if (expensestype) {
+      setexpenseslist(expensestype);
+    }
+  }, [expenses, user, expensestype]);
   useEffect(() => {
     dispatch(getcategory());
     dispatch(GetRoute());
     dispatch(GetVehicleType());
     dispatch(GetVehiclelist());
+    dispatch(GetExpenses());
+    dispatch(GetExpensesType());
   }, []);
 
   return (
@@ -180,14 +195,50 @@ function AddExpenses() {
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
               <div className={styles.searchoptiondiv}>
+                <label>From Date</label>
                 <input
                   className={styles.opensearchinput}
-                  type="text"
+                  type="date"
                   placeholder="Expenses"
-                  value={BusNumber}
-                  name="BusNumber"
-                  onChange={(e) => setBusNumber(e.target.value)}
+                  value={fromdate}
+                  name="fromdate"
+                  onChange={(e) => setfromdate(e.target.value)}
                 />
+                <label>To Date</label>
+                <input
+                  className={styles.opensearchinput}
+                  type="date"
+                  placeholder="Expenses"
+                  value={todate}
+                  name="todate"
+                  onChange={(e) => settodate(e.target.value)}
+                />
+                <label>Expenses Type</label>
+                <select
+                  required
+                  className={styles.opensearchinput}
+                  value={Expensestype}
+                  name="Expensestype"
+                  onChange={(e) => setExpensestype(e.target.value)}
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={""}
+                  >
+                    Please Select
+                  </option>
+                  {expenseslist?.length > 0 &&
+                    expenseslist?.map((item, index) => {
+                      return (
+                        <option key={index} value={item?.Expensestype}>
+                          {item?.Expensestype}
+                        </option>
+                      );
+                    })}
+                </select>
 
                 <button onClick={() => filter()}>Search</button>
               </div>
@@ -235,11 +286,11 @@ function AddExpenses() {
               <table className={styles.tabletable}>
                 <tbody>
                   <tr className={styles.tabletr}>
-                    <th className={styles.tableth}>S.NO</th>
+                    <th className={styles.tableth}>Sr.No</th>
+                    <th className={styles.tableth}>Date</th>
                     <th className={styles.tableth}>Expenses Type</th>
                     <th className={styles.tableth}>Expenses Amount</th>
                     <th className={styles.tableth}>Comment</th>
-
                     <th className={styles.tableth}>Action</th>
                   </tr>
                   {isdata?.length > 0 &&
@@ -248,12 +299,15 @@ function AddExpenses() {
                         <tr key={index} className={styles.tabletr}>
                           <td className={styles.tabletd}>{index + 1}</td>
                           <td className={styles.tabletd}>
-                            {item?.bus?.BusNumber}
+                            {moment(item?.Date).format("DD/MM/YYYY")}
                           </td>
-                          <td className={styles.tabletd}>{item?.bus?.Color}</td>
                           <td className={styles.tabletd}>
-                            {item?.bus?.FualType}
+                            {item?.Expensestype}
                           </td>
+                          <td className={styles.tabletd}>
+                            {item?.ExpensesAmount}
+                          </td>
+                          <td className={styles.tabletd}>{item?.Comment}</td>
 
                           <td className={styles.tabkeddd}>
                             <button
@@ -278,7 +332,7 @@ function AddExpenses() {
                                     ? styles.tabkedddimgactive
                                     : styles.tabkedddimgdisable
                                 }
-                                onClick={() => ClickOpendelete(item?.bus?.id)}
+                                onClick={() => ClickOpendelete(item?.id)}
                                 src="/images/Delete.png"
                                 alt="imgss"
                               />

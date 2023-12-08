@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../redux/actions/authActions";
 import {
@@ -19,7 +19,9 @@ import Addfee from "../../../component/Coaching/accounts/Addfee";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
 import { useRouter } from "next/router";
+import { useReactToPrint } from "react-to-print";
 function PrintReceipt() {
+  const componentRef = useRef(null);
   const navigation = useRouter();
   const dispatch = useDispatch();
   const [sno, setsno] = useState("");
@@ -54,7 +56,9 @@ function PrintReceipt() {
   const { sections } = useSelector((state) => state.GetSection);
   const { Sessions } = useSelector((state) => state.GetSession);
   const { course } = useSelector((state) => state.getcourse);
-  console.log("data from receipt data", Sessions);
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
   var newmonthnames = [];
   var feestatusarray = [];
   let months;
@@ -225,6 +229,8 @@ function PrintReceipt() {
     dispatch(getbatch());
     dispatch(getcourse());
     dispatch(getfee());
+    dispatch(GetSession());
+    dispatch(GetSection());
     dispatch(getCourseDuration());
   }, []);
 
@@ -238,12 +244,13 @@ function PrintReceipt() {
         rollnumber,
         sessionname,
         sectionname,
-        sno
+        sno,
+        todate
       )
     );
   };
 
-  console.log(fromdate)
+  console.log(fromdate);
   const reset = () => {
     setsstudent("");
     setsfathers("");
@@ -277,7 +284,6 @@ function PrintReceipt() {
     let lastyear = date.getFullYear() - 1;
     setsessionname(`${lastyear}-${fullyear}`);
   }, []);
-
   return (
     <>
       {openupdate && (
@@ -427,7 +433,7 @@ function PrintReceipt() {
                       );
                     })}
                 </select>
-
+                <label>From</label>
                 <input
                   className={styles.opensearchinput}
                   type="date"
@@ -435,15 +441,23 @@ function PrintReceipt() {
                   name="fromdate"
                   onChange={(e) => setfromdate(e.target.value)}
                 />
-
+                <label>To</label>
                 <input
+                  className={styles.opensearchinput}
+                  type="date"
+                  value={todate}
+                  name="todate"
+                  onChange={(e) => settodate(e.target.value)}
+                />
+
+                {/* <input
                   className={styles.opensearchinput10}
                   type="text"
                   placeholder="Roll No"
                   value={rollnumber}
                   name="rollnumber"
                   onChange={(e) => setrollnumber(e.target.value)}
-                />
+                /> */}
                 <input
                   className={styles.opensearchinput10}
                   type="text"
@@ -458,6 +472,12 @@ function PrintReceipt() {
             </div>
             <div className={styles.imgdivformat}>
               <img
+                onClick={() => handlePrint()}
+                className={styles.imgdivformatimg}
+                src="/images/Print.png"
+                alt="img"
+              />
+              <img
                 className={styles.imgdivformatimg}
                 src="/images/ExportPdf.png"
                 alt="img"
@@ -468,19 +488,19 @@ function PrintReceipt() {
 
           <div className={styles.add_divmarginn}>
             <div className={styles.tablecontainer}>
-              <table className={styles.tabletable}>
+              <table className={styles.tabletable} ref={componentRef}>
                 <tbody>
                   <tr className={styles.tabletr}>
                     <th className={styles.tableth}>Sr.No</th>
                     <th className={styles.tableth}>Session</th>
                     <th className={styles.tableth}>SNO</th>
-                    <th className={styles.tableth}>Roll No</th>
+                    <th className={styles.tableth}>Roll_No</th>
                     <th className={styles.tableth}>Student_Name</th>
                     <th className={styles.tableth}>Course</th>
                     <th className={styles.tableth}>Paid_Date</th>
                     <th className={styles.tableth}>Receipt_Type</th>
                     <th className={styles.tableth}>Paid_Amount</th>
-
+                    <th className={styles.tableth}>Payment_Mode</th>
                     <th className={styles.tableth}>Action</th>
                   </tr>
 
@@ -494,11 +514,11 @@ function PrintReceipt() {
                         <td className={styles.tabletd}>{item?.studentName}</td>
                         <td className={styles.tabletd}>{item?.Course}</td>
                         <td className={styles.tabletd}>
-                          {moment(item?.PaidDate).format("MM/DD/YYYY")}
+                          {moment(item?.PaidDate).format("DD/MM/YYYY")}
                         </td>
                         <td className={styles.tabletd}>{item?.Feetype}</td>
                         <td className={styles.tabletd}>{item?.PaidAmount}</td>
-
+                        <td className={styles.tabletd}>{item?.PayOption}</td>
                         <td className={styles.tabkeddd}>
                           <button
                             disabled={

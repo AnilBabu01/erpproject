@@ -1884,7 +1884,8 @@ export const getPrintReceipt =
     rollnumber,
     sessionname,
     sectionname,
-    sno
+    sno,
+    todate
   ) =>
   async (dispatch) => {
     try {
@@ -1901,11 +1902,12 @@ export const getPrintReceipt =
         rollnumber ||
         sessionname ||
         sectionname ||
-        sno
+        sno ||
+        todate
       ) {
         dispatch({ type: ALL_RECEIPTDATA_REQUEST });
         const { data } = await axios.get(
-          `${backendApiUrl}student/getreceiptdata?name=${scoursename}&fromdate=${fromdate}&studentname=${sstudent}&rollnumber=${rollnumber}&sessionname=${sessionname}&sectionname=${sectionname}&sno=${sno}`,
+          `${backendApiUrl}student/getreceiptdata?name=${scoursename}&fromdate=${fromdate}&studentname=${sstudent}&rollnumber=${rollnumber}&sessionname=${sessionname}&sectionname=${sectionname}&sno=${sno}&todate=${todate}`,
           config
         );
         dispatch({

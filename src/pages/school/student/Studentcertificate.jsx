@@ -148,12 +148,14 @@ function Studentcertificate() {
         "",
         "",
         sessionname,
-        sectionname
+        sectionname,
+        ""
       )
     );
   };
 
   const reset = () => {
+    setrollnumber("");
     setsstudent("");
     setsfathers("");
     setfromdate("");

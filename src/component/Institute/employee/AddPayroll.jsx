@@ -2,15 +2,19 @@ import React, { useState, useEffect, useRef } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
 import { getHolidays } from "../../../redux/actions/attendanceActions";
+import { GetPayRoll } from "../../../redux/actions/payrollActions";
 import { useDispatch, useSelector } from "react-redux";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import CircularProgress from "@mui/material/CircularProgress";
+
 function AddPayroll({ setOpen, updatedata }) {
   const componentRef = useRef(null);
   const dispatch = useDispatch();
+  const [sessionname, setsessionname] = useState("");
+  const [sessionlist, setsessionlist] = useState([]);
   const [isdata, setisData] = useState([]);
   const [empId, setempId] = useState("");
   const [monthlist, setmonthlist] = useState("");
@@ -19,6 +23,7 @@ function AddPayroll({ setOpen, updatedata }) {
   const { course } = useSelector((state) => state.getcourse);
   const { batch } = useSelector((state) => state.getbatch);
   const { employees } = useSelector((state) => state.getemp);
+  const { Sessions } = useSelector((state) => state.GetSession);
   const [loadingpay, setloadingpay] = useState(false);
   const [loadinggetmonth, setloadinggetmonth] = useState(false);
   const { user } = useSelector((state) => state.auth);
@@ -43,6 +48,7 @@ function AddPayroll({ setOpen, updatedata }) {
       setloadinggetmonth(false);
     }
   };
+  
   const paysalary = (payableamount) => {
     try {
       setloadingpay(true);
@@ -50,21 +56,21 @@ function AddPayroll({ setOpen, updatedata }) {
         empid: empId,
         paidAmount: payableamount,
         allDetails: allDetails,
+        sessionname:sessionname
       };
       serverInstance("payroll/payempsalary", "post", data).then((res) => {
         if (res?.status) {
           toast.success(res?.msg, {
             autoClose: 1000,
           });
-          dispatch(getHolidays());
+          dispatch(GetPayRoll());
           setOpen(false);
           setloadingpay(false);
-          getmonlist();
         }
 
         if (res?.status === false) {
           toast.error(res?.msg, { autoClose: 1000 });
-          dispatch(getHolidays());
+          dispatch(GetPayRoll());
           setOpen(false);
           setloadingpay(false);
         }
@@ -80,7 +86,10 @@ function AddPayroll({ setOpen, updatedata }) {
     if (employees) {
       setisData(employees);
     }
-  }, [employees]);
+    if (Sessions) {
+      setsessionlist(Sessions);
+    }
+  }, [employees, Sessions]);
   const handlePrint = () => {
     const input = document.getElementById("receipt");
     html2canvas(input).then((canvas) => {
@@ -164,13 +173,20 @@ function AddPayroll({ setOpen, updatedata }) {
 
     return monthsOrder.indexOf(a.MonthName) - monthsOrder.indexOf(b.MonthName);
   };
+
+  useEffect(() => {
+    let date = new Date();
+    let fullyear = date.getFullYear();
+    let lastyear = date.getFullYear() - 1;
+    setsessionname(`${lastyear}-${fullyear}`);
+  }, []);
   return (
     <>
       <div className={styles.divmainlogin}>
         <div className={styles.closeicondiv} onClick={() => setOpen(false)}>
           <CloseIcon />
         </div>
-        <h1>Emplyee Salary Slip</h1>
+        <h1>Emplyee Salary Slip ({sessionname})</h1>
         <div>
           <div className={styles.mainshow} ref={componentRef}>
             <div className={styles.inputdiv}>

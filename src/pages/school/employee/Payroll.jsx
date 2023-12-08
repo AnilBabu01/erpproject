@@ -6,6 +6,7 @@ import {
   deleteEmployee,
   getDepartment,
   getDesignation,
+  GetSession,
 } from "../../../redux/actions/commanAction";
 import { GetPayRoll } from "../../../redux/actions/payrollActions";
 import styles from "../employee/employee.module.css";
@@ -17,9 +18,10 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
 import AddEmp from "../../../component/Institute/employee/AddPayroll";
-import UpdateEmp from "../../../component/Institute/employee/UpdatePayroll";
+import UpdateEmp from "../../../component/Institute/employee/UpdatePayRol";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
+
 import { useRouter } from "next/router";
 const studentStatus = [
   { label: "Active", value: "Active" },
@@ -29,17 +31,13 @@ const studentStatus = [
 function Payroll() {
   const dispatch = useDispatch();
   const navigation = useRouter();
-  const [scoursename, setscoursename] = useState("");
-  const [sfathers, setsfathers] = useState("");
-  const [empnamee, setempnamee] = useState("");
-  const [empid, setempid] = useState("");
-  const [sstudent, setsstudent] = useState("");
-  const [empname, setempname] = useState("");
-  const [sbatch, setsbatch] = useState("");
   const [fromdate, setfromdate] = useState("");
   const [todate, settodate] = useState("");
-  const [status, setstatus] = useState("");
-  const [batchs, setbatchs] = useState([]);
+  const [userdata, setuserdata] = useState("");
+  const [empid, setempid] = useState("");
+  const [empname, setempname] = useState("");
+  const [sessionList, setsessionList] = useState([]);
+  const [sessionname, setsessionname] = useState("");
   const [open, setOpen] = useState(false);
   const [openupdate, setOpenupdate] = useState(false);
   const [openalert, setOpenalert] = useState(false);
@@ -47,8 +45,11 @@ function Payroll() {
   const [deleteid, setdeleteid] = useState("");
   const [isdata, setisData] = useState([]);
   const [isemployee, setisemployee] = useState([]);
+  const { Sessions } = useSelector((state) => state.GetSession);
   const { employees } = useSelector((state) => state.getemp);
+  const { user } = useSelector((state) => state.auth);
   const { loading, payroll } = useSelector((state) => state.GetPayRoll);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -90,24 +91,37 @@ function Payroll() {
     if (employees) {
       setisemployee(employees);
     }
-  }, [payroll, employees]);
+    if (user) {
+      setuserdata(user);
+    }
+    if (Sessions) {
+      setsessionList(Sessions);
+    }
+  }, [payroll, employees, user, Sessions]);
 
   useEffect(() => {
     dispatch(getEmployee());
-  }, [open, openupdate, openalert]);
+  }, []);
   useEffect(() => {
     dispatch(loadUser());
     dispatch(GetPayRoll());
     dispatch(getDepartment());
     dispatch(getDesignation());
+    dispatch(GetSession());
   }, []);
 
   const filterdata = (e) => {
     e.preventDefault();
-    dispatch(GetPayRoll(empid, empname));
+    dispatch(GetPayRoll(empid, empname, sessionname, fromdate, todate));
   };
 
   const reset = () => {
+    setfromdate("");
+    settodate("");
+    let date = new Date();
+    let fullyear = date.getFullYear();
+    let lastyear = date.getFullYear() - 1;
+    setsessionname(`${lastyear}-${fullyear}`);
     setempid("");
     setempname("");
     dispatch(GetPayRoll());
@@ -121,6 +135,13 @@ function Payroll() {
       },
     });
   };
+  useEffect(() => {
+    let date = new Date();
+    let fullyear = date.getFullYear();
+    let lastyear = date.getFullYear() - 1;
+    setsessionname(`${lastyear}-${fullyear}`);
+  }, []);
+
   return (
     <>
       {open && (
@@ -194,6 +215,45 @@ function Payroll() {
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
               <form onSubmit={filterdata} className={styles.searchoptiondiv}>
+                <select
+                  className={styles.opensearchinput}
+                  sx={{
+                    width: "18.8rem",
+                    fontSize: 14,
+                    "& .MuiSelect-select": {
+                      paddingTop: "0.6rem",
+                      paddingBottom: "0.6em",
+                    },
+                  }}
+                  value={sessionname}
+                  name="sessionname"
+                  onChange={(e) => setsessionname(e.target.value)}
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={""}
+                  >
+                    Select Session
+                  </option>
+
+                  {sessionList?.length > 0 &&
+                    sessionList?.map((item, index) => {
+                      return (
+                        <option
+                          key={index}
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={item?.Session}
+                        >
+                          {item?.Session}
+                        </option>
+                      );
+                    })}
+                </select>
                 <input
                   className={styles.opensearchinput10}
                   type="text"
@@ -240,7 +300,22 @@ function Payroll() {
                     );
                   })}
                 </select>
-
+                <label>From Date</label>
+                <input
+                  className={styles.opensearchinput}
+                  type="Date"
+                  value={fromdate}
+                  name="fromdate"
+                  onChange={(e) => setfromdate(e.target.value)}
+                />
+                <label>To Date</label>
+                <input
+                  className={styles.opensearchinput}
+                  type="Date"
+                  value={todate}
+                  name="todate"
+                  onChange={(e) => settodate(e.target.value)}
+                />
                 <button>Search</button>
               </form>
               <button onClick={() => reset()}>Reset</button>
@@ -269,12 +344,12 @@ function Payroll() {
                 <tbody>
                   <tr className={styles.tabletr}>
                     <th className={styles.tableth}>Sr.No</th>
+                    <th className={styles.tableth}>Session</th>
+                    <th className={styles.tableth}>Month Name</th>
                     <th className={styles.tableth}>Emp_ID</th>
                     <th className={styles.tableth}>Emp_Name</th>
-
                     <th className={styles.tableth}>Designation</th>
                     <th className={styles.tableth}>Department</th>
-
                     <th className={styles.tableth}>Paid Amount</th>
                     <th className={styles.tableth}>Paid Date</th>
                     <th className={styles.tableth}>Action</th>
@@ -284,6 +359,13 @@ function Payroll() {
                       return (
                         <tr key={index} className={styles.tabletr}>
                           <td className={styles.tabletd}>{index + 1}</td>
+                          <td className={styles.tabletd}>
+                            {item?.monthdetials?.Session}
+                          </td>
+
+                          <td className={styles.tabletd}>
+                            {item?.monthdetials?.MonthName}
+                          </td>
                           <td className={styles.tabletd}>
                             {item?.monthdetials?.OrEmpId}
                           </td>
@@ -303,15 +385,66 @@ function Payroll() {
                           </td>
                           <td className={styles.tableth}>
                             {moment(item?.monthdetials?.PaidDate).format(
-                              "MM/DD/YYYY"
+                              "DD/MM/YYYY"
                             )}
                           </td>
                           <td className={styles.tabkeddd}>
-                            <img
-                              onClick={() => downloadReceipt(item)}
-                              src="/images/Print.png"
-                              alt="imgss"
-                            />
+                            <button
+                              disabled={
+                                userdata?.data &&
+                                userdata?.data?.User?.userType === "school"
+                                  ? false
+                                  : userdata?.data &&
+                                    userdata?.data?.User?.fronroficeDelete ===
+                                      true
+                                  ? false
+                                  : true
+                              }
+                            >
+                              <img
+                                className={
+                                  userdata?.data &&
+                                  userdata?.data?.User?.userType === "school"
+                                    ? styles.tabkedddimgactive
+                                    : userdata?.data &&
+                                      userdata?.data?.User?.fronroficeDelete ===
+                                        true
+                                    ? styles.tabkedddimgactive
+                                    : styles.tabkedddimgdisable
+                                }
+                                onClick={() => ClickOpenupdate(item?.id)}
+                                src="/images/Edit.png"
+                                alt="imgss"
+                              />
+                            </button>
+                            <button
+                              disabled={
+                                userdata?.data &&
+                                userdata?.data?.User?.userType === "school"
+                                  ? false
+                                  : userdata?.data &&
+                                    userdata?.data?.User?.fronroficeEdit ===
+                                      true
+                                  ? false
+                                  : true
+                              }
+                            >
+                              <img
+                                className={
+                                  userdata?.data &&
+                                  userdata?.data?.User?.userType === "school"
+                                    ? styles.tabkedddimgactive
+                                    : userdata?.data &&
+                                      userdata?.data?.User?.fronroficeEdit ===
+                                        true
+                                    ? styles.tabkedddimgactive
+                                    : styles.tabkedddimgdisable
+                                }
+                                onClick={() => downloadReceipt(item)}
+                                src="/images/Print.png"
+                                alt="imgss"
+                              />
+                            </button>
                           </td>
                         </tr>
                       );

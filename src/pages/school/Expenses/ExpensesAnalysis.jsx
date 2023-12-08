@@ -1,196 +1,243 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  deletecategory,
-  getcategory,
-} from "../../../redux/actions/commanAction";
-import {
-  GetRoute,
-  GetVehicleType,
-  GetVehiclelist,
-} from "../../../redux/actions/transportActions";
-import styles from "../employee/employee.module.css";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
+import { loadUser } from "../../../redux/actions/authActions";
+import { getstudent, GetSession } from "../../../redux/actions/commanAction";
+import styles from "../../school/employee/employee.module.css";
 import Slide from "@mui/material/Slide";
-import { Button } from "@mui/material";
-import AddStudentCategory from "@/component/Institute/expenses/AddExpenses";
-import UpdateCategory from "@/component/Institute/expenses/UpdateExpenses";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
-import { serverInstance } from "../../../API/ServerInstance";
-import { toast } from "react-toastify";
+import moment from "moment";
+const monthlist = [
+  {
+    id: 1,
+    name: "January",
+  },
+  {
+    id: 2,
+    name: "February",
+  },
+  {
+    id: 3,
+    name: "Mark",
+  },
+  {
+    id: 4,
+    name: "April",
+  },
+  ,
+  {
+    id: 5,
+    name: "May",
+  },
+  {
+    id: 6,
+    name: "Jun",
+  },
+  {
+    id: 7,
+    name: "July",
+  },
+  {
+    id: 8,
+    name: "August",
+  },
+  {
+    id: 8,
+    name: "September",
+  },
+  {
+    id: 10,
+    name: "October",
+  },
+  {
+    id: 11,
+    name: "November",
+  },
+  {
+    id: 12,
+    name: "December",
+  },
+];
 function ExpensesAnalysis() {
   const dispatch = useDispatch();
-  const [open, setOpen] = useState(false);
-  const [openupdate, setOpenupdate] = useState(false);
-  const [openalert, setOpenalert] = useState(false);
-  const [updatedata, setupdatedata] = useState("");
-  const [BusNumber, setBusNumber] = useState("");
-  const [deleteid, setdeleteid] = useState("");
+  let currmonth = new Date().getMonth();
+  const [month, setmonth] = useState(currmonth + 1);
+  const [scoursename, setscoursename] = useState("");
+  const [sfathers, setsfathers] = useState("");
+  const [sstudent, setsstudent] = useState("");
+  const [sbatch, setsbatch] = useState("");
+  const [fromdate, setfromdate] = useState("");
+  const [todate, settodate] = useState("");
   const [isdata, setisData] = useState([]);
+  const [status, setstatus] = useState("");
+  const [rollnumber, setrollnumber] = useState("");
+  const [categoryname, setcategoryname] = useState("");
+  const [sessionList, setsessionList] = useState([]);
+  const [sessionname, setsessionname] = useState("");
+  const [sectionname, setsectionname] = useState("NONE");
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
-  const { Vehicle, loading } = useSelector((state) => state.GetVehicle);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const { loading, student } = useSelector((state) => state.getstudent);
+  const { Sessions } = useSelector((state) => state.GetSession);
 
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="top" ref={ref} {...props} />;
   });
 
-  const handleCloseregister = () => {
-    setOpen(false);
-  };
-
-  const ClickOpenupdate = (data) => {
-    setOpenupdate(true);
-    setupdatedata(data);
-  };
-
-  const handleCloseupadte = () => {
-    setOpenupdate(false);
-  };
-
-  const ClickOpendelete = (id) => {
-    setOpenalert(true);
-    setdeleteid(id);
-  };
-
-  const handleClosedelete = () => {
-    setOpenalert(false);
-  };
-
-  const handledelete = () => {
-    serverInstance("transport/vehicledetails", "delete", {
-      id: deleteid,
-    }).then((res) => {
-      if (res?.status === true) {
-        toast.success(res?.msg, {
-          autoClose: 1000,
-        });
-        setOpenalert(false);
-        dispatch(GetVehiclelist());
-      }
-      if (res?.status === false) {
-        toast.error(res?.msg, {
-          autoClose: 1000,
-        });
-        setOpenalert(false);
-      }
-    });
-  };
-  const filter = () => {
-    dispatch(GetVehiclelist(BusNumber));
-  };
-
-  const reset = () => {
-    setBusNumber("");
-    dispatch(GetVehiclelist());
-  };
   useEffect(() => {
-    if (Vehicle) {
-      setisData(Vehicle);
+    if (student) {
+      setisData(student);
     }
+
     if (user) {
       setuserdata(user);
     }
-  }, [Vehicle, user]);
+
+    if (Sessions) {
+      setsessionList(Sessions);
+    }
+  }, [student, user, Sessions]);
   useEffect(() => {
-    dispatch(getcategory());
-    dispatch(GetRoute());
-    dispatch(GetVehicleType());
-    dispatch(GetVehiclelist());
+    dispatch(getstudent());
+  }, []);
+  useEffect(() => {
+    dispatch(loadUser());
+
+    dispatch(getstudent());
+    dispatch(GetSession());
+  }, []);
+
+  const filterdata = (e) => {
+    e.preventDefault();
+    dispatch(
+      getstudent(
+        fromdate,
+        todate,
+        scoursename,
+        sbatch,
+        sstudent,
+        sfathers,
+        rollnumber,
+        status,
+        categoryname,
+        "",
+        sessionname,
+        sectionname,
+        ""
+      )
+    );
+  };
+
+  const reset = () => {
+    setsstudent("");
+    setsfathers("");
+    setfromdate("");
+    settodate("");
+    setscoursename("");
+    setsbatch("");
+    setcategoryname("");
+    let date = new Date();
+    let fullyear = date.getFullYear();
+    let lastyear = date.getFullYear() - 1;
+    setsessionname(`${lastyear}-${fullyear}`);
+    setsectionname("");
+    dispatch(getstudent());
+  };
+
+  useEffect(() => {
+    let date = new Date();
+    let fullyear = date.getFullYear();
+    let lastyear = date.getFullYear() - 1;
+    setsessionname(`${lastyear}-${fullyear}`);
   }, []);
 
   return (
     <>
-      {open && (
-        <div>
-          <Dialog
-            open={open}
-            // TransitionComponent={Transition}
-            onClose={handleCloseregister}
-            aria-describedby="alert-dialog-slide-description"
-            sx={{
-              "& .MuiDialog-container": {
-                "& .MuiPaper-root": {
-                  width: "100%",
-                  maxWidth: "60rem",
-                },
-              },
-            }}
-          >
-            <AddStudentCategory setOpen={setOpen} />
-          </Dialog>
-        </div>
-      )}
-      {openupdate && (
-        <div>
-          <Dialog
-            open={openupdate}
-            TransitionComponent={Transition}
-            onClose={handleCloseupadte}
-            aria-describedby="alert-dialog-slide-description"
-            sx={{
-              "& .MuiDialog-container": {
-                "& .MuiPaper-root": {
-                  width: "100%",
-                  maxWidth: "60rem",
-                },
-              },
-            }}
-          >
-            <UpdateCategory setOpen={setOpenupdate} updatedata={updatedata} />
-          </Dialog>
-        </div>
-      )}
-
-      {openalert && (
-        <>
-          <Dialog
-            open={openalert}
-            onClose={handleClosedelete}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">
-              {"Do you want to delete"}
-            </DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                After delete you cannot get again
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClosedelete}>Disagree</Button>
-              <Button onClick={handledelete} autoFocus>
-                Agree
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </>
-      )}
       <div className="mainContainer">
         <div>
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
-              <div className={styles.searchoptiondiv}>
-                <input
+              <form onSubmit={filterdata} className={styles.searchoptiondiv}>
+                <select
                   className={styles.opensearchinput}
-                  type="text"
-                  placeholder="Expenses"
-                  value={BusNumber}
-                  name="BusNumber"
-                  onChange={(e) => setBusNumber(e.target.value)}
-                />
+                  sx={{
+                    width: "18.8rem",
+                    fontSize: 14,
+                    "& .MuiSelect-select": {
+                      paddingTop: "0.6rem",
+                      paddingBottom: "0.6em",
+                    },
+                  }}
+                  value={sessionname}
+                  name="sessionname"
+                  onChange={(e) => setsessionname(e.target.value)}
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={""}
+                  >
+                    Select Session
+                  </option>
 
-                <button onClick={() => filter()}>Show Result</button>
-              </div>
+                  {sessionList?.length > 0 &&
+                    sessionList?.map((item, index) => {
+                      return (
+                        <option
+                          key={index}
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={item?.Session}
+                        >
+                          {item?.Session}
+                        </option>
+                      );
+                    })}
+                </select>
+                <select
+                  className={styles.opensearchinput}
+                  sx={{
+                    width: "18.8rem",
+                    fontSize: 14,
+                    "& .MuiSelect-select": {
+                      paddingTop: "0.6rem",
+                      paddingBottom: "0.6em",
+                    },
+                  }}
+                  value={month}
+                  name="month"
+                  onChange={(e) => {
+                    setmonth(e.target.value);
+                  }}
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={""}
+                  >
+                    Month
+                  </option>
+
+                  {monthlist?.map((item, index) => {
+                    return (
+                      <option
+                        key={index}
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={item?.id}
+                      >
+                        {item?.name}
+                      </option>
+                    );
+                  })}
+                </select>
+                <button>Search</button>
+              </form>
               <button onClick={() => reset()}>Reset</button>
             </div>
             <div className={styles.imgdivformat}>
@@ -210,31 +257,66 @@ function ExpensesAnalysis() {
 
           <div className={styles.add_divmarginn}>
             <div className={styles.tablecontainer}>
-              <table className={styles.tabletable}>
-                <tbody>
-                  <tr className={styles.tabletr}>
-                    <th className={styles.tableth}>Sr.No</th>
-                    <th className={styles.tableth}>Expenses Type</th>
-                    <th className={styles.tableth}>Expenses Amount</th>
-                    <th className={styles.tableth}>Comment</th>
-                  </tr>
-                  {isdata?.length > 0 &&
-                    isdata?.map((item, index) => {
-                      return (
-                        <tr key={index} className={styles.tabletr}>
-                          <td className={styles.tabletd}>{index + 1}</td>
-                          <td className={styles.tabletd}>
-                            {item?.bus?.BusNumber}
-                          </td>
-                          <td className={styles.tabletd}>{item?.bus?.Color}</td>
-                          <td className={styles.tabletd}>
-                            {item?.bus?.FualType}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                </tbody>
-              </table>
+              <div className={styles.expensesDiv}>
+                <div className={styles.innearexpensesdiv}>
+                  <p>Expenses</p>
+
+                  <table className={styles.tabletable}>
+                    <tbody>
+                      <tr className={styles.tabletr}>
+                        <th className={styles.tableth}>Sr.No</th>
+                        <th className={styles.tableth}>Date</th>
+                        <th className={styles.tableth}>Expenses_Type</th>
+                        <th className={styles.tableth}>Expenses_Amount</th>
+                        <th className={styles.tableth}>Comment</th>
+                        {/* <th className={styles.tableth}>Student_Name</th>
+                        <th className={styles.tableth}>Student_Email</th> */}
+                      </tr>
+                      {isdata?.map((item, index) => {
+                        return (
+                          <tr key={index} className={styles.tabletr}>
+                            <td className={styles.tabletd}>{index + 1}</td>
+                            <td className={styles.tabletd}>06/02/2023</td>
+                            <td className={styles.tabletd}>Salary Paid</td>
+                            <td className={styles.tabletd}>80000</td>
+                            <td className={styles.tabletd}>
+                              Paid Salary To Derivers
+                            </td>
+                            {/* <td className={styles.tabletd}>{item?.name}</td>
+                            <td className={styles.tabletd}>{item?.email}</td> */}
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+                <div className={styles.innearexpensesdiv10}>
+                  <p>Recovery</p>
+
+                  <table className={styles.tabletable}>
+                    <tbody>
+                      <tr className={styles.tabletr}>
+                        <th className={styles.tableth}>Sr.No</th>
+                        <th className={styles.tableth}>Class</th>
+                        <th className={styles.tableth}>Paid_Amount</th>
+                        <th className={styles.tableth}>Pending_Amount</th>
+                      </tr>
+                      {isdata?.map((item, index) => {
+                        return (
+                          <tr key={index} className={styles.tabletr}>
+                            <td className={styles.tabletd}>{index + 1}</td>
+                            <td className={styles.tabletd}>{item?.Session}</td>
+                            <td className={styles.tabletd}>{item?.SrNumber}</td>
+                            <td className={styles.tabletd}>
+                              {item?.rollnumber}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -23,6 +23,7 @@ function AddSession() {
   const [isdata, setisData] = useState([]);
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
+  
   const { Sessions } = useSelector((state) => state.GetSession);
 
   const handleClickOpen = () => {

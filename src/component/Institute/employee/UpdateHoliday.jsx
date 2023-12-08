@@ -7,10 +7,11 @@ import { getHolidays } from "../../../redux/actions/attendanceActions";
 import { useDispatch, useSelector } from "react-redux";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
-function UpdateHoliday({ setOpen, updatedata }) {
+function UpdateHoliday({ setOpen ,updatedata}) {
   const dispatch = useDispatch();
   const [isdata, setisData] = useState([]);
   const [batchs, setbatchs] = useState([]);
+  const [status, setstatus] = useState("Enable");
   const [comment, setcomment] = useState("");
   const [Holidaydate, setHolidaydate] = useState("");
   const [batchname, setbatchname] = useState("");
@@ -18,16 +19,17 @@ function UpdateHoliday({ setOpen, updatedata }) {
   const { course } = useSelector((state) => state.getcourse);
   const { batch } = useSelector((state) => state.getbatch);
   const { user } = useSelector((state) => state.auth);
+
+
+  console.log("from comment data is ",updatedata);
+
   const submit = (e) => {
     e.preventDefault();
     try {
       const data = {
-        id: updatedata?.id,
         holidaydate: Holidaydate,
-        batchname: batchname,
         comment: comment,
-        forbatch: forallbatch,
-        data: updatedata,
+        status: status,
       };
       serverInstance("EmployeeAttendance/holidy", "put", data).then((res) => {
         if (res?.status) {
@@ -56,19 +58,12 @@ function UpdateHoliday({ setOpen, updatedata }) {
     if (batch) {
       setbatchs(batch);
     }
-  }, [course, batch]);
-
-  useEffect(() => {
-    if (updatedata) {
-      setforallbatch(updatedata?.holidaytype);
-      setHolidaydate(
-        new Date(updatedata?.attendancedate).toISOString().substring(0, 10)
-      );
-      setcomment(updatedata?.Comment);
-      setbatchname(updatedata?.batch);
+    if(updatedata)
+    {
+      setcomment(updatedata?.Comment)
+      setHolidaydate(updatedata?.attendancedate)
     }
-  }, []);
-
+  }, [course, batch]);
   return (
     <>
       <div className={styles.divmainlogin}>
@@ -76,6 +71,7 @@ function UpdateHoliday({ setOpen, updatedata }) {
           <CloseIcon />
         </div>
         <h1>Update Holiday</h1>
+
         <form onSubmit={submit}>
           <div className={styles.divmaininput}>
             <div className={styles.inputdiv}>
@@ -84,6 +80,7 @@ function UpdateHoliday({ setOpen, updatedata }) {
                 type="date"
                 value={Holidaydate}
                 name="Holidaydate"
+                disabled={true}
                 onChange={(e) => setHolidaydate(e.target.value)}
               />
             </div>
@@ -97,6 +94,42 @@ function UpdateHoliday({ setOpen, updatedata }) {
                 name="comment"
                 onChange={(e) => setcomment(e.target.value)}
               />
+            </div>
+            <div className={styles.inputdiv}>
+              <label>Status</label>
+              <Select
+                required
+                className={styles.addwidth}
+                sx={{
+                  width: "18.8rem",
+                  fontSize: 14,
+                  "& .MuiSelect-select": {
+                    paddingTop: "0.6rem",
+                    paddingBottom: "0.6em",
+                  },
+                }}
+                value={status}
+                name="status"
+                onChange={(e) => setstatus(e.target.value)}
+                displayEmpty
+              >
+                <MenuItem
+                  sx={{
+                    fontSize: 14,
+                  }}
+                  value={"Enable"}
+                >
+                  Enable
+                </MenuItem>
+                <MenuItem
+                  sx={{
+                    fontSize: 14,
+                  }}
+                  value={"Disable"}
+                >
+                  Disable
+                </MenuItem>
+              </Select>
             </div>
           </div>
 

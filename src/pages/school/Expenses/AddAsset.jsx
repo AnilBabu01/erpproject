@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  deletecategory,
-  getcategory,
-} from "../../../redux/actions/commanAction";
+import { getcategory } from "../../../redux/actions/commanAction";
 import {
   GetRoute,
   GetVehicleType,
   GetVehiclelist,
 } from "../../../redux/actions/transportActions";
-import { GetAssetType } from "../../../redux/actions/expensesActions";
+import { GetAssetType, GetAsset } from "../../../redux/actions/expensesActions";
 import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -23,8 +20,11 @@ import UpdateCategory from "@/component/Institute/expenses/UpdateAsset";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
+import moment from "moment";
 function AddAsset() {
   const dispatch = useDispatch();
+  const [fromdate, setfromdate] = useState("");
+  const [todate, settodate] = useState("");
   const [open, setOpen] = useState(false);
   const [openupdate, setOpenupdate] = useState(false);
   const [openalert, setOpenalert] = useState(false);
@@ -33,8 +33,11 @@ function AddAsset() {
   const [deleteid, setdeleteid] = useState("");
   const [isdata, setisData] = useState([]);
   const [userdata, setuserdata] = useState("");
+  const [assettypelist, setassettypelist] = useState([]);
+  const [assettypename, setassettypename] = useState("");
   const { user } = useSelector((state) => state.auth);
-  const { Vehicle, loading } = useSelector((state) => state.GetVehicle);
+  const { assets, loading } = useSelector((state) => state.GetAsset);
+  const { assettype } = useSelector((state) => state.GetAssetType);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -67,7 +70,7 @@ function AddAsset() {
   };
 
   const handledelete = () => {
-    serverInstance("transport/vehicledetails", "delete", {
+    serverInstance("expenses/addasset", "delete", {
       id: deleteid,
     }).then((res) => {
       if (res?.status === true) {
@@ -75,7 +78,7 @@ function AddAsset() {
           autoClose: 1000,
         });
         setOpenalert(false);
-        dispatch(GetVehiclelist());
+        dispatch(GetAsset());
       }
       if (res?.status === false) {
         toast.error(res?.msg, {
@@ -86,28 +89,33 @@ function AddAsset() {
     });
   };
   const filter = () => {
-    dispatch(GetVehiclelist(BusNumber));
+    dispatch(GetAsset(fromdate,todate,assettypename));
   };
 
   const reset = () => {
-    setBusNumber("");
-    dispatch(GetVehiclelist());
+   setfromdate('');
+   settodate('');
+   setassettypename('');
+    dispatch(GetAsset());
   };
   useEffect(() => {
-    if (Vehicle) {
-      setisData(Vehicle);
+    if (assets) {
+      setisData(assets);
     }
     if (user) {
       setuserdata(user);
     }
-  
-  }, [Vehicle, user, ]);
+    if (assettype) {
+      setassettypelist(assettype);
+    }
+  }, [assets, user, assettype]);
   useEffect(() => {
     dispatch(getcategory());
     dispatch(GetRoute());
     dispatch(GetVehicleType());
     dispatch(GetVehiclelist());
     dispatch(GetAssetType());
+    dispatch(GetAsset());
   }, []);
 
   return (
@@ -183,15 +191,48 @@ function AddAsset() {
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
               <div className={styles.searchoptiondiv}>
+                <label>From Date</label>
                 <input
                   className={styles.opensearchinput}
-                  type="text"
-                  placeholder="Asset"
-                  value={BusNumber}
-                  name="BusNumber"
-                  onChange={(e) => setBusNumber(e.target.value)}
+                  type="date"
+                  value={fromdate}
+                  name="fromdate"
+                  onChange={(e) => setfromdate(e.target.value)}
                 />
-
+                <label>To Date</label>
+                <input
+                  className={styles.opensearchinput}
+                  type="date"
+                  value={todate}
+                  name="todate"
+                  onChange={(e) => settodate(e.target.value)}
+                />
+                   <label>Assest Type</label>
+                <select
+                  required
+                  className={styles.opensearchinput}
+                  value={assettypename}
+                  name="assettypename"
+                  onChange={(e) => setassettypename(e.target.value)}
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={""}
+                  >
+                    Please Select
+                  </option>
+                  {assettypelist?.length > 0 &&
+                    assettypelist?.map((item, index) => {
+                      return (
+                        <option key={index} value={item?.AssetType}>
+                          {item?.AssetType}
+                        </option>
+                      );
+                    })}
+                </select>
                 <button onClick={() => filter()}>Search</button>
               </div>
               <button onClick={() => reset()}>Reset</button>
@@ -239,6 +280,7 @@ function AddAsset() {
                 <tbody>
                   <tr className={styles.tabletr}>
                     <th className={styles.tableth}>Sr.No</th>
+                    <th className={styles.tableth}>Date</th>
                     <th className={styles.tableth}>Asset Type</th>
                     <th className={styles.tableth}>Asset Name</th>
                     <th className={styles.tableth}>Asset Amount</th>
@@ -252,16 +294,16 @@ function AddAsset() {
                         <tr key={index} className={styles.tabletr}>
                           <td className={styles.tabletd}>{index + 1}</td>
                           <td className={styles.tabletd}>
-                            {item?.bus?.BusNumber}
-                          </td>
-                          <td className={styles.tabletd}>{item?.bus?.Color}</td>
-                          <td className={styles.tabletd}>
-                            {item?.bus?.FualType}
-                          </td>
-                          <td className={styles.tableth}>
-                            {item?.routeDetails?.FromRoute}
+                            {moment(item?.Date).format("DD/MM/YYYY")}
                           </td>
 
+                          <td className={styles.tabletd}>{item?.AssetType}</td>
+
+                          <td className={styles.tabletd}>{item?.AssetName}</td>
+                          <td className={styles.tableth}>
+                            {item?.AssetAmount}
+                          </td>
+                          <td className={styles.tabletd}>{item?.Comment}</td>
                           <td className={styles.tabkeddd}>
                             <button
                               disabled={
@@ -285,7 +327,7 @@ function AddAsset() {
                                     ? styles.tabkedddimgactive
                                     : styles.tabkedddimgdisable
                                 }
-                                onClick={() => ClickOpendelete(item?.bus?.id)}
+                                onClick={() => ClickOpendelete(item?.id)}
                                 src="/images/Delete.png"
                                 alt="imgss"
                               />

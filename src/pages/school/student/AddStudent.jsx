@@ -49,8 +49,8 @@ function AddStudent() {
   const [batchs, setbatchs] = useState([]);
   const [open, setOpen] = useState(false);
   const [openupdate, setOpenupdate] = useState(false);
-  const [openalert, setOpenalert] = useState(false);
   const [updatedata, setupdatedata] = useState("");
+  const [openalert, setOpenalert] = useState(false);
   const [deleteid, setdeleteid] = useState("");
   const [isdata, setisData] = useState([]);
   const [courselist, setcourselist] = useState([]);
@@ -621,5 +621,6 @@ function AddStudent() {
     </>
   );
 }
+
 
 export default AddStudent;

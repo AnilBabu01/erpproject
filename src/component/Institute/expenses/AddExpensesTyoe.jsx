@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
-import { GetVehicleType } from "../../../redux/actions/transportActions";
+import { GetExpensesType } from "../../../redux/actions/expensesActions";
 import { useDispatch } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
 import { serverInstance } from "../../../API/ServerInstance";
@@ -14,8 +14,8 @@ function AddExpensesTyoe({ setOpen }) {
   const submit = (e) => {
     e.preventDefault();
     setloading(true);
-    serverInstance("transport/vehicletype", "post", {
-      Vahicletype: VehicleType,
+    serverInstance("expenses/addexpensestype", "post", {
+      Expensestype: VehicleType,
     }).then((res) => {
       if (res?.status === true) {
         toast.success(res?.msg, {
@@ -24,7 +24,7 @@ function AddExpensesTyoe({ setOpen }) {
         setOpen(false);
 
         setloading(false);
-        dispatch(GetVehicleType());
+        dispatch(GetExpensesType());
       }
       if (res?.status === false) {
         toast.error(res?.msg, {

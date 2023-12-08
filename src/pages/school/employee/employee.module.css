@@ -20,11 +20,11 @@
 .showfathersname {
   margin-right: 1rem;
 }
-.tablethstart{
-   background-color: green;
-   border: 1px solid #dddddd;
-   text-align: center;
-   padding: 8px;
+.tablethstart {
+  background-color: green;
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 8px;
 }
 .showfathersname label {
   margin-left: 0.5rem;
@@ -335,24 +335,51 @@
   text-align: center;
   padding: 8px;
 }
-.idcarddiv{
+.idcarddiv {
   padding-left: 23%;
   padding-right: 23%;
   padding-top: 2%;
 }
-.idcarddivflex{
+.idcarddivflex {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   padding: 0.3%;
 }
-.idcarddivflex10{
+.idcarddivflex10 {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   padding: 1%;
 }
+
+.expensesDiv {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.innearexpensesdiv {
+  width: 50%;
+  border: 1px solid #093959;
+  padding: 0.5rem;
+  height: 33rem;
+}
+.innearexpensesdiv10 {
+  width: 50%;
+  border: 1px solid #093959;
+  padding: 0.5rem;
+  height: 33rem;
+}
 @media (max-width: 730px) {
+  .expensesDiv {
+    padding-left: 123%;
+  }
+  .innearexpensesdiv {
+    width: auto;
+  }
+  .innearexpensesdiv10 {
+    width: auto;
+  }
   .tabletdnew {
     display: flex;
     border: 1px solid #dddddd;

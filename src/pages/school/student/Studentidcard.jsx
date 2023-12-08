@@ -148,12 +148,14 @@ function Studentidcard() {
         "",
         "",
         sessionname,
-        sectionname
+        sectionname,
+        ""
       )
     );
   };
 
   const reset = () => {
+    setrollnumber("");
     setsstudent("");
     setsfathers("");
     setfromdate("");

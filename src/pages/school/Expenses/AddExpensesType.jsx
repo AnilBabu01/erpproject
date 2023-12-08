@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { GetVehicleType } from "../../../redux/actions/transportActions";
+import { GetExpensesType } from "../../../redux/actions/expensesActions";
 import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -14,6 +14,7 @@ import UpdateCategory from "@/component/Institute/expenses/UpdateExpensesType";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
+
 function AddExpensesType() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -25,12 +26,12 @@ function AddExpensesType() {
   const [isdata, setisData] = useState([]);
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
-  const { vehicletype, loading } = useSelector((state) => state.GetVehicleType);
-
+  const { expensestype, loading } = useSelector(
+    (state) => state.GetExpensesType
+  );
   const handleClickOpen = () => {
     setOpen(true);
   };
-
 
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="top" ref={ref} {...props} />;
@@ -59,7 +60,7 @@ function AddExpensesType() {
   };
 
   const handledelete = () => {
-    serverInstance("transport/vehicletype", "delete", {
+    serverInstance("expenses/addexpensestype", "delete", {
       id: deleteid,
     }).then((res) => {
       if (res?.status === true) {
@@ -67,7 +68,7 @@ function AddExpensesType() {
           autoClose: 1000,
         });
         setOpenalert(false);
-        dispatch(GetVehicleType());
+        dispatch(GetExpensesType());
       }
       if (res?.status === false) {
         toast.error(res?.msg, {
@@ -78,23 +79,23 @@ function AddExpensesType() {
     });
   };
   const filter = () => {
-    dispatch(GetVehicleType(Vehicletype));
+    dispatch(GetExpensesType(Vehicletype));
   };
 
   const reset = () => {
     setVehicletype("");
-    dispatch(GetVehicleType());
+    dispatch(GetExpensesType());
   };
   useEffect(() => {
-    if (vehicletype) {
-      setisData(vehicletype);
+    if (expensestype) {
+      setisData(expensestype);
     }
     if (user) {
       setuserdata(user);
     }
-  }, [vehicletype, user]);
+  }, [expensestype, user]);
   useEffect(() => {
-    dispatch(GetVehicleType());
+    dispatch(GetExpensesType());
   }, []);
 
   return (
@@ -219,7 +220,7 @@ function AddExpensesType() {
                         <tr key={index} className={styles.tabletr}>
                           <td className={styles.tabletd}>{index + 1}</td>
                           <td className={styles.tabletd}>
-                            {item?.Vahicletype}
+                            {item?.Expensestype}
                           </td>
                           <td className={styles.tabkeddd}>
                             <button

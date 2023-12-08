@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
-import { GetVehiclelist } from "../../../redux/actions/transportActions";
+import { GetAsset } from "../../../redux/actions/expensesActions";
 import { useDispatch, useSelector } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
 import Select from "@mui/material/Select";
@@ -10,32 +10,24 @@ import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
 function UpdateAsset({ setOpen, updatedata }) {
   const dispatch = useDispatch();
-  const [routeId, setrouteId] = useState("");
-  const [BusNumber, setBusNumber] = useState("");
-  const [FualType, setFualType] = useState("");
-  const [Color, setColor] = useState("");
-  const [vehicletypename, setvehicletypename] = useState("");
-  const [GPSDeviceURL, setGPSDeviceURL] = useState("");
   const [loading, setloading] = useState(false);
-  const [routelist, setroutelist] = useState([]);
-  const [vehiclelist, setvehiclelist] = useState([]);
-
-  const { route } = useSelector((state) => state.GetRoute);
-  const { vehicletype } = useSelector((state) => state.GetVehicleType);
-
-  console.log("data from add bus details", routelist, vehiclelist);
-
+  const [assetName, setassetName] = useState("");
+  const [assetAmount, setassetAmount] = useState("");
+  const [assetComment, setassetComment] = useState("");
+  const [assesstypename, setassesstypename] = useState("");
+  const [assettypelist, setassettypelist] = useState([]);
+  const { assettype } = useSelector((state) => state.GetAssetType);
+  const [addDate, setaddDate] = useState("");
   const submit = (e) => {
     e.preventDefault();
     setloading(true);
-    serverInstance("transport/vehicledetails", "put", {
-      id: updatedata?.bus?.id,
-      routeId: routeId,
-      Vahicletype: vehicletypename,
-      BusNumber: BusNumber,
-      FualType: FualType,
-      Color: Color,
-      GPSDeviceURL: GPSDeviceURL,
+    serverInstance("expenses/addasset", "put", {
+      id: updatedata?.id,
+      AssetType: assesstypename,
+      Date: addDate,
+      AssetName: assetName,
+      AssetAmount: assetAmount,
+      Comment: assetComment,
     }).then((res) => {
       if (res?.status === true) {
         toast.success(res?.msg, {
@@ -44,7 +36,7 @@ function UpdateAsset({ setOpen, updatedata }) {
         setOpen(false);
 
         setloading(false);
-        dispatch(GetVehiclelist());
+        dispatch(GetAsset());
       }
       if (res?.status === false) {
         toast.error(res?.msg, {
@@ -57,22 +49,20 @@ function UpdateAsset({ setOpen, updatedata }) {
   };
 
   useEffect(() => {
-    if (route) {
-      setroutelist(route);
+    if (assettype) {
+      setassettypelist(assettype);
     }
-    if (vehicletype) {
-      setvehiclelist(vehicletype);
-    }
-  }, [route, vehicletype]);
+  }, [assettype]);
 
   useEffect(() => {
     if (updatedata) {
-      setColor(updatedata?.bus?.Color);
-      setBusNumber(updatedata?.bus?.BusNumber);
-      setFualType(updatedata?.bus?.FualType);
-      setGPSDeviceURL(updatedata?.bus?.GPSDeviceURL);
-      setvehicletypename(updatedata?.bus?.Vahicletype);
-      setrouteId(updatedata?.bus?.routeId);
+      setassesstypename(updatedata?.AssetType);
+      setassetComment(updatedata?.Comment);
+      setassetName(updatedata?.AssetName);
+      setassetAmount(updatedata?.AssetAmount);
+      var today = new Date(updatedata?.Date);
+      var date = today.toISOString().substring(0, 10);
+      setaddDate(date);
     }
   }, []);
 
@@ -82,11 +72,20 @@ function UpdateAsset({ setOpen, updatedata }) {
         <div className={styles.closeicondiv} onClick={() => setOpen(false)}>
           <CloseIcon />
         </div>
-        <h1>Update Expenses</h1>
+        <h1>Update Asset</h1>
         <form onSubmit={submit}>
           <div className={styles.divmaininput}>
             <div className={styles.inputdiv}>
-              <label>Expenses Type</label>
+              <label>Date</label>
+              <input
+                type="Date"
+                value={addDate}
+                name="addDate"
+                onChange={(e) => setaddDate(e.target.value)}
+              />
+            </div>
+            <div className={styles.inputdiv}>
+              <label>Asset Type</label>
               <Select
                 required
                 className={styles.addwidth}
@@ -98,9 +97,9 @@ function UpdateAsset({ setOpen, updatedata }) {
                     paddingBottom: "0.6em",
                   },
                 }}
-                value={vehicletypename}
-                name="vehicletypename"
-                onChange={(e) => setvehicletypename(e.target.value)}
+                value={assesstypename}
+                name="assesstypename"
+                onChange={(e) => setassesstypename(e.target.value)}
                 displayEmpty
               >
                 <MenuItem
@@ -111,29 +110,43 @@ function UpdateAsset({ setOpen, updatedata }) {
                 >
                   Please Select
                 </MenuItem>
-                {vehiclelist?.map((item, index) => {
-                  return (
-                    <MenuItem
-                      key={index}
-                      sx={{
-                        fontSize: 14,
-                      }}
-                      value={item?.id}
-                    >
-                      {item?.Vahicletype}
-                    </MenuItem>
-                  );
-                })}
+                {assettypelist?.length > 0 &&
+                  assettypelist?.map((item, index) => {
+                    return (
+                      <MenuItem
+                        key={index}
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={item?.AssetType}
+                      >
+                        {item?.AssetType}
+                      </MenuItem>
+                    );
+                  })}
               </Select>
             </div>
             <div className={styles.inputdiv}>
-              <label>Expenses Amount</label>
+              <label>Asset Name</label>
               <input
                 type="text"
-                placeholder="Enter Expenses Amount"
-                value={Color}
-                name="Color"
-                onChange={(e) => setColor(e.target.value)}
+                placeholder="Enter Asset Name"
+                value={assetName}
+                name="assetName"
+                onChange={(e) => setassetName(e.target.value)}
+              />
+            </div>
+          </div>
+
+          <div className={styles.divmaininput}>
+            <div className={styles.inputdiv}>
+              <label>Asset Amount</label>
+              <input
+                type="text"
+                placeholder="Enter Asset Amount"
+                value={assetAmount}
+                name="assetAmount"
+                onChange={(e) => setassetAmount(e.target.value)}
               />
             </div>
             <div className={styles.inputdiv}>
@@ -141,10 +154,15 @@ function UpdateAsset({ setOpen, updatedata }) {
               <input
                 type="text"
                 placeholder="Enter Comment"
-                value={GPSDeviceURL}
-                name="GPSDeviceURL"
-                onChange={(e) => setGPSDeviceURL(e.target.value)}
+                value={assetComment}
+                name="assetComment"
+                onChange={(e) => setassetComment(e.target.value)}
               />
+            </div>
+
+            <div className={styles.inputdiv}>
+              <label>&nbsp;</label>
+              <label>&nbsp;</label>
             </div>
           </div>
 

@@ -8,10 +8,12 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useDispatch } from "react-redux";
-
+import Typography from "@mui/material/Typography";
 function Addfee({ data, setOpen }) {
   const navigation = useRouter();
   const dispatch = useDispatch();
+  const [paymentdate, setpaymentdate] = useState("");
+  const [PayOption, setPayOption] = useState("Cash");
   const [annualfee, setannualfee] = useState("");
   const [checked, setChecked] = useState([]);
   const [montharray, setmontharray] = useState([]);
@@ -30,7 +32,16 @@ function Addfee({ data, setOpen }) {
   const [schoolfee, setschoolfee] = useState([]);
   const [addloading, setaddloading] = useState(false);
 
-  console.log("otherfeearray is otherfeearray ", otherfeearray);
+  var options = { year: "numeric", month: "short", day: "2-digit" };
+  var today = new Date();
+  const currDate = today
+    .toLocaleDateString("en-IN", options)
+    .replace(/-/g, " ");
+  const currTime = today.toLocaleString("en-US", {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  });
 
   const submit = () => {
     try {
@@ -39,6 +50,8 @@ function Addfee({ data, setOpen }) {
         id: data?.id,
         feetype: feetype,
         annualfee: annualfee,
+        PayOption: PayOption,
+        paymentdate: paymentdate,
       };
 
       serverInstance("Student/payschoolanualregister", "post", datas).then(
@@ -83,6 +96,8 @@ function Addfee({ data, setOpen }) {
         acadminArray: acadminArray,
         studentData: data,
         feetype: "Academy Fee",
+        PayOption: PayOption,
+        paymentdate: paymentdate,
       };
 
       serverInstance("Student/addacadmyfee", "post", datas).then((res) => {
@@ -125,6 +140,8 @@ function Addfee({ data, setOpen }) {
         acadminArray: hostelArray,
         studentData: data,
         feetype: "Hostel Fee",
+        PayOption: PayOption,
+        paymentdate: paymentdate,
       };
 
       serverInstance("Student/addhostelfee", "post", datas).then((res) => {
@@ -167,6 +184,8 @@ function Addfee({ data, setOpen }) {
         acadminArray: transportArray,
         studentData: data,
         feetype: "Transport Fee",
+        PayOption: PayOption,
+        paymentdate: paymentdate,
       };
 
       serverInstance("Student/addtransportfee", "post", datas).then((res) => {
@@ -209,6 +228,8 @@ function Addfee({ data, setOpen }) {
         acadminArray: otherfeearray,
         studentData: data,
         feetype: "Other Fee",
+        PayOption: PayOption,
+        paymentdate: paymentdate,
       };
 
       serverInstance("Student/addotherfee", "post", datas).then((res) => {
@@ -290,10 +311,18 @@ function Addfee({ data, setOpen }) {
     });
     return total;
   };
+
+  useEffect(() => {
+    setpaymentdate(new Date().toISOString().substring(0, 10));
+  }, []);
+
   return (
     <>
       <div className={styles.divmainlogin}>
         <div className={styles.closeicondiv} onClick={() => setOpen(false)}>
+          <Typography variant="body2" color="primary" align="right">
+            {currDate} / {currTime}
+          </Typography>
           <CloseIcon />
         </div>
 
@@ -335,38 +364,46 @@ function Addfee({ data, setOpen }) {
                   >
                     Academin Fee
                   </button>
+                  {data?.hostal === true && (
+                    <>
+                      <button
+                        onClick={() => {
+                          setacadminfee(false);
+                          sethostelfee(true);
+                          settransport(false);
+                          setothersfee(false);
+                        }}
+                        className={
+                          hostelfee
+                            ? styles.searchbtnactive
+                            : styles.searchoptiondivbutton
+                        }
+                      >
+                        Hostel Fee
+                      </button>
+                    </>
+                  )}
 
-                  <button
-                    onClick={() => {
-                      setacadminfee(false);
-                      sethostelfee(true);
-                      settransport(false);
-                      setothersfee(false);
-                    }}
-                    className={
-                      hostelfee
-                        ? styles.searchbtnactive
-                        : styles.searchoptiondivbutton
-                    }
-                  >
-                    Hostel Fee
-                  </button>
+                  {data?.Transport === true && (
+                    <>
+                      <button
+                        onClick={() => {
+                          setacadminfee(false);
+                          sethostelfee(false);
+                          settransport(true);
+                          setothersfee(false);
+                        }}
+                        className={
+                          transport
+                            ? styles.searchbtnactive
+                            : styles.searchoptiondivbutton
+                        }
+                      >
+                        Transport Fee
+                      </button>
+                    </>
+                  )}
 
-                  <button
-                    onClick={() => {
-                      setacadminfee(false);
-                      sethostelfee(false);
-                      settransport(true);
-                      setothersfee(false);
-                    }}
-                    className={
-                      transport
-                        ? styles.searchbtnactive
-                        : styles.searchoptiondivbutton
-                    }
-                  >
-                    Transport Fee
-                  </button>
                   <button
                     onClick={() => {
                       setacadminfee(false);
@@ -544,9 +581,32 @@ function Addfee({ data, setOpen }) {
                                   )}
                               </p>
                             </div>
-                            <div className={styles.fixInnearDivWidth10}>
-                              <p>&nbsp;</p>
-                              <p>&nbsp;</p>
+                            <div className={styles.fixInnearDivWidth}>
+                              <div className={styles.payfeeoption}>
+                                <div>
+                                  <input
+                                    type="radio"
+                                    value={"Cash"}
+                                    checked={PayOption === "Cash"}
+                                    name="same"
+                                    onChange={(e) =>
+                                      setPayOption(e.target.value)
+                                    }
+                                  />
+                                  <label>Cash</label>
+                                </div>
+                                <div>
+                                  <input
+                                    type="radio"
+                                    value={"Online"}
+                                    name="same"
+                                    onChange={(e) =>
+                                      setPayOption(e.target.value)
+                                    }
+                                  />
+                                  <label>Online</label>
+                                </div>
+                              </div>
                             </div>
                           </div>
                           <div className={styles.mainbtnndivcancel}>
@@ -737,9 +797,32 @@ function Addfee({ data, setOpen }) {
                                   )}
                               </p>
                             </div>
-                            <div className={styles.fixInnearDivWidth10}>
-                              <p>&nbsp;</p>
-                              <p>&nbsp;</p>
+                            <div className={styles.fixInnearDivWidth}>
+                              <div className={styles.payfeeoption}>
+                                <div>
+                                  <input
+                                    type="radio"
+                                    value={"Cash"}
+                                    name="same"
+                                    checked={PayOption === "Cash"}
+                                    onChange={(e) =>
+                                      setPayOption(e.target.value)
+                                    }
+                                  />
+                                  <label>Cash</label>
+                                </div>
+                                <div>
+                                  <input
+                                    type="radio"
+                                    value={"Online"}
+                                    name="same"
+                                    onChange={(e) =>
+                                      setPayOption(e.target.value)
+                                    }
+                                  />
+                                  <label>Online</label>
+                                </div>
+                              </div>
                             </div>
                           </div>
                           <div className={styles.mainbtnndivcancel}>
@@ -912,9 +995,32 @@ function Addfee({ data, setOpen }) {
                                   )}
                               </p>
                             </div>
-                            <div className={styles.fixInnearDivWidth10}>
-                              <p>&nbsp;</p>
-                              <p>&nbsp;</p>
+                            <div className={styles.fixInnearDivWidth}>
+                              <div className={styles.payfeeoption}>
+                                <div>
+                                  <input
+                                    type="radio"
+                                    value={"Cash"}
+                                    name="same"
+                                    checked={PayOption === "Cash"}
+                                    onChange={(e) =>
+                                      setPayOption(e.target.value)
+                                    }
+                                  />
+                                  <label>Cash</label>
+                                </div>
+                                <div>
+                                  <input
+                                    type="radio"
+                                    value={"Online"}
+                                    name="same"
+                                    onChange={(e) =>
+                                      setPayOption(e.target.value)
+                                    }
+                                  />
+                                  <label>Online</label>
+                                </div>
+                              </div>
                             </div>
                           </div>
                           <div className={styles.mainbtnndivcancel}>
@@ -1072,9 +1178,32 @@ function Addfee({ data, setOpen }) {
                                   )}
                               </p>
                             </div>
-                            <div className={styles.fixInnearDivWidth10}>
-                              <p>&nbsp;</p>
-                              <p>&nbsp;</p>
+                            <div className={styles.fixInnearDivWidth}>
+                              <div className={styles.payfeeoption}>
+                                <div>
+                                  <input
+                                    type="radio"
+                                    value={"Cash"}
+                                    checked={PayOption === "Cash"}
+                                    name="same"
+                                    onChange={(e) =>
+                                      setPayOption(e.target.value)
+                                    }
+                                  />
+                                  <label>Cash</label>
+                                </div>
+                                <div>
+                                  <input
+                                    type="radio"
+                                    value={"Online"}
+                                    name="same"
+                                    onChange={(e) =>
+                                      setPayOption(e.target.value)
+                                    }
+                                  />
+                                  <label>Online</label>
+                                </div>
+                              </div>
                             </div>
                           </div>
                           <div className={styles.mainbtnndivcancel}>
@@ -1109,82 +1238,103 @@ function Addfee({ data, setOpen }) {
               </>
             ) : (
               <>
-                <h1>Registration And Annual Fee</h1>
-
-                <div className={styles.regisFeepayDiv}>
-                  <div className={styles.regisFeepayDiv}>
-                    <div className={styles.regisFeepayDivinnear}>
-                      {data?.Registrationfeestatus === true ? (
-                        <>
-                          <input
-                            type="checkbox"
-                            value={"Registration"}
-                            disabled={true}
-                            checked={true}
-                            onChange={(e) => {
-                              if (e.target.checked) {
-                                setfeetype(e.target.value);
-                              } else {
-                                setfeetype("");
-                              }
-                            }}
-                          />
-                        </>
-                      ) : (
-                        <>
-                          <input
-                            type="checkbox"
-                            value={"Registration"}
-                            onChange={(e) => {
-                              if (e.target.checked) {
-                                setfeetype(e.target.value);
-                              } else {
-                                setfeetype("");
-                              }
-                            }}
-                          />
-                        </>
-                      )}
-
-                      <label>Registration Fee ({data?.regisgrationfee})</label>
-                    </div>
-                    <div className={styles.regisFeepayDivinnear}>
-                      {data?.AnnualFeeStatus === true ? (
-                        <>
-                          <input
-                            type="checkbox"
-                            value={"Annual"}
-                            disabled={true}
-                            checked={true}
-                            onChange={(e) => {
-                              if (e.target.checked) {
-                                setannualfee(e.target.value);
-                              } else {
-                                setannualfee("");
-                              }
-                            }}
-                          />
-                        </>
-                      ) : (
-                        <>
-                          <input
-                            type="checkbox"
-                            value={"Annual"}
-                            onChange={(e) => {
-                              if (e.target.checked) {
-                                setannualfee(e.target.value);
-                              } else {
-                                setannualfee("");
-                              }
-                            }}
-                          />
-                        </>
-                      )}
-
-                      <label>Annual Fee ({data?.AnnualFee})</label>
-                    </div>
+                <div className={styles.regisFeepayDiv10}>
+                  <div className={styles.payoption}>
+                    <input
+                      type="radio"
+                      value={"Cash"}
+                      name="same"
+                      checked={PayOption === "Cash"}
+                      onChange={(e) => setPayOption(e.target.value)}
+                    />
+                    <label>Cash</label>
+                  </div>
+                  <div className={styles.payoption}>
+                    <input
+                      type="radio"
+                      value={"Online"}
+                      name="same"
+                      onChange={(e) => setPayOption(e.target.value)}
+                    />
+                    <label>Online</label>
                   </div>
                 </div>
+
+                <h1>Registration And Annual Fee</h1>
+                {/* <div className={styles.regisFeepayDiv}> */}
+                <div className={styles.regisFeepayDiv}>
+                  <div className={styles.regisFeepayDivinnear}>
+                    {data?.Registrationfeestatus === true ? (
+                      <>
+                        <input
+                          type="checkbox"
+                          value={"Registration"}
+                          disabled={true}
+                          checked={true}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setfeetype(e.target.value);
+                            } else {
+                              setfeetype("");
+                            }
+                          }}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <input
+                          type="checkbox"
+                          value={"Registration"}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setfeetype(e.target.value);
+                            } else {
+                              setfeetype("");
+                            }
+                          }}
+                        />
+                      </>
+                    )}
+
+                    <label>Registration Fee ({data?.regisgrationfee})</label>
+                  </div>
+                  <div className={styles.regisFeepayDivinnear}>
+                    {data?.AnnualFeeStatus === true ? (
+                      <>
+                        <input
+                          type="checkbox"
+                          value={"Annual"}
+                          disabled={true}
+                          checked={true}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setannualfee(e.target.value);
+                            } else {
+                              setannualfee("");
+                            }
+                          }}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <input
+                          type="checkbox"
+                          value={"Annual"}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setannualfee(e.target.value);
+                            } else {
+                              setannualfee("");
+                            }
+                          }}
+                        />
+                      </>
+                    )}
+
+                    <label>Annual Fee ({data?.AnnualFee})</label>
+                  </div>
+                </div>
+                {/* </div> */}
                 <div className={styles.regisFeepayDiv}>
                   <p>
                     Payable Amount (
@@ -1198,7 +1348,6 @@ function Addfee({ data, setOpen }) {
                     )
                   </p>
                 </div>
-
                 <div className={styles.mainbtnndivcancel}>
                   <button
                     onClick={() => setOpen(false)}

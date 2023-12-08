@@ -544,6 +544,7 @@ function Collectfee() {
               <label>Show Father&apos s Name</label>
             </div>
           </div>
+          
           <div className={styles.add_divmarginn}>
             <div className={styles.tablecontainer}>
               <table className={styles.tabletable}>

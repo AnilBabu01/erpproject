@@ -57,45 +57,46 @@ export const GetAssetType =
   };
 
 // Get all books
-export const GetAsset = (courseorclass, BookId, auther) => async (dispatch) => {
-  try {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `${localStorage.getItem("erptoken")}`,
-      },
-    };
-    dispatch({ type: GET_ASSET_REQUEST });
-
-    if (courseorclass || BookId || auther) {
-      const { data } = await axios.get(
-        `${backendApiUrl}expenses/addasset?courseorclass=${courseorclass}&BookId=${BookId}&auther=${auther}`,
-        config
-      );
-
-      dispatch({
-        type: GET_ASSET_SUCCESS,
-        payload: data?.data,
-      });
-    } else {
+export const GetAsset =
+  (fromdate, todate, assettypename) => async (dispatch) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${localStorage.getItem("erptoken")}`,
+        },
+      };
       dispatch({ type: GET_ASSET_REQUEST });
-      const { data } = await axios.get(
-        `${backendApiUrl}expenses/addasset`,
-        config
-      );
 
+      if (fromdate || todate || assettypename) {
+        const { data } = await axios.get(
+          `${backendApiUrl}expenses/addasset?fromdate=${fromdate}&todate=${todate}&assettypename=${assettypename}`,
+          config
+        );
+
+        dispatch({
+          type: GET_ASSET_SUCCESS,
+          payload: data?.data,
+        });
+      } else {
+        dispatch({ type: GET_ASSET_REQUEST });
+        const { data } = await axios.get(
+          `${backendApiUrl}expenses/addasset`,
+          config
+        );
+
+        dispatch({
+          type: GET_ASSET_SUCCESS,
+          payload: data?.data,
+        });
+      }
+    } catch (error) {
       dispatch({
-        type: GET_ASSET_SUCCESS,
-        payload: data?.data,
+        type: CLEAR_ERRORS,
+        payload: error?.response?.data?.msg,
       });
     }
-  } catch (error) {
-    dispatch({
-      type: CLEAR_ERRORS,
-      payload: error?.response?.data?.msg,
-    });
-  }
-};
+  };
 
 // Get all books
 export const GetExpensesType =
@@ -141,7 +142,7 @@ export const GetExpensesType =
 
 // Get all books
 export const GetExpenses =
-  (courseorclass, BookId, auther) => async (dispatch) => {
+  (fromdate, todate, Expensestype) => async (dispatch) => {
     try {
       const config = {
         headers: {
@@ -151,9 +152,9 @@ export const GetExpenses =
       };
       dispatch({ type: GET_EXPENSES_REQUEST });
 
-      if (courseorclass || BookId || auther) {
+      if (fromdate || todate || Expensestype) {
         const { data } = await axios.get(
-          `${backendApiUrl}expenses/addexpenses?courseorclass=${courseorclass}&BookId=${BookId}&auther=${auther}`,
+          `${backendApiUrl}expenses/addexpenses?fromdate=${fromdate}&todate=${todate}&expensestype=${Expensestype}`,
           config
         );
 
