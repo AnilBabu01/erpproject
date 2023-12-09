@@ -16,6 +16,10 @@ import { getcourse } from "@/redux/actions/commanAction";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
+import exportFromJSON from "export-from-json";
+import { useReactToPrint } from "react-to-print";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 function Addbook() {
   const dispatch = useDispatch();
   const [courseorclass, setcourseorclass] = useState("");
@@ -108,7 +112,24 @@ function Addbook() {
     dispatch(GetBooks());
     dispatch(getcourse());
   }, []);
+  const ExportToExcel = (isData) => {
+    const fileName = "BookListReport";
+    const exportType = "xls";
+    var data = [];
 
+    isData.map((item) => {
+      data.push({
+        Class_Name: item?.courseorclass,
+        Book_Id: item?.BookId,
+        Book_Title: item?.BookTitle,
+        Auther_Name: item?.auther,
+        Add_Date: moment(item?.admissionDate).format("MM/DD/YYYY"),
+        Book_Quantity: item?.Realquantity,
+      });
+    });
+
+    exportFromJSON({ data, fileName, exportType });
+  };
   return (
     <>
       {open && (
@@ -234,7 +255,7 @@ function Addbook() {
               <button onClick={() => reset()}>Reset</button>
             </div>
             <div className={styles.imgdivformat}>
-              <img
+              {/* <img
                 className={styles.imgdivformatimg}
                 src="/images/Print.png"
                 alt="img"
@@ -243,8 +264,12 @@ function Addbook() {
                 className={styles.imgdivformatimg}
                 src="/images/ExportPdf.png"
                 alt="img"
+              /> */}
+              <img
+                onClick={() => ExportToExcel(isdata)}
+                src="/images/ExportExcel.png"
+                alt="img"
               />
-              <img src="/images/ExportExcel.png" alt="img" />
             </div>
           </div>
 

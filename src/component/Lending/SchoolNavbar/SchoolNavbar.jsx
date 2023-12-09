@@ -505,67 +505,94 @@ const SchoolNavbar = () => {
                 <div class="dropdown-inner">
                   <div className="main_report_dropdown">
                     <div className="main_report_dropdown_rightmargin">
-                      <h1>Attendance</h1>
+                      <h1>General</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/">Student Report</Link>
-                        <Link href="/">Student Monthly</Link>
-                        <Link href="/">Student Weekly</Link>
-                        <Link href="/">Student ID Card</Link>
-                        <Link href="/">Student Login Details</Link>
+                        <Link href="/school/report/StudentAllPaidFee">
+                          Student All Paid Fee Report
+                        </Link>
+                        <Link href="/school/report/StudentAllPendingFee">
+                          Student All Pending Fee Report
+                        </Link>
                       </div>
                     </div>
                     <div className="main_report_dropdown_rightmargin">
-                      <h1>Analytics</h1>
+                      <h1>Student</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/">Mobile App Report</Link>
-                        <Link href="/">Send SMS Report</Link>
-                        <Link href="/">Send Email Report</Link>
+                        <Link href="/school/report/StudentReport">
+                          Student Report
+                        </Link>
+                        <Link href="/school/report/StudentAttendanceReport">
+                          Student Attendance Report
+                        </Link>
+                        <Link href="/school/report/StudentTestReport">
+                          Student Test Report
+                        </Link>
                       </div>
                     </div>
                     <div className="main_report_dropdown_rightmargin">
-                      <h1>Teaching</h1>
+                      <h1>Account</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/">Teacher ID Card</Link>
-                        <Link href="/">Lecture Taken Report</Link>
-                        <Link href="/">Lecture Plan Report</Link>
+                        <Link href="/school/report/AcademyPaidFeeReport">
+                          Academy Paid Fee
+                        </Link>
+                        <Link href="/school/report/AcademyPendingFeeReport">
+                          Academy Pending Fee
+                        </Link>
+                      </div>
+                    </div>
+                    <div className="main_report_dropdown_rightmargin">
+                      <h1>Human Resource</h1>
+                      <div className="main_innear_menu_dropdown">
+                        <Link href="/school/report/EmployeeReport">
+                          Employee Report
+                        </Link>
+                        {/* <Link href="/">Employee Login Credentials Report</Link> */}
+                        <Link href="/school/report/EmployeeSalaryPaid">
+                          Employee Salary Paid Report
+                        </Link>
+                        <Link href="/school/report/EmployeeSalarySlip">
+                          Employee Salary Slip Report
+                        </Link>
+                        <Link href="/school/report/EmployeeAttendance">
+                          Employee Attendance Report
+                        </Link>
                       </div>
                     </div>
                     <div className="main_report_dropdown_rightmargin">
                       <h1>Library</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/">Library Report</Link>
-                        <Link href="/">Library Card</Link>
+                        <Link href="/school/report/BookReport">
+                          Book Report
+                        </Link>
+                        <Link href="/">Issue Book Report</Link>
+                        <Link href="/">Return Book Report</Link>
+                        <Link href="/">Libray Id Card Report</Link>
                       </div>
                     </div>
 
                     <div className="main_report_dropdown_rightmargin">
-                      <h1>Exam Section</h1>
+                      <h1>Hostel</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/">Student Performance Report</Link>
-                        <Link href="/">Student Subjectwise Report</Link>
-                        <Link href="/">Print Student Result </Link>
-                        <Link href="/">Text Taken Report</Link>
+                        <Link href="/">Room Details Report</Link>
+                        <Link href="/">Student In Room Report</Link>
+                        <Link href="/school/report/HostelPaidFee">
+                          Hostel Paid Fee
+                        </Link>
+                        <Link href="/school/report/HostelPendingFee">
+                          Hostel Pending Fee
+                        </Link>
                       </div>
                     </div>
                     <div className="main_report_dropdown_rightmargin">
-                      <h1>Accounts</h1>
+                      <h1>Transport</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/">Fees Collection Report</Link>
-                        <Link href="/">Fees Pending Report</Link>
-                        <Link href="/">Fees Collection Itemwise Report</Link>
-                        <Link href="/">Fees Pending Report Notification</Link>
-                        <Link href="/">Fees Pending Report Notification</Link>
-                        <Link href="/">Fees Pending Studentwise report</Link>
-                      </div>
-                    </div>
-                    <div className="main_report_dropdown_rightmargin">
-                      <h1>Human Reaourse</h1>
-                      <div className="main_innear_menu_dropdown">
-                        <Link href="/">Employee Leave Report</Link>
-                        <Link href="/">Employee Login Details</Link>
-                        <Link href="/">Employee Salary Slip</Link>
-                        <Link href="/">Employee Salary Report</Link>
-                        <Link href="/">Employee Attendance Report</Link>
+                        <Link href="/">Bus Report</Link>
+                        <Link href="/school/report/TransPortPaidFee">
+                          TransPort Paid Fee
+                        </Link>
+                        <Link href="/school/report/TransPortPendingFee">
+                          TransPort Pending Fee
+                        </Link>
                       </div>
                     </div>
                   </div>

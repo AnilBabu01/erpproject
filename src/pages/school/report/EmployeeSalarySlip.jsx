@@ -21,17 +21,16 @@ import AddEmp from "../../../component/Institute/employee/AddPayroll";
 import UpdateEmp from "../../../component/Institute/employee/UpdatePayRol";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
-import exportFromJSON from "export-from-json";
-import { useReactToPrint } from "react-to-print";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { useRouter } from "next/router";
+import exportFromJSON from "export-from-json";
 const studentStatus = [
   { label: "Active", value: "Active" },
   { label: "On Leave", value: "On Leave" },
   { label: "Left", value: "Left" },
 ];
-function Payroll() {
+function EmployeeSalarySlip() {
   const dispatch = useDispatch();
   const navigation = useRouter();
   const [fromdate, setfromdate] = useState("");
@@ -347,7 +346,7 @@ function Payroll() {
             <div className={styles.imgdivformat}>
               {/* <img
                 className={styles.imgdivformatimg}
-                src="/images/Print.png"-
+                src="/images/Print.png"
                 alt="img"
               />
               <img
@@ -363,9 +362,6 @@ function Payroll() {
             </div>
           </div>
 
-          <div className={styles.addtopmenubar}>
-            <button onClick={() => handleClickOpen()}>Add Payroll</button>
-          </div>
           <div className={styles.add_divmarginn}>
             <div className={styles.tablecontainer}>
               <table className={styles.tabletable}>
@@ -423,34 +419,6 @@ function Payroll() {
                                 userdata?.data?.User?.userType === "school"
                                   ? false
                                   : userdata?.data &&
-                                    userdata?.data?.User?.fronroficeDelete ===
-                                      true
-                                  ? false
-                                  : true
-                              }
-                            >
-                              <img
-                                className={
-                                  userdata?.data &&
-                                  userdata?.data?.User?.userType === "school"
-                                    ? styles.tabkedddimgactive
-                                    : userdata?.data &&
-                                      userdata?.data?.User?.fronroficeDelete ===
-                                        true
-                                    ? styles.tabkedddimgactive
-                                    : styles.tabkedddimgdisable
-                                }
-                                onClick={() => ClickOpenupdate(item?.id)}
-                                src="/images/Edit.png"
-                                alt="imgss"
-                              />
-                            </button>
-                            <button
-                              disabled={
-                                userdata?.data &&
-                                userdata?.data?.User?.userType === "school"
-                                  ? false
-                                  : userdata?.data &&
                                     userdata?.data?.User?.fronroficeEdit ===
                                       true
                                   ? false
@@ -489,4 +457,4 @@ function Payroll() {
   );
 }
 
-export default Payroll;
+export default EmployeeSalarySlip;

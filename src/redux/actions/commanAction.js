@@ -1216,7 +1216,8 @@ export const deleteEmployee = (deleteid, setOpenalert) => async (dispatch) => {
 
 // Get all Enquiry
 export const getEmployee =
-  (fromdate, todate, sstudent, status) => async (dispatch) => {
+  (fromdate, todate, sstudent, status, empId, empdeparment, empdesination) =>
+  async (dispatch) => {
     try {
       const config = {
         headers: {
@@ -1225,10 +1226,18 @@ export const getEmployee =
         },
       };
       dispatch({ type: ALL_EMPLOYEETYPE_REQUEST });
-      if (fromdate || todate || sstudent || status) {
+      if (
+        fromdate ||
+        todate ||
+        sstudent ||
+        status ||
+        empId ||
+        empdeparment ||
+        empdesination
+      ) {
         dispatch({ type: ALL_STUDENT_REQUEST });
         const { data } = await axios.get(
-          `${backendApiUrl}comman/allemployee?name=${sstudent}&fromdate=${fromdate}&todate=${todate}&status=${status}`,
+          `${backendApiUrl}comman/allemployee?name=${sstudent}&fromdate=${fromdate}&todate=${todate}&status=${status}&empId=${empId}&empdeparment=${empdeparment}&empdesination=${empdesination}`,
           config
         );
         dispatch({

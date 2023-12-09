@@ -8,15 +8,7 @@ import {
   getDesignation,
 } from "../../../redux/actions/commanAction";
 import styles from "../employee/employee.module.css";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
-import { Button } from "@mui/material";
-import AddEmp from "../../../component/Institute/employee/AddEmp";
-import UpdateEmp from "../../../component/Institute/employee/UpdateEmp";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
 import exportFromJSON from "export-from-json";
@@ -28,7 +20,7 @@ const studentStatus = [
   { label: "On Leave", value: "On Leave" },
   { label: "Left", value: "Left" },
 ];
-function Staff() {
+function EmployeeReport() {
   const componentRef = useRef(null);
   const dispatch = useDispatch();
   const [scoursename, setscoursename] = useState("");
@@ -61,32 +53,6 @@ function Staff() {
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="top" ref={ref} {...props} />;
   });
-
-  const handleCloseregister = () => {
-    setOpen(false);
-  };
-
-  const ClickOpenupdate = (data) => {
-    setOpenupdate(true);
-    setupdatedata(data);
-  };
-
-  const handleCloseupadte = () => {
-    setOpenupdate(false);
-  };
-
-  const ClickOpendelete = (id) => {
-    setOpenalert(true);
-    setdeleteid(id);
-  };
-
-  const handleClosedelete = () => {
-    setOpenalert(false);
-  };
-
-  const handledelete = () => {
-    dispatch(deleteEmployee(deleteid, setOpenalert));
-  };
 
   useEffect(() => {
     if (employees) {
@@ -160,72 +126,6 @@ function Staff() {
   };
   return (
     <>
-      {open && (
-        <div>
-          <Dialog
-            open={open}
-            TransitionComponent={Transition}
-            onClose={handleCloseregister}
-            aria-describedby="alert-dialog-slide-description"
-            sx={{
-              "& .MuiDialog-container": {
-                "& .MuiPaper-root": {
-                  width: "100%",
-                  maxWidth: "70rem",
-                },
-              },
-            }}
-          >
-            <AddEmp setOpen={setOpen} />
-          </Dialog>
-        </div>
-      )}
-      {openupdate && (
-        <div>
-          <Dialog
-            open={openupdate}
-            TransitionComponent={Transition}
-            onClose={handleCloseupadte}
-            aria-describedby="alert-dialog-slide-description"
-            sx={{
-              "& .MuiDialog-container": {
-                "& .MuiPaper-root": {
-                  width: "100%",
-                  maxWidth: "70rem",
-                },
-              },
-            }}
-          >
-            <UpdateEmp setOpen={setOpenupdate} updatedata={updatedata} />
-          </Dialog>
-        </div>
-      )}
-
-      {openalert && (
-        <>
-          <Dialog
-            open={openalert}
-            onClose={handleClosedelete}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">
-              {"Do you want to delete"}
-            </DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                After delete you cannot get again
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClosedelete}>Disagree</Button>
-              <Button onClick={handledelete} autoFocus>
-                Agree
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </>
-      )}
       <div className="mainContainer">
         <div>
           <div className={styles.topmenubar}>
@@ -375,7 +275,7 @@ function Staff() {
                 alt="img"
               />
               {/* <img
-              onClick={()=>ExportToExcel()}
+       
                 className={styles.imgdivformatimg}
                 src="/images/ExportPdf.png"
                 alt="img"
@@ -388,9 +288,6 @@ function Staff() {
             </div>
           </div>
 
-          <div className={styles.addtopmenubar}>
-            <button onClick={() => handleClickOpen()}>Add Employee</button>
-          </div>
           <div className={styles.add_divmarginn}>
             <div className={styles.tablecontainer}>
               <table className={styles.tabletable} ref={componentRef}>
@@ -407,7 +304,7 @@ function Staff() {
                     <th className={styles.tableth}>Joining_Date</th>
                     <th className={styles.tableth}>Resign_Date</th>
                     <th className={styles.tableth}>Status</th>
-                    <th className={styles.tableth}>Action</th>
+                    {/* <th className={styles.tableth}>Action</th> */}
                   </tr>
                   {isdata?.map((item, index) => {
                     return (
@@ -429,7 +326,7 @@ function Staff() {
                             : "----------"}
                         </td>
                         <td className={styles.tabletd}>{item?.status}</td>
-                        <td className={styles.tabkeddd}>
+                        {/* <td className={styles.tabkeddd}>
                           <img
                             onClick={() => ClickOpendelete(item?.id)}
                             src="/images/Delete.png"
@@ -440,7 +337,7 @@ function Staff() {
                             src="/images/Edit.png"
                             alt="imgss"
                           />
-                        </td>
+                        </td> */}
                       </tr>
                     );
                   })}
@@ -456,4 +353,4 @@ function Staff() {
   );
 }
 
-export default Staff;
+export default EmployeeReport;
