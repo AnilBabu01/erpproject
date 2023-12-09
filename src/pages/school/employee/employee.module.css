@@ -363,12 +363,40 @@
   border: 1px solid #093959;
   padding: 0.5rem;
   height: 33rem;
+  
 }
 .innearexpensesdiv10 {
   width: 50%;
   border: 1px solid #093959;
   padding: 0.5rem;
   height: 33rem;
+
+}
+.onlytablescroll{
+  width: 100%;
+  border: 1px solid #093959;
+  padding: 0.5rem;
+  height: 22rem;
+  overflow-x: auto;
+}
+.mainfivrupee{
+  display: flex;
+  justify-content: space-between;
+}
+.mainfivrupeep{
+  font-weight: 700;
+}
+/* .mainfivrupee10{
+  display: flex;
+  justify-content: space-between;
+} */
+.mainfivrupee10p{
+  font-weight: 700;
+}
+.mainrecoveryp{
+  background-color: #093959;
+  color: white;
+  padding: 1%;
 }
 @media (max-width: 730px) {
   .expensesDiv {

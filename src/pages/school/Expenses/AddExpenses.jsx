@@ -10,6 +10,7 @@ import {
   GetExpenses,
   GetExpensesType,
 } from "../../../redux/actions/expensesActions";
+import { GetSession } from "../../../redux/actions/commanAction";
 import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -28,6 +29,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 function AddExpenses() {
   const dispatch = useDispatch();
+  const [PayOption, setPayOption] = useState("");
   const [fromdate, setfromdate] = useState("");
   const [todate, settodate] = useState("");
   const [open, setOpen] = useState(false);
@@ -40,7 +42,10 @@ function AddExpenses() {
   const [userdata, setuserdata] = useState("");
   const [Expensestype, setExpensestype] = useState("");
   const [expenseslist, setexpenseslist] = useState([]);
+  const [sessionList, setsessionList] = useState([]);
+  const [sessionname, setsessionname] = useState("");
   const { user } = useSelector((state) => state.auth);
+  const { Sessions } = useSelector((state) => state.GetSession);
   const { expenses, loading } = useSelector((state) => state.GetExpenses);
   const { expensestype } = useSelector((state) => state.GetExpensesType);
   const handleClickOpen = () => {
@@ -93,13 +98,18 @@ function AddExpenses() {
     });
   };
   const filter = () => {
-    dispatch(GetExpenses(fromdate, todate, Expensestype));
+    dispatch(GetExpenses(fromdate, todate, Expensestype,PayOption,sessionname));
   };
 
   const reset = () => {
+    setPayOption('')
     setfromdate("");
     settodate("");
     setExpensestype("");
+    let date = new Date();
+    let fullyear = date.getFullYear();
+    let lastyear = date.getFullYear() - 1;
+    setsessionname(`${lastyear}-${fullyear}`);
     dispatch(GetExpenses());
   };
   useEffect(() => {
@@ -112,7 +122,10 @@ function AddExpenses() {
     if (expensestype) {
       setexpenseslist(expensestype);
     }
-  }, [expenses, user, expensestype]);
+    if (Sessions) {
+      setsessionList(Sessions);
+    }
+  }, [expenses, user, expensestype, Sessions]);
   useEffect(() => {
     dispatch(getcategory());
     dispatch(GetRoute());
@@ -120,6 +133,13 @@ function AddExpenses() {
     dispatch(GetVehiclelist());
     dispatch(GetExpenses());
     dispatch(GetExpensesType());
+    dispatch(GetSession());
+  }, []);
+  useEffect(() => {
+    let date = new Date();
+    let fullyear = date.getFullYear();
+    let lastyear = date.getFullYear() - 1;
+    setsessionname(`${lastyear}-${fullyear}`);
   }, []);
 
   return (
@@ -195,6 +215,45 @@ function AddExpenses() {
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
               <div className={styles.searchoptiondiv}>
+                <select
+                  className={styles.opensearchinput}
+                  sx={{
+                    width: "18.8rem",
+                    fontSize: 14,
+                    "& .MuiSelect-select": {
+                      paddingTop: "0.6rem",
+                      paddingBottom: "0.6em",
+                    },
+                  }}
+                  value={sessionname}
+                  name="sessionname"
+                  onChange={(e) => setsessionname(e.target.value)}
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={""}
+                  >
+                    Select Session
+                  </option>
+
+                  {sessionList?.length > 0 &&
+                    sessionList?.map((item, index) => {
+                      return (
+                        <option
+                          key={index}
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={item?.Session}
+                        >
+                          {item?.Session}
+                        </option>
+                      );
+                    })}
+                </select>
                 <label>From Date</label>
                 <input
                   className={styles.opensearchinput}
@@ -222,22 +281,23 @@ function AddExpenses() {
                   onChange={(e) => setExpensestype(e.target.value)}
                   displayEmpty
                 >
-                  <option
-                    sx={{
-                      fontSize: 14,
-                    }}
-                    value={""}
-                  >
-                    Please Select
-                  </option>
-                  {expenseslist?.length > 0 &&
-                    expenseslist?.map((item, index) => {
-                      return (
-                        <option key={index} value={item?.Expensestype}>
-                          {item?.Expensestype}
-                        </option>
-                      );
-                    })}
+                  <option value={""}>All</option>
+                  <option value={"Expenses"}>Expenses</option>
+                  <option value={"Asset"}>Asset</option>
+                  <option value={"Liability"}>Liability</option>
+                </select>
+                <label>PayMent Mode</label>
+                <select
+                  required
+                  className={styles.opensearchinput}
+                  value={PayOption}
+                  name="PayOption"
+                  onChange={(e) => setPayOption(e.target.value)}
+                  displayEmpty
+                >
+                  <option value={""}>All</option>
+                  <option value={"Cash"}>Cash</option>
+                  <option value={"Online"}>Online</option>
                 </select>
 
                 <button onClick={() => filter()}>Search</button>
@@ -287,9 +347,12 @@ function AddExpenses() {
                 <tbody>
                   <tr className={styles.tabletr}>
                     <th className={styles.tableth}>Sr.No</th>
+                    <th className={styles.tableth}>Sesssion</th>
                     <th className={styles.tableth}>Date</th>
-                    <th className={styles.tableth}>Expenses Type</th>
-                    <th className={styles.tableth}>Expenses Amount</th>
+                    <th className={styles.tableth}>Payment_Out_Type</th>
+                    <th className={styles.tableth}>Amount</th>
+
+                    <th className={styles.tableth}>Payment_Mode</th>
                     <th className={styles.tableth}>Comment</th>
                     <th className={styles.tableth}>Action</th>
                   </tr>
@@ -298,6 +361,7 @@ function AddExpenses() {
                       return (
                         <tr key={index} className={styles.tabletr}>
                           <td className={styles.tabletd}>{index + 1}</td>
+                          <td className={styles.tabletd}>{item?.Session}</td>
                           <td className={styles.tabletd}>
                             {moment(item?.Date).format("DD/MM/YYYY")}
                           </td>
@@ -307,6 +371,7 @@ function AddExpenses() {
                           <td className={styles.tabletd}>
                             {item?.ExpensesAmount}
                           </td>
+                          <td className={styles.tabletd}>{item?.PayOption}</td>
                           <td className={styles.tabletd}>{item?.Comment}</td>
 
                           <td className={styles.tabkeddd}>

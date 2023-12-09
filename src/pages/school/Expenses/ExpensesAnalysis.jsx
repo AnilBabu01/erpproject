@@ -6,6 +6,8 @@ import styles from "../../school/employee/employee.module.css";
 import Slide from "@mui/material/Slide";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
+import { serverInstance } from "../../../API/ServerInstance";
+import { toast } from "react-toastify";
 const monthlist = [
   {
     id: 1,
@@ -61,27 +63,16 @@ function ExpensesAnalysis() {
   const dispatch = useDispatch();
   let currmonth = new Date().getMonth();
   const [month, setmonth] = useState(currmonth + 1);
-  const [scoursename, setscoursename] = useState("");
-  const [sfathers, setsfathers] = useState("");
-  const [sstudent, setsstudent] = useState("");
-  const [sbatch, setsbatch] = useState("");
-  const [fromdate, setfromdate] = useState("");
-  const [todate, settodate] = useState("");
   const [isdata, setisData] = useState([]);
-  const [status, setstatus] = useState("");
-  const [rollnumber, setrollnumber] = useState("");
-  const [categoryname, setcategoryname] = useState("");
   const [sessionList, setsessionList] = useState([]);
   const [sessionname, setsessionname] = useState("");
   const [sectionname, setsectionname] = useState("NONE");
   const [userdata, setuserdata] = useState("");
+  const [allExpensesList, setallExpensesList] = useState([]);
+  const [allRecoveryList, setallRecoveryList] = useState([]);
   const { user } = useSelector((state) => state.auth);
   const { loading, student } = useSelector((state) => state.getstudent);
   const { Sessions } = useSelector((state) => state.GetSession);
-
-  const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="top" ref={ref} {...props} />;
-  });
 
   useEffect(() => {
     if (student) {
@@ -96,51 +87,59 @@ function ExpensesAnalysis() {
       setsessionList(Sessions);
     }
   }, [student, user, Sessions]);
+  const filterdata = () => {
+    serverInstance("expenses/getexpensesanalysis", "post", {
+      sessionname: sessionname,
+      month: month,
+    }).then((res) => {
+      if (res?.status === true) {
+        toast.success(res?.msg, {
+          autoClose: 1000,
+        });
+        console.log("Analasis data is ", res?.data[0]);
+        setallExpensesList(res?.data[0]?.allexpenses);
+        setallRecoveryList(res?.data[0]?.allreceiptdata);
+      }
+
+      if (res?.status === false) {
+        toast.error(res?.msg, {
+          autoClose: 1000,
+        });
+      }
+    });
+  };
   useEffect(() => {
     dispatch(getstudent());
+    filterdata();
   }, []);
   useEffect(() => {
     dispatch(loadUser());
-
     dispatch(getstudent());
     dispatch(GetSession());
   }, []);
 
-  const filterdata = (e) => {
-    e.preventDefault();
-    dispatch(
-      getstudent(
-        fromdate,
-        todate,
-        scoursename,
-        sbatch,
-        sstudent,
-        sfathers,
-        rollnumber,
-        status,
-        categoryname,
-        "",
-        sessionname,
-        sectionname,
-        ""
-      )
-    );
-  };
-
   const reset = () => {
-    setsstudent("");
-    setsfathers("");
-    setfromdate("");
-    settodate("");
-    setscoursename("");
-    setsbatch("");
-    setcategoryname("");
     let date = new Date();
     let fullyear = date.getFullYear();
     let lastyear = date.getFullYear() - 1;
     setsessionname(`${lastyear}-${fullyear}`);
     setsectionname("");
-    dispatch(getstudent());
+    serverInstance("expenses/getexpensesanalysis", "post", {
+      sessionname: sessionname,
+      month: month,
+    }).then((res) => {
+      if (res?.status === true) {
+        toast.success(res?.msg, {
+          autoClose: 1000,
+        });
+        console.log("Analasis data is ", res);
+      }
+      if (res?.status === false) {
+        toast.error(res?.msg, {
+          autoClose: 1000,
+        });
+      }
+    });
   };
 
   useEffect(() => {
@@ -149,6 +148,46 @@ function ExpensesAnalysis() {
     let lastyear = date.getFullYear() - 1;
     setsessionname(`${lastyear}-${fullyear}`);
   }, []);
+
+  const totalcashexpenses = (data) => {
+    let total = 0;
+    data?.map((item) => {
+      if (item?.PayOption === "Cash") {
+        total = total + Number(item?.ExpensesAmount);
+      }
+    });
+    return total;
+  };
+
+  const totalonlineexpenses = (data) => {
+    let total = 0;
+    data?.map((item) => {
+      if (item?.PayOption === "Online") {
+        total = total + Number(item?.ExpensesAmount);
+      }
+    });
+    return total;
+  };
+
+  const totalcashrecovery = (data) => {
+    let total = 0;
+    data?.map((item) => {
+      if (item?.PayOption === "Cash") {
+        total = total + Number(item?.total_paidamount);
+      }
+    });
+    return total;
+  };
+
+  const totalonlineexrecovery = (data) => {
+    let total = 0;
+    data?.map((item) => {
+      if (item?.PayOption === "Online") {
+        total = total + Number(item?.total_paidamount);
+      }
+    });
+    return total;
+  };
 
   return (
     <>
@@ -156,7 +195,7 @@ function ExpensesAnalysis() {
         <div>
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
-              <form onSubmit={filterdata} className={styles.searchoptiondiv}>
+              <div className={styles.searchoptiondiv}>
                 <select
                   className={styles.opensearchinput}
                   sx={{
@@ -236,8 +275,8 @@ function ExpensesAnalysis() {
                     );
                   })}
                 </select>
-                <button>Search</button>
-              </form>
+                <button onClick={() => filterdata()}>Search</button>
+              </div>
               <button onClick={() => reset()}>Reset</button>
             </div>
             <div className={styles.imgdivformat}>
@@ -259,68 +298,160 @@ function ExpensesAnalysis() {
             <div className={styles.tablecontainer}>
               <div className={styles.expensesDiv}>
                 <div className={styles.innearexpensesdiv}>
-                  <p>Expenses</p>
+                  <div className={styles.mainrecoveryp}>
+                    <p>Expenses</p>
+                  </div>
 
-                  <table className={styles.tabletable}>
-                    <tbody>
-                      <tr className={styles.tabletr}>
-                        <th className={styles.tableth}>Sr.No</th>
-                        <th className={styles.tableth}>Date</th>
-                        <th className={styles.tableth}>Expenses_Type</th>
-                        <th className={styles.tableth}>Expenses_Amount</th>
-                        <th className={styles.tableth}>Comment</th>
-                        {/* <th className={styles.tableth}>Student_Name</th>
-                        <th className={styles.tableth}>Student_Email</th> */}
-                      </tr>
-                      {isdata?.map((item, index) => {
-                        return (
-                          <tr key={index} className={styles.tabletr}>
-                            <td className={styles.tabletd}>{index + 1}</td>
-                            <td className={styles.tabletd}>06/02/2023</td>
-                            <td className={styles.tabletd}>Salary Paid</td>
-                            <td className={styles.tabletd}>80000</td>
-                            <td className={styles.tabletd}>
-                              Paid Salary To Derivers
-                            </td>
-                            {/* <td className={styles.tabletd}>{item?.name}</td>
-                            <td className={styles.tabletd}>{item?.email}</td> */}
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                  <div className={styles.onlytablescroll}>
+                    <table className={styles.tabletable}>
+                      <tbody>
+                        <tr className={styles.tabletr}>
+                          <th className={styles.tableth}>Sr.No</th>
+                          {/* <th className={styles.tableth}>Date</th> */}
+                          <th className={styles.tableth}>Payment_Out_Type</th>
+                          <th className={styles.tableth}>Amount</th>
+                          {/* <th className={styles.tableth}>Comment</th> */}
+                          <th className={styles.tableth}>Payment_Mode</th>
+                        </tr>
+                        {allExpensesList?.length > 0 &&
+                          allExpensesList?.map((item, index) => {
+                            return (
+                              <tr key={index} className={styles.tabletr}>
+                                <td className={styles.tabletd}>{index + 1}</td>
+                                {/* <td className={styles.tabletd}>06/02/2023</td> */}
+                                <td className={styles.tabletd}>
+                                  {item?.Expensestype}
+                                </td>
+                                <td className={styles.tabletd}>
+                                  {item?.ExpensesAmount}
+                                </td>
+                                {/* <td className={styles.tabletd}>
+                                  {item?.Comment}
+                                </td> */}
+
+                                <td className={styles.tabletd}>
+                                  {item?.PayOption}
+                                </td>
+                              </tr>
+                            );
+                          })}
+                      </tbody>
+                    </table>
+                  </div>
+                  <div className={styles.mainfivrupee}>
+                    <p>
+                      Total Cash Payment Out Type = &nbsp;
+                      <span className={styles.mainfivrupee10p}>
+                        {totalcashexpenses(allExpensesList)}
+                      </span>
+                    </p>
+                    <p>
+                      Total Online Payment Out Type = &nbsp;
+                      <span className={styles.mainfivrupee10p}>
+                        {totalonlineexpenses(allExpensesList)}
+                      </span>
+                    </p>
+                  </div>
                 </div>
                 <div className={styles.innearexpensesdiv10}>
-                  <p>Recovery</p>
+                  <div className={styles.mainrecoveryp}>
+                    <p>Recovery</p>
+                  </div>
 
-                  <table className={styles.tabletable}>
-                    <tbody>
-                      <tr className={styles.tabletr}>
-                        <th className={styles.tableth}>Sr.No</th>
-                        <th className={styles.tableth}>Class</th>
-                        <th className={styles.tableth}>Paid_Amount</th>
-                        <th className={styles.tableth}>Pending_Amount</th>
-                      </tr>
-                      {isdata?.map((item, index) => {
-                        return (
-                          <tr key={index} className={styles.tabletr}>
-                            <td className={styles.tabletd}>{index + 1}</td>
-                            <td className={styles.tabletd}>{item?.Session}</td>
-                            <td className={styles.tabletd}>{item?.SrNumber}</td>
-                            <td className={styles.tabletd}>
-                              {item?.rollnumber}
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                  <div className={styles.onlytablescroll}>
+                    <table className={styles.tabletable}>
+                      <tbody>
+                        <tr className={styles.tabletr}>
+                          <th className={styles.tableth}>Sr.No</th>
+                          <th className={styles.tableth}>Class</th>
+                          <th className={styles.tableth}>Paid_Amount</th>
+                          {/* <th className={styles.tableth}>Pending_Amount</th> */}
+                          <th className={styles.tableth}>Payment_Mode</th>
+                        </tr>
+                        {allRecoveryList?.length > 0 &&
+                          allRecoveryList?.map((item, index) => {
+                            return (
+                              <tr key={index} className={styles.tabletr}>
+                                <td className={styles.tabletd}>{index + 1}</td>
+                                <td className={styles.tabletd}>
+                                  {item?.Course}
+                                </td>
+                                <td className={styles.tabletd}>
+                                  {item?.total_paidamount}
+                                </td>
+                                {/* <td className={styles.tabletd}>
+                                {item?.rollnumber}
+                              </td> */}
+                                <td className={styles.tabletd}>
+                                  {item?.PayOption}
+                                </td>
+                              </tr>
+                            );
+                          })}
+                      </tbody>
+                    </table>
+                  </div>
+                  <div className={styles.mainfivrupee}>
+                    <p>
+                      Total Cash Recovery = &nbsp;
+                      <span className={styles.mainfivrupee10p}>
+                        {totalcashrecovery(allRecoveryList)}
+                      </span>
+                    </p>
+                    <p>
+                      Total Online Recovery = &nbsp;
+                      <span className={styles.mainfivrupee10p}>
+                        {totalonlineexrecovery(allRecoveryList)}
+                      </span>
+                    </p>
+                  </div>
+
+                  <p>
+                    Total Cash Recovery = &nbsp;
+                    <span className={styles.mainfivrupee10p}>
+                      ({totalcashrecovery(allRecoveryList)})
+                    </span>
+                    &nbsp; - Cash Payment Out Type = &nbsp;
+                    <span className={styles.mainfivrupee10p}>
+                      ({totalcashexpenses(allExpensesList)})
+                    </span>
+                    &nbsp; = &nbsp;
+                    <span className={styles.mainfivrupee10p}>
+                      {Number(totalcashrecovery(allRecoveryList)) -
+                        Number(totalcashexpenses(allExpensesList))}
+                    </span>
+                  </p>
+                  <p>
+                    Total Online Recovery = &nbsp;
+                    <span className={styles.mainfivrupee10p}>
+                      ({totalonlineexrecovery(allRecoveryList)})
+                    </span>
+                    &nbsp; - Cash Payment Out Type&nbsp;
+                    <span className={styles.mainfivrupee10p}>
+                      ( {totalonlineexpenses(allExpensesList)})
+                    </span>
+                    &nbsp; = &nbsp;
+                    <span className={styles.mainfivrupee10p}>
+                      {Number(totalonlineexrecovery(allRecoveryList)) -
+                        Number(totalonlineexpenses(allExpensesList))}
+                    </span>
+                  </p>
+                  <p>
+                    Total Profit = &nbsp;
+                    <span className={styles.mainfivrupee10p}>
+                      {Number(totalonlineexrecovery(allRecoveryList)) -
+                        Number(totalonlineexpenses(allExpensesList)) +
+                        Number(totalcashrecovery(allRecoveryList)) -
+                        Number(totalcashexpenses(allExpensesList))}{" "}
+                    </span>
+                  </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
       {loading && <LoadingSpinner />}
     </>
   );

@@ -9,17 +9,16 @@ import MenuItem from "@mui/material/MenuItem";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
 function AddExpenses({ setOpen }) {
-
   const dispatch = useDispatch();
   var today = new Date();
   var date = today.toISOString().substring(0, 10);
+  const [PayOption, setPayOption] = useState("Cash");
   const [addDate, setaddDate] = useState(date);
-  const [Expensestype, setExpensestype] = useState("");
+  const [Expensestype, setExpensestype] = useState("Expenses");
   const [expenseslist, setexpenseslist] = useState([]);
   const [ExpensesAmount, setExpensesAmount] = useState("");
   const [Comment, setComment] = useState("");
   const [loading, setloading] = useState(false);
-
 
   const { expensestype } = useSelector((state) => state.GetExpensesType);
 
@@ -31,6 +30,7 @@ function AddExpenses({ setOpen }) {
       Expensestype: Expensestype,
       ExpensesAmount: ExpensesAmount,
       Comment: Comment,
+      PayOption:PayOption
     }).then((res) => {
       if (res?.status === true) {
         toast.success(res?.msg, {
@@ -64,19 +64,50 @@ function AddExpenses({ setOpen }) {
           <CloseIcon />
         </div>
         <h1>Add Expenses</h1>
+
         <form onSubmit={submit}>
-          <div className={styles.inputdiv}>
-            <label>Date</label>
-            <input
-              type="date"
-              value={addDate}
-              name="addDate"
-              onChange={(e) => setaddDate(e.target.value)}
-            />
-          </div>
           <div className={styles.divmaininput}>
             <div className={styles.inputdiv}>
-              <label>Expenses Type</label>
+              <label>Date</label>
+              <input
+                type="date"
+                value={addDate}
+                name="addDate"
+                onChange={(e) => setaddDate(e.target.value)}
+              />
+            </div>
+            <div className={styles.mainpayselect}>
+              <div className={styles.stylecash}>
+                <input
+                  className={styles.paytypeselect}
+                  type="radio"
+                  value={"Cash"}
+                  checked={PayOption === "Cash"}
+                  name="same"
+                  onChange={(e) => setPayOption(e.target.value)}
+                />
+                <label>Cash</label>
+              </div>
+              <div className={styles.stylecash}>
+                <input
+                  className={styles.paytypeselect}
+                  type="radio"
+                  value={"Online"}
+                  name="same"
+                  onChange={(e) => setPayOption(e.target.value)}
+                />
+                <label>Online</label>
+              </div>
+            </div>
+            <div className={styles.inputdiv}>
+              <label>&nbsp;</label>
+              <label>&nbsp;</label>
+            </div>
+          </div>
+
+          <div className={styles.divmaininput}>
+            <div className={styles.inputdiv}>
+              <label>Payment_Out_Type</label>
               <Select
                 required
                 className={styles.addwidth}
@@ -97,24 +128,27 @@ function AddExpenses({ setOpen }) {
                   sx={{
                     fontSize: 14,
                   }}
-                  value={""}
+                  value={"Expenses"}
                 >
-                  Please Select
+                  Expenses
                 </MenuItem>
-                {expenseslist?.length > 0 &&
-                  expenseslist?.map((item, index) => {
-                    return (
-                      <MenuItem
-                        key={index}
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={item?.Expensestype}
-                      >
-                        {item?.Expensestype}
-                      </MenuItem>
-                    );
-                  })}
+                <MenuItem
+                  sx={{
+                    fontSize: 14,
+                  }}
+                  value={"Asset"}
+                >
+                  Asset
+                </MenuItem>
+
+                <MenuItem
+                  sx={{
+                    fontSize: 14,
+                  }}
+                  value={"Liability"}
+                >
+                  Liability
+                </MenuItem>
               </Select>
             </div>
             <div className={styles.inputdiv}>

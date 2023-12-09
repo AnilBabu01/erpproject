@@ -21,7 +21,7 @@ const compareExpensesFeeMonths = (a, b) => {
 
   return monthsOrder.indexOf(a) - monthsOrder.indexOf(b);
 };
-const Linechart = ({ value, pdata }) => {
+const LinechartPaidFee = ({ value, pdata }) => {
   const data = {
     labels: labels,
     datasets: [
@@ -32,7 +32,7 @@ const Linechart = ({ value, pdata }) => {
         data: allMonths?.sort(compareExpensesFeeMonths)?.map((monthNumber) => {
           // Find the data for the current month
           const dataForMonth = pdata.find(
-            (data) => data.MonthNO === monthNumber
+            (data) => data.monthno === monthNumber
           );
 
           // Display the data if it exists, otherwise display 0
@@ -49,4 +49,4 @@ const Linechart = ({ value, pdata }) => {
   );
 };
 
-export default Linechart;
+export default LinechartPaidFee;

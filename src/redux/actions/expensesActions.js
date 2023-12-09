@@ -142,7 +142,8 @@ export const GetExpensesType =
 
 // Get all books
 export const GetExpenses =
-  (fromdate, todate, Expensestype) => async (dispatch) => {
+  (fromdate, todate, Expensestype, PayOption, sessionname) =>
+  async (dispatch) => {
     try {
       const config = {
         headers: {
@@ -152,9 +153,9 @@ export const GetExpenses =
       };
       dispatch({ type: GET_EXPENSES_REQUEST });
 
-      if (fromdate || todate || Expensestype) {
+      if (fromdate || todate || Expensestype || PayOption || sessionname) {
         const { data } = await axios.get(
-          `${backendApiUrl}expenses/addexpenses?fromdate=${fromdate}&todate=${todate}&expensestype=${Expensestype}`,
+          `${backendApiUrl}expenses/addexpenses?fromdate=${fromdate}&todate=${todate}&expensestype=${Expensestype}&PayOption=${PayOption}&sessionname=${sessionname}`,
           config
         );
 
@@ -163,9 +164,13 @@ export const GetExpenses =
           payload: data?.data,
         });
       } else {
+        let date = new Date();
+        let fullyear = date.getFullYear();
+        let lastyear = date.getFullYear() - 1;
+        let sessionss = `${lastyear}-${fullyear}`;
         dispatch({ type: GET_EXPENSES_REQUEST });
         const { data } = await axios.get(
-          `${backendApiUrl}expenses/addexpenses`,
+          `${backendApiUrl}expenses/addexpenses?sessionname=${sessionss}`,
           config
         );
 
