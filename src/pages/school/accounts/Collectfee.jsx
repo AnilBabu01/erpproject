@@ -212,6 +212,7 @@ function Collectfee() {
   useEffect(() => {
     dispatch(getstudent());
   }, []);
+  
   useEffect(() => {
     dispatch(loadUser());
     dispatch(getbatch());
@@ -552,11 +553,11 @@ function Collectfee() {
                   <tr className={styles.tabletr}>
                     <th className={styles.tableth}>Session</th>
                     <th className={styles.tableth}>SNO</th>
-                    <th className={styles.tableth}>Roll No</th>
+                    <th className={styles.tableth}>Roll_No</th>
                     <th className={styles.tableth}>Student_Name</th>
                     {showfathers && (
                       <>
-                        <th className={styles.tableth}>Father&apos s Name</th>
+                        <th className={styles.tableth}>Fathers_Name</th>
                       </>
                     )}
                     <th className={styles.tableth}>Adminssion_Date</th>
@@ -566,7 +567,7 @@ function Collectfee() {
                     <th className={styles.tableth}>Academy_Fee</th>
                     <th className={styles.tableth}>Paid_Fee</th>
                     <th className={styles.tableth}>Hostel_Fee</th>
-                    <th className={styles.tableth}>Paid Fee</th>
+                    <th className={styles.tableth}>Paid_Fee</th>
                     <th className={styles.tableth}>Transport_Fee</th>
                     <th className={styles.tableth}>Paid_Fee</th>
                     {newmonthnames &&

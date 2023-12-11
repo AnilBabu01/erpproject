@@ -3,12 +3,12 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
-import {
-  Updateenquiry,
-  getenquiries,
-} from "../../../redux/actions/coachingAction";
+import { getenquiries } from "../../../redux/actions/coachingAction";
+import { getcourse } from "../../../redux/actions/commanAction";
 import { useDispatch, useSelector } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
+import { serverInstance } from "../../../API/ServerInstance";
+import { toast } from "react-toastify";
 function UpdateEnquiry({ updatedata, setOpen }) {
   const dispatch = useDispatch();
   const [isdata, setisData] = useState([]);
@@ -20,7 +20,7 @@ function UpdateEnquiry({ updatedata, setOpen }) {
   const [courses, setcourses] = useState("");
   const [comment, setcomment] = useState("");
   const { course } = useSelector((state) => state.getcourse);
-  const { enquiry, loading } = useSelector((state) => state.updatenequiry);
+  const [loading, setloading] = useState(false);
   const submit = (e) => {
     e.preventDefault();
     const data = {
@@ -33,9 +33,27 @@ function UpdateEnquiry({ updatedata, setOpen }) {
       Course: courses,
       Comment: comment,
     };
-    dispatch(Updateenquiry(data, setOpen));
+    serverInstance("coaching/enquiry", "put", data).then((res) => {
+      if (res?.status === true) {
+        toast.success(res?.msg, {
+          autoClose: 1000,
+        });
+        setOpen(false);
+
+        setloading(false);
+        dispatch(getenquiries());
+      }
+      if (res?.status === false) {
+        toast.error(res?.msg, {
+          autoClose: 1000,
+        });
+
+        setloading(false);
+      }
+    });
   };
   useEffect(() => {
+    dispatch(getcourse());
     if (updatedata) {
       setaddress(updatedata?.Address);
       setstudentemail(updatedata?.StudentEmail);

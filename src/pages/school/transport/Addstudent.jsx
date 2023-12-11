@@ -489,8 +489,8 @@ function Addstudent() {
                     <th className={styles.tableth}>Category</th> */}
                     <th className={styles.tableth}>Per_month_Fee</th>
                     <th className={styles.tableth}>Total_fee</th>
-                    <th className={styles.tableth}>From_Route</th>
-                    <th className={styles.tableth}>To_Route</th>
+                    {/* <th className={styles.tableth}>From_Route</th>
+                    <th className={styles.tableth}>To_Route</th> */}
                     <th className={styles.tableth}>Status</th>
                     <th className={styles.tableth}>Action</th>
                   </tr>
@@ -520,8 +520,8 @@ function Addstudent() {
                         <td className={styles.tabletd}>
                           {item?.TransportTotalHostelFee}
                         </td>
-                        <td className={styles.tabletd}>{item?.FromRoute}</td>
-                        <td className={styles.tabletd}>{item?.ToRoute}</td>
+                        {/* <td className={styles.tabletd}>{item?.FromRoute}</td>
+                        <td className={styles.tabletd}>{item?.ToRoute}</td> */}
                         <td className={styles.tabletd}>
                           {item?.Transport ? "Active" : "Disable"}
                         </td>

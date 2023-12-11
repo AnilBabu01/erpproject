@@ -26,7 +26,7 @@ function AddExpenses({ setOpen }) {
     e.preventDefault();
     setloading(true);
     serverInstance("expenses/addexpenses", "post", {
-      Date: addDate,
+      addDate: addDate,
       Expensestype: Expensestype,
       ExpensesAmount: ExpensesAmount,
       Comment: Comment,

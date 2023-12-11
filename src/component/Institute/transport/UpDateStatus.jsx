@@ -134,8 +134,8 @@ function UpDateStatus({ setOpen, updatedata }) {
     formData.set("Section", sectionname);
     formData.set("Session", sessionname);
     formData.set("StudentCategory", categoryname);
-    formData.set("FromRoute", transport === true ? fromroute : "");
-    formData.set("ToRoute", transport === true ? toroute : "");
+    formData.set("FromRoute", "");
+    formData.set("ToRoute", "");
     formData.set("AnnualFee", annualfee);
     formData.set("BusNumber", transport === true ? BusNumber : "");
     formData.set("hostelstatus", hostal === true ? false : true);

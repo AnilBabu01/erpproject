@@ -11,6 +11,9 @@ import {
   GET_ROOM_REQUEST,
   GET_ROOM_SUCCESS,
   GET_ROOM_FAIL,
+  GET_CHECKIN_FAIL,
+  GET_CHECKIN_SUCCESS,
+  GET_CHECKIN_REQUEST,
   CLEAR_ERRORS,
 } from "../constants/hostelConstants";
 
@@ -128,6 +131,38 @@ export const GetRoom = (state = { room: {} }, action) => {
       return {
         loading: false,
         room: null,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const GetCheckin = (state = { checkin: {} }, action) => {
+  switch (action.type) {
+    case GET_CHECKIN_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case GET_CHECKIN_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        checkin: action.payload,
+      };
+
+    case GET_CHECKIN_FAIL:
+      return {
+        loading: false,
+        checkin: null,
         error: action.payload,
       };
 

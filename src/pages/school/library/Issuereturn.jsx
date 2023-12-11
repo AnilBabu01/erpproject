@@ -195,9 +195,11 @@ function Issuereturn() {
     if (course) {
       setcourselist(course);
     }
-    student;
-    {
-      setstudentlist(student);
+    if (student) {
+      let filterdata = student.filter((item) => {
+        return item?.Library === true;
+      });
+      setstudentlist(filterdata);
     }
     if (Sessions) {
       setsessionList(Sessions);
@@ -329,7 +331,6 @@ function Issuereturn() {
           </Dialog>
         </div>
       )}
-
 
       <div className="mainContainer">
         <div>
@@ -868,7 +869,7 @@ function Issuereturn() {
                         <th className={styles.tableth}>Student_Phone</th>
                         <th className={styles.tableth}>Adminssion_Date</th>
                         <th className={styles.tableth}>Class</th>
-                        <th className={styles.tableth}>Student Status</th>
+                        <th className={styles.tableth}>Status</th>
                         <th className={styles.tableth}>Action</th>
                       </tr>
                       {studentlist?.map((item, index) => {
@@ -888,7 +889,7 @@ function Issuereturn() {
                               {item?.courseorclass}
                             </td>
 
-                            <td className={styles.tabletd}>{item?.Status}</td>
+                            <td className={styles.tabletd}>{item?.Library?"Active":'Disable'}</td>
                             <td className={styles.tabkeddd}>
                               <button
                                 disabled={

@@ -108,7 +108,7 @@ function Addbatchtime({ setOpen }) {
               {loading ? (
                 <CircularProgress size={25} style={{ color: "red" }} />
               ) : (
-                "Save "
+                "Save"
               )}
             </button>
           </div>

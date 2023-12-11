@@ -15,6 +15,9 @@ import {
   GET_ROOM_REQUEST,
   GET_ROOM_SUCCESS,
   GET_ROOM_FAIL,
+  GET_CHECKIN_FAIL,
+  GET_CHECKIN_SUCCESS,
+  GET_CHECKIN_REQUEST,
   CLEAR_ERRORS,
 } from "../constants/hostelConstants";
 
@@ -181,3 +184,61 @@ export const GetRoom = (hostelname) => async (dispatch) => {
     });
   }
 };
+
+// Get all Facility
+export const GetCheckin =
+  (sessionname, sectionname, sno, checkinstatus, scoursename, hostelname) =>
+  async (dispatch) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${localStorage.getItem("erptoken")}`,
+        },
+      };
+      dispatch({ type: GET_CHECKIN_REQUEST });
+
+      if (
+        sessionname ||
+        sectionname ||
+        sno ||
+        checkinstatus ||
+        scoursename ||
+        hostelname
+      ) {
+        const { data } = await axios.post(
+          `${backendApiUrl}hostel/GetAllCheckin`,
+          {
+            sessionname,
+            sectionname,
+            sno,
+            checkinstatus,
+            scoursename,
+            hostelname,
+          },
+          config
+        );
+
+        dispatch({
+          type: GET_CHECKIN_SUCCESS,
+          payload: data?.data,
+        });
+      } else {
+        dispatch({ type: GET_CHECKIN_REQUEST });
+
+        serverInstance("hostel/GetAllCheckin", "post").then((res) => {
+          if (res?.status === true) {
+            dispatch({
+              type: GET_CHECKIN_SUCCESS,
+              payload: res?.data,
+            });
+          }
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: GET_CHECKIN_FAIL,
+        payload: error?.response?.data?.msg,
+      });
+    }
+  };

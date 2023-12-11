@@ -20,6 +20,7 @@ import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
 import { useRouter } from "next/router";
 import { useReactToPrint } from "react-to-print";
+import Receipt from "@/component/Institute/hostel/CheckinReceipt";
 function PrintReceipt() {
   const componentRef = useRef(null);
   const navigation = useRouter();
@@ -42,6 +43,8 @@ function PrintReceipt() {
   const [open, setOpen] = useState(false);
   const [openupdate, setOpenupdate] = useState(false);
   const [openalert, setOpenalert] = useState(false);
+  const [receiptdatas, setreceiptdatas] = useState("");
+  const [openreceipt, setopenreceipt] = useState(false);
   const [updatedata, setupdatedata] = useState("");
   const [deleteid, setdeleteid] = useState("");
   const [isdata, setisData] = useState([]);
@@ -158,7 +161,14 @@ function PrintReceipt() {
     // }));
     return localityParameterSets?.slice(4, months + 4);
   };
+  const handleClickOpenReceipt = (data) => {
+    setopenreceipt(true);
+    setreceiptdatas(data);
+  };
 
+  const handleClosereceipt = () => {
+    setopenreceipt(false);
+  };
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -269,14 +279,14 @@ function PrintReceipt() {
     dispatch(GetSession());
   };
 
-  const downloadReceipt = (data) => {
-    navigation.push({
-      pathname: "/coaching/student/receipt",
-      query: {
-        receiptdata: JSON.stringify(data),
-      },
-    });
-  };
+  // const downloadReceipt = (data) => {
+  //   navigation.push({
+  //     pathname: "/coaching/student/receipt",
+  //     query: {
+  //       receiptdata: JSON.stringify(data),
+  //     },
+  //   });
+  // };
 
   useEffect(() => {
     let date = new Date();
@@ -286,6 +296,26 @@ function PrintReceipt() {
   }, []);
   return (
     <>
+      {openreceipt && (
+        <div>
+          <Dialog
+            open={openreceipt}
+            TransitionComponent={Transition}
+            onClose={handleClosereceipt}
+            aria-describedby="alert-dialog-slide-description"
+            sx={{
+              "& .MuiDialog-container": {
+                "& .MuiPaper-root": {
+                  width: "100%",
+                  maxWidth: "63rem",
+                },
+              },
+            }}
+          >
+            <Receipt setOpen={setopenreceipt} receiptdatas={receiptdatas} />
+          </Dialog>
+        </div>
+      )}
       {openupdate && (
         <div>
           <Dialog
@@ -541,7 +571,7 @@ function PrintReceipt() {
                                   ? styles.tabkedddimgactive
                                   : styles.tabkedddimgdisable
                               }
-                              onClick={() => downloadReceipt(item)}
+                              onClick={() => handleClickOpenReceipt(item)}
                               src="/images/Print.png"
                               alt="imgss"
                             />

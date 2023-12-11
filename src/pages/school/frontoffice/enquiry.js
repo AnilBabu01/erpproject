@@ -24,7 +24,8 @@ import { useReactToPrint } from "react-to-print";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { format } from "date-fns";
-
+import { serverInstance } from "../../../API/ServerInstance";
+import { toast } from "react-toastify";
 function Enquiry() {
   const componentRef = useRef(null);
   const dispatch = useDispatch();
@@ -74,6 +75,24 @@ function Enquiry() {
   };
 
   const handledelete = () => {
+    serverInstance("coaching/enquiry", "delete", {
+      id: deleteid,
+    }).then((res) => {
+      if (res?.status === true) {
+        toast.success(res?.msg, {
+          autoClose: 1000,
+        });
+        setOpenalert(false);
+        dispatch(getenquiries());
+      }
+      if (res?.status === false) {
+        toast.error(res?.msg, {
+          autoClose: 1000,
+        });
+        setOpenalert(false);
+      }
+    });
+
     dispatch(deleteenquiry(deleteid, setOpenalert));
   };
   useEffect(() => {
@@ -92,7 +111,7 @@ function Enquiry() {
   }, [enquiry, user]);
   useEffect(() => {
     dispatch(getenquiries());
-  }, [open, openupdate, openalert]);
+  }, []);
 
   const handlefilter = (e) => {
     e.preventDefault();
@@ -146,7 +165,7 @@ function Enquiry() {
   });
   const ExportPdfEnquiry = (isData, fileName) => {
     const doc = new jsPDF();
-  
+
     const tableColumn = [
       "date",
       "Name",
@@ -156,9 +175,9 @@ function Enquiry() {
       "Course",
       "comment",
     ];
-  
+
     const tableRows = [];
-  
+
     isData.forEach((item) => {
       const ticketData = [
         moment(item?.EnquiryDate).format("MM/DD/YYYY"),
@@ -169,15 +188,15 @@ function Enquiry() {
         item?.Course,
         item?.Comment,
       ];
-  
+
       tableRows.push(ticketData);
     });
-  
+
     doc.autoTable(tableColumn, tableRows, { startY: 20 });
     const date = Date().split(" ");
-  
+
     const dateStr = date[0] + date[1] + date[2] + date[3] + date[4];
-  
+
     doc.text(`${fileName}`, 8, 9);
     doc.setFont("Lato-Regular", "normal");
     doc.setFontSize(28);
@@ -348,7 +367,7 @@ function Enquiry() {
                       <tr key={index} className={styles.tabletr}>
                         <td className={styles.tabletd}>{index + 1}</td>
                         <td className={styles.tabletd}>
-                          {moment(item?.EnquiryDate).format("MM/DD/YYYY")}
+                          {moment(item?.EnquiryDate).format("DD/MM/YYYY")}
                         </td>
                         <td className={styles.tabletd}>{item?.StudentName}</td>
                         <td className={styles.tabletd}>

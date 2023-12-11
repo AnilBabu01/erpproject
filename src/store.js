@@ -85,6 +85,7 @@ import {
   GetHostel,
   GetRoom,
   GetFacility,
+  GetCheckin
 } from "./redux/reducers/hostelReducers";
 import {
   GetRoute,
@@ -182,6 +183,7 @@ const reducer = combineReducers({
   GetAsset: GetAssetReducer,
   GetExpensesType: GetExpensesTypeReducer,
   GetExpenses: GetExpensesReducer,
+  GetCheckin:GetCheckin
 });
 const middlware = [thunk];
 export const store = createStore(

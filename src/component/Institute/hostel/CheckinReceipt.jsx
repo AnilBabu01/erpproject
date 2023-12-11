@@ -9,10 +9,10 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { toast } from "react-toastify";
 import { WhatsappShareButton } from "react-share";
-function Receipt() {
+function CheckinReceipt({ receiptdatas, setOpen }) {
   const router = useRouter();
   const componentRef = useRef(null);
-  const { receiptdata } = router.query;
+
   const [data, setData] = React.useState({});
   const [blob, setBlob] = useState(null);
   const [organizationdata, setorganizationdata] = useState("");
@@ -34,7 +34,6 @@ function Receipt() {
     content: () => componentRef.current,
   });
 
-  
   function down() {
     const input = document.getElementById("receipt");
     html2canvas(input).then((canvas) => {
@@ -53,8 +52,8 @@ function Receipt() {
   useEffect(() => {
     // handlePrint();
 
-    if (receiptdata) {
-      setData(JSON.parse(receiptdata));
+    if (receiptdatas) {
+      setData(receiptdatas);
     }
     if (user) {
       setorganizationdata(user?.data?.CredentailsData);
@@ -62,9 +61,9 @@ function Receipt() {
   }, [user]);
 
   return (
-    <div className="mainContainer">
-      <div className={styles.addpaddinreceipt}>
-        <button className={styles.optionbtn} onClick={() => router.back()}>
+    <div className={styles.mainContainerreceipt}>
+      <div className={styles.addpaddinreceipt10}>
+        <button className={styles.optionbtn} onClick={() => setOpen(false)}>
           Back
         </button>
         <div className={styles.optionDiv}>
@@ -253,4 +252,4 @@ function Receipt() {
   );
 }
 
-export default Receipt;
+export default CheckinReceipt;

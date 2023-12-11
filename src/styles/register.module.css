@@ -222,12 +222,18 @@
   outline: none;
   border: 2px solid #093959;
 }
-
+.searchinput {
+  border: 0.8px solid rgb(66, 66, 66);
+  width: 12.7rem;
+  height: 30px;
+  padding-left: 1rem;
+  border-radius: 5px;
+}
 .logbtnstylediv {
   padding-left: 3.2%;
   padding-right: 3.2%;
   margin-top: 2%;
-  margin-bottom: 2%;
+  margin-bottom: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -326,7 +332,7 @@
 }
 .tabletd,
 .tableth {
-  border: 1px solid #dddddd;
+  border: 2px solid #093959;
   text-align: center;
   padding: 8px;
 }
@@ -606,7 +612,7 @@
   border-collapse: collapse;
   width: 100%;
   margin-bottom: 1rem;
-  background-color: #4a8fbd;
+  /* background-color: #4a8fbd; */
   color: black;
 }
 .tableth10 {
@@ -802,6 +808,18 @@
   padding-right: 1rem;
   margin-right: 1rem;
 }
+.searchbtnactiveforpay {
+  background: #093959;
+  color: white;
+  border-radius: 6px;
+  font-weight: 600;
+  padding: 0.3rem;
+  font-size: 14px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-right: 1rem;
+  margin-left: 1rem
+}
 .searchoptiondivbutton {
   border: 1px solid #093959;
   font-weight: 600;
@@ -931,21 +949,43 @@
   margin-top: 3%;
   width: 32%;
 }
+.roomlistscrollbar{
+  height: 15rem;
+  overflow-y: scroll;
+}
 @media screen and (max-width: 780px) {
+  .searchinput{
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  .candidateDetails {
+    border: 1px solid #093959;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  .mainpaiddiv {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 100%;
+  }
   .regisFeepayDiv {
     flex-direction: column;
   }
   .searchbtnactive {
-    font-size: 10px;
+    font-size: 18px;
+    margin-bottom: 2%;
     margin-right: 0rem;
   }
   .paybtndiv {
     display: flex;
     justify-content: space-between;
     padding: 1%;
+    flex-direction: column;
   }
   .searchoptiondivbutton {
-    font-size: 10px;
+    font-size: 18px;
+    margin-bottom: 2%;
     margin-right: 0rem;
   }
 

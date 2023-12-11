@@ -19,6 +19,9 @@ function AddRoom({ setOpen }) {
   const [Facilitys, setFacilitys] = useState([]);
   const [Categorys, setCategorys] = useState([]);
   const [hostels, sethostels] = useState([]);
+  const [hostelId, sethostelId] = useState("");
+  const [CategoryId, setCategoryId] = useState("");
+  const [FacilityId, setFacilityId] = useState("");
   const [Facilityname, setFacilityname] = useState("");
   const [categoryname, setcategoryname] = useState("");
   const [hostelname, sethostelname] = useState("");
@@ -36,6 +39,9 @@ function AddRoom({ setOpen }) {
       HostelName: hostelname,
       Category: categoryname,
       Facility: Facilityname,
+      hostelId: hostelId,
+      CategoryId: CategoryId,
+      FacilityId: FacilityId,
       FromRoom: fromroom,
       ToRoom: toroom,
       PermonthFee: amountpermonth,
@@ -120,6 +126,7 @@ function AddRoom({ setOpen }) {
                         fontSize: 14,
                       }}
                       value={item?.HostelName}
+                      onClick={() => sethostelId(item?.id)}
                     >
                       {item?.HostelName}
                     </MenuItem>
@@ -161,6 +168,7 @@ function AddRoom({ setOpen }) {
                         fontSize: 14,
                       }}
                       value={item?.roomCategory}
+                      onClick={() => setCategoryId(item?.id)}
                     >
                       {item?.roomCategory}
                     </MenuItem>
@@ -202,6 +210,7 @@ function AddRoom({ setOpen }) {
                         fontSize: 14,
                       }}
                       value={item?.roomFacility}
+                      onClick={() => setFacilityId(item?.id)}
                     >
                       {item?.roomFacility}
                     </MenuItem>

@@ -9,9 +9,11 @@ import { useRouter } from "next/router";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useDispatch } from "react-redux";
 import Typography from "@mui/material/Typography";
+
 function Addfee({ data, setOpen }) {
   const navigation = useRouter();
   const dispatch = useDispatch();
+  const [SrNumber, setSrNumber] = useState("");
   const [paymentdate, setpaymentdate] = useState("");
   const [PayOption, setPayOption] = useState("Cash");
   const [annualfee, setannualfee] = useState("");
@@ -272,16 +274,19 @@ function Addfee({ data, setOpen }) {
       },
     });
   };
-
-  useEffect(() => {
+  const getstudentfee = () => {
     serverInstance("Student/schoolfee", "post", {
       id: data?.id,
+      SrNumber: SrNumber,
     }).then((res) => {
       if (res?.status) {
         console.log("get fee detauils", res);
         setschoolfee(res?.data);
       }
     });
+  };
+  useEffect(() => {
+    getstudentfee();
   }, []);
 
   const compareMonths = (a, b) => {
@@ -419,6 +424,17 @@ function Addfee({ data, setOpen }) {
                   >
                     Others Fee
                   </button>
+                  {/* 
+                  <input
+                    className={styles.searchinput}
+                    placeholder="Search By SNO"
+                    value={SrNumber}
+                    name="SrNumber"
+                    onChange={(e) => setSrNumber(e.target.value)}
+                  />
+                  <button onClick={()=>getstudentfee()} className={styles.searchbtnactiveforpay}>
+                    Search
+                  </button> */}
                 </div>
 
                 <div className={styles.mainbtnndivcancel10}>

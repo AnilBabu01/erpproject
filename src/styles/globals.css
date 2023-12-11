@@ -304,7 +304,7 @@ input#donation-date {
   height: 25px;
 }
 
-.fontweight{
+.fontweight {
   font-weight: 500;
 }
 @media screen and (max-width: 780px) {
@@ -488,12 +488,12 @@ input#donation-date {
   display: flex;
   align-items: center;
   width: 100%;
-  padding-left: 2rem;
+  flex-direction: column;
 }
 .top-info-inear-content-div img {
-  width: 58px;
-  height: 57px;
-  border-radius: 100px;
+  width: 30%;
+  height: 30%;
+  border-radius: 80px;
 }
 
 .top-info-inear-content-div p {
@@ -619,7 +619,7 @@ input#donation-date {
   padding: 1rem;
 }
 
-.logoimg img{
+.logoimg img {
   height: 3rem;
   /* width: 100%; */
 }
@@ -639,8 +639,12 @@ input#donation-date {
     margin-bottom: 1rem;
   }
 
-  .middle-chart-main-div {
-    margin-top: 4rem;
+  .top-info-inear-content-div {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    flex-direction: column;
+    padding-left: 0rem;
   }
 
   .bottom-chart-left-div {
@@ -1075,5 +1079,4 @@ input#donation-date {
     justify-content: space-evenly;
     color: #b4abab;
   }
-  
 }

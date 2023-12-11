@@ -26,6 +26,19 @@ function IssueBook({ setOpen, updatedata }) {
       issueStatus: 0,
     },
   ]);
+  const [AlreadyIssuedbooklist, setAlreadyIssuedbooklist] = useState([
+    {
+      id: "",
+      ClientCode: "",
+      courseorclass: "",
+      BookId: "",
+      BookTitle: "",
+      auther: "",
+      quantity: "",
+      addDate: "",
+      issueStatus: 0,
+    },
+  ]);
   const { course } = useSelector((state) => state.getcourse);
   const { batch } = useSelector((state) => state.getbatch);
   const { user } = useSelector((state) => state.auth);
@@ -80,7 +93,8 @@ function IssueBook({ setOpen, updatedata }) {
       "get"
     ).then((res) => {
       if (res?.status) {
-        setstudentbooklist(res?.data);
+        setstudentbooklist(res?.data?.book);
+        setAlreadyIssuedbooklist(res?.data?.BookedBooks);
       }
     });
   };
@@ -93,6 +107,7 @@ function IssueBook({ setOpen, updatedata }) {
     }
   }, []);
 
+  console.log(AlreadyIssuedbooklist);
   return (
     <>
       <div className={styles.divmainlogin}>
@@ -137,11 +152,38 @@ function IssueBook({ setOpen, updatedata }) {
             </div>
           </div>
           <div>
+            <p>Already Issued These Books</p>
             <table className={styles.tabletable}>
               <tbody>
                 <tr className={styles.tabletr}>
-                  <th className={styles.tableth}>Book Id</th>
+                  <th className={styles.tableth}>BookId</th>
                   <th className={styles.tableth}>Titile</th>
+                  <th className={styles.tableth}>Issue</th>
+                </tr>
+                {AlreadyIssuedbooklist?.length > 0 &&
+                  AlreadyIssuedbooklist?.map((item, index) => {
+                    return (
+                      <tr className={styles.tabletr}>
+                        <td className={styles.tableth}>{item?.BookId}</td>
+                        <td className={styles.tableth}>{item?.BookTitle}</td>
+                        <td className={styles.tableth}>
+                          {item?.issueStatus === true ? "Issued" : "No Isseue"}
+                        </td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <p>Issue From These Books</p>
+            <table className={styles.tabletable}>
+              <tbody>
+                <tr className={styles.tabletr}>
+                  <th className={styles.tableth}>BookId</th>
+                  <th className={styles.tableth}>Titile</th>
+                  <th className={styles.tableth}>Books</th>
+                  <th className={styles.tableth}>Library</th>
                   <th className={styles.tableth}>Issue</th>
                 </tr>
                 {studentbooklist?.map((item, index) => {
@@ -149,19 +191,24 @@ function IssueBook({ setOpen, updatedata }) {
                     <tr className={styles.tabletr}>
                       <td className={styles.tableth}>{item?.BookId}</td>
                       <td className={styles.tableth}>{item?.BookTitle}</td>
+                      <td className={styles.tableth}>{item?.Realquantity}</td>
+                      <td className={styles.tableth}>{item?.quantity}</td>
                       <td className={styles.tableth}>
                         <input
                           type="checkbox"
                           name="vehicle1"
                           checked={item?.issueStatus === true}
                           value={item?.issueStatus}
-                          onClick={() =>
+                          disabled={item?.quantity === 0}
+                          onClick={() => {
                             handlestudentbooklistUpdate(
                               item,
                               "issueStatus",
                               !item?.issueStatus
-                            )
-                          }
+                            );
+
+                            // setAlreadyIssuedbooklist((cur) => [...cur, item]);
+                          }}
                         />
                       </td>
                     </tr>
@@ -172,7 +219,7 @@ function IssueBook({ setOpen, updatedata }) {
           </div>
         </form>
         <div className={styles.mainbtnndivcancel}>
-          <button onClick={() => setnext(false)} className={styles.cancelbtn}>
+          <button onClick={() => setOpen(false)} className={styles.cancelbtn}>
             Back
           </button>
           <button className={styles.cancelbtn} onClick={() => submit()}>

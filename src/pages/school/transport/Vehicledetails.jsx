@@ -244,7 +244,8 @@ function Vehicledetails() {
                     <th className={styles.tableth}>From</th>
                     <th className={styles.tableth}>To</th>
                     <th className={styles.tableth}>Stop_names</th>
-                    {/* <th className={styles.tableth}>GPSDeviceURL</th> */}
+                    <th className={styles.tableth}>No Of Sheets</th>
+                    <th className={styles.tableth}>Available Sheets</th>
                     <th className={styles.tableth}>Action</th>
                   </tr>
                   {isdata?.length > 0 &&
@@ -272,9 +273,12 @@ function Vehicledetails() {
                               );
                             })}
                           </td>
-                          {/* <td className={styles.tabletd}>
-                            {item?.bus?.GPSDeviceURL}
-                          </td> */}
+                          <td className={styles.tableth}>
+                            {item?.bus?.RealSheets}
+                          </td>
+                          <td className={styles.tableth}>
+                            {item?.bus?.NoOfSheets	}
+                          </td>
                           <td className={styles.tabkeddd}>
                             <button
                               disabled={

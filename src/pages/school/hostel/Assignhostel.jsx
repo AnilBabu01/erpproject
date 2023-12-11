@@ -13,18 +13,25 @@ import {
   GetHostel,
   GetCategory,
   GetFacility,
+  GetCheckin,
 } from "../../../redux/actions/hostelActions";
 import styles from "../employee/employee.module.css";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
 import CircularProgress from "@mui/material/CircularProgress";
-import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
 import IssueBook from "@/component/Institute/hostel/GIveRoom";
 import ReturnBook from "@/component/Institute/hostel/UpdateGiveRoom";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
-
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import { Button } from "@mui/material";
+import { useRouter } from "next/router";
+import CheckinReceipt from "../../../component/Institute/hostel/CheckinReceipt";
 const studentStatus = [
   { label: "Active", value: "Active" },
   { label: "On Leave", value: "On Leave" },
@@ -32,90 +39,17 @@ const studentStatus = [
   { label: "Completed", value: "Completed" },
   { label: "Unknown", value: "Unknown" },
 ];
-const monthlist = [
-  {
-    id: 1,
-    name: "January",
-  },
-  {
-    id: 2,
-    name: "February",
-  },
-  {
-    id: 3,
-    name: "Mark",
-  },
-  {
-    id: 4,
-    name: "April",
-  },
-  ,
-  {
-    id: 5,
-    name: "May",
-  },
-  {
-    id: 6,
-    name: "Jun",
-  },
-  {
-    id: 7,
-    name: "July",
-  },
-  {
-    id: 8,
-    name: "August",
-  },
-  {
-    id: 8,
-    name: "September",
-  },
-  {
-    id: 10,
-    name: "October",
-  },
-  {
-    id: 11,
-    name: "November",
-  },
-  {
-    id: 12,
-    name: "December",
-  },
-];
-
-const monthnamelist = {
-  1: "January",
-
-  2: "February",
-
-  3: "Mark",
-
-  4: "April",
-
-  5: "May",
-
-  6: "Jun",
-
-  7: "July",
-
-  8: "August",
-
-  9: "September",
-
-  10: "October",
-
-  11: "November",
-
-  12: "December",
-};
 
 function Assignhostel() {
+  const navigation = useRouter();
   const dispatch = useDispatch();
   let currmonth = new Date().getMonth();
   const [month, setmonth] = useState(currmonth + 1);
   const [takeatten, settakeatten] = useState(true);
+  const [deleteid, setdeleteid] = useState("");
+  const [openalert, setOpenalert] = useState(false);
   const [todatatten, settodatatten] = useState(false);
+  const [checkinstatus, setcheckinstatus] = useState("true");
   const [Analysisatten, setAnalysisatten] = useState(false);
   const [open, setOpen] = useState(false);
   const [openupdate, setOpenupdate] = useState(false);
@@ -133,6 +67,7 @@ function Assignhostel() {
   const [studentlist, setstudentlist] = useState([]);
   const [categoryname, setcategoryname] = useState("");
   const [categorylist, setcategorylist] = useState([]);
+  const [checkinlist, setcheckinlist] = useState([]);
   const [sessionList, setsessionList] = useState([]);
   const [sectionList, setsectionList] = useState([]);
   const [courselist, setcourselist] = useState([]);
@@ -140,18 +75,32 @@ function Assignhostel() {
   const [sectionname, setsectionname] = useState("NONE");
   const [sno, setsno] = useState("");
   const [status, setstatus] = useState("Active");
+  const [receiptdata, setreceiptdata] = useState("");
+  const [openreceipt, setopenreceipt] = useState(false);
   const { course } = useSelector((state) => state.getcourse);
   const { category } = useSelector((state) => state.getcategory);
   const { sections } = useSelector((state) => state.GetSection);
   const { Sessions } = useSelector((state) => state.GetSession);
   const { loading, student } = useSelector((state) => state.getstudent);
-
+  const { loading: loading1, checkin } = useSelector(
+    (state) => state.GetCheckin
+  );
   const [minDateTime, setMinDateTime] = useState(
     new Date()?.toISOString().slice(0, 16)
   );
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="top" ref={ref} {...props} />;
   });
+
+  const handleClickOpenReceipt = (data) => {
+    setopenreceipt(true);
+    setreceiptdata(data);
+  };
+
+  const handleClosereceipt = () => {
+    setopenreceipt(false);
+  };
+  
   const handleClickOpen = (data) => {
     setOpen(true);
     setupdatedata(data);
@@ -174,6 +123,11 @@ function Assignhostel() {
     setOpenalert(true);
     setdeleteid(id);
   };
+
+  const handleClosedelete = () => {
+    setOpenalert(false);
+  };
+
   const {
     Markloading,
     markattendance,
@@ -200,9 +154,11 @@ function Assignhostel() {
     if (course) {
       setcourselist(course);
     }
-    student;
-    {
-      setstudentlist(student);
+    if (student) {
+      let filterdata = student.filter((item) => {
+        return item?.hostal === true;
+      });
+      setstudentlist(filterdata);
     }
     if (Sessions) {
       setsessionList(Sessions);
@@ -212,6 +168,9 @@ function Assignhostel() {
     }
     if (category) {
       setcategorylist(category);
+    }
+    if (checkin) {
+      setcheckinlist(checkin);
     }
   }, [
     markattendance,
@@ -225,9 +184,52 @@ function Assignhostel() {
     Sessions,
     sections,
     category,
+    checkin,
   ]);
 
+  const getCheckinlist = () => {
+    console.log("clienmdhmbfhdghcvx");
+    dispatch(
+      GetCheckin(sessionname, sectionname, sno, checkinstatus, scoursename)
+    );
+  };
+
+  const resetcheckilist = () => {
+    try {
+      setsno("");
+      setsectionname("");
+      setscoursename("");
+      let date = new Date();
+      let fullyear = date.getFullYear();
+      let lastyear = date.getFullYear() - 1;
+      setsessionname(`${lastyear}-${fullyear}`);
+      setcheckinstatus("");
+      dispatch(GetCheckin());
+    } catch (error) {}
+  };
+
+  const handledelete = () => {
+    serverInstance("hostel/ReleaseRoom", "put", {
+      id: deleteid,
+    }).then((res) => {
+      if (res?.status === true) {
+        toast.success(res?.msg, {
+          autoClose: 1000,
+        });
+        setOpenalert(false);
+        getCheckinlist();
+      }
+      if (res?.status === false) {
+        toast.error(res?.msg, {
+          autoClose: 1000,
+        });
+        setOpenalert(false);
+      }
+    });
+  };
   useEffect(() => {
+    getCheckinlist();
+    dispatch(GetCheckin());
     dispatch(loadUser());
     dispatch(getbatch());
     dispatch(getcourse());
@@ -237,6 +239,7 @@ function Assignhostel() {
     dispatch(GetFacility());
     dispatch(GetHostel());
     dispatch(GetCategory());
+    dispatch(GetCheckin());
     dispatch(
       getstudent(
         "",
@@ -297,6 +300,53 @@ function Assignhostel() {
   }, []);
   return (
     <>
+      {openalert && (
+        <>
+          <Dialog
+            open={openalert}
+            onClose={handleClosedelete}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {" Do You Want To Release Room"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                After Release Room you will have to new checkin
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClosedelete}>Disagree</Button>
+              <Button onClick={handledelete} autoFocus>
+                Release
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </>
+      )}
+
+      {openreceipt && (
+        <div>
+          <Dialog
+            open={openreceipt}
+            TransitionComponent={Transition}
+            onClose={handleClosereceipt}
+            aria-describedby="alert-dialog-slide-description"
+            sx={{
+              "& .MuiDialog-container": {
+                "& .MuiPaper-root": {
+                  width: "100%",
+                  maxWidth: "63rem",
+                },
+              },
+            }}
+          >
+            <CheckinReceipt setOpen={setopenreceipt} receiptdata={receiptdata} />
+          </Dialog>
+        </div>
+      )}
+
       {open && (
         <div>
           <Dialog
@@ -308,7 +358,7 @@ function Assignhostel() {
               "& .MuiDialog-container": {
                 "& .MuiPaper-root": {
                   width: "100%",
-                  maxWidth: "60rem",
+                  maxWidth: "63rem",
                 },
               },
             }}
@@ -342,6 +392,150 @@ function Assignhostel() {
         <div>
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
+              {todatatten && (
+                <>
+                  <select
+                    className={styles.opensearchinput}
+                    sx={{
+                      width: "18.8rem",
+                      fontSize: 14,
+                      "& .MuiSelect-select": {
+                        paddingTop: "0.6rem",
+                        paddingBottom: "0.6em",
+                      },
+                    }}
+                    value={sessionname}
+                    name="sessionname"
+                    onChange={(e) => setsessionname(e.target.value)}
+                    displayEmpty
+                  >
+                    <option
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={""}
+                    >
+                      Select Session
+                    </option>
+
+                    {sessionList?.length > 0 &&
+                      sessionList?.map((item, index) => {
+                        return (
+                          <option
+                            key={index}
+                            sx={{
+                              fontSize: 14,
+                            }}
+                            value={item?.Session}
+                          >
+                            {item?.Session}
+                          </option>
+                        );
+                      })}
+                  </select>
+                  <select
+                    className={styles.opensearchinput}
+                    sx={{
+                      width: "18.8rem",
+                      fontSize: 14,
+                      "& .MuiSelect-select": {
+                        paddingTop: "0.6rem",
+                        paddingBottom: "0.6em",
+                      },
+                    }}
+                    value={scoursename}
+                    name="scoursename"
+                    onChange={(e) => setscoursename(e.target.value)}
+                    displayEmpty
+                  >
+                    <option
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={""}
+                    >
+                      ALL Class
+                    </option>
+
+                    {courselist?.map((item, index) => {
+                      return (
+                        <option
+                          key={index}
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={item?.coursename}
+                        >
+                          {item?.coursename}
+                        </option>
+                      );
+                    })}
+                  </select>
+
+                  <select
+                    className={styles.opensearchinput}
+                    sx={{
+                      width: "18.8rem",
+                      fontSize: 14,
+                      "& .MuiSelect-select": {
+                        paddingTop: "0.6rem",
+                        paddingBottom: "0.6em",
+                      },
+                    }}
+                    value={checkinstatus}
+                    name="checkinstatus"
+                    onChange={(e) => setcheckinstatus(e.target.value)}
+                    displayEmpty
+                  >
+                    <option
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={true}
+                    >
+                      Active
+                    </option>
+                    <option
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={false}
+                    >
+                      Released
+                    </option>
+                  </select>
+
+                  <input
+                    className={styles.opensearchinput10}
+                    type="text"
+                    placeholder="SNO"
+                    value={sno}
+                    name="sno"
+                    onChange={(e) => setsno(e.target.value)}
+                  />
+
+                  <button
+                    className={styles.saveattendacebutton}
+                    onClick={() => {
+                      getCheckinlist();
+                    }}
+                    disabled={markloading ? true : false}
+                  >
+                    {markloading ? (
+                      <CircularProgress size={17} style={{ color: "red" }} />
+                    ) : (
+                      "Search"
+                    )}
+                  </button>
+
+                  <button
+                    className={styles.resetattendacebutton}
+                    onClick={() => resetcheckilist()}
+                  >
+                    Reset
+                  </button>
+                </>
+              )}
               {takeatten && (
                 <>
                   <select
@@ -421,45 +615,7 @@ function Assignhostel() {
                       );
                     })}
                   </select>
-                  {/* <select
-                className={styles.opensearchinput}
-                sx={{
-                  width: "18.8rem",
-                  fontSize: 14,
-                  "& .MuiSelect-select": {
-                    paddingTop: "0.6rem",
-                    paddingBottom: "0.6em",
-                  },
-                }}
-                value={sectionname}
-                name="sectionname"
-                onChange={(e) => setsectionname(e.target.value)}
-                displayEmpty
-              >
-                <option
-                  sx={{
-                    fontSize: 14,
-                  }}
-                  value={"NONE"}
-                >
-                  NONE
-                </option>
 
-                {sectionList?.length > 0 &&
-                  sectionList?.map((item, index) => {
-                    return (
-                      <option
-                        key={index}
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={item?.section}
-                      >
-                        {item?.section}
-                      </option>
-                    );
-                  })}
-              </select> */}
                   <select
                     className={styles.opensearchinput}
                     sx={{
@@ -498,53 +654,7 @@ function Assignhostel() {
                       );
                     })}
                   </select>
-                  {/* <select
-                className={styles.opensearchinput}
-                sx={{
-                  width: "18.8rem",
-                  fontSize: 14,
-                  "& .MuiSelect-select": {
-                    paddingTop: "0.6rem",
-                    paddingBottom: "0.6em",
-                  },
-                }}
-                value={categoryname}
-                name="categoryname"
-                onChange={(e) => setcategoryname(e.target.value)}
-                displayEmpty
-              >
-                <option
-                  sx={{
-                    fontSize: 14,
-                  }}
-                  value={""}
-                >
-                  Category
-                </option>
 
-                {categorylist?.map((item, index) => {
-                  return (
-                    <option
-                      key={index}
-                      sx={{
-                        fontSize: 14,
-                      }}
-                      value={item?.category}
-                    >
-                      {item?.category}
-                    </option>
-                  );
-                })}
-              </select> */}
-                  {/* 
-              <input
-                className={styles.opensearchinput10}
-                type="text"
-                placeholder="Roll No"
-                value={rollnumber}
-                name="rollnumber"
-                onChange={(e) => setrollnumber(e.target.value)}
-              /> */}
                   <input
                     className={styles.opensearchinput10}
                     type="text"
@@ -656,45 +766,7 @@ function Assignhostel() {
                       );
                     })}
                   </select>
-                  {/* <select
-                className={styles.opensearchinput}
-                sx={{
-                  width: "18.8rem",
-                  fontSize: 14,
-                  "& .MuiSelect-select": {
-                    paddingTop: "0.6rem",
-                    paddingBottom: "0.6em",
-                  },
-                }}
-                value={sectionname}
-                name="sectionname"
-                onChange={(e) => setsectionname(e.target.value)}
-                displayEmpty
-              >
-                <option
-                  sx={{
-                    fontSize: 14,
-                  }}
-                  value={"NONE"}
-                >
-                  NONE
-                </option>
 
-                {sectionList?.length > 0 &&
-                  sectionList?.map((item, index) => {
-                    return (
-                      <option
-                        key={index}
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={item?.section}
-                      >
-                        {item?.section}
-                      </option>
-                    );
-                  })}
-              </select> */}
                   <select
                     className={styles.opensearchinput}
                     sx={{
@@ -733,53 +805,7 @@ function Assignhostel() {
                       );
                     })}
                   </select>
-                  {/* <select
-                className={styles.opensearchinput}
-                sx={{
-                  width: "18.8rem",
-                  fontSize: 14,
-                  "& .MuiSelect-select": {
-                    paddingTop: "0.6rem",
-                    paddingBottom: "0.6em",
-                  },
-                }}
-                value={categoryname}
-                name="categoryname"
-                onChange={(e) => setcategoryname(e.target.value)}
-                displayEmpty
-              >
-                <option
-                  sx={{
-                    fontSize: 14,
-                  }}
-                  value={""}
-                >
-                  Category
-                </option>
 
-                {categorylist?.map((item, index) => {
-                  return (
-                    <option
-                      key={index}
-                      sx={{
-                        fontSize: 14,
-                      }}
-                      value={item?.category}
-                    >
-                      {item?.category}
-                    </option>
-                  );
-                })}
-              </select> */}
-                  {/* 
-              <input
-                className={styles.opensearchinput10}
-                type="text"
-                placeholder="Roll No"
-                value={rollnumber}
-                name="rollnumber"
-                onChange={(e) => setrollnumber(e.target.value)}
-              /> */}
                   <input
                     className={styles.opensearchinput10}
                     type="text"
@@ -825,7 +851,7 @@ function Assignhostel() {
                   setclassname("");
                 }}
               >
-                Give Room
+                Checkin
               </button>
 
               <button
@@ -843,7 +869,23 @@ function Assignhostel() {
                     : styles.searchoptiondivbutton
                 }
               >
-                Remove Room
+                Room Shift
+              </button>
+              <button
+                onClick={() => {
+                  settakeatten(false);
+                  settodatatten(true);
+                  setAnalysisatten(false);
+                  setsbatch("");
+                  setclassname("");
+                }}
+                className={
+                  todatatten
+                    ? styles.searchbtnactive
+                    : styles.searchoptiondivbutton
+                }
+              >
+                Room Release
               </button>
             </div>
             <div className={styles.imgdivformat}>
@@ -921,7 +963,7 @@ function Assignhostel() {
                                       : styles.tabkedddimgdisable
                                   }
                                   onClick={() => handleClickOpen(item)}
-                                  src="/images/hostelicon.png"
+                                  src="/images/Checkin.png"
                                   alt="imgss"
                                 />
                               </button>
@@ -992,7 +1034,7 @@ function Assignhostel() {
                                       : styles.tabkedddimgdisable
                                   }
                                   onClick={() => ClickOpenupdate(item)}
-                                  src="/images/issuebook.png"
+                                  src="/images/Checkout2.png"
                                   alt="imgss"
                                 />
                               </button>
@@ -1004,12 +1046,131 @@ function Assignhostel() {
                   </table>
                 </>
               )}
+
+              {todatatten && (
+                <>
+                  <table className={styles.tabletable}>
+                    <tbody>
+                      <tr className={styles.tabletr}>
+                        <th className={styles.tableth}>S.NO</th>
+                        <th className={styles.tableth}>SNO</th>
+                        <th className={styles.tableth}>Session</th>
+                        <th className={styles.tableth}>Section</th>
+                        <th className={styles.tableth}>Student_Name</th>
+                        <th className={styles.tableth}>Checkin_Date</th>
+                        <th className={styles.tableth}>Class</th>
+                        <th className={styles.tableth}>Room_No</th>
+                        <th className={styles.tableth}>Hostel</th>
+                        <th className={styles.tableth}>Category</th>
+                        <th className={styles.tableth}>Facility</th>
+                        {/* <th className={styles.tableth}>Status</th> */}
+                        <th className={styles.tableth}>Action</th>
+                      </tr>
+                      {checkinlist?.length > 0 &&
+                        checkinlist?.map((item, index) => {
+                          return (
+                            <tr key={index} className={styles.tabletr}>
+                              <td className={styles.tabletd}>{index + 1}</td>
+                              <td className={styles.tabletd}>{item?.SNO}</td>
+                              <td className={styles.tabletd}>
+                                {item?.Session}
+                              </td>
+                              <td className={styles.tabletd}>
+                                {item?.Section}
+                              </td>
+                              <td className={styles.tabletd}>
+                                {item?.StudentName}
+                              </td>
+                              <td className={styles.tabletd}>
+                                {moment(item?.CheckinDate).format("DD/MM/YYYY")}
+                              </td>
+                              <td className={styles.tabletd}>
+                                {item?.StudentClass}
+                              </td>
+                              <td className={styles.tabletd}>{item?.RoomNo}</td>
+                              <td className={styles.tabletd}>
+                                {item?.hostelname}
+                              </td>
+                              <td className={styles.tabletd}>
+                                {item?.Category}
+                              </td>
+                              <td className={styles.tabletd}>
+                                {item?.Facility}
+                              </td>
+
+                              <td className={styles.tabkeddd}>
+                                <button
+                                  disabled={
+                                    userdata?.data &&
+                                    userdata?.data?.User?.userType === "school"
+                                      ? false
+                                      : userdata?.data &&
+                                        userdata?.data?.User?.fronroficeEdit ===
+                                          true
+                                      ? false
+                                      : true
+                                  }
+                                >
+                                  <img
+                                    className={
+                                      userdata?.data &&
+                                      userdata?.data?.User?.userType ===
+                                        "school"
+                                        ? styles.tabkedddimgactive
+                                        : userdata?.data &&
+                                          userdata?.data?.User
+                                            ?.fronroficeEdit === true
+                                        ? styles.tabkedddimgactive
+                                        : styles.tabkedddimgdisable
+                                    }
+                                    onClick={() => handleClickOpenReceipt(item)}
+                                    src="/images/Print.png"
+                                    alt="imgss"
+                                  />
+                                </button>
+                                <button
+                                  disabled={
+                                    userdata?.data &&
+                                    userdata?.data?.User?.userType === "school"
+                                      ? false
+                                      : userdata?.data &&
+                                        userdata?.data?.User?.fronroficeEdit ===
+                                          true
+                                      ? false
+                                      : true
+                                  }
+                                >
+                                  <img
+                                    className={
+                                      userdata?.data &&
+                                      userdata?.data?.User?.userType ===
+                                        "school"
+                                        ? styles.tabkedddimgactive
+                                        : userdata?.data &&
+                                          userdata?.data?.User
+                                            ?.fronroficeEdit === true
+                                        ? styles.tabkedddimgactive
+                                        : styles.tabkedddimgdisable
+                                    }
+                                    onClick={() => ClickOpendelete(item?.id)}
+                                    src="/images/Checkout.png"
+                                    alt="imgss"
+                                  />
+                                </button>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
+                  </table>
+                </>
+              )}
             </div>
           </div>
         </div>
       </div>
 
-      {loading && <LoadingSpinner />}
+      {loading || (loading1 && <LoadingSpinner />)}
     </>
   );
 }

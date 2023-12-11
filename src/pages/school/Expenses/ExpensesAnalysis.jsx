@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../redux/actions/authActions";
 import { getstudent, GetSession } from "../../../redux/actions/commanAction";
@@ -8,6 +8,11 @@ import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
+import CircularProgress from "@mui/material/CircularProgress";
+import exportFromJSON from "export-from-json";
+import { useReactToPrint } from "react-to-print";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 const monthlist = [
   {
     id: 1,
@@ -60,18 +65,21 @@ const monthlist = [
   },
 ];
 function ExpensesAnalysis() {
+  const componentRef = useRef(null);
   const dispatch = useDispatch();
   let currmonth = new Date().getMonth();
   const [month, setmonth] = useState(currmonth + 1);
   const [isdata, setisData] = useState([]);
+  const [loading, setloading] = useState(false);
   const [sessionList, setsessionList] = useState([]);
   const [sessionname, setsessionname] = useState("");
   const [sectionname, setsectionname] = useState("NONE");
   const [userdata, setuserdata] = useState("");
+  const [assetlist, setassetlist] = useState([]);
   const [allExpensesList, setallExpensesList] = useState([]);
   const [allRecoveryList, setallRecoveryList] = useState([]);
   const { user } = useSelector((state) => state.auth);
-  const { loading, student } = useSelector((state) => state.getstudent);
+  const { student } = useSelector((state) => state.getstudent);
   const { Sessions } = useSelector((state) => state.GetSession);
 
   useEffect(() => {
@@ -88,25 +96,38 @@ function ExpensesAnalysis() {
     }
   }, [student, user, Sessions]);
   const filterdata = () => {
-    serverInstance("expenses/getexpensesanalysis", "post", {
-      sessionname: sessionname,
-      month: month,
-    }).then((res) => {
-      if (res?.status === true) {
-        toast.success(res?.msg, {
-          autoClose: 1000,
-        });
-        console.log("Analasis data is ", res?.data[0]);
-        setallExpensesList(res?.data[0]?.allexpenses);
-        setallRecoveryList(res?.data[0]?.allreceiptdata);
-      }
+    try {
+      setloading(true);
 
-      if (res?.status === false) {
-        toast.error(res?.msg, {
-          autoClose: 1000,
-        });
-      }
-    });
+      let date = new Date();
+      let fullyear = date.getFullYear();
+      let lastyear = date.getFullYear() - 1;
+      let combine = `${lastyear}-${fullyear}`;
+      serverInstance("expenses/getexpensesanalysis", "post", {
+        sessionname: sessionname ? sessionname : combine,
+        month: month,
+      }).then((res) => {
+        if (res?.status === true) {
+          // toast.success(res?.msg, {
+          //   autoClose: 1000,
+          // });
+          // console.log("Analasis data is ", res?.data[0]);
+          setloading(false);
+          setallExpensesList(res?.data[0]?.allexpenses);
+          setallRecoveryList(res?.data[0]?.allreceiptdata);
+          setassetlist(res?.data[0]?.allexpensesAsset)
+        }
+
+        if (res?.status === false) {
+          toast.error(res?.msg, {
+            autoClose: 1000,
+          });
+          setloading(false);
+        }
+      });
+    } catch (error) {
+      setloading(false);
+    }
   };
   useEffect(() => {
     dispatch(getstudent());
@@ -153,7 +174,7 @@ function ExpensesAnalysis() {
     let total = 0;
     data?.map((item) => {
       if (item?.PayOption === "Cash") {
-        total = total + Number(item?.ExpensesAmount);
+        total = total + Number(item?.total_paidamount);
       }
     });
     return total;
@@ -163,7 +184,7 @@ function ExpensesAnalysis() {
     let total = 0;
     data?.map((item) => {
       if (item?.PayOption === "Online") {
-        total = total + Number(item?.ExpensesAmount);
+        total = total + Number(item?.total_paidamount);
       }
     });
     return total;
@@ -189,6 +210,35 @@ function ExpensesAnalysis() {
     return total;
   };
 
+  const removeasset = (data) => {
+    // let filterData = data.filter(
+    //   (item) => item.Expensestype === "Expenses" || item.Expensestype === "Liability"
+    // );
+
+    return data;
+  };
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
+  const ExportToExcel = (isData) => {
+    const fileName = "BookListReport";
+    const exportType = "xls";
+    var data = [];
+
+    isData.map((item) => {
+      data.push({
+        Class_Name: item?.courseorclass,
+        Book_Id: item?.BookId,
+        Book_Title: item?.BookTitle,
+        Auther_Name: item?.auther,
+        Add_Date: moment(item?.admissionDate).format("MM/DD/YYYY"),
+        Book_Quantity: item?.Realquantity,
+      });
+    });
+
+    exportFromJSON({ data, fileName, exportType });
+  };
   return (
     <>
       <div className="mainContainer">
@@ -275,26 +325,34 @@ function ExpensesAnalysis() {
                     );
                   })}
                 </select>
-                <button onClick={() => filterdata()}>Search</button>
+                <button onClick={() => filterdata()}>
+                  {" "}
+                  {loading ? (
+                    <CircularProgress size={25} style={{ color: "red" }} />
+                  ) : (
+                    "Search"
+                  )}
+                </button>
               </div>
-              <button onClick={() => reset()}>Reset</button>
+              {/* <button onClick={() => reset()}>Reset</button> */}
             </div>
             <div className={styles.imgdivformat}>
               <img
+                onClick={() => handlePrint()}
                 className={styles.imgdivformatimg}
                 src="/images/Print.png"
                 alt="img"
               />
-              <img
+              {/* <img
                 className={styles.imgdivformatimg}
                 src="/images/ExportPdf.png"
                 alt="img"
               />
-              <img src="/images/ExportExcel.png" alt="img" />
+              <img src="/images/ExportExcel.png" alt="img" /> */}
             </div>
           </div>
 
-          <div className={styles.add_divmarginn}>
+          <div className={styles.add_divmarginn} ref={componentRef}>
             <div className={styles.tablecontainer}>
               <div className={styles.expensesDiv}>
                 <div className={styles.innearexpensesdiv}>
@@ -308,13 +366,13 @@ function ExpensesAnalysis() {
                         <tr className={styles.tabletr}>
                           <th className={styles.tableth}>Sr.No</th>
                           {/* <th className={styles.tableth}>Date</th> */}
-                          <th className={styles.tableth}>Payment_Out_Type</th>
+                          <th className={styles.tableth}>Type</th>
                           <th className={styles.tableth}>Amount</th>
                           {/* <th className={styles.tableth}>Comment</th> */}
-                          <th className={styles.tableth}>Payment_Mode</th>
+                          <th className={styles.tableth}>Mode</th>
                         </tr>
                         {allExpensesList?.length > 0 &&
-                          allExpensesList?.map((item, index) => {
+                          removeasset(allExpensesList)?.map((item, index) => {
                             return (
                               <tr key={index} className={styles.tabletr}>
                                 <td className={styles.tabletd}>{index + 1}</td>
@@ -323,7 +381,7 @@ function ExpensesAnalysis() {
                                   {item?.Expensestype}
                                 </td>
                                 <td className={styles.tabletd}>
-                                  {item?.ExpensesAmount}
+                                  {item?.total_paidamount}
                                 </td>
                                 {/* <td className={styles.tabletd}>
                                   {item?.Comment}
@@ -340,13 +398,13 @@ function ExpensesAnalysis() {
                   </div>
                   <div className={styles.mainfivrupee}>
                     <p>
-                      Total Cash Payment Out Type = &nbsp;
+                      Total Cash Out = &nbsp;
                       <span className={styles.mainfivrupee10p}>
                         {totalcashexpenses(allExpensesList)}
                       </span>
                     </p>
                     <p>
-                      Total Online Payment Out Type = &nbsp;
+                      Total Online Out = &nbsp;
                       <span className={styles.mainfivrupee10p}>
                         {totalonlineexpenses(allExpensesList)}
                       </span>
@@ -364,9 +422,9 @@ function ExpensesAnalysis() {
                         <tr className={styles.tabletr}>
                           <th className={styles.tableth}>Sr.No</th>
                           <th className={styles.tableth}>Class</th>
-                          <th className={styles.tableth}>Paid_Amount</th>
+                          <th className={styles.tableth}>Amount</th>
                           {/* <th className={styles.tableth}>Pending_Amount</th> */}
-                          <th className={styles.tableth}>Payment_Mode</th>
+                          <th className={styles.tableth}>Mode</th>
                         </tr>
                         {allRecoveryList?.length > 0 &&
                           allRecoveryList?.map((item, index) => {
@@ -393,27 +451,41 @@ function ExpensesAnalysis() {
                   </div>
                   <div className={styles.mainfivrupee}>
                     <p>
-                      Total Cash Recovery = &nbsp;
+                      Cash Recovery = &nbsp;
                       <span className={styles.mainfivrupee10p}>
                         {totalcashrecovery(allRecoveryList)}
                       </span>
                     </p>
                     <p>
-                      Total Online Recovery = &nbsp;
+                      Online Recovery = &nbsp;
                       <span className={styles.mainfivrupee10p}>
                         {totalonlineexrecovery(allRecoveryList)}
                       </span>
                     </p>
                   </div>
+                  <div className={styles.mainfivrupee}>
+                    <p>
+                      Cash Asset = &nbsp;
+                      <span className={styles.mainfivrupee10p}>
+                        {totalcashexpenses(assetlist)}
+                      </span>
+                    </p>
+                    <p>
+                      Online Asset = &nbsp;
+                      <span className={styles.mainfivrupee10p}>
+                        {totalonlineexpenses(assetlist)}
+                      </span>
+                    </p>
+                  </div>
 
                   <p>
-                    Total Cash Recovery = &nbsp;
+                    {/* Cash Recovery = &nbsp; */}
                     <span className={styles.mainfivrupee10p}>
-                      ({totalcashrecovery(allRecoveryList)})
+                      {totalcashrecovery(allRecoveryList)}
                     </span>
-                    &nbsp; - Cash Payment Out Type = &nbsp;
+                    {/* &nbsp; - Cash Payment Out = &nbsp; */}-
                     <span className={styles.mainfivrupee10p}>
-                      ({totalcashexpenses(allExpensesList)})
+                      {totalcashexpenses(allExpensesList)}
                     </span>
                     &nbsp; = &nbsp;
                     <span className={styles.mainfivrupee10p}>
@@ -422,13 +494,13 @@ function ExpensesAnalysis() {
                     </span>
                   </p>
                   <p>
-                    Total Online Recovery = &nbsp;
+                    {/* Online Recovery = &nbsp; */}
                     <span className={styles.mainfivrupee10p}>
-                      ({totalonlineexrecovery(allRecoveryList)})
+                      {totalonlineexrecovery(allRecoveryList)}
                     </span>
-                    &nbsp; - Cash Payment Out Type&nbsp;
+                    {/* &nbsp; - Cash Payment Out&nbsp; */}-
                     <span className={styles.mainfivrupee10p}>
-                      ( {totalonlineexpenses(allExpensesList)})
+                      {totalonlineexpenses(allExpensesList)}
                     </span>
                     &nbsp; = &nbsp;
                     <span className={styles.mainfivrupee10p}>
@@ -437,7 +509,7 @@ function ExpensesAnalysis() {
                     </span>
                   </p>
                   <p>
-                    Total Profit = &nbsp;
+                    Profit = &nbsp;
                     <span className={styles.mainfivrupee10p}>
                       {Number(totalonlineexrecovery(allRecoveryList)) -
                         Number(totalonlineexpenses(allExpensesList)) +

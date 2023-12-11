@@ -18,6 +18,7 @@ import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
 import IssueBook from "@/component/Institute/transport/GiveBus";
 import ReturnBook from "@/component/Institute/transport/UpdateGiveBus";
+
 const studentStatus = [
   { label: "Active", value: "Active" },
   { label: "On Leave", value: "On Leave" },
@@ -115,9 +116,11 @@ function Assignbus() {
     if (course) {
       setcourselist(course);
     }
-    student;
-    {
-      setstudentlist(student);
+    if (student) {
+      let filterdata = student.filter((item) => {
+        return item?.Transport === true;
+      });
+      setstudentlist(filterdata);
     }
     if (sections) {
       setsectionList(sections);
@@ -253,7 +256,6 @@ function Assignbus() {
         <div>
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
-              
               <select
                 className={styles.opensearchinput}
                 sx={{

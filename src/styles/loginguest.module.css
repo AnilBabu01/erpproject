@@ -195,6 +195,7 @@
 .phonebutton {
   display: none;
 }
+
 .mainborderdivinnear {
   width: 100%;
   /* background-color: aquamarine; */
@@ -208,6 +209,13 @@
   padding-left: 24%;
   padding-right: 24%;
   padding-top: 1%;
+}
+.mainContainerreceipt {
+  padding: 1rem;
+}
+
+.addpaddinreceipt10 {
+  padding: 1%;
 }
 .mainborderdiv {
   border: 2px solid black;
@@ -254,7 +262,7 @@
   display: flex;
   justify-content: space-between;
 
-  padding: 1rem;
+  padding: 0.9rem;
 }
 .mainfeedetailsinnear {
   width: 50%;
@@ -271,10 +279,29 @@
   padding-left: 0.5rem;
 }
 @media screen and (max-width: 780px) {
+  .mainfeedetailsinnear {
+    width: 100%;
+  }
+  .mainfeedetails {
+    display: block;
+    justify-content: space-between;
+
+    padding: 0.9rem;
+  }
+  .mainimgdivre {
+    display: flex;
+    flex-direction: column;
+  }
+  .imgdivre {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
   .imgdivre img {
-    width: 11.1rem;
-    height: 11.1rem;
-    border-radius: 48%;
+    width: 7.1rem;
+    height: 7.1rem;
   }
   .optionDiv {
     display: block;

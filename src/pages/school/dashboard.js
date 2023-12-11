@@ -10,7 +10,6 @@ import { loadUser } from "../../redux/actions/authActions";
 import { serverInstance } from "../../API/ServerInstance";
 import { toast } from "react-toastify";
 
-
 function Dashboard() {
   const dispatch = useDispatch();
   const [alltotaldata, setalltotaldata] = useState("");
@@ -127,7 +126,7 @@ function Dashboard() {
   const totalexpenses = (data) => {
     let total = 0;
     data?.map((item) => {
-      total = total + Number(item?.ExpensesAmount);
+      total = total + Number(item?.total_paidamount);
     });
     return total;
   };
@@ -184,25 +183,25 @@ function Dashboard() {
       <div className="mainContainer">
         <div className="top-info-main-div">
           <TopCard
-            img="/images/dash2.jpg"
+            img="/images/staff.png"
             value={
               alltotaldata?.TotalEmployee ? alltotaldata?.TotalEmployee : 0
             }
             text={"Employees"}
           />
           <TopCard
-            img="/images/dash2.jpg"
+            img="/images/students.webp"
             value={alltotaldata?.TotalStudent ? alltotaldata?.TotalStudent : 0}
             text={"Students"}
           />
           <TopCard
-            img="/images/dash2.jpg"
+            img="/images/parents.png"
             value={alltotaldata?.TotalParents ? alltotaldata?.TotalParents : 0}
             text={"Parents"}
           />
 
           <TopCard
-            img="/images/dash2.jpg"
+            img="/images/staff.png"
             value={
               alltotaldata?.AllEmployeeAttendance
                 ? totalpresent(alltotaldata?.AllEmployeeAttendance)
@@ -211,7 +210,7 @@ function Dashboard() {
             text={"Present Teachers"}
           />
           <TopCard
-            img="/images/dash2.jpg"
+            img="/images/students.webp"
             value={
               alltotaldata?.AllStudentAttendance
                 ? totalpresent(alltotaldata?.AllStudentAttendance)
@@ -220,7 +219,7 @@ function Dashboard() {
             text={"Present Students"}
           />
           <TopCard
-            img="/images/dash3.jpg"
+          img="/images/rupee1.png"
             value={
               alltotaldata?.allreceiptdata
                 ? `₹${totalrecovery10(alltotaldata?.allTodayreceiptdata)}`
@@ -229,7 +228,7 @@ function Dashboard() {
             text={"Today Paid Fees"}
           />
           <TopCard
-            img="/images/dash3.jpg"
+            img="/images/rupee1.png"
             value={
               alltotaldata?.allreceiptdata
                 ? `₹${totalrecovery(alltotaldata?.allreceiptdata)}`
@@ -238,7 +237,7 @@ function Dashboard() {
             text={"Paid Fees"}
           />
           <TopCard
-            img="/images/dash3.jpg"
+            img="/images/redrupee.png"
             value={
               alltotaldata?.allStudentPending
                 ? `${
@@ -255,7 +254,7 @@ function Dashboard() {
             text={"Pending Fees"}
           />
           <TopCard
-            img="/images/dash3.jpg"
+            img="/images/rupppe.png"
             value={
               alltotaldata?.allexpenses
                 ? `₹${totalexpenses(alltotaldata?.allexpenses)}`
@@ -264,7 +263,7 @@ function Dashboard() {
             text={"Expenses"}
           />
           <TopCard
-            img="/images/dash3.jpg"
+            img="/images/rupee2.png"
             value={
               alltotaldata?.allreceiptdata
                 ? `₹${
