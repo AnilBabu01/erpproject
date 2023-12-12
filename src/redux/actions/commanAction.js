@@ -180,6 +180,12 @@ import {
   GET_OTHERFEE_REQUEST,
   GET_OTHERFEE_SUCCESS,
   GET_OTHERFEE_FAIL,
+  GET_SUBJECT_REQUEST,
+  GET_SUBJECT_SUCCESS,
+  GET_SUBJECT_FAIL,
+  GET_CLASS_SUBJECT_REQUEST,
+  GET_CLASS_SUBJECT_SUCCESS,
+  GET_CLASS_SUBJECT_FAIL
 } from "../constants/commanConstants";
 
 // Get all College
@@ -1680,6 +1686,7 @@ export const getTest =
   };
 
 // post add enquiry
+
 export const Updatecredentials = (formData, setOpen) => async (dispatch) => {
   try {
     const config = {
@@ -2074,3 +2081,86 @@ export const GeOtherFees =
       });
     }
   };
+
+// Get all Facility
+export const GetsSubject = (classId, empID,dayname) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("erptoken")}`,
+      },
+    };
+    dispatch({ type: GET_SUBJECT_REQUEST });
+
+    if (classId || empID||dayname) {
+      const { data } = await axios.get(
+        `${backendApiUrl}comman/subject?classId=${classId}&empID=${empID}&dayname=${dayname}`,
+        config
+      );
+
+      dispatch({
+        type: GET_SUBJECT_SUCCESS,
+        payload: data?.data,
+      });
+    } else {
+      dispatch({ type: GET_SUBJECT_REQUEST });
+      const { data } = await axios.get(
+        `${backendApiUrl}comman/subject`,
+        config
+      );
+
+      dispatch({
+        type: GET_SUBJECT_SUCCESS,
+        payload: data?.data,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: GET_SUBJECT_FAIL,
+      payload: error?.response?.data?.msg,
+    });
+  }
+};
+
+
+// Get all Facility
+export const GetClassSubject = (classId, empID) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("erptoken")}`,
+      },
+    };
+    dispatch({ type: GET_CLASS_SUBJECT_REQUEST });
+
+    if (classId || empID) {
+      const { data } = await axios.get(
+        `${backendApiUrl}comman/classsubject?classId=${classId}&empID=${empID}`,
+        config
+      );
+
+      dispatch({
+        type: GET_CLASS_SUBJECT_SUCCESS,
+        payload: data?.data,
+      });
+    } else {
+      dispatch({ type: GET_CLASS_SUBJECT_REQUEST });
+      const { data } = await axios.get(
+        `${backendApiUrl}comman/classsubject`,
+        config
+      );
+
+      dispatch({
+        type: GET_CLASS_SUBJECT_SUCCESS,
+        payload: data?.data,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: GET_CLASS_SUBJECT_FAIL,
+      payload: error?.response?.data?.msg,
+    });
+  }
+};

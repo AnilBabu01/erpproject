@@ -179,6 +179,12 @@ import {
   GET_OTHERFEE_REQUEST,
   GET_OTHERFEE_SUCCESS,
   GET_OTHERFEE_FAIL,
+  GET_SUBJECT_REQUEST,
+  GET_SUBJECT_SUCCESS,
+  GET_SUBJECT_FAIL,
+  GET_CLASS_SUBJECT_REQUEST,
+  GET_CLASS_SUBJECT_SUCCESS,
+  GET_CLASS_SUBJECT_FAIL,
 } from "../constants/commanConstants";
 
 export const getCollegeReducer = (state = { college: {} }, action) => {
@@ -1932,7 +1938,6 @@ export const GetSection = (state = { sections: {} }, action) => {
       };
 
     default:
-
       return state;
   }
 };
@@ -1987,6 +1992,73 @@ export const GetOtherFeeReducer = (state = { otherfee: {} }, action) => {
       return {
         loading: false,
         otherfee: null,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const GetSubjectReducer = (state = { subject: {} }, action) => {
+  switch (action.type) {
+    case GET_SUBJECT_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case GET_SUBJECT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        subject: action.payload,
+      };
+
+    case GET_SUBJECT_FAIL:
+      return {
+        loading: false,
+        subject: null,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const GetClassSubjectReducer = (
+  state = { Classsubject: {} },
+  action
+) => {
+  switch (action.type) {
+    case GET_CLASS_SUBJECT_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case GET_CLASS_SUBJECT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        Classsubject: action.payload,
+      };
+
+    case GET_CLASS_SUBJECT_FAIL:
+      return {
+        loading: false,
+        Classsubject: null,
         error: action.payload,
       };
 

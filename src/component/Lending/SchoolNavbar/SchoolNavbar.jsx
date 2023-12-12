@@ -37,36 +37,41 @@ const SchoolNavbar = () => {
               Dashboard
             </Link>
           </div>
-          <ul className="nav_menu">
-            <li className="nav_list nav_list_menu">
-              <div className="nffffav_linka">
-                <Link
-                  className={
-                    router.pathname == "/institunnnte/dashboard"
-                      ? "link_directActive"
-                      : "link_direct"
-                  }
-                  href="/school/frontoffice/enquiry"
-                >
-                  Front Office <KeyboardArrowDownIcon />
-                </Link>
-              </div>
-              <div className={navbar ? "dropdownscroll" : "dropdown"}>
-                <div className="dropdown-inner">
-                  <div className="main_report_dropdown">
-                    <div className="main_report_dropdown_rightmargin">
-                      <h1>General</h1>
-                      <div className="main_innear_menu_dropdown">
-                        <Link href="/school/frontoffice/enquiry">
-                          Admission Enquiry
-                        </Link>
+          {user?.data?.CredentailsData?.FrontOffice === true && (
+            <>
+              <ul className="nav_menu">
+                <li className="nav_list nav_list_menu">
+                  <div className="nffffav_linka">
+                    <Link
+                      className={
+                        router.pathname == "/institunnnte/dashboard"
+                          ? "link_directActive"
+                          : "link_direct"
+                      }
+                      href="/school/frontoffice/enquiry"
+                    >
+                      Front Office <KeyboardArrowDownIcon />
+                    </Link>
+                  </div>
+                  <div className={navbar ? "dropdownscroll" : "dropdown"}>
+                    <div className="dropdown-inner">
+                      <div className="main_report_dropdown">
+                        <div className="main_report_dropdown_rightmargin">
+                          <h1>General</h1>
+                          <div className="main_innear_menu_dropdown">
+                            <Link href="/school/frontoffice/enquiry">
+                              Admission Enquiry
+                            </Link>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </li>
-          </ul>
+                </li>
+              </ul>
+            </>
+          )}
+
           <ul className="nav_menu">
             <li className="nav_list nav_list_menu">
               <div className="nffffav_linka">
@@ -103,6 +108,9 @@ const SchoolNavbar = () => {
                         </Link>
                         <Link href="/school/student/OtherFee">
                           Add Other Fee
+                        </Link>
+                        <Link href="/school/student/Timetable">
+                          Add Time Table
                         </Link>
                       </div>
                     </div>
@@ -178,45 +186,7 @@ const SchoolNavbar = () => {
               </div>
             </li>
           </ul>
-          {/* <ul className="nav_menu">
-            <li className="nav_list nav_list_menu">
-              <div className="nffffav_linka">
-                <Link
-                  className={
-                    router.pathname == "/institunnnte/dashboard"
-                      ? "link_directActive"
-                      : "link_direct"
-                  }
-                  href="/school/student/attendance"
-                >
-                  Attendance
-                  <KeyboardArrowDownIcon />
-                </Link>
-              </div>
-              <div className={navbar ? "dropdownscroll" : "dropdown"}>
-                <div className="dropdown-inner">
-                  <div className="main_report_dropdown">
-                    <div className="main_report_dropdown_rightmargin">
-                      <h1>Attendance</h1>
-                      <div className="main_innear_menu_dropdown">
-                        <Link href="/school/student/Attendance">
-                          Student Attendance
-                        </Link>
-                      </div>
-                      <div className="main_innear_menu_dropdown">
-                        <Link href="/school/student/Holiday">Add Holiday</Link>
-                      </div>
-                      <div className="main_innear_menu_dropdown">
-                        <Link href="/school/student/Particularattendance">
-                          Particular Student Attendance
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </li>
-          </ul> */}
+
           <ul className="nav_menu">
             <li className="nav_list nav_list_menu">
               <div className="nffffav_linka">
@@ -260,119 +230,138 @@ const SchoolNavbar = () => {
               </div>
             </li>
           </ul>
-          <ul class="nav_menu">
-            <li class="nav_list nav_list_menu">
-              <div className="nffffav_linka">
-                <Link
-                  className={
-                    router.pathname == "/institunnnte/dashboard"
-                      ? "link_directActive"
-                      : "link_direct"
-                  }
-                  href="/school/transport/vehicletype"
-                >
-                  Transport <KeyboardArrowDownIcon />
-                </Link>
-              </div>
-              <div className={navbar ? "dropdownscroll" : "dropdown"}>
-                <div class="dropdown-inner">
-                  <div className="main_report_dropdown">
-                    <div className="main_report_dropdown_rightmargin">
-                      <h1>General</h1>
-                      <div className="main_innear_menu_dropdown">
-                        <Link href="/school/transport/Vehicletype">
-                          Add Vehicle Type
-                        </Link>
-                        <Link href="/school/transport/Vehicledetails">
-                          Add Bus
-                        </Link>
-                        <Link href="/school/transport/Addroutes">
-                          Add Routes
-                        </Link>
-                        <Link href="/school/transport/Addstudent">
-                          Add Student To Transport
-                        </Link>
-                        <Link href="/school/transport/Assignbus">
-                          Assign Bus To Student
-                        </Link>
+          {user?.data?.CredentailsData?.Transport === true && (
+            <>
+              <ul class="nav_menu">
+                <li class="nav_list nav_list_menu">
+                  <div className="nffffav_linka">
+                    <Link
+                      className={
+                        router.pathname == "/institunnnte/dashboard"
+                          ? "link_directActive"
+                          : "link_direct"
+                      }
+                      href="/school/transport/vehicletype"
+                    >
+                      Transport <KeyboardArrowDownIcon />
+                    </Link>
+                  </div>
+                  <div className={navbar ? "dropdownscroll" : "dropdown"}>
+                    <div class="dropdown-inner">
+                      <div className="main_report_dropdown">
+                        <div className="main_report_dropdown_rightmargin">
+                          <h1>General</h1>
+                          <div className="main_innear_menu_dropdown">
+                            <Link href="/school/transport/Vehicletype">
+                              Add Vehicle Type
+                            </Link>
+                            <Link href="/school/transport/Vehicledetails">
+                              Add Bus
+                            </Link>
+                            <Link href="/school/transport/Addroutes">
+                              Add Routes
+                            </Link>
+                            <Link href="/school/transport/Addstudent">
+                              Add Student To Transport
+                            </Link>
+                            <Link href="/school/transport/Assignbus">
+                              Assign Bus To Student
+                            </Link>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </li>
-          </ul>
-          <ul class="nav_menu">
-            <li class="nav_list nav_list_menu">
-              <div className="nffffav_linka">
-                <Link
-                  className={
-                    router.pathname == "/institunnnte/dashboard"
-                      ? "link_directActive"
-                      : "link_direct"
-                  }
-                  href="/school/library/addstudent"
-                >
-                  Library <KeyboardArrowDownIcon />
-                </Link>
-              </div>
-              <div className={navbar ? "dropdownscroll" : "dropdown"}>
-                <div class="dropdown-inner">
-                  <div className="main_report_dropdown">
-                    <div className="main_report_dropdown_rightmargin">
-                      <h1>General</h1>
-                      <div className="main_innear_menu_dropdown">
-                        <Link href="/school/library/Addstudent">
-                          Add Student In Library
-                        </Link>
-                        <Link href="/school/library/Addbook">Add Book</Link>
-                        <Link href="/school/library/Issuereturn">
-                          Issue Return
-                        </Link>
+                </li>
+              </ul>
+            </>
+          )}
+          {user?.data?.CredentailsData?.Library === true && (
+            <>
+              <ul class="nav_menu">
+                <li class="nav_list nav_list_menu">
+                  <div className="nffffav_linka">
+                    <Link
+                      className={
+                        router.pathname == "/institunnnte/dashboard"
+                          ? "link_directActive"
+                          : "link_direct"
+                      }
+                      href="/school/library/addstudent"
+                    >
+                      Library <KeyboardArrowDownIcon />
+                    </Link>
+                  </div>
+                  <div className={navbar ? "dropdownscroll" : "dropdown"}>
+                    <div class="dropdown-inner">
+                      <div className="main_report_dropdown">
+                        <div className="main_report_dropdown_rightmargin">
+                          <h1>General</h1>
+                          <div className="main_innear_menu_dropdown">
+                            <Link href="/school/library/Addstudent">
+                              Add Student In Library
+                            </Link>
+                            <Link href="/school/library/Addbook">Add Book</Link>
+                            <Link href="/school/library/Issuereturn">
+                              Issue Return
+                            </Link>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </li>
-          </ul>
-          <ul class="nav_menu">
-            <li class="nav_list nav_list_menu">
-              <div className="nffffav_linka">
-                <Link
-                  className={
-                    router.pathname == "/institunnnte/dashboard"
-                      ? "link_directActive"
-                      : "link_direct"
-                  }
-                  href="/school/hostel/Category"
-                >
-                  Hostel <KeyboardArrowDownIcon />
-                </Link>
-              </div>
-              <div className={navbar ? "dropdownscroll" : "dropdown"}>
-                <div class="dropdown-inner">
-                  <div className="main_report_dropdown">
-                    <div className="main_report_dropdown_rightmargin">
-                      <h1>General</h1>
-                      <div className="main_innear_menu_dropdown">
-                        <Link href="/school/hostel/Category">Add Category</Link>
-                        <Link href="/school/hostel/Facility">Add Facility</Link>
-                        <Link href="/school/hostel/Addhostel">Add Hostel</Link>
-                        <Link href="/school/hostel/Addroom">Add Room</Link>
-                        <Link href="/school/hostel/Assignhostel">
-                          Give Room To Student
-                        </Link>
-                        <Link href="/school/hostel/Addstudent">
-                          Add Student In Room
-                        </Link>
+                </li>
+              </ul>
+            </>
+          )}
+          {user?.data?.CredentailsData?.hostel === true && (
+            <>
+              <ul class="nav_menu">
+                <li class="nav_list nav_list_menu">
+                  <div className="nffffav_linka">
+                    <Link
+                      className={
+                        router.pathname == "/institunnnte/dashboard"
+                          ? "link_directActive"
+                          : "link_direct"
+                      }
+                      href="/school/hostel/Category"
+                    >
+                      Hostel <KeyboardArrowDownIcon />
+                    </Link>
+                  </div>
+                  <div className={navbar ? "dropdownscroll" : "dropdown"}>
+                    <div class="dropdown-inner">
+                      <div className="main_report_dropdown">
+                        <div className="main_report_dropdown_rightmargin">
+                          <h1>General</h1>
+                          <div className="main_innear_menu_dropdown">
+                            <Link href="/school/hostel/Category">
+                              Add Category
+                            </Link>
+                            <Link href="/school/hostel/Facility">
+                              Add Facility
+                            </Link>
+                            <Link href="/school/hostel/Addhostel">
+                              Add Hostel
+                            </Link>
+                            <Link href="/school/hostel/Addroom">Add Room</Link>
+                            <Link href="/school/hostel/Assignhostel">
+                              Give Room To Student
+                            </Link>
+                            <Link href="/school/hostel/Addstudent">
+                              Add Student In Room
+                            </Link>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </li>
-          </ul>
+                </li>
+              </ul>
+            </>
+          )}
+
           <ul className="nav_menu">
             <li className="nav_list nav_list_menu">
               <div className="nffffav_linka">
@@ -478,6 +467,9 @@ const SchoolNavbar = () => {
                         <Link href="/school/masters/masteremployee">
                           Designation
                         </Link>
+                        <Link href="/school/masters/AddClassSubject">
+                          Add Subject
+                        </Link>
                         {/* <Link href="/school/masters/branch">Add Branch</Link> */}
                       </div>
                     </div>
@@ -558,51 +550,64 @@ const SchoolNavbar = () => {
                         </Link>
                       </div>
                     </div>
+                    {user?.data?.CredentailsData?.Library === true && (
+                      <>
+                        <div className="main_report_dropdown_rightmargin">
+                          <h1>Library</h1>
+                          <div className="main_innear_menu_dropdown">
+                            <Link href="/school/report/BookReport">
+                              Book Report
+                            </Link>
+                            <Link href="/">Issue Book Report</Link>
+                            <Link href="/">Return Book Report</Link>
+                            <Link href="/">Libray Id Card Report</Link>
+                          </div>
+                        </div>
+                      </>
+                    )}
 
-                    <div className="main_report_dropdown_rightmargin">
-                      <h1>Library</h1>
-                      <div className="main_innear_menu_dropdown">
-                        <Link href="/school/report/BookReport">
-                          Book Report
-                        </Link>
-                        <Link href="/">Issue Book Report</Link>
-                        <Link href="/">Return Book Report</Link>
-                        <Link href="/">Libray Id Card Report</Link>
-                      </div>
-                    </div>
-
-                    <div className="main_report_dropdown_rightmargin">
-                      <h1>Hostel</h1>
-                      <div className="main_innear_menu_dropdown">
-                        <Link href="/school/report/AvailableRoom">
-                          Available Room Report
-                        </Link>
-                        <Link href="/school/report/OccupiedRoom">
-                          Occupied Room Report
-                        </Link>
-                        <Link href="/school/report/StudentRoom">
-                          Student In Room Report
-                        </Link>
-                        <Link href="/school/report/HostelPaidFee">
-                          Hostel Paid Fee
-                        </Link>
-                        <Link href="/school/report/HostelPendingFee">
-                          Hostel Pending Fee
-                        </Link>
-                      </div>
-                    </div>
-                    <div className="main_report_dropdown_rightmargin">
-                      <h1>Transport</h1>
-                      <div className="main_innear_menu_dropdown">
-                        <Link href="/">Bus Report</Link>
-                        <Link href="/school/report/TransPortPaidFee">
-                          TransPort Paid Fee
-                        </Link>
-                        <Link href="/school/report/TransPortPendingFee">
-                          TransPort Pending Fee
-                        </Link>
-                      </div>
-                    </div>
+                    {user?.data?.CredentailsData?.hostel === true && (
+                      <>
+                        <div className="main_report_dropdown_rightmargin">
+                          <h1>Hostel</h1>
+                          <div className="main_innear_menu_dropdown">
+                            <Link href="/school/report/AvailableRoom">
+                              Available Room Report
+                            </Link>
+                            <Link href="/school/report/OccupiedRoom">
+                              Occupied Room Report
+                            </Link>
+                            <Link href="/school/report/StudentRoom">
+                              Student In Room Report
+                            </Link>
+                            <Link href="/school/report/HostelPaidFee">
+                              Hostel Paid Fee
+                            </Link>
+                            <Link href="/school/report/HostelPendingFee">
+                              Hostel Pending Fee
+                            </Link>
+                          </div>
+                        </div>
+                      </>
+                    )}
+                    {user?.data?.CredentailsData?.Transport === true && (
+                      <>
+                        <div className="main_report_dropdown_rightmargin">
+                          <h1>Transport</h1>
+                          <div className="main_innear_menu_dropdown">
+                            <Link href="/school/report/StudentInBus">
+                              Bus Report
+                            </Link>
+                            <Link href="/school/report/TransPortPaidFee">
+                              TransPort Paid Fee
+                            </Link>
+                            <Link href="/school/report/TransPortPendingFee">
+                              TransPort Pending Fee
+                            </Link>
+                          </div>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>

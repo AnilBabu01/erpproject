@@ -100,8 +100,6 @@ function AddStudent({ setOpen }) {
     (state) => state.addstudent
   );
 
-  console.log("route list details from", routelist);
-
   const submit = () => {
     formData.set("name", studentname);
     formData.set("email", studentemail);
@@ -139,7 +137,7 @@ function AddStudent({ setOpen }) {
     formData.set("Category", hostelcategory);
     formData.set("Facility", hostelfacility);
     formData.set("StudentCategory", categoryname);
-    
+
     formData.set(
       "permonthfee",
       getfee === "default" ? Number(onlyshowmonthfee) : Number(monthlyfee)
@@ -998,112 +996,132 @@ function AddStudent({ setOpen }) {
                   )}
                   <div className={styles.divmaininput}>
                     <div className={styles.inputdiv}>
-                      <label>Hostal</label>
-                      <Select
-                        required
-                        className={styles.addwidth}
-                        sx={{
-                          width: "18.8rem",
-                          fontSize: 14,
-                          "& .MuiSelect-select": {
-                            paddingTop: "0.6rem",
-                            paddingBottom: "0.6em",
-                          },
-                        }}
-                        value={hostal}
-                        name="hostal"
-                        onChange={(e) => sethostal(e.target.value)}
-                        displayEmpty
-                      >
-                        <MenuItem
-                          sx={{
-                            fontSize: 14,
-                          }}
-                          value={false}
-                        >
-                          No
-                        </MenuItem>
-                        <MenuItem
-                          sx={{
-                            fontSize: 14,
-                          }}
-                          value={true}
-                        >
-                          Yes
-                        </MenuItem>
-                      </Select>
+                      {user?.data?.CredentailsData?.hostel === true ? (
+                        <>
+                          <label>Hostal</label>
+                          <Select
+                            required
+                            className={styles.addwidth}
+                            sx={{
+                              width: "18.8rem",
+                              fontSize: 14,
+                              "& .MuiSelect-select": {
+                                paddingTop: "0.6rem",
+                                paddingBottom: "0.6em",
+                              },
+                            }}
+                            value={hostal}
+                            name="hostal"
+                            onChange={(e) => sethostal(e.target.value)}
+                            displayEmpty
+                          >
+                            <MenuItem
+                              sx={{
+                                fontSize: 14,
+                              }}
+                              value={false}
+                            >
+                              No
+                            </MenuItem>
+                            <MenuItem
+                              sx={{
+                                fontSize: 14,
+                              }}
+                              value={true}
+                            >
+                              Yes
+                            </MenuItem>
+                          </Select>
+                        </>
+                      ) : (
+                        ""
+                      )}
                     </div>
+
                     <div className={styles.inputdiv}>
-                      <label>Transport</label>
-                      <Select
-                        required
-                        className={styles.addwidth}
-                        sx={{
-                          width: "18.8rem",
-                          fontSize: 14,
-                          "& .MuiSelect-select": {
-                            paddingTop: "0.6rem",
-                            paddingBottom: "0.6em",
-                          },
-                        }}
-                        value={transport}
-                        name="transport"
-                        onChange={(e) => settransport(e.target.value)}
-                        displayEmpty
-                      >
-                        <MenuItem
-                          sx={{
-                            fontSize: 14,
-                          }}
-                          value={false}
-                        >
-                          No
-                        </MenuItem>
-                        <MenuItem
-                          sx={{
-                            fontSize: 14,
-                          }}
-                          value={true}
-                        >
-                          Yes
-                        </MenuItem>
-                      </Select>
+                      {user?.data?.CredentailsData?.Transport === true ? (
+                        <>
+                          <label>Transport</label>
+                          <Select
+                            required
+                            className={styles.addwidth}
+                            sx={{
+                              width: "18.8rem",
+                              fontSize: 14,
+                              "& .MuiSelect-select": {
+                                paddingTop: "0.6rem",
+                                paddingBottom: "0.6em",
+                              },
+                            }}
+                            value={transport}
+                            name="transport"
+                            onChange={(e) => settransport(e.target.value)}
+                            displayEmpty
+                          >
+                            <MenuItem
+                              sx={{
+                                fontSize: 14,
+                              }}
+                              value={false}
+                            >
+                              No
+                            </MenuItem>
+                            <MenuItem
+                              sx={{
+                                fontSize: 14,
+                              }}
+                              value={true}
+                            >
+                              Yes
+                            </MenuItem>
+                          </Select>
+                        </>
+                      ) : (
+                        <></>
+                      )}
                     </div>
+
                     <div className={styles.inputdiv}>
-                      <label>Library</label>
-                      <Select
-                        required
-                        className={styles.addwidth}
-                        sx={{
-                          width: "18.8rem",
-                          fontSize: 14,
-                          "& .MuiSelect-select": {
-                            paddingTop: "0.6rem",
-                            paddingBottom: "0.6em",
-                          },
-                        }}
-                        value={Library}
-                        name="Library"
-                        onChange={(e) => setLibrary(e.target.value)}
-                        displayEmpty
-                      >
-                        <MenuItem
-                          sx={{
-                            fontSize: 14,
-                          }}
-                          value={false}
-                        >
-                          No
-                        </MenuItem>
-                        <MenuItem
-                          sx={{
-                            fontSize: 14,
-                          }}
-                          value={true}
-                        >
-                          Yes
-                        </MenuItem>
-                      </Select>
+                      {user?.data?.CredentailsData?.Library === true ? (
+                        <>
+                          <label>Library</label>
+                          <Select
+                            required
+                            className={styles.addwidth}
+                            sx={{
+                              width: "18.8rem",
+                              fontSize: 14,
+                              "& .MuiSelect-select": {
+                                paddingTop: "0.6rem",
+                                paddingBottom: "0.6em",
+                              },
+                            }}
+                            value={Library}
+                            name="Library"
+                            onChange={(e) => setLibrary(e.target.value)}
+                            displayEmpty
+                          >
+                            <MenuItem
+                              sx={{
+                                fontSize: 14,
+                              }}
+                              value={false}
+                            >
+                              No
+                            </MenuItem>
+                            <MenuItem
+                              sx={{
+                                fontSize: 14,
+                              }}
+                              value={true}
+                            >
+                              Yes
+                            </MenuItem>
+                          </Select>
+                        </>
+                      ) : (
+                        ""
+                      )}
                     </div>
                   </div>
 

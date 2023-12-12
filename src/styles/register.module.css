@@ -753,6 +753,7 @@
   padding-top: 0.2rem;
   padding-bottom: 0.2rem;
 }
+
 .backbtn {
   width: 40%;
   height: 35px;
@@ -761,6 +762,7 @@
   border-radius: 7px;
   margin: 0.5rem;
 }
+
 .main_img_divvvv {
   margin-top: 3%;
   height: 205px;
@@ -818,7 +820,7 @@
   padding-left: 1rem;
   padding-right: 1rem;
   margin-right: 1rem;
-  margin-left: 1rem
+  margin-left: 1rem;
 }
 .searchoptiondivbutton {
   border: 1px solid #093959;
@@ -949,12 +951,28 @@
   margin-top: 3%;
   width: 32%;
 }
-.roomlistscrollbar{
+.roomlistscrollbar {
   height: 15rem;
   overflow-y: scroll;
 }
+.dashActiveBtn {
+  width: 15%;
+  height: 35px;
+  background: #093959;
+  color: white;
+  border-radius: 7px;
+  margin: 0.5rem;
+}
+.dashDisableBtn {
+  width: 15%;
+  height: 35px;
+  background: #cedce5;
+  color: #093959;
+  border-radius: 7px;
+  margin: 0.5rem;
+}
 @media screen and (max-width: 780px) {
-  .searchinput{
+  .searchinput {
     width: 100%;
     margin-bottom: 0.5rem;
   }

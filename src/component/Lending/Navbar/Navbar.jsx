@@ -165,7 +165,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                 <ListItemIcon>
                   <Settings fontSize="small" />
                 </ListItemIcon>
-                Update Your Profile
+                Settings
               </MenuItem>
             </>
           )}
@@ -175,7 +175,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                 <ListItemIcon>
                   <Settings fontSize="small" />
                 </ListItemIcon>
-                Update Your Profile
+                Settings
               </MenuItem>
             </>
           )}
@@ -185,7 +185,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                 <ListItemIcon>
                   <Settings fontSize="small" />
                 </ListItemIcon>
-                Update Your Profile
+                Settings
               </MenuItem>
             </>
           )}
