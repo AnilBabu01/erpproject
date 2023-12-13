@@ -8,6 +8,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import Footer from "../../component/Student/Footer";
 function Dashboard() {
+  
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(loadUser());

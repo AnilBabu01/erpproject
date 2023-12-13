@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
-import { GetHostel } from "../../../redux/actions/hostelActions";
+import { GetSlider } from "../../../redux/actions/commanAction";
 import { useDispatch } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { backendApiUrl, backendUrl } from "../../../config/config";
 const formData = new FormData();
-function UpdateHostel({ setOpen, updatedata }) {
+function UpdateSlider({ setOpen, updatedata }) {
   const dispatch = useDispatch();
   const [HostelName, setHostelName] = useState("");
   const [DescripTion, setDescripTion] = useState("");
   const [previewprofile1, setpreviewprofile1] = useState("");
   const [loading, setloading] = useState(false);
   const [img1, setimg1] = useState("");
+
+  console.log("img url", updatedata);
 
   const submit = async (e) => {
     e.preventDefault();
@@ -26,11 +28,10 @@ function UpdateHostel({ setOpen, updatedata }) {
         },
       };
       formData.set("id", updatedata?.id);
-      formData.set("HostelName", HostelName);
-      formData.set("DescripTion", DescripTion);
-      formData.set("Hostelurl", img1 ? img1 : updatedata?.Hostelurl);
+      formData.set("Dec", DescripTion);
+      formData.set("ImgUrl", img1 ? img1 : updatedata?.Hostelurl);
       const res = await axios.put(
-        `${backendApiUrl}hostel/addhostel`,
+        `${backendApiUrl}comman/slider`,
         formData,
         config
       );
@@ -41,7 +42,7 @@ function UpdateHostel({ setOpen, updatedata }) {
         });
         setOpen(false);
         setloading(false);
-        dispatch(GetHostel());
+        dispatch(GetSlider());
       }
     } catch (error) {
       toast.error(error?.response?.data?.msg, {
@@ -52,8 +53,8 @@ function UpdateHostel({ setOpen, updatedata }) {
 
   useEffect(() => {
     if (updatedata) {
-      setHostelName(updatedata?.HostelName);
-      setDescripTion(updatedata?.DescripTion);
+      setHostelName(updatedata?.ImgUrl);
+      setDescripTion(updatedata?.Dec);
     }
   }, []);
 
@@ -63,22 +64,13 @@ function UpdateHostel({ setOpen, updatedata }) {
         <div className={styles.closeicondiv} onClick={() => setOpen(false)}>
           <CloseIcon />
         </div>
-        <h1>Update Hostel</h1>
+        <h1>Update Slider IMG</h1>
         <form onSubmit={submit}>
           <div className={styles.inputdiv20}>
-            <label>Hostel Name</label>
-            <input
-              type="text"
-              placeholder="Enter the Hostel Name"
-              value={HostelName}
-              name="HostelName"
-              onChange={(e) => setHostelName(e.target.value)}
-            />
-          </div>
-          <div className={styles.inputdiv20}>
-            <label>Hostel Description</label>
+            <label>Slider Description</label>
 
             <textarea
+              required
               className={styles.textarextdiv}
               type="text"
               placeholder="Enter the Description"
@@ -87,7 +79,6 @@ function UpdateHostel({ setOpen, updatedata }) {
               onChange={(e) => setDescripTion(e.target.value)}
             />
           </div>
-
           <div className={styles.inputdiv20}>
             {previewprofile1 ? (
               <>
@@ -100,12 +91,12 @@ function UpdateHostel({ setOpen, updatedata }) {
               </>
             ) : (
               <>
-                {updatedata?.Hostelurl ? (
+                {updatedata?.ImgUrl ? (
                   <>
                     <div className={styles.main_img_divvvv}>
                       <img
                         className={styles.dharamshala_imgggg}
-                        src={`${backendUrl}public/upload/${updatedata?.Hostelurl}`}
+                        src={`${backendUrl}public/upload/${updatedata?.ImgUrl}`}
                       />
                     </div>
                   </>
@@ -148,4 +139,4 @@ function UpdateHostel({ setOpen, updatedata }) {
   );
 }
 
-export default UpdateHostel;
+export default UpdateSlider;

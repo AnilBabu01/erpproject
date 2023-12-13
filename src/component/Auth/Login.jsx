@@ -22,7 +22,6 @@ const logintype = [
   { label: "Others", value: "Others" },
 ];
 
-
 const customStyles = {
   control: (defaultStyles) => ({
     ...defaultStyles,
@@ -75,19 +74,17 @@ function Login({ setOpen, setOpen1 }) {
       localStorage.setItem("erptoken", user?.data[0]?.token);
       dispatch(loadUser());
       setOpen(false);
-      if (user?.data[0]?.newclient === true) {
-        navigate.push("/pricing");
-      } else {
-        if (user?.data[0]?.userType === "school") {
-          navigate.push("/school/dashboard");
-        }
-        if (user?.data[0]?.userType === "college") {
-          navigate.push("/college/dashboard");
-        }
-        if (user?.data[0]?.userType === "institute") {
-          navigate.push("/coaching/dashboard");
-        }
+
+      if (user?.data[0]?.userType === "school") {
+        navigate.push("/school/dashboard");
       }
+      if (user?.data[0]?.userType === "college") {
+        navigate.push("/college/dashboard");
+      }
+      if (user?.data[0]?.userType === "institute") {
+        navigate.push("/coaching/dashboard");
+      }
+
       if (user?.data[0]?.userType === "admin") {
         navigate.push("/mainadmin/dashboard");
       }
@@ -337,7 +334,6 @@ function Login({ setOpen, setOpen1 }) {
                 </>
               )}
 
-
               {loginas === "Employee" && (
                 <>
                   <div className={styles.inputdiv10}>
@@ -371,9 +367,7 @@ function Login({ setOpen, setOpen1 }) {
               {loginas === "Student" && (
                 <>
                   <div className={styles.inputdiv10}>
-                    <label>
-                      Please Select
-                    </label>
+                    <label>Please Select</label>
                     <Select1
                       required
                       styles={customStyles}
@@ -385,10 +379,10 @@ function Login({ setOpen, setOpen1 }) {
                     />
                   </div>
                   <div className={styles.inputdiv}>
-                    <label>Roll Number</label>
+                    <label>SR Number</label>
                     <input
                       type="text"
-                      placeholder="Enter the Roll Number"
+                      placeholder="Enter The SNO"
                       value={userid}
                       name="userid"
                       onChange={(e) => setuserid(e.target.value)}

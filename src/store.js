@@ -64,7 +64,10 @@ import {
   GetSession,
   GetOtherFeeReducer,
   GetSubjectReducer,
-  GetClassSubjectReducer
+  GetClassSubjectReducer,
+  GetFooterDetailsReducer,
+  GetNoticReducer,
+  GetSliderReducer
 } from "./redux/reducers/commanReducers";
 import {
   getenquiriesReducer,
@@ -187,7 +190,10 @@ const reducer = combineReducers({
   GetExpenses: GetExpensesReducer,
   GetCheckin: GetCheckin,
   GetSubject: GetSubjectReducer,
-  GetClassSubject:GetClassSubjectReducer
+  GetClassSubject:GetClassSubjectReducer,
+  GetFooterDetails:GetFooterDetailsReducer,
+  GetNotic:GetNoticReducer,
+  GetSlider:GetSliderReducer
 });
 const middlware = [thunk];
 export const store = createStore(

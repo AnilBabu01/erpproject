@@ -185,6 +185,15 @@ import {
   GET_CLASS_SUBJECT_REQUEST,
   GET_CLASS_SUBJECT_SUCCESS,
   GET_CLASS_SUBJECT_FAIL,
+  GET_FOOTERDETAILS_REQUEST,
+  GET_FOOTERDETAILS_SUCCESS,
+  GET_FOOTERDETAILS_FAIL,
+  GET_NOTIC_REQUEST,
+  GET_NOTIC_SUCCESS,
+  GET_NOTIC_FAIL,
+  GET_SLIDER_REQUEST,
+  GET_SLIDER_SUCCESS,
+  GET_SLIDER_FAIL,
 } from "../constants/commanConstants";
 
 export const getCollegeReducer = (state = { college: {} }, action) => {
@@ -2059,6 +2068,106 @@ export const GetClassSubjectReducer = (
       return {
         loading: false,
         Classsubject: null,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const GetSliderReducer = (state = { slider: {} }, action) => {
+  switch (action.type) {
+    case GET_SLIDER_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case GET_SLIDER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        slider: action.payload,
+      };
+
+    case GET_SLIDER_FAIL:
+      return {
+        loading: false,
+        slider: null,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+
+export const GetNoticReducer = (state = { notic: {} }, action) => {
+  switch (action.type) {
+    case GET_NOTIC_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case GET_NOTIC_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        notic: action.payload,
+      };
+
+    case GET_NOTIC_FAIL:
+      return {
+        loading: false,
+        notic: null,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const GetFooterDetailsReducer = (
+  state = { footerdetails: {} },
+  action
+) => {
+  switch (action.type) {
+    case GET_FOOTERDETAILS_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case GET_FOOTERDETAILS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        footerdetails: action.payload,
+      };
+
+    case GET_FOOTERDETAILS_FAIL:
+      return {
+        loading: false,
+        footerdetails: null,
         error: action.payload,
       };
 

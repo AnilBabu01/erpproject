@@ -68,9 +68,12 @@ function Addhostel({ setOpen }) {
               onChange={(e) => setHostelName(e.target.value)}
             />
           </div>
+
           <div className={styles.inputdiv20}>
             <label>Hostel Description</label>
-            <input
+
+            <textarea
+              className={styles.textarextdiv}
               type="text"
               placeholder="Enter the Description"
               value={DescripTion}

@@ -20,11 +20,11 @@
 .showfathersname {
   margin-right: 1rem;
 }
-.tablethstart{
-   background-color: green;
-   border: 1px solid #dddddd;
-   text-align: center;
-   padding: 8px;
+.tablethstart {
+  background-color: green;
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 8px;
 }
 .showfathersname label {
   margin-left: 0.5rem;
@@ -190,6 +190,10 @@
   display: flex;
   justify-content: flex-end;
 }
+.opensearch:focus {
+  box-shadow: rgba(0, 0, 128, 0.25) 0px 0px 0px 0.2rem;
+  border-color: rgb(0, 0, 128);
+}
 
 .opensearchinput {
   border: 1px solid #093959;
@@ -202,6 +206,10 @@
   justify-content: flex-end;
   color: black;
 }
+.opensearchinput:focus {
+  box-shadow: rgba(0, 0, 128, 0.25) 0px 0px 0px 0.2rem;
+  border-color: rgb(0, 0, 128);
+}
 .opensearchinput20 {
   border: 1px solid #093959;
   padding: 0.2rem;
@@ -212,6 +220,10 @@
   /* display: flex; */
   justify-content: flex-end;
   color: black;
+}
+.opensearchinput20:focus {
+  box-shadow: rgba(0, 0, 128, 0.25) 0px 0px 0px 0.2rem;
+  border-color: rgb(0, 0, 128);
 }
 .opensearchinput10 {
   border: 1px solid #093959;
@@ -224,6 +236,10 @@
   justify-content: flex-end;
   color: black;
   width: 9rem;
+}
+.opensearchinput10:focus {
+  box-shadow: rgba(0, 0, 128, 0.25) 0px 0px 0px 0.2rem;
+  border-color: rgb(0, 0, 128);
 }
 .add_divmarginn {
   padding: 0.5rem;
@@ -335,18 +351,18 @@
   text-align: center;
   padding: 8px;
 }
-.idcarddiv{
+.idcarddiv {
   padding-left: 23%;
   padding-right: 23%;
   padding-top: 2%;
 }
-.idcarddivflex{
+.idcarddivflex {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   padding: 0.3%;
 }
-.idcarddivflex10{
+.idcarddivflex10 {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;

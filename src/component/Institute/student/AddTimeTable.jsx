@@ -115,16 +115,21 @@ function AddTimeTable({ setOpen }) {
   const [eamorpm, seteamorpm] = useState("AM");
   const [dayname, setdayname] = useState("");
   const [classId, setclassId] = useState("");
+  const [section, setsection] = useState("");
   const [empID, setempID] = useState("");
   const [subject, setsubject] = useState("");
+  const [sectionname, setsectionname] = useState("NONE");
+  const [sectionlist, setsectionlist] = useState([]);
   const [subjectlist, setsubjectlist] = useState([]);
   const { employees } = useSelector((state) => state.getemp);
   const { course } = useSelector((state) => state.getcourse);
+  const { sections } = useSelector((state) => state.GetSection);
   const { user } = useSelector((state) => state.auth);
   const { Classsubject } = useSelector((state) => state.GetClassSubject);
   const submit = () => {
     setloading(true);
     const data = {
+      section: sectionname,
       dayname: dayname,
       classId: classId,
       empID: empID,
@@ -161,7 +166,10 @@ function AddTimeTable({ setOpen }) {
     if (Classsubject) {
       setsubjectlist(Classsubject);
     }
-  }, [course, employees, Classsubject]);
+    if (sections) {
+      setsectionlist(sections);
+    }
+  }, [course, employees, Classsubject, sections]);
 
   //   useEffect(() => {
   //     dispatch(getEmployee());
@@ -260,7 +268,7 @@ function AddTimeTable({ setOpen }) {
               </Select>
             </div>
             <div className={styles.inputdiv}>
-              <label>Teacher</label>
+              <label>Section</label>
 
               <Select
                 // required
@@ -273,30 +281,30 @@ function AddTimeTable({ setOpen }) {
                     paddingBottom: "0.6em",
                   },
                 }}
-                value={empID}
-                name="empID"
-                onChange={(e) => setempID(e.target.value)}
+                value={sectionname}
+                name="sectionname"
+                onChange={(e) => setsectionname(e.target.value)}
                 displayEmpty
               >
                 <MenuItem
                   sx={{
                     fontSize: 14,
                   }}
-                  value={""}
+                  value={"NONE"}
                 >
-                  Please Select Teacher
+                  NONE
                 </MenuItem>
-                {emplist?.length > 0 &&
-                  emplist?.map((item, index) => {
+                {sectionlist?.length > 0 &&
+                  sectionlist?.map((item, index) => {
                     return (
                       <MenuItem
                         key={index}
                         sx={{
                           fontSize: 14,
                         }}
-                        value={item?.id}
+                        value={item?.section}
                       >
-                        {item?.name} ({item?.empId})
+                        {item?.section}
                       </MenuItem>
                     );
                   })}
@@ -569,6 +577,49 @@ function AddTimeTable({ setOpen }) {
                   })}
               </Select>
             </div>
+          </div>
+          <div className={styles.inputdiv}>
+            <label>Teacher</label>
+
+            <Select
+              // required
+              className={styles.addwidth}
+              sx={{
+                width: "18.8rem",
+                fontSize: 14,
+                "& .MuiSelect-select": {
+                  paddingTop: "0.6rem",
+                  paddingBottom: "0.6em",
+                },
+              }}
+              value={empID}
+              name="empID"
+              onChange={(e) => setempID(e.target.value)}
+              displayEmpty
+            >
+              <MenuItem
+                sx={{
+                  fontSize: 14,
+                }}
+                value={""}
+              >
+                Please Select Teacher
+              </MenuItem>
+              {emplist?.length > 0 &&
+                emplist?.map((item, index) => {
+                  return (
+                    <MenuItem
+                      key={index}
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={item?.id}
+                    >
+                      {item?.name} ({item?.empId})
+                    </MenuItem>
+                  );
+                })}
+            </Select>
           </div>
         </div>
         <div className={styles.mainbtnndivcancel}>

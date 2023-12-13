@@ -190,6 +190,17 @@ function Navbar({ open, setOpen, setLoadingshow }) {
             </>
           )}
 
+          {user?.data?.User?.userType === "employee" && (
+            <>
+              <MenuItem onClick={() => router.push("/profile")}>
+                <ListItemIcon>
+                  <Settings fontSize="small" />
+                </ListItemIcon>
+                Settings
+              </MenuItem>
+            </>
+          )}
+
           <MenuItem>
             <ListItemIcon>
               <Settings fontSize="small" />
@@ -274,6 +285,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
       )}
 
       <nav className={navbar ? "main_div_header_scroll" : "main_div_header"}>
+        
         <i
           className="main_div_is_hai_na"
           onClick={() => setisMobile(!isMobile)}

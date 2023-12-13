@@ -185,7 +185,16 @@ import {
   GET_SUBJECT_FAIL,
   GET_CLASS_SUBJECT_REQUEST,
   GET_CLASS_SUBJECT_SUCCESS,
-  GET_CLASS_SUBJECT_FAIL
+  GET_CLASS_SUBJECT_FAIL,
+  GET_FOOTERDETAILS_REQUEST,
+  GET_FOOTERDETAILS_SUCCESS,
+  GET_FOOTERDETAILS_FAIL,
+  GET_NOTIC_REQUEST,
+  GET_NOTIC_SUCCESS,
+  GET_NOTIC_FAIL,
+  GET_SLIDER_REQUEST,
+  GET_SLIDER_SUCCESS,
+  GET_SLIDER_FAIL
 } from "../constants/commanConstants";
 
 // Get all College
@@ -2083,7 +2092,7 @@ export const GeOtherFees =
   };
 
 // Get all Facility
-export const GetsSubject = (classId, empID,dayname) => async (dispatch) => {
+export const GetsSubject = (classId, empID, dayname) => async (dispatch) => {
   try {
     const config = {
       headers: {
@@ -2093,7 +2102,7 @@ export const GetsSubject = (classId, empID,dayname) => async (dispatch) => {
     };
     dispatch({ type: GET_SUBJECT_REQUEST });
 
-    if (classId || empID||dayname) {
+    if (classId || empID || dayname) {
       const { data } = await axios.get(
         `${backendApiUrl}comman/subject?classId=${classId}&empID=${empID}&dayname=${dayname}`,
         config
@@ -2123,8 +2132,8 @@ export const GetsSubject = (classId, empID,dayname) => async (dispatch) => {
   }
 };
 
-
 // Get all Facility
+
 export const GetClassSubject = (classId, empID) => async (dispatch) => {
   try {
     const config = {
@@ -2160,6 +2169,139 @@ export const GetClassSubject = (classId, empID) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: GET_CLASS_SUBJECT_FAIL,
+      payload: error?.response?.data?.msg,
+    });
+  }
+};
+
+
+
+// Get all Facility
+
+export const GetNotic = (classId, empID) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("erptoken")}`,
+      },
+    };
+    dispatch({ type: GET_NOTIC_REQUEST });
+
+    if (classId || empID) {
+      const { data } = await axios.get(
+        `${backendApiUrl}comman/notes?classId=${classId}&empID=${empID}`,
+        config
+      );
+
+      dispatch({
+        type: GET_NOTIC_SUCCESS,
+        payload: data?.data,
+      });
+    } else {
+      dispatch({ type: GET_NOTIC_REQUEST });
+      const { data } = await axios.get(
+        `${backendApiUrl}comman/notes`,
+        config
+      );
+
+      dispatch({
+        type: GET_NOTIC_SUCCESS,
+        payload: data?.data,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: GET_NOTIC_FAIL,
+      payload: error?.response?.data?.msg,
+    });
+  }
+};
+
+
+
+// Get all Facility
+
+export const GetFooterDetails = (classId, empID) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("erptoken")}`,
+      },
+    };
+    dispatch({ type: GET_FOOTERDETAILS_REQUEST });
+
+    if (classId || empID) {
+      const { data } = await axios.get(
+        `${backendApiUrl}comman/footer?classId=${classId}&empID=${empID}`,
+        config
+      );
+
+      dispatch({
+        type: GET_FOOTERDETAILS_SUCCESS,
+        payload: data?.data,
+      });
+    } else {
+      dispatch({ type:GET_FOOTERDETAILS_REQUEST });
+      const { data } = await axios.get(
+        `${backendApiUrl}comman/footer`,
+        config
+      );
+
+      dispatch({
+        type: GET_FOOTERDETAILS_SUCCESS,
+        payload: data?.data,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: GET_FOOTERDETAILS_FAIL,
+      payload: error?.response?.data?.msg,
+    });
+  }
+};
+
+
+
+
+// Get all Facility
+
+export const GetSlider = (classId, empID) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("erptoken")}`,
+      },
+    };
+    dispatch({ type: GET_SLIDER_REQUEST });
+
+    if (classId || empID) {
+      const { data } = await axios.get(
+        `${backendApiUrl}comman/slider?classId=${classId}&empID=${empID}`,
+        config
+      );
+
+      dispatch({
+        type: GET_SLIDER_SUCCESS,
+        payload: data?.data,
+      });
+    } else {
+      dispatch({ type:GET_SLIDER_REQUEST });
+      const { data } = await axios.get(
+        `${backendApiUrl}comman/slider`,
+        config
+      );
+
+      dispatch({
+        type: GET_SLIDER_SUCCESS,
+        payload: data?.data,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: GET_SLIDER_FAIL,
       payload: error?.response?.data?.msg,
     });
   }

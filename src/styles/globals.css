@@ -570,8 +570,15 @@ input#donation-date {
 .circalhalf {
   position: absolute;
 }
+
 .bottom-chart-left-div {
   display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1rem;
+}
+.bottom-chart-left-div10 {
+  display: block;
   justify-content: space-between;
   width: 100%;
   padding: 1rem;

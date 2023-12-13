@@ -470,7 +470,16 @@ const SchoolNavbar = () => {
                         <Link href="/school/masters/AddClassSubject">
                           Add Subject
                         </Link>
-                        {/* <Link href="/school/masters/branch">Add Branch</Link> */}
+                      </div>
+                    </div>
+                    <div className="main_report_dropdown_rightmargin">
+                      <h1>Student Client Details</h1>
+                      <div className="main_innear_menu_dropdown">
+                        <Link href="/school/masters/FooterDetails">
+                          Add Footer Details
+                        </Link>
+                        <Link href="/school/masters/Notes">Add Notic</Link>
+                        <Link href="/school/masters/Slider">Add Slider</Link>
                       </div>
                     </div>
                   </div>

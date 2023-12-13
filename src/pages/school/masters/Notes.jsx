@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { GetHostel } from "../../../redux/actions/hostelActions";
+import { GetNotic, GetSession,GetSlider } from "../../../redux/actions/commanAction";
 import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -9,29 +9,27 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
-import AddStudentCategory from "@/component/Institute/hostel/Addhostel";
-import UpdateCategory from "@/component/Institute/hostel/UpdateHostel";
+import AddCourse from "@/component/Institute/masters/AddNotic";
+import Updatecourse from "@/component/Institute/masters/UpdateNotic";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
-import LoadingSpinner from "@/component/loader/LoadingSpinner";
-function Addhostel() {
+function Notes() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [openupdate, setOpenupdate] = useState(false);
   const [openalert, setOpenalert] = useState(false);
   const [updatedata, setupdatedata] = useState("");
   const [deleteid, setdeleteid] = useState("");
-  const [hostelname, sethostelname] = useState("");
   const [isdata, setisData] = useState([]);
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
-  const { hostel, loading } = useSelector((state) => state.GetHostel);
-
-  console.log("hostel data is ", hostel);
+  const { Sessions } = useSelector((state) => state.GetSession);
+  const { notic } = useSelector((state) => state.GetNotic);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
+
 
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="top" ref={ref} {...props} />;
@@ -60,42 +58,36 @@ function Addhostel() {
   };
 
   const handledelete = () => {
-    serverInstance("hostel/addhostel", "delete", {
+    serverInstance("comman/notes", "delete", {
       id: deleteid,
     }).then((res) => {
       if (res?.status === true) {
         toast.success(res?.msg, {
           autoClose: 1000,
         });
-        setOpenalert(false);
-        dispatch(GetHostel());
+        dispatch(GetNotic());
+        handleClosedelete();
       }
       if (res?.status === false) {
         toast.error(res?.msg, {
           autoClose: 1000,
         });
-        setOpenalert(false);
+        handleClosedelete();
       }
     });
   };
-  const filter = () => {
-    dispatch(GetHostel(hostelname));
-  };
 
-  const reset = () => {
-    sethostelname("");
-    dispatch(GetHostel());
-  };
   useEffect(() => {
-    if (hostel) {
-      setisData(hostel);
+    if (notic) {
+      setisData(notic);
     }
     if (user) {
       setuserdata(user);
     }
-  }, [hostel, user]);
+  }, [notic, user]);
   useEffect(() => {
-    dispatch(GetHostel());
+    dispatch(GetSession());
+    dispatch(GetSlider());
   }, []);
 
   return (
@@ -116,10 +108,11 @@ function Addhostel() {
               },
             }}
           >
-            <AddStudentCategory setOpen={setOpen} />
+            <AddCourse setOpen={setOpen} />
           </Dialog>
         </div>
       )}
+
       {openupdate && (
         <div>
           <Dialog
@@ -136,7 +129,7 @@ function Addhostel() {
               },
             }}
           >
-            <UpdateCategory setOpen={setOpenupdate} updatedata={updatedata} />
+            <Updatecourse setOpen={setOpenupdate} updatedata={updatedata} />
           </Dialog>
         </div>
       )}
@@ -169,21 +162,6 @@ function Addhostel() {
       <div className="mainContainer">
         <div>
           <div className={styles.topmenubar}>
-            <div className={styles.searchoptiondiv}>
-              <div className={styles.searchoptiondiv}>
-                <input
-                  className={styles.opensearchinput}
-                  type="text"
-                  placeholder="Hostel Name"
-                  value={hostelname}
-                  name="hostelname"
-                  onChange={(e) => sethostelname(e.target.value)}
-                />
-
-                <button onClick={() => filter()}>Search</button>
-              </div>
-              <button onClick={() => reset()}>Reset</button>
-            </div>
             <div className={styles.imgdivformat}>
               <img
                 className={styles.imgdivformatimg}
@@ -217,18 +195,16 @@ function Addhostel() {
               }
               onClick={() => handleClickOpen()}
             >
-              Add Hostel
+              Add Notic
             </button>
           </div>
-
           <div className={styles.add_divmarginn}>
             <div className={styles.tablecontainer}>
               <table className={styles.tabletable}>
                 <tbody>
                   <tr className={styles.tabletr}>
-                    <th className={styles.tableth}>S.NO</th>
-                    <th className={styles.tableth}>Hostel_Name</th>
-                    <th className={styles.tableth}>Description</th>
+                    <th className={styles.tableth}>Sr.No</th>
+                    <th className={styles.tableth}>Notes</th>
                     <th className={styles.tableth}>Action</th>
                   </tr>
                   {isdata?.length > 0 &&
@@ -236,10 +212,8 @@ function Addhostel() {
                       return (
                         <tr key={index} className={styles.tabletr}>
                           <td className={styles.tabletd}>{index + 1}</td>
-                          <td className={styles.tabletd}>{item?.HostelName}</td>
-                          <td className={styles.tabletd}>
-                            {item?.DescripTion}
-                          </td>
+                          <td className={styles.tabletd}>{item?.Notestext?.slice(0, 80)}....</td>
+
                           <td className={styles.tabkeddd}>
                             <button
                               disabled={
@@ -304,9 +278,8 @@ function Addhostel() {
           </div>
         </div>
       </div>
-      {loading && <LoadingSpinner />}
     </>
   );
 }
 
-export default Addhostel;
+export default Notes;

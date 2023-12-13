@@ -2,10 +2,51 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { loadUser } from "../../redux/actions/authActions";
 import styles from "../../styles/register.module.css";
+import { serverInstance } from "../../API/ServerInstance";
+import LoadingSpinner from "@/component/loader/LoadingSpinner";
 function Dashboard() {
   const dispatch = useDispatch();
-  const [active, setactive] = useState(false);
+  const [active, setactive] = useState(true);
+  const [loading, setloading] = useState(false);
+  const [todayTimeTable, settodayTimeTable] = useState([]);
+  const GetTimeTable = () => {
+    setloading(true);
+    serverInstance("comman/GetEmpTimeTable", "get").then((res) => {
+      if (res?.status === true) {
+        settodayTimeTable(res?.data);
+        setloading(false);
+      }
+      if (res?.status === false) {
+        setloading(false);
+      }
+    });
+  };
+
+  function getDayName() {
+    let date = new Date();
+    const days = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    const dayIndex = new Date(date).getDay();
+    return days[dayIndex];
+  }
+
+  const filterdata = (data) => {
+    let filterdata = data?.filter((item) => {
+      return item?.subject?.dayname === getDayName();
+    });
+
+    return filterdata;
+  };
+
   useEffect(() => {
+    GetTimeTable();
     dispatch(loadUser());
   }, []);
 
@@ -16,7 +57,9 @@ function Dashboard() {
           <div className="bottom-chart-left-div">
             <div className="bottom-chart-left-div-inear10">
               <button
-                onClick={() => setactive(true)}
+                onClick={() => {
+                  setactive(true);
+                }}
                 className={
                   active === true ? styles.dashActiveBtn : styles.dashDisableBtn
                 }
@@ -26,22 +69,100 @@ function Dashboard() {
               <button
                 onClick={() => setactive(false)}
                 className={
-                  active === false ? styles.dashActiveBtn : styles.dashDisableBtn
+                  active === false
+                    ? styles.dashActiveBtn
+                    : styles.dashDisableBtn
                 }
               >
-                Full Time Table
+                Weekly Time Table
               </button>
 
-              {active===true?<>
-                <p>Today Time Table</p>
-              
-              </>:<>
-              <p>Full Time Table</p>
-              </>}
+              {active === true ? (
+                <>
+                  <p>Today Time Table</p>
+                  <table className={styles.tabletable}>
+                    <tbody>
+                      <tr className={styles.tabletr}>
+                        <th className={styles.tableth}>Day</th>
+                        <th className={styles.tableth}>Subject</th>
+                        <th className={styles.tableth}>Class</th>
+                        <th className={styles.tableth}>Section</th>
+                        <th className={styles.tableth}>Start Time</th>
+                        <th className={styles.tableth}>End Time</th>
+                      </tr>
+                      {todayTimeTable?.length > 0 &&
+                        filterdata(todayTimeTable)?.map((item, index) => {
+                          return (
+                            <tr key={index} className={styles.tabletr}>
+                              <td className={styles.tableth}>
+                                {item?.subject?.dayname}
+                              </td>
+                              <td className={styles.tableth}>
+                                {item?.subject?.subject}
+                              </td>
+
+                              <td className={styles.tableth}>
+                                {item?.classname?.coursename}
+                              </td>
+                              <td className={styles.tableth}>
+                                {item?.subject?.section}
+                              </td>
+                              <td className={styles.tableth}>
+                                {item?.subject?.starttime}
+                              </td>
+                              <td className={styles.tableth}>
+                                {item?.subject?.endtime}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
+                  </table>
+                </>
+              ) : (
+                <>
+                  <p>Full Time Table</p>
+                  <table className={styles.tabletable}>
+                    <tbody>
+                      <tr className={styles.tabletr}>
+                        <th className={styles.tableth}>Day</th>
+                        <th className={styles.tableth}>Class</th>
+                        <th className={styles.tableth}>Section</th>
+                        <th className={styles.tableth}>Start Time</th>
+                        <th className={styles.tableth}>End Time</th>
+                      </tr>
+                      {todayTimeTable?.length > 0 &&
+                        todayTimeTable?.map((item, index) => {
+                          return (
+                            <tr key={index} className={styles.tabletr}>
+                              <td className={styles.tableth}>
+                                {item?.subject?.dayname}
+                                {console.log("day namnr is", getDayName())}
+                              </td>
+                              <td className={styles.tableth}>
+                                {item?.classname?.coursename}
+                              </td>
+                              <td className={styles.tableth}>
+                                {item?.subject?.section}
+                              </td>
+                              <td className={styles.tableth}>
+                                {item?.subject?.starttime}
+                              </td>
+                              <td className={styles.tableth}>
+                                {item?.subject?.endtime}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
+                  </table>
+                </>
+              )}
             </div>
           </div>
         </div>
       </div>
+      {loading && <LoadingSpinner />}
     </>
   );
 }
