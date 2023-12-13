@@ -30,6 +30,19 @@ const StudentNavbar = () => {
               <div>
                 <Link
                   className={
+                    router.pathname == "/student/TimeTable"
+                      ? "link_directActive"
+                      : "link_direct"
+                  }
+                  href="/student/TimeTable"
+                >
+                  Time Table
+                </Link>
+              </div>
+              &nbsp;&nbsp; &nbsp;&nbsp;
+              <div>
+                <Link
+                  className={
                     router.pathname == "/student/attendance"
                       ? "link_directActive"
                       : "link_direct"
@@ -164,6 +177,20 @@ const StudentNavbar = () => {
                   Home
                 </Link>
               </div>
+              &nbsp;&nbsp; &nbsp;&nbsp;
+              <div>
+                <Link
+                  className={
+                    router.pathname == "/student/TimeTable"
+                      ? "link_directActive"
+                      : "link_direct"
+                  }
+                  href="/student/TimeTable"
+                >
+                  Time Table
+                </Link>
+              </div>
+             
               &nbsp;&nbsp; &nbsp;&nbsp;
               <div>
                 <Link

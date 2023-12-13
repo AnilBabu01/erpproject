@@ -23,7 +23,7 @@ export default function LinechartPaidFee({ value, pdata }) {
   const compareExpensesFeeMonths = (a, b) => {
     const monthsOrder = [4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3];
 
-    return monthsOrder.indexOf(a) - monthsOrder.indexOf(b);
+    return monthsOrder?.indexOf(a) - monthsOrder?.indexOf(b);
   };
 
   const data = {
@@ -35,8 +35,8 @@ export default function LinechartPaidFee({ value, pdata }) {
         borderColor: "rgb(255, 99, 132)",
         data: allMonths?.sort(compareExpensesFeeMonths)?.map((monthNumber) => {
           // Find the data for the current month
-          const dataForMonth = pdata.find(
-            (data) => data.monthno === monthNumber
+          const dataForMonth = pdata?.find(
+            (data) => data?.monthno === monthNumber
           );
 
           // Display the data if it exists, otherwise display 0

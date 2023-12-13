@@ -36,6 +36,22 @@ function Dashboard() {
     const dayIndex = new Date(date).getDay();
     return days[dayIndex];
   }
+  const compareMonths = (a, b) => {
+    const monthsOrder = [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+    ];
+
+    return (
+      monthsOrder.indexOf(a?.subject?.dayname) -
+      monthsOrder.indexOf(b?.subject?.dayname)
+    );
+  };
 
   const filterdata = (data) => {
     let filterdata = data?.filter((item) => {
@@ -132,28 +148,30 @@ function Dashboard() {
                         <th className={styles.tableth}>End Time</th>
                       </tr>
                       {todayTimeTable?.length > 0 &&
-                        todayTimeTable?.map((item, index) => {
-                          return (
-                            <tr key={index} className={styles.tabletr}>
-                              <td className={styles.tableth}>
-                                {item?.subject?.dayname}
-                                {console.log("day namnr is", getDayName())}
-                              </td>
-                              <td className={styles.tableth}>
-                                {item?.classname?.coursename}
-                              </td>
-                              <td className={styles.tableth}>
-                                {item?.subject?.section}
-                              </td>
-                              <td className={styles.tableth}>
-                                {item?.subject?.starttime}
-                              </td>
-                              <td className={styles.tableth}>
-                                {item?.subject?.endtime}
-                              </td>
-                            </tr>
-                          );
-                        })}
+                        todayTimeTable
+                          ?.sort(compareMonths)
+                          ?.map((item, index) => {
+                            return (
+                              <tr key={index} className={styles.tabletr}>
+                                <td className={styles.tableth}>
+                                  {item?.subject?.dayname}
+                                  {console.log("day namnr is", getDayName())}
+                                </td>
+                                <td className={styles.tableth}>
+                                  {item?.classname?.coursename}
+                                </td>
+                                <td className={styles.tableth}>
+                                  {item?.subject?.section}
+                                </td>
+                                <td className={styles.tableth}>
+                                  {item?.subject?.starttime}
+                                </td>
+                                <td className={styles.tableth}>
+                                  {item?.subject?.endtime}
+                                </td>
+                              </tr>
+                            );
+                          })}
                     </tbody>
                   </table>
                 </>

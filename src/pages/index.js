@@ -12,6 +12,7 @@ import {
   allClient,
 } from "../redux/actions/commanAction";
 import Loader from "@/component/loader/Loader";
+import Features from "@/component/Lending/Features/Features";
 import AOS from "aos";
 import "aos/dist/aos.css";
 export default function Home({ setOpen }) {
@@ -19,8 +20,6 @@ export default function Home({ setOpen }) {
   const navigate = useRouter();
   const { isAuthenticated, user } = useSelector((state) => state.auth);
   const [loadingshow, setLoadingshow] = useState(false);
-
-  console.log("user data is from index file ", user?.data?.User);
 
   useEffect(() => {
     setLoadingshow(true);
@@ -94,6 +93,7 @@ export default function Home({ setOpen }) {
             Get Started
           </button>
         </div>
+        <Features />
         <FeatureRrp />
       </div>
     </main>

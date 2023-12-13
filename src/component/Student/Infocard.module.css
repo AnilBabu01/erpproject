@@ -1,8 +1,10 @@
 .maininfo{
   padding-left: 2rem;
   padding-right: 2rem;
+  padding: 1rem;
 }
 .maininfo p{
     color: white;
     font-weight: 600;
+    font-size: 20px;
 }

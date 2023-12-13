@@ -1,12 +1,10 @@
 import React from "react";
 import Styles from "./Infocard.module.css";
-function Infocard() {
+function Infocard({ item }) {
   return (
     <>
       <div className={Styles.maininfo}>
-        <p>
-          Please Submit Your Fee if You Allready Paid then ignore this meessage
-        </p>
+        <p>{item?.Notestext}</p>
       </div>
     </>
   );

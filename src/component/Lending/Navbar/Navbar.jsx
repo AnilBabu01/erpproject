@@ -33,7 +33,7 @@ import CoachingNavbar from "../CoachingNavbar/CoachingNavbar";
 import StudentNavbar from "../StudentNavbar/StudentNavbar";
 import ParentNavbar from "../ParentNavbar/ParentNavbar";
 import EmployeeNavbar from "../EmployeeNavbar/EmployeeNavbar";
-
+import { AnimatePresence, motion } from "framer-motion";
 function Navbar({ open, setOpen, setLoadingshow }) {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -285,7 +285,6 @@ function Navbar({ open, setOpen, setLoadingshow }) {
       )}
 
       <nav className={navbar ? "main_div_header_scroll" : "main_div_header"}>
-        
         <i
           className="main_div_is_hai_na"
           onClick={() => setisMobile(!isMobile)}
@@ -1950,6 +1949,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                     Dashboard
                   </Link>
                 </MenuItem>
+
                 <Divider sx={{ my: 0.5 }} />
                 <MenuItem>
                   <div
@@ -1960,20 +1960,32 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                     {showmenu2 ? <RemoveIcon /> : <AddIcon />}
                   </div>
                 </MenuItem>
-                <div className={showmenu2 ? "menu_show" : "menu_hide"}>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/frontoffice/enquiry"
+                <AnimatePresence>
+                  {showmenu2 && (
+                    <motion.div
+                      variants={showAnimation}
+                      initial="hidden"
+                      animate="show"
+                      exit="hidden"
+                      className="logo"
                     >
-                      Admission Enquiry
-                    </Link>
-                  </MenuItem>
-                </div>
+                      <div className={showmenu2 ? "menu_show" : "menu_hide"}>
+                        <Divider sx={{ my: 0.5 }} />
+                        <MenuItem>
+                          <Link
+                            onClick={() => setisMobile(!isMobile)}
+                            className={({ isActive }) =>
+                              isActive ? "link_directActive" : "link_directs"
+                            }
+                            href="/coaching/frontoffice/enquiry"
+                          >
+                            Admission Enquiry
+                          </Link>
+                        </MenuItem>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
 
                 <Divider sx={{ my: 0.5 }} />
                 <MenuItem>

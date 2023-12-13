@@ -1,0 +1,166 @@
+.FeaturedCompanies {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding: 2% 0% 5% 0%;
+  }
+  .featuredcompanies {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .head-FC {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 4rem;
+    /* margin-top: 1rem; */
+    /* border: 2px solid red; */
+  }
+  .head-FC h2 {
+    font-family: 'Poppins',sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 25px;
+  line-height: 38px;
+  color: #000000;
+  
+  }
+  .head-FC h4 {
+  font-family: 'Poppins',sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 27px;
+  color: #000000;
+  /* padding: 4%; */
+  
+  }
+  .body-FC {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .body-FC-col-1 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    /* border: 3px solid green; */
+  }
+  .body-FC-col-2 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    /* border: 3px solid blue; */
+  }
+  .FCIMG{
+    width: 50%;
+    height: 50%;
+  }
+  .images_KPIT {
+    position: relative;
+    animation: myfirst1 20s ease-in 2s infinite alternate;
+  }
+  .images_HCL {
+    position: relative;
+    animation: myfirst1 20s ease-in 2s infinite alternate;
+  }
+  .images_Apple {
+    position: relative;
+    animation: myfirst1 20s linear 2s infinite alternate;
+  }
+  
+  .images_FCart1{
+    position: relative;
+    animation: myfirst1 20s linear 2s infinite alternate;
+  }
+  .images_Microsoft{
+    position: relative;
+    animation: myfirst1 20s linear 2s infinite alternate;
+  }
+  .images_TCS{
+    position: relative;
+    animation: myfirst1 20s linear 2s infinite alternate;
+  }
+  .images_Adobe{
+    position: relative;
+    animation: myfirst2 20s linear 2s infinite alternate-reverse;
+  }
+  .images_FCart{
+    position: relative;
+    animation: myfirst2 20s linear 2s infinite alternate-reverse;
+  }
+  .images_Infosys{
+    position: relative;
+    animation: myfirst2 20s linear 2s infinite alternate-reverse;
+  }
+  .images_HCL1{
+    position: relative;
+    animation: myfirst2 20s linear 2s infinite alternate-reverse;
+  }
+  .images_4{
+    position: relative;
+    animation: myfirst2 20s linear 2s infinite alternate-reverse;
+  }
+  @keyframes myfirst1 {
+    0% {
+      top: 0px;
+      left: 0px;
+    }
+    20% {
+      top: 150px;
+      left: 50px;
+    }
+    40% {
+      top: 0px;
+      left: 100px;
+    }
+    60% {
+      top: 150px;
+      left: 150px;
+    }
+    80% {
+      top: 0px;
+      left: 200px;
+    }
+    100% {
+      top: 150px;
+      left: 250px;
+    }
+  }
+  @keyframes myfirst2 {
+    0% {
+      top: -150px;
+      left: 0px;
+    }
+    20% {
+      top: 0px;
+      left: 50px;
+    }
+    40% {
+      top: -150px;
+      left: 100px;
+    }
+    60% {
+      top: 0px;
+      left: 150px;
+    }
+    80% {
+      top: -150px;
+      left: 200px;
+    }
+    100% {
+      top: 0px;
+      left: 250px;
+    }
+    
+  }
+  

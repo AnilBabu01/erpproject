@@ -228,7 +228,7 @@ function FooterDetails() {
                             {item?.PrincipalContactNo}
                           </td>
                           <td className={styles.tabletd}>{item?.Email}</td>
-                          <td className={styles.tabletd}>{item?.Mapurl}</td>
+                          <td className={styles.tabletd}>{item?.Mapurl?.slice(0,10)}...</td>
                           <td className={styles.tabletd}>
                             {item?.facilitycontent?.slice(0, 10)}....
                           </td>
