@@ -158,14 +158,14 @@ function ResultTest() {
                 <tr key={index} className={styles.tabletr}>
                   <td className={styles.tabletd}>{item?.testname}</td>
                   <td className={styles.tabletd}>
-                    {moment(item?.testdate).format("MM/DD/YYYY")}
+                    {moment(item?.testdate).format("DD/MM/YYYY")}
                   </td>
                   <td className={styles.tabletd}>{item?.teststarTime}</td>
                   <td className={styles.tabletd}>{item?.testendTime}</td>
                   <td className={styles.tabletd}>
-                    {moment(item?.testdate).format("MM/DD/YYYY")}
+                  {Number(item?.marksperquestion)* Number(item?.passmark)}
                   </td>
-                  <td className={styles.tabletd}>8</td>
+                  <td className={styles.tabletd}>{item?.obtainmarks}</td>
                   <td className={styles.tabletd}>
                     <button
                       className={styles.btnactive}

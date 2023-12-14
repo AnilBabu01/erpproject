@@ -108,43 +108,46 @@ function SchoolmonthlyAttendance() {
           <p>Percentage Below or Equal 49%</p>
         </div>
       </div> */}
-      <div className={styles.tablecontainer}>
-        <table className={styles.tabletable}>
-          <tbody>
-            <tr className={styles.tabletr}>
-              <th className={styles.tableth}>Month</th>
-              <th className={styles.tableth}>Absent %</th>
-              <th className={styles.tableth}>Present %</th>
-            </tr>
+      <div className={styles.add_divmarginn10}>
+        <div className={styles.tablecontainer}>
+          <table className={styles.tabletable}>
+            <tbody>
+              <tr className={styles.tabletr}>
+                <th className={styles.tableth}>Month</th>
+                <th className={styles.tableth}>Absent %</th>
+                <th className={styles.tableth}>Present %</th>
+              </tr>
 
-            {monthnolist?.map((item, index) => {
-              return (
-                <tr key={index} className={styles.tabletr}>
-                  <td className={styles.tabletd}>
-                    {monthNames[item?.value - 1]}
-                  </td>
-                  <td className={styles.tabletd}>
-                    <AbsentMeter
-                      percentage={
-                        allmonth?.length > 0 &&
-                        calculatePercentage(allmonth, item?.value, "Absent")
-                      }
-                    />
-                  </td>
-                  <td className={styles.tabletd}>
-                    <PresentMeter
-                      percentage={
-                        allmonth?.length > 0 &&
-                        calculatePercentage(allmonth, item?.value, "Present")
-                      }
-                    />
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+              {monthnolist?.map((item, index) => {
+                return (
+                  <tr key={index} className={styles.tabletr}>
+                    <td className={styles.tabletd}>
+                      {monthNames[item?.value - 1]}
+                    </td>
+                    <td className={styles.tabletd}>
+                      <AbsentMeter
+                        percentage={
+                          allmonth?.length > 0 &&
+                          calculatePercentage(allmonth, item?.value, "Absent")
+                        }
+                      />
+                    </td>
+                    <td className={styles.tabletd}>
+                      <PresentMeter
+                        percentage={
+                          allmonth?.length > 0 &&
+                          calculatePercentage(allmonth, item?.value, "Present")
+                        }
+                      />
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
+
       {loader && <LoadingSpinner />}
     </>
   );

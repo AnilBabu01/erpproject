@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../redux/actions/authActions";
 import moment from "moment";
 function SchoolAttendance() {
+
   const dispatch = useDispatch();
   const [userdata, setuserdata] = useState("");
   const [today, settoday] = useState(true);
@@ -28,7 +29,7 @@ function SchoolAttendance() {
 
   return (
     <>
-      <div className="bottom-chart-left-div">
+      <div className="bottom-chart-left-div10">
         <div className="bottom-chart-left-div-inearattdendance">
           {/* <div className={styles.detailsdiv}>
             <h2>Attdendance Details</h2>
@@ -51,7 +52,7 @@ function SchoolAttendance() {
             <p>Roll Number &nbsp;&nbsp;{userdata?.data?.User?.rollnumber}</p>
           </div> */}
           <div>
-            <div>
+            <div className={styles.selectattendancetype}>
               <button
                 onClick={() => {
                   settoday(true);

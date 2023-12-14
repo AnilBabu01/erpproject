@@ -1,10 +1,12 @@
 import React from "react";
-
+import BusDetails from "@/component/Student/School/BusDetails";
 function Transport() {
   return (
-    <div className="mainContainer">
-      <p>Attendance</p>
-    </div>
+    <>
+      <div className="mainContainer">
+        <BusDetails />
+      </div>
+    </>
   );
 }
 

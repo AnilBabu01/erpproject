@@ -707,8 +707,14 @@ input#donation-date {
   height: 100%;
   transition: width 0.5s ease; /* Add transition for smooth width changes */
 }
-
+.attendancebtn {
+  display: flex;
+}
 @media screen and (max-width: 780px) {
+  .attendancebtn {
+    display: flex;
+    flex-direction: column;
+  }
   .mainContainer {
     padding-top: 16%;
   }
@@ -735,8 +741,16 @@ input#donation-date {
   .bottom-chart-left-div {
     flex-direction: column;
     padding: 0rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 0.2rem;
+    padding-right: 0.3rem;
+  }
+
+  .bottom-chart-left-div10 {
+    flex-direction: column;
+    padding: 0rem;
+    padding-left: 0.2rem;
+    padding-right: 0.3rem;
+    margin-top: 7%;
   }
 
   .bottom-chart-left-div-inear1 {

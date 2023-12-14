@@ -201,6 +201,17 @@ function Navbar({ open, setOpen, setLoadingshow }) {
             </>
           )}
 
+          {user?.data?.User?.userType === "student" && (
+            <>
+              <MenuItem onClick={() => router.push("/profile")}>
+                <ListItemIcon>
+                  <Settings fontSize="small" />
+                </ListItemIcon>
+                Profile
+              </MenuItem>
+            </>
+          )}
+
           <MenuItem>
             <ListItemIcon>
               <Settings fontSize="small" />

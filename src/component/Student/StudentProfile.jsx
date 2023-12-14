@@ -1,9 +1,11 @@
-import React from 'react'
-
+import React from "react";
+import SchoolStudentProfile from "./School/SchoolStudentProfile";
 function StudentProfile() {
   return (
-    <div>StudentProfile</div>
-  )
+    <>
+      <SchoolStudentProfile />
+    </>
+  );
 }
 
-export default StudentProfile
+export default StudentProfile;

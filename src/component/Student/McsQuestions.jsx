@@ -16,7 +16,7 @@ function McsQuestions({ setOpen, data }) {
   const { batch } = useSelector((state) => state.getbatch);
   const { user } = useSelector((state) => state.auth);
 
-  console.log("data of ,mcq", data);
+  console.log("data of ,mcq    sss s  s  s s   s s   s s", data);
 
   var today = new Date();
   var date = today.toISOString().substring(0, 10);
@@ -130,34 +130,41 @@ function McsQuestions({ setOpen, data }) {
   return (
     <>
       <div className={styles.McsQuestionss}>
-        {data?.testFileUrl?.split(".")[1] === "pdf" ? (
-          <>
-            <div className={styles.inputdivimg60}>
-              <label>Test Paper</label>
-              <iframe
-                src={`${backendUrl}public/upload/${data?.testFileUrl}`}
-                title="PDF Viewer"
-                width="100%"
-                height="500"
-                frameBorder="0"
-              >
-                This browser does not support PDFs. Please download the PDF to
-                view it.
-              </iframe>
-            </div>
-          </>
+        {data?.testtype === "Add MCQ" ? (
+          ""
         ) : (
           <>
-            <div className={styles.inputdivimg60}>
-              <label>Test Paper</label>
-              <img
-                className="keydetailsdivlogoimg10"
-                src={`${backendUrl}public/upload/${data?.testFileUrl}`}
-                alt="imgdd"
-              />
-            </div>
+            {data?.testFileUrl?.split(".")[1] === "pdf" ? (
+              <>
+                <div className={styles.inputdivimg60}>
+                  <label>Test Paper</label>
+                  <iframe
+                    src={`${backendUrl}public/upload/${data?.testFileUrl}`}
+                    title="PDF Viewer"
+                    width="100%"
+                    height="500"
+                    frameBorder="0"
+                  >
+                    This browser does not support PDFs. Please download the PDF
+                    to view it.
+                  </iframe>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className={styles.inputdivimg60}>
+                  <label>Test Paper</label>
+                  <img
+                    className="keydetailsdivlogoimg10"
+                    src={`${backendUrl}public/upload/${data?.testFileUrl}`}
+                    alt="imgdd"
+                  />
+                </div>
+              </>
+            )}
           </>
         )}
+
         {questionItems &&
           questionItems?.map((item, index) => {
             return (

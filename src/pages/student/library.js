@@ -1,9 +1,10 @@
 import React from "react";
+import Library1 from "@/component/Student/School/Library";
 
 function Library() {
   return (
     <div className="mainContainer">
-      <p>Library</p>
+      <Library1 />
     </div>
   );
 }

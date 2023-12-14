@@ -201,6 +201,7 @@ function ShowResult({ setOpen, data }) {
                     <p>Question No : {index + 1}</p>
                   </div>
                   <input
+                    disabled={true}
                     type="textarea"
                     placeholder="Enter Question"
                     name="question"
@@ -216,6 +217,7 @@ function ShowResult({ setOpen, data }) {
                     <label>A</label>
                     <input
                       required
+                      disabled={true}
                       className={styles.mainqinput}
                       type="text"
                       placeholder="Enter A Answer"
@@ -234,6 +236,7 @@ function ShowResult({ setOpen, data }) {
                     <label>B</label>
                     <input
                       required
+                      disabled={true}
                       className={styles.mainqinput}
                       type="text"
                       placeholder="Enter B Answer"
@@ -255,6 +258,7 @@ function ShowResult({ setOpen, data }) {
                     <label>C</label>
                     <input
                       required
+                      disabled={true}
                       className={styles.mainqinput}
                       type="text"
                       placeholder="Enter C Answer"
@@ -273,6 +277,7 @@ function ShowResult({ setOpen, data }) {
                     <label>D</label>
                     <input
                       required
+                      disabled={true}
                       className={styles.mainqinput}
                       type="text"
                       placeholder="Enter D Answer"
@@ -297,6 +302,7 @@ function ShowResult({ setOpen, data }) {
                     <div className={styles.radiodiv}>
                       <input
                         type="radio"
+                        disabled={true}
                         // name="same"
                         id="option1"
                         value="option1"
@@ -326,6 +332,7 @@ function ShowResult({ setOpen, data }) {
                     </div>
                     <div className={styles.radiodiv}>
                       <input
+                        disabled={true}
                         type="radio"
                         // name="same"
                         id="option2"
@@ -356,6 +363,7 @@ function ShowResult({ setOpen, data }) {
                     </div>
                     <div className={styles.radiodiv}>
                       <input
+                        disabled={true}
                         type="radio"
                         // name="same"
                         id="option3"
@@ -386,6 +394,7 @@ function ShowResult({ setOpen, data }) {
                     </div>
                     <div className={styles.radiodiv}>
                       <input
+                        disabled={true}
                         type="radio"
                         // name="same"
                         id="option4"
@@ -446,7 +455,7 @@ function ShowResult({ setOpen, data }) {
 
         <div className={styles.startbtndiv}>
           <button className={styles.cancelbtn} onClick={() => setOpen(false)}>
-            Back
+            Ok!!
           </button>
         </div>
       </div>

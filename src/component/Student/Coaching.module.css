@@ -78,9 +78,9 @@
 .tabletd img {
   width: 25px;
 }
-.tabletdddd{
+.tabletdddd {
   display: flex;
-  justify-content:space-around;
+  justify-content: space-around;
 }
 .tabkeddd {
   border: 1px solid #dddddd;
@@ -162,4 +162,50 @@
   height: 35px;
   width: 10rem;
   margin-top: 0.5rem;
+}
+
+.selectattendancetype {
+  display: flex;
+}
+
+.add_divmarginn10 {
+  padding: 0.1rem;
+  width: 100%;
+  overflow-x: scroll;
+}
+.busdetailsdiv {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
+.bgbusdetails {
+  background: #212232;
+  padding: 1rem;
+  border-radius: 7px;
+  color: white;
+  width: 80%;
+}
+
+.drivermaindiv {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 1%;
+}
+.inneardiv10{
+  background-color: #ff6900;
+  padding: 1rem;
+  border-radius: 5px;
+}
+@media screen and (max-width: 780px) {
+  .maindivsearch {
+    display: flex;
+    margin-top: 0.5rem;
+    flex-direction: column;
+  }
+
+  .selectattendancetype {
+    display: flex;
+    flex-direction: column;
+  }
 }

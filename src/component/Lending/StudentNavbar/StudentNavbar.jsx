@@ -7,7 +7,7 @@ const StudentNavbar = () => {
   const router = useRouter();
 
   const { user } = useSelector((state) => state.auth);
-
+  console.log("data is data", user?.data);
   return (
     <>
       {user?.data?.User?.userType === "student" && (
@@ -190,7 +190,6 @@ const StudentNavbar = () => {
                   Time Table
                 </Link>
               </div>
-             
               &nbsp;&nbsp; &nbsp;&nbsp;
               <div>
                 <Link
@@ -218,32 +217,57 @@ const StudentNavbar = () => {
                 </Link>
               </div>
               &nbsp;&nbsp; &nbsp;&nbsp;
-              <div>
-                <Link
-                  className={
-                    router.pathname == "/student/transport"
-                      ? "link_directActive"
-                      : "link_direct"
-                  }
-                  href="/student/transport"
-                >
-                  Transport
-                </Link>
-              </div>
-              &nbsp;&nbsp; &nbsp;&nbsp;
-              <div>
-                <Link
-                  className={
-                    router.pathname == "/student/library"
-                      ? "link_directActive"
-                      : "link_direct"
-                  }
-                  href="/student/library"
-                >
-                  Library
-                </Link>
-              </div>
-              &nbsp;&nbsp; &nbsp;&nbsp;
+              {user?.data?.User?.Transport === true && (
+                <>
+                  <div>
+                    <Link
+                      className={
+                        router.pathname == "/student/transport"
+                          ? "link_directActive"
+                          : "link_direct"
+                      }
+                      href="/student/transport"
+                    >
+                      Transport
+                    </Link>
+                  </div>
+                  &nbsp;&nbsp; &nbsp;&nbsp;
+                </>
+              )}
+              {user?.data?.User?.hostal === true && (
+                <>
+                  <div>
+                    <Link
+                      className={
+                        router.pathname == "/student/hostel"
+                          ? "link_directActive"
+                          : "link_direct"
+                      }
+                      href="/student/hostel"
+                    >
+                      Hostel
+                    </Link>
+                  </div>
+                  &nbsp;&nbsp; &nbsp;&nbsp;
+                </>
+              )}
+              {user?.data?.User?.Library === true && (
+                <>
+                  <div>
+                    <Link
+                      className={
+                        router.pathname == "/student/library"
+                          ? "link_directActive"
+                          : "link_direct"
+                      }
+                      href="/student/library"
+                    >
+                      Library
+                    </Link>
+                  </div>
+                  &nbsp;&nbsp; &nbsp;&nbsp;
+                </>
+              )}
               <div>
                 <Link
                   className={

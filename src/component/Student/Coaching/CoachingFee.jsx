@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
 import moment from "moment";
-import { Addpayfee } from "../../redux/actions/coachingAction";
+import { Addpayfee } from "../../../redux/actions/coachingAction";
 import { useDispatch, useSelector } from "react-redux";
 function CoachingFee({ data, monthname, paidmonth, setOpen }) {
   //   const dispatch = useDispatch();

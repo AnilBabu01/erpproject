@@ -10,6 +10,7 @@ import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import Webcam from "react-webcam";
+
 const testtype = [
   { id: 1, name: "Upload Pdf Test" },
   { id: 2, name: "Add MCQ" },
@@ -614,7 +615,7 @@ function AddTest({ setOpen }) {
                 </>
               ) : (
                 <>
-                  <div className={styles.selectbtn}>
+                  {/* <div className={styles.selectbtn}>
                     <Button
                       className={
                         showloginoption ? styles.btnActive : styles.btndeActive
@@ -648,7 +649,7 @@ function AddTest({ setOpen }) {
                     >
                       Upload Image
                     </Button>
-                  </div>
+                  </div> */}
                   {showloginoption === true && (
                     <>
                       {questionItems?.map((item, index) => {

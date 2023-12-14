@@ -75,6 +75,14 @@
   padding-left: 1rem;
   padding-right: 1rem;
 }
+.divmainlogin10 {
+  width: 100%;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.25);
+  border-radius: 3px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
 
 .divmaininput {
   display: flex;
@@ -84,6 +92,12 @@
 }
 
 .divmainlogin h1 {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.divmainlogin10 h1 {
   text-align: center;
   font-size: 20px;
   font-weight: 600;
@@ -852,6 +866,10 @@
 .paybtndiv {
   margin-bottom: 0.2rem;
 }
+
+.paybtndiv10 {
+  margin-bottom: 1rem;
+}
 .mainpaiddiv {
   display: flex;
   justify-content: space-between;
@@ -1000,6 +1018,22 @@
   border-color: rgb(0, 0, 128);
 }
 @media screen and (max-width: 780px) {
+  .dashActiveBtn {
+    width: auto;
+    height: 35px;
+    background: #093959;
+    color: white;
+    border-radius: 7px;
+    margin: 0.5rem;
+  }
+  .dashDisableBtn {
+    width: auto;
+    height: 35px;
+    background: #cedce5;
+    color: #093959;
+    border-radius: 7px;
+    margin: 0.5rem;
+  }
   .searchinput {
     width: 100%;
     margin-bottom: 0.5rem;
@@ -1029,6 +1063,12 @@
     padding: 1%;
     flex-direction: column;
   }
+  .paybtndiv10 {
+    display: flex;
+    justify-content: space-between;
+    padding: 1%;
+    flex-direction: column;
+  }
   .searchoptiondivbutton {
     font-size: 18px;
     margin-bottom: 2%;
@@ -1038,6 +1078,10 @@
   .divmainlogin {
     padding-left: 0px;
     padding-right: 0px;
+  }
+
+  .divmainlogin10 {
+    padding: 1rem;
   }
   .disabledinphone {
     display: none;
@@ -1050,6 +1094,9 @@
   }
   .inputcreadentionals input {
     width: 100%;
+  }
+  .minpadding{
+    padding: 1rem;
   }
   .mainperdiv {
     border: 1px solid #093959;

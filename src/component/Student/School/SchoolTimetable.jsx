@@ -49,7 +49,10 @@ function SchoolTimetable() {
       "Sunday",
     ];
 
-    return monthsOrder.indexOf(a?.subject?.dayname) - monthsOrder.indexOf(b?.subject?.dayname);
+    return (
+      monthsOrder.indexOf(a?.subject?.dayname) -
+      monthsOrder.indexOf(b?.subject?.dayname)
+    );
   };
 
   const filterdata = (data) => {
@@ -71,125 +74,140 @@ function SchoolTimetable() {
         <div className="middle-chart-main-div">
           <div className="bottom-chart-left-div">
             <div className="bottom-chart-left-div-inear10">
-              <button
-                onClick={() => {
-                  GetTimeTable();
-                  setactive(true);
-                }}
-                className={
-                  active === true ? styles.dashActiveBtn : styles.dashDisableBtn
-                }
-              >
-                Today Time Table
-              </button>
-              <button
-                onClick={() => setactive(false)}
-                className={
-                  active === false
-                    ? styles.dashActiveBtn
-                    : styles.dashDisableBtn
-                }
-              >
-                Weekly Time Table
-              </button>
+              <div className="attendancebtn">
+                <button
+                  onClick={() => {
+                    GetTimeTable();
+                    setactive(true);
+                  }}
+                  className={
+                    active === true
+                      ? styles.dashActiveBtn
+                      : styles.dashDisableBtn
+                  }
+                >
+                  Today Time Table
+                </button>
+                <button
+                  onClick={() => setactive(false)}
+                  className={
+                    active === false
+                      ? styles.dashActiveBtn
+                      : styles.dashDisableBtn
+                  }
+                >
+                  Weekly Time Table
+                </button>
+              </div>
 
               {active === true ? (
                 <>
                   <p>Today Time Table</p>
-                  <table className={styles.tabletable}>
-                    <tbody>
-                      <tr className={styles.tabletr}>
-                        <th className={styles.tableth}>Day</th>
-                        <th className={styles.tableth}>Subject</th>
-                        <th className={styles.tableth}>Class</th>
-                        <th className={styles.tableth}>Section</th>
-                        <th className={styles.tableth}>Start Time</th>
-                        <th className={styles.tableth}>End Time</th>
-                        <th className={styles.tableth}>Teacher Name</th>
-                        <th className={styles.tableth}>Phone No</th>
-                      </tr>
-                      {todayTimeTable?.length > 0 &&
-                        filterdata(todayTimeTable)?.map((item, index) => {
-                          return (
-                            <tr key={index} className={styles.tabletr}>
-                              <td className={styles.tableth}>
-                                {item?.subject?.dayname}
-                              </td>
-                              <td className={styles.tableth}>
-                                {item?.subject?.subject}
-                              </td>
+                  <div className={styles.add_divmarginn}>
+                    <div className={styles.tablecontainer}>
+                      <table className={styles.tabletable}>
+                        <tbody>
+                          <tr className={styles.tabletr}>
+                            <th className={styles.tableth}>Day</th>
+                            <th className={styles.tableth}>Subject</th>
+                            <th className={styles.tableth}>Class</th>
+                            <th className={styles.tableth}>Section</th>
+                            <th className={styles.tableth}>Start_Time</th>
+                            <th className={styles.tableth}>End_Time</th>
+                            <th className={styles.tableth}>Teacher_Name</th>
+                            <th className={styles.tableth}>Phone_No</th>
+                          </tr>
+                          {todayTimeTable?.length > 0 &&
+                            filterdata(todayTimeTable)?.map((item, index) => {
+                              return (
+                                <tr key={index} className={styles.tabletr}>
+                                  <td className={styles.tableth}>
+                                    {item?.subject?.dayname}
+                                  </td>
+                                  <td className={styles.tableth}>
+                                    {item?.subject?.subject}
+                                  </td>
 
-                              <td className={styles.tableth}>
-                                {item?.classname?.coursename}
-                              </td>
-                              <td className={styles.tableth}>
-                                {item?.subject?.section}
-                              </td>
-                              <td className={styles.tableth}>
-                                {item?.subject?.starttime}
-                              </td>
-                              <td className={styles.tableth}>
-                                {item?.subject?.endtime}
-                              </td>
-                              <td className={styles.tableth}>
-                                {item?.employee?.name}
-                              </td>
-                              <td className={styles.tableth}>
-                                {item?.employee?.phoneno1}
-                              </td>
-                            </tr>
-                          );
-                        })}
-                    </tbody>
-                  </table>
+                                  <td className={styles.tableth}>
+                                    {item?.classname?.coursename}
+                                  </td>
+                                  <td className={styles.tableth}>
+                                    {item?.subject?.section}
+                                  </td>
+                                  <td className={styles.tableth}>
+                                    {item?.subject?.starttime}
+                                  </td>
+                                  <td className={styles.tableth}>
+                                    {item?.subject?.endtime}
+                                  </td>
+                                  <td className={styles.tableth}>
+                                    {item?.employee?.name}
+                                  </td>
+                                  <td className={styles.tableth}>
+                                    {item?.employee?.phoneno1}
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </>
               ) : (
                 <>
                   <p>Full Time Table</p>
-                  <table className={styles.tabletable}>
-                    <tbody>
-                      <tr className={styles.tabletr}>
-                        <th className={styles.tableth}>Day</th>
-                        <th className={styles.tableth}>Class</th>
-                        <th className={styles.tableth}>Section</th>
-                        <th className={styles.tableth}>Start Time</th>
-                        <th className={styles.tableth}>End Time</th>
-                        <th className={styles.tableth}>Teacher Name</th>
-                        <th className={styles.tableth}>Phone No</th>
-                      </tr>
-                      {todayTimeTable?.length > 0 &&
-                        todayTimeTable
-                          ?.sort(compareMonths)
-                          ?.map((item, index) => {
-                            return (
-                              <tr key={index} className={styles.tabletr}>
-                                <td className={styles.tableth}>
-                                  {item?.subject?.dayname}
-                                  {console.log("day namnr is", getDayName())}
-                                </td>
-                                <td className={styles.tableth}>
-                                  {item?.classname?.coursename}
-                                </td>
-                                <td className={styles.tableth}>
-                                  {item?.subject?.section}
-                                </td>
-                                <td className={styles.tableth}>
-                                  {item?.subject?.starttime}
-                                </td>
-                                <td className={styles.tableth}>
-                                  {item?.subject?.endtime}
-                                </td>
-                                <td className={styles.tableth}>
-                                  {item?.employee?.name}
-                                </td>
-                                <td className={styles.tableth}>
-                                  {item?.employee?.phoneno1}
-                                </td>
-                              </tr>
-                            );
-                          })}
-                    </tbody>
-                  </table>
+                  <div className={styles.add_divmarginn}>
+                    <div className={styles.tablecontainer}>
+                      <table className={styles.tabletable}>
+                        <tbody>
+                          <tr className={styles.tabletr}>
+                            <th className={styles.tableth}>Day</th>
+                            <th className={styles.tableth}>Class</th>
+                            <th className={styles.tableth}>Section</th>
+                            <th className={styles.tableth}>Start_Time</th>
+                            <th className={styles.tableth}>End_Time</th>
+                            <th className={styles.tableth}>Teacher_Name</th>
+                            <th className={styles.tableth}>Phone_No</th>
+                          </tr>
+                          {todayTimeTable?.length > 0 &&
+                            todayTimeTable
+                              ?.sort(compareMonths)
+                              ?.map((item, index) => {
+                                return (
+                                  <tr key={index} className={styles.tabletr}>
+                                    <td className={styles.tableth}>
+                                      {item?.subject?.dayname}
+                                      {console.log(
+                                        "day namnr is",
+                                        getDayName()
+                                      )}
+                                    </td>
+                                    <td className={styles.tableth}>
+                                      {item?.classname?.coursename}
+                                    </td>
+                                    <td className={styles.tableth}>
+                                      {item?.subject?.section}
+                                    </td>
+                                    <td className={styles.tableth}>
+                                      {item?.subject?.starttime}
+                                    </td>
+                                    <td className={styles.tableth}>
+                                      {item?.subject?.endtime}
+                                    </td>
+                                    <td className={styles.tableth}>
+                                      {item?.employee?.name}
+                                    </td>
+                                    <td className={styles.tableth}>
+                                      {item?.employee?.phoneno1}
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </>
               )}
             </div>
