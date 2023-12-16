@@ -62,7 +62,7 @@ function CollegeTimetable() {
 
   useEffect(() => {
     GetTimeTable();
-    dispatch(loadUser());
+    // dispatch(loadUser());
   }, []);
 
   return (

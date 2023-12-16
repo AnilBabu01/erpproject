@@ -18,23 +18,23 @@ function getDayName(date) {
   return days[dayIndex];
 }
 
-function SchoolTodayAttendance() {
+function SchoolTodayAttendance({ studentid }) {
   const [todaydata, settodaydata] = useState("");
   const [loader, setloader] = useState(false);
   const getmonthAttendance = () => {
     setloader(true);
-    serverInstance("attendanceatudent/GetStudentTodayAttendance", "get").then(
-      (res) => {
-        if (res?.status === true) {
-          setloader(false);
+    serverInstance("attendanceatudent/GetStudentTodayAttendance", "post", {
+      studentid: studentid,
+    }).then((res) => {
+      if (res?.status === true) {
+        setloader(false);
 
-          settodaydata(res?.data);
-        }
-        if (res?.status === false) {
-          setloader(false);
-        }
+        settodaydata(res?.data);
       }
-    );
+      if (res?.status === false) {
+        setloader(false);
+      }
+    });
   };
 
   useEffect(() => {

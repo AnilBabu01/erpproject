@@ -17,7 +17,7 @@ function getDayName(date) {
   const dayIndex = new Date(date).getDay();
   return days[dayIndex];
 }
-function SchoolDatebyAttendance() {
+function SchoolDatebyAttendance({studentid}) {
   const [monthlyAtttendance, setmonthlyAtttendance] = useState("");
   const [fromdate, setfromdate] = useState("");
   const [todate, settodate] = useState("");
@@ -27,6 +27,7 @@ function SchoolDatebyAttendance() {
     serverInstance("attendanceatudent/GetStudentByDateAttendance", "post", {
       fromdate: fromdate,
       todate: todate,
+      studentid:studentid
     }).then((res) => {
       if (res?.status === true) {
         setloader(false);

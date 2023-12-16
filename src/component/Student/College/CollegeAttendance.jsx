@@ -6,7 +6,7 @@ import TodayAt from "./CollegeTodayAttendance";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../redux/actions/authActions";
 import moment from "moment";
-function CollegeAttendance() {
+function CollegeAttendance({studentid}) {
   const dispatch = useDispatch();
   const [userdata, setuserdata] = useState("");
   const [today, settoday] = useState(true);
@@ -18,9 +18,9 @@ function CollegeAttendance() {
 
   console.log("Data is ", userdata?.data?.User);
 
-  useEffect(() => {
-    dispatch(loadUser());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(loadUser());
+  // }, []);
 
   useEffect(() => {
     if (user) {

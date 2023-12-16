@@ -18,9 +18,9 @@ function CoachingAttendance() {
 
   console.log("Data is ", userdata?.data?.User);
 
-  useEffect(() => {
-    dispatch(loadUser());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(loadUser());
+  // }, []);
 
   useEffect(() => {
     if (user) {

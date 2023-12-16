@@ -65,7 +65,7 @@ function SchoolTimetable() {
 
   useEffect(() => {
     GetTimeTable();
-    dispatch(loadUser());
+    // dispatch(loadUser());
   }, []);
 
   return (
@@ -108,14 +108,14 @@ function SchoolTimetable() {
                       <table className={styles.tabletable}>
                         <tbody>
                           <tr className={styles.tabletr}>
-                            <th className={styles.tableth}>Day</th>
-                            <th className={styles.tableth}>Subject</th>
-                            <th className={styles.tableth}>Class</th>
-                            <th className={styles.tableth}>Section</th>
-                            <th className={styles.tableth}>Start_Time</th>
-                            <th className={styles.tableth}>End_Time</th>
-                            <th className={styles.tableth}>Teacher_Name</th>
-                            <th className={styles.tableth}>Phone_No</th>
+                            <th className={styles.tabletd}>Day</th>
+                            <th className={styles.tabletd}>Subject</th>
+                            <th className={styles.tabletd}>Class</th>
+                            <th className={styles.tabletd}>Section</th>
+                            <th className={styles.tabletd}>Start_Time</th>
+                            <th className={styles.tabletd}>End_Time</th>
+                            <th className={styles.tabletd}>Teacher_Name</th>
+                            <th className={styles.tabletd}>Phone_No</th>
                           </tr>
                           {todayTimeTable?.length > 0 &&
                             filterdata(todayTimeTable)?.map((item, index) => {
@@ -162,13 +162,13 @@ function SchoolTimetable() {
                       <table className={styles.tabletable}>
                         <tbody>
                           <tr className={styles.tabletr}>
-                            <th className={styles.tableth}>Day</th>
-                            <th className={styles.tableth}>Class</th>
-                            <th className={styles.tableth}>Section</th>
-                            <th className={styles.tableth}>Start_Time</th>
-                            <th className={styles.tableth}>End_Time</th>
-                            <th className={styles.tableth}>Teacher_Name</th>
-                            <th className={styles.tableth}>Phone_No</th>
+                            <th className={styles.tabletd}>Day</th>
+                            <th className={styles.tabletd}>Class</th>
+                            <th className={styles.tabletd}>Section</th>
+                            <th className={styles.tabletd}>Start_Time</th>
+                            <th className={styles.tabletd}>End_Time</th>
+                            <th className={styles.tabletd}>Teacher_Name</th>
+                            <th className={styles.tabletd}>Phone_No</th>
                           </tr>
                           {todayTimeTable?.length > 0 &&
                             todayTimeTable

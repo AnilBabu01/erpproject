@@ -649,11 +649,21 @@
   align-items: center;
 }
 
-.tabletd,
-.tableth {
+.tableth{
   border: 1px solid #093959;
   text-align: center;
   padding: 8px;
+  
+}
+.tabletd {
+  border: 1px solid #093959;
+  text-align: center;
+  padding: 8px;
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 8px;
+  background-color: blue;
+  color: white;
 }
 
 .tabletable10 {
@@ -1079,7 +1089,7 @@
     padding-left: 0px;
     padding-right: 0px;
   }
-
+ 
   .divmainlogin10 {
     padding: 1rem;
   }
@@ -1095,7 +1105,7 @@
   .inputcreadentionals input {
     width: 100%;
   }
-  .minpadding{
+  .minpadding {
     padding: 1rem;
   }
   .mainperdiv {

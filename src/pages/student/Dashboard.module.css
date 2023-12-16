@@ -1,5 +1,5 @@
 .mainmar {
-  background-color:#212232;
+  background-color:sandybrown;
 }
 .sliderimgdiv {
   position: relative;
@@ -9,10 +9,11 @@
 }
 .overtextdiv {
   position: absolute;
-  background: #212232;
+  background-color:sandybrown;
   bottom: 0;
   left: 10;
   padding: 0.5rem;
+  border-radius: 15px;
 }
 .overtextdiv p {
   color: white;

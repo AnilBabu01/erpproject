@@ -6,8 +6,7 @@ import SchoolTodayAttendance from "./SchoolTodayAttendance";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../redux/actions/authActions";
 import moment from "moment";
-function SchoolAttendance() {
-
+function SchoolAttendance({ studentid }) {
   const dispatch = useDispatch();
   const [userdata, setuserdata] = useState("");
   const [today, settoday] = useState(true);
@@ -17,9 +16,9 @@ function SchoolAttendance() {
   const [datewise, setdatewise] = useState(false);
   const { user } = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    dispatch(loadUser());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(loadUser());
+  // }, []);
 
   useEffect(() => {
     if (user) {
@@ -87,17 +86,17 @@ function SchoolAttendance() {
 
             {today && (
               <>
-                <SchoolTodayAttendance />
+                <SchoolTodayAttendance studentid={studentid} />
               </>
             )}
             {monthly && (
               <>
-                <Monthly />
+                <Monthly studentid={studentid} />
               </>
             )}
             {datewise && (
               <>
-                <DateWise />
+                <DateWise studentid={studentid} />
               </>
             )}
           </div>

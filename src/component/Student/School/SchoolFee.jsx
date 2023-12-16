@@ -8,7 +8,7 @@ import { loadUser } from "../../../redux/actions/authActions";
 import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
 import ViewDeails from "./ViewDeails";
-function SchoolFee() {
+function SchoolFee({ studentid }) {
   const navigation = useRouter();
   const dispatch = useDispatch();
   const [userdata, setuserdata] = useState("");
@@ -37,9 +37,9 @@ function SchoolFee() {
     return <Slide direction="top" ref={ref} {...props} />;
   });
 
-  useEffect(() => {
-    dispatch(loadUser());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(loadUser());
+  // }, []);
 
   useEffect(() => {
     if (user) {
@@ -56,7 +56,9 @@ function SchoolFee() {
     });
   };
   const getstudentfee = () => {
-    serverInstance("Student/getStudentFee", "get").then((res) => {
+    serverInstance("Student/getStudentFee", "post", {
+      studentid: studentid,
+    }).then((res) => {
       if (res?.status) {
         console.log("get fee detauils", res);
         setschoolfee(res?.data);
@@ -65,7 +67,9 @@ function SchoolFee() {
   };
 
   const GetStudentFeeLedger = () => {
-    serverInstance("Student/GetStudentFeeLedger", "get").then((res) => {
+    serverInstance("Student/GetStudentFeeLedger", "post", {
+      studentid: studentid,
+    }).then((res) => {
       if (res?.status) {
         console.log("get fee detauils", res);
         setfeereceiptlist(res?.data);
@@ -75,7 +79,7 @@ function SchoolFee() {
   useEffect(() => {
     getstudentfee();
     GetStudentFeeLedger();
-    dispatch(loadUser());
+    // dispatch(loadUser());
   }, []);
 
   const compareMonths = (a, b) => {

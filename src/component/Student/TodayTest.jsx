@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "./Coaching.module.css";
 import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
 import Teststart from "./Teststart";
 import TestAlrt from "./TestAlrt";
 import { serverInstance } from "../../API/ServerInstance";
-import { useDispatch, useSelector } from "react-redux";
-import { getStudenttest } from "../../redux/actions/commanAction";
+import { useDispatch} from "react-redux";
+
 function TodayTest({ testlist }) {
   const dispatch = useDispatch();
   const [openupdate, setOpenupdate] = useState(false);
@@ -93,42 +93,43 @@ function TodayTest({ testlist }) {
           </Dialog>
         </div>
       )}
-      <div className={styles.tablecontainer}>
-        <table className={styles.tabletable}>
-          <tbody>
-            <tr className={styles.tabletr}>
-              <th className={styles.tableth}>Test Title</th>
-              <th className={styles.tableth}>Start Time</th>
-              <th className={styles.tableth}>End Time</th>
-              <th className={styles.tableth}>Total Questions</th>
-              {/* <th className={styles.tableth}>Passinf Marks</th> */}
-              <th className={styles.tableth}>Action</th>
-            </tr>
-            {testlist &&
-              testlist?.map((item, index) => {
-                return (
-                  <tr key={index} className={styles.tabletr}>
-                    <td className={styles.tabletd}>{item?.testTitle}</td>
-                    <td className={styles.tabletd}>{item?.teststarTime}</td>
-                    <td className={styles.tabletd}>{item?.testendTime}</td>
-                    <td className={styles.tabletd}>
-                      {item?.questions?.length}
-                    </td>
-                    {/* <td className={styles.tabletd}>8</td> */}
+      <div className={styles.addtablemargin}>
+        <div className={styles.tablecontainer}>
+          <table className={styles.tabletable}>
+            <tbody>
+              <tr className={styles.tabletr}>
+                <th className={styles.tableth}>Test_Title</th>
+                <th className={styles.tableth}>Start_Time</th>
+                <th className={styles.tableth}>End_Time</th>
+                <th className={styles.tableth}>Total_Questions</th>
 
-                    <td className={styles.tabletd}>
-                      <button
-                        className={styles.btnactive}
-                        onClick={() => ClickOpenupdate(item)}
-                      >
-                        Start Test
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-          </tbody>
-        </table>
+                <th className={styles.tableth}>Action</th>
+              </tr>
+              {testlist &&
+                testlist?.map((item, index) => {
+                  return (
+                    <tr key={index} className={styles.tabletr}>
+                      <td className={styles.tabletd}>{item?.testTitle}</td>
+                      <td className={styles.tabletd}>{item?.teststarTime}</td>
+                      <td className={styles.tabletd}>{item?.testendTime}</td>
+                      <td className={styles.tabletd}>
+                        {item?.questions?.length}
+                      </td>
+
+                      <td className={styles.tabletd}>
+                        <button
+                          className={styles.btnactive10}
+                          onClick={() => ClickOpenupdate(item)}
+                        >
+                          Start Test
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </table>
+        </div>
       </div>
     </>
   );

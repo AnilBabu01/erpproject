@@ -71,14 +71,16 @@ function calculatePercentage(attendanceArray, monthNumber, status) {
   return Math.round(percentage);
 }
 
-function SchoolmonthlyAttendance() {
+function SchoolmonthlyAttendance({studentid}) {
   const [allmonth, setallmonth] = useState("");
   const [loader, setloader] = useState(false);
   const getmonthAttendance = () => {
     setloader(true);
     serverInstance(
       "attendanceatudent/GetStudentAllMonthAttendance",
-      "get"
+      "post",{
+        studentid:studentid
+      }
     ).then((res) => {
       if (res?.status === true) {
         setloader(false);

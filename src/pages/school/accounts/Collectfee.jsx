@@ -26,6 +26,7 @@ const studentStatus = [
 ];
 
 function Collectfee() {
+  
   const dispatch = useDispatch();
   const [seno, setseno] = useState('');
   const [categoryname, setcategoryname] = useState("");

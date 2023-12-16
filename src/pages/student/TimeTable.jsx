@@ -8,19 +8,18 @@ function TimeTable() {
   const dispatch = useDispatch();
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
-  useEffect(() => {
-    dispatch(loadUser());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(loadUser());
+  // }, []);
 
-  console.log("from attendance", userdata?.data?.CredentailsData?.userType);
-  
+
   useEffect(() => {
     if (user) {
       setuserdata(user);
     }
   }, [user]);
   return (
-    <div className="mainContainer">
+    <div className="mainContainertimetable">
       {userdata?.data?.CredentailsData?.userType === "institute" && (
         <>
           <CoachingTimetable />

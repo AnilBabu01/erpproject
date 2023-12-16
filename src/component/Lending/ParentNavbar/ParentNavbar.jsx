@@ -12,7 +12,7 @@ const ParentNavbar = () => {
     <>
       {user?.data?.User?.userType === "parent" && (
         <>
-          <div>
+          {/* <div>
             <Link
               className={
                 router.pathname == "/parent/dashboard"
@@ -49,7 +49,7 @@ const ParentNavbar = () => {
             >
               Fee
             </Link>
-          </div>
+          </div> */}
           {/* &nbsp;&nbsp; &nbsp;&nbsp;
           <div>
             <Link

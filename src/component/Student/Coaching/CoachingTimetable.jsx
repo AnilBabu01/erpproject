@@ -62,7 +62,7 @@ function CoachingTimetable() {
 
   useEffect(() => {
     GetTimeTable();
-    dispatch(loadUser());
+    // dispatch(loadUser());
   }, []);
 
   return (

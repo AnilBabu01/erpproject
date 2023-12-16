@@ -11,6 +11,7 @@ import { GetNotic, GetSlider } from "../../redux/actions/commanAction";
 import { backendUrl } from "../../config/config";
 
 function Dashboard() {
+  
   const dispatch = useDispatch();
   const [sliderimglist, setsliderimglist] = useState([]);
   const [noticlist, setnoticlist] = useState([]);
@@ -18,7 +19,7 @@ function Dashboard() {
   const { slider } = useSelector((state) => state.GetSlider);
 
   useEffect(() => {
-    dispatch(loadUser());
+    // dispatch(loadUser());
     dispatch(GetNotic());
     dispatch(GetSlider());
   }, []);

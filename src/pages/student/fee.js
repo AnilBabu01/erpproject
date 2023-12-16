@@ -4,15 +4,24 @@ import SchoolFee from "@/component/Student/School/SchoolFee";
 import CollegeFee from "@/component/Student/College/CollegeFee";
 import { loadUser } from "../../redux/actions/authActions";
 import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
 function Fee() {
+ 
   const dispatch = useDispatch();
+  const router = useRouter();
+  const { StudentId } = router.query;
+  const [studentid, setstudentid] = useState("");
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
   useEffect(() => {
     // dispatch(loadUser());
   }, []);
 
+
   useEffect(() => {
+    if (StudentId) {
+      setstudentid(JSON.parse(StudentId));
+    }
     if (user) {
       setuserdata(user);
     }
@@ -21,17 +30,17 @@ function Fee() {
     <div className="mainContainer">
       {userdata?.data?.CredentailsData?.userType === "institute" && (
         <>
-          <CoachingFee />
+          <CoachingFee studentid={studentid} />
         </>
       )}
       {userdata?.data?.CredentailsData?.userType === "school" && (
         <>
-          <SchoolFee />
+          <SchoolFee  studentid={studentid}/>
         </>
       )}
       {userdata?.data?.CredentailsData?.userType === "college" && (
         <>
-          <CollegeFee />
+          <CollegeFee studentid={studentid} />
         </>
       )}
     </div>
