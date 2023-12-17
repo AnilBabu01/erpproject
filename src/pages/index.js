@@ -35,19 +35,19 @@ export default function Home({ setOpen }) {
     dispatch(loadUser());
   }, []);
   if (isAuthenticated) {
-    if (user?.data?.User?.newclient === true) {
-      navigate.push("/pricing");
-    } else {
-      if (user?.data?.User?.userType === "school") {
-        navigate.push("/school/dashboard");
-      }
-      if (user?.data?.User?.userType === "college") {
-        navigate.push("/college/dashboard");
-      }
-      if (user?.data?.User?.userType === "institute") {
-        navigate.push("/coaching/dashboard");
-      }
+    // if (user?.data?.User?.newclient === true) {
+    //   navigate.push("/pricing");
+    // } else {
+    if (user?.data?.User?.userType === "school") {
+      navigate.push("/school/dashboard");
     }
+    if (user?.data?.User?.userType === "college") {
+      navigate.push("/college/dashboard");
+    }
+    if (user?.data?.User?.userType === "institute") {
+      navigate.push("/coaching/dashboard");
+    }
+
     if (user?.data?.User?.userType === "admin") {
       navigate.push("/mainadmin/dashboard");
     }

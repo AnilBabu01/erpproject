@@ -34,6 +34,23 @@ import StudentNavbar from "../StudentNavbar/StudentNavbar";
 import ParentNavbar from "../ParentNavbar/ParentNavbar";
 import EmployeeNavbar from "../EmployeeNavbar/EmployeeNavbar";
 import { AnimatePresence, motion } from "framer-motion";
+import Modal from "@mui/material/Modal";
+import Button from "@mui/material/Button";
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 'auto',
+  background:"rgba(255, 255, 255, 1)",
+  boxShadow: "0px 0px 10px 2px rgba(0, 0, 0, 0.25)",
+  borderRadius:"3px",
+  // pt: 2,
+  // px: 4,
+  // pb: 3,
+};
+
 function Navbar({ open, setOpen, setLoadingshow }) {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -228,8 +245,8 @@ function Navbar({ open, setOpen, setLoadingshow }) {
         </Menu>
       )}
       {open && (
-        <div>
-          <Dialog
+        <>
+          {/* <Dialog
             open={open}
             TransitionComponent={Transition}
             keepMounted
@@ -244,13 +261,24 @@ function Navbar({ open, setOpen, setLoadingshow }) {
             }}
           >
             <Login setOpen={setOpen} setOpen1={setOpen1} />
-          </Dialog>
-        </div>
+          </Dialog> */}
+
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="child-modal-title"
+            aria-describedby="child-modal-description"
+          >
+            <Box sx={{ ...style}}>
+              <Login setOpen={setOpen} setOpen1={setOpen1} />
+            </Box>
+          </Modal>
+        </>
       )}
 
       {open1 && (
-        <div>
-          <Dialog
+        <>
+          {/* <Dialog
             open={open1}
             TransitionComponent={Transition}
             onClose={handleCloseregister}
@@ -265,35 +293,22 @@ function Navbar({ open, setOpen, setLoadingshow }) {
             }}
           >
             <Register setOpen={setOpen1} setOpen1={setOpen} />
-          </Dialog>
-        </div>
+          </Dialog> */}
+
+          <Modal
+            open={open1}
+            onClose={handleCloseregister}
+            aria-labelledby="child-modal-title"
+            aria-describedby="child-modal-description"
+          >
+            <Box sx={{ ...style,}}>
+              <Register setOpen={setOpen1} setOpen1={setOpen} />
+            </Box>
+          </Modal>
+        </>
       )}
 
-      {open3 && (
-        <div>
-          <Dialog
-            open={open3}
-            TransitionComponent={Transition}
-            onClose={handlestudentCloseregister}
-            aria-describedby="alert-dialog-slide-description"
-          >
-            <StudentLogin setOpen={setOpen3} />
-          </Dialog>
-        </div>
-      )}
-
-      {open4 && (
-        <div>
-          <Dialog
-            open={open4}
-            TransitionComponent={Transition}
-            onClose={handleClose4}
-            aria-describedby="alert-dialog-slide-description"
-          >
-            <StudentLogin setOpen={setOpen4} />
-          </Dialog>
-        </div>
-      )}
+    
 
       <nav className={navbar ? "main_div_header_scroll" : "main_div_header"}>
         <i

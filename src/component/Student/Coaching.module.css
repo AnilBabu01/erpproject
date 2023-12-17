@@ -12,41 +12,37 @@
   margin-top: 0px;
 }
 .btnactive {
-  background: #212232;
+  background:#413aa4;
   margin: 0.2rem;
   color: white;
-  border-radius: 5px;
+  border-radius: 2px;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
+  height: 34px;
+
 }
 
 .btnactive10 {
-  background: #212232;
+  background: #413aa4;
   margin: 0.2rem;
   color: white;
-  border-radius: 5px;
+  height: 34px;
+  border-radius: 2px;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
+ 
 }
 
-.btnactive {
-  background: #212232;
-  margin: 0.2rem;
-  color: white;
-  border-radius: 5px;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  height: 35px;
-}
 .hideactive {
   background: white;
   margin: 0.2rem;
-  color: #212232;
-  border: 1px solid #212232;
-  border-radius: 5px;
+  color: #413aa4;
+  border: 1px solid #413aa4;
+  border-radius: 2px;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
-  height: 35px;
+  height: 34px;
+ 
 }
 
 .detailsdiv h2 {
@@ -72,7 +68,7 @@
   border: 1px solid #dddddd;
   text-align: center;
   padding: 8px;
-  background-color: blue;
+  background-color: #06b590;
   color: white;
 }
 

@@ -260,14 +260,14 @@ function Register({ setOpen, setOpen1 }) {
     <>
       <div className={styles.divmainlogin}>
         <div className={styles.closeicondiv} onClick={() => setOpen(false)}>
-          <CloseIcon />
+          <CloseIcon style={{ color: 'white' }}/>
         </div>
         <h1>New Institute/School Registration</h1>
         <div>
           {phonenDone === false || emailDone === false ? (
             <>
               <div className={styles.divmaininput}>
-                <div className={styles.inputdiv}>
+                <div className={styles.inputdivregister}>
                   <label>Phone No</label>
                   <input
                     required
@@ -278,7 +278,7 @@ function Register({ setOpen, setOpen1 }) {
                     onChange={(e) => setphoneno1(e.target.value)}
                   />
                 </div>
-                <div className={styles.inputdiv}>
+                <div className={styles.inputdivregister}>
                   <label>Email</label>
                   <input
                     required
@@ -291,7 +291,7 @@ function Register({ setOpen, setOpen1 }) {
                   />
                 </div>
 
-                <div className={styles.inputdiv}>
+                <div className={styles.inputdivregister}>
                   <p className={styles.disabledinphone}>&nbsp;</p>
                   <button
                     onClick={() => sendotpOnPhone()}
@@ -321,7 +321,7 @@ function Register({ setOpen, setOpen1 }) {
                 </div>
               </div>
               <div className={styles.divmaininput}>
-                <div className={styles.inputdiv}>
+                <div className={styles.inputdivregister}>
                   <label>Phone Otp</label>
 
                   <input
@@ -342,10 +342,10 @@ function Register({ setOpen, setOpen1 }) {
                     }
                     disabled={phoneotp ? false : true}
                   >
-                    {phoneverify ? <CircularProgress size={25} /> : "Verify1"}
+                    {phoneverify ? <CircularProgress size={25} /> : "Verify Number"}
                   </button>
                 </div>
-                <div className={styles.inputdiv}>
+                <div className={styles.inputdivregister}>
                   <label>Email Otp</label>
                   <input
                     required
@@ -365,11 +365,11 @@ function Register({ setOpen, setOpen1 }) {
                     disabled={emailOtp ? false : true}
                     onClick={() => EmailOtpVerify()}
                   >
-                    {emailverify ? <CircularProgress size={25} /> : "Verify2"}
+                    {emailverify ? <CircularProgress size={25} /> : "Verify Email"}
                   </button>
                 </div>
 
-                <div className={styles.inputdiv}>
+                <div className={styles.inputdivregister}>
                   <button
                     onClick={() => sendotpOnEmail()}
                     className={
@@ -412,7 +412,7 @@ function Register({ setOpen, setOpen1 }) {
           ) : (
             <>
               <div className={styles.divmaininput}>
-                <div className={styles.inputdiv}>
+                <div className={styles.inputdivregister}>
                   <label>Owner Name</label>
                   <input
                     required
@@ -423,7 +423,7 @@ function Register({ setOpen, setOpen1 }) {
                     onChange={(e) => setowername(e.target.value)}
                   />
                 </div>
-                <div className={styles.inputdiv}>
+                <div className={styles.inputdivregister}>
                   <label>Institute/School Name</label>
                   <input
                     required
@@ -434,7 +434,7 @@ function Register({ setOpen, setOpen1 }) {
                     onChange={(e) => setorganizationName(e.target.value)}
                   />
                 </div>
-                <div className={styles.inputdiv}>
+                <div className={styles.inputdivregister}>
                   <label>Register As</label>
                   <Select
                     required
@@ -493,7 +493,7 @@ function Register({ setOpen, setOpen1 }) {
                 </div>
               </div>
               <div className={styles.divmaininput}>
-                <div className={styles.inputdiv}>
+                <div className={styles.inputdivregister}>
                   <label>City</label>
                   <input
                     required
@@ -504,7 +504,7 @@ function Register({ setOpen, setOpen1 }) {
                     onChange={(e) => setcity(e.target.value)}
                   />
                 </div>
-                <div className={styles.inputdiv}>
+                <div className={styles.inputdivregister}>
                   <label>State</label>
                   <input
                     required
@@ -515,7 +515,7 @@ function Register({ setOpen, setOpen1 }) {
                     onChange={(e) => setstate(e.target.value)}
                   />
                 </div>
-                <div className={styles.inputdiv}>
+                <div className={styles.inputdivregister}>
                   <label>Pin Code</label>
                   <input
                     required
@@ -528,7 +528,7 @@ function Register({ setOpen, setOpen1 }) {
                 </div>
               </div>
 
-              <div className={styles.inputdiv}>
+              <div className={styles.inputdivregister}>
                 <label>Password</label>
                 <input
                   required

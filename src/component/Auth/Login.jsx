@@ -69,6 +69,7 @@ function Login({ setOpen, setOpen1 }) {
     }
   };
 
+  
   useEffect(() => {
     if (isAuthenticated) {
       localStorage.setItem("erptoken", user?.data[0]?.token);
@@ -109,7 +110,7 @@ function Login({ setOpen, setOpen1 }) {
     <>
       <div className={styles.divmainlogin}>
         <div className={styles.closeicondiv} onClick={() => setOpen(false)}>
-          <CloseIcon />
+          <CloseIcon style={{ color: 'white' }} />
         </div>
 
         <h1>Login</h1>
@@ -490,7 +491,7 @@ function Login({ setOpen, setOpen1 }) {
           </>
         )}
       </div>
-      {loading && <LoadingSpinner />}
+      {/* {loading && <LoadingSpinner />} */}
     </>
   );
 }
