@@ -191,9 +191,18 @@
   padding-right: 2%;
   padding-top: 2%;
   cursor: pointer;
+
+}
+
+.closeicondivauth {
+  display: flex;
+  justify-content: right;
+  padding-right: 2%;
+  padding-top: 2%;
+  cursor: pointer;
   position: absolute;
   background: #ff6900;
-  padding: 3%;
+  padding: 1%;
   border-radius: 24px;
   left: 99%;
   bottom: 99%;

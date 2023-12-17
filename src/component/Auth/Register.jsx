@@ -259,7 +259,7 @@ function Register({ setOpen, setOpen1 }) {
   return (
     <>
       <div className={styles.divmainlogin}>
-        <div className={styles.closeicondiv} onClick={() => setOpen(false)}>
+        <div className={styles.closeicondivauth} onClick={() => setOpen(false)}>
           <CloseIcon style={{ color: 'white' }}/>
         </div>
         <h1>New Institute/School Registration</h1>

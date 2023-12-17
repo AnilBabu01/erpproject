@@ -71,6 +71,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [open4, setOpen4] = useState(false);
   const open2 = Boolean(anchorEl);
+  
   const handleClick1 = (event) => {
     setAnchorEl(event.currentTarget);
   };

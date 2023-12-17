@@ -315,13 +315,24 @@
   padding-right: 1%;
   padding-top: 1%;
   cursor: pointer;
+ 
+}
+
+
+.closeicondivauth {
+  display: flex;
+  justify-content: right;
+  padding-right: 1%;
+  padding-top: 1%;
+  cursor: pointer;
   position: absolute;
   background: #ff6900;
-  padding: 2%;
+  padding: 1%;
   border-radius: 30px;
   left: 99%;
   bottom: 99%;
 }
+
 
 .mainper {
   color: green;

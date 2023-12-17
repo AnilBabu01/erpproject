@@ -7,7 +7,7 @@ function Welcome({ setOpen }) {
   return (
     <>
       <div className={styles.divmainlogin}>
-        <div className={styles.closeicondiv} onClick={() => setOpen(false)}>
+        <div className={styles.closeicondivauth} onClick={() => setOpen(false)}>
           <CloseIcon style={{ color: "white" }} />
         </div>
         <div className={styles.welcomicondiv}>
