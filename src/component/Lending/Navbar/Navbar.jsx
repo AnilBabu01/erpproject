@@ -35,17 +35,17 @@ import ParentNavbar from "../ParentNavbar/ParentNavbar";
 import EmployeeNavbar from "../EmployeeNavbar/EmployeeNavbar";
 import { AnimatePresence, motion } from "framer-motion";
 import Modal from "@mui/material/Modal";
-import Button from "@mui/material/Button";
+import Welcome from "@/component/Auth/Welcome";
 
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 'auto',
-  background:"rgba(255, 255, 255, 1)",
+  width: "auto",
+  background: "rgba(255, 255, 255, 1)",
   boxShadow: "0px 0px 10px 2px rgba(0, 0, 0, 0.25)",
-  borderRadius:"3px",
+  borderRadius: "3px",
   // pt: 2,
   // px: 4,
   // pb: 3,
@@ -55,6 +55,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
   const router = useRouter();
   const dispatch = useDispatch();
   const [open1, setOpen1] = useState(false);
+  const [welcomeopen, setwelcomeopen] = useState(false);
   const [open3, setOpen3] = useState(false);
   const [navbar, setnavbar] = useState(false);
   const [isMobile, setisMobile] = useState(false);
@@ -83,6 +84,14 @@ function Navbar({ open, setOpen, setLoadingshow }) {
 
   const handleClickOpen = () => {
     setOpen(true);
+  };
+
+  const handleWelcomeClose = () => {
+    setwelcomeopen(false);
+  };
+
+  const handleWelcomeClickOpen = () => {
+    setwelcomeopen(true);
   };
 
   const handleClose = () => {
@@ -244,6 +253,22 @@ function Navbar({ open, setOpen, setLoadingshow }) {
           </MenuItem>
         </Menu>
       )}
+
+      {welcomeopen && (
+        <>
+          <Modal
+            open={welcomeopen}
+            onClose={handleWelcomeClose}
+            aria-labelledby="child-modal-title"
+            aria-describedby="child-modal-description"
+          >
+            <Box sx={{ ...style }}>
+              <Welcome setOpen={setwelcomeopen} />
+            </Box>
+          </Modal>
+        </>
+      )}
+
       {open && (
         <>
           {/* <Dialog
@@ -269,8 +294,8 @@ function Navbar({ open, setOpen, setLoadingshow }) {
             aria-labelledby="child-modal-title"
             aria-describedby="child-modal-description"
           >
-            <Box sx={{ ...style}}>
-              <Login setOpen={setOpen} setOpen1={setOpen1} />
+            <Box sx={{ ...style }}>
+              <Login setOpen={setOpen} setOpen1={setOpen1} setwelcomeopen={setwelcomeopen} />
             </Box>
           </Modal>
         </>
@@ -301,14 +326,12 @@ function Navbar({ open, setOpen, setLoadingshow }) {
             aria-labelledby="child-modal-title"
             aria-describedby="child-modal-description"
           >
-            <Box sx={{ ...style,}}>
+            <Box sx={{ ...style }}>
               <Register setOpen={setOpen1} setOpen1={setOpen} />
             </Box>
           </Modal>
         </>
       )}
-
-    
 
       <nav className={navbar ? "main_div_header_scroll" : "main_div_header"}>
         <i

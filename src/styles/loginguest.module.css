@@ -285,6 +285,13 @@
   padding-right: 0.5rem;
   padding-left: 0.5rem;
 }
+.welcomicondiv{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 4%;
+}
 @media screen and (max-width: 780px) {
   .closeicondiv {
     left: 92%;

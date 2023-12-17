@@ -31,7 +31,7 @@ const customStyles = {
   }),
 };
 
-function Login({ setOpen, setOpen1 }) {
+function Login({ setOpen, setOpen1,setwelcomeopen }) {
   const dispatch = useDispatch();
   const navigate = useRouter();
   const [loginas, setloginas] = useState("College");
@@ -75,7 +75,10 @@ function Login({ setOpen, setOpen1 }) {
       localStorage.setItem("erptoken", user?.data[0]?.token);
       dispatch(loadUser());
       setOpen(false);
-
+      setwelcomeopen(true);
+      setInterval(() => {
+        setwelcomeopen(false)
+      }, 1000);
       if (user?.data[0]?.userType === "school") {
         navigate.push("/school/dashboard");
       }
