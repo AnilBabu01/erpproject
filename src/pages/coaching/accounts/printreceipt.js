@@ -18,7 +18,7 @@ import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
 import { useRouter } from "next/router";
 function PrintReceipt() {
-    const navigation = useRouter();
+  const navigation = useRouter();
   const dispatch = useDispatch();
   const [noOfMonth, setnoOfMonth] = useState("");
   const [scoursename, setscoursename] = useState("");
@@ -36,8 +36,9 @@ function PrintReceipt() {
   const [deleteid, setdeleteid] = useState("");
   const [isdata, setisData] = useState([]);
   const [userdata, setuserdata] = useState("");
-  const [showfathers, setshowfathers] = useState(false);
+  const [courselist, setcourselist] = useState([]);
   const { user } = useSelector((state) => state.auth);
+  const { course } = useSelector((state) => state.getcourse);
   const { loading, receiptdata } = useSelector(
     (state) => state.getReceiptPrint
   );
@@ -195,7 +196,10 @@ function PrintReceipt() {
     if (courseduarion) {
       setnoOfMonth(courseduarion);
     }
-  }, [receiptdata, batch, user, courseduarion]);
+    if (course) {
+      setcourselist(course);
+    }
+  }, [receiptdata, batch, user, courseduarion, course]);
 
   useEffect(() => {
     dispatch(getPrintReceipt());
@@ -210,7 +214,18 @@ function PrintReceipt() {
 
   const filterdata = (e) => {
     e.preventDefault();
-    dispatch(getPrintReceipt(fromdate, scoursename, sstudent, rollnumber));
+    dispatch(
+      getPrintReceipt(
+        fromdate,
+        scoursename,
+        sstudent,
+        rollnumber,
+        "",
+        "",
+        "",
+        ""
+      )
+    );
   };
 
   const reset = () => {
@@ -273,14 +288,44 @@ function PrintReceipt() {
                   onChange={(e) => setfromdate(e.target.value)}
                 />
 
-                <input
-                  className={styles.opensearchinput10}
-                  type="text"
-                  placeholder="Course.."
+                <select
+                  className={styles.opensearchinput}
+                  sx={{
+                    width: "18.8rem",
+                    fontSize: 14,
+                    "& .MuiSelect-select": {
+                      paddingTop: "0.6rem",
+                      paddingBottom: "0.6em",
+                    },
+                  }}
                   value={scoursename}
                   name="scoursename"
                   onChange={(e) => setscoursename(e.target.value)}
-                />
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={""}
+                  >
+                    ALL Course
+                  </option>
+
+                  {courselist?.map((item, index) => {
+                    return (
+                      <option
+                        key={index}
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={item?.coursename}
+                      >
+                        {item?.coursename}
+                      </option>
+                    );
+                  })}
+                </select>
                 <input
                   className={styles.opensearchinput10}
                   type="text"
@@ -312,7 +357,7 @@ function PrintReceipt() {
             </div>
           </div>
 
-          <div className={styles.add_divmarginn10}>
+          <div className={styles.add_divmarginn}>
             <div className={styles.tablecontainer}>
               <table className={styles.tabletable}>
                 <tbody>

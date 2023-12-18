@@ -125,6 +125,7 @@ function Admission() {
   };
 
   const reset = () => {
+    setstatus('')
     setsstudent("");
     setsfathers("");
     setfromdate("");

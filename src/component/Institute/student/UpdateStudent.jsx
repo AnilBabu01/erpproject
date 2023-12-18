@@ -130,6 +130,9 @@ function UpdateStudent({ setOpen, updatedata }) {
     formData.set("Transport", transport);
     formData.set("Library", Library);
     formData.set("hostal", hostal);
+    formData.set("FromRoute", "");
+    formData.set("ToRoute", "");
+    formData.set("BusNumber", "");
     formData.set("Section", sectionname);
     formData.set("Session", sessionname);
     formData.set("StudentCategory", categoryname);

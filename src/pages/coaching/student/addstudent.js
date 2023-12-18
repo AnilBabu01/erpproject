@@ -119,12 +119,19 @@ function Admission() {
         sstudent,
         sfathers,
         rollnumber,
-        status
+        status,
+        "",
+        "",
+        "",
+        "",
+        ""
       )
     );
   };
 
   const reset = () => {
+    setstatus('')
+    setrollnumber('');
     setsstudent("");
     setsfathers("");
     setfromdate("");

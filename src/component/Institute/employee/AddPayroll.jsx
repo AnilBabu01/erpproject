@@ -259,7 +259,7 @@ function AddPayroll({ setOpen, updatedata }) {
           </div>
           {allDetails && (
             <>
-              <div id="receipt" className={styles.somepading}>
+              <div id="receipt" >
                 <div className={styles.salarySlipMain}>
                   <div className={styles.overlaydiv}>
                     <div className={styles.salarySlipHeader}>

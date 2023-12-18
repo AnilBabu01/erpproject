@@ -62,6 +62,7 @@ export const register =
           });
           setOpen(false);
           setOpen1(true);
+          // window.location.reload();
         }
 
         dispatch({
@@ -82,6 +83,7 @@ export const register =
           });
           setOpen(false);
           setOpen1(true);
+          // window.location.reload();
         }
         dispatch({
           type: REGISTER_USER_SUCCESS,
@@ -100,6 +102,7 @@ export const register =
           });
           setOpen(false);
           setOpen1(true);
+          // window.location.reload();
         }
         dispatch({
           type: REGISTER_USER_SUCCESS,
@@ -120,7 +123,6 @@ export const register =
 export const login =
   (email, password, loginas, Fullname) => async (dispatch) => {
     try {
-
       console.log("login is ", loginas);
 
       dispatch({ type: LOGIN_REQUEST });
@@ -248,7 +250,6 @@ export const login =
           payload: data,
         });
       }
-
 
       if (loginas === "Employee") {
         const { data } = await axios.post(

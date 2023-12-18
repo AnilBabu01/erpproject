@@ -22,6 +22,13 @@ import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import { Button } from "@mui/material";
+
 const studentStatus = [
   { label: "Active", value: "Active" },
   { label: "On Leave", value: "On Leave" },
@@ -47,7 +54,7 @@ function Changesession() {
   const [batchs, setbatchs] = useState([]);
   const [isdata, setisData] = useState([]);
   const [courselist, setcourselist] = useState([]);
-  const [status, setstatus] = useState("");
+  const [status, setstatus] = useState("Active");
   const [rollnumber, setrollnumber] = useState("");
   const [categoryname, setcategoryname] = useState("");
   const [categorylist, setcategorylist] = useState([]);
@@ -55,8 +62,9 @@ function Changesession() {
   const [sectionList, setsectionList] = useState([]);
   const [sessionname, setsessionname] = useState("");
   const [sectionname, setsectionname] = useState("NONE");
+  const [ischecked, setischecked] = useState(false);
   const [userdata, setuserdata] = useState("");
-
+  const [openalert, setOpenalert] = useState(false);
   const { user } = useSelector((state) => state.auth);
   const { loading, student } = useSelector((state) => state.getstudent);
   const { batch } = useSelector((state) => state.getbatch);
@@ -64,6 +72,59 @@ function Changesession() {
   const { category } = useSelector((state) => state.getcategory);
   const { sections } = useSelector((state) => state.GetSection);
   const { Sessions } = useSelector((state) => state.GetSession);
+
+  const handlesession = () => {
+    try {
+      if (ischecked === false) {
+        toast.error("Please select student list", {
+          autoClose: 1000,
+        });
+        setOpenalert(false);
+      } else {
+        serverInstance("student/changesession", "post", {
+          studentlist: allselectStatus ? isdata : studentlist,
+          session: transSession,
+          section: transsection,
+          classname: transClass,
+        }).then((res) => {
+          if (res?.status === true) {
+            setisData(res?.data);
+
+            console.log("changes session data is", res);
+
+            toast.success(res?.msg, {
+              autoClose: 1000,
+            });
+            dispatch(GetSection());
+            setOpenalert(false);
+          }
+          if (res?.status === false) {
+            toast.error(res?.msg, {
+              autoClose: 1000,
+            });
+            setOpenalert(false);
+          }
+        });
+      }
+    } catch (error) {
+      toast.error("Something Went Wrong!!", {
+        autoClose: 1000,
+      });
+    }
+  };
+
+
+  const ClickOpendelete = () => {
+    setOpenalert(true);
+  };
+
+  const handleClosedelete = () => {
+    setOpenalert(false);
+  };
+
+  const handledelete = () => {
+    handlesession();
+  };
 
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="top" ref={ref} {...props} />;
@@ -92,9 +153,9 @@ function Changesession() {
       setsectionList(sections);
     }
   }, [student, batch, user, course, category, Sessions, sections]);
-  useEffect(() => {
-    dispatch(getstudent());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getstudent());
+  // }, []);
   useEffect(() => {
     dispatch(loadUser());
     dispatch(getbatch());
@@ -124,7 +185,8 @@ function Changesession() {
         categoryname,
         "",
         sessionname,
-        sectionname
+        sectionname,
+        ""
       )
     );
   };
@@ -152,48 +214,33 @@ function Changesession() {
     setsessionname(`${lastyear}-${fullyear}`);
   }, []);
 
-  console.log("seesion is data is ", studentlist);
-
-  const handlesession = () => {
-    try {
-      // if (studentlist?.length === 0 || studentlist1?.length === 0) {
-      //   toast.error("Please Select Student!!", {
-      //     autoClose: 1000,
-      //   });
-      //   return 0;
-      // }
-      serverInstance("student/changesession", "post", {
-        studentlist: allselectStatus ? isdata : studentlist,
-        session: transSession,
-        section: transsection,
-        classname: transClass,
-      }).then((res) => {
-        if (res?.status === true) {
-          setisData(res?.data);
-
-          console.log("changes session data is", res);
-
-          toast.success(res?.msg, {
-            autoClose: 1000,
-          });
-          dispatch(GetSection());
-          // handleClosedelete();
-        }
-        if (res?.status === false) {
-          toast.error(res?.msg, {
-            autoClose: 1000,
-          });
-          // handleClosedelete();
-        }
-      });
-    } catch (error) {
-      toast.error("Something Went Wrong!!", {
-        autoClose: 1000,
-      });
-    }
-  };
   return (
     <>
+      {openalert && (
+        <>
+          <Dialog
+            open={openalert}
+            onClose={handleClosedelete}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"Session change"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Do you want to change session
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClosedelete}>Disagree</Button>
+              <Button onClick={handledelete} autoFocus>
+                Agree
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </>
+      )}
       <div className="mainContainer">
         <div>
           <div className={styles.topmenubar}>
@@ -560,7 +607,7 @@ function Changesession() {
                   ? false
                   : true
               }
-              onClick={() => handlesession()}
+              onClick={() => ClickOpendelete()}
             >
               Change Session
             </button>
@@ -598,6 +645,7 @@ function Changesession() {
                             setallselectStatus(false);
                           }
                           setstudentlist1(updatedList);
+                          setischecked(true);
                         }}
                       />
                     </th>
@@ -647,6 +695,7 @@ function Changesession() {
                                     );
                                   }
                                   setstudentlist(updatedList);
+                                  setischecked(true);
                                 }}
                               />
                             </>

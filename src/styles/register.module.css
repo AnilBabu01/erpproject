@@ -649,9 +649,10 @@
 }
 .salarySlipMain {
   border: 1px solid #093959;
-  background-image: url("../../public//images//receiptbg.jpg");
+  /* background-image: url("../../public//images//receiptbg.jpg"); */
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  padding-bottom: 1rem;
 }
 .overlaydiv {
   padding: 1rem 1rem 0rem 1rem;

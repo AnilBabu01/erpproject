@@ -99,6 +99,7 @@ function Admission() {
   const handledelete = () => {
     dispatch(deletestudent(deleteid, setOpenalert));
   };
+  
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="top" ref={ref} {...props} />;
   });
@@ -255,6 +256,8 @@ function Admission() {
           </Dialog>
         </>
       )}
+
+
       <div className="mainContainer">
         <div>
           <div className={styles.topmenubar}>

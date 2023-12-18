@@ -11,7 +11,12 @@ import Select1 from "react-select";
 import { useRouter } from "next/router";
 import LoadingSpinner from "../../component/loader/LoadingSpinner";
 import styles from "@/styles/loginguest.module.css";
-
+import {
+  allCollege,
+  alCoaching,
+  allschool,
+  allClient,
+} from "../../redux/actions/commanAction";
 const logintype = [
   { label: "College", value: "College" },
   { label: "School", value: "School" },
@@ -31,7 +36,7 @@ const customStyles = {
   }),
 };
 
-function Login({ setOpen, setOpen1,setwelcomeopen }) {
+function Login({ setOpen, setOpen1, setwelcomeopen }) {
   const dispatch = useDispatch();
   const navigate = useRouter();
   const [loginas, setloginas] = useState("College");
@@ -49,6 +54,14 @@ function Login({ setOpen, setOpen1,setwelcomeopen }) {
   const { coaching } = useSelector((state) => state.coaching);
   const { school } = useSelector((state) => state.school);
   const { client } = useSelector((state) => state.client);
+
+  console.log(
+    "only college from login form is ",
+    college,
+    coaching,
+    school,
+    client
+  );
 
   const submit = (e) => {
     e.preventDefault();
@@ -69,7 +82,6 @@ function Login({ setOpen, setOpen1,setwelcomeopen }) {
     }
   };
 
-  
   useEffect(() => {
     if (isAuthenticated) {
       localStorage.setItem("erptoken", user?.data[0]?.token);
@@ -77,7 +89,7 @@ function Login({ setOpen, setOpen1,setwelcomeopen }) {
       setOpen(false);
       setwelcomeopen(true);
       setInterval(() => {
-        setwelcomeopen(false)
+        setwelcomeopen(false);
       }, 1000);
       if (user?.data[0]?.userType === "school") {
         navigate.push("/school/dashboard");
@@ -109,11 +121,18 @@ function Login({ setOpen, setOpen1,setwelcomeopen }) {
     }
   }, [user]);
 
+  useEffect(() => {
+    // dispatch(allClient());
+    dispatch(allCollege());
+    // dispatch(allschool());
+    // dispatch(alCoaching());
+  }, []);
+
   return (
     <>
       <div className={styles.divmainlogin}>
         <div className={styles.closeicondivauth} onClick={() => setOpen(false)}>
-          <CloseIcon style={{ color: 'white' }} />
+          <CloseIcon style={{ color: "white" }} />
         </div>
 
         <h1>Login</h1>

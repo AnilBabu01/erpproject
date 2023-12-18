@@ -37,11 +37,11 @@ function Dashboard() {
         setBarExpensesList(res?.data?.ExpensesChartdata);
         setLinstExpensesList(res?.data?.ExpensesChartdata);
       }
-      if (res?.status === false) {
-        toast.error(res?.msg, {
-          autoClose: 1000,
-        });
-      }
+      // if (res?.status === false) {
+      //   toast.error(res?.msg, {
+      //     autoClose: 1000,
+      //   });
+      // }
     });
   };
 
@@ -53,11 +53,11 @@ function Dashboard() {
         console.log("Total dashbora data is ", res);
         setLinstFeepaidList(res?.data);
       }
-      if (res?.status === false) {
-        toast.error(res?.msg, {
-          autoClose: 1000,
-        });
-      }
+      // if (res?.status === false) {
+      //   toast.error(res?.msg, {
+      //     autoClose: 1000,
+      //   });
+      // }
     });
   };
 
@@ -69,11 +69,11 @@ function Dashboard() {
         console.log("Total dashbora data is ", res);
         setBarFeepaidList(res?.data);
       }
-      if (res?.status === false) {
-        toast.error(res?.msg, {
-          autoClose: 1000,
-        });
-      }
+      // if (res?.status === false) {
+      //   toast.error(res?.msg, {
+      //     autoClose: 1000,
+      //   });
+      // }
     });
   };
 
@@ -85,11 +85,11 @@ function Dashboard() {
         console.log("Total dashbora data is ", res);
         setLinstExpensesList(res?.data);
       }
-      if (res?.status === false) {
-        toast.error(res?.msg, {
-          autoClose: 1000,
-        });
-      }
+      // if (res?.status === false) {
+      //   toast.error(res?.msg, {
+      //     autoClose: 1000,
+      //   });
+      // }
     });
   };
 
@@ -101,11 +101,11 @@ function Dashboard() {
         console.log("Total dashbora data is ", res);
         setBarExpensesList(res?.data);
       }
-      if (res?.status === false) {
-        toast.error(res?.msg, {
-          autoClose: 1000,
-        });
-      }
+      // if (res?.status === false) {
+      //   toast.error(res?.msg, {
+      //     autoClose: 1000,
+      //   });
+      // }
     });
   };
 
@@ -219,7 +219,7 @@ function Dashboard() {
             text={"Present Students"}
           />
           <TopCard
-          img="/images/rupee1.png"
+            img="/images/rupee1.png"
             value={
               alltotaldata?.allreceiptdata
                 ? `₹${totalrecovery10(alltotaldata?.allTodayreceiptdata)}`

@@ -86,6 +86,9 @@ function AddAdmission({ setOpen }) {
     formData.set("courseduration", noofMonth);
     formData.set("markSheet", marksheet);
     formData.set("adharno", adharcardno);
+    formData.set("Section", '');
+    formData.set("Session", '');
+    formData.set('SrNumber',studentrollno);
     formData.set("pancardnno", pano);
     formData.set("whatsappNo", usepreview ? fathersphone : whatsaapnumber);
     formData.set("markSheetname", marksheetName);

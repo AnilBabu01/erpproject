@@ -20,7 +20,7 @@ const CoachingNavbar = () => {
   useEffect(() => {
     window.addEventListener("scroll", changebackgrou);
   }, []);
-  
+
   return (
     <>
       {user?.data?.User?.userType === "institute" && (
@@ -279,9 +279,13 @@ const CoachingNavbar = () => {
                     <div className="main_report_dropdown_rightmargin">
                       <h1>General</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/coaching/employee/staff">Add Employee</Link>
-                        <Link href="/coaching/employee/employeeidcard">Employee Id Card</Link>
-                        <Link href="/coaching/employee/disabledstaff">
+                        <Link href="/coaching/employee/Staff">
+                          Add Employee
+                        </Link>
+                        <Link href="/coaching/employee/Employeeidcard">
+                          Employee Id Card
+                        </Link>
+                        <Link href="/coaching/employee/Disabledstaff">
                           Disabled Employee
                         </Link>
                       </div>
@@ -289,7 +293,7 @@ const CoachingNavbar = () => {
                     <div className="main_report_dropdown_rightmargin">
                       <h1>Attendance</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/coaching/employee/attendance">
+                        <Link href="/coaching/employee/Attendance">
                           Employee Attendance
                         </Link>
                       </div>
@@ -299,12 +303,12 @@ const CoachingNavbar = () => {
                         </Link>
                       </div> */}
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/coaching/employee/addemployeeholiday">
+                        <Link href="/coaching/employee/Addemployeeholiday">
                           Add Holiday
                         </Link>
                       </div>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/coaching/employee/particularemployeeattendance">
+                        <Link href="/coaching/employee/Particularemployeeattendance">
                           Particular Employee Attendance
                         </Link>
                       </div>
@@ -312,12 +316,12 @@ const CoachingNavbar = () => {
                     <div className="main_report_dropdown_rightmargin">
                       <h1>PayRoll</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/coaching/employee/payroll">
+                        <Link href="/coaching/employee/Payroll">
                           Add Payroll
                         </Link>
                       </div>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/coaching/employee/payrollreport">
+                        <Link href="/coaching/employee/Payrollreport">
                           PayRoll Report
                         </Link>
                       </div>
@@ -473,7 +477,56 @@ const CoachingNavbar = () => {
               </div>
             </li>
           </ul>
-          {user?.data?.User?.newclient === true && (
+          <ul class="nav_menu">
+            <li class="nav_list nav_list_menu">
+              <div className="nffffav_linka">
+                <Link
+                  className={
+                    router.pathname == "/institunnnte/dashboard"
+                      ? "link_directActive"
+                      : "link_direct"
+                  }
+                  href="/school/dashboard"
+                >
+                  Expenses <KeyboardArrowDownIcon />
+                </Link>
+              </div>
+              <div className={navbar ? "dropdownscroll" : "dropdown"}>
+                <div class="dropdown-inner">
+                  <div className="main_report_dropdown">
+                    <div className="main_report_dropdown_rightmargin">
+                      <h1>General</h1>
+
+                      {/* <div className="main_innear_menu_dropdown">
+                        <Link href="/school/Expenses/AddAssesType">
+                          Add Asset Type
+                        </Link>
+                      </div>
+                      <div className="main_innear_menu_dropdown">
+                        <Link href="/school/Expenses/AddAsset">Add Asset</Link>
+                      </div> */}
+                      {/* <div className="main_innear_menu_dropdown">
+                        <Link href="/school/Expenses/AddExpensesType">
+                          Add Expenses Type
+                        </Link>
+                      </div> */}
+                      <div className="main_innear_menu_dropdown">
+                        <Link href="/coaching/Expenses/AddExpenses">
+                          Add Expenses
+                        </Link>
+                      </div>
+                      <div className="main_innear_menu_dropdown">
+                        <Link href="/coaching/Expenses/ExpensesAnalysis">
+                          Expenses Analysis
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+          {/* {user?.data?.User?.newclient === true && (
             <>
               &nbsp;&nbsp; &nbsp;&nbsp;
               <div>
@@ -489,7 +542,7 @@ const CoachingNavbar = () => {
                 </Link>
               </div>
             </>
-          )}
+          )} */}
         </>
       )}
     </>

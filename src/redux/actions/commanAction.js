@@ -207,10 +207,11 @@ export const allCollege = () => async (dispatch) => {
     };
     dispatch({ type: ALL_COLLEGE_REQUEST });
     const { data } = await axios.get(
-      `${backendApiUrl}student/otherfee`,
+      `${backendApiUrl}comman/allcollege`,
 
       config
     );
+  
     dispatch({
       type: ALL_COLLEGE_SUCCESS,
       payload: data.data,

@@ -1,13 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect, useRef } from "react";
 import { loadUser } from "../../../redux/actions/authActions";
-import {
-  getcourse,
-  getbatch,
-  getstudent,
-  deletestudent,
-} from "../../../redux/actions/commanAction";
-import { getHolidays } from "../../../redux/actions/attendanceActions";
 import styles from "../../coaching/employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -15,114 +7,41 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
+import AddEnquiry from "@/component/Institute/employee/AddHolidayType";
+import UpdateEnquiry from "@/component/Institute/employee/UpdateHolidayType";
+import {
+  getenquiries,
+  deleteenquiry,
+  getFILTERenquiries,
+} from "../../../redux/actions/coachingAction";
+import { getcourse } from "../../../redux/actions/commanAction";
+import { useDispatch, useSelector } from "react-redux";
 import { Button } from "@mui/material";
-import AddStudent from "../../../component/Coaching/employee/AddHoliday";
-import UpdateStudent from "../../../component/Coaching/employee/UpdateHoliday";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
-import { serverInstance } from "../../../API/ServerInstance";
-import { toast } from "react-toastify";
-const monthlist = [
-  {
-    id: 1,
-    name: "January",
-  },
-  {
-    id: 2,
-    name: "February",
-  },
-  {
-    id: 3,
-    name: "Mark",
-  },
-  {
-    id: 4,
-    name: "April",
-  },
-  ,
-  {
-    id: 5,
-    name: "May",
-  },
-  {
-    id: 6,
-    name: "Jun",
-  },
-  {
-    id: 7,
-    name: "July",
-  },
-  {
-    id: 8,
-    name: "August",
-  },
-  {
-    id: 9,
-    name: "September",
-  },
-  {
-    id: 10,
-    name: "October",
-  },
-  {
-    id: 11,
-    name: "November",
-  },
-  {
-    id: 12,
-    name: "December",
-  },
-];
-
-const monthnamelist = {
-  1: "January",
-
-  2: "February",
-
-  3: "Mark",
-
-  4: "April",
-
-  5: "May",
-
-  6: "Jun",
-
-  7: "July",
-
-  8: "August",
-
-  9: "September",
-
-  10: "October",
-
-  11: "November",
-
-  12: "December",
-};
-
-function Addemployeeholiday() {
+import exportFromJSON from "export-from-json";
+import { useReactToPrint } from "react-to-print";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import { format } from "date-fns";
+function Addholidattype() {
+  const componentRef = useRef(null);
   const dispatch = useDispatch();
-  let currmonth = new Date().getMonth();
-  const [month, setmonth] = useState(currmonth + 1);
-  const [scoursename, setscoursename] = useState("");
-  const [sfathers, setsfathers] = useState("");
-  const [sstudent, setsstudent] = useState("");
-  const [sbatch, setsbatch] = useState("");
-  const [fromdate, setfromdate] = useState("");
-  const [todate, settodate] = useState("");
-  const [batchs, setbatchs] = useState([]);
-  const [holidays, setholidays] = useState([]);
   const [open, setOpen] = useState(false);
   const [openupdate, setOpenupdate] = useState(false);
   const [openalert, setOpenalert] = useState(false);
   const [updatedata, setupdatedata] = useState("");
   const [deleteid, setdeleteid] = useState("");
+  const [name, setname] = useState("");
+  const [fromdate, setfromdate] = useState("");
+  const [todate, settodate] = useState("");
   const [isdata, setisData] = useState([]);
+  const [page, setPage] = useState(1);
+  let limit = 12;
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
-  const { loading, student } = useSelector((state) => state.getstudent);
-  const { batch } = useSelector((state) => state.getbatch);
-  const { Holidays } = useSelector((state) => state.getHoliday);
+  const { loading, enquiry } = useSelector((state) => state.enquiry);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -140,26 +59,13 @@ function Addemployeeholiday() {
     setupdatedata(data);
   };
 
-  const deletestudent = (data) => {
-    serverInstance("EmployeeAttendance/holidy", "delete", {
-      data: data,
-    }).then((res) => {
-      if (res?.status) {
-        toast.success(res?.msg, {
-          autoClose: 1000,
-        });
-        handleClosedelete();
-        getHolidays();
-      }
-    });
-  };
   const handleCloseupadte = () => {
     setOpenupdate(false);
   };
 
-  const ClickOpendelete = (data) => {
+  const ClickOpendelete = (id) => {
     setOpenalert(true);
-    setupdatedata(data);
+    setdeleteid(id);
   };
 
   const handleClosedelete = () => {
@@ -167,56 +73,114 @@ function Addemployeeholiday() {
   };
 
   const handledelete = () => {
-    deletestudent(updatedata);
+    dispatch(deleteenquiry(deleteid, setOpenalert));
   };
-
   useEffect(() => {
-    if (student) {
-      setisData(student);
-    }
-    if (batch) {
-      setbatchs(batch);
+    dispatch(loadUser());
+    dispatch(getenquiries());
+    dispatch(getcourse());
+  }, []);
+  useEffect(() => {
+    if (enquiry) {
+      setisData(enquiry);
+      // setisData(prevItems => [...prevItems,[...enquiry]]);
     }
     if (user) {
       setuserdata(user);
     }
-    if (Holidays) {
-      setholidays(Holidays);
-      console.log("holidays jus ", Holidays);
-    }
-  }, [student, batch, user, Holidays]);
-  const getHolidays = (month) => {
-    serverInstance("EmployeeAttendance/getholidy", "post", {
-      month: Number(month),
-    }).then((res) => {
-      if (res?.status) {
-        setholidays(res?.data);
-      }
-    });
-  };
+  }, [enquiry, user]);
   useEffect(() => {
-    getHolidays(month);
+    dispatch(getenquiries());
   }, [open, openupdate, openalert]);
-  useEffect(() => {
-    dispatch(loadUser());
-    dispatch(getbatch());
-    dispatch(getcourse());
-  }, []);
 
-  const filterdata = (e) => {
+  const handlefilter = (e) => {
     e.preventDefault();
-
-    getstudent(fromdate, todate, scoursename, sbatch, sstudent, sfathers);
+    dispatch(getFILTERenquiries(fromdate, todate, name));
   };
-
   const reset = () => {
-    setsstudent("");
-    setsfathers("");
+    setname("");
     setfromdate("");
     settodate("");
-    setscoursename("");
-    setsbatch("");
-    dispatch(getstudent());
+    dispatch(getFILTERenquiries(fromdate, todate, name));
+  };
+  const handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop !==
+        document.documentElement.offsetHeight ||
+      loading
+    ) {
+      return;
+    }
+    dispatch(getenquiries(page, limit, setPage));
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [loading]);
+
+  const ExportToExcel = (isData) => {
+    const fileName = "EnquiryReport";
+    const exportType = "xls";
+    var data = [];
+
+    isData.map((item, index) => {
+      data.push({
+        Date: moment(item?.EnquiryDate).format("MM/DD/YYYY"),
+        "Student Name": item?.StudentName,
+        "Student Number": item?.StudentNumber,
+        "Student Email": item?.StudentEmail,
+        Address: item?.Address,
+        Course: item?.Course,
+        Comment: item?.Comment,
+        "Created Date": moment(item?.created_at).format("DD-MM-YYYY"),
+      });
+    });
+
+    exportFromJSON({ data, fileName, exportType });
+  };
+
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+  const ExportPdfEnquiry = (isData, fileName) => {
+    const doc = new jsPDF();
+
+    const tableColumn = [
+      "date",
+      "Name",
+      "Number",
+      "Email",
+      "Address",
+      "Course",
+      "comment",
+    ];
+
+    const tableRows = [];
+
+    isData.forEach((item) => {
+      const ticketData = [
+        moment(item?.EnquiryDate).format("MM/DD/YYYY"),
+        item?.StudentName,
+        item?.StudentNumber,
+        item?.StudentEmail,
+        item?.Address,
+        item?.Course,
+        item?.Comment,
+      ];
+
+      tableRows.push(ticketData);
+    });
+
+    doc.autoTable(tableColumn, tableRows, { startY: 20 });
+    const date = Date().split(" ");
+
+    const dateStr = date[0] + date[1] + date[2] + date[3] + date[4];
+
+    doc.text(`${fileName}`, 8, 9);
+    doc.setFont("Lato-Regular", "normal");
+    doc.setFontSize(28);
+    doc.save(`${fileName}_${dateStr}.pdf`);
   };
   return (
     <>
@@ -231,12 +195,12 @@ function Addemployeeholiday() {
               "& .MuiDialog-container": {
                 "& .MuiPaper-root": {
                   width: "100%",
-                  maxWidth: "60rem",
+                  maxWidth: "21rem",
                 },
               },
             }}
           >
-            <AddStudent setOpen={setOpen} />
+            <AddEnquiry setOpen={setOpen} />
           </Dialog>
         </div>
       )}
@@ -251,12 +215,12 @@ function Addemployeeholiday() {
               "& .MuiDialog-container": {
                 "& .MuiPaper-root": {
                   width: "100%",
-                  maxWidth: "60rem",
+                  maxWidth: "21rem",
                 },
               },
             }}
           >
-            <UpdateStudent setOpen={setOpenupdate} updatedata={updatedata} />
+            <UpdateEnquiry setOpen={setOpenupdate} updatedata={updatedata} />
           </Dialog>
         </div>
       )}
@@ -289,64 +253,24 @@ function Addemployeeholiday() {
       <div className="mainContainer">
         <div>
           <div className={styles.topmenubar}>
-            <div className={styles.searchoptiondiv}>
-              <div className={styles.searchoptiondiv}>
-                <select
-                  className={styles.opensearchinput}
-                  sx={{
-                    width: "18.8rem",
-                    fontSize: 14,
-                    "& .MuiSelect-select": {
-                      paddingTop: "0.6rem",
-                      paddingBottom: "0.6em",
-                    },
-                  }}
-                  value={month}
-                  name="month"
-                  onChange={(e) => {
-                    setmonth(e.target.value);
-                  }}
-                  displayEmpty
-                >
-                  <option
-                    sx={{
-                      fontSize: 14,
-                    }}
-                    value={""}
-                  >
-                    Month
-                  </option>
-                  {monthlist?.map((item, index) => {
-                    return (
-                      <option
-                        key={index}
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={item?.id}
-                      >
-                        {item?.name}
-                      </option>
-                    );
-                  })}
-                </select>
-
-                <button onClick={() => getHolidays(month)}>Search</button>
-              </div>
-              <button onClick={() => reset()}>Reset</button>
-            </div>
             <div className={styles.imgdivformat}>
               <img
+                onClick={() => handlePrint()}
                 className={styles.imgdivformatimg}
                 src="/images/Print.png"
                 alt="img"
               />
               <img
+                onClick={() => ExportPdfEnquiry(isdata, "EnquiryPdf")}
                 className={styles.imgdivformatimg}
                 src="/images/ExportPdf.png"
                 alt="img"
               />
-              <img src="/images/ExportExcel.png" alt="img" />
+              <img
+                onClick={() => ExportToExcel(isdata)}
+                src="/images/ExportExcel.png"
+                alt="img"
+              />
             </div>
           </div>
 
@@ -368,28 +292,26 @@ function Addemployeeholiday() {
               }
               onClick={() => handleClickOpen()}
             >
-              Add Holiday
+              Add Holiday Type
             </button>
           </div>
           <div className={styles.add_divmarginn}>
             <div className={styles.tablecontainer}>
-              <table className={styles.tabletable}>
+              <table className={styles.tabletable} ref={componentRef}>
                 <tbody>
                   <tr className={styles.tabletr}>
                     <th className={styles.tableth}>S.NO</th>
-                    <th className={styles.tableth}>Holiday Date</th>
-                    <th className={styles.tableth}>Comment</th>
+                    <th className={styles.tableth}>Holiday Type</th>
 
                     <th className={styles.tableth}>Action</th>
                   </tr>
-                  {holidays?.map((item, index) => {
+
+                  {isdata?.map((item, index) => {
                     return (
                       <tr key={index} className={styles.tabletr}>
                         <td className={styles.tabletd}>{index + 1}</td>
-                        <td className={styles.tabletd}>
-                          {moment(item?.attendancedate).format("DD/MM/YYYY")}
-                        </td>
-                        <td className={styles.tabletd}>{item?.Comment}</td>
+
+                        <td className={styles.tabletd}>{item?.StudentName}</td>
 
                         <td className={styles.tabkeddd}>
                           <button
@@ -415,7 +337,7 @@ function Addemployeeholiday() {
                                   ? styles.tabkedddimgactive
                                   : styles.tabkedddimgdisable
                               }
-                              onClick={() => ClickOpendelete(item)}
+                              onClick={() => ClickOpendelete(item?.id)}
                               src="/images/Delete.png"
                               alt="imgss"
                             />
@@ -457,10 +379,9 @@ function Addemployeeholiday() {
           </div>
         </div>
       </div>
-
       {loading && <LoadingSpinner />}
     </>
   );
 }
 
-export default Addemployeeholiday;
+export default Addholidattype;

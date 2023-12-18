@@ -22,7 +22,7 @@ const AbsentMeter = ({ percentage }) => {
 
   return (
     <div className="overflowdiv">
-        <p className="poabsolute">{percentage}</p>
+        <p className="poabsolute">{percentage>=0?percentage:"NONE"}</p>
       <div className="meter-container">
         <div
           className="meter"

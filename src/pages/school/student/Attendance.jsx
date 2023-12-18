@@ -7,11 +7,16 @@ import {
   DoneStudentAttendance,
   MonthlyStudentAttendance,
 } from "../../../redux/actions/attendanceActions";
-import { getcourse } from "../../../redux/actions/commanAction";
+import {
+  getcourse,
+  GetSection,
+  GetSession,
+} from "../../../redux/actions/commanAction";
 import styles from "../employee/employee.module.css";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
 import CircularProgress from "@mui/material/CircularProgress";
+
 const studentStatus = [
   { label: "Active", value: "Active" },
   { label: "On Leave", value: "On Leave" },
@@ -100,6 +105,8 @@ const monthnamelist = {
 function Attendance() {
   const dispatch = useDispatch();
   let currmonth = new Date().getMonth();
+  const [sectionname, setsectionname] = useState("NONE");
+  const [sectionlist, setsectionlist] = useState([]);
   const [cureentdate, setcureentdate] = useState("");
   const [month, setmonth] = useState(currmonth + 1);
   const [takeatten, settakeatten] = useState(true);
@@ -117,6 +124,7 @@ function Attendance() {
   const [classname, setclassname] = useState("");
   const { course } = useSelector((state) => state.getcourse);
   const [courselist, setcourselist] = useState([]);
+  const { sections } = useSelector((state) => state.GetSection);
   const [attendancedetails, setattendancedetails] = useState([
     {
       id: "",
@@ -177,6 +185,9 @@ function Attendance() {
     if (course) {
       setcourselist(course);
     }
+    if (sections) {
+      setsectionlist(sections);
+    }
   }, [
     markattendance,
     batch,
@@ -185,12 +196,14 @@ function Attendance() {
     monthlyattendance,
     user,
     course,
+    sections,
   ]);
 
   useEffect(() => {
     dispatch(loadUser());
     dispatch(getbatch());
     dispatch(getcourse());
+    dispatch(GetSection());
   }, []);
 
   function handleItemUpdate(originalItem, key, value) {
@@ -291,13 +304,42 @@ function Attendance() {
                       );
                     })}
                   </select>
-
+                  <select
+                    className={styles.opensearchinput}
+                    sx={{
+                      width: "18.8rem",
+                      fontSize: 14,
+                      "& .MuiSelect-select": {
+                        paddingTop: "0.6rem",
+                        paddingBottom: "0.6em",
+                      },
+                    }}
+                    value={sectionname}
+                    name="sectionname"
+                    onChange={(e) => setsectionname(e.target.value)}
+                    displayEmpty
+                  >
+                    <option value={"NONE"}>NONE</option>
+                    {sectionlist?.length > 0 &&
+                      sectionlist?.map((item, index) => {
+                        return (
+                          <option key={index} value={item?.section}>
+                            {item?.section}
+                          </option>
+                        );
+                      })}
+                  </select>
                   <button
                     className={styles.saveattendacebutton}
                     onClick={() => {
-                      if (date && classname) {
+                      if (date && classname && sectionname) {
                         dispatch(
-                          MarkStudentAttendance(date, sbatch, classname)
+                          MarkStudentAttendance(
+                            date,
+                            sbatch,
+                            classname,
+                            sectionname
+                          )
                         );
                       }
                     }}
@@ -365,7 +407,31 @@ function Attendance() {
                       );
                     })}
                   </select>
-
+                  <select
+                    className={styles.opensearchinput}
+                    sx={{
+                      width: "18.8rem",
+                      fontSize: 14,
+                      "& .MuiSelect-select": {
+                        paddingTop: "0.6rem",
+                        paddingBottom: "0.6em",
+                      },
+                    }}
+                    value={sectionname}
+                    name="sectionname"
+                    onChange={(e) => setsectionname(e.target.value)}
+                    displayEmpty
+                  >
+                    <option value={"NONE"}>NONE</option>
+                    {sectionlist?.length > 0 &&
+                      sectionlist?.map((item, index) => {
+                        return (
+                          <option key={index} value={item?.section}>
+                            {item?.section}
+                          </option>
+                        );
+                      })}
+                  </select>
                   <select
                     className={styles.opensearchinput}
                     sx={{
@@ -455,7 +521,8 @@ function Attendance() {
                             "",
                             "",
                             status,
-                            classname
+                            classname,
+                            sectionname
                           )
                         );
                       }
@@ -654,7 +721,7 @@ function Attendance() {
                                   </td>
 
                                   {item?.attendance != null &&
-                                   item?.attendance
+                                    item?.attendance
                                       ?.slice(
                                         0,
                                         Number(

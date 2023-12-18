@@ -54,34 +54,37 @@ const monthnolist = [
 
 function calculatePercentage(attendanceArray, monthNumber, status) {
   // Filter the array based on the specified month and status
-  const filteredData = attendanceArray?.filter(
-    (entry) =>
-      entry?.MonthNo === monthNumber && entry?.attendaceStatusIntext === status
-  );
+  let newdate = new Date();
+  const filteredData = attendanceArray
+    ?.slice(0, Number(newdate.getDate()))
+    ?.filter(
+      (entry) =>
+        entry?.MonthNo === monthNumber &&
+        entry?.attendaceStatusIntext === status
+    );
 
   // Calculate the percentage
-  const totalEntries = attendanceArray.filter(
-    (entry) =>
-      entry?.MonthNo === monthNumber &&
-      entry?.attendaceStatusIntext != "Holiday"
-  ).length;
+  const totalEntries = attendanceArray
+    ?.slice(0, Number(newdate.getDate()))
+    ?.filter(
+      (entry) =>
+        entry?.MonthNo === monthNumber &&
+        entry?.attendaceStatusIntext != "Holiday"
+    ).length;
 
   const percentage = (filteredData?.length / totalEntries) * 100;
 
   return Math.round(percentage);
 }
 
-function SchoolmonthlyAttendance({studentid}) {
+function SchoolmonthlyAttendance({ studentid }) {
   const [allmonth, setallmonth] = useState("");
   const [loader, setloader] = useState(false);
   const getmonthAttendance = () => {
     setloader(true);
-    serverInstance(
-      "attendanceatudent/GetStudentAllMonthAttendance",
-      "post",{
-        studentid:studentid
-      }
-    ).then((res) => {
+    serverInstance("attendanceatudent/GetStudentAllMonthAttendance", "post", {
+      studentid: studentid,
+    }).then((res) => {
       if (res?.status === true) {
         setloader(false);
         setallmonth(res?.data);
@@ -110,7 +113,7 @@ function SchoolmonthlyAttendance({studentid}) {
           <p>Percentage Below or Equal 49%</p>
         </div>
       </div> */}
-      <div className={styles.add_divmarginn10}>
+      <div className={styles.add_divmarginn}>
         <div className={styles.tablecontainer}>
           <table className={styles.tabletable}>
             <tbody>

@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import CircularProgress from "@mui/material/CircularProgress";
 function Addfee({ data, monthname, paidmonth, setOpen }) {
   const navigation = useRouter();
+  const [paymentdate, setpaymentdate] = useState("");
   const [montharray, setmontharray] = useState([]);
   const [checked, setChecked] = useState([]);
   const [feetype, setfeetype] = useState("Registration");
@@ -24,6 +25,7 @@ function Addfee({ data, monthname, paidmonth, setOpen }) {
         studentData: data,
         feetype: feetype,
         discount: discount,
+        paymentdate: paymentdate,
       };
 
       serverInstance("Student/pacoachingfee", "post", datas).then((res) => {
@@ -59,7 +61,9 @@ function Addfee({ data, monthname, paidmonth, setOpen }) {
       },
     });
   };
-
+  useEffect(() => {
+    setpaymentdate(new Date().toISOString().substring(0, 10));
+  }, []);
   return (
     <>
       <div className={styles.divmainlogin}>
@@ -297,7 +301,7 @@ function Addfee({ data, monthname, paidmonth, setOpen }) {
                 onClick={() => submit()}
                 disabled={addloading ? true : false}
               >
-                {addloading? (
+                {addloading ? (
                   <CircularProgress size={25} style={{ color: "red" }} />
                 ) : (
                   "Save"

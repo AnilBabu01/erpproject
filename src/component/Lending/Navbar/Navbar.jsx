@@ -291,7 +291,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
 
           <Modal
             open={open}
-            onClose={handleClose}
+            // onClose={handleClose}
             aria-labelledby="child-modal-title"
             aria-describedby="child-modal-description"
           >
@@ -323,7 +323,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
 
           <Modal
             open={open1}
-            onClose={handleCloseregister}
+            // onClose={handleCloseregister}
             aria-labelledby="child-modal-title"
             aria-describedby="child-modal-description"
           >

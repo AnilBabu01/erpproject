@@ -440,7 +440,7 @@ function Register({ setOpen, setOpen1 }) {
                     required
                     className={styles.addwidth}
                     sx={{
-                      width: "18.8rem",
+                      // width: "18.8rem",
                       fontSize: 14,
                       "& .MuiSelect-select": {
                         paddingTop: "0.6rem",

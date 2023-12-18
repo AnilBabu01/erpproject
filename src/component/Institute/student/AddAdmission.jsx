@@ -128,6 +128,9 @@ function AddAdmission({ setOpen }) {
     formData.set("BirthDocument", birth);
     formData.set("Status", status);
     formData.set("Transport", transport);
+    formData.set("FromRoute", "");
+    formData.set("ToRoute", "");
+    formData.set("BusNumber", "");
     formData.set("Library", Library);
     formData.set("hostal", hostal);
     formData.set("StudentCategory", categoryname);

@@ -7,7 +7,7 @@ import { getHolidays } from "../../../redux/actions/attendanceActions";
 import { useDispatch, useSelector } from "react-redux";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
-function UpdateHoliday({ setOpen ,updatedata}) {
+function UpdatePayRol({ setOpen, updatedata }) {
   const dispatch = useDispatch();
   const [isdata, setisData] = useState([]);
   const [batchs, setbatchs] = useState([]);
@@ -19,9 +19,6 @@ function UpdateHoliday({ setOpen ,updatedata}) {
   const { course } = useSelector((state) => state.getcourse);
   const { batch } = useSelector((state) => state.getbatch);
   const { user } = useSelector((state) => state.auth);
-
-
-  console.log("from comment data is ",updatedata);
 
   const submit = (e) => {
     e.preventDefault();
@@ -58,10 +55,9 @@ function UpdateHoliday({ setOpen ,updatedata}) {
     if (batch) {
       setbatchs(batch);
     }
-    if(updatedata)
-    {
-      setcomment(updatedata?.Comment)
-      setHolidaydate(updatedata?.attendancedate)
+    if (updatedata) {
+      setcomment(updatedata?.Comment);
+      setHolidaydate(updatedata?.attendancedate);
     }
   }, [course, batch]);
   return (
@@ -70,7 +66,7 @@ function UpdateHoliday({ setOpen ,updatedata}) {
         <div className={styles.closeicondiv} onClick={() => setOpen(false)}>
           <CloseIcon />
         </div>
-        <h1>Update Holiday</h1>
+        <h1>Update S</h1>
 
         <form onSubmit={submit}>
           <div className={styles.divmaininput}>
@@ -80,7 +76,7 @@ function UpdateHoliday({ setOpen ,updatedata}) {
                 type="date"
                 value={Holidaydate}
                 name="Holidaydate"
-                disabled={true}
+            
                 onChange={(e) => setHolidaydate(e.target.value)}
               />
             </div>
@@ -96,40 +92,14 @@ function UpdateHoliday({ setOpen ,updatedata}) {
               />
             </div>
             <div className={styles.inputdiv}>
-              <label>Status</label>
-              <Select
-                required
-                className={styles.addwidth}
-                sx={{
-                  width: "18.8rem",
-                  fontSize: 14,
-                  "& .MuiSelect-select": {
-                    paddingTop: "0.6rem",
-                    paddingBottom: "0.6em",
-                  },
-                }}
-                value={status}
-                name="status"
-                onChange={(e) => setstatus(e.target.value)}
-                displayEmpty
-              >
-                <MenuItem
-                  sx={{
-                    fontSize: 14,
-                  }}
-                  value={"Enable"}
-                >
-                  Enable
-                </MenuItem>
-                <MenuItem
-                  sx={{
-                    fontSize: 14,
-                  }}
-                  value={"Disable"}
-                >
-                  Disable
-                </MenuItem>
-              </Select>
+              <label>comment</label>
+              <input
+                type="text"
+                placeholder="Enter the Comment"
+                value={comment}
+                name="comment"
+                onChange={(e) => setcomment(e.target.value)}
+              />
             </div>
           </div>
 
@@ -142,4 +112,4 @@ function UpdateHoliday({ setOpen ,updatedata}) {
   );
 }
 
-export default UpdateHoliday;
+export default UpdatePayRol;

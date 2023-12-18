@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../redux/actions/authActions";
 import {
@@ -15,16 +15,21 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
-import AddEmp from "../../../component/Coaching/employee/AddEmp";
-import UpdateEmp from "../../../component/Coaching/employee/UpdateEmp";
+import AddEmp from "../../../component/Institute/employee/AddEmp";
+import UpdateEmp from "../../../component/Institute/employee/UpdateEmp";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
+import exportFromJSON from "export-from-json";
+import { useReactToPrint } from "react-to-print";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 const studentStatus = [
   { label: "Active", value: "Active" },
   { label: "On Leave", value: "On Leave" },
   { label: "Left", value: "Left" },
 ];
 function Staff() {
+  const componentRef = useRef(null);
   const dispatch = useDispatch();
   const [scoursename, setscoursename] = useState("");
   const [sfathers, setsfathers] = useState("");
@@ -40,8 +45,15 @@ function Staff() {
   const [openalert, setOpenalert] = useState(false);
   const [updatedata, setupdatedata] = useState("");
   const [deleteid, setdeleteid] = useState("");
+  const [empId, setempId] = useState("");
+  const [empdesination, setempdesination] = useState("");
+  const [empdeparment, setempdeparment] = useState("");
+  const [departList, setdepartList] = useState([]);
+  const [designList, setdesignList] = useState([]);
   const [isdata, setisData] = useState([]);
   const { loading, employees } = useSelector((state) => state.getemp);
+  const { department } = useSelector((state) => state.getpart);
+  const { designation } = useSelector((state) => state.getdesignation);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -80,7 +92,13 @@ function Staff() {
     if (employees) {
       setisData(employees);
     }
-  }, [employees]);
+    if (department) {
+      setdepartList(department);
+    }
+    if (designation) {
+      setdesignList(designation);
+    }
+  }, [employees, department, designation]);
   useEffect(() => {
     dispatch(getEmployee());
   }, [open, openupdate, openalert]);
@@ -92,17 +110,53 @@ function Staff() {
 
   const filterdata = (e) => {
     e.preventDefault();
-    dispatch(getEmployee(fromdate, todate, sstudent,status));
+    dispatch(
+      getEmployee(
+        fromdate,
+        todate,
+        sstudent,
+        status,
+        empId,
+        empdeparment,
+        empdesination
+      )
+    );
   };
 
   const reset = () => {
     setsstudent("");
-    setsfathers("");
-    setfromdate("");
-    settodate("");
-    setscoursename("");
-    setsbatch("");
+    setempId("");
+    setstatus("");
+    setempdeparment("");
+    setempdesination("");
     dispatch(getEmployee());
+  };
+
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
+  const ExportToExcel = (isData) => {
+    const fileName = "EmployeeListReport";
+    const exportType = "xls";
+    var data = [];
+
+    isData.map((item) => {
+      data.push({
+        Emp_Id: item?.empId,
+        Emp_Name: item?.name,
+        Emp_Email: item?.email,
+        Emp_Phone: item?.phoneno1,
+        Emp_Phone: item?.phoneno2,
+        Designation: item?.employeeof,
+        Department: item?.department,
+        Joining_Date: moment(item?.joiningdate).format("MM/DD/YYYY"),
+        Resign_Date: moment(item?.resigndate).format("MM/DD/YYYY"),
+        Status: item?.state,
+      });
+    });
+
+    exportFromJSON({ data, fileName, exportType });
   };
   return (
     <>
@@ -177,29 +231,20 @@ function Staff() {
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
               <form onSubmit={filterdata} className={styles.searchoptiondiv}>
-                {/* <label>Joining Date</label>
                 <input
-                  className={styles.opensearchinput}
-                  type="date"
-                  value={fromdate}
-                  name="fromdate"
-                  onChange={(e) => setfromdate(e.target.value)}
+                  className={styles.opensearchinput10}
+                  type="text"
+                  placeholder="Employee Id"
+                  value={empId}
+                  name="empId"
+                  onChange={(e) => setempId(e.target.value)}
                 />
-                <label>Resign Date</label>
-                <input
-                  className={styles.opensearchinput}
-                  type="date"
-                  value={todate}
-                  name="todate"
-                  onChange={(e) => settodate(e.target.value)}
-                /> */}
-
                 <input
                   className={styles.opensearchinput10}
                   type="text"
                   placeholder="Name"
                   value={sstudent}
-                  name="sstudent}"
+                  name="sstudent"
                   onChange={(e) => setsstudent(e.target.value)}
                 />
                 <select
@@ -240,22 +285,106 @@ function Staff() {
                     );
                   })}
                 </select>
+                <select
+                  className={styles.opensearchinput}
+                  sx={{
+                    width: "18.8rem",
+                    fontSize: 14,
+                    "& .MuiSelect-select": {
+                      paddingTop: "0.6rem",
+                      paddingBottom: "0.6em",
+                    },
+                  }}
+                  value={empdeparment}
+                  name="empdeparment"
+                  onChange={(e) => setempdeparment(e.target.value)}
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={""}
+                  >
+                    ALL Department
+                  </option>
+
+                  {departList?.length > 0 &&
+                    departList?.map((item, index) => {
+                      return (
+                        <option
+                          key={index}
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={item?.DepartmentName}
+                        >
+                          {item?.DepartmentName}
+                        </option>
+                      );
+                    })}
+                </select>
+                <select
+                  className={styles.opensearchinput}
+                  sx={{
+                    width: "18.8rem",
+                    fontSize: 14,
+                    "& .MuiSelect-select": {
+                      paddingTop: "0.6rem",
+                      paddingBottom: "0.6em",
+                    },
+                  }}
+                  value={empdesination}
+                  name="empdesination"
+                  onChange={(e) => setempdesination(e.target.value)}
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={""}
+                  >
+                    ALL Designation
+                  </option>
+
+                  {designList?.length > 0 &&
+                    designList?.map((item, index) => {
+                      return (
+                        <option
+                          key={index}
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={item?.employeetype}
+                        >
+                          {item?.employeetype}
+                        </option>
+                      );
+                    })}
+                </select>
                 <button>Search</button>
               </form>
               <button onClick={() => reset()}>Reset</button>
             </div>
             <div className={styles.imgdivformat}>
               <img
+                onClick={() => handlePrint()}
                 className={styles.imgdivformatimg}
                 src="/images/Print.png"
                 alt="img"
               />
-              <img
+              {/* <img
+              onClick={()=>ExportToExcel()}
                 className={styles.imgdivformatimg}
                 src="/images/ExportPdf.png"
                 alt="img"
+              /> */}
+              <img
+                onClick={() => ExportToExcel(isdata)}
+                src="/images/ExportExcel.png"
+                alt="img"
               />
-              <img src="/images/ExportExcel.png" alt="img" />
             </div>
           </div>
 
@@ -264,7 +393,7 @@ function Staff() {
           </div>
           <div className={styles.add_divmarginn}>
             <div className={styles.tablecontainer}>
-              <table className={styles.tabletable}>
+              <table className={styles.tabletable} ref={componentRef}>
                 <tbody>
                   <tr className={styles.tabletr}>
                     <th className={styles.tableth}>Sr.NO</th>

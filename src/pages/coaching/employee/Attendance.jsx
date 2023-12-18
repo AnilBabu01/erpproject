@@ -503,8 +503,7 @@ function Attendance() {
               <img src="/images/ExportExcel.png" alt="img" />
             </div>
           </div>
-
-          <div className={styles.add_divmarginn10}>
+          <div className={styles.add_divmarginn}>
             <div className={styles.tablecontainer}>
               {takeatten && (
                 <>
@@ -593,90 +592,118 @@ function Attendance() {
                   </table>
                 </>
               )}
-
-              {Analysisatten && (
-                <>
-                  <table className={styles.tabletable}>
-                    <tbody>
-                      <tr className={styles.tabletr}>
-                        <th className={styles.tableth}>Employee&lsquo;Id</th>
-                        <th className={styles.tableth}>Employee&lsquo;Name</th>
-                        <th className={styles.tableth10}>Month</th>
-                        {monthly[0]?.days?.map((item, index) => {
-                          return (
-                            <th key={index} className={styles.tableth}>
-                              {item}
-                            </th>
-                          );
-                        })}
-                      </tr>
-                      {monthly &&
-                        monthly?.map((item, index) => {
-                          return (
-                            <tr className={styles.tabletr} key={index}>
-                              <td className={styles.tabletd}>
-                                {item?.student?.empId}
-                              </td>
-                              <td className={styles.tabletd}>
-                                {item?.student?.name}
-                              </td>
-                              <td className={styles.tabletd}>
-                                {monthnamelist[month?.toString()]}
-                              </td>
-
-                              {monthly[0].days
-                                ?.slice(
-                                  0,
-                                  endno(item?.attendance[0]?.attendancedate)
-                                )
-                                ?.map((items, idx) => {
-                                  return (
-                                    <td key={index} className={styles.tableth}>
-                                      <button className={styles.presentbtn}>
-                                        NO
-                                      </button>
-                                    </td>
-                                  );
-                                })}
-
-                              {item?.attendance != null &&
-                                item?.attendance?.map((item, index) => {
-                                  return (
-                                    <td key={index} className={styles.tabletd}>
-                                      <button
-                                        className={
-                                          item?.attendaceStatusIntext ===
-                                          "Present"
-                                            ? styles.presentbtn
-                                            : item?.attendaceStatusIntext ===
-                                              "Absent"
-                                            ? styles.absentbtn
-                                            : styles.holdaybtn
-                                        }
-                                      >
-                                        {item?.attendaceStatusIntext ===
-                                          "Present" && <>P</>}
-                                        {item?.attendaceStatusIntext ===
-                                          "Present Half" && <>HD</>}
-                                        {item?.attendaceStatusIntext ===
-                                          "Absent" && <>A</>}
-                                        {item?.attendaceStatusIntext ===
-                                          "Holiday" && <>H</>}
-                                        {item?.attendaceStatusIntext ===
-                                          "On Leave" && <>L</>}
-                                      </button>
-                                    </td>
-                                  );
-                                })}
-                            </tr>
-                          );
-                        })}
-                    </tbody>
-                  </table>
-                </>
-              )}
             </div>
           </div>
+          {Analysisatten && (
+            <>
+              <div className={styles.add_divmarginn10}>
+                <div className={styles.tablecontainer}>
+                  {Analysisatten && (
+                    <>
+                      <table className={styles.tabletable}>
+                        <tbody>
+                          <tr className={styles.tabletr}>
+                            <th className={styles.tableth}>
+                              Employee&lsquo;Id
+                            </th>
+                            <th className={styles.tableth}>
+                              Employee&lsquo;Name
+                            </th>
+                            <th className={styles.tableth10}>Month</th>
+                            {monthly[0]?.days?.map((item, index) => {
+                              return (
+                                <th key={index} className={styles.tableth}>
+                                  {item}
+                                </th>
+                              );
+                            })}
+                          </tr>
+                          {monthly &&
+                            monthly?.map((item, index) => {
+                              return (
+                                <tr className={styles.tabletr} key={index}>
+                                  <td className={styles.tabletd}>
+                                    {item?.student?.empId}
+                                  </td>
+                                  <td className={styles.tabletd}>
+                                    {item?.student?.name}
+                                  </td>
+                                  <td className={styles.tabletd}>
+                                    {monthnamelist[month?.toString()]}
+                                  </td>
+
+                                  {/* {monthly[0].days
+                                    ?.slice(
+                                      0,
+                                      Number(
+                                        new Date()
+                                          ?.toISOString()
+                                          .substring(8, 10)
+                                      )
+                                    )
+                                    ?.map((items, idx) => {
+                                      return (
+                                        <td
+                                          key={index}
+                                          className={styles.tableth}
+                                        >
+                                          <button className={styles.presentbtn}>
+                                            NO
+                                          </button>
+                                        </td>
+                                      );
+                                    })} */}
+
+                                  {item?.attendance != null &&
+                                    item?.attendance?.slice(
+                                      0,
+                                      Number(
+                                        new Date()
+                                          ?.toISOString()
+                                          .substring(8, 10)
+                                      )
+                                    )?.map((item, index) => {
+                                      return (
+                                        <td
+                                          key={index}
+                                          className={styles.tabletd}
+                                        >
+                                          <button
+                                            className={
+                                              item?.attendaceStatusIntext ===
+                                              "Present"
+                                                ? styles.presentbtn
+                                                : item?.attendaceStatusIntext ===
+                                                  "Absent"
+                                                ? styles.absentbtn
+                                                : styles.holdaybtn
+                                            }
+                                          >
+                                            {item?.attendaceStatusIntext ===
+                                              "Present" && <>P</>}
+                                            {item?.attendaceStatusIntext ===
+                                              "Present Half" && <>HD</>}
+                                            {item?.attendaceStatusIntext ===
+                                              "Absent" && <>A</>}
+                                            {item?.attendaceStatusIntext ===
+                                              "Holiday" && <>H</>}
+                                            {item?.attendaceStatusIntext ===
+                                              "On Leave" && <>L</>}
+                                          </button>
+                                        </td>
+                                      );
+                                    })}
+                                </tr>
+                              );
+                            })}
+                        </tbody>
+                      </table>
+                    </>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
       {monthlyloading || doneloading || (Markloading && <LoadingSpinner />)}

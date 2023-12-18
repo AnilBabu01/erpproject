@@ -451,7 +451,7 @@ function Collectfee() {
               <table className={styles.tabletable}>
                 <tbody>
                   <tr className={styles.tabletr}>
-                    <th className={styles.tableth}>Roll No</th>
+                    <th className={styles.tableth}>Roll_No</th>
                     <th className={styles.tableth}>Student_Name</th>
                     {showfathers && (
                       <>

@@ -87,6 +87,9 @@ function AddStudent({ setOpen }) {
     formData.set("markSheet", marksheet);
     formData.set("adharno", adharcardno);
     formData.set("pancardnno", pano);
+    formData.set("Section", '');
+    formData.set("Session", '');
+    formData.set('SrNumber',studentrollno);
     formData.set("whatsappNo", usepreview ? fathersphone : whatsaapnumber);
     formData.set("markSheetname", marksheetName);
     formData.set("othersdoc", others);

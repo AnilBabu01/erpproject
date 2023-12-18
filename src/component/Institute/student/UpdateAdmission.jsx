@@ -132,6 +132,9 @@ function UpdateAdmission({ setOpen, updatedata }) {
     formData.set("hostal", hostal);
     formData.set("Section", sectionname);
     formData.set("Session", sessionname);
+    formData.set("FromRoute", "");
+    formData.set("ToRoute", "");
+    formData.set("BusNumber", "");
     formData.set("StudentCategory", categoryname);
     formData.set("AnnualFee", annualfee);
     formData.set("hostelstatus", hostal === true ? false : true);

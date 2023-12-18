@@ -15,17 +15,16 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
-import AddEmp from "../../../component/Coaching/employee/AddPayroll";
-import UpdateEmp from "../../../component/Coaching/employee/UpdatePayroll";
+import AddEmp from "../../../component/Institute/employee/AddEmp";
+import UpdateEmp from "../../../component/Institute/employee/UpdateEmp";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
-
 const studentStatus = [
   { label: "Active", value: "Active" },
   { label: "On Leave", value: "On Leave" },
   { label: "Left", value: "Left" },
 ];
-function Payroll() {
+function Disabledstaff() {
   const dispatch = useDispatch();
   const [scoursename, setscoursename] = useState("");
   const [sfathers, setsfathers] = useState("");
@@ -103,6 +102,7 @@ function Payroll() {
     settodate("");
     setscoursename("");
     setsbatch("");
+    setstatus('');
     dispatch(getEmployee());
   };
   return (
@@ -260,9 +260,9 @@ function Payroll() {
             </div>
           </div>
 
-          <div className={styles.addtopmenubar}>
-            <button onClick={() => handleClickOpen()}>Add Payroll</button>
-          </div>
+          {/* <div className={styles.addtopmenubar}>
+            <button onClick={() => handleClickOpen()}>Add Employee</button>
+          </div> */}
           <div className={styles.add_divmarginn}>
             <div className={styles.tablecontainer}>
               <table className={styles.tabletable}>
@@ -278,7 +278,7 @@ function Payroll() {
                     <th className={styles.tableth}>Joining_Date</th>
                     <th className={styles.tableth}>Resign_Date</th>
                     <th className={styles.tableth}>Status</th>
-                    <th className={styles.tableth}>Action</th>
+                    {/* <th className={styles.tableth}>Action</th> */}
                   </tr>
                   {isdata?.map((item, index) => {
                     return (
@@ -299,7 +299,7 @@ function Payroll() {
                             : "----------"}
                         </td>
                         <td className={styles.tabletd}>{item?.status}</td>
-                        <td className={styles.tabkeddd}>
+                        {/* <td className={styles.tabkeddd}>
                           <img
                             onClick={() => ClickOpendelete(item?.id)}
                             src="/images/Delete.png"
@@ -310,7 +310,7 @@ function Payroll() {
                             src="/images/Edit.png"
                             alt="imgss"
                           />
-                        </td>
+                        </td> */}
                       </tr>
                     );
                   })}
@@ -326,4 +326,4 @@ function Payroll() {
   );
 }
 
-export default Payroll;
+export default Disabledstaff;

@@ -132,6 +132,9 @@ function AddStudent({ setOpen }) {
     formData.set("Status", status);
     formData.set("Section", sectionname);
     formData.set("Session", sessionname);
+    formData.set("FromRoute", "");
+    formData.set("ToRoute", "");
+    formData.set("BusNumber", "");
     formData.set("SrNumber", SrNumber);
     formData.set("hostelname", hostenname);
     formData.set("Category", hostelcategory);
