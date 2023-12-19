@@ -28,7 +28,7 @@ function Dashboard() {
 
   const { Sessions } = useSelector((state) => state.GetSession);
   const getTotalDashborData = () => {
-    serverInstance("dashboard/GetAllTotalData", "post").then((res) => {
+    serverInstance("dashboard/GetCoachingAllTotalData", "post").then((res) => {
       if (res?.status === true) {
         console.log("Total dashbora data is ", res);
         setalltotaldata(res?.data);
@@ -178,13 +178,15 @@ function Dashboard() {
     return monthsOrder.indexOf(a.MonthNO) - monthsOrder.indexOf(b.MonthNO);
   };
 
+  console.log("all data total is ", alltotaldata?.AllStudentAttendance);
+
   return (
     <>
       <div className="mainContainer">
         <div className="top-info-main-div">
           <TopCard
             img="/images/parents.png"
-            value={alltotaldata?.TotalParents ? alltotaldata?.TotalParents : 0}
+            value={alltotaldata?.TotalBatch ? alltotaldata?.TotalBatch : 0}
             text={"Total Batch"}
           />
           <TopCard
@@ -204,7 +206,7 @@ function Dashboard() {
             img="/images/staff.png"
             value={
               alltotaldata?.AllEmployeeAttendance
-                ? totalpresent(alltotaldata?.AllEmployeeAttendance)
+                ? alltotaldata?.AllEmployeeAttendance?.length
                 : 0
             }
             text={"Present Teachers"}
@@ -213,7 +215,7 @@ function Dashboard() {
             img="/images/students.webp"
             value={
               alltotaldata?.AllStudentAttendance
-                ? totalpresent(alltotaldata?.AllStudentAttendance)
+                ? alltotaldata?.AllStudentAttendance?.length
                 : 0
             }
             text={"Present Students"}

@@ -44,7 +44,7 @@ const SchoolNavbar = () => {
                   <div className="nffffav_linka">
                     <Link
                       className={
-                        router.pathname == "/institunnnte/dashboard"
+                        router.pathname == "/school/frontoffice/enquiry"
                           ? "link_directActive"
                           : "link_direct"
                       }
@@ -77,7 +77,7 @@ const SchoolNavbar = () => {
               <div className="nffffav_linka">
                 <Link
                   className={
-                    router.pathname == "/institunnnte/dashboard"
+                    router.pathname == "/school/student/admission"
                       ? "link_directActive"
                       : "link_direct"
                   }
@@ -192,7 +192,7 @@ const SchoolNavbar = () => {
               <div className="nffffav_linka">
                 <Link
                   className={
-                    router.pathname == "/institunnnte/dashboard"
+                    router.pathname == "/school/accounts/collectfee"
                       ? "link_directActive"
                       : "link_direct"
                   }
@@ -237,7 +237,7 @@ const SchoolNavbar = () => {
                   <div className="nffffav_linka">
                     <Link
                       className={
-                        router.pathname == "/institunnnte/dashboard"
+                        router.pathname == "/school/transport/vehicletype"
                           ? "link_directActive"
                           : "link_direct"
                       }
@@ -283,7 +283,7 @@ const SchoolNavbar = () => {
                   <div className="nffffav_linka">
                     <Link
                       className={
-                        router.pathname == "/institunnnte/dashboard"
+                        router.pathname == "/school/library/addstudent"
                           ? "link_directActive"
                           : "link_direct"
                       }
@@ -321,7 +321,7 @@ const SchoolNavbar = () => {
                   <div className="nffffav_linka">
                     <Link
                       className={
-                        router.pathname == "/institunnnte/dashboard"
+                        router.pathname == "/school/hostel/Category"
                           ? "link_directActive"
                           : "link_direct"
                       }
@@ -367,7 +367,7 @@ const SchoolNavbar = () => {
               <div className="nffffav_linka">
                 <Link
                   className={
-                    router.pathname == "/institunnnte/dashboard"
+                    router.pathname == "/school/employee/Staff"
                       ? "link_directActive"
                       : "link_direct"
                   }
@@ -432,11 +432,11 @@ const SchoolNavbar = () => {
               <div className="nffffav_linka">
                 <Link
                   className={
-                    router.pathname == "/institunnnte/dashboard"
+                    router.pathname == "/school/masters/AddSession"
                       ? "link_directActive"
                       : "link_direct"
                   }
-                  href="/school/masters/class"
+                  href="/school/masters/AddSession"
                 >
                   Masters <KeyboardArrowDownIcon />
                 </Link>
@@ -493,11 +493,11 @@ const SchoolNavbar = () => {
               <div className="nffffav_linka">
                 <Link
                   className={
-                    router.pathname == "/institunnnte/dashboard"
+                    router.pathname == "/school/report/StudentAllPaidFee"
                       ? "link_directActive"
                       : "link_direct"
                   }
-                  href="/school/dashboard"
+                  href="/school/report/StudentAllPaidFee"
                 >
                   Reports <KeyboardArrowDownIcon />
                 </Link>
@@ -627,11 +627,11 @@ const SchoolNavbar = () => {
               <div className="nffffav_linka">
                 <Link
                   className={
-                    router.pathname == "/institunnnte/dashboard"
+                    router.pathname == "/school/Expenses/AddExpenses"
                       ? "link_directActive"
                       : "link_direct"
                   }
-                  href="/school/dashboard"
+                  href="/school/Expenses/AddExpenses"
                 >
                   Expenses <KeyboardArrowDownIcon />
                 </Link>

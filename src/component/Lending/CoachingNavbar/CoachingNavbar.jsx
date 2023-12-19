@@ -42,11 +42,11 @@ const CoachingNavbar = () => {
               <div className="nffffav_linka">
                 <Link
                   className={
-                    router.pathname == "/institunnnte/dashboard"
+                    router.pathname == "/coaching/frontoffice/enquiry"
                       ? "link_directActive"
                       : "link_direct"
                   }
-                  href="/institute/dashboard"
+                  href="/coaching/frontoffice/enquiry"
                 >
                   Front Office <KeyboardArrowDownIcon />
                 </Link>
@@ -72,11 +72,11 @@ const CoachingNavbar = () => {
               <div className="nffffav_linka">
                 <Link
                   className={
-                    router.pathname == "/institunnnte/dashboard"
+                    router.pathname == "/coaching/student/admission"
                       ? "link_directActive"
                       : "link_direct"
                   }
-                  href="/institute/dashboard"
+                  href="/coaching/student/admission"
                 >
                   Students <KeyboardArrowDownIcon />
                 </Link>
@@ -179,11 +179,11 @@ const CoachingNavbar = () => {
               <div className="nffffav_linka">
                 <Link
                   className={
-                    router.pathname == "/institunnnte/dashboard"
+                    router.pathname == "/coaching/student/attendance"
                       ? "link_directActive"
                       : "link_direct"
                   }
-                  href="/#"
+                  href="/coaching/student/attendance"
                 >
                   Attendance
                   <KeyboardArrowDownIcon />
@@ -220,11 +220,11 @@ const CoachingNavbar = () => {
               <div className="nffffav_linka">
                 <Link
                   className={
-                    router.pathname == "/institunnnte/dashboard"
+                    router.pathname == "/coaching/accounts/collectfee"
                       ? "link_directActive"
                       : "link_direct"
                   }
-                  href="/institute/dashboard"
+                  href="/coaching/accounts/collectfee"
                 >
                   Accounts
                   <KeyboardArrowDownIcon />
@@ -245,12 +245,12 @@ const CoachingNavbar = () => {
                         <Link href="/coaching/accounts/searchfee">
                           Search Fees Payment
                         </Link>
-                        <Link href="/coaching/accounts/balancefee">
+                        {/* <Link href="/coaching/accounts/balancefee">
                           Balance Fees Report
                         </Link>
                         <Link href="/coaching/accounts/feediscount">
                           Fee Discount
-                        </Link>
+                        </Link> */}
                       </div>
                     </div>
                   </div>
@@ -264,11 +264,11 @@ const CoachingNavbar = () => {
               <div className="nffffav_linka">
                 <Link
                   className={
-                    router.pathname == "/institunnnte/dashboard"
+                    router.pathname == "/coaching/employee/Staff"
                       ? "link_directActive"
                       : "link_direct"
                   }
-                  href="/institute/dashboard"
+                  href="/coaching/employee/Staff"
                 >
                   Human Resource <KeyboardArrowDownIcon />
                 </Link>
@@ -337,11 +337,11 @@ const CoachingNavbar = () => {
               <div className="nffffav_linka">
                 <Link
                   className={
-                    router.pathname == "/institunnnte/dashboard"
+                    router.pathname == "/coaching/masters/batchtime"
                       ? "link_directActive"
                       : "link_direct"
                   }
-                  href="/#"
+                  href="/coaching/masters/batchtime"
                 >
                   Masters <KeyboardArrowDownIcon />
                 </Link>
@@ -482,11 +482,11 @@ const CoachingNavbar = () => {
               <div className="nffffav_linka">
                 <Link
                   className={
-                    router.pathname == "/institunnnte/dashboard"
+                    router.pathname == "/coaching/Expenses/AddExpenses"
                       ? "link_directActive"
                       : "link_direct"
                   }
-                  href="/school/dashboard"
+                  href="/coaching/Expenses/AddExpenses"
                 >
                   Expenses <KeyboardArrowDownIcon />
                 </Link>
@@ -497,19 +497,6 @@ const CoachingNavbar = () => {
                     <div className="main_report_dropdown_rightmargin">
                       <h1>General</h1>
 
-                      {/* <div className="main_innear_menu_dropdown">
-                        <Link href="/school/Expenses/AddAssesType">
-                          Add Asset Type
-                        </Link>
-                      </div>
-                      <div className="main_innear_menu_dropdown">
-                        <Link href="/school/Expenses/AddAsset">Add Asset</Link>
-                      </div> */}
-                      {/* <div className="main_innear_menu_dropdown">
-                        <Link href="/school/Expenses/AddExpensesType">
-                          Add Expenses Type
-                        </Link>
-                      </div> */}
                       <div className="main_innear_menu_dropdown">
                         <Link href="/coaching/Expenses/AddExpenses">
                           Add Expenses

@@ -51,6 +51,7 @@ const style = {
   // pb: 3,
 };
 
+
 function Navbar({ open, setOpen, setLoadingshow }) {
   const router = useRouter();
   const dispatch = useDispatch();
