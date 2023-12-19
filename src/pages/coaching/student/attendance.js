@@ -12,6 +12,7 @@ import styles from "../employee/employee.module.css";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
 import CircularProgress from "@mui/material/CircularProgress";
+
 const studentStatus = [
   { label: "Active", value: "Active" },
   { label: "On Leave", value: "On Leave" },
@@ -217,6 +218,8 @@ function Attendance() {
     let end = new Date(date).getDate();
     return end - 1;
   };
+
+
   return (
     <>
       <div className="mainContainer">

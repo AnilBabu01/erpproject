@@ -181,6 +181,45 @@ function ParticularStudentAttendance() {
         <div>
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
+              <select
+                className={styles.opensearchinput}
+                sx={{
+                  width: "18.8rem",
+                  fontSize: 14,
+                  "& .MuiSelect-select": {
+                    paddingTop: "0.6rem",
+                    paddingBottom: "0.6em",
+                  },
+                }}
+                value={sbatch}
+                name="sbatch"
+                onChange={(e) => {
+                  setsbatch(e.target.value);
+                }}
+                displayEmpty
+              >
+                <option
+                  sx={{
+                    fontSize: 14,
+                  }}
+                  value={""}
+                >
+                  Please Select Batch
+                </option>
+                {batchs?.map((item, index) => {
+                  return (
+                    <option
+                      key={index}
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={`${item?.StartingTime} TO ${item?.EndingTime}`}
+                    >
+                      {item?.StartingTime} TO {item?.EndingTime}
+                    </option>
+                  );
+                })}
+              </select>
               <input
                 className={styles.opensearchinput}
                 type="text"
@@ -246,7 +285,11 @@ function ParticularStudentAttendance() {
                         sbatch,
                         month,
                         rollname,
-                        studentname
+                        "",
+                        "",
+                        "",
+                        "",
+                        Number(rollname)
                       )
                     );
                   }

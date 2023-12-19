@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../redux/actions/authActions";
-import { getbatch } from "../../../redux/actions/commanAction";
+import { getbatch, GetSection,getcourse } from "../../../redux/actions/commanAction";
 import {
   MarkStudentAttendance,
   DoneStudentAttendance,
   MonthlyStudentAttendance,
 } from "../../../redux/actions/attendanceActions";
-import { getcourse } from "../../../redux/actions/commanAction";
 import styles from "../employee/employee.module.css";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
@@ -94,6 +93,8 @@ function ParticularStudentAttendance() {
   const dispatch = useDispatch();
   let currmonth = new Date().getMonth();
   const [month, setmonth] = useState(currmonth + 1);
+  const [sectionname, setsectionname] = useState("NONE");
+  const [sectionlist, setsectionlist] = useState([]);
   const [rollname, setrollname] = useState("");
   const [studentname, setstudentname] = useState("");
   const [classname, setclassname] = useState("");
@@ -139,6 +140,7 @@ function ParticularStudentAttendance() {
   const { monthlyloading, monthlyattendance } = useSelector(
     (state) => state.monthlyatten
   );
+  const { sections } = useSelector((state) => state.GetSection);
   const { batch } = useSelector((state) => state.getbatch);
   const { course } = useSelector((state) => state.getcourse);
   console.log("month name", monthnamelist[month?.toString()]);
@@ -164,6 +166,9 @@ function ParticularStudentAttendance() {
     if (course) {
       setcourselist(course);
     }
+    if (sections) {
+      setsectionlist(sections);
+    }
   }, [
     markattendance,
     batch,
@@ -172,12 +177,15 @@ function ParticularStudentAttendance() {
     monthlyattendance,
     user,
     course,
+    sections,
   ]);
 
   useEffect(() => {
     dispatch(loadUser());
     dispatch(getbatch());
     dispatch(getbatch());
+    dispatch(GetSection());
+    dispatch(getcourse());
   }, []);
 
   const reset = () => {
@@ -190,6 +198,8 @@ function ParticularStudentAttendance() {
     let end = new Date(date).getDate();
     return end - 1;
   };
+  console.log(rollname);
+
   return (
     <>
       <div className="mainContainer">
@@ -235,13 +245,40 @@ function ParticularStudentAttendance() {
                   );
                 })}
               </select>
+              <select
+                className={styles.opensearchinput}
+                sx={{
+                  width: "18.8rem",
+                  fontSize: 14,
+                  "& .MuiSelect-select": {
+                    paddingTop: "0.6rem",
+                    paddingBottom: "0.6em",
+                  },
+                }}
+                value={sectionname}
+                name="sectionname"
+                onChange={(e) => setsectionname(e.target.value)}
+                displayEmpty
+              >
+                <option value={"NONE"}>NONE</option>
+                {sectionlist?.length > 0 &&
+                  sectionlist?.map((item, index) => {
+                    return (
+                      <option key={index} value={item?.section}>
+                        {item?.section}
+                      </option>
+                    );
+                  })}
+              </select>
               <input
                 className={styles.opensearchinput}
                 type="text"
                 placeholder="Roll No"
                 value={rollname}
                 name="rollname"
-                onChange={(e) => setrollname(e.target.value)}
+                onChange={(e) => {
+                  setrollname(e.target.value);
+                }}
               />
 
               <select
@@ -292,9 +329,11 @@ function ParticularStudentAttendance() {
                         sbatch,
                         month,
                         rollname,
-                        studentname,
                         "",
-                        classname
+                        "",
+                        classname,
+                        sectionname,
+                        Number(rollname)
                       )
                     );
                   }

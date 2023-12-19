@@ -145,8 +145,6 @@ function Attendance() {
   );
   const { batch } = useSelector((state) => state.getbatch);
 
-  console.log("month name", monthnamelist[month?.toString()]);
-
   useEffect(() => {
     if (batch) {
       setbatchs(batch);
@@ -192,6 +190,7 @@ function Attendance() {
     setsbatch("");
     setattendancedetails("");
   };
+  
   const MarkStudentAttendance = (date, emp) => {
     const data = {
       Attendancedate: date,
@@ -213,6 +212,7 @@ function Attendance() {
       }
     );
   };
+
   const MonthlyStudentAttendance = () => {
     const data = {
       month: month,
@@ -655,44 +655,46 @@ function Attendance() {
                                     })} */}
 
                                   {item?.attendance != null &&
-                                    item?.attendance?.slice(
-                                      0,
-                                      Number(
-                                        new Date()
-                                          ?.toISOString()
-                                          .substring(8, 10)
+                                    item?.attendance
+                                      ?.slice(
+                                        0,
+                                        Number(
+                                          new Date()
+                                            ?.toISOString()
+                                            .substring(8, 10)
+                                        )
                                       )
-                                    )?.map((item, index) => {
-                                      return (
-                                        <td
-                                          key={index}
-                                          className={styles.tabletd}
-                                        >
-                                          <button
-                                            className={
-                                              item?.attendaceStatusIntext ===
-                                              "Present"
-                                                ? styles.presentbtn
-                                                : item?.attendaceStatusIntext ===
-                                                  "Absent"
-                                                ? styles.absentbtn
-                                                : styles.holdaybtn
-                                            }
+                                      ?.map((item, index) => {
+                                        return (
+                                          <td
+                                            key={index}
+                                            className={styles.tabletd}
                                           >
-                                            {item?.attendaceStatusIntext ===
-                                              "Present" && <>P</>}
-                                            {item?.attendaceStatusIntext ===
-                                              "Present Half" && <>HD</>}
-                                            {item?.attendaceStatusIntext ===
-                                              "Absent" && <>A</>}
-                                            {item?.attendaceStatusIntext ===
-                                              "Holiday" && <>H</>}
-                                            {item?.attendaceStatusIntext ===
-                                              "On Leave" && <>L</>}
-                                          </button>
-                                        </td>
-                                      );
-                                    })}
+                                            <button
+                                              className={
+                                                item?.attendaceStatusIntext ===
+                                                "Present"
+                                                  ? styles.presentbtn
+                                                  : item?.attendaceStatusIntext ===
+                                                    "Absent"
+                                                  ? styles.absentbtn
+                                                  : styles.holdaybtn
+                                              }
+                                            >
+                                              {item?.attendaceStatusIntext ===
+                                                "Present" && <>P</>}
+                                              {item?.attendaceStatusIntext ===
+                                                "Present Half" && <>HD</>}
+                                              {item?.attendaceStatusIntext ===
+                                                "Absent" && <>A</>}
+                                              {item?.attendaceStatusIntext ===
+                                                "Holiday" && <>H</>}
+                                              {item?.attendaceStatusIntext ===
+                                                "On Leave" && <>L</>}
+                                            </button>
+                                          </td>
+                                        );
+                                      })}
                                 </tr>
                               );
                             })}
