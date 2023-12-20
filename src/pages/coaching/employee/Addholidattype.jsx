@@ -7,8 +7,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
-import AddEnquiry from "@/component/Institute/employee/AddHolidayType";
-import UpdateEnquiry from "@/component/Institute/employee/UpdateHolidayType";
+import AddEnquiry from "@/component/coaching/employee/AddHolidayType";
+import UpdateEnquiry from "@/component/coaching/employee/UpdateHolidayType";
 import {
   getenquiries,
   deleteenquiry,

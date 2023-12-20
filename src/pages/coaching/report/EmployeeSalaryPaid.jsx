@@ -1,24 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../redux/actions/authActions";
 import {
   getEmployee,
-  deleteEmployee,
   getDepartment,
   getDesignation,
   GetSession,
 } from "../../../redux/actions/commanAction";
 import { GetPayRoll } from "../../../redux/actions/payrollActions";
 import styles from "../employee/employee.module.css";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
-import { Button } from "@mui/material";
-import AddEmp from "../../../component/coaching/employee/AddPayroll";
-import UpdateEmp from "../../../component/coaching/employee/UpdatePayRol";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
 import exportFromJSON from "export-from-json";
@@ -31,7 +22,8 @@ const studentStatus = [
   { label: "On Leave", value: "On Leave" },
   { label: "Left", value: "Left" },
 ];
-function Payroll() {
+function EmployeeSalaryPaid() {
+  const componentRef = useRef(null);
   const dispatch = useDispatch();
   const navigation = useRouter();
   const [fromdate, setfromdate] = useState("");
@@ -60,32 +52,6 @@ function Payroll() {
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="top" ref={ref} {...props} />;
   });
-
-  const handleCloseregister = () => {
-    setOpen(false);
-  };
-
-  const ClickOpenupdate = (data) => {
-    setOpenupdate(true);
-    setupdatedata(data);
-  };
-
-  const handleCloseupadte = () => {
-    setOpenupdate(false);
-  };
-
-  const ClickOpendelete = (id) => {
-    setOpenalert(true);
-    setdeleteid(id);
-  };
-
-  const handleClosedelete = () => {
-    setOpenalert(false);
-  };
-
-  const handledelete = () => {
-    dispatch(deleteEmployee(deleteid, setOpenalert));
-  };
 
   useEffect(() => {
     if (payroll) {
@@ -145,6 +111,10 @@ function Payroll() {
     setsessionname(`${lastyear}-${fullyear}`);
   }, []);
 
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
   const ExportToExcel = (isData) => {
     const fileName = "SalaryPaidReport";
     const exportType = "xls";
@@ -168,78 +138,12 @@ function Payroll() {
   };
   return (
     <>
-      {open && (
-        <div>
-          <Dialog
-            open={open}
-            TransitionComponent={Transition}
-            onClose={handleCloseregister}
-            aria-describedby="alert-dialog-slide-description"
-            sx={{
-              "& .MuiDialog-container": {
-                "& .MuiPaper-root": {
-                  width: "100%",
-                  maxWidth: "70rem",
-                },
-              },
-            }}
-          >
-            <AddEmp setOpen={setOpen} updatedata={updatedata} />
-          </Dialog>
-        </div>
-      )}
-      {openupdate && (
-        <div>
-          <Dialog
-            open={openupdate}
-            TransitionComponent={Transition}
-            onClose={handleCloseupadte}
-            aria-describedby="alert-dialog-slide-description"
-            sx={{
-              "& .MuiDialog-container": {
-                "& .MuiPaper-root": {
-                  width: "100%",
-                  maxWidth: "70rem",
-                },
-              },
-            }}
-          >
-            <UpdateEmp setOpen={setOpenupdate} updatedata={updatedata} />
-          </Dialog>
-        </div>
-      )}
-
-      {openalert && (
-        <>
-          <Dialog
-            open={openalert}
-            onClose={handleClosedelete}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">
-              {"Do you want to delete"}
-            </DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                After delete you cannot get again
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClosedelete}>Disagree</Button>
-              <Button onClick={handledelete} autoFocus>
-                Agree
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </>
-      )}
       <div className="mainContainer">
         <div>
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
               <form onSubmit={filterdata} className={styles.searchoptiondiv}>
-                <select
+                {/* <select
                   className={styles.opensearchinput}
                   sx={{
                     width: "18.8rem",
@@ -277,7 +181,7 @@ function Payroll() {
                         </option>
                       );
                     })}
-                </select>
+                </select> */}
                 <input
                   className={styles.opensearchinput10}
                   type="text"
@@ -345,12 +249,14 @@ function Payroll() {
               <button onClick={() => reset()}>Reset</button>
             </div>
             <div className={styles.imgdivformat}>
-              {/* <img
+              <img
+                onClick={() => handlePrint()}
                 className={styles.imgdivformatimg}
-                src="/images/Print.png"-
+                src="/images/Print.png"
                 alt="img"
               />
-              <img
+              {/* <img
+       
                 className={styles.imgdivformatimg}
                 src="/images/ExportPdf.png"
                 alt="img"
@@ -363,33 +269,30 @@ function Payroll() {
             </div>
           </div>
 
-          <div className={styles.addtopmenubar}>
-            <button onClick={() => handleClickOpen()}>Add Payroll</button>
-          </div>
           <div className={styles.add_divmarginn}>
             <div className={styles.tablecontainer}>
-              <table className={styles.tabletable}>
+              <table className={styles.tabletable} ref={componentRef}>
                 <tbody>
                   <tr className={styles.tabletr}>
                     <th className={styles.tableth}>Sr.No</th>
-                    <th className={styles.tableth}>Session</th>
-                    <th className={styles.tableth}>Month Name</th>
+                    {/* <th className={styles.tableth}>Session</th> */}
+                    <th className={styles.tableth}>Month_Name</th>
                     <th className={styles.tableth}>Emp_ID</th>
                     <th className={styles.tableth}>Emp_Name</th>
                     <th className={styles.tableth}>Designation</th>
                     <th className={styles.tableth}>Department</th>
-                    <th className={styles.tableth}>Paid Amount</th>
-                    <th className={styles.tableth}>Paid Date</th>
-                    <th className={styles.tableth}>Action</th>
+                    <th className={styles.tableth}>Paid_Amount</th>
+                    <th className={styles.tableth}>Paid_Date</th>
+                    {/* <th className={styles.tableth}>Action</th> */}
                   </tr>
                   {isdata?.length > 0 &&
                     isdata?.map((item, index) => {
                       return (
                         <tr key={index} className={styles.tabletr}>
                           <td className={styles.tabletd}>{index + 1}</td>
-                          <td className={styles.tabletd}>
+                          {/* <td className={styles.tabletd}>
                             {item?.monthdetials?.Session}
-                          </td>
+                          </td> */}
 
                           <td className={styles.tabletd}>
                             {item?.monthdetials?.MonthName}
@@ -416,7 +319,7 @@ function Payroll() {
                               "DD/MM/YYYY"
                             )}
                           </td>
-                          <td className={styles.tabkeddd}>
+                          {/* <td className={styles.tabkeddd}>
                             <button
                               disabled={
                                 userdata?.data &&
@@ -432,7 +335,7 @@ function Payroll() {
                               <img
                                 className={
                                   userdata?.data &&
-                                  userdata?.data?.User?.userType === "institute"
+                                  userdata?.data?.User?.userType === "school"
                                     ? styles.tabkedddimgactive
                                     : userdata?.data &&
                                       userdata?.data?.User?.fronroficeDelete ===
@@ -448,7 +351,7 @@ function Payroll() {
                             <button
                               disabled={
                                 userdata?.data &&
-                                userdata?.data?.User?.userType === "institute"
+                                userdata?.data?.User?.userType === "school"
                                   ? false
                                   : userdata?.data &&
                                     userdata?.data?.User?.fronroficeEdit ===
@@ -460,7 +363,7 @@ function Payroll() {
                               <img
                                 className={
                                   userdata?.data &&
-                                  userdata?.data?.User?.userType === "institute"
+                                  userdata?.data?.User?.userType === "school"
                                     ? styles.tabkedddimgactive
                                     : userdata?.data &&
                                       userdata?.data?.User?.fronroficeEdit ===
@@ -473,7 +376,7 @@ function Payroll() {
                                 alt="imgss"
                               />
                             </button>
-                          </td>
+                          </td> */}
                         </tr>
                       );
                     })}
@@ -489,4 +392,4 @@ function Payroll() {
   );
 }
 
-export default Payroll;
+export default EmployeeSalaryPaid;

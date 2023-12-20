@@ -62,7 +62,7 @@ export const register =
           });
           setOpen(false);
           setOpen1(true);
-          // window.location.reload();
+          window.location.reload();
         }
 
         dispatch({
@@ -83,7 +83,7 @@ export const register =
           });
           setOpen(false);
           setOpen1(true);
-          // window.location.reload();
+          window.location.reload();
         }
         dispatch({
           type: REGISTER_USER_SUCCESS,
@@ -102,7 +102,7 @@ export const register =
           });
           setOpen(false);
           setOpen1(true);
-          // window.location.reload();
+          window.location.reload();
         }
         dispatch({
           type: REGISTER_USER_SUCCESS,

@@ -10,6 +10,7 @@ import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import Webcam from "react-webcam";
+
 const testtype = [
   { id: 1, name: "Upload Pdf Test" },
   { id: 2, name: "Add MCQ" },
@@ -133,7 +134,7 @@ function AddTest({ setOpen }) {
 
   const capture = () => {
     const imageSrc = webcamRef.current.getScreenshot();
-   if (imageSrc) {
+    if (imageSrc) {
       setopencamera(false);
       settestfile(imageSrc);
       setpreview2(imageSrc);
@@ -174,7 +175,6 @@ function AddTest({ setOpen }) {
     },
   ]);
 
-  console.log("MQR", questionItems);
 
   function addQuestionItem() {
     setquestionItems([
@@ -209,6 +209,7 @@ function AddTest({ setOpen }) {
     );
   }
 
+
   const [questionItems1, setquestionItems1] = useState([
     {
       question: "",
@@ -220,6 +221,7 @@ function AddTest({ setOpen }) {
     },
   ]);
 
+  
   function addQuestionItem1() {
     setquestionItems1([
       ...questionItems1,
@@ -269,7 +271,7 @@ function AddTest({ setOpen }) {
         ? JSON.stringify(questionItems1)
         : JSON.stringify(questionItems)
     );
-    formData.set("testfile",testfile);
+    formData.set("testfile", testfile);
     formData.set("marksperquestion", marks);
     formData.set("passmark", passmarks);
     dispatch(Addtest(formData, setOpen));
@@ -613,7 +615,7 @@ function AddTest({ setOpen }) {
                 </>
               ) : (
                 <>
-                  <div className={styles.selectbtn}>
+                  {/* <div className={styles.selectbtn}>
                     <Button
                       className={
                         showloginoption ? styles.btnActive : styles.btndeActive
@@ -647,7 +649,7 @@ function AddTest({ setOpen }) {
                     >
                       Upload Image
                     </Button>
-                  </div>
+                  </div> */}
                   {showloginoption === true && (
                     <>
                       {questionItems?.map((item, index) => {
@@ -892,48 +894,7 @@ function AddTest({ setOpen }) {
 
               <div className={styles.divmaininput}>
                 <div className={styles.inputdiv}>
-                  <label>Batch</label>
-                  <Select
-                    // required
-                    className={styles.addwidth}
-                    sx={{
-                      width: "18.8rem",
-                      fontSize: 14,
-                      "& .MuiSelect-select": {
-                        paddingTop: "0.6rem",
-                        paddingBottom: "0.6em",
-                      },
-                    }}
-                    value={batchname}
-                    name="batchname"
-                    onChange={(e) => setbatchname(e.target.value)}
-                    displayEmpty
-                  >
-                    <MenuItem
-                      sx={{
-                        fontSize: 14,
-                      }}
-                      value={""}
-                    >
-                      Please Select
-                    </MenuItem>
-                    {batchs?.map((item, index) => {
-                      return (
-                        <MenuItem
-                          key={index}
-                          sx={{
-                            fontSize: 14,
-                          }}
-                          value={`${item?.StartingTime} TO ${item?.EndingTime}`}
-                        >
-                          {item?.StartingTime} TO {item?.EndingTime}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </div>
-                <div className={styles.inputdiv}>
-                  <label>Course</label>
+                  <label>Class</label>
                   <div></div>
                   <Select
                     // required
@@ -1014,6 +975,10 @@ function AddTest({ setOpen }) {
                       );
                     })}
                   </Select>
+                </div>
+                <div className={styles.inputdiv}>
+                  <label>&nbsp;</label>
+                  <label>&nbsp;</label>
                 </div>
               </div>
               <div className={styles.divmaininput}>

@@ -530,17 +530,7 @@ const SchoolNavbar = () => {
                         </Link>
                       </div>
                     </div>
-                    <div className="main_report_dropdown_rightmargin">
-                      <h1>Account</h1>
-                      <div className="main_innear_menu_dropdown">
-                        <Link href="/school/report/AcademyPaidFeeReport">
-                          Academy Paid Fee
-                        </Link>
-                        <Link href="/school/report/AcademyPendingFeeReport">
-                          Academy Pending Fee
-                        </Link>
-                      </div>
-                    </div>
+
                     <div className="main_report_dropdown_rightmargin">
                       <h1>Human Resource</h1>
                       <div className="main_innear_menu_dropdown">

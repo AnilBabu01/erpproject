@@ -10,6 +10,7 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import CircularProgress from "@mui/material/CircularProgress";
 
+
 function AddPayroll({ setOpen, updatedata }) {
   const componentRef = useRef(null);
   const dispatch = useDispatch();
@@ -272,10 +273,10 @@ function AddPayroll({ setOpen, updatedata }) {
                       <p>{user?.data?.CredentailsData?.pincode}</p>
                     </div>
                     <div className={styles.salarySlippersonal}>
-                      <p>Employee Id : {allDetails?.monthdetials?.OrEmpId}</p>
+                      <p>Employee Id : {allDetails?.monthdetials?.empId}</p>
                       <p>Employee Name : {allDetails?.monthdetials?.name}</p>
                       <p>
-                        Designation : {allDetails?.attendance[0]?.Designation}
+                        Designation : {allDetails?.monthdetials?.employeeof}
                       </p>
                     </div>
                     <div>

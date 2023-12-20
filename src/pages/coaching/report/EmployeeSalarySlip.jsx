@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getcategory } from "../../../redux/actions/commanAction";
+import { loadUser } from "../../../redux/actions/authActions";
 import {
-  GetRoute,
-  GetVehicleType,
-  GetVehiclelist,
-} from "../../../redux/actions/transportActions";
-import {
-  GetExpenses,
-  GetExpensesType,
-} from "../../../redux/actions/expensesActions";
-import { GetSession } from "../../../redux/actions/commanAction";
+  getEmployee,
+  deleteEmployee,
+  getDepartment,
+  getDesignation,
+  GetSession,
+} from "../../../redux/actions/commanAction";
+import { GetPayRoll } from "../../../redux/actions/payrollActions";
 import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -19,35 +17,41 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
-import AddStudentCategory from "@/component/Coaching/expenses/AddExpenses";
-import UpdateCategory from "@/component/coaching/expenses/UpdateExpenses";
+import AddEmp from "../../../component/Institute/employee/AddPayroll";
+import UpdateEmp from "../../../component/Institute/employee/UpdatePayRol";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
-import { serverInstance } from "../../../API/ServerInstance";
-import { toast } from "react-toastify";
 import moment from "moment";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-function AddExpenses() {
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import { useRouter } from "next/router";
+import exportFromJSON from "export-from-json";
+const studentStatus = [
+  { label: "Active", value: "Active" },
+  { label: "On Leave", value: "On Leave" },
+  { label: "Left", value: "Left" },
+];
+function EmployeeSalarySlip() {
   const dispatch = useDispatch();
-  const [PayOption, setPayOption] = useState("");
+  const navigation = useRouter();
   const [fromdate, setfromdate] = useState("");
   const [todate, settodate] = useState("");
+  const [userdata, setuserdata] = useState("");
+  const [empid, setempid] = useState("");
+  const [empname, setempname] = useState("");
+  const [sessionList, setsessionList] = useState([]);
+  const [sessionname, setsessionname] = useState("");
   const [open, setOpen] = useState(false);
   const [openupdate, setOpenupdate] = useState(false);
   const [openalert, setOpenalert] = useState(false);
   const [updatedata, setupdatedata] = useState("");
-  const [BusNumber, setBusNumber] = useState("");
   const [deleteid, setdeleteid] = useState("");
   const [isdata, setisData] = useState([]);
-  const [userdata, setuserdata] = useState("");
-  const [Expensestype, setExpensestype] = useState("");
-  const [expenseslist, setexpenseslist] = useState([]);
-  const [sessionList, setsessionList] = useState([]);
-  const [sessionname, setsessionname] = useState("");
-  const { user } = useSelector((state) => state.auth);
+  const [isemployee, setisemployee] = useState([]);
   const { Sessions } = useSelector((state) => state.GetSession);
-  const { expenses, loading } = useSelector((state) => state.GetExpenses);
-  const { expensestype } = useSelector((state) => state.GetExpensesType);
+  const { employees } = useSelector((state) => state.getemp);
+  const { user } = useSelector((state) => state.auth);
+  const { loading, payroll } = useSelector((state) => state.GetPayRoll);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -79,64 +83,60 @@ function AddExpenses() {
   };
 
   const handledelete = () => {
-    serverInstance("expenses/addexpenses", "delete", {
-      id: deleteid,
-    }).then((res) => {
-      if (res?.status === true) {
-        toast.success(res?.msg, {
-          autoClose: 1000,
-        });
-        setOpenalert(false);
-        dispatch(GetExpenses());
-      }
-      if (res?.status === false) {
-        toast.error(res?.msg, {
-          autoClose: 1000,
-        });
-        setOpenalert(false);
-      }
-    });
-  };
-  const filter = () => {
-    dispatch(
-      GetExpenses(fromdate, todate, Expensestype, PayOption, sessionname)
-    );
+    dispatch(deleteEmployee(deleteid, setOpenalert));
   };
 
-  const reset = () => {
-    setPayOption("");
-    setfromdate("");
-    settodate("");
-    setExpensestype("");
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
-    dispatch(GetExpenses());
-  };
   useEffect(() => {
-    if (expenses) {
-      setisData(expenses);
+    if (payroll) {
+      setisData(payroll);
+    }
+    if (employees) {
+      setisemployee(employees);
     }
     if (user) {
       setuserdata(user);
     }
-    if (expensestype) {
-      setexpenseslist(expensestype);
-    }
     if (Sessions) {
       setsessionList(Sessions);
     }
-  }, [expenses, user, expensestype, Sessions]);
+  }, [payroll, employees, user, Sessions]);
+
   useEffect(() => {
-    dispatch(getcategory());
-    dispatch(GetRoute());
-    dispatch(GetVehicleType());
-    dispatch(GetVehiclelist());
-    dispatch(GetExpenses());
-    dispatch(GetExpensesType());
+    dispatch(getEmployee());
+  }, []);
+  useEffect(() => {
+    dispatch(loadUser());
+    dispatch(GetPayRoll());
+    dispatch(getDepartment());
+    dispatch(getDesignation());
     dispatch(GetSession());
   }, []);
+
+  const filterdata = (e) => {
+    e.preventDefault();
+    dispatch(GetPayRoll(empid, empname, sessionname, fromdate, todate));
+  };
+
+  const reset = () => {
+    setfromdate("");
+    settodate("");
+    let date = new Date();
+    let fullyear = date.getFullYear();
+    let lastyear = date.getFullYear() - 1;
+    setsessionname(`${lastyear}-${fullyear}`);
+    setempid("");
+    setempname("");
+    dispatch(GetPayRoll());
+  };
+
+  const downloadReceipt = (data) => {
+    navigation.push({
+      pathname: "/school/employee/PrintSlip",
+      query: {
+        receiptdata: JSON.stringify(data),
+      },
+    });
+  };
   useEffect(() => {
     let date = new Date();
     let fullyear = date.getFullYear();
@@ -144,25 +144,46 @@ function AddExpenses() {
     setsessionname(`${lastyear}-${fullyear}`);
   }, []);
 
+  const ExportToExcel = (isData) => {
+    const fileName = "SalaryPaidReport";
+    const exportType = "xls";
+    var data = [];
+
+    isData.map((item) => {
+      data.push({
+        Session: item?.monthdetials?.Session,
+        Emp_Id: item?.monthdetials?.OrEmpId,
+        Emp_Name: item?.monthdetials?.name,
+        Emp_Email: item?.monthdetials?.email,
+        Designation: item?.monthdetials?.employeeof,
+        Department: item?.monthdetials?.department,
+        MonthName: item?.monthdetials?.MonthName,
+        "Paid Amount": item?.monthdetials?.SalaryPaid,
+        "Paid Date": moment(item?.monthdetials?.PaidDate).format("DD/MM/YYYY"),
+      });
+    });
+
+    exportFromJSON({ data, fileName, exportType });
+  };
   return (
     <>
       {open && (
         <div>
           <Dialog
             open={open}
-            // TransitionComponent={Transition}
+            TransitionComponent={Transition}
             onClose={handleCloseregister}
             aria-describedby="alert-dialog-slide-description"
             sx={{
               "& .MuiDialog-container": {
                 "& .MuiPaper-root": {
                   width: "100%",
-                  maxWidth: "60rem",
+                  maxWidth: "70rem",
                 },
               },
             }}
           >
-            <AddStudentCategory setOpen={setOpen} />
+            <AddEmp setOpen={setOpen} updatedata={updatedata} />
           </Dialog>
         </div>
       )}
@@ -177,12 +198,12 @@ function AddExpenses() {
               "& .MuiDialog-container": {
                 "& .MuiPaper-root": {
                   width: "100%",
-                  maxWidth: "60rem",
+                  maxWidth: "70rem",
                 },
               },
             }}
           >
-            <UpdateCategory setOpen={setOpenupdate} updatedata={updatedata} />
+            <UpdateEmp setOpen={setOpenupdate} updatedata={updatedata} />
           </Dialog>
         </div>
       )}
@@ -216,8 +237,8 @@ function AddExpenses() {
         <div>
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
-              <div className={styles.searchoptiondiv}>
-                <select
+              <form onSubmit={filterdata} className={styles.searchoptiondiv}>
+                {/* <select
                   className={styles.opensearchinput}
                   sx={{
                     width: "18.8rem",
@@ -255,12 +276,57 @@ function AddExpenses() {
                         </option>
                       );
                     })}
+                </select> */}
+                <input
+                  className={styles.opensearchinput10}
+                  type="text"
+                  placeholder="Employee Id"
+                  value={empid}
+                  name="empid"
+                  onChange={(e) => setempid(e.target.value)}
+                />
+                <select
+                  className={styles.opensearchinput}
+                  sx={{
+                    width: "18.8rem",
+                    fontSize: 14,
+                    "& .MuiSelect-select": {
+                      paddingTop: "0.6rem",
+                      paddingBottom: "0.6em",
+                    },
+                  }}
+                  value={empname}
+                  name="empname"
+                  onChange={(e) => setempname(e.target.value)}
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={""}
+                  >
+                    ALL Employee
+                  </option>
+
+                  {isemployee?.map((item, index) => {
+                    return (
+                      <option
+                        key={index}
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={item?.name}
+                      >
+                        {item?.name}
+                      </option>
+                    );
+                  })}
                 </select>
                 <label>From Date</label>
                 <input
                   className={styles.opensearchinput}
-                  type="date"
-                  placeholder="Expenses"
+                  type="Date"
                   value={fromdate}
                   name="fromdate"
                   onChange={(e) => setfromdate(e.target.value)}
@@ -268,46 +334,17 @@ function AddExpenses() {
                 <label>To Date</label>
                 <input
                   className={styles.opensearchinput}
-                  type="date"
-                  placeholder="Expenses"
+                  type="Date"
                   value={todate}
                   name="todate"
                   onChange={(e) => settodate(e.target.value)}
                 />
-                <label>Expenses Type</label>
-                <select
-                  required
-                  className={styles.opensearchinput}
-                  value={Expensestype}
-                  name="Expensestype"
-                  onChange={(e) => setExpensestype(e.target.value)}
-                  displayEmpty
-                >
-                  <option value={""}>All</option>
-                  <option value={"Expenses"}>Expenses</option>
-                  <option value={"Asset"}>Asset</option>
-                  <option value={"Liability"}>Liability</option>
-                </select>
-                <label>PayMent Mode</label>
-                <select
-                  required
-                  className={styles.opensearchinput}
-                  value={PayOption}
-                  name="PayOption"
-                  onChange={(e) => setPayOption(e.target.value)}
-                  displayEmpty
-                >
-                  <option value={""}>All</option>
-                  <option value={"Cash"}>Cash</option>
-                  <option value={"Online"}>Online</option>
-                </select>
-
-                <button onClick={() => filter()}>Search</button>
-              </div>
+                <button>Search</button>
+              </form>
               <button onClick={() => reset()}>Reset</button>
             </div>
             <div className={styles.imgdivformat}>
-              <img
+              {/* <img
                 className={styles.imgdivformatimg}
                 src="/images/Print.png"
                 alt="img"
@@ -316,31 +353,13 @@ function AddExpenses() {
                 className={styles.imgdivformatimg}
                 src="/images/ExportPdf.png"
                 alt="img"
+              /> */}
+              <img
+                onClick={() => ExportToExcel(isdata)}
+                src="/images/ExportExcel.png"
+                alt="img"
               />
-              <img src="/images/ExportExcel.png" alt="img" />
             </div>
-          </div>
-
-          <div className={styles.addtopmenubar}>
-            <button
-              className={
-                userdata?.data && userdata?.data?.User?.userType === "institute"
-                  ? styles.addtopmenubarbuttonactive
-                  : userdata?.data && userdata?.data?.User?.masterWrite === true
-                  ? styles.addtopmenubarbuttonactive
-                  : styles.addtopmenubarbuttondisable
-              }
-              disabled={
-                userdata?.data && userdata?.data?.User?.userType === "institute"
-                  ? false
-                  : userdata?.data && userdata?.data?.User?.masterWrite === true
-                  ? false
-                  : true
-              }
-              onClick={() => handleClickOpen()}
-            >
-              Add Expenses
-            </button>
           </div>
 
           <div className={styles.add_divmarginn}>
@@ -349,13 +368,14 @@ function AddExpenses() {
                 <tbody>
                   <tr className={styles.tabletr}>
                     <th className={styles.tableth}>Sr.No</th>
-                    <th className={styles.tableth}>Sesssion</th>
-                    <th className={styles.tableth}>Date</th>
-                    <th className={styles.tableth}>Payment_Out_Type</th>
-                    <th className={styles.tableth}>Amount</th>
-
-                    <th className={styles.tableth}>Payment_Mode</th>
-                    <th className={styles.tableth}>Comment</th>
+                    {/* <th className={styles.tableth}>Session</th> */}
+                    <th className={styles.tableth}>Month Name</th>
+                    <th className={styles.tableth}>Emp_ID</th>
+                    <th className={styles.tableth}>Emp_Name</th>
+                    <th className={styles.tableth}>Designation</th>
+                    <th className={styles.tableth}>Department</th>
+                    <th className={styles.tableth}>Paid Amount</th>
+                    <th className={styles.tableth}>Paid Date</th>
                     <th className={styles.tableth}>Action</th>
                   </tr>
                   {isdata?.length > 0 &&
@@ -363,27 +383,44 @@ function AddExpenses() {
                       return (
                         <tr key={index} className={styles.tabletr}>
                           <td className={styles.tabletd}>{index + 1}</td>
-                          <td className={styles.tabletd}>{item?.Session}</td>
-                          <td className={styles.tabletd}>
-                            {moment(item?.Date).format("DD/MM/YYYY")}
-                          </td>
-                          <td className={styles.tabletd}>
-                            {item?.Expensestype}
-                          </td>
-                          <td className={styles.tabletd}>
-                            {item?.ExpensesAmount}
-                          </td>
-                          <td className={styles.tabletd}>{item?.PayOption}</td>
-                          <td className={styles.tabletd}>{item?.Comment}</td>
+                          {/* <td className={styles.tabletd}>
+                            {item?.monthdetials?.Session}
+                          </td> */}
 
+                          <td className={styles.tabletd}>
+                            {item?.monthdetials?.MonthName}
+                          </td>
+                          <td className={styles.tabletd}>
+                            {item?.monthdetials?.OrEmpId}
+                          </td>
+                          <td className={styles.tabletd}>
+                            {item?.monthdetials?.name}
+                          </td>
+
+                          <td className={styles.tabletd}>
+                            {item?.monthdetials?.employeeof}
+                          </td>
+                          <td className={styles.tabletd}>
+                            {item?.monthdetials?.department}
+                          </td>
+
+                          <td className={styles.tableth}>
+                            {item?.monthdetials?.PaidAmount}
+                          </td>
+                          <td className={styles.tableth}>
+                            {moment(item?.monthdetials?.PaidDate).format(
+                              "DD/MM/YYYY"
+                            )}
+                          </td>
                           <td className={styles.tabkeddd}>
                             <button
                               disabled={
                                 userdata?.data &&
-                                userdata?.data?.User?.userType === "institute"
+                                userdata?.data?.User?.userType === "school"
                                   ? false
                                   : userdata?.data &&
-                                    userdata?.data?.User?.masterDelete === true
+                                    userdata?.data?.User?.fronroficeEdit ===
+                                      true
                                   ? false
                                   : true
                               }
@@ -391,42 +428,16 @@ function AddExpenses() {
                               <img
                                 className={
                                   userdata?.data &&
-                                  userdata?.data?.User?.userType === "institute"
+                                  userdata?.data?.User?.userType === "school"
                                     ? styles.tabkedddimgactive
                                     : userdata?.data &&
-                                      userdata?.data?.User?.masterDelete ===
+                                      userdata?.data?.User?.fronroficeEdit ===
                                         true
                                     ? styles.tabkedddimgactive
                                     : styles.tabkedddimgdisable
                                 }
-                                onClick={() => ClickOpendelete(item?.id)}
-                                src="/images/Delete.png"
-                                alt="imgss"
-                              />
-                            </button>
-                            <button
-                              disabled={
-                                userdata?.data &&
-                                userdata?.data?.User?.userType === "institute"
-                                  ? false
-                                  : userdata?.data &&
-                                    userdata?.data?.User?.masterEdit === true
-                                  ? false
-                                  : true
-                              }
-                            >
-                              <img
-                                className={
-                                  userdata?.data &&
-                                  userdata?.data?.User?.userType === "institute"
-                                    ? styles.tabkedddimgactive
-                                    : userdata?.data &&
-                                      userdata?.data?.User?.masterEdit === true
-                                    ? styles.tabkedddimgactive
-                                    : styles.tabkedddimgdisable
-                                }
-                                onClick={() => ClickOpenupdate(item)}
-                                src="/images/Edit.png"
+                                onClick={() => downloadReceipt(item)}
+                                src="/images/Print.png"
                                 alt="imgss"
                               />
                             </button>
@@ -440,9 +451,10 @@ function AddExpenses() {
           </div>
         </div>
       </div>
+
       {loading && <LoadingSpinner />}
     </>
   );
 }
 
-export default AddExpenses;
+export default EmployeeSalarySlip;

@@ -85,6 +85,7 @@ function Login({ setOpen, setOpen1, setwelcomeopen }) {
   useEffect(() => {
     if (isAuthenticated) {
       localStorage.setItem("erptoken", user?.data[0]?.token);
+
       dispatch(loadUser());
       setOpen(false);
       setwelcomeopen(true);
@@ -123,7 +124,7 @@ function Login({ setOpen, setOpen1, setwelcomeopen }) {
 
   useEffect(() => {
     // dispatch(allClient());
-    dispatch(allCollege());
+    // dispatch(allCollege());
     // dispatch(allschool());
     // dispatch(alCoaching());
   }, []);

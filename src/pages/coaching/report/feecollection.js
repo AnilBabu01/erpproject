@@ -456,7 +456,7 @@ function Feecollection() {
             </div>
           </div>
 
-          <div className={styles.add_divmarginn10}>
+          <div className={styles.add_divmarginn}>
             <div className={styles.tablecontainer}>
               <table className={styles.tabletable}>
                 <tbody>

@@ -365,9 +365,9 @@ const CoachingNavbar = () => {
                         <Link href="/coaching/masters/receiptprefix">
                           Receipt Prefix
                         </Link>
-                        <Link href="/coaching/masters/employeeprefix">
+                        {/* <Link href="/coaching/masters/employeeprefix">
                           Employee Id Prefix
-                        </Link>
+                        </Link> */}
                         <Link href="/coaching/masters/masterfee">
                           Fees Structure
                         </Link>
@@ -404,48 +404,28 @@ const CoachingNavbar = () => {
                 <div className="dropdown-inner">
                   <div className="main_report_dropdown">
                     <div className="main_report_dropdown_rightmargin">
-                      <h1>Attendance</h1>
+                      <h1>General</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/coaching/report/studentattendancereport">
-                          Attendance Report
+                        <Link href="/coaching/report/StudentReport">
+                          Student Report
                         </Link>
-                        <Link href="/coaching/report/studentidcard">
-                          Student ID Card
+                        <Link href="/coaching/report/StudentAttendanceReport">
+                          Student Attendance Report
                         </Link>
-                        <Link href="/coaching/report/studentlogindetails">
-                          Student Login Details
+                        <Link href="/coaching/report/StudentTestReport">
+                          Student Test Report
                         </Link>
                       </div>
                     </div>
-                    <div className="main_report_dropdown_rightmargin">
-                      <h1>Faculty</h1>
-                      <div className="main_innear_menu_dropdown">
-                        <Link href="/coaching/report/faultyidcard">
-                          Faculty ID Card
-                        </Link>
-                        {/* <Link href="/">Batch Taken Report</Link>
-                        <Link href="/">Batch Plan Report</Link> */}
-                      </div>
-                    </div>
-                    <div className="main_report_dropdown_rightmargin">
-                      <h1>Exam Section</h1>
-                      <div className="main_innear_menu_dropdown">
-                        <Link href="/coaching/report/studentperformance">
-                          Student Performance Report
-                        </Link>
-                        {/* <Link href="/">Student Subjectwise Report</Link>
-                        <Link href="/">Print Student Result </Link>
-                        <Link href="/">Test Taken Report</Link> */}
-                      </div>
-                    </div>
+
                     <div className="main_report_dropdown_rightmargin">
                       <h1>Accounts</h1>
                       <div className="main_innear_menu_dropdown">
                         <Link href="/coaching/report/feecollection">
-                          Fees Collection Report
+                          Student All Paid Fee Report
                         </Link>
                         <Link href="/coaching/report/pendingfee">
-                          Fees Pending Report
+                          Student All Pending Fee Report
                         </Link>
                         {/* <Link href="/coaching/report/feestudent">
                           Fees Pending Studentwise report
@@ -455,19 +435,17 @@ const CoachingNavbar = () => {
                     <div className="main_report_dropdown_rightmargin">
                       <h1>Human Reaourse</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/coaching/report/leavereport">
-                          Employee Leave Report
+                        <Link href="/coaching/report/EmployeeReport">
+                          Employee Report
                         </Link>
-                        <Link href="/coaching/report/employeelogdetails">
-                          Employee Login Details
+                        {/* <Link href="/">Employee Login Credentials Report</Link> */}
+                        <Link href="/coaching/report/EmployeeSalaryPaid">
+                          Employee Salary Paid Report
                         </Link>
-                        <Link href="/coaching/report/salaryslip">
-                          Employee Salary Slip
+                        <Link href="/coaching/report/EmployeeSalarySlip">
+                          Employee Salary Slip Report
                         </Link>
-                        <Link href="/coaching/report/salaryreport">
-                          Employee Salary Report
-                        </Link>
-                        <Link href="/coaching/report/employeeattendancereport">
+                        <Link href="/coaching/report/EmployeeAttendance">
                           Employee Attendance Report
                         </Link>
                       </div>
@@ -477,6 +455,7 @@ const CoachingNavbar = () => {
               </div>
             </li>
           </ul>
+
           <ul class="nav_menu">
             <li class="nav_list nav_list_menu">
               <div className="nffffav_linka">
