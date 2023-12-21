@@ -12,10 +12,12 @@ import { toast } from "react-toastify";
 
 function Dashboard() {
   const dispatch = useDispatch();
+  const [expensesyear, setexpensesyear] = useState("");
+  const [yearlist, setyearlist] = useState("");
   const [alltotaldata, setalltotaldata] = useState("");
   const [sessionList, setsessionList] = useState([]);
-  const [LineChartSession, setLineChartSession] = useState("Short by Session");
-  const [BarCharSession, setBarCharSession] = useState("Short by Session");
+  const [LineChartSession, setLineChartSession] = useState("Short by year");
+  const [BarCharSession, setBarCharSession] = useState("Short by year");
   const [LinstFeepaidList, setLinstFeepaidList] = useState([]);
   const [BarFeepaidList, setBarFeepaidList] = useState([]);
 
@@ -32,6 +34,21 @@ function Dashboard() {
     serverInstance("dashboard/getyearlist", "get").then((res) => {
       if (res?.status === true) {
         console.log("year list is ", res);
+        setyearlist(res?.data);
+      }
+      // if (res?.status === false) {
+      //   toast.error(res?.msg, {
+      //     autoClose: 1000,
+      //   });
+      // }
+    });
+  };
+
+  const getexpensesyearlist = () => {
+    serverInstance("dashboard/getexpensesyearlist", "get").then((res) => {
+      if (res?.status === true) {
+        console.log("year list is ", res);
+        setexpensesyear(res?.data);
       }
       // if (res?.status === false) {
       //   toast.error(res?.msg, {
@@ -60,7 +77,7 @@ function Dashboard() {
   };
 
   const getPaidFeeLineChart = (session) => {
-    serverInstance("dashboard/GetFeePaidChart", "post", {
+    serverInstance("dashboard/GetCoachingFeePaidChart", "post", {
       sessionname: session ? session : LineChartSession,
     }).then((res) => {
       if (res?.status === true) {
@@ -76,7 +93,7 @@ function Dashboard() {
   };
 
   const getPaidFeeBarChart = (session) => {
-    serverInstance("dashboard/GetFeePaidChart", "post", {
+    serverInstance("dashboard/GetCoachingFeePaidChart", "post", {
       sessionname: session ? session : LineChartSession,
     }).then((res) => {
       if (res?.status === true) {
@@ -92,7 +109,7 @@ function Dashboard() {
   };
 
   const getExpensesLineChart = (session) => {
-    serverInstance("dashboard/GetExpensesChart", "post", {
+    serverInstance("dashboard/GetCoachingExpensesChart", "post", {
       sessionname: session ? session : LineChartSession,
     }).then((res) => {
       if (res?.status === true) {
@@ -108,7 +125,7 @@ function Dashboard() {
   };
 
   const getExpensesBarChart = (session) => {
-    serverInstance("dashboard/GetExpensesChart", "post", {
+    serverInstance("dashboard/GetCoachingExpensesChart", "post", {
       sessionname: session ? session : LineChartSession,
     }).then((res) => {
       if (res?.status === true) {
@@ -160,6 +177,7 @@ function Dashboard() {
     return total;
   };
   useEffect(() => {
+    getexpensesyearlist();
     getyearlist();
     getTotalDashborData();
     dispatch(loadUser());
@@ -174,11 +192,11 @@ function Dashboard() {
   useEffect(() => {
     let date = new Date();
     let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setLineChartSession(`${lastyear}-${fullyear}`);
-    setBarCharSession(`${lastyear}-${fullyear}`);
-    setLineChartSessionExpenses(`${lastyear}-${fullyear}`);
-    setBarCharSessionExpenses(`${lastyear}-${fullyear}`);
+
+    setLineChartSession(fullyear);
+    setBarCharSession(fullyear);
+    setLineChartSessionExpenses(fullyear);
+    setBarCharSessionExpenses(fullyear);
   }, []);
 
   const comparePaidFeeMonths = (a, b) => {
@@ -325,17 +343,17 @@ function Dashboard() {
                       Short by Year
                     </option>
 
-                    {sessionList?.length > 0 &&
-                      sessionList?.map((item, index) => {
+                    {yearlist?.length > 0 &&
+                      yearlist?.map((item, index) => {
                         return (
                           <option
                             key={index}
                             sx={{
                               fontSize: 14,
                             }}
-                            value={item?.Session}
+                            value={item?.year}
                           >
-                            {item?.Session}
+                            {item?.year}
                           </option>
                         );
                       })}
@@ -379,17 +397,17 @@ function Dashboard() {
                       Short by Year
                     </option>
 
-                    {sessionList?.length > 0 &&
-                      sessionList?.map((item, index) => {
+                    {yearlist?.length > 0 &&
+                      yearlist?.map((item, index) => {
                         return (
                           <option
                             key={index}
                             sx={{
                               fontSize: 14,
                             }}
-                            value={item?.Session}
+                            value={item?.year}
                           >
-                            {item?.Session}
+                            {item?.year}
                           </option>
                         );
                       })}
@@ -436,17 +454,17 @@ function Dashboard() {
                       Short by Year
                     </option>
 
-                    {sessionList?.length > 0 &&
-                      sessionList?.map((item, index) => {
+                    {expensesyear?.length > 0 &&
+                      expensesyear?.map((item, index) => {
                         return (
                           <option
                             key={index}
                             sx={{
                               fontSize: 14,
                             }}
-                            value={item?.Session}
+                            value={item?.year}
                           >
-                            {item?.Session}
+                            {item?.year}
                           </option>
                         );
                       })}
@@ -490,17 +508,17 @@ function Dashboard() {
                       Short by Year
                     </option>
 
-                    {sessionList?.length > 0 &&
-                      sessionList?.map((item, index) => {
+                    {expensesyear?.length > 0 &&
+                      expensesyear?.map((item, index) => {
                         return (
                           <option
                             key={index}
                             sx={{
                               fontSize: 14,
                             }}
-                            value={item?.Session}
+                            value={item?.year}
                           >
-                            {item?.Session}
+                            {item?.year}
                           </option>
                         );
                       })}
