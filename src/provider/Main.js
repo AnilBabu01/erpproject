@@ -8,6 +8,7 @@ function Main({ Component, pageProps }) {
   const [open, setOpen] = useState(false);
   const [loadingshow, setLoadingshow] = useState(true);
 
+  
   useEffect(() => {
     dispatch(loadUser());
   }, []);

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import TopCard from "../../component/MainAdmin/TopCard";
-import Barchart from "../../component/MainAdmin/Barchart";
-import Linechart from "../../component/MainAdmin/Linechart";
-import LinechartPaidFee from "@/component/MainAdmin/LinechartPaidFee";
-import BarPaidFeeChart from "@/component/MainAdmin/BarPaidFee";
+import Barchart from "../../component/Coaching/Charts/Barchart";
+import Linechart from "../../component/Coaching/Charts/Linechart";
+import LinechartPaidFee from "@/component/Coaching/Charts/LinechartPaidFee";
+import BarPaidFeeChart from "@/component/Coaching/Charts/BarPaidFee";
 import { useDispatch, useSelector } from "react-redux";
 import { GetSession } from "../../redux/actions/commanAction";
 import { loadUser } from "../../redux/actions/authActions";
@@ -27,6 +27,20 @@ function Dashboard() {
   const [BarExpensesList, setBarExpensesList] = useState([]);
 
   const { Sessions } = useSelector((state) => state.GetSession);
+
+  const getyearlist = () => {
+    serverInstance("dashboard/getyearlist", "get").then((res) => {
+      if (res?.status === true) {
+        console.log("year list is ", res);
+      }
+      // if (res?.status === false) {
+      //   toast.error(res?.msg, {
+      //     autoClose: 1000,
+      //   });
+      // }
+    });
+  };
+
   const getTotalDashborData = () => {
     serverInstance("dashboard/GetCoachingAllTotalData", "post").then((res) => {
       if (res?.status === true) {
@@ -146,6 +160,7 @@ function Dashboard() {
     return total;
   };
   useEffect(() => {
+    getyearlist();
     getTotalDashborData();
     dispatch(loadUser());
     dispatch(GetSession());
@@ -307,7 +322,7 @@ function Dashboard() {
                       }}
                       value={""}
                     >
-                      Short by Session
+                      Short by Year
                     </option>
 
                     {sessionList?.length > 0 &&
@@ -361,7 +376,7 @@ function Dashboard() {
                       }}
                       value={""}
                     >
-                      Short by Session
+                      Short by Year
                     </option>
 
                     {sessionList?.length > 0 &&
@@ -418,7 +433,7 @@ function Dashboard() {
                       }}
                       value={""}
                     >
-                      Short by Session
+                      Short by Year
                     </option>
 
                     {sessionList?.length > 0 &&
@@ -472,7 +487,7 @@ function Dashboard() {
                       }}
                       value={""}
                     >
-                      Short by Session
+                      Short by Year
                     </option>
 
                     {sessionList?.length > 0 &&

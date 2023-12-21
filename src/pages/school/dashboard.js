@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import TopCard from "../../component/MainAdmin/TopCard";
-import Barchart from "../../component/MainAdmin/Barchart";
-import Linechart from "../../component/MainAdmin/Linechart";
-import LinechartPaidFee from "@/component/MainAdmin/LinechartPaidFee";
-import BarPaidFeeChart from "@/component/MainAdmin/BarPaidFee";
+import Barchart from "../../component/Institute/Charts/Barchart";
+import Linechart from "../../component/Institute/Charts/Linechart";
+import LinechartPaidFee from "@/component/Institute/Charts/LinechartPaidFee";
+import BarPaidFeeChart from "@/component/Institute/Charts/BarPaidFee";
 import { useDispatch, useSelector } from "react-redux";
 import { GetSession } from "../../redux/actions/commanAction";
 import { loadUser } from "../../redux/actions/authActions";

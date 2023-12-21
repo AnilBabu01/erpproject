@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import TopCard from "../../component/MainAdmin/TopCard";
-import Barchart from "../../component/MainAdmin/Barchart";
-import Linechart from "../../component/MainAdmin/Linechart";
+import Barchart from "../../component/college/Charts/Barchart";
+import Linechart from "../../component/college/Charts/Linechart";
 import { useDispatch } from "react-redux";
 import { loadUser } from "../../redux/actions/authActions";
 
