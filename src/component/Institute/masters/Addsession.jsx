@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
 import { GetSession } from "../../../redux/actions/commanAction";
@@ -7,6 +7,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
+
 function Addsession({ setOpen }) {
   const dispatch = useDispatch();
   const [session, setsession] = useState("");

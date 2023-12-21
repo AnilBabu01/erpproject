@@ -286,6 +286,7 @@ function UpdateAdmission({ setOpen, updatedata }) {
       sethostelcategory(updatedata?.Category);
       setfromroute(updatedata?.FromRoute);
       settoroute(updatedata?.ToRoute);
+      setpano(updatedata?.pancardnno)
     }
   }, []);
 

@@ -11,6 +11,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
 const formData = new FormData();
+
 const studentStatus = [
   { label: "Active", value: "Active" },
   { label: "On Leave", value: "On Leave" },
@@ -286,6 +287,7 @@ function UpdateStudent({ setOpen, updatedata }) {
       sethostelcategory(updatedata?.Category);
       setfromroute(updatedata?.FromRoute);
       settoroute(updatedata?.ToRoute);
+      setpano(updatedata?.pancardnno)
     }
   }, []);
 

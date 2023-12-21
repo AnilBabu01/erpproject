@@ -307,6 +307,12 @@ input#donation-date {
 .fontweight {
   font-weight: 500;
 }
+
+.mainchangepassword{
+  padding: 10%; 
+  padding-left: 15%;
+  padding-right: 15%;
+}
 @media screen and (max-width: 780px) {
   .mainprofile {
     padding-top: 20rem;

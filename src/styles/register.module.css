@@ -83,6 +83,7 @@
   border-radius: 3px;
   padding-left: 1rem;
   padding-right: 1rem;
+  padding-bottom: 0.2%;
 }
 
 .divmaininput {
@@ -213,10 +214,40 @@
   flex-direction: column;
   width: 100%;
 }
-.inputdiv10 label {
+
+.inputdivchangepassword {
+  display: flex;
+  flex-direction: column;
+  /* width: 32%; */
+  position: relative;
+}
+
+.inputdivchangepassword label {
+  margin-bottom: 1%;
   margin-bottom: 1%;
 }
 
+.inputdivchangepassword input {
+  border: 0.8px solid rgb(66, 66, 66);
+  /* width: 18.7rem; */
+  height: 35px;
+  padding-left: 1rem;
+  border-radius: 5px;
+  padding-right: 2rem;
+}
+.inputdivchangepassword input:focus {
+  outline: none;
+  /* border: 2px solid #093959; */
+  box-shadow: rgba(0, 0, 128, 0.25) 0px 0px 0px 0.2rem;
+  border-color: rgb(0, 0, 128);
+}
+
+.showpassbtn {
+  position: absolute;
+  left: 86%;
+  top: 43%;
+  list-style: none;
+}
 .selecttimemain {
   display: flex;
   justify-content: space-around;
@@ -315,9 +346,7 @@
   padding-right: 1%;
   padding-top: 1%;
   cursor: pointer;
- 
 }
-
 
 .closeicondivauth {
   display: flex;
@@ -332,7 +361,6 @@
   left: 99%;
   bottom: 99%;
 }
-
 
 .mainper {
   color: green;
@@ -1075,6 +1103,13 @@
   border-color: rgb(0, 0, 128);
 }
 @media screen and (max-width: 780px) {
+  .showpassbtn {
+    position: absolute;
+    left: 86%;
+    top: 43%;
+    list-style: none;
+  }
+  
   .closeicondiv {
     left: 92%;
     bottom: 99%;
@@ -1140,9 +1175,11 @@
   }
 
   .divmainlogin {
-   width: 20rem;
+    width: 20rem;
   }
-
+  .divmainloginchangepassword {
+    width: 100%;
+  }
   .divmainlogin10 {
     padding: 1rem;
   }

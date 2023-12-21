@@ -71,7 +71,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [open4, setOpen4] = useState(false);
   const open2 = Boolean(anchorEl);
-  
+
   const handleClick1 = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -239,7 +239,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
             </>
           )}
 
-          <MenuItem>
+          <MenuItem onClick={() => router.push("/changepassword")}>
             <ListItemIcon>
               <Settings fontSize="small" />
             </ListItemIcon>
@@ -296,7 +296,11 @@ function Navbar({ open, setOpen, setLoadingshow }) {
             aria-describedby="child-modal-description"
           >
             <Box sx={{ ...style }}>
-              <Login setOpen={setOpen} setOpen1={setOpen1} setwelcomeopen={setwelcomeopen} />
+              <Login
+                setOpen={setOpen}
+                setOpen1={setOpen1}
+                setwelcomeopen={setwelcomeopen}
+              />
             </Box>
           </Modal>
         </>
