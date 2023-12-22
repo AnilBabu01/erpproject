@@ -1103,13 +1103,16 @@
   border-color: rgb(0, 0, 128);
 }
 @media screen and (max-width: 780px) {
+  .backmaininear {
+    width: 100%;
+  }
   .showpassbtn {
     position: absolute;
     left: 86%;
     top: 43%;
     list-style: none;
   }
-  
+
   .closeicondiv {
     left: 92%;
     bottom: 99%;
@@ -1175,7 +1178,7 @@
   }
 
   .divmainlogin {
-    width: 20rem;
+    /* width: 20rem; */
   }
   .divmainloginchangepassword {
     width: 100%;

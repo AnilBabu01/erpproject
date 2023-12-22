@@ -9,17 +9,26 @@ import Updateprofile from "./Updateprofile";
 import DisableOptions from "./DisableOptions";
 import { useDispatch, useSelector } from "react-redux";
 import { backendUrl } from "../../../config/config";
+import BackupData from "./BackupData";
 
 function SchoolProfile() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const { isUpdated } = useSelector((state) => state.editprofile);
-
-  console.log("update profile data is", isUpdated);
+  const [frontoffice, setfrontoffice] = useState(false);
+  const [Library, setLibrary] = useState(false);
+  const [student, setstudent] = useState(false);
+  const [studentattendance, setstudentattendance] = useState(false);
+  const [employee, setemployee] = useState(false);
+  const [employeeattendance, setemployeeattendance] = useState(false);
+  const [hostel, sethostel] = useState(false);
+  const [transport, settransport] = useState(false);
+  const [accounts, setaccounts] = useState(false);
+  const [expenses, setexpenses] = useState(false);
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
   const [open3, setOpen3] = useState(false);
   const [open4, setOpen4] = useState(false);
+  const [openbackup, setopenbackup] = useState(false);
   const [updateoptions, setupdateoptions] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
@@ -65,8 +74,47 @@ function SchoolProfile() {
     setupdateoptions(false);
   };
 
+  const handleClickOpenbackup = () => {
+    setopenbackup(true);
+  };
+
+  const handleClosebackup = () => {
+    setopenbackup(false);
+  };
   return (
     <>
+      {openbackup && (
+        <div>
+          <Dialog
+            open={openbackup}
+            TransitionComponent={Transition}
+            onClose={handleClosebackup}
+            aria-describedby="alert-dialog-slide-description"
+            sx={{
+              "& .MuiDialog-container": {
+                "& .MuiPaper-root": {
+                  width: "100%",
+                  maxWidth: "50rem",
+                },
+              },
+            }}
+          >
+            <BackupData
+              frontoffice={frontoffice}
+              Library={Library}
+              student={student}
+              studentattendance={studentattendance}
+              employee={employee}
+              employeeattendance={employeeattendance}
+              hostel={hostel}
+              transport={transport}
+              accounts={accounts}
+              expenses={expenses}
+              setOpen={setopenbackup}
+            />
+          </Dialog>
+        </div>
+      )}
       {updateoptions && (
         <div>
           <Dialog
@@ -506,7 +554,7 @@ function SchoolProfile() {
             </div>
           </div>
         </div>
-
+        {/* hello  */}
         <div className="bottom-chart-left-div">
           <div className="bottom-chart-left-div-inear1">
             <h4>Show Or Hide These Options</h4>
@@ -553,8 +601,107 @@ function SchoolProfile() {
           </div>
 
           {/* Wh can add more settings */}
-          <div></div>
-          {/* <div className="bottom-chart-left-div-inear1"></div> */}
+          <div className="bottom-chart-left-div-inear1">
+            <h4>Backup For</h4>
+            <div className="mainbackdiv">
+              <div className="backmaininear">
+                <div className="optionsdiv10">
+                  <p>Front Office</p>
+                  <input
+                    type="checkbox"
+                    value={frontoffice}
+                    onChange={(e) => {
+                      setfrontoffice(e.target.checked);
+                    }}
+                  />
+                </div>
+                <div className="optionsdiv10">
+                  <p>Library</p>
+                  <input
+                    type="checkbox"
+                    value={Library}
+                    onChange={(e) => {
+                      setLibrary(e.target.checked);
+                    }}
+                  />
+                </div>
+                <div className="optionsdiv10">
+                  <p>Student</p>
+                  <input
+                    type="checkbox"
+                    value={student}
+                    onChange={(e) => {
+                      setstudent(e.target.checked);
+                    }}
+                  />
+                </div>
+              
+                <div className="optionsdiv10">
+                  <p>Accounts</p>
+                  <input
+                    type="checkbox"
+                    value={accounts}
+                    onChange={(e) => {
+                      setaccounts(e.target.checked);
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div className="backmaininear">
+                <div className="optionsdiv10">
+                  <p>Employee</p>
+                  <input
+                    type="checkbox"
+                    value={employee}
+                    onChange={(e) => {
+                      setemployee(e.target.checked);
+                    }}
+                  />
+                </div>
+              
+                <div className="optionsdiv10">
+                  <p>Hostel</p>
+                  <input
+                    type="checkbox"
+                    value={hostel}
+                    onChange={(e) => {
+                      sethostel(e.target.checked);
+                    }}
+                  />
+                </div>
+                <div className="optionsdiv10">
+                  <p>Transport</p>
+                  <input
+                    type="checkbox"
+                    value={transport}
+                    onChange={(e) => {
+                      settransport(e.target.checked);
+                    }}
+                  />
+                </div>
+                <div className="optionsdiv10">
+                  <p>Expenses</p>
+                  <input
+                    type="checkbox"
+                    value={expenses}
+                    onChange={(e) => {
+                      setexpenses(e.target.checked);
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="keydetailsdiv">
+              <button
+                onClick={() => handleClickOpenbackup()}
+                className="backbtn"
+              >
+                Take Backup
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </>

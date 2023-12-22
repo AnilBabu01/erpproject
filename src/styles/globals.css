@@ -308,10 +308,17 @@ input#donation-date {
   font-weight: 500;
 }
 
-.mainchangepassword{
-  padding: 10%; 
+.mainchangepassword {
+  padding: 10%;
   padding-left: 15%;
   padding-right: 15%;
+}
+.mainbackdiv {
+  display: flex;
+  justify-content: space-evenly;
+}
+.backmaininear {
+  width: 50%;
 }
 @media screen and (max-width: 780px) {
   .mainprofile {
@@ -644,6 +651,13 @@ input#donation-date {
   align-items: center;
 }
 
+.optionsdiv10 {
+  display: flex;
+  width: 50%;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .bottom-chart-left-div-inear10 {
   width: 100%;
   background: #ffffff;
@@ -716,7 +730,21 @@ input#donation-date {
 .attendancebtn {
   display: flex;
 }
+
+.backbtn {
+  background: #093959;
+  color: white;
+  padding: 1%;
+  padding-left: 3%;
+  padding-right: 2%;
+  border-radius: 6px;
+}
 @media screen and (max-width: 780px) {
+  .mainbackdiv {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+  }
   .attendancebtn {
     display: flex;
     flex-direction: column;
@@ -1852,7 +1880,7 @@ input#donation-date {
     width: 100%;
     height: 14rem;
     border-radius: 20px;
-}
+  }
 
   .card_container_skills {
     width: 91%;
@@ -1951,7 +1979,7 @@ input#donation-date {
     width: 100%;
     height: 14rem;
     border-radius: 20px;
-}
+  }
 }
 
 /* Parent List */
