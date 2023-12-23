@@ -635,7 +635,7 @@ function SchoolProfile() {
                     }}
                   />
                 </div>
-              
+
                 <div className="optionsdiv10">
                   <p>Accounts</p>
                   <input
@@ -659,7 +659,7 @@ function SchoolProfile() {
                     }}
                   />
                 </div>
-              
+
                 <div className="optionsdiv10">
                   <p>Hostel</p>
                   <input

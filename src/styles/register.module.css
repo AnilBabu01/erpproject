@@ -167,14 +167,16 @@
 }
 .inputdiv select {
   border: 0.8px solid rgb(66, 66, 66);
-  width: 12.7rem;
+  /* width: 12.7rem; */
+  width: 100%;
   height: 35px;
   padding-left: 1rem;
   border-radius: 5px;
 }
 .inputdiv input {
   border: 0.8px solid rgb(66, 66, 66);
-  width: 18.7rem;
+  /* width: 18.7rem; */
+  width: 100%;
   height: 35px;
   padding-left: 1rem;
   border-radius: 5px;
@@ -196,7 +198,8 @@
 }
 .inputdiv20 input {
   border: 0.8px solid rgb(66, 66, 66);
-  width: 18.7rem;
+  /* width: 18.7rem; */
+  width: 100%;
   height: 35px;
   padding-left: 1rem;
   border-radius: 5px;
@@ -230,6 +233,7 @@
 .inputdivchangepassword input {
   border: 0.8px solid rgb(66, 66, 66);
   /* width: 18.7rem; */
+  width: 100%;
   height: 35px;
   padding-left: 1rem;
   border-radius: 5px;
@@ -310,7 +314,8 @@
 }
 .searchinput {
   border: 0.8px solid rgb(66, 66, 66);
-  width: 12.7rem;
+  /* width: 12.7rem; */
+  width: 100%;
   height: 30px;
   padding-left: 1rem;
   border-radius: 5px;
@@ -655,9 +660,10 @@
 .inputcreadentionals input {
   border: 1px solid #093959;
   border-radius: 5px;
-  padding-left: 0.1rem;
+  padding-left: 0.5rem;
   height: 34px;
-  width: 17rem;
+  /* width: 17rem; */
+  width: 100%;
 }
 .mainshowresuludetails {
   padding: 1rem;
