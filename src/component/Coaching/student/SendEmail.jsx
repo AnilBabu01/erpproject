@@ -73,48 +73,6 @@ function SendEmail({ setOpen }) {
         <div>
           <div className={styles.divmaininput}>
             <div className={styles.inputdiv}>
-              <label>Session</label>
-              <Select
-                required
-                className={styles.addwidth}
-                sx={{
-                  width: "100%",
-                  fontSize: 14,
-                  "& .MuiSelect-select": {
-                    paddingTop: "0.6rem",
-                    paddingBottom: "0.6em",
-                  },
-                }}
-                value={sessionname}
-                name="sessionname"
-                onChange={(e) => setsessionname(e.target.value)}
-                // displayEmpty
-              >
-                <MenuItem
-                  sx={{
-                    fontSize: 14,
-                  }}
-                  value={"Please Select"}
-                >
-                  Please Select
-                </MenuItem>
-                {sessionList?.length > 0 &&
-                  sessionList?.map((item, index) => {
-                    return (
-                      <MenuItem
-                        key={index}
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={item?.Session}
-                      >
-                        {item?.Session}
-                      </MenuItem>
-                    );
-                  })}
-              </Select>
-            </div>
-            <div className={styles.inputdiv}>
               <label>Class</label>
               <Select
                 required
@@ -157,46 +115,12 @@ function SendEmail({ setOpen }) {
               </Select>
             </div>
             <div className={styles.inputdiv}>
-              <label>Section</label>
-              <Select
-                required
-                className={styles.addwidth}
-                sx={{
-                  width: "100%",
-                  fontSize: 14,
-                  "& .MuiSelect-select": {
-                    paddingTop: "0.6rem",
-                    paddingBottom: "0.6em",
-                  },
-                }}
-                value={sectionname}
-                name="sectionname"
-                onChange={(e) => setsectionname(e.target.value)}
-                // displayEmpty
-              >
-                <MenuItem
-                  sx={{
-                    fontSize: 14,
-                  }}
-                  value={"NONE"}
-                >
-                  NONE
-                </MenuItem>
-                {sectionlist?.length > 0 &&
-                  sectionlist?.map((item, index) => {
-                    return (
-                      <MenuItem
-                        key={index}
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={item?.section}
-                      >
-                        {item?.section}
-                      </MenuItem>
-                    );
-                  })}
-              </Select>
+              <label>&nbsp;</label>
+              <label>&nbsp;</label>
+            </div>
+            <div className={styles.inputdiv}>
+              <label>&nbsp;</label>
+              <label>&nbsp;</label>
             </div>
           </div>
           <div className={styles.textareadiv}>

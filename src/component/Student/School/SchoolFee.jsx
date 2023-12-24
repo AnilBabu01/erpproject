@@ -8,6 +8,7 @@ import { loadUser } from "../../../redux/actions/authActions";
 import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
 import ViewDeails from "./ViewDeails";
+
 function SchoolFee({ studentid }) {
   const navigation = useRouter();
   const dispatch = useDispatch();

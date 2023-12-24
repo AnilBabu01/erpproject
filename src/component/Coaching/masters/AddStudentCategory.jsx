@@ -31,8 +31,8 @@ function AddStudentCategory({ setOpen }) {
         </div>
         <h1>Add Category</h1>
         <form onSubmit={submit}>
-          <div className={styles.divmaininput}>
-            <div className={styles.inputdiv}>
+          <div className={styles.inputdivsingle}>
+            <div className={styles.inputdivsingle}>
               <label>Category</label>
               <input
                 type="text"

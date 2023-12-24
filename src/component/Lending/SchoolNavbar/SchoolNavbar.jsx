@@ -126,11 +126,11 @@ const SchoolNavbar = () => {
 
                     <div className="main_report_dropdown_rightmargin">
                       <h1>Communication</h1>
-                      <div className="main_innear_menu_dropdown">
+                      {/* <div className="main_innear_menu_dropdown">
                         <Link href="/school/student/Sendmessage">
                           Send Message
                         </Link>
-                      </div>
+                      </div> */}
                       <div className="main_innear_menu_dropdown">
                         <Link href="/school/student/Sendemail">Send Email</Link>
                       </div>
@@ -214,15 +214,6 @@ const SchoolNavbar = () => {
                         <Link href="/school/accounts/Printreceipt">
                           Print Fee Receipt
                         </Link>
-                        {/* <Link href="/school/accounts/Searchfee">
-                          Search Fees Payment
-                        </Link>
-                        <Link href="/school/accounts/Balancefee">
-                          Balance Fees Report
-                        </Link>
-                        <Link href="/school/accounts/Fediscount">
-                          Fee Discount
-                        </Link> */}
                       </div>
                     </div>
                   </div>

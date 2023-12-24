@@ -30,7 +30,7 @@ import AddAdmission from "../../../component/Institute/student/AddAdmission";
 import UpdateAdmission from "../../../component/Institute/student/UpdateAdmission";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
-
+import exportFromJSON from "export-from-json";
 const studentStatus = [
   { label: "Active", value: "Active" },
   { label: "On Leave", value: "On Leave" },
@@ -188,6 +188,31 @@ function Admission() {
     setsessionname(`${lastyear}-${fullyear}`);
   }, []);
 
+  const ExportToExcel = (isData) => {
+    const fileName = "StudentList";
+    const exportType = "xls";
+    var data = [];
+
+    isData.map((item, index) => {
+      data.push({
+        Addmission_Date: moment(item?.admissionDate).format("MM/DD/YYYY"),
+        Session: item?.Session,
+        Section: item?.Section,
+        "Roll Number": item?.rollnumber,
+        SNO: item?.SrNumber,
+        Student_Name: item?.name,
+        Student_Email: item?.email,
+        "Student_Mobile NO": item?.phoneno1,
+        "Father's_Name": item?.fathersName,
+        "Father's_Mobile NO": item?.fathersPhoneNo,
+        Class: item?.courseorclass,
+        Category: item?.StudentCategory,
+        Status: item?.Status,
+      });
+    });
+
+    exportFromJSON({ data, fileName, exportType });
+  };
   return (
     <>
       {open && (
@@ -481,7 +506,7 @@ function Admission() {
 
             
             <div className={styles.imgdivformat}>
-              <img
+              {/* <img
                 className={styles.imgdivformatimg}
                 src="/images/Print.png"
                 alt="img"
@@ -490,8 +515,8 @@ function Admission() {
                 className={styles.imgdivformatimg}
                 src="/images/ExportPdf.png"
                 alt="img"
-              />
-              <img src="/images/ExportExcel.png" alt="img" />
+              /> */}
+              <img  onClick={() => ExportToExcel(isdata)} src="/images/ExportExcel.png" alt="img" />
             </div>
           </div>
 
@@ -524,7 +549,7 @@ function Admission() {
                     <th className={styles.tableth}>Sr.No</th>
                     <th className={styles.tableth}>Session</th>
                     <th className={styles.tableth}>SNO</th>
-                    <th className={styles.tableth}>Roll No</th>
+                    <th className={styles.tableth}>Roll_No</th>
                     <th className={styles.tableth}>Section</th>
                     <th className={styles.tableth}>Student_Name</th>
                     <th className={styles.tableth}>Student_Email</th>
@@ -532,7 +557,7 @@ function Admission() {
                     <th className={styles.tableth}>Adminssion_Date</th>
                     <th className={styles.tableth}>Class</th>
                     <th className={styles.tableth}>Category</th>
-                    <th className={styles.tableth}>Student Status</th>
+                    <th className={styles.tableth}>Student_Status</th>
                     <th className={styles.tableth}>Action</th>
                   </tr>
                   {isdata?.map((item, index) => {

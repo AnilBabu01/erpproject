@@ -285,8 +285,8 @@ function StudentReport() {
     isData.map((item, index) => {
       data.push({
         Addmission_Date: moment(item?.admissionDate).format("MM/DD/YYYY"),
-        Session: item?.Session,
-        Section: item?.Section,
+     
+        batch: item?.batch,
         "Roll Number": item?.rollnumber,
         SNO: item?.SrNumber,
         Student_Name: item?.name,
@@ -539,7 +539,7 @@ function StudentReport() {
                     <th className={styles.tableth}>Sr.No</th>
 
                     <th className={styles.tableth}>Roll_No</th>
-                    <th className={styles.tableth}>Section</th>
+                    <th className={styles.tableth}>Batch</th>
                     <th className={styles.tableth}>Student_Name</th>
                     <th className={styles.tableth}>Student_Email</th>
                     <th className={styles.tableth}>Student_Phone</th>
@@ -555,7 +555,7 @@ function StudentReport() {
                         <td className={styles.tabletd}>{index + 1}</td>
 
                         <td className={styles.tabletd}>{item?.rollnumber}</td>
-                        <td className={styles.tabletd}>{item?.Section}</td>
+                        <td className={styles.tabletd}>{item?.batch}</td>
                         <td className={styles.tabletd}>{item?.name}</td>
                         <td className={styles.tabletd}>{item?.email}</td>
                         <td className={styles.tabletd}>{item?.phoneno1}</td>

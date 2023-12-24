@@ -32,8 +32,8 @@ function Updatecourse({ updatedata, setOpen }) {
         </div>
         <h1>Update Class</h1>
         <form onSubmit={submit}>
-          <div className={styles.divmaininput}>
-            <div className={styles.inputdiv}>
+          <div className={styles.inputdivsingle}>
+            <div className={styles.inputdivsingle}>
               <label>Class</label>
               <input
                 type="text"

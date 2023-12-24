@@ -33,8 +33,8 @@ function AddDuration({ setOpen }) {
         </div>
         <h1>Add Course Duration In Month</h1>
         <form onSubmit={submit}>
-          <div className={styles.divmaininput}>
-            <div className={styles.inputdiv}>
+          <div className={styles.inputdivsingle}>
+            <div className={styles.inputdivsingle}>
               <label>Course Duration</label>
               <input
                 type="number"

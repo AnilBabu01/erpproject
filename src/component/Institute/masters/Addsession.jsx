@@ -48,8 +48,8 @@ function Addsession({ setOpen }) {
         </div>
         <h1>Add New Session</h1>
         <form onSubmit={submit}>
-          <div className={styles.divmaininput}>
-            <div className={styles.inputdiv}>
+          <div className={styles.inputdivsingle}>
+            <div className={styles.inputdivsingle}>
               <label>Session</label>
               <input
                 type="text"

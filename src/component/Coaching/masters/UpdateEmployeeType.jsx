@@ -31,8 +31,8 @@ function UpdateEmployeeType({ updatedata, setOpen }) {
         </div>
         <h1>Add Designation</h1>
         <form onSubmit={submit}>
-          <div className={styles.divmaininput}>
-            <div className={styles.inputdiv}>
+          <div className={styles.inputdivsingle}>
+            <div className={styles.inputdivsingle}>
               <label>Designation</label>
               <input
                 type="text"

@@ -151,7 +151,7 @@ function Vehicletype() {
       )}
       <div className="mainContainer">
         <div>
-          <div className={styles.topmenubar}>
+          {/* <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
               <div className={styles.searchoptiondiv}>
                 <input
@@ -180,7 +180,7 @@ function Vehicletype() {
               />
               <img src="/images/ExportExcel.png" alt="img" />
             </div>
-          </div>
+          </div> */}
 
           <div className={styles.addtopmenubar}>
             <button

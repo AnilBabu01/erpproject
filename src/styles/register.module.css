@@ -153,13 +153,15 @@
   border-color: rgb(0, 0, 128);
 }
 
+
+.inputdiv80 {
+  margin-top: 1rem;
+}
+
 .inputdiv {
   display: flex;
   flex-direction: column;
   width: 32%;
-}
-.inputdiv80 {
-  margin-top: 1rem;
 }
 .inputdiv label {
   margin-bottom: 1%;
@@ -211,6 +213,40 @@
   box-shadow: rgba(0, 0, 128, 0.25) 0px 0px 0px 0.2rem;
   border-color: rgb(0, 0, 128);
 }
+
+
+.inputdivsingle {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.inputdivsingle label {
+  margin-bottom: 1%;
+  margin-bottom: 1%;
+}
+.inputdivsingle select {
+  border: 0.8px solid rgb(66, 66, 66);
+  /* width: 12.7rem; */
+  width: 100%;
+  height: 35px;
+  padding-left: 1rem;
+  border-radius: 5px;
+}
+.inputdivsingle input {
+  border: 0.8px solid rgb(66, 66, 66);
+  /* width: 18.7rem; */
+  width: 100%;
+  height: 35px;
+  padding-left: 1rem;
+  border-radius: 5px;
+}
+.inputdivsingle input:focus {
+  outline: none;
+  /* border: 2px solid #093959; */
+  box-shadow: rgba(0, 0, 128, 0.25) 0px 0px 0px 0.2rem;
+  border-color: rgb(0, 0, 128);
+}
+
 
 .inputdiv10 {
   display: flex;
@@ -1027,6 +1063,12 @@
   border: 1px solid #093959;
   width: 100%;
   height: 10rem;
+  border-radius: 5px;
+  padding: 0.5rem;
+}
+.textareadiv textarea:focus {
+  box-shadow: rgba(0, 0, 128, 0.25) 0px 0px 0px 0.2rem;
+  border-color: rgb(0, 0, 128);
 }
 .regisFeepayDiv {
   display: flex;
@@ -1108,7 +1150,20 @@
   box-shadow: rgba(0, 0, 128, 0.25) 0px 0px 0px 0.2rem;
   border-color: rgb(0, 0, 128);
 }
+.subjectinput{
+  border: 1px solid #093959;
+  width: 100%;
+  margin-bottom: 1%;
+  height: 32px;
+  border-radius: 5px;
+  padding-left: 0.5rem;
+}
+.subjectinput:focus{
+  box-shadow: rgba(0, 0, 128, 0.25) 0px 0px 0px 0.2rem;
+  border-color: rgb(0, 0, 128);
+}
 @media screen and (max-width: 780px) {
+
   .backmaininear {
     width: 100%;
   }

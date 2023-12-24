@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../redux/actions/authActions";
 import {
   getcourse,
   getbatch,
   getstudent,
-  deletestudent,
   getfee,
   getcategory,
   GetSession,
@@ -16,12 +15,12 @@ import {
   GetFacility,
   GetCategory,
 } from "../../../redux/actions/hostelActions";
-
 import { GetRoute } from "../../../redux/actions/transportActions";
 import styles from "../../coaching/employee/employee.module.css";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
-
+import exportFromJSON from "export-from-json";
+import { useReactToPrint } from "react-to-print";
 const studentStatus = [
   { label: "Active", value: "Active" },
   { label: "On Leave", value: "On Leave" },
@@ -30,6 +29,7 @@ const studentStatus = [
   { label: "Unknown", value: "Unknown" },
 ];
 function Studenthistory() {
+  const componentRef = useRef(null);
   const dispatch = useDispatch();
   const [scoursename, setscoursename] = useState("");
   const [sfathers, setsfathers] = useState("");
@@ -119,7 +119,7 @@ function Studenthistory() {
   };
 
   const reset = () => {
-    setrollnumber('');
+    setrollnumber("");
     setsstudent("");
     setsfathers("");
     setfromdate("");
@@ -141,6 +141,36 @@ function Studenthistory() {
     let lastyear = date.getFullYear() - 1;
     setsessionname(`${lastyear}-${fullyear}`);
   }, []);
+
+  const ExportToExcel = (isData) => {
+    const fileName = "StudentList";
+    const exportType = "xls";
+    var data = [];
+
+    isData.map((item, index) => {
+      data.push({
+        Addmission_Date: moment(item?.admissionDate).format("MM/DD/YYYY"),
+        Session: item?.Session,
+        Section: item?.Section,
+        "Roll Number": item?.rollnumber,
+        SNO: item?.SrNumber,
+        Student_Name: item?.name,
+        Student_Email: item?.email,
+        "Student_Mobile NO": item?.phoneno1,
+        "Father's_Name": item?.fathersName,
+        "Father's_Mobile NO": item?.fathersPhoneNo,
+        Class: item?.courseorclass,
+        Category: item?.StudentCategory,
+        Status: item?.Status,
+      });
+    });
+
+    exportFromJSON({ data, fileName, exportType });
+  };
+
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
 
   return (
     <>
@@ -365,29 +395,33 @@ function Studenthistory() {
             </div>
             <div className={styles.imgdivformat}>
               <img
+                onClick={() => handlePrint()}
                 className={styles.imgdivformatimg}
                 src="/images/Print.png"
                 alt="img"
               />
-              <img
+              {/* <img
                 className={styles.imgdivformatimg}
                 src="/images/ExportPdf.png"
                 alt="img"
+              /> */}
+              <img
+                onClick={() => ExportToExcel(isdata)}
+                src="/images/ExportExcel.png"
+                alt="img"
               />
-              <img src="/images/ExportExcel.png" alt="img" />
             </div>
           </div>
 
           <div className={styles.add_divmarginn}>
             <div className={styles.tablecontainer}>
-              <table className={styles.tabletable}>
+              <table className={styles.tabletable} ref={componentRef}>
                 <tbody>
                   <tr className={styles.tabletr}>
                     <th className={styles.tableth}>Sr.No</th>
                     <th className={styles.tableth}>Session</th>
                     <th className={styles.tableth}>SNO</th>
-
-                    <th className={styles.tableth}>Roll No</th>
+                    <th className={styles.tableth}>Roll_No</th>
                     <th className={styles.tableth}>Section</th>
                     <th className={styles.tableth}>Student_Name</th>
                     <th className={styles.tableth}>Student_Email</th>
@@ -395,7 +429,7 @@ function Studenthistory() {
                     <th className={styles.tableth}>Adminssion_Date</th>
                     <th className={styles.tableth}>Class</th>
                     <th className={styles.tableth}>Category</th>
-                    <th className={styles.tableth}>Student Status</th>
+                    <th className={styles.tableth}>Student_Status</th>
                   </tr>
                   {isdata?.map((item, index) => {
                     return (

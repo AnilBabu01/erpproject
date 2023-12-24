@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../redux/actions/authActions";
 import {
   getcourse,
   getbatch,
   getstudent,
-  deletestudent,
   getfee,
   getcategory,
   GetSession,
@@ -21,7 +20,8 @@ import { GetRoute } from "../../../redux/actions/transportActions";
 import styles from "../../coaching/employee/employee.module.css";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
-
+import exportFromJSON from "export-from-json";
+import { useReactToPrint } from "react-to-print";
 const studentStatus = [
   { label: "Active", value: "Active" },
   { label: "On Leave", value: "On Leave" },
@@ -30,6 +30,7 @@ const studentStatus = [
   { label: "Unknown", value: "Unknown" },
 ];
 function Studentlogincreadential() {
+  const componentRef = useRef(null);
   const dispatch = useDispatch();
   const [scoursename, setscoursename] = useState("");
   const [sfathers, setsfathers] = useState("");
@@ -142,7 +143,29 @@ function Studentlogincreadential() {
     setsessionname(`${lastyear}-${fullyear}`);
   }, []);
 
+  const ExportToExcel = (isData) => {
+    const fileName = "StudentCreadentailsList";
+    const exportType = "xls";
+    var data = [];
 
+    isData.map((item, index) => {
+      data.push({
+        Addmission_Date: moment(item?.admissionDate).format("MM/DD/YYYY"),
+        Session: item?.Session,
+        Section: item?.Section,
+        "Roll Number": item?.rollnumber,
+        Student_Name: item?.name,
+        "SNO (Login Id)": item?.SrNumber,
+        Password:moment(item?.admissionDate).format("MM/DD/YYYY"),
+      });
+    });
+
+    exportFromJSON({ data, fileName, exportType });
+  };
+
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
   return (
     <>
       <div className="mainContainer">
@@ -366,22 +389,27 @@ function Studentlogincreadential() {
             </div>
             <div className={styles.imgdivformat}>
               <img
+                onClick={() => handlePrint()}
                 className={styles.imgdivformatimg}
                 src="/images/Print.png"
                 alt="img"
               />
-              <img
+              {/* <img
                 className={styles.imgdivformatimg}
                 src="/images/ExportPdf.png"
                 alt="img"
+              /> */}
+              <img
+                onClick={() => ExportToExcel(isdata)}
+                src="/images/ExportExcel.png"
+                alt="img"
               />
-              <img src="/images/ExportExcel.png" alt="img" />
             </div>
           </div>
 
           <div className={styles.add_divmarginn}>
             <div className={styles.tablecontainer}>
-              <table className={styles.tabletable}>
+              <table className={styles.tabletable} ref={componentRef}>
                 <tbody>
                   <tr className={styles.tabletr}>
                     <th className={styles.tableth}>Session</th>
@@ -400,7 +428,7 @@ function Studentlogincreadential() {
                         <td className={styles.tabletd}>{item?.name}</td>
                         <td className={styles.tabletd}>{item?.SrNumber}</td>
                         <td className={styles.tabletd}>
-                          {userdata?.data?.CredentailsData?.Studentpassword}
+                          {moment(item?.admissionDate).format("MM/DD/YYYY")}
                         </td>
                       </tr>
                     );

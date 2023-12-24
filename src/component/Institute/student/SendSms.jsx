@@ -8,7 +8,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
 
-function SendEmail({ setOpen }) {
+function SendSms({ setOpen }) {
   let date = new Date();
   let fullyear = date.getFullYear();
   let lastyear = date.getFullYear() - 1;
@@ -69,7 +69,7 @@ function SendEmail({ setOpen }) {
         <div className={styles.closeicondiv} onClick={() => setOpen(false)}>
           <CloseIcon />
         </div>
-        <h1>Sent Email To Student</h1>
+        <h1>Sent Text Sms To Student</h1>
         <div>
           <div className={styles.divmaininput}>
             <div className={styles.inputdiv}>
@@ -199,14 +199,13 @@ function SendEmail({ setOpen }) {
               </Select>
             </div>
           </div>
-          <div className={styles.textareadiv}>
-            <label>Subject</label>
+          {/* <div className={styles.textareadiv}>
             <input
               className={styles.subjectinput}
               value={subject}
               onChange={(e) => setsubject(e.target.value)}
             />
-          </div>
+          </div> */}
           <div className={styles.textareadiv}>
             <textarea
               value={Message}
@@ -237,4 +236,4 @@ function SendEmail({ setOpen }) {
   );
 }
 
-export default SendEmail;
+export default SendSms;

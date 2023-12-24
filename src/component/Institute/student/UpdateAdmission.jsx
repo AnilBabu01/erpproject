@@ -11,6 +11,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
 const formData = new FormData();
+
 const studentStatus = [
   { label: "Active", value: "Active" },
   { label: "On Leave", value: "On Leave" },
@@ -23,6 +24,8 @@ function UpdateAdmission({ setOpen, updatedata }) {
   const dispatch = useDispatch();
   const [loading1, setloading1] = useState(false);
   const [loading2, setloading2] = useState(false);
+  const [SrNumber, setSrNumber] = useState('')
+  const [DateOfBirth, setDateOfBirth] = useState('');
   const [sessionname, setsessionname] = useState("");
   const [sectionname, setsectionname] = useState("NONE");
   const [sectionlist, setsectionlist] = useState([]);
@@ -130,11 +133,11 @@ function UpdateAdmission({ setOpen, updatedata }) {
     formData.set("Transport", transport);
     formData.set("Library", Library);
     formData.set("hostal", hostal);
-    formData.set("Section", sectionname);
-    formData.set("Session", sessionname);
     formData.set("FromRoute", "");
     formData.set("ToRoute", "");
     formData.set("BusNumber", "");
+    formData.set("Section", sectionname);
+    formData.set("Session", sessionname);
     formData.set("StudentCategory", categoryname);
     formData.set("AnnualFee", annualfee);
     formData.set("hostelstatus", hostal === true ? false : true);
@@ -275,7 +278,6 @@ function UpdateAdmission({ setOpen, updatedata }) {
       settransport(updatedata?.Transport);
       setLibrary(updatedata?.Library);
       sethostal(updatedata?.hostal);
-      setcategoryname(updatedata?.StudentCategory);
       setTransportFeePermonth(updatedata?.TransportPerMonthFee);
       sethostelfeeperMonth(updatedata?.HostelPerMonthFee);
       setannualfee(updatedata?.AnnualFee);
@@ -286,7 +288,9 @@ function UpdateAdmission({ setOpen, updatedata }) {
       sethostelcategory(updatedata?.Category);
       setfromroute(updatedata?.FromRoute);
       settoroute(updatedata?.ToRoute);
-      setpano(updatedata?.pancardnno)
+      setpano(updatedata?.pancardnno);
+      setDateOfBirth(  new Date(updatedata?.DateOfBirth).toISOString().substring(0, 10));
+      setcategoryname(updatedata?.StudentCategory);
     }
   }, []);
 
@@ -373,7 +377,7 @@ function UpdateAdmission({ setOpen, updatedata }) {
                     value={categoryname}
                     name="categoryname"
                     onChange={(e) => setcategoryname(e.target.value)}
-                    // displayEmpty
+                    displayEmpty
                   >
                     <MenuItem
                       sx={{
@@ -399,7 +403,22 @@ function UpdateAdmission({ setOpen, updatedata }) {
                   </Select>
                 </div>
                 <div className={styles.inputdiv}>
-                  <label>Sr Number</label>
+              
+                  <label>Date Of Birth</label>
+                  <input
+                    required
+                    type="date"
+                    value={DateOfBirth}
+                    name="DateOfBirth"
+                    onChange={(e) => setDateOfBirth(e.target.value)}
+                  />
+                
+                </div>
+              </div>
+
+              <div className={styles.divmaininput}>
+                <div className={styles.inputdiv}>
+                  <label>Roll Number</label>
                   <input
                     required
                     type="text"
@@ -409,15 +428,36 @@ function UpdateAdmission({ setOpen, updatedata }) {
                     onChange={(e) => setstudentrollno(e.target.value)}
                   />
                 </div>
+                <div className={styles.inputdiv}>
+                  <label>Sr Number</label>
+                  <input
+                    required
+                    type="text"
+                    placeholder="Enter St Number"
+                    value={SrNumber}
+                    name="SrNumber"
+                    onChange={(e) => setSrNumber(e.target.value)}
+                  />
+                </div>
+                <div className={styles.inputdiv}>
+                  <label>Session</label>
+                  <input
+                    required
+                    type="text"
+                    placeholder="Enter Session"
+                    value={sessionname}
+                    name="sessionname"
+                    onChange={(e) => setsessionname(e.target.value)}
+                  />
+                </div>
               </div>
-
               <div className={styles.divmaininput}>
                 <div className={styles.inputdiv}>
                   <label>Student Name</label>
                   <input
                     required
                     type="text"
-                    placeholder="Enter the name"
+                    placeholder="Enter The name"
                     value={studentname}
                     name="studentname"
                     onChange={(e) => setstudentname(e.target.value)}
@@ -446,6 +486,7 @@ function UpdateAdmission({ setOpen, updatedata }) {
                   />
                 </div>
               </div>
+
               <div className={styles.divmaininput}>
                 <div className={styles.inputdiv}>
                   <label>Fathers Name</label>
@@ -779,17 +820,18 @@ function UpdateAdmission({ setOpen, updatedata }) {
                 </div>
               </div>
 
-              <div className={styles.inputdiv}>
-                <label>Session</label>
-                <input
-                  required
-                  type="text"
-                  placeholder="Enter Session"
-                  value={sessionname}
-                  name="sessionname"
-                  onChange={(e) => setsessionname(e.target.value)}
-                />
-              </div>
+              {preview1 && (
+                <>
+                  <div className={styles.inputdivimg}>
+                    <label>Passport Size Photo</label>
+                    <img
+                      className="keydetailsdivproimg"
+                      src={preview1}
+                      alt="imgdd"
+                    />
+                  </div>
+                </>
+              )}
 
               {preview2 && (
                 <>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../redux/actions/authActions";
 import {
@@ -29,7 +29,8 @@ import AddAdmission from "../../../component/Institute/student/AddStudent";
 import UpdateAdmission from "../../../component/Institute/student/UpdateStudent";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
-
+import exportFromJSON from "export-from-json";
+import { useReactToPrint } from "react-to-print";
 const studentStatus = [
   { label: "Active", value: "Active" },
   { label: "On Leave", value: "On Leave" },
@@ -39,6 +40,11 @@ const studentStatus = [
 ];
 function AddStudent() {
   const dispatch = useDispatch();
+
+  let date = new Date();
+  let fullyear = date.getFullYear();
+  let lastyear = date.getFullYear() - 1;
+  const [sessionname, setsessionname] = useState(`${lastyear}-${fullyear}`);
   const [scoursename, setscoursename] = useState("");
   const [sfathers, setsfathers] = useState("");
   const [sstudent, setsstudent] = useState("");
@@ -59,7 +65,6 @@ function AddStudent() {
   const [categorylist, setcategorylist] = useState([]);
   const [sessionList, setsessionList] = useState([]);
   const [sectionList, setsectionList] = useState([]);
-  const [sessionname, setsessionname] = useState("");
   const [sectionname, setsectionname] = useState("NONE");
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
@@ -179,14 +184,31 @@ function AddStudent() {
     dispatch(getstudent());
   };
 
-  useEffect(() => {
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
- 
-  }, []);
+  const ExportToExcel = (isData) => {
+    const fileName = "StudentList";
+    const exportType = "xls";
+    var data = [];
 
+    isData.map((item, index) => {
+      data.push({
+        Addmission_Date: moment(item?.admissionDate).format("MM/DD/YYYY"),
+        Session: item?.Session,
+        Section: item?.Section,
+        "Roll Number": item?.rollnumber,
+        SNO: item?.SrNumber,
+        Student_Name: item?.name,
+        Student_Email: item?.email,
+        "Student_Mobile NO": item?.phoneno1,
+        "Father's_Name": item?.fathersName,
+        "Father's_Mobile NO": item?.fathersPhoneNo,
+        Class: item?.courseorclass,
+        Category: item?.StudentCategory,
+        Status: item?.Status,
+      });
+    });
+
+    exportFromJSON({ data, fileName, exportType });
+  };
   return (
     <>
       {open && (
@@ -475,17 +497,22 @@ function AddStudent() {
               <button onClick={() => reset()}>Reset</button>
             </div>
             <div className={styles.imgdivformat}>
-              <img
+              {/* <img
                 className={styles.imgdivformatimg}
                 src="/images/Print.png"
                 alt="img"
-              />
-              <img
+              /> */}
+              {/* <img
+              onClick={()=>ExportToExcel(isdata)}
                 className={styles.imgdivformatimg}
                 src="/images/ExportPdf.png"
                 alt="img"
+              /> */}
+              <img
+                onClick={() => ExportToExcel(isdata)}
+                src="/images/ExportExcel.png"
+                alt="img"
               />
-              <img src="/images/ExportExcel.png" alt="img" />
             </div>
           </div>
 
@@ -518,7 +545,7 @@ function AddStudent() {
                     <th className={styles.tableth}>Sr.No</th>
                     <th className={styles.tableth}>Session</th>
                     <th className={styles.tableth}>SNO</th>
-                    <th className={styles.tableth}>Roll No</th>
+                    <th className={styles.tableth}>Roll_No</th>
                     <th className={styles.tableth}>Section</th>
                     <th className={styles.tableth}>Student_Name</th>
                     <th className={styles.tableth}>Student_Email</th>
@@ -526,7 +553,7 @@ function AddStudent() {
                     <th className={styles.tableth}>Adminssion_Date</th>
                     <th className={styles.tableth}>Class</th>
                     <th className={styles.tableth}>Category</th>
-                    <th className={styles.tableth}>Student Status</th>
+                    <th className={styles.tableth}>Student_Status</th>
                     <th className={styles.tableth}>Action</th>
                   </tr>
                   {isdata?.map((item, index) => {
@@ -620,6 +647,5 @@ function AddStudent() {
     </>
   );
 }
-
 
 export default AddStudent;

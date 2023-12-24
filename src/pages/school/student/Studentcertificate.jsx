@@ -20,11 +20,13 @@ import AddAdmission from "../../../component/Coaching/student/AddAdmission";
 import UpdateAdmission from "../../../component/Coaching/student/UpdateAdmission";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
-import LandscapeCertificate from "@/component/Coaching/student/LandscapeCertificate";
-import PortraitCertificate from "@/component/Coaching/student/PortraitCertificate";
+import LandscapeCertificate from "@/component/Institute/student/LandscapeCertificate";
+import PortraitCertificate from "@/component/Institute/student/PortraitCertificate";
 import { useReactToPrint } from "react-to-print";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+
+
 const studentStatus = [
   { label: "Active", value: "Active" },
   { label: "On Leave", value: "On Leave" },

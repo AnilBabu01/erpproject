@@ -21,6 +21,7 @@ const studentStatus = [
 function AddStudent({ setOpen }) {
   const navigation = useRouter();
   const dispatch = useDispatch();
+  const [DateOfBirth, setDateOfBirth] = useState('');
   const [SrNumber, setSrNumber] = useState("");
   const [sessionname, setsessionname] = useState("");
   const [sectionname, setsectionname] = useState("NONE");
@@ -140,7 +141,7 @@ function AddStudent({ setOpen }) {
     formData.set("Category", hostelcategory);
     formData.set("Facility", hostelfacility);
     formData.set("StudentCategory", categoryname);
-
+    formData.set("DateOfBirth",DateOfBirth);
     formData.set(
       "permonthfee",
       getfee === "default" ? Number(onlyshowmonthfee) : Number(monthlyfee)
@@ -360,8 +361,16 @@ function AddStudent({ setOpen }) {
                   </Select>
                 </div>
                 <div className={styles.inputdiv}>
-                  <label>&nbsp;</label>
-                  <label>&nbsp;</label>
+              
+                  <label>Date Of Birth</label>
+                  <input
+                    required
+                    type="date"
+                    value={DateOfBirth}
+                    name="DateOfBirth"
+                    onChange={(e) => setDateOfBirth(e.target.value)}
+                  />
+                
                 </div>
               </div>
 

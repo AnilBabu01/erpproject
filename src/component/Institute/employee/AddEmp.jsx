@@ -13,7 +13,7 @@ function AddEmp({ setOpen }) {
   const [isdata, setisData] = useState([]);
   const [isdata1, setisdata1] = useState([]);
   const [emplyeetype, setemplyeetype] = useState("employee");
-  const [showpermission, setshowpermission] = useState(true);
+  const [showpermission, setshowpermission] = useState(false);
   const [typeemployee, settypeemployee] = useState(true);
   const [designationname, setdesignationname] = useState("");
   const [depart, setdepart] = useState("");
@@ -1514,9 +1514,33 @@ function AddEmp({ setOpen }) {
           <>
             <div className={styles.logbtnstylediv}>
               <button
-                // disabled={empname && empemail && empphone1 ? true : false}
                 onClick={() => setshowpermission(true)}
-                className={styles.logbtnstyle}
+                disabled={
+                  address &&
+                  city &&
+                  state &&
+                  status &&
+                  pincode &&
+                  joiningdate &&
+                  department &&
+                  student &&
+                  basicsalary
+                    ? false
+                    : true
+                }
+                className={
+                  address &&
+                  city &&
+                  state &&
+                  status &&
+                  pincode &&
+                  joiningdate &&
+                  department &&
+                  student &&
+                  basicsalary
+                    ? styles.logbtnstyle
+                    : styles.logbtnstyledisable
+                }
               >
                 Next
               </button>

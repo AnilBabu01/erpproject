@@ -10,7 +10,7 @@ function AddBranch({ setOpen }) {
         </div>
         <h1>Add New Branch</h1>
         <form>
-          <div className={styles.inputdiv}>
+          <div className={styles.inputdivsingle}>
             <label>Branch</label>
             <input type="text" placeholder="Enter the Branch Name" />
           </div>

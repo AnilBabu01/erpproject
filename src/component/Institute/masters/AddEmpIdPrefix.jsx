@@ -34,8 +34,8 @@ function AddEmpIdPrefix({ setOpen }) {
         </div>
         <h1>Add Employee Id Prefix</h1>
         <form onSubmit={submit}>
-          <div className={styles.divmaininput}>
-            <div className={styles.inputdiv}>
+          <div className={styles.inputdivsingle}>
+            <div className={styles.inputdivsingle}>
               <label>Prefix</label>
               <input
                 type="text"

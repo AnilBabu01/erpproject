@@ -7,6 +7,7 @@ import {
   getstudent,
   deletestudent,
   getfee,
+  getcategory
 } from "../../../redux/actions/commanAction";
 import styles from "../../coaching/employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
@@ -20,6 +21,7 @@ import AddAdmission from "../../../component/Coaching/student/AddAdmission";
 import UpdateAdmission from "../../../component/Coaching/student/UpdateAdmission";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
+
 const studentStatus = [
   { label: "Active", value: "Active" },
   { label: "On Leave", value: "On Leave" },
@@ -98,14 +100,17 @@ function Admission() {
       setcourselist(course);
     }
   }, [student, batch, user, course]);
+
   useEffect(() => {
     dispatch(getstudent());
   }, [open, openupdate, openalert]);
+
   useEffect(() => {
     dispatch(loadUser());
     dispatch(getbatch());
     dispatch(getcourse());
     dispatch(getfee());
+    dispatch(getcategory());
   }, []);
 
   const filterdata = (e) => {
@@ -402,14 +407,14 @@ function Admission() {
                 <tbody>
                   <tr className={styles.tabletr}>
                     <th className={styles.tableth}>S.NO</th>
-                    <th className={styles.tableth}>Roll No</th>
+                    <th className={styles.tableth}>Roll_No</th>
                     <th className={styles.tableth}>Student_Name</th>
                     <th className={styles.tableth}>Student_Email</th>
                     <th className={styles.tableth}>Student_Phone</th>
                     <th className={styles.tableth}>Adminssion_Date</th>
                     <th className={styles.tableth}>Course</th>
                     <th className={styles.tableth}>Batch</th>
-                    <th className={styles.tableth}>Student Status</th>
+                    <th className={styles.tableth}>Student_Status</th>
                     <th className={styles.tableth}>Action</th>
                   </tr>
                   {isdata?.map((item, index) => {

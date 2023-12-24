@@ -39,8 +39,6 @@ export default function Features() {
             <div className="images_4">
               <img src="images/library1.png" alt="" className="FCIMG" />
             </div>
-
-            {/* <div className="images_Infosys"></div> */}
           </div>
         </div>
       </div>

@@ -24,6 +24,7 @@ import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
+import exportFromJSON from "export-from-json";
 const daylist = [
   { label: "Monday", value: "Monday" },
   { label: "Tuesday", value: "Tuesday" },
@@ -157,7 +158,29 @@ function Timetable() {
       "Sunday",
     ];
 
-    return monthsOrder.indexOf(a?.subject?.dayname) - monthsOrder.indexOf(b?.subject?.dayname);
+    return (
+      monthsOrder.indexOf(a?.subject?.dayname) -
+      monthsOrder.indexOf(b?.subject?.dayname)
+    );
+  };
+
+  const ExportToExcel = (isData) => {
+    const fileName = "TimeTable";
+    const exportType = "xls";
+    var data = [];
+
+    isData.map((item) => {
+      data.push({
+        Day: item?.subject?.dayname,
+        Class: item?.classname?.coursename,
+        Subject: item?.subject?.subject,
+        Employee: ` ${item?.empname?.name} ( ${item?.empname?.empId})`,
+        Start_Time: item?.subject?.starttime,
+        End_Time: item?.subject?.endtime,
+      });
+    });
+
+    exportFromJSON({ data, fileName, exportType });
   };
 
   return (
@@ -254,7 +277,7 @@ function Timetable() {
                     }}
                     value={""}
                   >
-                    Select Class
+                    All Class
                   </option>
                   {course?.map((item, index) => {
                     return (
@@ -292,7 +315,7 @@ function Timetable() {
                     }}
                     value={""}
                   >
-                    Select Teacher
+                    All Teacher
                   </option>
                   {emplist?.length > 0 &&
                     emplist?.map((item, index) => {
@@ -330,7 +353,7 @@ function Timetable() {
                     }}
                     value={""}
                   >
-                    Please Select Day
+                    All Day
                   </option>
                   {daylist?.map((item, index) => {
                     return (
@@ -345,7 +368,7 @@ function Timetable() {
               <button onClick={() => reset()}>Reset</button>
             </div>
             <div className={styles.imgdivformat}>
-              <img
+              {/* <img
                 className={styles.imgdivformatimg}
                 src="/images/Print.png"
                 alt="img"
@@ -354,8 +377,12 @@ function Timetable() {
                 className={styles.imgdivformatimg}
                 src="/images/ExportPdf.png"
                 alt="img"
+              /> */}
+              <img
+                onClick={() => ExportToExcel(isdata)}
+                src="/images/ExportExcel.png"
+                alt="img"
               />
-              <img src="/images/ExportExcel.png" alt="img" />
             </div>
           </div>
 
@@ -389,8 +416,8 @@ function Timetable() {
                     <th className={styles.tableth}>Class</th>
                     <th className={styles.tableth}>Subject</th>
                     <th className={styles.tableth}>Employee</th>
-                    <th className={styles.tableth}>Start Time</th>
-                    <th className={styles.tableth}>End Time</th>
+                    <th className={styles.tableth}>Start_Time</th>
+                    <th className={styles.tableth}>End_Time</th>
 
                     <th className={styles.tableth}>Action</th>
                   </tr>

@@ -19,6 +19,9 @@ const studentStatus = [
 function AddAdmission({ setOpen }) {
   const navigation = useRouter();
   const dispatch = useDispatch();
+  const [DateOfBirth, setDateOfBirth] = useState("");
+  const [categoryname, setcategoryname] = useState("Please Select");
+  const [categorylist, setcategorylist] = useState([]);
   const [amount, setamount] = useState("");
   const [monthlyfee, setmonthlyfee] = useState("");
   const [noofMonth, setnoofMonth] = useState("");
@@ -61,7 +64,7 @@ function AddAdmission({ setOpen }) {
   const { fee } = useSelector((state) => state.getfee);
   const { batch } = useSelector((state) => state.getbatch);
   const { user } = useSelector((state) => state.auth);
-
+  const { category } = useSelector((state) => state.getcategory);
   const { studentaddstatus, student, loading } = useSelector(
     (state) => state.addstudent
   );
@@ -86,9 +89,9 @@ function AddAdmission({ setOpen }) {
     formData.set("courseduration", noofMonth);
     formData.set("markSheet", marksheet);
     formData.set("adharno", adharcardno);
-    formData.set("Section", '');
-    formData.set("Session", '');
-    formData.set('SrNumber',studentrollno);
+    formData.set("Section", "");
+    formData.set("Session", "");
+    formData.set("SrNumber", studentrollno);
     formData.set("pancardnno", pano);
     formData.set("whatsappNo", usepreview ? fathersphone : whatsaapnumber);
     formData.set("markSheetname", marksheetName);
@@ -96,6 +99,8 @@ function AddAdmission({ setOpen }) {
     formData.set("othersdocName", othersname);
     formData.set("BirthDocument", birth);
     formData.set("Status", status);
+    formData.set("DateOfBirth", DateOfBirth);
+    formData.set("StudentCategory", categoryname);
     formData.set(
       "permonthfee",
       getfee === "default" ? Number(onlyshowmonthfee) : Number(monthlyfee)
@@ -130,10 +135,13 @@ function AddAdmission({ setOpen }) {
     if (studentaddstatus) {
       setshowdownload(true);
     }
+    if (category) {
+      setcategorylist(category);
+    }
     dispatch({
       type: ADD_STUDENT_RESET,
     });
-  }, [fee, batch, studentaddstatus]);
+  }, [fee, batch, studentaddstatus, category]);
 
   const gotoreceipt = () => {
     navigation.push({
@@ -152,19 +160,74 @@ function AddAdmission({ setOpen }) {
         <h1>
           {shownext ? "Addmission Form" : showdownload ? "" : "Fee Structure"}{" "}
         </h1>
+
         <form>
           {shownext ? (
             <>
-              <div className={styles.inputdiv}>
-                <label>Admission Date</label>
-                <input
-                  required
-                  type="date"
-                  value={adminssiondate}
-                  name="adminssiondate"
-                  onChange={(e) => setadminssiondate(e.target.value)}
-                />
+              <div className={styles.divmaininput}>
+                <div className={styles.inputdiv}>
+                  <label>Admission Date</label>
+                  <input
+                    required
+                    type="date"
+                    value={adminssiondate}
+                    name="adminssiondate"
+                    onChange={(e) => setadminssiondate(e.target.value)}
+                  />
+                </div>
+                <div className={styles.inputdiv}>
+                  <label>Category</label>
+                  <Select
+                    required
+                    className={styles.addwidth}
+                    sx={{
+                      width: "100%",
+                      fontSize: 14,
+                      "& .MuiSelect-select": {
+                        paddingTop: "0.6rem",
+                        paddingBottom: "0.6em",
+                      },
+                    }}
+                    value={categoryname}
+                    name="categoryname"
+                    onChange={(e) => setcategoryname(e.target.value)}
+                    // displayEmpty
+                  >
+                    <MenuItem
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={"Please Select"}
+                    >
+                      Please Select
+                    </MenuItem>
+                    {categorylist?.map((item, index) => {
+                      return (
+                        <MenuItem
+                          key={index}
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={item?.category}
+                        >
+                          {item?.category}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </div>
+                <div className={styles.inputdiv}>
+                  <label>Date Of Birth</label>
+                  <input
+                    required
+                    type="date"
+                    value={DateOfBirth}
+                    name="DateOfBirth"
+                    onChange={(e) => setDateOfBirth(e.target.value)}
+                  />
+                </div>
               </div>
+
               <div className={styles.divmaininput}>
                 <div className={styles.inputdiv}>
                   <label>Student Name</label>
@@ -326,7 +389,7 @@ function AddAdmission({ setOpen }) {
                     type="file"
                     onChange={(e) => {
                       const file = e.target.files[0];
-                      const maxFileSize = 20 * 1024*1024; // 5 MB in bytes
+                      const maxFileSize = 20 * 1024 * 1024; // 5 MB in bytes
                       console.log("file size", file.size, maxFileSize);
                       if (file && file.size > maxFileSize) {
                         alert("File size exceeds the limit of 5 MB.");
@@ -407,7 +470,7 @@ function AddAdmission({ setOpen }) {
                     type="file"
                     onChange={(e) => {
                       const file = e.target.files[0];
-                      const maxFileSize = 20 * 1024*1024; // 5 MB in bytes
+                      const maxFileSize = 20 * 1024 * 1024; // 5 MB in bytes
                       console.log("file size", file.size, maxFileSize);
                       if (file && file.size > maxFileSize) {
                         alert("File size exceeds the limit of 5 MB.");

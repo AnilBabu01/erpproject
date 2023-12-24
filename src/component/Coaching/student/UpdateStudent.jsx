@@ -19,6 +19,9 @@ const studentStatus = [
 function UpdateStudent({ setOpen, updatedata }) {
   const navigation = useRouter();
   const dispatch = useDispatch();
+  const [DateOfBirth, setDateOfBirth] = useState("");
+  const [categoryname, setcategoryname] = useState("Please Select");
+  const [categorylist, setcategorylist] = useState([]);
   const [amount, setamount] = useState("");
   const [monthlyfee, setmonthlyfee] = useState("");
   const [noofMonth, setnoofMonth] = useState("");
@@ -61,7 +64,7 @@ function UpdateStudent({ setOpen, updatedata }) {
   const { fee } = useSelector((state) => state.getfee);
   const { batch } = useSelector((state) => state.getbatch);
   const { user } = useSelector((state) => state.auth);
-
+  const { category } = useSelector((state) => state.getcategory);
   const { studentaddstatus, student } = useSelector(
     (state) => state.addstudent
   );
@@ -125,7 +128,11 @@ function UpdateStudent({ setOpen, updatedata }) {
     if (batch) {
       setbatchs(batch);
     }
-  }, [fee, batch]);
+    if(category)
+    {
+      setcategorylist(category)
+    }
+  }, [fee, batch,category]);
 
   const gotoreceipt = () => {
     navigation.push({
@@ -168,6 +175,8 @@ function UpdateStudent({ setOpen, updatedata }) {
       setmonthlyfee(updatedata?.permonthfee);
       setonlyshowmonthfee(updatedata?.permonthfee);
       setonlyshowrefee(updatedata?.regisgrationfee);
+      setDateOfBirth(  new Date(updatedata?.DateOfBirth).toISOString().substring(0, 10));
+      setcategoryname(updatedata?.StudentCategory);
     }
   }, []);
   return (
@@ -182,15 +191,68 @@ function UpdateStudent({ setOpen, updatedata }) {
         <form>
           {shownext ? (
             <>
-              <div className={styles.inputdiv}>
-                <label>Admission Date</label>
-                <input
-                  required
-                  type="date"
-                  value={adminssiondate}
-                  name="adminssiondate"
-                  onChange={(e) => setadminssiondate(e.target.value)}
-                />
+              <div className={styles.divmaininput}>
+                <div className={styles.inputdiv}>
+                  <label>Admission Date</label>
+                  <input
+                    required
+                    type="date"
+                    value={adminssiondate}
+                    name="adminssiondate"
+                    onChange={(e) => setadminssiondate(e.target.value)}
+                  />
+                </div>
+                <div className={styles.inputdiv}>
+                  <label>Category</label>
+                  <Select
+                    required
+                    className={styles.addwidth}
+                    sx={{
+                      width: "100%",
+                      fontSize: 14,
+                      "& .MuiSelect-select": {
+                        paddingTop: "0.6rem",
+                        paddingBottom: "0.6em",
+                      },
+                    }}
+                    value={categoryname}
+                    name="categoryname"
+                    onChange={(e) => setcategoryname(e.target.value)}
+                    // displayEmpty
+                  >
+                    <MenuItem
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={"Please Select"}
+                    >
+                      Please Select
+                    </MenuItem>
+                    {categorylist?.map((item, index) => {
+                      return (
+                        <MenuItem
+                          key={index}
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={item?.category}
+                        >
+                          {item?.category}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </div>
+                <div className={styles.inputdiv}>
+                  <label>Date Of Birth</label>
+                  <input
+                    required
+                    type="date"
+                    value={DateOfBirth}
+                    name="DateOfBirth"
+                    onChange={(e) => setDateOfBirth(e.target.value)}
+                  />
+                </div>
               </div>
               <div className={styles.divmaininput}>
                 <div className={styles.inputdiv}>

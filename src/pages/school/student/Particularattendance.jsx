@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../redux/actions/authActions";
-import { getbatch, GetSection,getcourse } from "../../../redux/actions/commanAction";
+import {
+  getbatch,
+  GetSection,
+  getcourse,
+} from "../../../redux/actions/commanAction";
 import {
   MarkStudentAttendance,
   DoneStudentAttendance,
@@ -426,29 +430,37 @@ function ParticularStudentAttendance() {
                             })}
 
                           {item?.attendance != null &&
-                            item?.attendance?.map((item, index) => {
-                              return (
-                                <td key={index} className={styles.tabletd}>
-                                  <button
-                                    className={
-                                      item?.attendaceStatusIntext === "Present"
-                                        ? styles.presentbtn
-                                        : item?.attendaceStatusIntext ===
-                                          "Absent"
-                                        ? styles.absentbtn
-                                        : styles.holdaybtn
-                                    }
-                                  >
-                                    {item?.attendaceStatusIntext ===
-                                      "Present" && <>P</>}
-                                    {item?.attendaceStatusIntext ===
-                                      "Absent" && <>A</>}
-                                    {item?.attendaceStatusIntext ===
-                                      "Holiday" && <>H</>}
-                                  </button>
-                                </td>
-                              );
-                            })}
+                            item?.attendance
+                              ?.slice(
+                                0,
+                                Number(
+                                  new Date()?.toISOString().substring(8, 10)
+                                )
+                              )
+                              ?.map((item, index) => {
+                                return (
+                                  <td key={index} className={styles.tabletd}>
+                                    <button
+                                      className={
+                                        item?.attendaceStatusIntext ===
+                                        "Present"
+                                          ? styles.presentbtn
+                                          : item?.attendaceStatusIntext ===
+                                            "Absent"
+                                          ? styles.absentbtn
+                                          : styles.holdaybtn
+                                      }
+                                    >
+                                      {item?.attendaceStatusIntext ===
+                                        "Present" && <>P</>}
+                                      {item?.attendaceStatusIntext ===
+                                        "Absent" && <>A</>}
+                                      {item?.attendaceStatusIntext ===
+                                        "Holiday" && <>H</>}
+                                    </button>
+                                  </td>
+                                );
+                              })}
                         </tr>
                       );
                     })}

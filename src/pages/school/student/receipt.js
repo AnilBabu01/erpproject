@@ -30,6 +30,7 @@ function Receipt() {
     hour12: true,
   });
   [];
+  
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });

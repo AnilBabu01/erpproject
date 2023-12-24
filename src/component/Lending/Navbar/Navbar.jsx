@@ -36,7 +36,8 @@ import EmployeeNavbar from "../EmployeeNavbar/EmployeeNavbar";
 import { AnimatePresence, motion } from "framer-motion";
 import Modal from "@mui/material/Modal";
 import Welcome from "@/component/Auth/Welcome";
-
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 const style = {
   position: "absolute",
   top: "50%",
@@ -67,6 +68,9 @@ function Navbar({ open, setOpen, setLoadingshow }) {
   const [humanresourse, sethumanresourse] = useState(false);
   const [master, setmaster] = useState(false);
   const [reports, setreports] = useState(false);
+  const [transport, settransport] = useState(false);
+  const [hostel, sethostel] = useState(false);
+  const [library, setlibrary] = useState(false)
   const { isAuthenticated, user } = useSelector((state) => state.auth);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [open4, setOpen4] = useState(false);
@@ -740,10 +744,11 @@ function Navbar({ open, setOpen, setLoadingshow }) {
               </>
             )}
             {console.log("data is from navbar ", user?.data?.User?.userType)}
+
             {user?.data?.User?.userType === "institute" && (
               <>
                 <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
+                <MenuItem onClick={() => setisMobile(!isMobile)}>
                   <Link
                     className={
                       router.pathname == "/mainadmin/dashbord"
@@ -762,10 +767,13 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                     className="add_icons_div"
                   >
                     <p> Front Office</p>{" "}
-                    {showmenu2 ? <RemoveIcon /> : <AddIcon />}
+                    {showmenu2 ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                   </div>
                 </MenuItem>
-                <div className={showmenu2 ? "menu_show" : "menu_hide"}>
+                <motion.div
+                  animate={{ x: 0 }}
+                  className={showmenu2 ? "menu_show" : "menu_hide"}
+                >
                   <Divider sx={{ my: 0.5 }} />
                   <MenuItem>
                     <Link
@@ -778,7 +786,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       Admission Enquiry
                     </Link>
                   </MenuItem>
-                </div>
+                </motion.div>
 
                 <Divider sx={{ my: 0.5 }} />
                 <MenuItem>
@@ -787,7 +795,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                     className="add_icons_div"
                   >
                     <p> Student</p>
-                    {student ? <RemoveIcon /> : <AddIcon />}
+                    {student ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                   </div>
                 </MenuItem>
                 <div className={student ? "menu_show" : "menu_hide"}>
@@ -947,7 +955,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                     className="add_icons_div"
                   >
                     <p>Attendance</p>
-                    {attendance ? <RemoveIcon /> : <AddIcon />}
+                    {attendance ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                   </div>
                 </MenuItem>
                 <div className={attendance ? "menu_show" : "menu_hide"}>
@@ -963,6 +971,30 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       Take Attendance
                     </Link>
                   </MenuItem>
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
+                      href="/coaching/student/holiday"
+                    >
+                      Add Holiday
+                    </Link>
+                  </MenuItem>
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
+                      href="/coaching/student/particularattendance"
+                    >
+                      Particular Student Attendance
+                    </Link>
+                  </MenuItem>
                 </div>
 
                 <Divider sx={{ my: 0.5 }} />
@@ -972,7 +1004,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                     className="add_icons_div"
                   >
                     <p>Accounts</p>
-                    {accounts ? <RemoveIcon /> : <AddIcon />}
+                    {accounts ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                   </div>
                 </MenuItem>
                 <div className={accounts ? "menu_show" : "menu_hide"}>
@@ -995,35 +1027,24 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
+                      href="/coaching/accounts/printreceipt"
+                    >
+                      Print Fee Receipt
+                    </Link>
+                  </MenuItem>
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
                       href="/coaching/accounts/searchfee"
                     >
                       Search Fees Payment
                     </Link>
                   </MenuItem>
                   <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/accounts/balancefee"
-                    >
-                      Balance Fees Report
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/accounts/feediscount"
-                    >
-                      Fee Discount
-                    </Link>
-                  </MenuItem>
                 </div>
 
                 <Divider sx={{ my: 0.5 }} />
@@ -1033,7 +1054,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                     className="add_icons_div"
                   >
                     <p>HR</p>
-                    {humanresourse ? <RemoveIcon /> : <AddIcon />}
+                    {humanresourse ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                   </div>
                 </MenuItem>
                 <div className={humanresourse ? "menu_show" : "menu_hide"}>
@@ -1044,7 +1065,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/employee/staff"
+                      href="/coaching/employee/Staff"
                     >
                       Add Staff
                     </Link>
@@ -1056,7 +1077,31 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/employee/attendance"
+                      href="/coaching/employee/Employeeidcard"
+                    >
+                      Employee Id Card
+                    </Link>
+                  </MenuItem>
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
+                      href="/coaching/employee/Disabledstaff"
+                    >
+                      Disabled Employee
+                    </Link>
+                  </MenuItem>
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
+                      href="/coaching/employee/Attendance"
                     >
                       Staff Attendance
                     </Link>
@@ -1068,34 +1113,45 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/employee/payroll"
+                      href="/coaching/employee/Addemployeeholiday"
+                    >
+                      Add Holiday
+                    </Link>
+                  </MenuItem>
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
+                      href="/coaching/employee/Particularemployeeattendance"
+                    >
+                      Particular Employee Attendance
+                    </Link>
+                  </MenuItem>
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
+                      href="/coaching/employee/Payroll"
+                    >
+                      Add Payroll
+                    </Link>
+                  </MenuItem>
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
+                      href="/coaching/employee/Payrollreport"
                     >
                       Payroll Report
-                    </Link>
-                  </MenuItem>
-
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/employee/department"
-                    >
-                      Department
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/employee/disabledstaff"
-                    >
-                      Disabled Staff
                     </Link>
                   </MenuItem>
                 </div>
@@ -1106,7 +1162,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                     className="add_icons_div"
                   >
                     <p>Masters</p>
-                    {master ? <RemoveIcon /> : <AddIcon />}
+                    {master ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                   </div>
                 </MenuItem>
                 <div className={master ? "menu_show" : "menu_hide"}>
@@ -1144,6 +1200,18 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       href="/coaching/masters/masterstudentcategory"
                     >
                       Student Category
+                    </Link>
+                  </MenuItem>
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
+                      href="/coaching/masters/receiptprefix"
+                    >
+                      Receipt Prefix
                     </Link>
                   </MenuItem>
                   <Divider sx={{ my: 0.5 }} />
@@ -1191,7 +1259,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                     className="add_icons_div"
                   >
                     <p>Reports</p>
-                    {reports ? <RemoveIcon /> : <AddIcon />}
+                    {reports ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                   </div>
                 </MenuItem>
                 <div className={reports ? "menu_show" : "menu_hide"}>
@@ -1202,9 +1270,59 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/report/studentattendancereport"
+                      href="/coaching/report/StudentReport"
                     >
-                      Attendance Report
+                      Student Report
+                    </Link>
+                  </MenuItem>
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
+                      href="/coaching/report/StudentAttendanceReport"
+                    >
+                      Student Attendance Report
+                    </Link>
+                  </MenuItem>
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
+                      href="/coaching/report/StudentTestReport"
+                    >
+                      Student Test Report
+                    </Link>
+                  </MenuItem>
+
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
+                      href="/coaching/report/feecollection"
+                    >
+                      Student All Paid Fee Report
+                    </Link>
+                  </MenuItem>
+
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
+                      href="/coaching/report/pendingfee"
+                    >
+                      Student All Pending Fee Report
                     </Link>
                   </MenuItem>
                   <Divider sx={{ my: 0.5 }} />
@@ -1250,9 +1368,9 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/report/studentperformance"
+                      href="/coaching/report/EmployeeReport"
                     >
-                      Student Performance Report
+                      Employee Report
                     </Link>
                   </MenuItem>
                   <Divider sx={{ my: 0.5 }} />
@@ -1262,22 +1380,9 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/report/feecollection"
+                      href="/coaching/report/EmployeeSalaryPaid"
                     >
-                      Fees Collection Report
-                    </Link>
-                  </MenuItem>
-
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/report/pendingfee"
-                    >
-                      Fees Pending Report
+                      Employee Salary Paid Report
                     </Link>
                   </MenuItem>
 
@@ -1288,9 +1393,9 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/report/feestudent"
+                      href="/coaching/report/EmployeeSalarySlip"
                     >
-                      Fees Pending Studentwise report
+                      Employee Salary Slip Report
                     </Link>
                   </MenuItem>
 
@@ -1301,58 +1406,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/report/leavereport"
-                    >
-                      Employee Leave Report
-                    </Link>
-                  </MenuItem>
-
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/report/employeelogdetails"
-                    >
-                      Employee Login Details
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/report/salaryslip"
-                    >
-                      Employee Salary Slip
-                    </Link>
-                  </MenuItem>
-
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/report/salaryreport"
-                    >
-                      Employee Salary Report
-                    </Link>
-                  </MenuItem>
-
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/report/employeeattendancereport"
+                      href="/coaching/report/EmployeeAttendance"
                     >
                       Employee Attendance Report
                     </Link>
@@ -1360,10 +1414,6 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                 </div>
                 <Divider sx={{ my: 0.5 }} />
               </>
-            )}
-            {console.log(
-              "data is from college navbar",
-              user?.data?.User?.userType
             )}
 
             {user?.data?.User?.userType === "college" && (
@@ -1388,7 +1438,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                     className="add_icons_div"
                   >
                     <p> Front Office</p>{" "}
-                    {showmenu2 ? <RemoveIcon /> : <AddIcon />}
+                    {showmenu2 ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                   </div>
                 </MenuItem>
                 <div className={showmenu2 ? "menu_show" : "menu_hide"}>
@@ -1413,7 +1463,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                     className="add_icons_div"
                   >
                     <p> Student</p>
-                    {student ? <RemoveIcon /> : <AddIcon />}
+                    {student ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                   </div>
                 </MenuItem>
                 <div className={student ? "menu_show" : "menu_hide"}>
@@ -1573,7 +1623,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                     className="add_icons_div"
                   >
                     <p>Attendance</p>
-                    {attendance ? <RemoveIcon /> : <AddIcon />}
+                    {attendance ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                   </div>
                 </MenuItem>
                 <div className={attendance ? "menu_show" : "menu_hide"}>
@@ -1598,7 +1648,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                     className="add_icons_div"
                   >
                     <p>Accounts</p>
-                    {accounts ? <RemoveIcon /> : <AddIcon />}
+                    {accounts ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                   </div>
                 </MenuItem>
                 <div className={accounts ? "menu_show" : "menu_hide"}>
@@ -1659,7 +1709,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                     className="add_icons_div"
                   >
                     <p>HR</p>
-                    {humanresourse ? <RemoveIcon /> : <AddIcon />}
+                    {humanresourse ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                   </div>
                 </MenuItem>
                 <div className={humanresourse ? "menu_show" : "menu_hide"}>
@@ -1732,7 +1782,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                     className="add_icons_div"
                   >
                     <p>Masters</p>
-                    {master ? <RemoveIcon /> : <AddIcon />}
+                    {master ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                   </div>
                 </MenuItem>
                 <div className={master ? "menu_show" : "menu_hide"}>
@@ -1817,7 +1867,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                     className="add_icons_div"
                   >
                     <p>Reports</p>
-                    {reports ? <RemoveIcon /> : <AddIcon />}
+                    {reports ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                   </div>
                 </MenuItem>
                 <div className={reports ? "menu_show" : "menu_hide"}>
@@ -1988,17 +2038,18 @@ function Navbar({ open, setOpen, setLoadingshow }) {
               </>
             )}
 
+
             {user?.data?.User?.userType === "school" && (
               <>
                 <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
+                <MenuItem       onClick={() => setisMobile(!isMobile)}>
                   <Link
                     className={
-                      router.pathname == "/mainadmin/dashbord"
+                      router.pathname == "/school/dashboard"
                         ? "link_directActive"
                         : "link_direct10"
                     }
-                    href="/mainadmin/dashboard"
+                    href="/school/dashboard"
                   >
                     Dashboard
                   </Link>
@@ -2011,19 +2062,13 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                     className="add_icons_div"
                   >
                     <p> Front Office</p>{" "}
-                    {showmenu2 ? <RemoveIcon /> : <AddIcon />}
+                    {showmenu2 ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                   </div>
                 </MenuItem>
-                <AnimatePresence>
+            
                   {showmenu2 && (
-                    <motion.div
-                      variants={showAnimation}
-                      initial="hidden"
-                      animate="show"
-                      exit="hidden"
-                      className="logo"
-                    >
-                      <div className={showmenu2 ? "menu_show" : "menu_hide"}>
+                    <div>
+                    <div className={showmenu2 ? "menu_show" : "menu_hide"}>
                         <Divider sx={{ my: 0.5 }} />
                         <MenuItem>
                           <Link
@@ -2031,16 +2076,15 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                             className={({ isActive }) =>
                               isActive ? "link_directActive" : "link_directs"
                             }
-                            href="/coaching/frontoffice/enquiry"
+                            href="/school/frontoffice/enquiry"
                           >
                             Admission Enquiry
                           </Link>
                         </MenuItem>
                       </div>
-                    </motion.div>
+                    </div>
                   )}
-                </AnimatePresence>
-
+           
                 <Divider sx={{ my: 0.5 }} />
                 <MenuItem>
                   <div
@@ -2048,7 +2092,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                     className="add_icons_div"
                   >
                     <p> Student</p>
-                    {student ? <RemoveIcon /> : <AddIcon />}
+                    {student ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                   </div>
                 </MenuItem>
                 <div className={student ? "menu_show" : "menu_hide"}>
@@ -2059,7 +2103,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/student/admission"
+                      href="/school/student/Admission"
                     >
                       Admission
                     </Link>
@@ -2071,7 +2115,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/student/addstudent"
+                      href="/school/student/AddStudent"
                     >
                       Add Student
                     </Link>
@@ -2083,7 +2127,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/student/studenthistory"
+                      href="/school/student/Studenthistory"
                     >
                       Student History
                     </Link>
@@ -2095,7 +2139,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/student/studentlogincreadential"
+                      href="/school/student/Studentlogincreadential"
                     >
                       Student Login Creadential
                     </Link>
@@ -2108,11 +2152,12 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/student/disabledstudent"
+                      href="/school/student/Changesession"
                     >
-                      Disabled Students
+                    Change Session
                     </Link>
                   </MenuItem>
+
                   <Divider sx={{ my: 0.5 }} />
                   <MenuItem>
                     <Link
@@ -2120,7 +2165,33 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/student/parentlogincreadential"
+                      href="/school/student/OtherFee"
+                    >
+                     Add Other Fee
+                    </Link>
+                  </MenuItem>
+
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
+                      href="/school/student/Timetable"
+                    >
+                      Add Time Table
+                    </Link>
+                  </MenuItem>
+
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
+                      href="/school/student/Parentlogincreadential"
                     >
                       Parent Login Creadential
                     </Link>
@@ -2132,7 +2203,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/student/sendmessage"
+                      href="/school/student/Sendmessage"
                     >
                       Send Message
                     </Link>
@@ -2144,7 +2215,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/student/sendemail"
+                      href="/school/student/Sendemail"
                     >
                       Send Email
                     </Link>
@@ -2156,7 +2227,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/student/studentcertificate"
+                      href="/school/student/Studentcertificate"
                     >
                       Student Certificate
                     </Link>
@@ -2169,7 +2240,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/student/studentidcard"
+                      href="/school/student/Studentidcard"
                     >
                       Student Id Card
                     </Link>
@@ -2181,7 +2252,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/student/assignment"
+                      href="/school/student/Assignment"
                     >
                       Assign Test
                     </Link>
@@ -2194,7 +2265,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/student/receivedassignment"
+                      href="/school/student/Receivedassignment"
                     >
                       Received Test
                     </Link>
@@ -2208,7 +2279,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                     className="add_icons_div"
                   >
                     <p>Attendance</p>
-                    {attendance ? <RemoveIcon /> : <AddIcon />}
+                    {attendance ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                   </div>
                 </MenuItem>
                 <div className={attendance ? "menu_show" : "menu_hide"}>
@@ -2219,9 +2290,35 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/student/attendance"
+                      href="/school/student/Attendance"
                     >
-                      Take Attendance
+                     Student Attendance
+                    </Link>
+                  </MenuItem>
+
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
+                      href="/school/student/Holiday"
+                    >
+                   Add Holiday
+                    </Link>
+                  </MenuItem>
+
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
+                      href="/school/student/Particularattendance"
+                    >
+                       Particular Student Attendance
                     </Link>
                   </MenuItem>
                 </div>
@@ -2233,7 +2330,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                     className="add_icons_div"
                   >
                     <p>Accounts</p>
-                    {accounts ? <RemoveIcon /> : <AddIcon />}
+                    {accounts ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                   </div>
                 </MenuItem>
                 <div className={accounts ? "menu_show" : "menu_hide"}>
@@ -2244,7 +2341,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/accounts/collectfee"
+                      href="/school/accounts/Collectfee"
                     >
                       Collect Fees
                     </Link>
@@ -2256,36 +2353,255 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/accounts/searchfee"
+                      href="/school/accounts/Printreceipt"
                     >
-                      Search Fees Payment
+                      Print Fee Receipt
                     </Link>
                   </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/accounts/balancefee"
-                    >
-                      Balance Fees Report
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/accounts/feediscount"
-                    >
-                      Fee Discount
-                    </Link>
-                  </MenuItem>
+                 
+                 
                 </div>
+
+                {user?.data?.CredentailsData?.Transport === true&&<>
+                
+                  <Divider sx={{ my: 0.5 }} />
+                <MenuItem>
+                  <div
+                    onClick={() => settransport(!transport)}
+                    className="add_icons_div"
+                  >
+                    <p>Transport</p>
+                    {transport ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+                  </div>
+                </MenuItem>
+                <div className={transport ? "menu_show" : "menu_hide"}>
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
+                      href="/school/transport/vehicletype"
+                    >
+                          Add Vehicle Type
+                    </Link>
+                  </MenuItem>
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
+                      href="/school/transport/Vehicledetails"
+                    >
+                      Add Bus
+                    </Link>
+                  </MenuItem>
+
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
+                      href="/school/transport/Addroutes"
+                    >
+                      Add Routes
+                    </Link>
+                  </MenuItem>
+
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
+                      href="/school/transport/Addstudent"
+                    >
+                     Add Student To Transport
+                    </Link>
+                  </MenuItem>
+
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
+                      href="/school/transport/Assignbus"
+                    >
+                     Assign Bus To Student
+                    </Link>
+                  </MenuItem>
+                 
+                 
+                </div>
+                
+                </>}
+
+
+                {user?.data?.CredentailsData?.Library === true&&<>
+                
+                <Divider sx={{ my: 0.5 }} />
+              <MenuItem>
+                <div
+                  onClick={() => setlibrary(!library)}
+                  className="add_icons_div"
+                >
+                  <p>Library</p>
+                  {library ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+                </div>
+              </MenuItem>
+              <div className={library ? "menu_show" : "menu_hide"}>
+                <Divider sx={{ my: 0.5 }} />
+                <MenuItem>
+                  <Link
+                    onClick={() => setisMobile(!isMobile)}
+                    className={({ isActive }) =>
+                      isActive ? "link_directActive" : "link_directs"
+                    }
+                    href="/school/library/Addstudent"
+                  >
+                         Add Student In Library
+                  </Link>
+                </MenuItem>
+                <Divider sx={{ my: 0.5 }} />
+                <MenuItem>
+                  <Link
+                    onClick={() => setisMobile(!isMobile)}
+                    className={({ isActive }) =>
+                      isActive ? "link_directActive" : "link_directs"
+                    }
+                    href="/school/library/Addbook"
+                  >
+                   Add Book
+                  </Link>
+                </MenuItem>
+
+              
+
+                <Divider sx={{ my: 0.5 }} />
+                <MenuItem>
+                  <Link
+                    onClick={() => setisMobile(!isMobile)}
+                    className={({ isActive }) =>
+                      isActive ? "link_directActive" : "link_directs"
+                    }
+                    href="/school/library/Issuereturn"
+                  >
+                    Issue Return
+                  </Link>
+                </MenuItem>
+
+               
+               
+               
+              </div>
+              
+              </>}
+
+              
+              {user?.data?.CredentailsData?.hostel === true&&<>
+                
+                <Divider sx={{ my: 0.5 }} />
+              <MenuItem>
+                <div
+                  onClick={() => sethostel(!hostel)}
+                  className="add_icons_div"
+                >
+                  <p>Hostel</p>
+                  {hostel ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+                </div>
+              </MenuItem>
+              <div className={hostel ? "menu_show" : "menu_hide"}>
+                <Divider sx={{ my: 0.5 }} />
+                <MenuItem>
+                  <Link
+                    onClick={() => setisMobile(!isMobile)}
+                    className={({ isActive }) =>
+                      isActive ? "link_directActive" : "link_directs"
+                    }
+                    href="/school/hostel/Category"
+                  >
+                         Add Category
+                  </Link>
+                </MenuItem>
+                <Divider sx={{ my: 0.5 }} />
+                <MenuItem>
+                  <Link
+                    onClick={() => setisMobile(!isMobile)}
+                    className={({ isActive }) =>
+                      isActive ? "link_directActive" : "link_directs"
+                    }
+                    href="/school/hostel/Facility"
+                  >
+                     Add Facility
+                  </Link>
+                </MenuItem>
+
+              
+
+                <Divider sx={{ my: 0.5 }} />
+                <MenuItem>
+                  <Link
+                    onClick={() => setisMobile(!isMobile)}
+                    className={({ isActive }) =>
+                      isActive ? "link_directActive" : "link_directs"
+                    }
+                    href="/school/hostel/Addhostel"
+                  >
+                   Add Hostel
+                  </Link>
+                </MenuItem>
+
+                <Divider sx={{ my: 0.5 }} />
+                <MenuItem>
+                  <Link
+                    onClick={() => setisMobile(!isMobile)}
+                    className={({ isActive }) =>
+                      isActive ? "link_directActive" : "link_directs"
+                    }
+                    href="/school/hostel/Addroom"
+                  >
+                Add Room
+                  </Link>
+                </MenuItem>
+                <Divider sx={{ my: 0.5 }} />
+                <MenuItem>
+                  <Link
+                    onClick={() => setisMobile(!isMobile)}
+                    className={({ isActive }) =>
+                      isActive ? "link_directActive" : "link_directs"
+                    }
+                    href="/school/hostel/Assignhostel"
+                  >
+             Give Room To Student
+                  </Link>
+                </MenuItem>
+                <Divider sx={{ my: 0.5 }} />
+                <MenuItem>
+                  <Link
+                    onClick={() => setisMobile(!isMobile)}
+                    className={({ isActive }) =>
+                      isActive ? "link_directActive" : "link_directs"
+                    }
+                    href="/school/hostel/Addstudent"
+                  >
+            Add Student In Room
+                  </Link>
+                </MenuItem>
+               
+               
+               
+               
+              </div>
+              
+              </>}
 
                 <Divider sx={{ my: 0.5 }} />
                 <MenuItem>
@@ -2294,7 +2610,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                     className="add_icons_div"
                   >
                     <p>HR</p>
-                    {humanresourse ? <RemoveIcon /> : <AddIcon />}
+                    {humanresourse ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                   </div>
                 </MenuItem>
                 <div className={humanresourse ? "menu_show" : "menu_hide"}>
@@ -2305,7 +2621,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/employee/staff"
+                      href="/school/employee/Staff"
                     >
                       Add Staff
                     </Link>
@@ -2317,9 +2633,9 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/employee/attendance"
+                      href="/school/employee/Employeeidcard"
                     >
-                      Staff Attendance
+                     Employee Id Card
                     </Link>
                   </MenuItem>
                   <Divider sx={{ my: 0.5 }} />
@@ -2329,9 +2645,33 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/employee/payroll"
+                      href="/school/employee/Disabledstaff"
                     >
-                      Payroll Report
+                      Disabled Employee
+                    </Link>
+                  </MenuItem>
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
+                      href="/school/employee/Attendance"
+                    >
+                        Employee Attendance
+                    </Link>
+                  </MenuItem>
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
+                      href="/school/employee/Addemployeeholiday"
+                    >
+                          Add Holiday
                     </Link>
                   </MenuItem>
 
@@ -2342,11 +2682,12 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/employee/department"
+                      href="/school/employee/Particularemployeeattendance"
                     >
-                      Department
+                        Particular Employee Attendance
                     </Link>
                   </MenuItem>
+
                   <Divider sx={{ my: 0.5 }} />
                   <MenuItem>
                     <Link
@@ -2354,11 +2695,26 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/employee/disabledstaff"
+                      href="/school/employee/Payroll"
                     >
-                      Disabled Staff
+                        Add Payroll
                     </Link>
                   </MenuItem>
+
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
+                      href="/school/employee/Payrollreport"
+                    >
+                      Payroll Report
+                    </Link>
+                  </MenuItem>
+
+               
                 </div>
                 <Divider sx={{ my: 0.5 }} />
                 <MenuItem>
@@ -2367,7 +2723,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                     className="add_icons_div"
                   >
                     <p>Masters</p>
-                    {master ? <RemoveIcon /> : <AddIcon />}
+                    {master ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                   </div>
                 </MenuItem>
                 <div className={master ? "menu_show" : "menu_hide"}>
@@ -2378,9 +2734,9 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/masters/batchtime"
+                      href="/school/masters/AddSession"
                     >
-                      Add Batch Time
+                   Seesion
                     </Link>
                   </MenuItem>
                   <Divider sx={{ my: 0.5 }} />
@@ -2390,9 +2746,22 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/masters/course"
+                      href="/school/masters/AddSection"
                     >
-                      Course
+                   Section
+                    </Link>
+                  </MenuItem>
+
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
+                      href="/school/masters/class"
+                    >
+                      Class
                     </Link>
                   </MenuItem>
                   <Divider sx={{ my: 0.5 }} />
@@ -2402,7 +2771,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/masters/masterstudentcategory"
+                      href="/school/masters/masterstudentcategory"
                     >
                       Student Category
                     </Link>
@@ -2414,7 +2783,20 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/masters/masterfee"
+                      href="/school/masters/receiptprefix"
+                    >
+                        Receipt Prefix
+                    </Link>
+                  </MenuItem>
+
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
+                      href="/school/masters/masterfee"
                     >
                       Fees Structure
                     </Link>
@@ -2426,7 +2808,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/masters/department"
+                      href="/school/masters/department"
                     >
                       Department
                     </Link>
@@ -2438,9 +2820,47 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       className={({ isActive }) =>
                         isActive ? "link_directActive" : "link_directs"
                       }
-                      href="/coaching/masters/masteremployee"
+                      href="/school/masters/masteremployee"
                     >
                       Designation
+                    </Link>
+                  </MenuItem>
+
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
+                      href="/school/masters/FooterDetails"
+                    >
+                      Add Footer Details
+                    </Link>
+                  </MenuItem>
+                  
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
+                      href="/school/masters/Notes"
+                    >
+                    Add Notic
+                    </Link>
+                  </MenuItem>
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
+                      href="/school/masters/Slider"
+                    >
+                  Add Slider
                     </Link>
                   </MenuItem>
                 </div>
@@ -2452,7 +2872,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                     className="add_icons_div"
                   >
                     <p>Reports</p>
-                    {reports ? <RemoveIcon /> : <AddIcon />}
+                    {reports ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                   </div>
                 </MenuItem>
                 <div className={reports ? "menu_show" : "menu_hide"}>
@@ -2629,25 +3049,25 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                 <MenuItem>
                   <Link
                     className={
-                      router.pathname == "/mainadmin/dashbord"
+                      router.pathname == "/coaching/dashboard"
                         ? "link_directActive"
                         : "link_direct10"
                     }
-                    href="/mainadmin/dashboard"
+                    href="/coaching/dashboard"
                   >
                     Dashboard
                   </Link>
                 </MenuItem>
                 <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
+                {/* <MenuItem>
                   <div
                     onClick={() => setshowmenu2(!showmenu2)}
                     className="add_icons_div"
                   >
-                    <p> Front Office</p>{" "}
-                    {showmenu2 ? <RemoveIcon /> : <AddIcon />}
+                    <p> Front Office</p>
+                    {showmenu2 ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                   </div>
-                </MenuItem>
+                </MenuItem> */}
                 <div className={showmenu2 ? "menu_show" : "menu_hide"}>
                   <Divider sx={{ my: 0.5 }} />
                   <MenuItem>
@@ -2670,7 +3090,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                     className="add_icons_div"
                   >
                     <p> Student</p>
-                    {student ? <RemoveIcon /> : <AddIcon />}
+                    {student ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                   </div>
                 </MenuItem>
                 <div className={student ? "menu_show" : "menu_hide"}>
@@ -2830,7 +3250,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                     className="add_icons_div"
                   >
                     <p>Attendance</p>
-                    {attendance ? <RemoveIcon /> : <AddIcon />}
+                    {attendance ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                   </div>
                 </MenuItem>
                 <div className={attendance ? "menu_show" : "menu_hide"}>
@@ -2855,7 +3275,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                     className="add_icons_div"
                   >
                     <p>Accounts</p>
-                    {accounts ? <RemoveIcon /> : <AddIcon />}
+                    {accounts ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                   </div>
                 </MenuItem>
                 <div className={accounts ? "menu_show" : "menu_hide"}>
@@ -2916,7 +3336,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                     className="add_icons_div"
                   >
                     <p>HR</p>
-                    {humanresourse ? <RemoveIcon /> : <AddIcon />}
+                    {humanresourse ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                   </div>
                 </MenuItem>
                 <div className={humanresourse ? "menu_show" : "menu_hide"}>
@@ -2989,7 +3409,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                     className="add_icons_div"
                   >
                     <p>Masters</p>
-                    {master ? <RemoveIcon /> : <AddIcon />}
+                    {master ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                   </div>
                 </MenuItem>
                 <div className={master ? "menu_show" : "menu_hide"}>
@@ -3074,1251 +3494,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                     className="add_icons_div"
                   >
                     <p>Reports</p>
-                    {reports ? <RemoveIcon /> : <AddIcon />}
-                  </div>
-                </MenuItem>
-                <div className={reports ? "menu_show" : "menu_hide"}>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/report/studentattendancereport"
-                    >
-                      Attendance Report
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/report/studentidcard"
-                    >
-                      Student ID Card
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/report/studentlogindetails"
-                    >
-                      Student Login Details
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/report/faultyidcard"
-                    >
-                      Faculty ID Card
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/report/studentperformance"
-                    >
-                      Student Performance Report
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/report/feecollection"
-                    >
-                      Fees Collection Report
-                    </Link>
-                  </MenuItem>
-
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/report/pendingfee"
-                    >
-                      Fees Pending Report
-                    </Link>
-                  </MenuItem>
-
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/report/feestudent"
-                    >
-                      Fees Pending Studentwise report
-                    </Link>
-                  </MenuItem>
-
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/report/leavereport"
-                    >
-                      Employee Leave Report
-                    </Link>
-                  </MenuItem>
-
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/report/employeelogdetails"
-                    >
-                      Employee Login Details
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/report/salaryslip"
-                    >
-                      Employee Salary Slip
-                    </Link>
-                  </MenuItem>
-
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/report/salaryreport"
-                    >
-                      Employee Salary Report
-                    </Link>
-                  </MenuItem>
-
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/report/employeeattendancereport"
-                    >
-                      Employee Attendance Report
-                    </Link>
-                  </MenuItem>
-                </div>
-                <Divider sx={{ my: 0.5 }} />
-              </>
-            )}
-
-            {user?.data?.User?.userType === "school" && (
-              <>
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
-                  <Link
-                    className={
-                      router.pathname == "/mainadmin/dashbord"
-                        ? "link_directActive"
-                        : "link_direct10"
-                    }
-                    href="/mainadmin/dashboard"
-                  >
-                    Dashboard
-                  </Link>
-                </MenuItem>
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
-                  <div
-                    onClick={() => setshowmenu2(!showmenu2)}
-                    className="add_icons_div"
-                  >
-                    <p> Front Office</p>{" "}
-                    {showmenu2 ? <RemoveIcon /> : <AddIcon />}
-                  </div>
-                </MenuItem>
-                <div className={showmenu2 ? "menu_show" : "menu_hide"}>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/frontoffice/enquiry"
-                    >
-                      Admission Enquiry
-                    </Link>
-                  </MenuItem>
-                </div>
-
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
-                  <div
-                    onClick={() => setstudent(!student)}
-                    className="add_icons_div"
-                  >
-                    <p> Student</p>
-                    {student ? <RemoveIcon /> : <AddIcon />}
-                  </div>
-                </MenuItem>
-                <div className={student ? "menu_show" : "menu_hide"}>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/student/admission"
-                    >
-                      Admission
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/student/addstudent"
-                    >
-                      Add Student
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/student/studenthistory"
-                    >
-                      Student History
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/student/studentlogincreadential"
-                    >
-                      Student Login Creadential
-                    </Link>
-                  </MenuItem>
-
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/student/disabledstudent"
-                    >
-                      Disabled Students
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/student/parentlogincreadential"
-                    >
-                      Parent Login Creadential
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/student/sendmessage"
-                    >
-                      Send Message
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/student/sendemail"
-                    >
-                      Send Email
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/student/studentcertificate"
-                    >
-                      Student Certificate
-                    </Link>
-                  </MenuItem>
-
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/student/studentidcard"
-                    >
-                      Student Id Card
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/student/assignment"
-                    >
-                      Assign Test
-                    </Link>
-                  </MenuItem>
-
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/student/receivedassignment"
-                    >
-                      Received Test
-                    </Link>
-                  </MenuItem>
-                </div>
-
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
-                  <div
-                    onClick={() => setattendance(!attendance)}
-                    className="add_icons_div"
-                  >
-                    <p>Attendance</p>
-                    {attendance ? <RemoveIcon /> : <AddIcon />}
-                  </div>
-                </MenuItem>
-                <div className={attendance ? "menu_show" : "menu_hide"}>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/student/attendance"
-                    >
-                      Take Attendance
-                    </Link>
-                  </MenuItem>
-                </div>
-
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
-                  <div
-                    onClick={() => setaccounts(!accounts)}
-                    className="add_icons_div"
-                  >
-                    <p>Accounts</p>
-                    {accounts ? <RemoveIcon /> : <AddIcon />}
-                  </div>
-                </MenuItem>
-                <div className={accounts ? "menu_show" : "menu_hide"}>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/accounts/collectfee"
-                    >
-                      Collect Fees
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/accounts/searchfee"
-                    >
-                      Search Fees Payment
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/accounts/balancefee"
-                    >
-                      Balance Fees Report
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/accounts/feediscount"
-                    >
-                      Fee Discount
-                    </Link>
-                  </MenuItem>
-                </div>
-
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
-                  <div
-                    onClick={() => sethumanresourse(!humanresourse)}
-                    className="add_icons_div"
-                  >
-                    <p>HR</p>
-                    {humanresourse ? <RemoveIcon /> : <AddIcon />}
-                  </div>
-                </MenuItem>
-                <div className={humanresourse ? "menu_show" : "menu_hide"}>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/employee/staff"
-                    >
-                      Add Staff
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/employee/attendance"
-                    >
-                      Staff Attendance
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/employee/payroll"
-                    >
-                      Payroll Report
-                    </Link>
-                  </MenuItem>
-
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/employee/department"
-                    >
-                      Department
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/employee/disabledstaff"
-                    >
-                      Disabled Staff
-                    </Link>
-                  </MenuItem>
-                </div>
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
-                  <div
-                    onClick={() => setmaster(!master)}
-                    className="add_icons_div"
-                  >
-                    <p>Masters</p>
-                    {master ? <RemoveIcon /> : <AddIcon />}
-                  </div>
-                </MenuItem>
-                <div className={master ? "menu_show" : "menu_hide"}>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/masters/batchtime"
-                    >
-                      Add Batch Time
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/masters/course"
-                    >
-                      Course
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/masters/masterstudentcategory"
-                    >
-                      Student Category
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/masters/masterfee"
-                    >
-                      Fees Structure
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/masters/department"
-                    >
-                      Department
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/masters/masteremployee"
-                    >
-                      Designation
-                    </Link>
-                  </MenuItem>
-                </div>
-                <Divider sx={{ my: 0.5 }} />
-
-                <MenuItem>
-                  <div
-                    onClick={() => setreports(!reports)}
-                    className="add_icons_div"
-                  >
-                    <p>Reports</p>
-                    {reports ? <RemoveIcon /> : <AddIcon />}
-                  </div>
-                </MenuItem>
-                <div className={reports ? "menu_show" : "menu_hide"}>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/report/studentattendancereport"
-                    >
-                      Attendance Report
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/report/studentidcard"
-                    >
-                      Student ID Card
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/report/studentlogindetails"
-                    >
-                      Student Login Details
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/report/faultyidcard"
-                    >
-                      Faculty ID Card
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/report/studentperformance"
-                    >
-                      Student Performance Report
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/report/feecollection"
-                    >
-                      Fees Collection Report
-                    </Link>
-                  </MenuItem>
-
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/report/pendingfee"
-                    >
-                      Fees Pending Report
-                    </Link>
-                  </MenuItem>
-
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/report/feestudent"
-                    >
-                      Fees Pending Studentwise report
-                    </Link>
-                  </MenuItem>
-
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/report/leavereport"
-                    >
-                      Employee Leave Report
-                    </Link>
-                  </MenuItem>
-
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/report/employeelogdetails"
-                    >
-                      Employee Login Details
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/report/salaryslip"
-                    >
-                      Employee Salary Slip
-                    </Link>
-                  </MenuItem>
-
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/report/salaryreport"
-                    >
-                      Employee Salary Report
-                    </Link>
-                  </MenuItem>
-
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/report/employeeattendancereport"
-                    >
-                      Employee Attendance Report
-                    </Link>
-                  </MenuItem>
-                </div>
-                <Divider sx={{ my: 0.5 }} />
-              </>
-            )}
-
-            {user?.data?.User?.organizationtype === "school" && (
-              <>
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
-                  <Link
-                    className={
-                      router.pathname == "/mainadmin/dashbord"
-                        ? "link_directActive"
-                        : "link_direct10"
-                    }
-                    href="/mainadmin/dashboard"
-                  >
-                    Dashboard
-                  </Link>
-                </MenuItem>
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
-                  <div
-                    onClick={() => setshowmenu2(!showmenu2)}
-                    className="add_icons_div"
-                  >
-                    <p> Front Office</p>{" "}
-                    {showmenu2 ? <RemoveIcon /> : <AddIcon />}
-                  </div>
-                </MenuItem>
-                <div className={showmenu2 ? "menu_show" : "menu_hide"}>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/frontoffice/enquiry"
-                    >
-                      Admission Enquiry
-                    </Link>
-                  </MenuItem>
-                </div>
-
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
-                  <div
-                    onClick={() => setstudent(!student)}
-                    className="add_icons_div"
-                  >
-                    <p> Student</p>
-                    {student ? <RemoveIcon /> : <AddIcon />}
-                  </div>
-                </MenuItem>
-                <div className={student ? "menu_show" : "menu_hide"}>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/student/admission"
-                    >
-                      Admission
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/student/addstudent"
-                    >
-                      Add Student
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/student/studenthistory"
-                    >
-                      Student History
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/student/studentlogincreadential"
-                    >
-                      Student Login Creadential
-                    </Link>
-                  </MenuItem>
-
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/student/disabledstudent"
-                    >
-                      Disabled Students
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/student/parentlogincreadential"
-                    >
-                      Parent Login Creadential
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/student/sendmessage"
-                    >
-                      Send Message
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/student/sendemail"
-                    >
-                      Send Email
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/student/studentcertificate"
-                    >
-                      Student Certificate
-                    </Link>
-                  </MenuItem>
-
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/student/studentidcard"
-                    >
-                      Student Id Card
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/student/assignment"
-                    >
-                      Assign Test
-                    </Link>
-                  </MenuItem>
-
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/student/receivedassignment"
-                    >
-                      Received Test
-                    </Link>
-                  </MenuItem>
-                </div>
-
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
-                  <div
-                    onClick={() => setattendance(!attendance)}
-                    className="add_icons_div"
-                  >
-                    <p>Attendance</p>
-                    {attendance ? <RemoveIcon /> : <AddIcon />}
-                  </div>
-                </MenuItem>
-                <div className={attendance ? "menu_show" : "menu_hide"}>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/student/attendance"
-                    >
-                      Take Attendance
-                    </Link>
-                  </MenuItem>
-                </div>
-
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
-                  <div
-                    onClick={() => setaccounts(!accounts)}
-                    className="add_icons_div"
-                  >
-                    <p>Accounts</p>
-                    {accounts ? <RemoveIcon /> : <AddIcon />}
-                  </div>
-                </MenuItem>
-                <div className={accounts ? "menu_show" : "menu_hide"}>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/accounts/collectfee"
-                    >
-                      Collect Fees
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/accounts/searchfee"
-                    >
-                      Search Fees Payment
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/accounts/balancefee"
-                    >
-                      Balance Fees Report
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/accounts/feediscount"
-                    >
-                      Fee Discount
-                    </Link>
-                  </MenuItem>
-                </div>
-
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
-                  <div
-                    onClick={() => sethumanresourse(!humanresourse)}
-                    className="add_icons_div"
-                  >
-                    <p>HR</p>
-                    {humanresourse ? <RemoveIcon /> : <AddIcon />}
-                  </div>
-                </MenuItem>
-                <div className={humanresourse ? "menu_show" : "menu_hide"}>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/employee/staff"
-                    >
-                      Add Staff
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/employee/attendance"
-                    >
-                      Staff Attendance
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/employee/payroll"
-                    >
-                      Payroll Report
-                    </Link>
-                  </MenuItem>
-
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/employee/department"
-                    >
-                      Department
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/employee/disabledstaff"
-                    >
-                      Disabled Staff
-                    </Link>
-                  </MenuItem>
-                </div>
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
-                  <div
-                    onClick={() => setmaster(!master)}
-                    className="add_icons_div"
-                  >
-                    <p>Masters</p>
-                    {master ? <RemoveIcon /> : <AddIcon />}
-                  </div>
-                </MenuItem>
-                <div className={master ? "menu_show" : "menu_hide"}>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/masters/batchtime"
-                    >
-                      Add Batch Time
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/masters/course"
-                    >
-                      Course
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/masters/masterstudentcategory"
-                    >
-                      Student Category
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/masters/masterfee"
-                    >
-                      Fees Structure
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/masters/department"
-                    >
-                      Department
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/coaching/masters/masteremployee"
-                    >
-                      Designation
-                    </Link>
-                  </MenuItem>
-                </div>
-                <Divider sx={{ my: 0.5 }} />
-
-                <MenuItem>
-                  <div
-                    onClick={() => setreports(!reports)}
-                    className="add_icons_div"
-                  >
-                    <p>Reports</p>
-                    {reports ? <RemoveIcon /> : <AddIcon />}
+                    {reports ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                   </div>
                 </MenuItem>
                 <div className={reports ? "menu_show" : "menu_hide"}>
@@ -4508,7 +3684,8 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                 onClick={() => setshowmenu2(!showmenu2)}
                 className="add_icons_div"
               >
-                <p>Services</p> {showmenu2 ? <RemoveIcon /> : <AddIcon />}
+                <p>Services</p>{" "}
+                {showmenu2 ? <ExpandMoreIcon /> : <ExpandLessIcon />}
               </div>
             </MenuItem>
 

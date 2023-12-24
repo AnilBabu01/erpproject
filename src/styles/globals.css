@@ -348,7 +348,7 @@ input#donation-date {
   .open1 {
     width: 75%;
     height: 100%;
-    overflow-x: scroll;
+    overflow-y: scroll;
     display: block;
     transition-timing-function: ease-in;
     position: fixed;
@@ -740,6 +740,11 @@ input#donation-date {
   border-radius: 6px;
 }
 @media screen and (max-width: 780px) {
+  .top-info-inear-content-div img {
+    width: 22%;
+    height: 9%;
+    border-radius: 80px;
+  }
   .mainbackdiv {
     display: flex;
     justify-content: space-evenly;

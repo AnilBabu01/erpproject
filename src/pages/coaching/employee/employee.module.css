@@ -399,6 +399,23 @@
   padding: 1%;
 }
 @media (max-width: 730px) {
+  .idcarddiv {
+    padding-left: 23%;
+    padding-right: 23%;
+    padding-top: 2%;
+  }
+  .idcarddivflex {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0.3%;
+  }
+  .idcarddivflex10 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 1%;
+  }
   .expensesDiv {
     padding-left: 123%;
   }

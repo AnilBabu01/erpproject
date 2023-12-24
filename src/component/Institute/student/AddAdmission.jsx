@@ -21,6 +21,7 @@ const studentStatus = [
 function AddAdmission({ setOpen }) {
   const navigation = useRouter();
   const dispatch = useDispatch();
+  const [DateOfBirth, setDateOfBirth] = useState("");
   const [SrNumber, setSrNumber] = useState("");
   const [sessionname, setsessionname] = useState("");
   const [sectionname, setsectionname] = useState("NONE");
@@ -133,7 +134,6 @@ function AddAdmission({ setOpen }) {
     formData.set("BusNumber", "");
     formData.set("Library", Library);
     formData.set("hostal", hostal);
-    formData.set("StudentCategory", categoryname);
     formData.set("AnnualFee", annualfee);
     formData.set("Section", sectionname);
     formData.set("Session", sessionname);
@@ -141,6 +141,8 @@ function AddAdmission({ setOpen }) {
     formData.set("hostelname", hostenname);
     formData.set("Category", hostelcategory);
     formData.set("Facility", hostelfacility);
+    formData.set("DateOfBirth", DateOfBirth);
+    formData.set("StudentCategory", categoryname);
     formData.set(
       "HostelPerMonthFee",
       hostelManualFee === "manual"
@@ -356,8 +358,14 @@ function AddAdmission({ setOpen }) {
                   </Select>
                 </div>
                 <div className={styles.inputdiv}>
-                  <label>&nbsp;</label>
-                  <label>&nbsp;</label>
+                  <label>Date Of Birth</label>
+                  <input
+                    required
+                    type="date"
+                    value={DateOfBirth}
+                    name="DateOfBirth"
+                    onChange={(e) => setDateOfBirth(e.target.value)}
+                  />
                 </div>
               </div>
 
@@ -814,6 +822,7 @@ function AddAdmission({ setOpen }) {
                   </div>
                 </>
               )}
+              
               {otherspreview && (
                 <>
                   <div className={styles.inputdivimg10}>
@@ -1545,6 +1554,7 @@ function AddAdmission({ setOpen }) {
                     ? false
                     : true
                 }
+
                 onClick={() => setshownext(false)}
                 className={
                   studentname &&

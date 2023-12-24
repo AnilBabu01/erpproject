@@ -46,8 +46,8 @@ function AddClassSubject({ setOpen }) {
         </div>
         <h1>Add New Section</h1>
         <form onSubmit={submit}>
-          <div className={styles.divmaininput}>
-            <div className={styles.inputdiv}>
+          <div className={styles.inputdivsingle}>
+            <div className={styles.inputdivsingle}>
               <label>Class Subject</label>
               <input
                 type="text"

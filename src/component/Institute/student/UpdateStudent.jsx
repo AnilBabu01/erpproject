@@ -24,6 +24,8 @@ function UpdateStudent({ setOpen, updatedata }) {
   const dispatch = useDispatch();
   const [loading1, setloading1] = useState(false);
   const [loading2, setloading2] = useState(false);
+  const [SrNumber, setSrNumber] = useState('')
+  const [DateOfBirth, setDateOfBirth] = useState('');
   const [sessionname, setsessionname] = useState("");
   const [sectionname, setsectionname] = useState("NONE");
   const [sectionlist, setsectionlist] = useState([]);
@@ -287,7 +289,8 @@ function UpdateStudent({ setOpen, updatedata }) {
       sethostelcategory(updatedata?.Category);
       setfromroute(updatedata?.FromRoute);
       settoroute(updatedata?.ToRoute);
-      setpano(updatedata?.pancardnno)
+      setpano(updatedata?.pancardnno);
+      setDateOfBirth(  new Date(updatedata?.DateOfBirth).toISOString().substring(0, 10))
     }
   }, []);
 
@@ -374,7 +377,7 @@ function UpdateStudent({ setOpen, updatedata }) {
                     value={categoryname}
                     name="categoryname"
                     onChange={(e) => setcategoryname(e.target.value)}
-                    // displayEmpty
+                    displayEmpty
                   >
                     <MenuItem
                       sx={{
@@ -400,7 +403,22 @@ function UpdateStudent({ setOpen, updatedata }) {
                   </Select>
                 </div>
                 <div className={styles.inputdiv}>
-                  <label>Sr Number</label>
+              
+                  <label>Date Of Birth</label>
+                  <input
+                    required
+                    type="date"
+                    value={DateOfBirth}
+                    name="DateOfBirth"
+                    onChange={(e) => setDateOfBirth(e.target.value)}
+                  />
+                
+                </div>
+              </div>
+
+              <div className={styles.divmaininput}>
+                <div className={styles.inputdiv}>
+                  <label>Roll Number</label>
                   <input
                     required
                     type="text"
@@ -410,15 +428,36 @@ function UpdateStudent({ setOpen, updatedata }) {
                     onChange={(e) => setstudentrollno(e.target.value)}
                   />
                 </div>
+                <div className={styles.inputdiv}>
+                  <label>Sr Number</label>
+                  <input
+                    required
+                    type="text"
+                    placeholder="Enter St Number"
+                    value={SrNumber}
+                    name="SrNumber"
+                    onChange={(e) => setSrNumber(e.target.value)}
+                  />
+                </div>
+                <div className={styles.inputdiv}>
+                  <label>Session</label>
+                  <input
+                    required
+                    type="text"
+                    placeholder="Enter Session"
+                    value={sessionname}
+                    name="sessionname"
+                    onChange={(e) => setsessionname(e.target.value)}
+                  />
+                </div>
               </div>
-
               <div className={styles.divmaininput}>
                 <div className={styles.inputdiv}>
                   <label>Student Name</label>
                   <input
                     required
                     type="text"
-                    placeholder="Enter the name"
+                    placeholder="Enter The name"
                     value={studentname}
                     name="studentname"
                     onChange={(e) => setstudentname(e.target.value)}
@@ -447,6 +486,7 @@ function UpdateStudent({ setOpen, updatedata }) {
                   />
                 </div>
               </div>
+
               <div className={styles.divmaininput}>
                 <div className={styles.inputdiv}>
                   <label>Fathers Name</label>
@@ -780,17 +820,18 @@ function UpdateStudent({ setOpen, updatedata }) {
                 </div>
               </div>
 
-              <div className={styles.inputdiv}>
-                <label>Session</label>
-                <input
-                  required
-                  type="text"
-                  placeholder="Enter Session"
-                  value={sessionname}
-                  name="sessionname"
-                  onChange={(e) => setsessionname(e.target.value)}
-                />
-              </div>
+              {preview1 && (
+                <>
+                  <div className={styles.inputdivimg}>
+                    <label>Passport Size Photo</label>
+                    <img
+                      className="keydetailsdivproimg"
+                      src={preview1}
+                      alt="imgdd"
+                    />
+                  </div>
+                </>
+              )}
 
               {preview2 && (
                 <>

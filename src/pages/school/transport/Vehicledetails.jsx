@@ -23,6 +23,7 @@ import UpdateCategory from "@/component/Institute/transport/UpdateVehicleDetails
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
+import exportFromJSON from "export-from-json";
 function Vehicledetails() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -101,6 +102,7 @@ function Vehicledetails() {
       setuserdata(user);
     }
   }, [Vehicle, user]);
+
   useEffect(() => {
     dispatch(getcategory());
     dispatch(GetRoute());
@@ -109,6 +111,26 @@ function Vehicledetails() {
     dispatch(getEmployee());
   }, []);
 
+  const ExportToExcel = (isData) => {
+    const fileName = "BusRouteDetails";
+    const exportType = "xls";
+    var data = [];
+
+    isData.map((item,) => {
+      data.push({
+        "Bus NO": moment(item?.admissionDate).format("MM/DD/YYYY"),
+        "Bus Color": item?.Session,
+        FualType: item?.Section,
+        From: item?.rollnumber,
+        To: item?.name,
+        Stop_names: item?.email,
+        "No Of Sheets": item?.phoneno1,
+        "Available Sheets": item?.fathersName,
+      });
+    });
+
+    exportFromJSON({ data, fileName, exportType });
+  };
   return (
     <>
       {open && (
@@ -196,17 +218,18 @@ function Vehicledetails() {
               <button onClick={() => reset()}>Reset</button>
             </div>
             <div className={styles.imgdivformat}>
-              <img
+              {/* <img
+                onClick={() => ExportToExcel(isdata)}
                 className={styles.imgdivformatimg}
                 src="/images/Print.png"
                 alt="img"
-              />
-              <img
+              /> */}
+              {/* <img
                 className={styles.imgdivformatimg}
                 src="/images/ExportPdf.png"
                 alt="img"
               />
-              <img src="/images/ExportExcel.png" alt="img" />
+              <img src="/images/ExportExcel.png" alt="img" /> */}
             </div>
           </div>
 
@@ -238,14 +261,14 @@ function Vehicledetails() {
                 <tbody>
                   <tr className={styles.tabletr}>
                     <th className={styles.tableth}>S.NO</th>
-                    <th className={styles.tableth}>Bus NO</th>
-                    <th className={styles.tableth}>Bus Color</th>
+                    <th className={styles.tableth}>Bus_No</th>
+                    <th className={styles.tableth}>Bus_Color</th>
                     <th className={styles.tableth}>FualType</th>
                     <th className={styles.tableth}>From</th>
                     <th className={styles.tableth}>To</th>
                     <th className={styles.tableth}>Stop_names</th>
-                    <th className={styles.tableth}>No Of Sheets</th>
-                    <th className={styles.tableth}>Available Sheets</th>
+                    <th className={styles.tableth}>No_Of_Sheets</th>
+                    <th className={styles.tableth}>Available_Sheets</th>
                     <th className={styles.tableth}>Action</th>
                   </tr>
                   {isdata?.length > 0 &&
@@ -277,7 +300,7 @@ function Vehicledetails() {
                             {item?.bus?.RealSheets}
                           </td>
                           <td className={styles.tableth}>
-                            {item?.bus?.NoOfSheets	}
+                            {item?.bus?.NoOfSheets}
                           </td>
                           <td className={styles.tabkeddd}>
                             <button

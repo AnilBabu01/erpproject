@@ -26,6 +26,7 @@ import "jspdf-autotable";
 import { format } from "date-fns";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
+import CloseIcon from "@mui/icons-material/Close";
 function Enquiry() {
   const componentRef = useRef(null);
   const dispatch = useDispatch();
@@ -216,6 +217,7 @@ function Enquiry() {
                 "& .MuiPaper-root": {
                   width: "100%",
                   maxWidth: "60rem",
+                  position:"relative"
                 },
               },
             }}

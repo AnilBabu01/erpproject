@@ -30,8 +30,8 @@ function UpdateDuartion({ updatedata, setOpen }) {
         </div>
         <h1>Update Course Duration</h1>
         <form onSubmit={submit}>
-          <div className={styles.divmaininput}>
-            <div className={styles.inputdiv}>
+          <div className={styles.inputdivsingle}>
+            <div className={styles.inputdivsingle}>
               <label>Course Duration</label>
               <input
                 type="text"

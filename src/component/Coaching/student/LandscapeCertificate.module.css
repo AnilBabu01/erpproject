@@ -8,132 +8,158 @@
   width: 4rem;
   height: 4rem;
 }
-.logotext{
-    display: flex;
+.logotext {
+  display: flex;
 }
-.coachongname{
-    padding-left: 2%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+.coachongname {
+  padding-left: 2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
-.coachongname i{
-    text-align: center;
-    font-size: 2rem;
-    font-weight: 600;
-    color: red;
+.coachongname i {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  color: red;
 }
-.coachingtextaddress{
-    text-align: center;
+.coachingtextaddress {
+  text-align: center;
 }
-.mainheadercer{
-    border-bottom:  3px solid #093959;
+.mainheadercer {
+  border-bottom: 3px solid #093959;
 }
 
 .profileicon {
-    width: 10rem;
-    height: 10rem;
-    /* border-radius: 4px; */
+  width: 10rem;
+  height: 10rem;
+  /* border-radius: 4px; */
+}
+
+.signaturediv {
+  display: flex;
+  justify-content: space-between;
+}
+.completiontext {
+  text-align: center;
+  width: 80%;
+}
+
+.comtext {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  color: red;
+}
+
+.comtext10 {
+  text-align: center;
+
+  color: red;
+}
+.comtext20 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: red;
+}
+.signaturedivpft {
+  /* padding: 1%; */
+  /* border: 1px solid #093959; */
+  margin-right: 3%;
+  border-radius: 4px;
+}
+
+.sig {
+  border-top: 1px solid #093959;
+  border-bottom: 1px solid #093959;
+  height: 2rem;
+}
+
+.datecer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+.maintextdivgrade {
+  display: flex;
+  width: 50%;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.filldetails {
+  line-height: 3rem;
+}
+.contextgrad {
+  background: yellow;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  width: 10rem;
+}
+.garcenter {
+  display: flex;
+  margin-bottom: 11%;
+  justify-content: space-between;
+}
+.affilatedicon {
+  width: 7rem;
+  height: 7rem;
+}
+.affilatediconmain {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sifnabypen {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4%;
+  margin-bottom: 4%;
+}
+.maindivcalculate {
+  background: red;
+  text-align: center;
+  color: white;
+  padding-bottom: 1%;
+  padding-top: 1%;
+}
+
+.footerdiv {
+  text-align: center;
+  padding-top: 1%;
+  padding-bottom: 1%;
+}
+
+.asollated {
+  padding-top: 4%;
+  padding-bottom: 4%;
+}
+
+@media (max-width: 730px) {
+  .affilatedicon {
+    width: 9%;
+    height: 6%;
   }
 
-  .signaturediv{
-    display: flex;
-    justify-content: space-between;
-  }
-  .completiontext{
-    text-align: center;
-    width: 80%;
-  }
+  .profileicon {
+    width: 76%;
+    height: 42%;
+}
 
-  .comtext{
-    text-align: center;
-    font-size: 2rem;
-    font-weight: 600;
-    color: red;
-  }
 
-  .comtext10{
-    text-align: center;
-   
-    color: red;
-  }
-  .comtext20{
-    
-    font-size: 2rem;
-    font-weight: 600;
-    color: red;
-  }
-  .signaturedivpft{
-    /* padding: 1%; */
-    /* border: 1px solid #093959; */
-    margin-right: 3%;
-    border-radius: 4px;
-  }
-
-  .sig{
-    border-top: 1px solid #093959;
-    border-bottom: 1px solid #093959;
-    height: 2rem;
-  }
-
-  .datecer{
-    display: flex;
-    justify-content: space-between;
-    margin-top: 1%;
-    margin-bottom: 1%;
-  }
-  .maintextdivgrade{
-    display: flex;
-    width: 50%;
-    flex-direction: column;
-    justify-content: space-evenly;
-  }
-
-  .filldetails{
-    line-height: 3rem;
-  }
-  .contextgrad{
-    background: yellow;
-    padding-left: 2rem;
-    padding-right: 2rem;
-    width: 10rem;
-  }
-  .garcenter{
-    display: flex;
-    margin-bottom: 11%;
-    justify-content: space-between;
-  }
-  .affilatedicon{
-    width: 7rem;
-    height: 7rem;
-  }
-  .affilatediconmain{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .sifnabypen{
-    display: flex;
-    justify-content: space-between;
-    margin-top: 4%;
-    margin-bottom: 4%;
-  }
-  .maindivcalculate{
-    background: red;
-    text-align: center;
-    color: white;
-    padding-bottom: 1%;
-    padding-top: 1%;
+.maintextdivgrade {
+  display: flex;
+  width: 0%;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.comtext20 {
+  font-size: 16px;
+  font-weight: 600;
+  color: red;
 }
   
-  .footerdiv{
-    text-align: center;
-    padding-top: 1%;
-    padding-bottom: 1%;
-  }
-  .asollated{
-    padding-top: 4%;
-    padding-bottom: 4%;
-  }
+}

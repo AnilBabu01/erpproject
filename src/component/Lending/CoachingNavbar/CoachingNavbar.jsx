@@ -87,9 +87,7 @@ const CoachingNavbar = () => {
                     <div className="main_report_dropdown_rightmargin">
                       <h1>General</h1>
                       <div className="main_innear_menu_dropdown">
-                        {/* <Link href="/coaching/student/registration">
-                          Registration
-                        </Link> */}
+                      
                         <Link href="/coaching/student/admission">
                           Admission
                         </Link>
@@ -109,14 +107,7 @@ const CoachingNavbar = () => {
                       </div>
                     </div>
 
-                    {/* <div className="main_report_dropdown_rightmargin">
-                      <h1>Attendance</h1>
-                      <div className="main_innear_menu_dropdown">
-                        <Link href="/coaching/student/attendance">
-                          Student Attendance
-                        </Link>
-                      </div>
-                    </div> */}
+                  
 
                     <div className="main_report_dropdown_rightmargin">
                       <h1>Parent</h1>
@@ -129,11 +120,11 @@ const CoachingNavbar = () => {
 
                     <div className="main_report_dropdown_rightmargin">
                       <h1>Communication</h1>
-                      <div className="main_innear_menu_dropdown">
+                      {/* <div className="main_innear_menu_dropdown">
                         <Link href="/coaching/student/sendmessage">
                           Send Message
                         </Link>
-                      </div>
+                      </div> */}
                       <div className="main_innear_menu_dropdown">
                         <Link href="/coaching/student/sendemail">
                           Send Email
@@ -245,12 +236,7 @@ const CoachingNavbar = () => {
                         <Link href="/coaching/accounts/searchfee">
                           Search Fees Payment
                         </Link>
-                        {/* <Link href="/coaching/accounts/balancefee">
-                          Balance Fees Report
-                        </Link>
-                        <Link href="/coaching/accounts/feediscount">
-                          Fee Discount
-                        </Link> */}
+                      
                       </div>
                     </div>
                   </div>
@@ -297,11 +283,7 @@ const CoachingNavbar = () => {
                           Employee Attendance
                         </Link>
                       </div>
-                      {/* <div className="main_innear_menu_dropdown">
-                        <Link href="/coaching/employee/addholidattype">
-                          Add Holiday Type
-                        </Link>
-                      </div> */}
+                     
                       <div className="main_innear_menu_dropdown">
                         <Link href="/coaching/employee/Addemployeeholiday">
                           Add Holiday
@@ -356,18 +338,16 @@ const CoachingNavbar = () => {
                           Add Batch Time
                         </Link>
                         <Link href="/coaching/masters/course">Course</Link>
-                        <Link href="/coaching/masters/courseduration">
+                        {/* <Link href="/coaching/masters/courseduration">
                           Course Duration In Month
-                        </Link>
+                        </Link> */}
                         <Link href="/coaching/masters/masterstudentcategory">
                           Student Category
                         </Link>
                         <Link href="/coaching/masters/receiptprefix">
                           Receipt Prefix
                         </Link>
-                        {/* <Link href="/coaching/masters/employeeprefix">
-                          Employee Id Prefix
-                        </Link> */}
+
                         <Link href="/coaching/masters/masterfee">
                           Fees Structure
                         </Link>
@@ -378,7 +358,6 @@ const CoachingNavbar = () => {
                         <Link href="/coaching/masters/masteremployee">
                           Designation
                         </Link>
-                        {/* <Link href="/coaching/masters/branch">Add Branch</Link> */}
                       </div>
                     </div>
                   </div>
@@ -427,9 +406,7 @@ const CoachingNavbar = () => {
                         <Link href="/coaching/report/pendingfee">
                           Student All Pending Fee Report
                         </Link>
-                        {/* <Link href="/coaching/report/feestudent">
-                          Fees Pending Studentwise report
-                        </Link> */}
+                      
                       </div>
                     </div>
                     <div className="main_report_dropdown_rightmargin">
