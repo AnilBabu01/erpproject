@@ -70,7 +70,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
   const [reports, setreports] = useState(false);
   const [transport, settransport] = useState(false);
   const [hostel, sethostel] = useState(false);
-  const [library, setlibrary] = useState(false)
+  const [library, setlibrary] = useState(false);
   const { isAuthenticated, user } = useSelector((state) => state.auth);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [open4, setOpen4] = useState(false);
@@ -404,7 +404,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
         </Link>
 
         <div className={isMobile ? "main_div_header10" : "main_div_header10"}>
-          {isAuthenticated && user ? (
+          {isAuthenticated && user? (
             <>
               <AdminNavbar />
               <CollegeNavbar />
@@ -2038,11 +2038,10 @@ function Navbar({ open, setOpen, setLoadingshow }) {
               </>
             )}
 
-
             {user?.data?.User?.userType === "school" && (
               <>
                 <Divider sx={{ my: 0.5 }} />
-                <MenuItem       onClick={() => setisMobile(!isMobile)}>
+                <MenuItem onClick={() => setisMobile(!isMobile)}>
                   <Link
                     className={
                       router.pathname == "/school/dashboard"
@@ -2065,26 +2064,26 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                     {showmenu2 ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                   </div>
                 </MenuItem>
-            
-                  {showmenu2 && (
-                    <div>
+
+                {showmenu2 && (
+                  <div>
                     <div className={showmenu2 ? "menu_show" : "menu_hide"}>
-                        <Divider sx={{ my: 0.5 }} />
-                        <MenuItem>
-                          <Link
-                            onClick={() => setisMobile(!isMobile)}
-                            className={({ isActive }) =>
-                              isActive ? "link_directActive" : "link_directs"
-                            }
-                            href="/school/frontoffice/enquiry"
-                          >
-                            Admission Enquiry
-                          </Link>
-                        </MenuItem>
-                      </div>
+                      <Divider sx={{ my: 0.5 }} />
+                      <MenuItem>
+                        <Link
+                          onClick={() => setisMobile(!isMobile)}
+                          className={({ isActive }) =>
+                            isActive ? "link_directActive" : "link_directs"
+                          }
+                          href="/school/frontoffice/enquiry"
+                        >
+                          Admission Enquiry
+                        </Link>
+                      </MenuItem>
                     </div>
-                  )}
-           
+                  </div>
+                )}
+
                 <Divider sx={{ my: 0.5 }} />
                 <MenuItem>
                   <div
@@ -2154,7 +2153,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       }
                       href="/school/student/Changesession"
                     >
-                    Change Session
+                      Change Session
                     </Link>
                   </MenuItem>
 
@@ -2167,7 +2166,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       }
                       href="/school/student/OtherFee"
                     >
-                     Add Other Fee
+                      Add Other Fee
                     </Link>
                   </MenuItem>
 
@@ -2292,7 +2291,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       }
                       href="/school/student/Attendance"
                     >
-                     Student Attendance
+                      Student Attendance
                     </Link>
                   </MenuItem>
 
@@ -2305,7 +2304,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       }
                       href="/school/student/Holiday"
                     >
-                   Add Holiday
+                      Add Holiday
                     </Link>
                   </MenuItem>
 
@@ -2318,7 +2317,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       }
                       href="/school/student/Particularattendance"
                     >
-                       Particular Student Attendance
+                      Particular Student Attendance
                     </Link>
                   </MenuItem>
                 </div>
@@ -2358,250 +2357,232 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       Print Fee Receipt
                     </Link>
                   </MenuItem>
-                 
-                 
                 </div>
 
-                {user?.data?.CredentailsData?.Transport === true&&<>
-                
-                  <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
-                  <div
-                    onClick={() => settransport(!transport)}
-                    className="add_icons_div"
-                  >
-                    <p>Transport</p>
-                    {transport ? <ExpandMoreIcon /> : <ExpandLessIcon />}
-                  </div>
-                </MenuItem>
-                <div className={transport ? "menu_show" : "menu_hide"}>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/school/transport/vehicletype"
-                    >
+                {user?.data?.CredentailsData?.Transport === true && (
+                  <>
+                    <Divider sx={{ my: 0.5 }} />
+                    <MenuItem>
+                      <div
+                        onClick={() => settransport(!transport)}
+                        className="add_icons_div"
+                      >
+                        <p>Transport</p>
+                        {transport ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+                      </div>
+                    </MenuItem>
+                    <div className={transport ? "menu_show" : "menu_hide"}>
+                      <Divider sx={{ my: 0.5 }} />
+                      <MenuItem>
+                        <Link
+                          onClick={() => setisMobile(!isMobile)}
+                          className={({ isActive }) =>
+                            isActive ? "link_directActive" : "link_directs"
+                          }
+                          href="/school/transport/vehicletype"
+                        >
                           Add Vehicle Type
-                    </Link>
-                  </MenuItem>
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/school/transport/Vehicledetails"
-                    >
-                      Add Bus
-                    </Link>
-                  </MenuItem>
+                        </Link>
+                      </MenuItem>
+                      <Divider sx={{ my: 0.5 }} />
+                      <MenuItem>
+                        <Link
+                          onClick={() => setisMobile(!isMobile)}
+                          className={({ isActive }) =>
+                            isActive ? "link_directActive" : "link_directs"
+                          }
+                          href="/school/transport/Vehicledetails"
+                        >
+                          Add Bus
+                        </Link>
+                      </MenuItem>
 
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/school/transport/Addroutes"
-                    >
-                      Add Routes
-                    </Link>
-                  </MenuItem>
+                      <Divider sx={{ my: 0.5 }} />
+                      <MenuItem>
+                        <Link
+                          onClick={() => setisMobile(!isMobile)}
+                          className={({ isActive }) =>
+                            isActive ? "link_directActive" : "link_directs"
+                          }
+                          href="/school/transport/Addroutes"
+                        >
+                          Add Routes
+                        </Link>
+                      </MenuItem>
 
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/school/transport/Addstudent"
-                    >
-                     Add Student To Transport
-                    </Link>
-                  </MenuItem>
+                      <Divider sx={{ my: 0.5 }} />
+                      <MenuItem>
+                        <Link
+                          onClick={() => setisMobile(!isMobile)}
+                          className={({ isActive }) =>
+                            isActive ? "link_directActive" : "link_directs"
+                          }
+                          href="/school/transport/Addstudent"
+                        >
+                          Add Student To Transport
+                        </Link>
+                      </MenuItem>
 
-                  <Divider sx={{ my: 0.5 }} />
-                  <MenuItem>
-                    <Link
-                      onClick={() => setisMobile(!isMobile)}
-                      className={({ isActive }) =>
-                        isActive ? "link_directActive" : "link_directs"
-                      }
-                      href="/school/transport/Assignbus"
-                    >
-                     Assign Bus To Student
-                    </Link>
-                  </MenuItem>
-                 
-                 
-                </div>
-                
-                </>}
+                      <Divider sx={{ my: 0.5 }} />
+                      <MenuItem>
+                        <Link
+                          onClick={() => setisMobile(!isMobile)}
+                          className={({ isActive }) =>
+                            isActive ? "link_directActive" : "link_directs"
+                          }
+                          href="/school/transport/Assignbus"
+                        >
+                          Assign Bus To Student
+                        </Link>
+                      </MenuItem>
+                    </div>
+                  </>
+                )}
 
+                {user?.data?.CredentailsData?.Library === true && (
+                  <>
+                    <Divider sx={{ my: 0.5 }} />
+                    <MenuItem>
+                      <div
+                        onClick={() => setlibrary(!library)}
+                        className="add_icons_div"
+                      >
+                        <p>Library</p>
+                        {library ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+                      </div>
+                    </MenuItem>
+                    <div className={library ? "menu_show" : "menu_hide"}>
+                      <Divider sx={{ my: 0.5 }} />
+                      <MenuItem>
+                        <Link
+                          onClick={() => setisMobile(!isMobile)}
+                          className={({ isActive }) =>
+                            isActive ? "link_directActive" : "link_directs"
+                          }
+                          href="/school/library/Addstudent"
+                        >
+                          Add Student In Library
+                        </Link>
+                      </MenuItem>
+                      <Divider sx={{ my: 0.5 }} />
+                      <MenuItem>
+                        <Link
+                          onClick={() => setisMobile(!isMobile)}
+                          className={({ isActive }) =>
+                            isActive ? "link_directActive" : "link_directs"
+                          }
+                          href="/school/library/Addbook"
+                        >
+                          Add Book
+                        </Link>
+                      </MenuItem>
 
-                {user?.data?.CredentailsData?.Library === true&&<>
-                
-                <Divider sx={{ my: 0.5 }} />
-              <MenuItem>
-                <div
-                  onClick={() => setlibrary(!library)}
-                  className="add_icons_div"
-                >
-                  <p>Library</p>
-                  {library ? <ExpandMoreIcon /> : <ExpandLessIcon />}
-                </div>
-              </MenuItem>
-              <div className={library ? "menu_show" : "menu_hide"}>
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
-                  <Link
-                    onClick={() => setisMobile(!isMobile)}
-                    className={({ isActive }) =>
-                      isActive ? "link_directActive" : "link_directs"
-                    }
-                    href="/school/library/Addstudent"
-                  >
-                         Add Student In Library
-                  </Link>
-                </MenuItem>
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
-                  <Link
-                    onClick={() => setisMobile(!isMobile)}
-                    className={({ isActive }) =>
-                      isActive ? "link_directActive" : "link_directs"
-                    }
-                    href="/school/library/Addbook"
-                  >
-                   Add Book
-                  </Link>
-                </MenuItem>
+                      <Divider sx={{ my: 0.5 }} />
+                      <MenuItem>
+                        <Link
+                          onClick={() => setisMobile(!isMobile)}
+                          className={({ isActive }) =>
+                            isActive ? "link_directActive" : "link_directs"
+                          }
+                          href="/school/library/Issuereturn"
+                        >
+                          Issue Return
+                        </Link>
+                      </MenuItem>
+                    </div>
+                  </>
+                )}
 
-              
+                {user?.data?.CredentailsData?.hostel === true && (
+                  <>
+                    <Divider sx={{ my: 0.5 }} />
+                    <MenuItem>
+                      <div
+                        onClick={() => sethostel(!hostel)}
+                        className="add_icons_div"
+                      >
+                        <p>Hostel</p>
+                        {hostel ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+                      </div>
+                    </MenuItem>
+                    <div className={hostel ? "menu_show" : "menu_hide"}>
+                      <Divider sx={{ my: 0.5 }} />
+                      <MenuItem>
+                        <Link
+                          onClick={() => setisMobile(!isMobile)}
+                          className={({ isActive }) =>
+                            isActive ? "link_directActive" : "link_directs"
+                          }
+                          href="/school/hostel/Category"
+                        >
+                          Add Category
+                        </Link>
+                      </MenuItem>
+                      <Divider sx={{ my: 0.5 }} />
+                      <MenuItem>
+                        <Link
+                          onClick={() => setisMobile(!isMobile)}
+                          className={({ isActive }) =>
+                            isActive ? "link_directActive" : "link_directs"
+                          }
+                          href="/school/hostel/Facility"
+                        >
+                          Add Facility
+                        </Link>
+                      </MenuItem>
 
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
-                  <Link
-                    onClick={() => setisMobile(!isMobile)}
-                    className={({ isActive }) =>
-                      isActive ? "link_directActive" : "link_directs"
-                    }
-                    href="/school/library/Issuereturn"
-                  >
-                    Issue Return
-                  </Link>
-                </MenuItem>
+                      <Divider sx={{ my: 0.5 }} />
+                      <MenuItem>
+                        <Link
+                          onClick={() => setisMobile(!isMobile)}
+                          className={({ isActive }) =>
+                            isActive ? "link_directActive" : "link_directs"
+                          }
+                          href="/school/hostel/Addhostel"
+                        >
+                          Add Hostel
+                        </Link>
+                      </MenuItem>
 
-               
-               
-               
-              </div>
-              
-              </>}
-
-              
-              {user?.data?.CredentailsData?.hostel === true&&<>
-                
-                <Divider sx={{ my: 0.5 }} />
-              <MenuItem>
-                <div
-                  onClick={() => sethostel(!hostel)}
-                  className="add_icons_div"
-                >
-                  <p>Hostel</p>
-                  {hostel ? <ExpandMoreIcon /> : <ExpandLessIcon />}
-                </div>
-              </MenuItem>
-              <div className={hostel ? "menu_show" : "menu_hide"}>
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
-                  <Link
-                    onClick={() => setisMobile(!isMobile)}
-                    className={({ isActive }) =>
-                      isActive ? "link_directActive" : "link_directs"
-                    }
-                    href="/school/hostel/Category"
-                  >
-                         Add Category
-                  </Link>
-                </MenuItem>
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
-                  <Link
-                    onClick={() => setisMobile(!isMobile)}
-                    className={({ isActive }) =>
-                      isActive ? "link_directActive" : "link_directs"
-                    }
-                    href="/school/hostel/Facility"
-                  >
-                     Add Facility
-                  </Link>
-                </MenuItem>
-
-              
-
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
-                  <Link
-                    onClick={() => setisMobile(!isMobile)}
-                    className={({ isActive }) =>
-                      isActive ? "link_directActive" : "link_directs"
-                    }
-                    href="/school/hostel/Addhostel"
-                  >
-                   Add Hostel
-                  </Link>
-                </MenuItem>
-
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
-                  <Link
-                    onClick={() => setisMobile(!isMobile)}
-                    className={({ isActive }) =>
-                      isActive ? "link_directActive" : "link_directs"
-                    }
-                    href="/school/hostel/Addroom"
-                  >
-                Add Room
-                  </Link>
-                </MenuItem>
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
-                  <Link
-                    onClick={() => setisMobile(!isMobile)}
-                    className={({ isActive }) =>
-                      isActive ? "link_directActive" : "link_directs"
-                    }
-                    href="/school/hostel/Assignhostel"
-                  >
-             Give Room To Student
-                  </Link>
-                </MenuItem>
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
-                  <Link
-                    onClick={() => setisMobile(!isMobile)}
-                    className={({ isActive }) =>
-                      isActive ? "link_directActive" : "link_directs"
-                    }
-                    href="/school/hostel/Addstudent"
-                  >
-            Add Student In Room
-                  </Link>
-                </MenuItem>
-               
-               
-               
-               
-              </div>
-              
-              </>}
+                      <Divider sx={{ my: 0.5 }} />
+                      <MenuItem>
+                        <Link
+                          onClick={() => setisMobile(!isMobile)}
+                          className={({ isActive }) =>
+                            isActive ? "link_directActive" : "link_directs"
+                          }
+                          href="/school/hostel/Addroom"
+                        >
+                          Add Room
+                        </Link>
+                      </MenuItem>
+                      <Divider sx={{ my: 0.5 }} />
+                      <MenuItem>
+                        <Link
+                          onClick={() => setisMobile(!isMobile)}
+                          className={({ isActive }) =>
+                            isActive ? "link_directActive" : "link_directs"
+                          }
+                          href="/school/hostel/Assignhostel"
+                        >
+                          Give Room To Student
+                        </Link>
+                      </MenuItem>
+                      <Divider sx={{ my: 0.5 }} />
+                      <MenuItem>
+                        <Link
+                          onClick={() => setisMobile(!isMobile)}
+                          className={({ isActive }) =>
+                            isActive ? "link_directActive" : "link_directs"
+                          }
+                          href="/school/hostel/Addstudent"
+                        >
+                          Add Student In Room
+                        </Link>
+                      </MenuItem>
+                    </div>
+                  </>
+                )}
 
                 <Divider sx={{ my: 0.5 }} />
                 <MenuItem>
@@ -2635,7 +2616,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       }
                       href="/school/employee/Employeeidcard"
                     >
-                     Employee Id Card
+                      Employee Id Card
                     </Link>
                   </MenuItem>
                   <Divider sx={{ my: 0.5 }} />
@@ -2659,7 +2640,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       }
                       href="/school/employee/Attendance"
                     >
-                        Employee Attendance
+                      Employee Attendance
                     </Link>
                   </MenuItem>
                   <Divider sx={{ my: 0.5 }} />
@@ -2671,7 +2652,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       }
                       href="/school/employee/Addemployeeholiday"
                     >
-                          Add Holiday
+                      Add Holiday
                     </Link>
                   </MenuItem>
 
@@ -2684,7 +2665,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       }
                       href="/school/employee/Particularemployeeattendance"
                     >
-                        Particular Employee Attendance
+                      Particular Employee Attendance
                     </Link>
                   </MenuItem>
 
@@ -2697,7 +2678,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       }
                       href="/school/employee/Payroll"
                     >
-                        Add Payroll
+                      Add Payroll
                     </Link>
                   </MenuItem>
 
@@ -2713,8 +2694,6 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       Payroll Report
                     </Link>
                   </MenuItem>
-
-               
                 </div>
                 <Divider sx={{ my: 0.5 }} />
                 <MenuItem>
@@ -2736,7 +2715,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       }
                       href="/school/masters/AddSession"
                     >
-                   Seesion
+                      Seesion
                     </Link>
                   </MenuItem>
                   <Divider sx={{ my: 0.5 }} />
@@ -2748,7 +2727,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       }
                       href="/school/masters/AddSection"
                     >
-                   Section
+                      Section
                     </Link>
                   </MenuItem>
 
@@ -2785,7 +2764,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       }
                       href="/school/masters/receiptprefix"
                     >
-                        Receipt Prefix
+                      Receipt Prefix
                     </Link>
                   </MenuItem>
 
@@ -2838,7 +2817,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       Add Footer Details
                     </Link>
                   </MenuItem>
-                  
+
                   <Divider sx={{ my: 0.5 }} />
                   <MenuItem>
                     <Link
@@ -2848,7 +2827,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       }
                       href="/school/masters/Notes"
                     >
-                    Add Notic
+                      Add Notic
                     </Link>
                   </MenuItem>
                   <Divider sx={{ my: 0.5 }} />
@@ -2860,7 +2839,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       }
                       href="/school/masters/Slider"
                     >
-                  Add Slider
+                      Add Slider
                     </Link>
                   </MenuItem>
                 </div>

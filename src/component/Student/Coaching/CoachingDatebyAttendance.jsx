@@ -1,6 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../Coaching.module.css";
-function CoachingDatebyAttendance() {
+import { serverInstance } from "../../../API/ServerInstance";
+import { toast } from "react-toastify";
+import moment from "moment";
+import LoadingSpinner from "@/component/loader/LoadingSpinner";
+function getDayName(date) {
+  const days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  const dayIndex = new Date(date).getDay();
+  return days[dayIndex];
+}
+function CoachingDatebyAttendance({studentid}) {
+  const [monthlyAtttendance, setmonthlyAtttendance] = useState("");
+  const [fromdate, setfromdate] = useState("");
+  const [todate, settodate] = useState("");
+  const [loader, setloader] = useState(false);
+  const getmonthAttendance = () => {
+    setloader(true);
+    serverInstance("attendanceatudent/GetStudentByDateAttendance", "post", {
+      fromdate: fromdate,
+      todate: todate,
+      studentid:studentid
+    }).then((res) => {
+      if (res?.status === true) {
+        setloader(false);
+
+        setmonthlyAtttendance(res?.data);
+      }
+      if (res?.status === false) {
+        setloader(false);
+      }
+    });
+  };
+
   return (
     <>
       <div className={styles.maindivsearch}>
@@ -9,10 +48,9 @@ function CoachingDatebyAttendance() {
           <input
             required
             type="date"
-            placeholder="Enter the name"
-            // value={studentname}
-            // name="studentname"
-            // onChange={(e) => setstudentname(e.target.value)}
+            value={fromdate}
+            name="fromdate"
+            onChange={(e) => setfromdate(e.target.value)}
           />
         </div>
         <div className={styles.inputdiv}>
@@ -20,41 +58,48 @@ function CoachingDatebyAttendance() {
           <input
             required
             type="date"
-            placeholder="Enter the Phone No"
-            // value={studentphone}
-            // name="studentphone"
-            // onChange={(e) => setstudentphone(e.target.value)}
+            value={todate}
+            name="todate"
+            onChange={(e) => settodate(e.target.value)}
           />
         </div>
-        <button className={styles.btnactive}>Show</button>
+        <button
+          onClick={() => getmonthAttendance()}
+          className={styles.btnactive}
+        >
+          Show
+        </button>
       </div>
 
       <div className={styles.tablecontainer}>
         <table className={styles.tabletable}>
           <tbody>
             <tr className={styles.tabletr}>
-              <th className={styles.tableth}>S.NO</th>
-              <th className={styles.tableth}>Session</th>
-              <th className={styles.tableth}>Time Slot</th>
-
+              <th className={styles.tableth}>Date</th>
+              <th className={styles.tableth}>Day</th>
               <th className={styles.tableth}>Status</th>
             </tr>
 
-            <tr className={styles.tabletr}>
-              <td className={styles.tabletd}>1</td>
-
-              <td className={styles.tabletd}>data</td>
-              <td className={styles.tabletd}>data</td>
-              <td className={styles.tabletd}>data</td>
-            </tr>
-            {/* {isdata?.map((item, index) => {
-                      return (
-                       
-                      );
-                    })} */}
+            {monthlyAtttendance?.length > 0 &&
+              monthlyAtttendance?.map((item, index) => {
+                return (
+                  <tr key={index} className={styles.tabletr}>
+                    <td className={styles.tabletd}>
+                      {moment(item?.attendancedate).format("DD/MM/YYYY")}
+                    </td>
+                    <td className={styles.tabletd}>
+                      {getDayName(item?.attendancedate)}
+                    </td>
+                    <td className={styles.tabletd}>
+                      {item?.attendaceStatusIntext}
+                    </td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
       </div>
+      {loader&&<LoadingSpinner/>}
     </>
   );
 }

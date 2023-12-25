@@ -83,6 +83,7 @@ function UpdateAdmission({ setOpen, updatedata }) {
     formData.set("fathersName", fathersname);
     formData.set("courseorclass", courses);
     formData.set("rollnumber", studentrollno);
+    formData.set("SrNumber", studentrollno);
     formData.set("StudentStatus", adminssiondate);
     formData.set("batch", batchname);
     formData.set("admissionDate", adminssiondate);

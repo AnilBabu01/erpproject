@@ -11,7 +11,6 @@ import {
   allCollege,
   allClient,
 } from "../redux/actions/commanAction";
-import Loader from "@/component/loader/Loader";
 import Features from "@/component/Lending/Features/Features";
 import AOS from "aos";
 import "aos/dist/aos.css";

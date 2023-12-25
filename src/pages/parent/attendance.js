@@ -18,6 +18,7 @@ function Studentlist() {
     }
   }, [user]);
   return (
+    
     <div className="mainContainer">
       {userdata?.data?.CredentailsData?.userType === "institute" && (
         <>

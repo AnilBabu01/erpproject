@@ -82,6 +82,7 @@ function AddStudent({ setOpen }) {
     formData.set("fathersName", fathersname);
     formData.set("courseorclass", courses);
     formData.set("rollnumber", studentrollno);
+    formData.set("SrNumber", studentrollno);
     formData.set("StudentStatus", adminssiondate);
     formData.set("batch", batchname);
     formData.set("admissionDate", adminssiondate);
@@ -92,7 +93,6 @@ function AddStudent({ setOpen }) {
     formData.set("pancardnno", pano);
     formData.set("Section", "");
     formData.set("Session", "");
-    formData.set("SrNumber", studentrollno);
     formData.set("whatsappNo", usepreview ? fathersphone : whatsaapnumber);
     formData.set("markSheetname", marksheetName);
     formData.set("othersdoc", others);

@@ -8,7 +8,7 @@ import { loadUser } from "../../redux/actions/authActions";
 function Dashboard() {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(loadUser());
+    // dispatch(loadUser());
   }, []);
 
   return (

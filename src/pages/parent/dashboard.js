@@ -17,7 +17,7 @@ function Dashboard() {
   const [noticlist, setnoticlist] = useState([]);
   const { notic } = useSelector((state) => state.GetNotic);
   const { slider } = useSelector((state) => state.GetSlider);
-
+  const { user } = useSelector((state) => state.auth);
   useEffect(() => {
     // dispatch(loadUser());
     dispatch(GetNotic());
@@ -49,11 +49,17 @@ function Dashboard() {
 
         <SchoolOptions />
 
-        <div>
-          <div className={Styles.mainfooter}>
-            <Footer />
-          </div>
-        </div>
+        {user?.data?.CredentailsData?.userType === "institute" ? (
+          ""
+        ) : (
+          <>
+            <div>
+              <div className={Styles.mainfooter}>
+                <Footer />
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </>
   );

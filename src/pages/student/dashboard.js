@@ -9,15 +9,15 @@ import { Carousel } from "react-responsive-carousel";
 import Footer from "../../component/Student/Footer";
 import { GetNotic, GetSlider } from "../../redux/actions/commanAction";
 import { backendUrl } from "../../config/config";
-
+import { useRouter } from "next/router";
 function Dashboard() {
-  
+  const router = useRouter();
   const dispatch = useDispatch();
   const [sliderimglist, setsliderimglist] = useState([]);
   const [noticlist, setnoticlist] = useState([]);
   const { notic } = useSelector((state) => state.GetNotic);
   const { slider } = useSelector((state) => state.GetSlider);
-
+  const { user } = useSelector((state) => state.auth);
   useEffect(() => {
     // dispatch(loadUser());
     dispatch(GetNotic());
@@ -32,7 +32,12 @@ function Dashboard() {
     if (slider) {
       setsliderimglist(slider);
     }
-  }, [notic, slider]);
+    if (user) {
+      if (user?.data?.CredentailsData?.userType === "institute") {
+        router.push("/student/attendance");
+      }
+    }
+  }, [notic, slider,user]);
 
   return (
     <>

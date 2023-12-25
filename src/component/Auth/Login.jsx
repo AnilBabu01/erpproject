@@ -85,6 +85,7 @@ function Login({ setOpen, setOpen1, setwelcomeopen }) {
   useEffect(() => {
     if (isAuthenticated) {
       localStorage.setItem("erptoken", user?.data[0]?.token);
+      localStorage.setItem("GuestType", user?.data[0]?.User?.userType);
 
       dispatch(loadUser());
       setOpen(false);
@@ -114,10 +115,6 @@ function Login({ setOpen, setOpen1, setwelcomeopen }) {
       }
       if (user?.data[0]?.userType === "parent") {
         navigate.push("/parent/dashboard");
-      }
-
-      if (user) {
-        console.log("data from login screen", user?.data[0]?.token);
       }
     }
   }, [user]);

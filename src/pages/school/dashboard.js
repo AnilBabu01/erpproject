@@ -6,10 +6,7 @@ import LinechartPaidFee from "@/component/Institute/Charts/LinechartPaidFee";
 import BarPaidFeeChart from "@/component/Institute/Charts/BarPaidFee";
 import { useDispatch, useSelector } from "react-redux";
 import { GetSession } from "../../redux/actions/commanAction";
-import { loadUser } from "../../redux/actions/authActions";
 import { serverInstance } from "../../API/ServerInstance";
-import { toast } from "react-toastify";
-
 function Dashboard() {
   const dispatch = useDispatch();
   const [alltotaldata, setalltotaldata] = useState("");
@@ -30,18 +27,12 @@ function Dashboard() {
   const getTotalDashborData = () => {
     serverInstance("dashboard/GetAllTotalData", "post").then((res) => {
       if (res?.status === true) {
-        console.log("Total dashbora data is ", res);
         setalltotaldata(res?.data);
         setLinstFeepaidList(res?.data?.ReceiptChartdata);
         setBarFeepaidList(res?.data?.ReceiptChartdata);
         setBarExpensesList(res?.data?.ExpensesChartdata);
         setLinstExpensesList(res?.data?.ExpensesChartdata);
       }
-      // if (res?.status === false) {
-      //   toast.error(res?.msg, {
-      //     autoClose: 1000,
-      //   });
-      // }
     });
   };
 
@@ -50,14 +41,8 @@ function Dashboard() {
       sessionname: session ? session : LineChartSession,
     }).then((res) => {
       if (res?.status === true) {
-        console.log("Total dashbora data is ", res);
         setLinstFeepaidList(res?.data);
       }
-      // if (res?.status === false) {
-      //   toast.error(res?.msg, {
-      //     autoClose: 1000,
-      //   });
-      // }
     });
   };
 
@@ -66,14 +51,8 @@ function Dashboard() {
       sessionname: session ? session : LineChartSession,
     }).then((res) => {
       if (res?.status === true) {
-        console.log("Total dashbora data is ", res);
         setBarFeepaidList(res?.data);
       }
-      // if (res?.status === false) {
-      //   toast.error(res?.msg, {
-      //     autoClose: 1000,
-      //   });
-      // }
     });
   };
 
@@ -82,14 +61,8 @@ function Dashboard() {
       sessionname: session ? session : LineChartSession,
     }).then((res) => {
       if (res?.status === true) {
-        console.log("Total dashbora data is ", res);
         setLinstExpensesList(res?.data);
       }
-      // if (res?.status === false) {
-      //   toast.error(res?.msg, {
-      //     autoClose: 1000,
-      //   });
-      // }
     });
   };
 
@@ -98,14 +71,8 @@ function Dashboard() {
       sessionname: session ? session : LineChartSession,
     }).then((res) => {
       if (res?.status === true) {
-        console.log("Total dashbora data is ", res);
         setBarExpensesList(res?.data);
       }
-      // if (res?.status === false) {
-      //   toast.error(res?.msg, {
-      //     autoClose: 1000,
-      //   });
-      // }
     });
   };
 
@@ -145,9 +112,10 @@ function Dashboard() {
     });
     return total;
   };
+
   useEffect(() => {
     getTotalDashborData();
-    dispatch(loadUser());
+    // dispatch(loadUser());
     dispatch(GetSession());
   }, []);
   useEffect(() => {

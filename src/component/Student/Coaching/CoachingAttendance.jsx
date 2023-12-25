@@ -2,25 +2,15 @@ import React, { useState, useEffect } from "react";
 import styles from "../Coaching.module.css";
 import DateWise from "./CoachingDatebyAttendance";
 import Monthly from "./CoachingmonthlyAttendance";
-import TodayAt from "./CoachingTodayAttendance";
+import SchoolTodayAttendance from "./CoachingTodayAttendance";
 import { useDispatch, useSelector } from "react-redux";
-import { loadUser } from "../../../redux/actions/authActions";
-import moment from "moment";
-function CoachingAttendance() {
+function CoachingAttendance({ studentid }) {
   const dispatch = useDispatch();
   const [userdata, setuserdata] = useState("");
   const [today, settoday] = useState(true);
   const [monthly, setmonthly] = useState(false);
-  const [subject, setsubject] = useState(false);
-  const [semester, setsemester] = useState(false);
   const [datewise, setdatewise] = useState(false);
   const { user } = useSelector((state) => state.auth);
-
-  console.log("Data is ", userdata?.data?.User);
-
-  // useEffect(() => {
-  //   dispatch(loadUser());
-  // }, []);
 
   useEffect(() => {
     if (user) {
@@ -30,9 +20,9 @@ function CoachingAttendance() {
 
   return (
     <>
-      <div className="bottom-chart-left-div">
+      <div className="bottom-chart-left-div10">
         <div className="bottom-chart-left-div-inearattdendance">
-          <div className={styles.detailsdiv}>
+          {/* <div className={styles.detailsdiv}>
             <h2>Attdendance Details</h2>
             {userdata?.data?.User?.Section === "NONE" ? (
               ""
@@ -51,9 +41,9 @@ function CoachingAttendance() {
               {moment(userdata?.data?.User?.admissionDate).format("DD/MM/YYYY")}
             </p>
             <p>Roll Number &nbsp;&nbsp;{userdata?.data?.User?.rollnumber}</p>
-          </div>
+          </div> */}
           <div>
-            <div>
+            <div className={styles.selectattendancetype}>
               <button
                 onClick={() => {
                   settoday(true);
@@ -86,30 +76,19 @@ function CoachingAttendance() {
               </button>
             </div>
 
-            <div className={styles.mainpercentagediv}>
-              <div className={styles.per72}>
-                <p>Percentage Above 70%</p>
-              </div>
-              <div className={styles.per50}>
-                <p>Beetween 50% To 69% </p>
-              </div>
-              <div className={styles.per49}>
-                <p>Percentage Below or Equal 49%</p>
-              </div>
-            </div>
             {today && (
               <>
-                <TodayAt />
+                <SchoolTodayAttendance studentid={studentid} />
               </>
             )}
             {monthly && (
               <>
-                <Monthly />
+                <Monthly studentid={studentid} />
               </>
             )}
             {datewise && (
               <>
-                <DateWise />
+                <DateWise studentid={studentid} />
               </>
             )}
           </div>

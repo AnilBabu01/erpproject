@@ -23,7 +23,7 @@ function TestStudentList() {
   const [loader, setloader] = useState(false);
   const getmonthAttendance = () => {
     setloader(true);
-    serverInstance("comman/GetParentStudentList", "get").then((res) => {
+    serverInstance("comman/GetParentStudentListCoacging", "get").then((res) => {
       if (res?.status === true) {
         setloader(false);
 
@@ -47,9 +47,9 @@ function TestStudentList() {
               <tbody>
                 <tr className={styles.tabletr}>
                   <th className={styles.tableth}>Sr.No</th>
-                  <th className={styles.tableth}>Session</th>
-                  <th className={styles.tableth}>Section</th>
-                  <th className={styles.tableth}>SNO</th>
+                  {/* <th className={styles.tableth}>Session</th>
+                  <th className={styles.tableth}>Section</th> */}
+                  <th className={styles.tableth}>Roll_Number</th>
                   <th className={styles.tableth}>Student_Name</th>
                   <th className={styles.tableth}>Student_Class</th>
                   <th className={styles.tableth}>Class_Teacher_Name</th>
@@ -61,8 +61,8 @@ function TestStudentList() {
                     return (
                       <tr key={index} className={styles.tabletr}>
                         <td className={styles.tabletd}>{index + 1}</td>
-                        <td className={styles.tabletd}>{item?.Session}</td>
-                        <td className={styles.tabletd}>{item?.Section}</td>
+                        {/* <td className={styles.tabletd}>{item?.Session}</td>
+                        <td className={styles.tabletd}>{item?.Section}</td> */}
                         <td className={styles.tabletd}>{item?.SrNumber}</td>
                         <td className={styles.tabletd}>{item?.name}</td>
                         <td className={styles.tabletd}>

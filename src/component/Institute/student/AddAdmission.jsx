@@ -823,6 +823,7 @@ function AddAdmission({ setOpen }) {
                 </>
               )}
               
+              
               {otherspreview && (
                 <>
                   <div className={styles.inputdivimg10}>
