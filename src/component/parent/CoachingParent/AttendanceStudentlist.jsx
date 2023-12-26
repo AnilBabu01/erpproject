@@ -55,8 +55,8 @@ function AttendanceStudentlist() {
                   <th className={styles.tableth}>Roll_Number</th>
                   <th className={styles.tableth}>Student_Name</th>
                   <th className={styles.tableth}>Student_Class</th>
-                  <th className={styles.tableth}>Class_Teacher_Name</th>
-                  <th className={styles.tableth}>Class_Teacher_Mobile</th>
+                  {/* <th className={styles.tableth}>Class_Teacher_Name</th>
+                  <th className={styles.tableth}>Class_Teacher_Mobile</th> */}
                   <th className={styles.tableth}>Action</th>
                 </tr>
                 {isData?.length > 0 &&
@@ -71,8 +71,8 @@ function AttendanceStudentlist() {
                         <td className={styles.tabletd}>
                           {item?.courseorclass}
                         </td>
-                        <td className={styles.tabletd}>Anil</td>
-                        <td className={styles.tabletd}>7505786956</td>
+                        {/* <td className={styles.tabletd}>Anil</td>
+                        <td className={styles.tabletd}>7505786956</td> */}
                         <td className={styles.tabkeddd}>
                           <button>
                             <img

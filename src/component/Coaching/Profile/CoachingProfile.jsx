@@ -8,12 +8,24 @@ import UpdateSentsms from "./UpdateSentsms";
 import Updateprofile from "./Updateprofile";
 import { useDispatch, useSelector } from "react-redux";
 import { backendUrl } from "../../../config/config";
+import BackupData from "./BackupData";
+import DisableOptions from "./DisableOptions";
 function CoachingProfile() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { isUpdated } = useSelector((state) => state.editprofile);
-
-  console.log("update profile data is", isUpdated);
+  const [employeeattendance, setemployeeattendance] = useState(false);
+  const [studentattendance, setstudentattendance] = useState(false);
+  const [employee, setemployee] = useState(false);
+  const [hostel, sethostel] = useState(false);
+  const [transport, settransport] = useState(false);
+  const [accounts, setaccounts] = useState(false);
+  const [expenses, setexpenses] = useState(false);
+  const [frontoffice, setfrontoffice] = useState(false);
+  const [Library, setLibrary] = useState(false);
+  const [student, setstudent] = useState(false);
+  const [openbackup, setopenbackup] = useState(false);
+  const [updateoptions, setupdateoptions] = useState(false);
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
   const [open3, setOpen3] = useState(false);
@@ -53,14 +65,77 @@ function CoachingProfile() {
   const handleClose4 = () => {
     setOpen4(false);
   };
-  // useEffect(() => {
-  //   if (updatestatus) {
-  //     dispatch(loadUser());
-  //   }
-  // }, [open, open2, open3, open4]);
 
+  const handleClickOpenbackup = () => {
+    setopenbackup(true);
+  };
+
+  const handleClosebackup = () => {
+    setopenbackup(false);
+  };
+
+  
+  const handleClickOpenOption = () => {
+    setupdateoptions(true);
+  };
+
+  const handleCloseOption = () => {
+    setupdateoptions(false);
+  };
   return (
     <>
+      {openbackup && (
+        <div>
+          <Dialog
+            open={openbackup}
+            TransitionComponent={Transition}
+            onClose={handleClosebackup}
+            aria-describedby="alert-dialog-slide-description"
+            sx={{
+              "& .MuiDialog-container": {
+                "& .MuiPaper-root": {
+                  width: "100%",
+                  maxWidth: "50rem",
+                },
+              },
+            }}
+          >
+            <BackupData
+              frontoffice={frontoffice}
+              Library={Library}
+              student={student}
+              studentattendance={studentattendance}
+              employee={employee}
+              employeeattendance={employeeattendance}
+              hostel={hostel}
+              transport={transport}
+              accounts={accounts}
+              expenses={expenses}
+              setOpen={setopenbackup}
+            />
+          </Dialog>
+        </div>
+      )}
+      {updateoptions && (
+        <div>
+          <Dialog
+            open={updateoptions}
+            TransitionComponent={Transition}
+            onClose={handleCloseOption}
+            aria-describedby="alert-dialog-slide-description"
+            sx={{
+              "& .MuiDialog-container": {
+                "& .MuiPaper-root": {
+                  width: "100%",
+                  maxWidth: "21rem",
+                },
+              },
+            }}
+          >
+            <DisableOptions setOpen={setupdateoptions} />
+          </Dialog>
+        </div>
+      )}
       {open && (
         <div>
           <Dialog
@@ -142,20 +217,25 @@ function CoachingProfile() {
         </div>
       )}
       {/* user?.data?.User */}
+
       <div className="middle-chart-main-div mainprofile">
         <div className="bottom-chart-left-div">
           <div className="bottom-chart-left-div-inear1">
             <h4>Institute Details</h4>
             <div className="mainkeydetailsdiv">
               <div className="keydetailsdiv">
-                <p className="keydetailsdivp">Owner Name</p>  
-                <p>{ user?.data?.CredentailsData?.name ?  user?.data?.CredentailsData?.name : "---------"}</p>
+                <p className="keydetailsdivp">Owner Name</p>
+                <p>
+                  {user?.data?.CredentailsData?.name
+                    ? user?.data?.CredentailsData?.name
+                    : "---------"}
+                </p>
               </div>
               <div className="keydetailsdiv">
                 <p className="keydetailsdivp">Client Code</p>
                 <p>
-                  { user?.data?.CredentailsData?.ClientCode
-                    ?  user?.data?.CredentailsData?.ClientCode
+                  {user?.data?.CredentailsData?.ClientCode
+                    ? user?.data?.CredentailsData?.ClientCode
                     : "---------"}
                 </p>
               </div>
@@ -164,14 +244,16 @@ function CoachingProfile() {
               <div className="keydetailsdiv">
                 <p className="keydetailsdivp">Official Email</p>
                 <p>
-                  { user?.data?.CredentailsData?.email ?  user?.data?.CredentailsData?.email : "---------"}
+                  {user?.data?.CredentailsData?.email
+                    ? user?.data?.CredentailsData?.email
+                    : "---------"}
                 </p>
               </div>
               <div className="keydetailsdiv">
                 <p className="keydetailsdivp">Institute Name</p>
                 <p>
-                  { user?.data?.CredentailsData?.institutename
-                    ?  user?.data?.CredentailsData?.institutename
+                  {user?.data?.CredentailsData?.institutename
+                    ? user?.data?.CredentailsData?.institutename
                     : "---------"}
                 </p>
               </div>
@@ -180,16 +262,16 @@ function CoachingProfile() {
               <div className="keydetailsdiv">
                 <p className="keydetailsdivp">Phone No1</p>
                 <p>
-                  { user?.data?.CredentailsData?.phoneno1
-                    ?  user?.data?.CredentailsData?.phoneno1
+                  {user?.data?.CredentailsData?.phoneno1
+                    ? user?.data?.CredentailsData?.phoneno1
                     : "---------"}
                 </p>
               </div>
               <div className="keydetailsdiv">
                 <p className="keydetailsdivp">Phone No2</p>
                 <p>
-                  { user?.data?.CredentailsData?.phoneno2
-                    ?  user?.data?.CredentailsData?.phoneno2
+                  {user?.data?.CredentailsData?.phoneno2
+                    ? user?.data?.CredentailsData?.phoneno2
                     : "---------"}
                 </p>
               </div>
@@ -198,12 +280,18 @@ function CoachingProfile() {
               <div className="keydetailsdiv">
                 <p className="keydetailsdivp">State</p>
                 <p>
-                  { user?.data?.CredentailsData?.state ?  user?.data?.CredentailsData?.state : "---------"}
+                  {user?.data?.CredentailsData?.state
+                    ? user?.data?.CredentailsData?.state
+                    : "---------"}
                 </p>
               </div>
               <div className="keydetailsdiv">
                 <p className="keydetailsdivp">City</p>
-                <p>{ user?.data?.CredentailsData?.city ?  user?.data?.CredentailsData?.city : "---------"}</p>
+                <p>
+                  {user?.data?.CredentailsData?.city
+                    ? user?.data?.CredentailsData?.city
+                    : "---------"}
+                </p>
               </div>
             </div>
 
@@ -211,16 +299,16 @@ function CoachingProfile() {
               <div className="keydetailsdiv">
                 <p className="keydetailsdivp">Address</p>
                 <p>
-                  { user?.data?.CredentailsData?.address
-                    ?  user?.data?.CredentailsData?.address
+                  {user?.data?.CredentailsData?.address
+                    ? user?.data?.CredentailsData?.address
                     : "---------"}
                 </p>
               </div>
               <div className="keydetailsdiv">
                 <p className="keydetailsdivp">Pin Code</p>
                 <p>
-                  { user?.data?.CredentailsData?.pincode
-                    ?  user?.data?.CredentailsData?.pincode
+                  {user?.data?.CredentailsData?.pincode
+                    ? user?.data?.CredentailsData?.pincode
                     : "---------"}
                 </p>
               </div>
@@ -232,7 +320,7 @@ function CoachingProfile() {
               </div>
               <div className="keydetailsdiv">
                 <img
-                alt="img"
+                  alt="img"
                   onClick={() => handleClickOpen()}
                   className="keydetailsdiveditimg"
                   src="/images/Edit.png"
@@ -245,13 +333,12 @@ function CoachingProfile() {
             <div className="mainkeydetailsdiv">
               <div className="keydetailsdiv">
                 <p className="keydetailsdivp">Profile</p>
-                { user?.data?.CredentailsData?.profileurl ? (
+                {user?.data?.CredentailsData?.profileurl ? (
                   <>
                     <img
                       alt="img"
                       className="keydetailsdivproimg"
-                      src={`${backendUrl}public/upload/${ user?.data?.CredentailsData?.profileurl}`}
-                  
+                      src={`${backendUrl}public/upload/${user?.data?.CredentailsData?.profileurl}`}
                     />
                   </>
                 ) : (
@@ -266,13 +353,12 @@ function CoachingProfile() {
               </div>
               <div className="keydetailsdiv">
                 <p className="keydetailsdivp">Logo</p>
-                { user?.data?.CredentailsData?.logourl ? (
+                {user?.data?.CredentailsData?.logourl ? (
                   <>
                     <img
                       alt="img"
                       className="keydetailsdivlogoimg"
-                      src={`${backendUrl}public/upload/${ user?.data?.CredentailsData?.logourl}`}
-                    
+                      src={`${backendUrl}public/upload/${user?.data?.CredentailsData?.logourl}`}
                     />
                   </>
                 ) : (
@@ -290,13 +376,12 @@ function CoachingProfile() {
             <div className="mainkeydetailsdiv">
               <div className="keydetailsdiv">
                 <p className="keydetailsdivp">Certificate Logo</p>
-                { user?.data?.CredentailsData?.certificatelogo ? (
+                {user?.data?.CredentailsData?.certificatelogo ? (
                   <>
                     <img
                       alt="img"
                       className="keydetailsdivcertificatelogoimg"
-                      src={`${backendUrl}public/upload/${ user?.data?.CredentailsData?.certificatelogo}`}
-                    
+                      src={`${backendUrl}public/upload/${user?.data?.CredentailsData?.certificatelogo}`}
                     />
                   </>
                 ) : (
@@ -321,6 +406,7 @@ function CoachingProfile() {
             </div>
           </div>
         </div>
+
         <div className="bottom-chart-left-div">
           <div className="bottom-chart-left-div-inear1">
             <h4>Credentials Details</h4>
@@ -332,7 +418,7 @@ function CoachingProfile() {
                   required
                   type="text"
                   placeholder="Student@123"
-                  value={ user?.data?.CredentailsData?.Studentpassword}
+                  value={user?.data?.CredentailsData?.Studentpassword}
                   disabled={true}
                   // name="enquirydate"
                   // onChange={(e) => setenquirydate(e.target.value)}
@@ -344,7 +430,7 @@ function CoachingProfile() {
                   required
                   type="text"
                   placeholder="Parent@123"
-                  value={ user?.data?.CredentailsData?.Parentpassword}
+                  value={user?.data?.CredentailsData?.Parentpassword}
                   disabled={true}
                   // name="studentname"
                   // onChange={(e) => setstudentname(e.target.value)}
@@ -360,7 +446,7 @@ function CoachingProfile() {
                   required
                   type="text"
                   // placeholder="Student@123"
-                  value={ user?.data?.CredentailsData?.Employeepassword}
+                  value={user?.data?.CredentailsData?.Employeepassword}
                   disabled={true}
                   // name="enquirydate"
                   // onChange={(e) => setenquirydate(e.target.value)}
@@ -376,6 +462,7 @@ function CoachingProfile() {
               />
             </div>
           </div>
+
           <div className="bottom-chart-left-div-inear1">
             <h4>Communication Details</h4>
             <p>Email Credentials For Send mail</p>
@@ -387,7 +474,7 @@ function CoachingProfile() {
                   required
                   type="text"
                   placeholder="Admin@gmail.com"
-                  value={ user?.data?.CredentailsData?.Sendemail}
+                  value={user?.data?.CredentailsData?.Sendemail}
                   disabled={true}
                   // name="enquirydate"
                   // onChange={(e) => setenquirydate(e.target.value)}
@@ -399,7 +486,7 @@ function CoachingProfile() {
                   required
                   type="text"
                   placeholder="Admin@123"
-                  value={ user?.data?.CredentailsData?.SendemailPassword}
+                  value={user?.data?.CredentailsData?.SendemailPassword}
                   disabled={true}
                   // name="studentname"
                   // onChange={(e) => setstudentname(e.target.value)}
@@ -464,6 +551,102 @@ function CoachingProfile() {
               <img
                 alt="img"
                 onClick={() => handleClickOpen4()}
+                className="keydetailsdiveditimg"
+                src="/images/Edit.png"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className=" mainprofile">
+        <div className="bottom-chart-left-div">
+          <div className="bottom-chart-left-div-inear1">
+            <h4>Backup For</h4>
+            <div className="mainbackdiv">
+              <div className="backmaininear">
+                <div className="optionsdiv10">
+                  <p>Front Office</p>
+                  <input
+                    type="checkbox"
+                    value={frontoffice}
+                    onChange={(e) => {
+                      setfrontoffice(e.target.checked);
+                    }}
+                  />
+                </div>
+
+                <div className="optionsdiv10">
+                  <p>Student</p>
+                  <input
+                    type="checkbox"
+                    value={student}
+                    onChange={(e) => {
+                      setstudent(e.target.checked);
+                    }}
+                  />
+                </div>
+
+                <div className="optionsdiv10">
+                  <p>Accounts</p>
+                  <input
+                    type="checkbox"
+                    value={accounts}
+                    onChange={(e) => {
+                      setaccounts(e.target.checked);
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div className="backmaininear">
+                <div className="optionsdiv10">
+                  <p>Employee</p>
+                  <input
+                    type="checkbox"
+                    value={employee}
+                    onChange={(e) => {
+                      setemployee(e.target.checked);
+                    }}
+                  />
+                </div>
+
+                <div className="optionsdiv10">
+                  <p>Expenses</p>
+                  <input
+                    type="checkbox"
+                    value={expenses}
+                    onChange={(e) => {
+                      setexpenses(e.target.checked);
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="keydetailsdiv">
+              <button
+                onClick={() => handleClickOpenbackup()}
+                className="backbtn"
+              >
+                Take Backup
+              </button>
+            </div>
+          </div>
+
+          <div className="bottom-chart-left-div-inear1">
+            <h4>Show Or Hide These Options</h4>
+            <div className="optionsdiv">
+              <p>Front Office</p>
+              <input
+                type="checkbox"
+                checked={user?.data?.CredentailsData?.FrontOffice === true}
+                disabled={true}
+              />
+            </div>
+            <div className="keydetailsdiv">
+              <img
+                alt="img"
+                onClick={() => handleClickOpenOption()}
                 className="keydetailsdiveditimg"
                 src="/images/Edit.png"
               />

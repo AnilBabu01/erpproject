@@ -6,17 +6,15 @@ import UpdateCreadentials from "./UpdateCreadentials";
 import UpdateProImges from "./UpdateProImges";
 import UpdateSentsms from "./UpdateSentsms";
 import Updateprofile from "./Updateprofile";
-import DisableOptions from "./DisableOptions";
 import { useDispatch, useSelector } from "react-redux";
 import { backendUrl } from "../../../config/config";
 import BackupData from "./BackupData";
+import DisableOptions from "./DisableOptions";
 
 function SchoolProfile() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const [frontoffice, setfrontoffice] = useState(false);
-  const [Library, setLibrary] = useState(false);
-  const [student, setstudent] = useState(false);
+
   const [studentattendance, setstudentattendance] = useState(false);
   const [employee, setemployee] = useState(false);
   const [employeeattendance, setemployeeattendance] = useState(false);
@@ -24,6 +22,9 @@ function SchoolProfile() {
   const [transport, settransport] = useState(false);
   const [accounts, setaccounts] = useState(false);
   const [expenses, setexpenses] = useState(false);
+  const [frontoffice, setfrontoffice] = useState(false);
+  const [Library, setLibrary] = useState(false);
+  const [student, setstudent] = useState(false);
   const [open, setOpen] = useState(false);
   const [open2, setOpen2] = useState(false);
   const [open3, setOpen3] = useState(false);
@@ -115,6 +116,7 @@ function SchoolProfile() {
           </Dialog>
         </div>
       )}
+
       {updateoptions && (
         <div>
           <Dialog
@@ -555,6 +557,7 @@ function SchoolProfile() {
           </div>
         </div>
         {/* hello  */}
+
         <div className="bottom-chart-left-div">
           <div className="bottom-chart-left-div-inear1">
             <h4>Show Or Hide These Options</h4>

@@ -4,7 +4,7 @@ import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { serverInstance } from "../../../API/ServerInstance";
 import { getCourseDuration } from "../../../redux/actions/commanAction";
-function CoachingFee({ setOpen }) {
+function CoachingFee({ studentid, setOpen }) {
   const dispatch = useDispatch();
   const [data, setdata] = useState("");
   const [monthname, setmonthname] = useState("");
@@ -24,7 +24,9 @@ function CoachingFee({ setOpen }) {
   };
 
   const submit = () => {
-    serverInstance("student/GetStudentCoachingfee", "post")
+    serverInstance("student/GetStudentCoachingfee", "post", {
+      studentid: studentid,
+    })
       .then((res) => {
         if (res?.status === true) {
           console.log("student coaching fee", res);

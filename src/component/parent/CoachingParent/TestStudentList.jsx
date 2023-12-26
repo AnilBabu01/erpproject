@@ -4,6 +4,7 @@ import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
 import moment from "moment";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
+import { useRouter } from "next/router";
 function getDayName(date) {
   const days = [
     "Sunday",
@@ -19,6 +20,7 @@ function getDayName(date) {
 }
 
 function TestStudentList() {
+  const navigate = useRouter();
   const [isData, setisData] = useState("");
   const [loader, setloader] = useState(false);
   const getmonthAttendance = () => {
@@ -52,8 +54,8 @@ function TestStudentList() {
                   <th className={styles.tableth}>Roll_Number</th>
                   <th className={styles.tableth}>Student_Name</th>
                   <th className={styles.tableth}>Student_Class</th>
-                  <th className={styles.tableth}>Class_Teacher_Name</th>
-                  <th className={styles.tableth}>Class_Teacher_Mobile</th>
+                  {/* <th className={styles.tableth}>Class_Teacher_Name</th>
+                  <th className={styles.tableth}>Class_Teacher_Mobile</th> */}
                   <th className={styles.tableth}>Action</th>
                 </tr>
                 {isData?.length > 0 &&
@@ -68,13 +70,20 @@ function TestStudentList() {
                         <td className={styles.tabletd}>
                           {item?.courseorclass}
                         </td>
-                        <td className={styles.tabletd}>Anil</td>
-                        <td className={styles.tabletd}>7505786956</td>
+                        {/* <td className={styles.tabletd}>Anil</td>
+                        <td className={styles.tabletd}>7505786956</td> */}
                         <td className={styles.tabkeddd}>
                           <button>
                             <img
                               className={styles.tabkedddimgactive10}
-                              // onClick={() => ClickOpendelete(item?.id)}
+                              onClick={() =>
+                                navigate.push({
+                                  pathname: "/parent/StudentTest",
+                                  query: {
+                                    StudentId: JSON.stringify(item?.id),
+                                  },
+                                })
+                              }
                               src="/images/Eye.png"
                               alt="imgss"
                             />

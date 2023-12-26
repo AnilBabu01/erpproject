@@ -3,7 +3,7 @@ import styles from "../../component/Student/Coaching.module.css";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { serverInstance } from "../../API/ServerInstance";
-import Resultshow from "../../component/Student/Resultshow";
+import ShowResult from "../../component/parent/CoachingParent/ShowResult";
 import moment from "moment";
 import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 function StudentTest() {
   const router = useRouter();
 
+  
   const [loading, setloading] = useState(false);
   const [resultlist, setresultlist] = useState([]);
   const [list, setlist] = useState([]);
@@ -91,7 +92,7 @@ function StudentTest() {
               },
             }}
           >
-            <Resultshow setOpen={setOpenupdate} data={isdata} />
+            <ShowResult setOpen={setOpenupdate} data={isdata} />
           </Dialog>
         </div>
       )}

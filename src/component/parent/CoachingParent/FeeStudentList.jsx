@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "../../Student/Coaching.module.css";
 import { serverInstance } from "../../../API/ServerInstance";
-import { toast } from "react-toastify";
-import moment from "moment";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
+import { useRouter } from "next/router";
 function getDayName(date) {
   const days = [
     "Sunday",
@@ -19,6 +18,7 @@ function getDayName(date) {
 }
 
 function FeeStudentList() {
+  const navigate = useRouter();
   const [isData, setisData] = useState("");
   const [loader, setloader] = useState(false);
   const getmonthAttendance = () => {
@@ -47,13 +47,11 @@ function FeeStudentList() {
               <tbody>
                 <tr className={styles.tabletr}>
                   <th className={styles.tableth}>Sr.No</th>
-                  {/* <th className={styles.tableth}>Session</th>
-                  <th className={styles.tableth}>Section</th> */}
+
                   <th className={styles.tableth}>Roll_Number</th>
                   <th className={styles.tableth}>Student_Name</th>
                   <th className={styles.tableth}>Student_Class</th>
-                  <th className={styles.tableth}>Class_Teacher_Name</th>
-                  <th className={styles.tableth}>Class_Teacher_Mobile</th>
+
                   <th className={styles.tableth}>Action</th>
                 </tr>
                 {isData?.length > 0 &&
@@ -61,20 +59,25 @@ function FeeStudentList() {
                     return (
                       <tr key={index} className={styles.tabletr}>
                         <td className={styles.tabletd}>{index + 1}</td>
-                        {/* <td className={styles.tabletd}>{item?.Session}</td>
-                        <td className={styles.tabletd}>{item?.Section}</td> */}
+
                         <td className={styles.tabletd}>{item?.SrNumber}</td>
                         <td className={styles.tabletd}>{item?.name}</td>
                         <td className={styles.tabletd}>
                           {item?.courseorclass}
                         </td>
-                        <td className={styles.tabletd}>Anil</td>
-                        <td className={styles.tabletd}>7505786956</td>
+
                         <td className={styles.tabkeddd}>
                           <button>
                             <img
                               className={styles.tabkedddimgactive10}
-                              // onClick={() => ClickOpendelete(item?.id)}
+                              onClick={() =>
+                                navigate.push({
+                                  pathname: "/student/fee",
+                                  query: {
+                                    StudentId: JSON.stringify(item?.id),
+                                  },
+                                })
+                              }
                               src="/images/Eye.png"
                               alt="imgss"
                             />

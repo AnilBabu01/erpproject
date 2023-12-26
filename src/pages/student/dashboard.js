@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loadUser } from "../../redux/actions/authActions";
 import Marquee from "react-fast-marquee";
 import Infocard from "../../component/Student/Infocard";
 import Styles from "./Dashboard.module.css";
@@ -19,7 +18,6 @@ function Dashboard() {
   const { slider } = useSelector((state) => state.GetSlider);
   const { user } = useSelector((state) => state.auth);
   useEffect(() => {
-    // dispatch(loadUser());
     dispatch(GetNotic());
     dispatch(GetSlider());
   }, []);
@@ -37,7 +35,7 @@ function Dashboard() {
         router.push("/student/attendance");
       }
     }
-  }, [notic, slider,user]);
+  }, [notic, slider, user]);
 
   return (
     <>
