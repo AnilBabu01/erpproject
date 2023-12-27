@@ -20,7 +20,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
 import AddStudentCategory from "@/component/Coaching/expenses/AddExpenses";
-import UpdateCategory from "@/component/coaching/expenses/UpdateExpenses";
+import UpdateCategory from "@/component/Coaching/expenses/UpdateExpenses";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
