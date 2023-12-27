@@ -15,8 +15,8 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
-import AddEmp from "../../../component/coaching/employee/AddEmp";
-import UpdateEmp from "../../../component/coaching/employee/UpdateEmp";
+import AddEmp from "../../../component/Coaching/employee/AddEmp";
+import UpdateEmp from "../../../component/Coaching/employee/UpdateEmp";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
 const studentStatus = [
