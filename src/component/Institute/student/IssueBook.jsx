@@ -163,7 +163,7 @@ function IssueBook({ setOpen, updatedata }) {
                 {AlreadyIssuedbooklist?.length > 0 &&
                   AlreadyIssuedbooklist?.map((item, index) => {
                     return (
-                      <tr className={styles.tabletr}>
+                      <tr key={index} className={styles.tabletr}>
                         <td className={styles.tableth}>{item?.BookId}</td>
                         <td className={styles.tableth}>{item?.BookTitle}</td>
                         <td className={styles.tableth}>
@@ -188,7 +188,7 @@ function IssueBook({ setOpen, updatedata }) {
                 </tr>
                 {studentbooklist?.map((item, index) => {
                   return (
-                    <tr className={styles.tabletr}>
+                    <tr key={index} className={styles.tabletr}>
                       <td className={styles.tableth}>{item?.BookId}</td>
                       <td className={styles.tableth}>{item?.BookTitle}</td>
                       <td className={styles.tableth}>{item?.Realquantity}</td>

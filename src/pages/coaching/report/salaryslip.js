@@ -4,7 +4,7 @@ import { loadUser } from "../../../redux/actions/authActions";
 import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
-import Addclass from "@/component/Institute/masters/Addclass";
+
 function Salaryslip() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -25,18 +25,7 @@ function Salaryslip() {
 
   return (
     <>
-      {open && (
-        <div>
-          <Dialog
-            open={open}
-            TransitionComponent={Transition}
-            onClose={handleCloseregister}
-            aria-describedby="alert-dialog-slide-description"
-          >
-            <Addclass setOpen={setOpen} />
-          </Dialog>
-        </div>
-      )}
+     
       <div className="mainContainer">
         <div>
           <div className={styles.topmenubar}>

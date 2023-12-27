@@ -621,8 +621,8 @@ function TransPortPaidFee() {
                     <th className={styles.tableth}>Student_Name</th>
                     {showfathers && (
                       <>
-                        <th className={styles.tableth}>Father's_Name</th>
-                        <th className={styles.tableth}>Father's_Mobile</th>
+                        <th className={styles.tableth}>Father&apos;s_Name</th>
+                        <th className={styles.tableth}>Father&apos;s_Mobile</th>
                       </>
                     )}
                     {/* <th className={styles.tableth}>Adminssion_Date</th> */}

@@ -144,7 +144,7 @@ function ReturnBook({ setOpen, updatedata }) {
                 </tr>
                 {studentbooklist?.map((item, index) => {
                   return (
-                    <tr className={styles.tabletr}>
+                    <tr key={index} className={styles.tabletr}>
                       <td className={styles.tableth}>{item?.BookId}</td>
                       <td className={styles.tableth}>{item?.BookTitle}</td>
                       <td className={styles.tableth}>

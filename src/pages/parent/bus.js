@@ -3,14 +3,10 @@ import BustrackingStudentListSchool from "@/component/parent/SchoolParent/Bustra
 import BustrackingStudentListColleg from "@/component/parent/CollegeParent/BustrackingStudentList";
 import BustrackingStudentListCoaching from "@/component/parent/CoachingParent/BustrackingStudentList";
 import { loadUser } from "../../redux/actions/authActions";
-import { useDispatch, useSelector } from "react-redux";
-function bus() {
-  const dispatch = useDispatch();
+import { useSelector } from "react-redux";
+function Bus() {
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
-  useEffect(() => {
-    // dispatch(loadUser());
-  }, []);
 
   useEffect(() => {
     if (user) {
@@ -38,4 +34,4 @@ function bus() {
   );
 }
 
-export default bus;
+export default Bus;

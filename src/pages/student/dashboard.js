@@ -63,9 +63,8 @@ function Dashboard() {
             {sliderimglist?.length > 0 &&
               sliderimglist?.map((item, index) => {
                 return (
-                  <div className={Styles.sliderimgdiv}>
+                  <div key={index} className={Styles.sliderimgdiv}>
                     <img
-                      key={index}
                       src={`${backendUrl}public/upload/${item?.ImgUrl}`}
                       alt="nhbbb"
                     />

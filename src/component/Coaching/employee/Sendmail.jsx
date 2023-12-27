@@ -8,7 +8,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
 
-function SendEmail({ setOpen }) {
+function Sendmail({ setOpen }) {
   let date = new Date();
   let fullyear = date.getFullYear();
   let lastyear = date.getFullYear() - 1;
@@ -39,10 +39,7 @@ function SendEmail({ setOpen }) {
 
   const Sendmail = () => {
     setloading(true);
-    serverInstance("comman/SendemailToStudent", "post", {
-      // session: sessionname,
-      classname: coursename,
-      // section: sectionname,
+    serverInstance("comman/SendemailToEmployee", "post", {
       subject: subject,
       Message: Message,
     }).then((res) => {
@@ -69,60 +66,8 @@ function SendEmail({ setOpen }) {
         <div className={styles.closeicondiv} onClick={() => setOpen(false)}>
           <CloseIcon />
         </div>
-        <h1>Send mail to student</h1>
+        <h1>Send mail to all employee</h1>
         <div>
-          <div className={styles.divmaininput}>
-            <div className={styles.inputdiv}>
-              <label>Class</label>
-              <Select
-                required
-                className={styles.addwidth}
-                sx={{
-                  width: "100%",
-                  fontSize: 14,
-                  "& .MuiSelect-select": {
-                    paddingTop: "0.6rem",
-                    paddingBottom: "0.6em",
-                  },
-                }}
-                value={coursename}
-                name="coursename"
-                onChange={(e) => setcoursename(e.target.value)}
-                // displayEmpty
-              >
-                <MenuItem
-                  sx={{
-                    fontSize: 14,
-                  }}
-                  value={"Please Select"}
-                >
-                  Please Select
-                </MenuItem>
-                {courseList?.length > 0 &&
-                  courseList?.map((item, index) => {
-                    return (
-                      <MenuItem
-                        key={index}
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={item?.coursename}
-                      >
-                        {item?.coursename}
-                      </MenuItem>
-                    );
-                  })}
-              </Select>
-            </div>
-            <div className={styles.inputdiv}>
-              <label>&nbsp;</label>
-              <label>&nbsp;</label>
-            </div>
-            <div className={styles.inputdiv}>
-              <label>&nbsp;</label>
-              <label>&nbsp;</label>
-            </div>
-          </div>
           <div className={styles.textareadiv}>
             <label>Subject</label>
             <input
@@ -161,4 +106,4 @@ function SendEmail({ setOpen }) {
   );
 }
 
-export default SendEmail;
+export default Sendmail;

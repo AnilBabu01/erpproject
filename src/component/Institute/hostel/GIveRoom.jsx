@@ -202,8 +202,8 @@ function GIveRoom({ setOpen, updatedata }) {
                 {roomlist?.length > 0 &&
                   roomlist?.map((item, index) => {
                     return (
-                      <tr className={styles.tabletr}>
-                        <td className={styles.tableth} key={index}>
+                      <tr className={styles.tabletr} key={index}>
+                        <td className={styles.tableth}>
                           <input
                             type="checkbox"
                             name="vehicle1"

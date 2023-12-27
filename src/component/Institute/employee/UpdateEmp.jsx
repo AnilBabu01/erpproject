@@ -7,6 +7,7 @@ import { UpdateEmployee } from "../../../redux/actions/commanAction";
 import { useDispatch, useSelector } from "react-redux";
 
 const formData = new FormData();
+
 function UpdateEmp({ setOpen, updatedata }) {
   const dispatch = useDispatch();
   const [isdata, setisData] = useState([]);

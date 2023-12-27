@@ -37,7 +37,8 @@ const CoachingNavbar = () => {
               Dashboard
             </Link>
           </div>
-          <ul className="nav_menu">
+          {user?.data?.CredentailsData?.FrontOffice === true &&<>
+            <ul className="nav_menu">
             <li className="nav_list nav_list_menu">
               <div className="nffffav_linka">
                 <Link
@@ -67,6 +68,10 @@ const CoachingNavbar = () => {
               </div>
             </li>
           </ul>
+          
+          
+          </>}
+         
           <ul className="nav_menu">
             <li className="nav_list nav_list_menu">
               <div className="nffffav_linka">
@@ -267,6 +272,9 @@ const CoachingNavbar = () => {
                       <div className="main_innear_menu_dropdown">
                         <Link href="/coaching/employee/Staff">
                           Add Employee
+                        </Link>
+                        <Link href="/coaching/employee/sendemail">
+                          Send Email
                         </Link>
                         <Link href="/coaching/employee/Employeeidcard">
                           Employee Id Card

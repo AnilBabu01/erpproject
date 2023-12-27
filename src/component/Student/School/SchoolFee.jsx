@@ -101,6 +101,7 @@ function SchoolFee({ studentid }) {
 
     return monthsOrder.indexOf(a.MonthName) - monthsOrder.indexOf(b.MonthName);
   };
+
   const TotalOtherFee = (data) => {
     let total = 0;
     data?.map((item) => {
@@ -301,7 +302,7 @@ function SchoolFee({ studentid }) {
                                       ?.sort(compareMonths)
                                       ?.map((item, index) => {
                                         return (
-                                          <td className={styles.tableth}>
+                                          <td key={index} className={styles.tableth}>
                                             {item?.paidStatus === true
                                               ? "Paid"
                                               : "Dues"}
@@ -503,7 +504,7 @@ function SchoolFee({ studentid }) {
                                       ?.sort(compareMonths)
                                       ?.map((item, index) => {
                                         return (
-                                          <td className={styles.tableth}>
+                                          <td key={index} className={styles.tableth}>
                                             {item?.paidStatus === true
                                               ? "Paid"
                                               : "Dues"}

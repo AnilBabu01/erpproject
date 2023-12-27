@@ -93,6 +93,7 @@ function UpdateHostel({ setOpen, updatedata }) {
               <>
                 <div className={styles.main_img_divvvv}>
                   <img
+                  alt="img"
                     className={styles.dharamshala_imgggg}
                     src={previewprofile1}
                   />
@@ -104,6 +105,7 @@ function UpdateHostel({ setOpen, updatedata }) {
                   <>
                     <div className={styles.main_img_divvvv}>
                       <img
+                        alt="img"
                         className={styles.dharamshala_imgggg}
                         src={`${backendUrl}public/upload/${updatedata?.Hostelurl}`}
                       />
@@ -112,7 +114,7 @@ function UpdateHostel({ setOpen, updatedata }) {
                 ) : (
                   <>
                     <div className={styles.main_img_divvvv}>
-                      <img src="/images/camera.png" />
+                      <img src="/images/camera.png"   alt="img" />
                     </div>
                   </>
                 )}

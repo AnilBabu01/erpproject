@@ -5,7 +5,7 @@ export default function LoadingSpinner() {
   return (
     <div className={styles.spinnercontainer1}>
       <div className={styles.loadingspinner1}>
-        <img src="/images/loadergif1.gif" />
+        <img src="/images/loadergif1.gif"  alt="loader"/>
       </div>
     </div>
   );

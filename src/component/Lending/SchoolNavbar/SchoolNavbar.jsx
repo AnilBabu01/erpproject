@@ -37,6 +37,7 @@ const SchoolNavbar = () => {
               Dashboard
             </Link>
           </div>
+          
           {user?.data?.CredentailsData?.FrontOffice === true && (
             <>
               <ul className="nav_menu">
@@ -374,6 +375,7 @@ const SchoolNavbar = () => {
                       <h1>General</h1>
                       <div className="main_innear_menu_dropdown">
                         <Link href="/school/employee/Staff">Add Employee</Link>
+                        <Link href="/school/employee/sendemail">Send Mail</Link>
                         <Link href="/school/employee/Employeeidcard">
                           Employee Id Card
                         </Link>

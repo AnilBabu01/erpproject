@@ -87,6 +87,7 @@ function Addhostel({ setOpen }) {
               <>
                 <div className={styles.main_img_divvvv}>
                   <img
+                  alt="img"
                     className={styles.dharamshala_imgggg}
                     src={previewprofile1}
                   />
@@ -95,7 +96,7 @@ function Addhostel({ setOpen }) {
             ) : (
               <>
                 <div className={styles.main_img_divvvv}>
-                  <img src="/images/camera.png" />
+                  <img alt="img" src="/images/camera.png" />
                 </div>
               </>
             )}

@@ -186,14 +186,14 @@ function Sendemail() {
           <div className={styles.addtopmenubar}>
             <button
               className={
-                userdata?.data && userdata?.data?.User?.userType === "institute"
+                userdata?.data && userdata?.data?.User?.userType === "school"
                   ? styles.addtopmenubarbuttonactive
                   : userdata?.data && userdata?.data?.User?.masterWrite === true
                   ? styles.addtopmenubarbuttonactive
                   : styles.addtopmenubarbuttondisable
               }
               disabled={
-                userdata?.data && userdata?.data?.User?.userType === "institute"
+                userdata?.data && userdata?.data?.User?.userType === "school"
                   ? false
                   : userdata?.data && userdata?.data?.User?.masterWrite === true
                   ? false
