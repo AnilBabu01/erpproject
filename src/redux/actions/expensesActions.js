@@ -11,6 +11,9 @@ import {
   GET_EXPENSESTYPE_SUCCESS,
   GET_EXPENSES_REQUEST,
   GET_EXPENSES_SUCCESS,
+  GET_TRANSFER_REQUEST,
+  GET_TRANSFER_SUCCESS,
+  GET_TRANSFERFAIL,
   CLEAR_ERRORS,
 } from "../constants/expensesConstants";
 
@@ -176,6 +179,52 @@ export const GetExpenses =
 
         dispatch({
           type: GET_EXPENSES_SUCCESS,
+          payload: data?.data,
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: CLEAR_ERRORS,
+        payload: error?.response?.data?.msg,
+      });
+    }
+  };
+
+// Get all books
+export const GetTransferAmmount =
+  (fromdate, todate, Transfer_Mode, sessionname) => async (dispatch) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${localStorage.getItem("erptoken")}`,
+        },
+      };
+      dispatch({ type: GET_TRANSFER_REQUEST });
+
+      if (fromdate || todate || Transfer_Mode || sessionname) {
+        const { data } = await axios.get(
+          `${backendApiUrl}expenses/amounttransfer?fromdate=${fromdate}&todate=${todate}&Transfer_Mode=${Transfer_Mode}&sessionname=${sessionname}`,
+          config
+        );
+
+        dispatch({
+          type: GET_TRANSFER_SUCCESS,
+          payload: data?.data,
+        });
+      } else {
+        let date = new Date();
+        let fullyear = date.getFullYear();
+        let lastyear = date.getFullYear() - 1;
+        let sessionss = `${lastyear}-${fullyear}`;
+        dispatch({ type: GET_TRANSFER_REQUEST });
+        const { data } = await axios.get(
+          `${backendApiUrl}expenses/amounttransfer?sessionname=${sessionss}`,
+          config
+        );
+
+        dispatch({
+          type: GET_TRANSFER_SUCCESS,
           payload: data?.data,
         });
       }

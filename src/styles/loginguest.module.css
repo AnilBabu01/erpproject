@@ -3,7 +3,9 @@
   background: #093959;
   color: white;
   padding-bottom: 1%;
-  padding-top: 3%;
+  padding-top: 5%;
+  height: 45rem;
+
 }
 .left {
   width: 50%;
@@ -302,6 +304,10 @@
   padding-top: 4%;
 }
 @media screen and (max-width: 780px) {
+  .closeicondivauth {
+    left: 95%;
+    bottom: 99%;
+  }
   .closeicondiv {
     left: 92%;
     bottom: 99%;
@@ -372,6 +378,8 @@
     display: block;
     width: 100%;
     padding-top: 3.5rem;
+    height: auto;
+    padding-bottom: 4%;
   }
 
   .left {
@@ -443,5 +451,6 @@
     padding: 0%;
     padding-left: 1%;
     padding-right: 1%;
+    width: 100%;
   }
 }

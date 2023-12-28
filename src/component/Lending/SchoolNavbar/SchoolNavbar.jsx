@@ -37,7 +37,7 @@ const SchoolNavbar = () => {
               Dashboard
             </Link>
           </div>
-          
+
           {user?.data?.CredentailsData?.FrontOffice === true && (
             <>
               <ul className="nav_menu">
@@ -616,7 +616,7 @@ const SchoolNavbar = () => {
                   }
                   href="/school/Expenses/AddExpenses"
                 >
-                  Expenses <KeyboardArrowDownIcon />
+                  Finance <KeyboardArrowDownIcon />
                 </Link>
               </div>
               <div className={navbar ? "dropdownscroll" : "dropdown"}>
@@ -624,23 +624,14 @@ const SchoolNavbar = () => {
                   <div className="main_report_dropdown">
                     <div className="main_report_dropdown_rightmargin">
                       <h1>General</h1>
-
-                      {/* <div className="main_innear_menu_dropdown">
-                        <Link href="/school/Expenses/AddAssesType">
-                          Add Asset Type
-                        </Link>
-                      </div>
-                      <div className="main_innear_menu_dropdown">
-                        <Link href="/school/Expenses/AddAsset">Add Asset</Link>
-                      </div> */}
-                      {/* <div className="main_innear_menu_dropdown">
-                        <Link href="/school/Expenses/AddExpensesType">
-                          Add Expenses Type
-                        </Link>
-                      </div> */}
                       <div className="main_innear_menu_dropdown">
                         <Link href="/school/Expenses/AddExpenses">
                           Add Expenses
+                        </Link>
+                      </div>
+                      <div className="main_innear_menu_dropdown">
+                        <Link href="/school/Expenses/CashBankTransfer">
+                          Cash/Bank Transfer
                         </Link>
                       </div>
                       <div className="main_innear_menu_dropdown">

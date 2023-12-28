@@ -1165,7 +1165,13 @@
   border-color: rgb(0, 0, 128);
 }
 @media screen and (max-width: 780px) {
-
+  .maincontentdivshado {
+    width: 97%;
+    background: #ffffff;
+    box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    padding: 1rem;
+  }
   .backmaininear {
     width: 100%;
   }

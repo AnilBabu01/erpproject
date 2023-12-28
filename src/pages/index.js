@@ -92,7 +92,7 @@ export default function Home({ setOpen }) {
             Get Started
           </button>
         </div>
-        <Features />
+        {/* <Features /> */}
         <FeatureRrp />
       </div>
     </main>

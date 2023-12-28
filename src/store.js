@@ -103,6 +103,7 @@ import {
   GetAssetReducer,
   GetExpensesTypeReducer,
   GetExpensesReducer,
+  GetAmountTransferReducer
 } from "./redux/reducers/expensesReducers";
 const reducer = combineReducers({
   auth: authReducer,
@@ -193,7 +194,8 @@ const reducer = combineReducers({
   GetClassSubject:GetClassSubjectReducer,
   GetFooterDetails:GetFooterDetailsReducer,
   GetNotic:GetNoticReducer,
-  GetSlider:GetSliderReducer
+  GetSlider:GetSliderReducer,
+  GetAmountTransfer:GetAmountTransferReducer
 });
 const middlware = [thunk];
 export const store = createStore(

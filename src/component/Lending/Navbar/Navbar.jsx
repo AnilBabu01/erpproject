@@ -38,6 +38,7 @@ import Modal from "@mui/material/Modal";
 import Welcome from "@/component/Auth/Welcome";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -404,7 +405,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
         </Link>
 
         <div className={isMobile ? "main_div_header10" : "main_div_header10"}>
-          {isAuthenticated && user? (
+          {isAuthenticated && user ? (
             <>
               <AdminNavbar />
               <CollegeNavbar />
@@ -604,76 +605,6 @@ function Navbar({ open, setOpen, setLoadingshow }) {
               </>
             )}
 
-            {user?.data?.User?.userType === "student" && (
-              <>
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
-                  <Link
-                    className={
-                      router.pathname == "/mainadmin/dashbord"
-                        ? "link_directActive"
-                        : "link_direct10"
-                    }
-                    href="/mainadmin/dashboard"
-                  >
-                    Dashboard
-                  </Link>
-                </MenuItem>
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
-                  <Link
-                    className={
-                      router.pathname == "/"
-                        ? "link_directActive"
-                        : "link_direct10"
-                    }
-                    href="/"
-                  >
-                    Clients
-                  </Link>
-                </MenuItem>
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
-                  <Link
-                    className={
-                      router.pathname == "/"
-                        ? "link_directActive"
-                        : "link_direct10"
-                    }
-                    href="/"
-                  >
-                    Active Plans
-                  </Link>
-                </MenuItem>
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
-                  <Link
-                    className={
-                      router.pathname == "/"
-                        ? "link_directActive"
-                        : "link_direct10"
-                    }
-                    href="/"
-                  >
-                    Exhausted Plans
-                  </Link>
-                </MenuItem>
-                <Divider sx={{ my: 0.5 }} />
-                <MenuItem>
-                  <Link
-                    className={
-                      router.pathname == "/"
-                        ? "link_directActive"
-                        : "link_direct10"
-                    }
-                    href="/"
-                  >
-                    Guest Clients
-                  </Link>
-                </MenuItem>
-              </>
-            )}
-
             {user?.data?.User?.userType === "parent" && (
               <>
                 <Divider sx={{ my: 0.5 }} />
@@ -743,7 +674,308 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                 </MenuItem>
               </>
             )}
-            {console.log("data is from navbar ", user?.data?.User?.userType)}
+
+            {user?.data?.User?.userType === "student" && (
+              <>
+                {user?.data?.CredentailsData?.userType === "school" && (
+                  <>
+                    <Divider sx={{ my: 0.5 }} />
+                    <MenuItem onClick={() => setisMobile(!isMobile)}>
+                      <Link
+                        className={
+                          router.pathname == "/student/dashboard"
+                            ? "link_directActive"
+                            : "link_direct10"
+                        }
+                        href="/student/dashboard"
+                      >
+                        Home
+                      </Link>
+                    </MenuItem>
+
+                    <Divider sx={{ my: 0.5 }} />
+                    <MenuItem onClick={() => setisMobile(!isMobile)}>
+                      <Link
+                        className={
+                          router.pathname == "/student/TimeTable"
+                            ? "link_directActive"
+                            : "link_direct10"
+                        }
+                        href="/student/TimeTable"
+                      >
+                        Time Table
+                      </Link>
+                    </MenuItem>
+
+                    <Divider sx={{ my: 0.5 }} />
+                    <MenuItem onClick={() => setisMobile(!isMobile)}>
+                      <Link
+                        className={
+                          router.pathname == "/student/attendance"
+                            ? "link_directActive"
+                            : "link_direct10"
+                        }
+                        href="/student/attendance"
+                      >
+                        Attendance
+                      </Link>
+                    </MenuItem>
+
+                    <Divider sx={{ my: 0.5 }} />
+                    <MenuItem onClick={() => setisMobile(!isMobile)}>
+                      <Link
+                        className={
+                          router.pathname == "/student/fee"
+                            ? "link_directActive"
+                            : "link_direct10"
+                        }
+                        href="/student/fee"
+                      >
+                        Fee
+                      </Link>
+                    </MenuItem>
+                    {user?.data?.User?.Transport === true && (
+                      <>
+                        <Divider sx={{ my: 0.5 }} />
+                        <MenuItem onClick={() => setisMobile(!isMobile)}>
+                          <Link
+                            className={
+                              router.pathname == "/student/transport"
+                                ? "link_directActive"
+                                : "link_direct10"
+                            }
+                            href="/student/transport"
+                          >
+                            Transport
+                          </Link>
+                        </MenuItem>
+                      </>
+                    )}
+
+                    {user?.data?.User?.hostal === true && (
+                      <>
+                        <Divider sx={{ my: 0.5 }} />
+                        <MenuItem onClick={() => setisMobile(!isMobile)}>
+                          <Link
+                            className={
+                              router.pathname == "/student/hostel"
+                                ? "link_directActive"
+                                : "link_direct10"
+                            }
+                            href="/student/hostel"
+                          >
+                            Hostel
+                          </Link>
+                        </MenuItem>
+                      </>
+                    )}
+
+                    {user?.data?.User?.Library === true && (
+                      <>
+                        <Divider sx={{ my: 0.5 }} />
+                        <MenuItem onClick={() => setisMobile(!isMobile)}>
+                          <Link
+                            className={
+                              router.pathname == "/student/library"
+                                ? "link_directActive"
+                                : "link_direct10"
+                            }
+                            href="/student/library"
+                          >
+                            Library
+                          </Link>
+                        </MenuItem>
+                      </>
+                    )}
+
+                    <Divider sx={{ my: 0.5 }} />
+                    <MenuItem onClick={() => setisMobile(!isMobile)}>
+                      <Link
+                        className={
+                          router.pathname == "/student/test"
+                            ? "link_directActive"
+                            : "link_direct10"
+                        }
+                        href="/student/test"
+                      >
+                        Test
+                      </Link>
+                    </MenuItem>
+                  </>
+                )}
+
+                {user?.data?.CredentailsData?.userType === "college" && (
+                  <>
+                    <Divider sx={{ my: 0.5 }} />
+                    <MenuItem onClick={() => setisMobile(!isMobile)}>
+                      <Link
+                        className={
+                          router.pathname == "/student/dashboard"
+                            ? "link_directActive"
+                            : "link_direct10"
+                        }
+                        href="/student/dashboard"
+                      >
+                        Home
+                      </Link>
+                    </MenuItem>
+
+                    <Divider sx={{ my: 0.5 }} />
+                    <MenuItem onClick={() => setisMobile(!isMobile)}>
+                      <Link
+                        className={
+                          router.pathname == "/student/TimeTable"
+                            ? "link_directActive"
+                            : "link_direct10"
+                        }
+                        href="/student/TimeTable"
+                      >
+                        Time Table
+                      </Link>
+                    </MenuItem>
+
+                    <Divider sx={{ my: 0.5 }} />
+                    <MenuItem onClick={() => setisMobile(!isMobile)}>
+                      <Link
+                        className={
+                          router.pathname == "/student/attendance"
+                            ? "link_directActive"
+                            : "link_direct10"
+                        }
+                        href="/student/attendance"
+                      >
+                        Attendance
+                      </Link>
+                    </MenuItem>
+
+                    <Divider sx={{ my: 0.5 }} />
+                    <MenuItem onClick={() => setisMobile(!isMobile)}>
+                      <Link
+                        className={
+                          router.pathname == "/student/fee"
+                            ? "link_directActive"
+                            : "link_direct10"
+                        }
+                        href="/student/fee"
+                      >
+                        Fee
+                      </Link>
+                    </MenuItem>
+                    {user?.data?.User?.Transport === true && (
+                      <>
+                        <Divider sx={{ my: 0.5 }} />
+                        <MenuItem onClick={() => setisMobile(!isMobile)}>
+                          <Link
+                            className={
+                              router.pathname == "/student/transport"
+                                ? "link_directActive"
+                                : "link_direct10"
+                            }
+                            href="/student/transport"
+                          >
+                            Transport
+                          </Link>
+                        </MenuItem>
+                      </>
+                    )}
+
+                    {user?.data?.User?.hostal === true && (
+                      <>
+                        <Divider sx={{ my: 0.5 }} />
+                        <MenuItem onClick={() => setisMobile(!isMobile)}>
+                          <Link
+                            className={
+                              router.pathname == "/student/hostel"
+                                ? "link_directActive"
+                                : "link_direct10"
+                            }
+                            href="/student/hostel"
+                          >
+                            Hostel
+                          </Link>
+                        </MenuItem>
+                      </>
+                    )}
+
+                    {user?.data?.User?.Library === true && (
+                      <>
+                        <Divider sx={{ my: 0.5 }} />
+                        <MenuItem onClick={() => setisMobile(!isMobile)}>
+                          <Link
+                            className={
+                              router.pathname == "/student/library"
+                                ? "link_directActive"
+                                : "link_direct10"
+                            }
+                            href="/student/library"
+                          >
+                            Library
+                          </Link>
+                        </MenuItem>
+                      </>
+                    )}
+
+                    <Divider sx={{ my: 0.5 }} />
+                    <MenuItem onClick={() => setisMobile(!isMobile)}>
+                      <Link
+                        className={
+                          router.pathname == "/student/test"
+                            ? "link_directActive"
+                            : "link_direct10"
+                        }
+                        href="/student/test"
+                      >
+                        Test
+                      </Link>
+                    </MenuItem>
+                  </>
+                )}
+
+                {user?.data?.CredentailsData?.userType === "institute" && (
+                  <>
+                    <Divider sx={{ my: 0.5 }} />
+                    <MenuItem onClick={() => setisMobile(!isMobile)}>
+                      <Link
+                        className={
+                          router.pathname == "/student/attendance"
+                            ? "link_directActive"
+                            : "link_direct10"
+                        }
+                        href="/student/attendance"
+                      >
+                        Attendance
+                      </Link>
+                    </MenuItem>
+                    <Divider sx={{ my: 0.5 }} />
+                    <MenuItem onClick={() => setisMobile(!isMobile)}>
+                      <Link
+                        className={
+                          router.pathname == "/student/fee"
+                            ? "link_directActive"
+                            : "link_direct10"
+                        }
+                        href="/student/fee"
+                      >
+                        Fee
+                      </Link>
+                    </MenuItem>
+                    <Divider sx={{ my: 0.5 }} />
+                    <MenuItem onClick={() => setisMobile(!isMobile)}>
+                      <Link
+                        className={
+                          router.pathname == "/student/test"
+                            ? "link_directActive"
+                            : "link_direct10"
+                        }
+                        href="/student/test"
+                      >
+                        Test
+                      </Link>
+                    </MenuItem>
+                  </>
+                )}
+              </>
+            )}
 
             {user?.data?.User?.userType === "institute" && (
               <>

@@ -4,9 +4,9 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  rules: {
-    "@next/next/no-img-element": "off",
-  },
+  // rules: {
+  //   "@next/next/no-img-element": "off",
+  // },
   output: "export",
 };
 
