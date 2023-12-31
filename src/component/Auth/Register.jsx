@@ -15,14 +15,13 @@ import {
 import { serverInstance } from "../../API/ServerInstance";
 import { toast } from "react-toastify";
 import CircularProgress from "@mui/material/CircularProgress";
-
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 const formData = new FormData();
 function Register({ setOpen, setOpen1 }) {
   const dispatch = useDispatch();
   const [timestatus, settimestatus] = useState(false);
   const [time, settime] = useState(180);
-  const [showtimer, setshowtimer] = useState(false);
-  const [phoneOtpStatus, setphoneOtpStatus] = useState(false);
   const [phonenDone, setphonenDone] = useState(false);
   const [emailDone, setemailDone] = useState(false);
   const [getphoneotpstate, setgetphoneotpstate] = useState(false);
@@ -49,12 +48,21 @@ function Register({ setOpen, setOpen1 }) {
   const [state, setstate] = useState("");
   const [pincode, setpincode] = useState("");
   const [password, setpassword] = useState("");
+  const [confirmpassword, setconfirmpassword] = useState("");
+  const [showconfirm, setshowconfirm] = useState(false);
+  const [showpassword, setshowpassword] = useState(false);
   const [phoneotp, setphoneotp] = useState("");
   const [emailOtp, setemailOtp] = useState("");
   const { loading } = useSelector((state) => state.auth);
 
   const submit = (e) => {
     e.preventDefault();
+    if (password !== confirmpassword) {
+      toast.error("Must be password and confirm password same", {
+        autoClose: 1000,
+      });
+      return 0;
+    }
     formData.set("name", owername);
     formData.set("email", email);
     formData.set("password", password);
@@ -266,7 +274,7 @@ function Register({ setOpen, setOpen1 }) {
         </div>
         <h1>New Institute/School Registration</h1>
         <div>
-          {phonenDone === false || emailDone === false ? (
+          {phonenDone === true || emailDone === true ? (
             <>
               <div className={styles.mainformdivregister}>
                 <div className={styles.divmaininput}>
@@ -545,12 +553,36 @@ function Register({ setOpen, setOpen1 }) {
                   <label>Password</label>
                   <input
                     required
-                    type="password"
+                    type={showpassword ? "text" : "password"}
                     placeholder="Enter the password"
                     value={password}
                     name="password"
                     onChange={(e) => setpassword(e.target.value)}
                   />
+                  <li
+                    className={styles.showpassbtn10}
+                    onClick={() => setshowpassword(!showpassword)}
+                  >
+                    {showpassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                  </li>
+                </div>
+
+                <div className={styles.inputdivregister}>
+                  <label>Confirm Password</label>
+                  <input
+                    required
+                    type={showconfirm ? "text" : "password"}
+                    placeholder="Enter the confirm password"
+                    value={confirmpassword}
+                    name="confirmpassword"
+                    onChange={(e) => setconfirmpassword(e.target.value)}
+                  />
+                  <li
+                    className={styles.showpassbtn11}
+                    onClick={() => setshowconfirm(!showconfirm)}
+                  >
+                    {showconfirm ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                  </li>
                 </div>
                 <div className={styles.logbtnstylediv}>
                   <button className={styles.logbtnstyle}>Create Account</button>

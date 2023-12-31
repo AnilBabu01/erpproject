@@ -127,6 +127,7 @@
   display: flex;
   flex-direction: column;
   width: 32%;
+  margin-top: 0.5rem;
 }
 .inputdivregister label {
   margin-bottom: 1%;
@@ -285,6 +286,20 @@
   top: 43%;
   list-style: none;
 }
+
+.showpassbtn10 {
+  position: absolute;
+  left: 29%;
+  top: 61%;
+  list-style: none;
+}
+
+.showpassbtn11 {
+  position: absolute;
+  left: 29%;
+  top: 75%;
+  list-style: none;
+}
 .selecttimemain {
   display: flex;
   justify-content: space-around;
@@ -357,7 +372,7 @@
   padding-left: 3.2%;
   padding-right: 3.2%;
   margin-top: 2%;
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1191,7 +1206,21 @@
   .backmaininear {
     width: 100%;
   }
+
   .showpassbtn {
+    position: absolute;
+    left: 86%;
+    top: 43%;
+    list-style: none;
+  }
+
+  .showpassbtn10 {
+    position: absolute;
+    left: 86%;
+    top: 43%;
+    list-style: none;
+  }
+  .showpassbtn11 {
     position: absolute;
     left: 86%;
     top: 43%;
@@ -1204,6 +1233,7 @@
   }
   .inputdivregister {
     width: 100%;
+    position: relative;
   }
   .dashActiveBtn {
     width: auto;
@@ -1264,6 +1294,8 @@
 
   .divmainlogin {
     width: 20rem;
+    height: 39rem;
+    overflow-x: scroll;
   }
   .divmainloginchangepassword {
     width: 100%;
