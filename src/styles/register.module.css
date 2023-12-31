@@ -153,7 +153,6 @@
   border-color: rgb(0, 0, 128);
 }
 
-
 .inputdiv80 {
   margin-top: 1rem;
 }
@@ -214,7 +213,6 @@
   border-color: rgb(0, 0, 128);
 }
 
-
 .inputdivsingle {
   display: flex;
   flex-direction: column;
@@ -246,7 +244,6 @@
   box-shadow: rgba(0, 0, 128, 0.25) 0px 0px 0px 0.2rem;
   border-color: rgb(0, 0, 128);
 }
-
 
 .inputdiv10 {
   display: flex;
@@ -402,7 +399,7 @@
   left: 99%;
   bottom: 99%;
 }
-.McsQuestionmaindiv{
+.McsQuestionmaindiv {
   padding: 0.5rem;
 }
 .mainper {
@@ -1152,7 +1149,7 @@
   box-shadow: rgba(0, 0, 128, 0.25) 0px 0px 0px 0.2rem;
   border-color: rgb(0, 0, 128);
 }
-.subjectinput{
+.subjectinput {
   border: 1px solid #093959;
   width: 100%;
   margin-bottom: 1%;
@@ -1160,15 +1157,28 @@
   border-radius: 5px;
   padding-left: 0.5rem;
 }
-.subjectinput:focus{
+.subjectinput:focus {
   box-shadow: rgba(0, 0, 128, 0.25) 0px 0px 0px 0.2rem;
   border-color: rgb(0, 0, 128);
 }
-.mainformdivregister{
+.mainformdivregister {
   width: 60rem;
 }
 @media screen and (max-width: 780px) {
-  .mainformdivregister{
+  .closeicondivauth {
+    display: flex;
+    justify-content: right;
+    padding-right: 1%;
+    padding-top: 1%;
+    cursor: pointer;
+    position: absolute;
+    background: #ff6900;
+    padding: 1%;
+    border-radius: 30px;
+    left: 95%;
+    bottom: 99%;
+  }
+  .mainformdivregister {
     width: 100%;
   }
   .maincontentdivshado {
