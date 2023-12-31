@@ -290,14 +290,14 @@
 .showpassbtn10 {
   position: absolute;
   left: 29%;
-  top: 61%;
+  top: 63%;
   list-style: none;
 }
 
 .showpassbtn11 {
   position: absolute;
   left: 29%;
-  top: 75%;
+  top: 78%;
   list-style: none;
 }
 .selecttimemain {
@@ -1178,6 +1178,10 @@
 }
 .mainformdivregister {
   width: 60rem;
+}
+.mainloginspan{
+  color: #ff6900;
+  margin-left: 0.5rem;
 }
 @media screen and (max-width: 780px) {
   .closeicondivauth {

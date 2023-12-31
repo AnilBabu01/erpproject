@@ -17,6 +17,8 @@ import { toast } from "react-toastify";
 import CircularProgress from "@mui/material/CircularProgress";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { indiaStatesData } from "./StaticData";
+
 const formData = new FormData();
 function Register({ setOpen, setOpen1 }) {
   const dispatch = useDispatch();
@@ -44,16 +46,21 @@ function Register({ setOpen, setOpen1 }) {
   const [phoneno2, setphoneno2] = useState("");
   const [organizationName, setorganizationName] = useState("");
   const [address, setaddress] = useState("");
-  const [city, setcity] = useState("");
-  const [state, setstate] = useState("");
-  const [pincode, setpincode] = useState("");
   const [password, setpassword] = useState("");
   const [confirmpassword, setconfirmpassword] = useState("");
   const [showconfirm, setshowconfirm] = useState(false);
   const [showpassword, setshowpassword] = useState(false);
   const [phoneotp, setphoneotp] = useState("");
   const [emailOtp, setemailOtp] = useState("");
+  const [city, setcity] = useState("");
+  const [state, setstate] = useState("");
+  const [pincode, setpincode] = useState("");
+  const [cityname, setcityname] = useState("");
+  const [statename, setstatename] = useState("");
+  const [pincodename, setpincodename] = useState("");
   const { loading } = useSelector((state) => state.auth);
+
+  console.log(city, state, pincode, cityname, statename, pincodename);
 
   const submit = (e) => {
     e.preventDefault();
@@ -63,14 +70,27 @@ function Register({ setOpen, setOpen1 }) {
       });
       return 0;
     }
+    let cityname = indiaStatesData?.states
+      .find((item) => item?.id === Number(state))
+      ?.districts?.find((item) => item?.id === Number(city))?.name;
+
+    let statename = indiaStatesData?.states?.find(
+      (item) => item?.id === Number(state)
+    )?.name;
+
+    let pinname = indiaStatesData?.states
+      ?.find((item) => item?.id === Number(state))
+      ?.districts?.find((item) => item?.id === Number(city))
+      ?.pincodes?.find((item) => item?.id === Number(pincode));
+
     formData.set("name", owername);
     formData.set("email", email);
     formData.set("password", password);
     formData.set("institutename", organizationName);
     formData.set("phoneno1", phoneno1);
     formData.set("address", address);
-    formData.set("city", city);
-    formData.set("state", state);
+    formData.set("city", cityname);
+    formData.set("state", statename);
     formData.set("pincode", pincode);
     formData.set("userType", loginas);
     dispatch(register(formData, loginas, setOpen, setOpen1));
@@ -274,7 +294,7 @@ function Register({ setOpen, setOpen1 }) {
         </div>
         <h1>New Institute/School Registration</h1>
         <div>
-          {phonenDone === true || emailDone === true ? (
+          {phonenDone === false || emailDone === false ? (
             <>
               <div className={styles.mainformdivregister}>
                 <div className={styles.divmaininput}>
@@ -515,37 +535,66 @@ function Register({ setOpen, setOpen1 }) {
                 </div>
                 <div className={styles.divmaininput}>
                   <div className={styles.inputdivregister}>
-                    <label>City</label>
-                    <input
-                      required
-                      type="text"
-                      placeholder="Enter the city"
-                      value={city}
-                      name="city"
-                      onChange={(e) => setcity(e.target.value)}
-                    />
+                    <label>State</label>
+
+                    <select onChange={(e) => setstate(e.target.value)}>
+                      <option value="">Select State</option>
+                      {indiaStatesData?.states.map((state) => (
+                        <option
+                          key={state.id}
+                          value={state.id}
+                          onClick={() => {
+                            setstatename(state?.id);
+                            console.log("hh", state?.id);
+                          }}
+                        >
+                          {state?.name}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                   <div className={styles.inputdivregister}>
-                    <label>State</label>
-                    <input
-                      required
-                      type="text"
-                      placeholder="Enter the State"
-                      value={state}
-                      name="state"
-                      onChange={(e) => setstate(e.target.value)}
-                    />
+                    <label>City</label>
+
+                    <select onChange={(e) => setcity(e.target.value)}>
+                      <option value="">Select State</option>
+
+                      {indiaStatesData?.states
+                        ?.find((item) => item?.id === Number(state))
+                        ?.districts?.map((district) => (
+                          <option
+                            key={district.id}
+                            value={district.id}
+                            onClick={() => setcityname(district.name)}
+                          >
+                            {district.name}
+                          </option>
+                        ))}
+                    </select>
                   </div>
                   <div className={styles.inputdivregister}>
                     <label>Pin Code</label>
-                    <input
-                      required
-                      type="text"
-                      placeholder="Enter the Pincode"
-                      value={pincode}
-                      name="pincode"
-                      onChange={(e) => setpincode(e.target.value)}
-                    />
+
+                    <select onChange={(e) => setpincode(e.target.value)}>
+                      <option value={pincode}>Select State</option>
+
+                      {indiaStatesData?.states
+                        .find((item) => {
+                          return item?.id === Number(state);
+                        })
+                        ?.districts?.find((item) => {
+                          return item?.id === Number(city);
+                        })
+                        ?.pincodes?.map((pincode) => (
+                          <option
+                            key={pincode}
+                            value={pincode}
+                            onClick={() => setpincodename(pincode)}
+                          >
+                            {pincode}
+                          </option>
+                        ))}
+                    </select>
                   </div>
                 </div>
 
@@ -591,6 +640,18 @@ function Register({ setOpen, setOpen1 }) {
             </>
           )}
         </div>
+        <p>
+          If you have account
+          <span
+            onClick={() => {
+              setOpen(false);
+              setOpen1(true);
+            }}
+            className={styles.mainloginspan}
+          >
+            Login
+          </span>
+        </p>
       </div>
       {loading && <LoadingSpinner />}
     </>

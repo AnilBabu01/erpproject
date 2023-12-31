@@ -30,7 +30,7 @@ const customStyles = {
   }),
 };
 
-function Login({ setOpen, setOpen1, setwelcomeopen }) {
+function Login({ setOpen, setOpen1, setwelcomeopen, setopenforget }) {
   const dispatch = useDispatch();
   const navigate = useRouter();
   const [loginas, setloginas] = useState("College");
@@ -478,7 +478,15 @@ function Login({ setOpen, setOpen1, setwelcomeopen }) {
               </div>
 
               <div className={styles.forgottextdiv}>
-                <h2>Forget Password ?</h2>
+                <h2
+                  onClick={() => {
+                    setopenforget(true);
+                    setOpen(false);
+                    setOpen1(false);
+                  }}
+                >
+                  Forget Password ?
+                </h2>
               </div>
 
               <div className={styles.logbtnstylediv}>

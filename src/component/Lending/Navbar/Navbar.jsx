@@ -36,6 +36,7 @@ import EmployeeNavbar from "../EmployeeNavbar/EmployeeNavbar";
 import { AnimatePresence, motion } from "framer-motion";
 import Modal from "@mui/material/Modal";
 import Welcome from "@/component/Auth/Welcome";
+import Forgetpassword from "@/component/Auth/Forgetpassword";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
@@ -84,10 +85,6 @@ function Navbar({ open, setOpen, setLoadingshow }) {
     setAnchorEl(null);
   };
 
-  useEffect(() => {
-    // dispatch(loadUser());
-  }, []);
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -96,28 +93,16 @@ function Navbar({ open, setOpen, setLoadingshow }) {
     setwelcomeopen(false);
   };
 
-  const handleWelcomeClickOpen = () => {
-    setwelcomeopen(true);
+  const [openforget, setopenforget] = useState(false);
+
+  const handleClickOpenforget = () => {
+    setopenforget(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="top" ref={ref} {...props} />;
-  });
-
-  const handleCloseregister = () => {
-    setOpen1(false);
+  const handleWelcomeCloseforget = () => {
+    setopenforget(false);
   };
 
-  const handlestudentCloseregister = () => {
-    setOpen3(false);
-  };
-
-  const handleClose4 = () => {
-    setOpen4(false);
-  };
   const logout = () => {
     localStorage.removeItem("erptoken");
     setLoadingshow(true);
@@ -277,23 +262,6 @@ function Navbar({ open, setOpen, setLoadingshow }) {
 
       {open && (
         <>
-          {/* <Dialog
-            open={open}
-            TransitionComponent={Transition}
-            keepMounted
-            onClose={handleClose}
-            aria-describedby="alert-dialog-slide-description"
-            sx={{
-              "& .MuiDialog-container": {
-                "& .MuiPaper-root": {
-                  maxWidth: "100%",
-                },
-              },
-            }}
-          >
-            <Login setOpen={setOpen} setOpen1={setOpen1} />
-          </Dialog> */}
-
           <Modal
             open={open}
             // onClose={handleClose}
@@ -304,6 +272,26 @@ function Navbar({ open, setOpen, setLoadingshow }) {
               <Login
                 setOpen={setOpen}
                 setOpen1={setOpen1}
+                setopenforget={setopenforget}
+                setwelcomeopen={setwelcomeopen}
+              />
+            </Box>
+          </Modal>
+        </>
+      )}
+
+      {openforget && (
+        <>
+          <Modal
+            open={openforget}
+            // onClose={handleClose}
+            aria-labelledby="child-modal-title"
+            aria-describedby="child-modal-description"
+          >
+            <Box sx={{ ...style }}>
+              <Forgetpassword
+                setOpen={setopenforget}
+                setOpen1={setopenforget}
                 setwelcomeopen={setwelcomeopen}
               />
             </Box>
@@ -313,23 +301,6 @@ function Navbar({ open, setOpen, setLoadingshow }) {
 
       {open1 && (
         <>
-          {/* <Dialog
-            open={open1}
-            TransitionComponent={Transition}
-            onClose={handleCloseregister}
-            aria-describedby="alert-dialog-slide-description"
-            sx={{
-              "& .MuiDialog-container": {
-                "& .MuiPaper-root": {
-                  width: "100%",
-                  maxWidth: "60rem",
-                },
-              },
-            }}
-          >
-            <Register setOpen={setOpen1} setOpen1={setOpen} />
-          </Dialog> */}
-
           <Modal
             open={open1}
             // onClose={handleCloseregister}

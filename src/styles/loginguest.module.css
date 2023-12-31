@@ -412,8 +412,8 @@
   }
 
   .btnActive {
-    width: auto;
-    height: 35px;
+    /* width: auto;
+    height: 35px; */
     border-radius: 7px;
     color: white;
     background: #093959;
@@ -423,7 +423,7 @@
     margin: 0.4rem;
   }
 
-  .btnActive:hover {
+  /* .btnActive:hover {
     width: auto;
     height: 35px;
     border-radius: 7px;
@@ -433,11 +433,11 @@
     justify-content: center;
     align-items: center;
     margin: 0.4rem;
-  }
+  } */
 
   .btndeActive {
-    width: auto;
-    height: 35px;
+    /* width: auto;
+    height: 35px; */
     border-radius: 7px;
     border: 1px solid #093959;
     color: #093959;
