@@ -117,7 +117,7 @@ input#donation-date {
   border-radius: 5px;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
-  border-bottom: 2px solid #ff6900;
+  /* border-bottom: 2px solid #ff6900; */
 }
 .main_div_header_scroll {
   display: flex;
@@ -157,7 +157,7 @@ input#donation-date {
 .main_div_header_scroll .dropdown1 .dropbtn:hover {
   background-color: white;
   color: #ff6900;
-  border-bottom: 2px solid #ff6900;
+  /* border-bottom: 2px solid #ff6900; */
 }
 .link_direct {
   color: white;
@@ -166,11 +166,11 @@ input#donation-date {
 .link_directActive {
   color: #ff6900;
   font-size: 16px;
-  border-bottom: 2px solid #ff6900;
+  /* border-bottom: 2px solid #ff6900; */
 }
 .link_direct:hover {
   color: #ff6900;
-  border-bottom: 2px solid #ff6900;
+  /* border-bottom: 2px solid #ff6900; */
 }
 
 .link_direct10 {
@@ -180,7 +180,7 @@ input#donation-date {
 
 .link_direct10:hover {
   color: #ff6900;
-  border-bottom: 2px solid #ff6900;
+  /* border-bottom: 2px solid #ff6900; */
 }
 .main_div_header10 p {
   margin-bottom: 0px;
@@ -195,7 +195,7 @@ input#donation-date {
 .main_div_header10 a:hover {
   background-color: #093959;
   color: #ff6900;
-  border-bottom: 2px solid #ff6900;
+  /* border-bottom: 2px solid #ff6900; */
 }
 .dropbtn {
   background-color: #093959;

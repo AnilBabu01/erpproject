@@ -1164,7 +1164,13 @@
   box-shadow: rgba(0, 0, 128, 0.25) 0px 0px 0px 0.2rem;
   border-color: rgb(0, 0, 128);
 }
+.mainformdivregister{
+  width: 60rem;
+}
 @media screen and (max-width: 780px) {
+  .mainformdivregister{
+    width: 100%;
+  }
   .maincontentdivshado {
     width: 97%;
     background: #ffffff;

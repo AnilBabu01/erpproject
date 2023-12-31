@@ -8,6 +8,7 @@ import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
 function CashTransfer({ setOpen }) {
   const dispatch = useDispatch();
+  
   var today = new Date();
   var date = today.toISOString().substring(0, 10);
   const [PayOption, setPayOption] = useState("Cash");

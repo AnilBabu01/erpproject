@@ -37,41 +37,41 @@ const CoachingNavbar = () => {
               Dashboard
             </Link>
           </div>
-          {user?.data?.CredentailsData?.FrontOffice === true &&<>
-            <ul className="nav_menu">
-            <li className="nav_list nav_list_menu">
-              <div className="nffffav_linka">
-                <Link
-                  className={
-                    router.pathname == "/coaching/frontoffice/enquiry"
-                      ? "link_directActive"
-                      : "link_direct"
-                  }
-                  href="/coaching/frontoffice/enquiry"
-                >
-                  Front Office <KeyboardArrowDownIcon />
-                </Link>
-              </div>
-              <div className={navbar ? "dropdownscroll" : "dropdown"}>
-                <div className="dropdown-inner">
-                  <div className="main_report_dropdown">
-                    <div className="main_report_dropdown_rightmargin">
-                      <h1>General</h1>
-                      <div className="main_innear_menu_dropdown">
-                        <Link href="/coaching/frontoffice/enquiry">
-                          Admission Enquiry
-                        </Link>
+          {user?.data?.CredentailsData?.FrontOffice === true && (
+            <>
+              <ul className="nav_menu">
+                <li className="nav_list nav_list_menu">
+                  <div className="nffffav_linka">
+                    <Link
+                      className={
+                        router.pathname == "/coaching/frontoffice/enquiry"
+                          ? "link_directActive"
+                          : "link_direct"
+                      }
+                      href="/coaching/frontoffice/enquiry"
+                    >
+                      Front Office <KeyboardArrowDownIcon />
+                    </Link>
+                  </div>
+                  <div className={navbar ? "dropdownscroll" : "dropdown"}>
+                    <div className="dropdown-inner">
+                      <div className="main_report_dropdown">
+                        <div className="main_report_dropdown_rightmargin">
+                          <h1>General</h1>
+                          <div className="main_innear_menu_dropdown">
+                            <Link href="/coaching/frontoffice/enquiry">
+                              Admission Enquiry
+                            </Link>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </li>
-          </ul>
-          
-          
-          </>}
-         
+                </li>
+              </ul>
+            </>
+          )}
+
           <ul className="nav_menu">
             <li className="nav_list nav_list_menu">
               <div className="nffffav_linka">
@@ -92,7 +92,6 @@ const CoachingNavbar = () => {
                     <div className="main_report_dropdown_rightmargin">
                       <h1>General</h1>
                       <div className="main_innear_menu_dropdown">
-                      
                         <Link href="/coaching/student/admission">
                           Admission
                         </Link>
@@ -111,8 +110,6 @@ const CoachingNavbar = () => {
                         </Link>
                       </div>
                     </div>
-
-                  
 
                     <div className="main_report_dropdown_rightmargin">
                       <h1>Parent</h1>
@@ -241,7 +238,6 @@ const CoachingNavbar = () => {
                         <Link href="/coaching/accounts/searchfee">
                           Search Fees Payment
                         </Link>
-                      
                       </div>
                     </div>
                   </div>
@@ -291,7 +287,7 @@ const CoachingNavbar = () => {
                           Employee Attendance
                         </Link>
                       </div>
-                     
+
                       <div className="main_innear_menu_dropdown">
                         <Link href="/coaching/employee/Addemployeeholiday">
                           Add Holiday
@@ -346,16 +342,19 @@ const CoachingNavbar = () => {
                           Add Batch Time
                         </Link>
                         <Link href="/coaching/masters/course">Course</Link>
-                        {/* <Link href="/coaching/masters/courseduration">
-                          Course Duration In Month
-                        </Link> */}
+
                         <Link href="/coaching/masters/masterstudentcategory">
                           Student Category
                         </Link>
                         <Link href="/coaching/masters/receiptprefix">
                           Receipt Prefix
                         </Link>
+                      </div>
+                    </div>
 
+                    <div className="main_report_dropdown_rightmargin">
+                      <h1>General</h1>
+                      <div className="main_innear_menu_dropdown">
                         <Link href="/coaching/masters/masterfee">
                           Fees Structure
                         </Link>
@@ -414,7 +413,6 @@ const CoachingNavbar = () => {
                         <Link href="/coaching/report/pendingfee">
                           Student All Pending Fee Report
                         </Link>
-                      
                       </div>
                     </div>
                     <div className="main_report_dropdown_rightmargin">

@@ -14,6 +14,7 @@ import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
 import Adddepart from "@/component/Coaching/masters/AddEmpIdPrefix";
 import Updatedepart from "@/component/Coaching/masters/UpdateEmpPrefix";
+import { loadUser } from "../../../redux/actions/authActions";
 function EmployeePrefix() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -71,6 +72,10 @@ function EmployeePrefix() {
   useEffect(() => {
     dispatch(getReceiptPrefix());
   }, [open, openupdate, openalert]);
+
+  useEffect(() => {
+    dispatch(loadUser());
+  }, []);
   return (
     <>
       {open && (

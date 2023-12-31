@@ -14,6 +14,7 @@ import {
 import Features from "@/component/Lending/Features/Features";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import Footer from "@/component/Lending/Home/Footer";
 export default function Home({ setOpen }) {
   const dispatch = useDispatch();
   const navigate = useRouter();
@@ -81,7 +82,8 @@ export default function Home({ setOpen }) {
               Enterprise resource planning (ERP) refers to a type of software
               that organizations use to manage day-to-day business activities
               such as accounting, procurement, project management, risk
-              management and compliance, and supply chain operations.
+              management and compliance, and supply chain operations. So We here
+              &quot;Abtechzone&quot; Team offer you a brilliant and management experience
             </h1>
             <button onClick={() => setOpen(true)}>Get Started</button>
           </div>
@@ -94,6 +96,7 @@ export default function Home({ setOpen }) {
         </div>
         {/* <Features /> */}
         <FeatureRrp />
+        {/* <Footer/> */}
       </div>
     </main>
   );

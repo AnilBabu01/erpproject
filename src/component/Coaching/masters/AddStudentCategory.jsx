@@ -29,14 +29,14 @@ function AddStudentCategory({ setOpen }) {
         <div className={styles.closeicondiv} onClick={() => setOpen(false)}>
           <CloseIcon />
         </div>
-        <h1>Add Category</h1>
+        <h1>Add Caste</h1>
         <form onSubmit={submit}>
           <div className={styles.inputdivsingle}>
             <div className={styles.inputdivsingle}>
-              <label>Category</label>
+              <label>Caste</label>
               <input
                 type="text"
-                placeholder="Enter the Category"
+                placeholder="Enter the Caste"
                 value={Categoryname}
                 name="Categoryname"
                 onChange={(e) => setCategoryname(e.target.value)}
@@ -51,7 +51,7 @@ function AddStudentCategory({ setOpen }) {
               {loading ? (
                 <CircularProgress size={25} style={{ color: "red" }} />
               ) : (
-                "Save Category"
+                "Save"
               )}
             </button>
           </div>

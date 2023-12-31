@@ -15,7 +15,7 @@ import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
 import Addfee from "@/component/Coaching/masters/Addfee";
 import UpdateFee from "@/component/Coaching/masters/UpdateFee";
-
+import { loadUser } from "../../../redux/actions/authActions";
 function Masterfee() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -76,7 +76,10 @@ function Masterfee() {
   useEffect(() => {
     dispatch(getfee());
   }, [open, openupdate, openalert]);
-
+  
+  useEffect(() => {
+    dispatch(loadUser());
+  }, []);
   return (
     <>
       {open && (

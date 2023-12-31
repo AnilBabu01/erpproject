@@ -13,6 +13,7 @@ import AddCourse from "@/component/Institute/masters/AddClassSubject";
 import Updatecourse from "@/component/Institute/masters/UpdateClassSubject";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
+import { loadUser } from "../../../redux/actions/authActions";
 function AddClassSubject() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -86,7 +87,9 @@ function AddClassSubject() {
   useEffect(() => {
     dispatch(GetClassSubject());
   }, []);
-
+  useEffect(() => {
+    dispatch(loadUser());
+  }, []);
   return (
     <>
       {open && (

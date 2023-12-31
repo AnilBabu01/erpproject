@@ -29,7 +29,7 @@ function UpdateEmployeeType({ updatedata, setOpen }) {
         <div className={styles.closeicondiv} onClick={() => setOpen(false)}>
           <CloseIcon />
         </div>
-        <h1>Add Designation</h1>
+        <h1>Update Designation</h1>
         <form onSubmit={submit}>
           <div className={styles.inputdivsingle}>
             <div className={styles.inputdivsingle}>

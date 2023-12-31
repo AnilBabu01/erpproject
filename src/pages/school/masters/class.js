@@ -11,6 +11,7 @@ import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
 import AddCourse from "@/component/Institute/masters/AddCourse";
 import Updatecourse from "@/component/Institute/masters/Updatecourse";
+import { loadUser } from "../../../redux/actions/authActions";
 function Class() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -69,7 +70,10 @@ function Class() {
   useEffect(() => {
     dispatch(getcourse());
   }, [open, openupdate, openalert]);
-
+  
+  useEffect(() => {
+    dispatch(loadUser());
+  }, []);
   return (
     <>
       {open && (

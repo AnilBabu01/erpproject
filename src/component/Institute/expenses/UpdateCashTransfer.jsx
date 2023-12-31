@@ -14,6 +14,7 @@ function UpdateCashTransfer({ setOpen, updatedata }) {
   const [ExpensesAmount, setExpensesAmount] = useState("");
   const [Comment, setComment] = useState("");
   const [loading, setloading] = useState(false);
+  
   const [expenseslist, setexpenseslist] = useState([]);
 
   const { expensestype } = useSelector((state) => state.GetExpensesType);

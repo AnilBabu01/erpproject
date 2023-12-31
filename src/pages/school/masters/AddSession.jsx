@@ -13,6 +13,7 @@ import AddCourse from "@/component/Institute/masters/Addsession";
 import Updatecourse from "@/component/Institute/masters/Updatesession";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
+import { loadUser } from "../../../redux/actions/authActions";
 function AddSession() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -88,6 +89,9 @@ function AddSession() {
     dispatch(GetSession());
   }, []);
 
+  useEffect(() => {
+    dispatch(loadUser());
+  }, []);
   return (
     <>
       {open && (

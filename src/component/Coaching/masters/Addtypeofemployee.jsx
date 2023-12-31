@@ -54,7 +54,7 @@ function Addtypeofemployee({ setOpen }) {
               {loading ? (
                 <CircularProgress size={25} style={{ color: "red" }} />
               ) : (
-                "Save Category"
+                "Save"
               )}
             </button>
           </div>

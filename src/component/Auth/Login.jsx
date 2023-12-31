@@ -9,14 +9,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { login, loadUser } from "../../redux/actions/authActions";
 import Select1 from "react-select";
 import { useRouter } from "next/router";
-import LoadingSpinner from "../../component/loader/LoadingSpinner";
 import styles from "@/styles/loginguest.module.css";
-import {
-  allCollege,
-  alCoaching,
-  allschool,
-  allClient,
-} from "../../redux/actions/commanAction";
+
 const logintype = [
   { label: "College", value: "College" },
   { label: "School", value: "School" },
@@ -118,13 +112,6 @@ function Login({ setOpen, setOpen1, setwelcomeopen }) {
       }
     }
   }, [user]);
-
-  useEffect(() => {
-    // dispatch(allClient());
-    // dispatch(allCollege());
-    // dispatch(allschool());
-    // dispatch(alCoaching());
-  }, []);
 
   return (
     <>

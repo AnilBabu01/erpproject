@@ -14,6 +14,7 @@ import UpdateCategory from "@/component/Institute/masters/UpdateSlider";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
+import { loadUser } from "../../../redux/actions/authActions";
 function Slider() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -96,6 +97,10 @@ function Slider() {
   useEffect(() => {
     dispatch(GetSlider());
   }, []);
+
+  useEffect(() => {
+    dispatch(loadUser())
+   }, [])
 
   return (
     <>

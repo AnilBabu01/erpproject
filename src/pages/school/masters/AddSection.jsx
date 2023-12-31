@@ -13,6 +13,7 @@ import AddCourse from "@/component/Institute/masters/Addsection";
 import Updatecourse from "@/component/Institute/masters/Updatesection";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
+import { loadUser } from "../../../redux/actions/authActions";
 function AddSection() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -89,6 +90,9 @@ function AddSection() {
     dispatch(GetSection());
   }, []);
 
+  useEffect(() => {
+    dispatch(loadUser());
+  }, []);
   return (
     <>
       {open && (

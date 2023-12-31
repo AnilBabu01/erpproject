@@ -14,6 +14,7 @@ import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
 import AddStudentCategory from "@/component/Coaching/masters/AddStudentCategory";
 import UpdateCategory from "@/component/Coaching/masters/UpdateCategory";
+import { loadUser } from "../../../redux/actions/authActions";
 function Masterstudentcategory() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -72,6 +73,10 @@ function Masterstudentcategory() {
     dispatch(getcategory());
   }, [open, openupdate, openalert]);
 
+  useEffect(() => {
+   dispatch(loadUser())
+  }, [])
+  
   return (
     <>
       {open && (
@@ -172,7 +177,7 @@ function Masterstudentcategory() {
               }
               onClick={() => handleClickOpen()}
             >
-              Add Category
+              Add Caste
             </button>
           </div>
 
@@ -182,7 +187,7 @@ function Masterstudentcategory() {
                 <tbody>
                   <tr className={styles.tabletr}>
                     <th className={styles.tableth}>S.NO</th>
-                    <th className={styles.tableth}>Category_Name</th>
+                    <th className={styles.tableth}>Caste</th>
                     <th className={styles.tableth}>Action</th>
                   </tr>
                   {isdata?.map((item, index) => {

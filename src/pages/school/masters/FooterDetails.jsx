@@ -13,6 +13,7 @@ import AddCourse from "@/component/Institute/masters/AddFooterDetails";
 import Updatecourse from "@/component/Institute/masters/UpdateFooterDetails";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
+import { loadUser } from "../../../redux/actions/authActions";
 function FooterDetails() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -88,7 +89,9 @@ function FooterDetails() {
     dispatch(GetSession());
     dispatch(GetFooterDetails());
   }, []);
-
+  useEffect(() => {
+    dispatch(loadUser());
+  }, []);
   return (
     <>
       {open && (

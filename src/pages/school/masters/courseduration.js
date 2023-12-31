@@ -14,6 +14,7 @@ import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
 import Adddepart from "@/component/Coaching/masters/AddDuration";
 import Updatedepart from "@/component/Coaching/masters/UpdateDuartion";
+import { loadUser } from "../../../redux/actions/authActions";
 function Courseduration() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -71,6 +72,10 @@ function Courseduration() {
   useEffect(() => {
     dispatch(getCourseDuration());
   }, [open, openupdate, openalert]);
+  
+  useEffect(() => {
+    dispatch(loadUser());
+  }, []);
   return (
     <>
       {open && (

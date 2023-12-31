@@ -11,6 +11,7 @@ import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
 import Addbatchtime from "@/component/Coaching/masters/Addbatchtime";
 import UpdateBatch from "@/component/Coaching/masters/UpdateBatch";
+import { loadUser } from "../../../redux/actions/authActions";
 function Batchtime() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -68,7 +69,9 @@ function Batchtime() {
   useEffect(() => {
     dispatch(getbatch());
   }, [open, openupdate, openalert]);
-
+  useEffect(() => {
+    dispatch(loadUser());
+  }, []);
   return (
     <>
       {open && (

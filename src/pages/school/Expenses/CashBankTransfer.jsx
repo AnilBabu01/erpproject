@@ -74,6 +74,7 @@ function CashBankTransfer() {
     setdeleteid(id);
   };
 
+  
   const handleClosedelete = () => {
     setOpenalert(false);
   };
