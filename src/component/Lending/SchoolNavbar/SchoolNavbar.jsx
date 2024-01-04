@@ -444,7 +444,7 @@ const SchoolNavbar = () => {
                         <Link href="/school/masters/AddSection">Section</Link>
                         <Link href="/school/masters/class">Class</Link>
                         <Link href="/school/masters/masterstudentcategory">
-                          Student Category
+                          Caste
                         </Link>
                         <Link href="/school/masters/receiptprefix">
                           Receipt Prefix
@@ -462,6 +462,9 @@ const SchoolNavbar = () => {
                         </Link>
                         <Link href="/school/masters/AddClassSubject">
                           Add Subject
+                        </Link>
+                        <Link href="/school/masters/Addstream">
+                          Add Stream
                         </Link>
                       </div>
                     </div>
@@ -525,7 +528,7 @@ const SchoolNavbar = () => {
                     </div>
 
                     <div className="main_report_dropdown_rightmargin">
-                      <h1>Human Resource</h1>
+                      <h1>Human_Resource</h1>
                       <div className="main_innear_menu_dropdown">
                         <Link href="/school/report/EmployeeReport">
                           Employee Report

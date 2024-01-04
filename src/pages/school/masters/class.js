@@ -145,8 +145,8 @@ function Class() {
       )}
       <div className="mainContainer">
         <div>
-          <div className={styles.topmenubar}>
-            {/* <div className={styles.searchoptiondiv}>
+          {/* <div className={styles.topmenubar}>
+            <div className={styles.searchoptiondiv}>
               <form className={styles.searchoptiondiv}>
                 <input
                   className={styles.opensearchinput}
@@ -157,7 +157,7 @@ function Class() {
                 <button>Search</button>
               </form>
               <button>Reset</button>
-            </div> */}
+            </div>
             <div className={styles.imgdivformat}>
               <img
                 className={styles.imgdivformatimg}
@@ -171,7 +171,7 @@ function Class() {
               />
               <img src="/images/ExportExcel.png" alt="img" />
             </div>
-          </div>
+          </div> */}
 
           <div className={styles.addtopmenubar}>
             <button  className={

@@ -329,7 +329,7 @@ function UpdateEmp({ setOpen, updatedata }) {
         <div className={styles.closeicondiv} onClick={() => setOpen(false)}>
           <CloseIcon />
         </div>
-        <h1>Update Employee</h1>
+        <h1>{showpermission?"Allow Permission To Be Given ":"Update Employee"}</h1>
         <form onSubmit={submit}>
           {showpermission ? (
             <>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../redux/actions/authActions";
 import {
@@ -43,8 +43,11 @@ function AddStudent() {
 
   let date = new Date();
   let fullyear = date.getFullYear();
-  let lastyear = date.getFullYear() - 1;
-  const [sessionname, setsessionname] = useState(`${lastyear}-${fullyear}`);
+  let lastyear = date.getFullYear() + 1;
+  const [sessionname, setsessionname] = useState(`${fullyear}-${lastyear}`);
+
+  console.log("date is", fullyear);
+  const [stream, setstream] = useState("");
   const [scoursename, setscoursename] = useState("");
   const [sfathers, setsfathers] = useState("");
   const [sstudent, setsstudent] = useState("");
@@ -163,12 +166,14 @@ function AddStudent() {
         "",
         sessionname,
         sectionname,
-        ""
+        "",
+        stream
       )
     );
   };
 
   const reset = () => {
+    setstream("");
     setsstudent("");
     setsfathers("");
     setfromdate("");
@@ -178,8 +183,8 @@ function AddStudent() {
     setcategoryname("");
     let date = new Date();
     let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
+    let lastyear = date.getFullYear() + 1;
+    setsessionname(`${fullyear}-${lastyear}`);
     setsectionname("");
     dispatch(getstudent());
   };
@@ -216,7 +221,7 @@ function AddStudent() {
           <Dialog
             open={open}
             TransitionComponent={Transition}
-            onClose={handleCloseregister}
+            // onClose={handleCloseregister}
             aria-describedby="alert-dialog-slide-description"
             sx={{
               "& .MuiDialog-container": {
@@ -236,7 +241,7 @@ function AddStudent() {
           <Dialog
             open={openupdate}
             TransitionComponent={Transition}
-            onClose={handleCloseupadte}
+            // onClose={handleCloseupadte}
             aria-describedby="alert-dialog-slide-description"
             sx={{
               "& .MuiDialog-container": {
@@ -474,6 +479,66 @@ function AddStudent() {
                     );
                   })}
                 </select>
+                <select
+                  className={styles.opensearchinput}
+                  sx={{
+                    width: "18.8rem",
+                    fontSize: 14,
+                    "& .MuiSelect-select": {
+                      paddingTop: "0.6rem",
+                      paddingBottom: "0.6em",
+                    },
+                  }}
+                  value={stream}
+                  name="stream"
+                  onChange={(e) => setstream(e.target.value)}
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={""}
+                  >
+                    All Stream
+                  </option>
+
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={"NONE"}
+                  >
+                    NONE
+                  </option>
+
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={"Arts"}
+                  >
+                    Arts
+                  </option>
+
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={"COMMERCE"}
+                  >
+                    COMMERCE
+                  </option>
+
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={"SCIENCE"}
+                  >
+                    SCIENCE
+                  </option>
+                </select>
                 <input
                   className={styles.opensearchinput10}
                   type="text"
@@ -547,6 +612,7 @@ function AddStudent() {
                     <th className={styles.tableth}>SNO</th>
                     <th className={styles.tableth}>Roll_No</th>
                     <th className={styles.tableth}>Section</th>
+                    <th className={styles.tableth}>Stream</th>
                     <th className={styles.tableth}>Student_Name</th>
                     <th className={styles.tableth}>Student_Email</th>
                     <th className={styles.tableth}>Student_Phone</th>
@@ -564,6 +630,7 @@ function AddStudent() {
                         <td className={styles.tabletd}>{item?.SrNumber}</td>
                         <td className={styles.tabletd}>{item?.rollnumber}</td>
                         <td className={styles.tabletd}>{item?.Section}</td>
+                        <td className={styles.tabletd}>{item?.Stream}</td>
                         <td className={styles.tabletd}>{item?.name}</td>
                         <td className={styles.tabletd}>{item?.email}</td>
                         <td className={styles.tabletd}>{item?.phoneno1}</td>

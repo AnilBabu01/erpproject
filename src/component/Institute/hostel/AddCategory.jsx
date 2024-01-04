@@ -43,8 +43,8 @@ function AddCategory({ setOpen }) {
         </div>
         <h1>Add Category</h1>
         <form onSubmit={submit}>
-          <div className={styles.divmaininput}>
-            <div className={styles.inputdiv}>
+        
+            <div className={styles.inputdiv20}>
               <label>Category</label>
               <input
                 type="text"
@@ -54,7 +54,7 @@ function AddCategory({ setOpen }) {
                 onChange={(e) => setroomCategory(e.target.value)}
               />
             </div>
-          </div>
+       
           <div className={styles.logbtnstylediv}>
             <button
               disabled={loading ? true : false}

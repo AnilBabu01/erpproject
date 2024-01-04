@@ -9,16 +9,16 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { toast } from "react-toastify";
 import { WhatsappShareButton } from "react-share";
-function CheckinReceipt({ receiptdatas, setOpen }) {
+function CheckinReceipt({data,setOpen}) {
   const router = useRouter();
   const componentRef = useRef(null);
-
-  const [data, setData] = React.useState({});
+  const { receiptdata } = router.query;
+  // const [data, setData] = React.useState({});
   const [blob, setBlob] = useState(null);
   const [organizationdata, setorganizationdata] = useState("");
   const { user } = useSelector((state) => state.auth);
 
-  var today = new Date(data?.PaidDate);
+  var today = new Date(data?.CheckinDate);
   var options = { year: "numeric", month: "short", day: "2-digit" };
 
   const currDate = today
@@ -52,17 +52,19 @@ function CheckinReceipt({ receiptdatas, setOpen }) {
   useEffect(() => {
     // handlePrint();
 
-    if (receiptdatas) {
-      setData(receiptdatas);
-    }
+    // if (receiptdata) {
+    //   setData(JSON.parse(receiptdata));
+    // }
     if (user) {
       setorganizationdata(user?.data?.CredentailsData);
     }
   }, [user]);
 
+  console.log("receipt data is", data);
+
   return (
-    <div className={styles.mainContainerreceipt}>
-      <div className={styles.addpaddinreceipt10}>
+   
+      <div className={styles.printhostelmain}>
         <button className={styles.optionbtn} onClick={() => setOpen(false)}>
           Back
         </button>
@@ -79,89 +81,6 @@ function CheckinReceipt({ receiptdatas, setOpen }) {
         </div>
 
         <div className={styles.mainborderdiv} id="receipt" ref={componentRef}>
-          <div className={styles.mainborderdivinnear10}>
-            <div className={styles.mainimgdivre}>
-              <div className={styles.imgdivre}>
-                <img
-                  alt="img"
-                  src={`${backendUrl}public/upload/${organizationdata?.logourl}`}
-                />
-              </div>
-              <div className={styles.imgdivre}>
-                <h2>{organizationdata?.institutename}</h2>
-                <p>{organizationdata?.address}</p>
-                <p>
-                  {organizationdata?.city} {organizationdata?.state}
-                </p>
-                <p>{organizationdata?.pincode}</p>
-              </div>
-              <div className={styles.imgdivre}>&nbsp;</div>
-            </div>
-            <div className={styles.receiptNodiv}>
-              <p>Fee Receipt</p> <p>Office Copy</p>
-            </div>
-            <div className={styles.mainfeedetails}>
-              <div className={styles.mainfeedetailsinnear}>
-                <div className={styles.textdivonly}>
-                  <p>Receipt No</p> <p>{data?.ReceiptNo}</p>
-                </div>
-                <div className={styles.textdivonly}>
-                  <p>Admission No</p> <p>{data?.RollNo}</p>
-                </div>
-                <div className={styles.textdivonly}>
-                  <p>Student Name</p> <p>{data?.studentName}</p>
-                </div>
-                <div className={styles.textdivonly}>
-                  <p>Course</p> <p>{data?.Course}</p>
-                </div>
-                {/* <div className={styles.textdivonly}>
-                  <p>Fathers</p> <p>{data?.fathername}</p>
-                </div> */}
-                <div className={styles.textdivonly10}>
-                  <p>Fee Detail</p>
-                </div>
-              </div>
-              <div className={styles.mainfeedetailsinnear}>
-                <div className={styles.textdivonly}>
-                  <p>Receipt Date</p>
-                  <p>
-                    {currDate}/{currTime}
-                  </p>
-                </div>
-                <div className={styles.textdivonly}>
-                  <p>Roll No</p> <p>{data?.RollNo}</p>
-                </div>
-              </div>
-            </div>
-
-            <div className={styles.receiptNodiv}>
-              <p>Particulars</p> <p>Received(Rs.{data?.PaidAmount})</p>
-            </div>
-            <div className={styles.mainfeedetails}>
-              <div className={styles.mainfeedetailsinnear}>
-                <div className={styles.textdivonly}>
-                  <p>Receipt Type</p>
-                </div>
-                <div className={styles.textdivonly}>
-                  <p>Admission No</p>
-                </div>
-              </div>
-              <div className={styles.mainfeedetailsinnear}>
-                <div className={styles.textdivonly}>
-                  <p>{data?.Feetype}</p>
-                </div>
-                <div className={styles.textdivonly}>
-                  <p>{data?.RollNo}</p>
-                </div>
-                <div className={styles.textdivonly}>
-                  <p>
-                    Total Amount-
-                    {data?.PaidAmount}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
           <div className={styles.mainborderdivinnear}>
             <div className={styles.mainimgdivre}>
               <div className={styles.imgdivre}>
@@ -181,74 +100,48 @@ function CheckinReceipt({ receiptdatas, setOpen }) {
               <div className={styles.imgdivre}>&nbsp;</div>
             </div>
             <div className={styles.receiptNodiv}>
-              <p>Fee Receipt</p> <p>Student Copy</p>
+              <p>Session</p> <p>{data?.Session}</p>
             </div>
             <div className={styles.mainfeedetails}>
               <div className={styles.mainfeedetailsinnear}>
                 <div className={styles.textdivonly}>
-                  <p>Receipt No</p> <p>{data?.ReceiptNo}</p>
+                  <p>SNO</p> <p>{data?.SNO}</p>
                 </div>
                 <div className={styles.textdivonly}>
-                  <p>Admission No</p> <p>{data?.RollNo}</p>
+                  <p>Student Name</p> <p>{data?.StudentName}</p>
                 </div>
                 <div className={styles.textdivonly}>
-                  <p>Student Name</p> <p>{data?.studentName}</p>
+                  <p>Class</p> <p>{data?.StudentClass}</p>
                 </div>
                 <div className={styles.textdivonly}>
-                  <p>Course</p> <p>{data?.Course}</p>
-                </div>
-                {/* <div className={styles.textdivonly}>
-                  <p>Fathers &apos Name</p> <p>{data?.fathername}</p>
-                </div> */}
-                <div className={styles.textdivonly10}>
-                  <p>Fee Detail</p>
+                  <p>Mobile No</p> <p>{data?.MobileNO}</p>
                 </div>
               </div>
               <div className={styles.mainfeedetailsinnear}>
                 <div className={styles.textdivonly}>
-                  <p>Receipt Date</p>
+                  <p>Checkin Date</p>
                   <p>
-                    {/* {Moment(data?.PaidDate).format("DD-MM-YYYY")}/{currTime} */}
                     {currDate}/{currTime}
                   </p>
                 </div>
                 <div className={styles.textdivonly}>
-                  <p>Roll No</p> <p>{data?.rollnumber}</p>
-                </div>
-              </div>
-            </div>
-
-            <div className={styles.receiptNodiv}>
-              <p>Particulars</p> <p>Received(Rs {data?.PaidAmount})</p>
-            </div>
-            <div className={styles.mainfeedetails}>
-              <div className={styles.mainfeedetailsinnear}>
-                <div className={styles.textdivonly}>
-                  <p>Receipt Type</p>
+                  <p>Hostel Name</p> <p>{data?.hostelname}</p>
                 </div>
                 <div className={styles.textdivonly}>
-                  <p>Admission No</p>
-                </div>
-              </div>
-              <div className={styles.mainfeedetailsinnear}>
-                <div className={styles.textdivonly}>
-                  <p>{data?.Feetype}</p>
+                  <p>Category</p> <p>{data?.Category}</p>
                 </div>
                 <div className={styles.textdivonly}>
-                  <p>{data?.RollNo}</p>
+                  <p>Facility</p> <p>{data?.Facility}</p>
                 </div>
                 <div className={styles.textdivonly}>
-                  <p>
-                    Total Amount-
-                    {data?.PaidAmount}
-                  </p>
+                  <p>Room No</p> <p>{data?.RoomNo}</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    
   );
 }
 

@@ -4,7 +4,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/loginguest.module.css";
 import ForgetEmail from "./ForgetEmail";
 import ForgetPhone from "./ForgetPhone";
-function Forgetpassword({ setOpen }) {
+function Forgetpassword({ setOpen, setOpenlogin }) {
   const [showloginoption, setshowloginoption] = useState(true);
 
   return (
@@ -49,13 +49,13 @@ function Forgetpassword({ setOpen }) {
 
         {showloginoption === true && (
           <>
-            <ForgetPhone />
+            <ForgetPhone setOpenlogin={setOpenlogin} setOpen={setOpen} />
           </>
         )}
 
         {showloginoption === false && (
           <>
-            <ForgetEmail />
+            <ForgetEmail setOpenlogin={setOpenlogin} setOpen={setOpen} />
           </>
         )}
       </div>

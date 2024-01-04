@@ -194,7 +194,10 @@ import {
   GET_NOTIC_FAIL,
   GET_SLIDER_REQUEST,
   GET_SLIDER_SUCCESS,
-  GET_SLIDER_FAIL
+  GET_SLIDER_FAIL,
+  GET_STREAM_REQUEST,
+  GET_STREAM_SUCCESS,
+  GET_STREAM_FAIL,
 } from "../constants/commanConstants";
 
 // Get all College
@@ -211,7 +214,7 @@ export const allCollege = () => async (dispatch) => {
 
       config
     );
-  
+
     dispatch({
       type: ALL_COLLEGE_SUCCESS,
       payload: data.data,
@@ -1069,7 +1072,8 @@ export const getstudent =
     library,
     sessionname,
     sectionname,
-    seno
+    seno,
+    stream
   ) =>
   async (dispatch) => {
     try {
@@ -1092,11 +1096,12 @@ export const getstudent =
         library ||
         sectionname ||
         sessionname ||
-        seno
+        seno||
+        stream
       ) {
         dispatch({ type: ALL_STUDENT_REQUEST });
         const { data } = await axios.get(
-          `${backendApiUrl}student/addstudent?name=${scoursename}&batch=${sbatch}&fromdate=${fromdate}&todate=${todate}&fathers=${sfathers}&studentname=${sstudent}&rollnumber=${rollnumber}&status=${status}&categoryname=${categoryname}&library=${library}&sessionname=${sessionname}&sectionname=${sectionname}&sno=${seno}`,
+          `${backendApiUrl}student/addstudent?name=${scoursename}&batch=${sbatch}&fromdate=${fromdate}&todate=${todate}&fathers=${sfathers}&studentname=${sstudent}&rollnumber=${rollnumber}&status=${status}&categoryname=${categoryname}&library=${library}&sessionname=${sessionname}&sectionname=${sectionname}&sno=${seno}&stream=${stream}`,
           config
         );
         dispatch({
@@ -1106,8 +1111,8 @@ export const getstudent =
       } else {
         let date = new Date();
         let fullyear = date.getFullYear();
-        let lastyear = date.getFullYear() - 1;
-        let currentsession = `${lastyear}-${fullyear}`;
+        let lastyear = date.getFullYear() +1;
+        let currentsession = `${fullyear}-${lastyear}`;
 
         dispatch({ type: ALL_STUDENT_REQUEST });
         const { data } = await axios.get(
@@ -2175,8 +2180,6 @@ export const GetClassSubject = (classId, empID) => async (dispatch) => {
   }
 };
 
-
-
 // Get all Facility
 
 export const GetNotic = (classId, empID) => async (dispatch) => {
@@ -2201,10 +2204,7 @@ export const GetNotic = (classId, empID) => async (dispatch) => {
       });
     } else {
       dispatch({ type: GET_NOTIC_REQUEST });
-      const { data } = await axios.get(
-        `${backendApiUrl}comman/notes`,
-        config
-      );
+      const { data } = await axios.get(`${backendApiUrl}comman/notes`, config);
 
       dispatch({
         type: GET_NOTIC_SUCCESS,
@@ -2218,8 +2218,6 @@ export const GetNotic = (classId, empID) => async (dispatch) => {
     });
   }
 };
-
-
 
 // Get all Facility
 
@@ -2244,11 +2242,8 @@ export const GetFooterDetails = (classId, empID) => async (dispatch) => {
         payload: data?.data,
       });
     } else {
-      dispatch({ type:GET_FOOTERDETAILS_REQUEST });
-      const { data } = await axios.get(
-        `${backendApiUrl}comman/footer`,
-        config
-      );
+      dispatch({ type: GET_FOOTERDETAILS_REQUEST });
+      const { data } = await axios.get(`${backendApiUrl}comman/footer`, config);
 
       dispatch({
         type: GET_FOOTERDETAILS_SUCCESS,
@@ -2262,9 +2257,6 @@ export const GetFooterDetails = (classId, empID) => async (dispatch) => {
     });
   }
 };
-
-
-
 
 // Get all Facility
 
@@ -2289,11 +2281,8 @@ export const GetSlider = (classId, empID) => async (dispatch) => {
         payload: data?.data,
       });
     } else {
-      dispatch({ type:GET_SLIDER_REQUEST });
-      const { data } = await axios.get(
-        `${backendApiUrl}comman/slider`,
-        config
-      );
+      dispatch({ type: GET_SLIDER_REQUEST });
+      const { data } = await axios.get(`${backendApiUrl}comman/slider`, config);
 
       dispatch({
         type: GET_SLIDER_SUCCESS,
@@ -2303,6 +2292,45 @@ export const GetSlider = (classId, empID) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: GET_SLIDER_FAIL,
+      payload: error?.response?.data?.msg,
+    });
+  }
+};
+
+// Get all Facility
+
+export const GetStream = (scoursename, stream) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("erptoken")}`,
+      },
+    };
+    dispatch({ type: GET_STREAM_REQUEST });
+
+    if (scoursename || stream) {
+      const { data } = await axios.get(
+        `${backendApiUrl}comman/stream?scoursename=${scoursename}&stream=${stream}`,
+        config
+      );
+
+      dispatch({
+        type: GET_STREAM_SUCCESS,
+        payload: data?.data,
+      });
+    } else {
+      dispatch({ type: GET_STREAM_REQUEST });
+      const { data } = await axios.get(`${backendApiUrl}comman/stream`, config);
+
+      dispatch({
+        type: GET_STREAM_SUCCESS,
+        payload: data?.data,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: GET_STREAM_FAIL,
       payload: error?.response?.data?.msg,
     });
   }

@@ -19,9 +19,11 @@ const studentStatus = [
   { label: "Completed", value: "Completed" },
   { label: "Unknown", value: "Unknown" },
 ];
+
 function UpdateStudent({ setOpen, updatedata }) {
   const navigation = useRouter();
   const dispatch = useDispatch();
+  const [stream, setstream] = useState("NONE");
   const [loading1, setloading1] = useState(false);
   const [loading2, setloading2] = useState(false);
   const [SrNumber, setSrNumber] = useState('')
@@ -140,6 +142,7 @@ function UpdateStudent({ setOpen, updatedata }) {
     formData.set("Session", sessionname);
     formData.set("StudentCategory", categoryname);
     formData.set("AnnualFee", annualfee);
+    formData.set("stream",stream);
     formData.set("hostelstatus", hostal === true ? false : true);
     formData.set("transportstatus", transport === true ? false : true);
     formData.set(
@@ -290,7 +293,8 @@ function UpdateStudent({ setOpen, updatedata }) {
       setfromroute(updatedata?.FromRoute);
       settoroute(updatedata?.ToRoute);
       setpano(updatedata?.pancardnno);
-      setDateOfBirth(  new Date(updatedata?.DateOfBirth).toISOString().substring(0, 10))
+      setDateOfBirth(  new Date(updatedata?.DateOfBirth).toISOString().substring(0, 10));
+      setstream(updatedata?.Stream);
     }
   }, []);
 
@@ -943,8 +947,59 @@ function UpdateStudent({ setOpen, updatedata }) {
                       </Select>
                     </div>
                     <div className={styles.inputdiv}>
-                      <label>&nbsp;</label>
-                      <label>&nbsp;</label>
+                      <label>Stream</label>
+                      <Select
+                        required
+                        className={styles.addwidth}
+                        sx={{
+                          width: "18.8rem",
+                          fontSize: 14,
+                          "& .MuiSelect-select": {
+                            paddingTop: "0.6rem",
+                            paddingBottom: "0.6em",
+                          },
+                        }}
+                        value={stream}
+                        name="stream"
+                        onChange={(e) => setstream(e.target.value)}
+                        displayEmpty
+                      >
+                        <MenuItem
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={"NONE"}
+                        >
+                          NONE
+                        </MenuItem>
+
+                        <MenuItem
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={"Arts"}
+                        >
+                          Arts
+                        </MenuItem>
+
+                        <MenuItem
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={"COMMERCE"}
+                        >
+                          COMMERCE
+                        </MenuItem>
+
+                        <MenuItem
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={"SCIENCE"}
+                        >
+                          SCIENCE
+                        </MenuItem>
+                      </Select>
                     </div>
                     <div className={styles.inputdiv}>
                       <label>&nbsp;</label>

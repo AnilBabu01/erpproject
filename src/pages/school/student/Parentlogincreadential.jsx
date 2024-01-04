@@ -113,6 +113,7 @@ function Parentlogincreadential() {
         "",
         sessionname,
         sectionname,
+        "",
         ""
       )
     );
@@ -129,8 +130,8 @@ function Parentlogincreadential() {
     setcategoryname("");
     let date = new Date();
     let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
+    let lastyear = date.getFullYear() + 1;
+    setsessionname(`${fullyear}-${lastyear}`);
     setsectionname("");
     dispatch(getstudent());
   };
@@ -138,8 +139,8 @@ function Parentlogincreadential() {
   useEffect(() => {
     let date = new Date();
     let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
+    let lastyear = date.getFullYear() + 1;
+    setsessionname(`${fullyear}-${lastyear}`);
   }, []);
 
   return (

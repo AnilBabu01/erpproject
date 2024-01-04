@@ -31,6 +31,7 @@ import UpdateAdmission from "../../../component/Institute/student/UpdateAdmissio
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
 import exportFromJSON from "export-from-json";
+
 const studentStatus = [
   { label: "Active", value: "Active" },
   { label: "On Leave", value: "On Leave" },
@@ -39,7 +40,8 @@ const studentStatus = [
   { label: "Unknown", value: "Unknown" },
 ];
 function Admission() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
+  const [stream, setstream] = useState('');
   const [scoursename, setscoursename] = useState("");
   const [sfathers, setsfathers] = useState("");
   const [sstudent, setsstudent] = useState("");
@@ -160,12 +162,14 @@ function Admission() {
         "",
         sessionname,
         sectionname,
-        ""
+        "",
+        stream
       )
     );
   };
 
   const reset = () => {
+    setstream("");
     setsstudent("");
     setsfathers("");
     setfromdate("");
@@ -175,8 +179,8 @@ function Admission() {
     setcategoryname("");
     let date = new Date();
     let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
+    let lastyear = date.getFullYear() + 1;
+    setsessionname(`${fullyear}-${lastyear}`);
     setsectionname("");
     dispatch(getstudent());
   };
@@ -184,8 +188,8 @@ function Admission() {
   useEffect(() => {
     let date = new Date();
     let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
+    let lastyear = date.getFullYear() + 1;
+    setsessionname(`${fullyear}-${lastyear}`);
   }, []);
 
   const ExportToExcel = (isData) => {
@@ -220,7 +224,7 @@ function Admission() {
           <Dialog
             open={open}
             TransitionComponent={Transition}
-            onClose={handleCloseregister}
+            // onClose={handleCloseregister}
             aria-describedby="alert-dialog-slide-description"
             sx={{
               "& .MuiDialog-container": {
@@ -240,7 +244,7 @@ function Admission() {
           <Dialog
             open={openupdate}
             TransitionComponent={Transition}
-            onClose={handleCloseupadte}
+            // onClose={handleCloseupadte}
             aria-describedby="alert-dialog-slide-description"
             sx={{
               "& .MuiDialog-container": {
@@ -481,6 +485,66 @@ function Admission() {
                     );
                   })}
                 </select>
+                <select
+                  className={styles.opensearchinput}
+                  sx={{
+                    width: "18.8rem",
+                    fontSize: 14,
+                    "& .MuiSelect-select": {
+                      paddingTop: "0.6rem",
+                      paddingBottom: "0.6em",
+                    },
+                  }}
+                  value={stream}
+                  name="stream"
+                  onChange={(e) => setstream(e.target.value)}
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={""}
+                  >
+                    All Stream
+                  </option>
+
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={"NONE"}
+                  >
+                    NONE
+                  </option>
+
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={"Arts"}
+                  >
+                    Arts
+                  </option>
+
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={"COMMERCE"}
+                  >
+                    COMMERCE
+                  </option>
+
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={"SCIENCE"}
+                  >
+                    SCIENCE
+                  </option>
+                </select>
                 <input
                   className={styles.opensearchinput10}
                   type="text"
@@ -551,6 +615,7 @@ function Admission() {
                     <th className={styles.tableth}>SNO</th>
                     <th className={styles.tableth}>Roll_No</th>
                     <th className={styles.tableth}>Section</th>
+                    <th className={styles.tableth}>Stream</th>
                     <th className={styles.tableth}>Student_Name</th>
                     <th className={styles.tableth}>Student_Email</th>
                     <th className={styles.tableth}>Student_Phone</th>
@@ -568,6 +633,7 @@ function Admission() {
                         <td className={styles.tabletd}>{item?.SrNumber}</td>
                         <td className={styles.tabletd}>{item?.rollnumber}</td>
                         <td className={styles.tabletd}>{item?.Section}</td>
+                        <td className={styles.tabletd}>{item?.Stream}</td>
                         <td className={styles.tabletd}>{item?.name}</td>
                         <td className={styles.tabletd}>{item?.email}</td>
                         <td className={styles.tabletd}>{item?.phoneno1}</td>

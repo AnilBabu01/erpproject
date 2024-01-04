@@ -47,17 +47,15 @@ function UpdateCategory({ updatedata, setOpen }) {
         </div>
         <h1>Update Category</h1>
         <form onSubmit={submit}>
-          <div className={styles.divmaininput}>
-            <div className={styles.inputdiv}>
-              <label>Category</label>
-              <input
-                type="text"
-                placeholder="Enter the Category"
-                value={Categoryname}
-                name="Categoryname"
-                onChange={(e) => setCategoryname(e.target.value)}
-              />
-            </div>
+          <div className={styles.inputdiv20}>
+            <label>Category</label>
+            <input
+              type="text"
+              placeholder="Enter the Category"
+              value={Categoryname}
+              name="Categoryname"
+              onChange={(e) => setCategoryname(e.target.value)}
+            />
           </div>
           <div className={styles.logbtnstylediv}>
             <button

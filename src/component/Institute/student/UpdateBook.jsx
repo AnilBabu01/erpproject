@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 const formData = new FormData();
 function UpdateBook({ setOpen, updatedata }) {
   const dispatch = useDispatch();
+  const [stream, setstream] = useState("NONE");
   const [courseorclass, setcourseorclass] = useState("");
   const [BookId, setBookId] = useState("");
   const [BookTitle, setBookTitle] = useState("");
@@ -33,6 +34,7 @@ function UpdateBook({ setOpen, updatedata }) {
         auther: auther,
         quantity: quantity,
         addDate: addDate,
+        stream:stream
       }).then((res) => {
         if (res?.status === true) {
           toast.success(res?.msg, {
@@ -66,6 +68,7 @@ function UpdateBook({ setOpen, updatedata }) {
       setauther(updatedata?.auther);
       setBookTitle(updatedata?.BookTitle);
       setaddDate(new Date(updatedata?.addDate).toISOString().substring(0, 10));
+      setstream(updatedata?.stream);
     }
   }, []);
 
@@ -77,6 +80,64 @@ function UpdateBook({ setOpen, updatedata }) {
         </div>
         <h1>Update Book</h1>
         <form>
+        <div className={styles.divmaininput}>
+            <div className={styles.inputdiv}>
+              <label>Stream</label>
+              <div></div>
+              <Select
+                // required
+                className={styles.addwidth}
+                sx={{
+                  width: "18.8rem",
+                  fontSize: 14,
+                  "& .MuiSelect-select": {
+                    paddingTop: "0.6rem",
+                    paddingBottom: "0.6em",
+                  },
+                }}
+                value={stream}
+                name="stream"
+                onChange={(e) => setstream(e.target.value)}
+                displayEmpty
+              >
+                <MenuItem
+                  sx={{
+                    fontSize: 14,
+                  }}
+                  value={"NONE"}
+                >
+                  NONE
+                </MenuItem>
+
+                <MenuItem
+                  sx={{
+                    fontSize: 14,
+                  }}
+                  value={"Arts"}
+                >
+                  Arts
+                </MenuItem>
+
+                <MenuItem
+                  sx={{
+                    fontSize: 14,
+                  }}
+                  value={"COMMERCE"}
+                >
+                  COMMERCE
+                </MenuItem>
+
+                <MenuItem
+                  sx={{
+                    fontSize: 14,
+                  }}
+                  value={"SCIENCE"}
+                >
+                  SCIENCE
+                </MenuItem>
+              </Select>
+            </div>
+          </div>
           <div className={styles.divmaininput}>
             <div className={styles.inputdiv}>
               <label>Class</label>

@@ -18,6 +18,35 @@ import CircularProgress from "@mui/material/CircularProgress";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { indiaStatesData } from "./StaticData";
+import Select1 from "react-select";
+
+const customStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    background: '#fff',
+    borderColor: '#9e9e9e',
+    height: "34px",
+    boxShadow: state.isFocused ? null : null,
+  }),
+
+  valueContainer: (provided, state) => ({
+    ...provided,
+    height: "34px",
+    padding: '0 6px'
+  }),
+
+  input: (provided, state) => ({
+    ...provided,
+    margin: '0px',
+  }),
+  indicatorSeparator: state => ({
+    display: 'none',
+  }),
+  indicatorsContainer: (provided, state) => ({
+    ...provided,
+    height: "34px",
+  }),
+};
 
 const formData = new FormData();
 function Register({ setOpen, setOpen1 }) {
@@ -76,7 +105,7 @@ function Register({ setOpen, setOpen1 }) {
 
     let statename = indiaStatesData?.states?.find(
       (item) => item?.id === Number(state)
-    )?.name;
+    )?.state;
 
     let pinname = indiaStatesData?.states
       ?.find((item) => item?.id === Number(state))
@@ -122,6 +151,7 @@ function Register({ setOpen, setOpen1 }) {
     starttimer();
   }, [time]);
   1;
+
   const [emailtime, setemailtime] = useState(180);
   const [emaiTimerStatus, setemaiTimerStatus] = useState(false);
   const [getotpstatusonemail, setgetotpstatusonemail] = useState(false);
@@ -288,13 +318,13 @@ function Register({ setOpen, setOpen1 }) {
 
   return (
     <>
-      <div className={styles.divmainlogin}>
+      <div className={styles.divmainlogin10}>
         <div className={styles.closeicondivauth} onClick={() => setOpen(false)}>
           <CloseIcon style={{ color: "white" }} />
         </div>
         <h1>New Institute/School Registration</h1>
         <div>
-          {phonenDone === false || emailDone === false ? (
+          {phonenDone === true || emailDone === true ? (
             <>
               <div className={styles.mainformdivregister}>
                 <div className={styles.divmaininput}>
@@ -534,67 +564,45 @@ function Register({ setOpen, setOpen1 }) {
                   </div>
                 </div>
                 <div className={styles.divmaininput}>
-                  <div className={styles.inputdivregister}>
+                  <div className={styles.mainselectdiv}>
                     <label>State</label>
 
-                    <select onChange={(e) => setstate(e.target.value)}>
-                      <option value="">Select State</option>
-                      {indiaStatesData?.states.map((state) => (
-                        <option
-                          key={state.id}
-                          value={state.id}
-                          onClick={() => {
-                            setstatename(state?.id);
-                            console.log("hh", state?.id);
-                          }}
-                        >
-                          {state?.name}
-                        </option>
-                      ))}
-                    </select>
+                    <Select1
+                      required
+                      styles={customStyles}
+                      options={indiaStatesData?.states?.map((item) => ({
+                        label: item?.state,
+                        value: item?.id,
+                      }))}
+                      onChange={(opt) => setstate(opt.value)}
+                    />
                   </div>
-                  <div className={styles.inputdivregister}>
-                    <label>City</label>
+                  <div className={styles.mainselectdiv}>
+                    <label>District</label>
 
-                    <select onChange={(e) => setcity(e.target.value)}>
-                      <option value="">Select State</option>
-
-                      {indiaStatesData?.states
+                    <Select1
+                      required
+                      styles={customStyles}
+                      options={indiaStatesData?.states
                         ?.find((item) => item?.id === Number(state))
-                        ?.districts?.map((district) => (
-                          <option
-                            key={district.id}
-                            value={district.id}
-                            onClick={() => setcityname(district.name)}
-                          >
-                            {district.name}
-                          </option>
-                        ))}
-                    </select>
+                        ?.districts?.map((item) => ({
+                          label: item?.name,
+                          value: item?.id,
+                        }))}
+                      onChange={(opt) => setcity(opt.value)}
+                    />
                   </div>
-                  <div className={styles.inputdivregister}>
+                  <div className={styles.mainselectdiv}>
                     <label>Pin Code</label>
 
-                    <select onChange={(e) => setpincode(e.target.value)}>
-                      <option value={pincode}>Select State</option>
-
-                      {indiaStatesData?.states
-                        .find((item) => {
-                          return item?.id === Number(state);
-                        })
-                        ?.districts?.find((item) => {
-                          return item?.id === Number(city);
-                        })
-                        ?.pincodes?.map((pincode) => (
-                          <option
-                            key={pincode}
-                            value={pincode}
-                            onClick={() => setpincodename(pincode)}
-                          >
-                            {pincode}
-                          </option>
-                        ))}
-                    </select>
+                    <input
+                      required
+                      type="text"
+                      placeholder="Enter the pincode"
+                      value={pincode}
+                      name="pincode"
+                      onChange={(e) => setpincode(e.target.value)}
+                    />
                   </div>
                 </div>
 

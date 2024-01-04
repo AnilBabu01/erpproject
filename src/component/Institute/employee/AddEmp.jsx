@@ -248,7 +248,7 @@ function AddEmp({ setOpen }) {
         <div className={styles.closeicondiv} onClick={() => setOpen(false)}>
           <CloseIcon />
         </div>
-        <h1>Add New Employee</h1>
+        <h1>{showpermission?"Allow Permission To Be Given ":"Add Employee"}</h1>
         <form onSubmit={submit}>
           {showpermission ? (
             <>
@@ -1522,9 +1522,8 @@ function AddEmp({ setOpen }) {
                   status &&
                   pincode &&
                   joiningdate &&
-                  department &&
-                  student &&
-                  basicsalary
+                  department
+                 
                     ? false
                     : true
                 }
@@ -1535,9 +1534,8 @@ function AddEmp({ setOpen }) {
                   status &&
                   pincode &&
                   joiningdate &&
-                  department &&
-                  student &&
-                  basicsalary
+                  department
+                
                     ? styles.logbtnstyle
                     : styles.logbtnstyledisable
                 }

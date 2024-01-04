@@ -293,6 +293,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                 setOpen={setopenforget}
                 setOpen1={setopenforget}
                 setwelcomeopen={setwelcomeopen}
+                setOpenlogin={setOpen}
               />
             </Box>
           </Modal>
@@ -1402,7 +1403,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       }
                       href="/coaching/masters/masterstudentcategory"
                     >
-                      Student Category
+                      Caste
                     </Link>
                   </MenuItem>
                   <Divider sx={{ my: 0.5 }} />
@@ -2955,7 +2956,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       }
                       href="/school/masters/masterstudentcategory"
                     >
-                      Student Category
+                      Caste
                     </Link>
                   </MenuItem>
                   <Divider sx={{ my: 0.5 }} />
@@ -2968,6 +2969,18 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       href="/school/masters/receiptprefix"
                     >
                       Receipt Prefix
+                    </Link>
+                  </MenuItem>
+                  <Divider sx={{ my: 0.5 }} />
+                  <MenuItem>
+                    <Link
+                      onClick={() => setisMobile(!isMobile)}
+                      className={({ isActive }) =>
+                        isActive ? "link_directActive" : "link_directs"
+                      }
+                      href="/school/masters/Addstream"
+                    >
+                      Add Stream
                     </Link>
                   </MenuItem>
 
@@ -3628,7 +3641,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       }
                       href="/coaching/masters/masterstudentcategory"
                     >
-                      Student Category
+                      Caste
                     </Link>
                   </MenuItem>
                   <Divider sx={{ my: 0.5 }} />

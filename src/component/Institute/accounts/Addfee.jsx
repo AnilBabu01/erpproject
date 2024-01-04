@@ -1260,29 +1260,32 @@ function Addfee({ data, setOpen }) {
                       type="radio"
                       value={"Cash"}
                       name="same"
+                      id='cashid'
                       checked={PayOption === "Cash"}
                       onChange={(e) => setPayOption(e.target.value)}
                     />
-                    <label>Cash</label>
+                    <label htmlFor="cashid">Cash</label>
                   </div>
                   <div className={styles.payoption}>
                     <input
                       type="radio"
                       value={"Online"}
                       name="same"
+                      id="online"
                       onChange={(e) => setPayOption(e.target.value)}
                     />
-                    <label>Online</label>
+                    <label  htmlFor="online">Online</label>
                   </div>
                 </div>
 
-                <h1>Registration And Annual Fee</h1>
+                <h1 >Registration And Annual Fee</h1>
                 {/* <div className={styles.regisFeepayDiv}> */}
                 <div className={styles.regisFeepayDiv}>
                   <div className={styles.regisFeepayDivinnear}>
                     {data?.Registrationfeestatus === true ? (
                       <>
                         <input
+                     
                           type="checkbox"
                           value={"Registration"}
                           disabled={true}
@@ -1300,6 +1303,7 @@ function Addfee({ data, setOpen }) {
                       <>
                         <input
                           type="checkbox"
+                          id="Registration"
                           value={"Registration"}
                           onChange={(e) => {
                             if (e.target.checked) {
@@ -1312,12 +1316,13 @@ function Addfee({ data, setOpen }) {
                       </>
                     )}
 
-                    <label>Registration Fee ({data?.regisgrationfee})</label>
+                    <label htmlFor="Registration">Registration Fee ({data?.regisgrationfee})</label>
                   </div>
                   <div className={styles.regisFeepayDivinnear}>
                     {data?.AnnualFeeStatus === true ? (
                       <>
                         <input
+                        id="Registration"
                           type="checkbox"
                           value={"Annual"}
                           disabled={true}
@@ -1334,7 +1339,9 @@ function Addfee({ data, setOpen }) {
                     ) : (
                       <>
                         <input
+                        
                           type="checkbox"
+                          id="Annual"
                           value={"Annual"}
                           onChange={(e) => {
                             if (e.target.checked) {
@@ -1347,7 +1354,7 @@ function Addfee({ data, setOpen }) {
                       </>
                     )}
 
-                    <label>Annual Fee ({data?.AnnualFee})</label>
+                    <label htmlFor="Annual">Annual Fee ({data?.AnnualFee})</label>
                   </div>
                 </div>
                 {/* </div> */}

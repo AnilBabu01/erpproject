@@ -20,8 +20,10 @@ import exportFromJSON from "export-from-json";
 import { useReactToPrint } from "react-to-print";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+
 function Addbook() {
   const dispatch = useDispatch();
+  const [stream, setstream] = useState("");
   const [courseorclass, setcourseorclass] = useState("");
   const [BookId, setBookId] = useState("");
   const [auther, setauther] = useState("");
@@ -89,12 +91,13 @@ function Addbook() {
   };
   const filter = (e) => {
     e.preventDefault();
-    dispatch(GetBooks(courseorclass, BookId, auther));
+    dispatch(GetBooks(courseorclass, BookId, auther,stream));
   };
   const reset = () => {
     setcourseorclass("");
     setauther("");
     setBookId("");
+    setstream('');
     dispatch(GetBooks());
   };
   useEffect(() => {
@@ -233,6 +236,29 @@ function Addbook() {
                     );
                   })}
                 </select>
+                <select
+                  className={styles.opensearchinput}
+                  value={stream}
+                  name="stream"
+                  onChange={(e) => setstream(e.target.value)}
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={""}
+                  >
+                    All Stream
+                  </option>
+                  <option value={"NONE"}>NONE</option>
+
+                  <option value={"Arts"}>Arts</option>
+
+                  <option value={"COMMERCE"}>COMMERCE</option>
+
+                  <option value={"SCIENCE"}>SCIENCE</option>
+                </select>
                 <input
                   className={styles.opensearchinput}
                   type="text"
@@ -300,7 +326,8 @@ function Addbook() {
                 <tbody>
                   <tr className={styles.tabletr}>
                     <th className={styles.tableth}>Sr.No</th>
-                    <th className={styles.tableth}>Class_Name</th>
+                    <th className={styles.tableth}>Class</th>
+                    <th className={styles.tableth}>Stream</th>
                     <th className={styles.tableth}>Book Id</th>
                     <th className={styles.tableth}>Book Title</th>
                     <th className={styles.tableth}>Auther Name</th>
@@ -317,6 +344,7 @@ function Addbook() {
                           <td className={styles.tableth}>
                             {item?.courseorclass}
                           </td>
+                          <td className={styles.tableth}>{item?.stream}</td>
                           <td className={styles.tableth}>{item?.BookId}</td>
                           <td className={styles.tableth}>{item?.BookTitle}</td>
                           <td className={styles.tableth}>{item?.auther}</td>

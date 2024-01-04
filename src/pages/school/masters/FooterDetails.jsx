@@ -163,7 +163,7 @@ function FooterDetails() {
       )}
       <div className="mainContainer">
         <div>
-          <div className={styles.topmenubar}>
+          {/* <div className={styles.topmenubar}>
             <div className={styles.imgdivformat}>
               <img
                 className={styles.imgdivformatimg}
@@ -177,7 +177,7 @@ function FooterDetails() {
               />
               <img src="/images/ExportExcel.png" alt="img" />
             </div>
-          </div>
+          </div> */}
 
           <div className={styles.addtopmenubar}>
             <button

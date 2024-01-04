@@ -21,6 +21,7 @@ const studentStatus = [
 function AddAdmission({ setOpen }) {
   const navigation = useRouter();
   const dispatch = useDispatch();
+  const [stream, setstream] = useState("NONE");
   const [DateOfBirth, setDateOfBirth] = useState("");
   const [SrNumber, setSrNumber] = useState("");
   const [sessionname, setsessionname] = useState("");
@@ -143,6 +144,7 @@ function AddAdmission({ setOpen }) {
     formData.set("Facility", hostelfacility);
     formData.set("DateOfBirth", DateOfBirth);
     formData.set("StudentCategory", categoryname);
+    formData.set("stream", stream);
     formData.set(
       "HostelPerMonthFee",
       hostelManualFee === "manual"
@@ -289,8 +291,8 @@ function AddAdmission({ setOpen }) {
   useEffect(() => {
     let date = new Date();
     let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
+    let lastyear = date.getFullYear() + 1;
+    setsessionname(`${fullyear}-${lastyear}`);
     setadminssiondate(date?.toISOString().substring(0, 10));
   }, []);
   return (
@@ -381,6 +383,7 @@ function AddAdmission({ setOpen }) {
                     onChange={(e) => setstudentrollno(e.target.value)}
                   />
                 </div>
+
                 <div className={styles.inputdiv}>
                   <label>Sr Number</label>
                   <input
@@ -822,8 +825,7 @@ function AddAdmission({ setOpen }) {
                   </div>
                 </>
               )}
-              
-              
+
               {otherspreview && (
                 <>
                   <div className={styles.inputdivimg10}>
@@ -897,8 +899,59 @@ function AddAdmission({ setOpen }) {
                       </Select>
                     </div>
                     <div className={styles.inputdiv}>
-                      <label>&nbsp;</label>
-                      <label>&nbsp;</label>
+                      <label>Stream</label>
+                      <Select
+                        required
+                        className={styles.addwidth}
+                        sx={{
+                          width: "18.8rem",
+                          fontSize: 14,
+                          "& .MuiSelect-select": {
+                            paddingTop: "0.6rem",
+                            paddingBottom: "0.6em",
+                          },
+                        }}
+                        value={stream}
+                        name="stream"
+                        onChange={(e) => setstream(e.target.value)}
+                        displayEmpty
+                      >
+                        <MenuItem
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={"NONE"}
+                        >
+                          NONE
+                        </MenuItem>
+
+                        <MenuItem
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={"Arts"}
+                        >
+                          Arts
+                        </MenuItem>
+
+                        <MenuItem
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={"COMMERCE"}
+                        >
+                          COMMERCE
+                        </MenuItem>
+
+                        <MenuItem
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={"SCIENCE"}
+                        >
+                          SCIENCE
+                        </MenuItem>
+                      </Select>
                     </div>
                     <div className={styles.inputdiv}>
                       <label>&nbsp;</label>
@@ -1384,10 +1437,10 @@ function AddAdmission({ setOpen }) {
                               Please Select
                             </MenuItem>
                             {routelist?.length > 0 &&
-                              routelist?.map((item,index) => {
+                              routelist?.map((item, index) => {
                                 return (
                                   <MenuItem
-                                  key={index}
+                                    key={index}
                                     sx={{
                                       fontSize: 14,
                                     }}
@@ -1426,10 +1479,10 @@ function AddAdmission({ setOpen }) {
                               Please Select
                             </MenuItem>
                             {routelist?.length > 0 &&
-                              routelist?.map((item,index) => {
+                              routelist?.map((item, index) => {
                                 return (
                                   <MenuItem
-                                  key={index}
+                                    key={index}
                                     sx={{
                                       fontSize: 14,
                                     }}
@@ -1557,7 +1610,6 @@ function AddAdmission({ setOpen }) {
                     ? false
                     : true
                 }
-
                 onClick={() => setshownext(false)}
                 className={
                   studentname &&
@@ -1596,7 +1648,7 @@ function AddAdmission({ setOpen }) {
                     className={styles.cancelbtn}
                     onClick={() => gotoreceipt()}
                   >
-                    Pay to Fee
+                    Proceed to payment
                   </button>
                 </div>
               </>

@@ -54,7 +54,7 @@ function Updatecourse({ updatedata, setOpen }) {
               {loading ? (
                 <CircularProgress size={25} style={{ color: "red" }} />
               ) : (
-                "Save"
+                "Update"
               )}
             </button>
           </div>

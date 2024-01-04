@@ -115,6 +115,7 @@ function Studentlogincreadential() {
         sessionname,
         sectionname,
         ""
+        ,""
       )
     );
   };
@@ -130,8 +131,8 @@ function Studentlogincreadential() {
     setcategoryname("");
     let date = new Date();
     let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
+    let lastyear = date.getFullYear() + 1;
+    setsessionname(`${fullyear}-${lastyear}`);
     setsectionname("");
     dispatch(getstudent());
   };
@@ -139,8 +140,8 @@ function Studentlogincreadential() {
   useEffect(() => {
     let date = new Date();
     let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
+    let lastyear = date.getFullYear() + 1;
+    setsessionname(`${fullyear}-${lastyear}`);
   }, []);
 
   const ExportToExcel = (isData) => {

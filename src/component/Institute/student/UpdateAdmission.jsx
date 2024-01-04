@@ -22,10 +22,11 @@ const studentStatus = [
 function UpdateAdmission({ setOpen, updatedata }) {
   const navigation = useRouter();
   const dispatch = useDispatch();
+  const [stream, setstream] = useState("NONE");
   const [loading1, setloading1] = useState(false);
   const [loading2, setloading2] = useState(false);
-  const [SrNumber, setSrNumber] = useState('')
-  const [DateOfBirth, setDateOfBirth] = useState('');
+  const [SrNumber, setSrNumber] = useState("");
+  const [DateOfBirth, setDateOfBirth] = useState("");
   const [sessionname, setsessionname] = useState("");
   const [sectionname, setsectionname] = useState("NONE");
   const [sectionlist, setsectionlist] = useState([]);
@@ -140,6 +141,7 @@ function UpdateAdmission({ setOpen, updatedata }) {
     formData.set("Session", sessionname);
     formData.set("StudentCategory", categoryname);
     formData.set("AnnualFee", annualfee);
+    formData.set("stream", stream);
     formData.set("hostelstatus", hostal === true ? false : true);
     formData.set("transportstatus", transport === true ? false : true);
     formData.set(
@@ -289,8 +291,11 @@ function UpdateAdmission({ setOpen, updatedata }) {
       setfromroute(updatedata?.FromRoute);
       settoroute(updatedata?.ToRoute);
       setpano(updatedata?.pancardnno);
-      setDateOfBirth(  new Date(updatedata?.DateOfBirth).toISOString().substring(0, 10));
+      setDateOfBirth(
+        new Date(updatedata?.DateOfBirth).toISOString().substring(0, 10)
+      );
       setcategoryname(updatedata?.StudentCategory);
+      setstream(updatedata?.Stream);
     }
   }, []);
 
@@ -403,7 +408,6 @@ function UpdateAdmission({ setOpen, updatedata }) {
                   </Select>
                 </div>
                 <div className={styles.inputdiv}>
-              
                   <label>Date Of Birth</label>
                   <input
                     required
@@ -412,7 +416,6 @@ function UpdateAdmission({ setOpen, updatedata }) {
                     name="DateOfBirth"
                     onChange={(e) => setDateOfBirth(e.target.value)}
                   />
-                
                 </div>
               </div>
 
@@ -943,8 +946,59 @@ function UpdateAdmission({ setOpen, updatedata }) {
                       </Select>
                     </div>
                     <div className={styles.inputdiv}>
-                      <label>&nbsp;</label>
-                      <label>&nbsp;</label>
+                      <label>Stream</label>
+                      <Select
+                        required
+                        className={styles.addwidth}
+                        sx={{
+                          width: "18.8rem",
+                          fontSize: 14,
+                          "& .MuiSelect-select": {
+                            paddingTop: "0.6rem",
+                            paddingBottom: "0.6em",
+                          },
+                        }}
+                        value={stream}
+                        name="stream"
+                        onChange={(e) => setstream(e.target.value)}
+                        displayEmpty
+                      >
+                        <MenuItem
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={"NONE"}
+                        >
+                          NONE
+                        </MenuItem>
+
+                        <MenuItem
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={"Arts"}
+                        >
+                          Arts
+                        </MenuItem>
+
+                        <MenuItem
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={"COMMERCE"}
+                        >
+                          COMMERCE
+                        </MenuItem>
+
+                        <MenuItem
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={"SCIENCE"}
+                        >
+                          SCIENCE
+                        </MenuItem>
+                      </Select>
                     </div>
                     <div className={styles.inputdiv}>
                       <label>&nbsp;</label>
@@ -1429,7 +1483,7 @@ function UpdateAdmission({ setOpen, updatedata }) {
                               Please Select
                             </MenuItem>
                             {routelist?.length > 0 &&
-                              routelist?.map((item,index) => {
+                              routelist?.map((item, index) => {
                                 return (
                                   <MenuItem
                                     key={index}
@@ -1471,10 +1525,10 @@ function UpdateAdmission({ setOpen, updatedata }) {
                               Please Select
                             </MenuItem>
                             {routelist?.length > 0 &&
-                              routelist?.map((item,index) => {
+                              routelist?.map((item, index) => {
                                 return (
                                   <MenuItem
-                                  key={index}
+                                    key={index}
                                     sx={{
                                       fontSize: 14,
                                     }}

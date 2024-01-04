@@ -99,11 +99,11 @@ function AddEnquiry({ setOpen }) {
               />
             </div>
             <div className={styles.inputdiv}>
-              <label>Student Number</label>
+              <label>Mobile Number</label>
               <input
                 required
                 type="text"
-                placeholder="Enter the Student Number"
+                placeholder="Enter the Mobile Number"
                 value={studentnumber}
                 name="studentnumber"
                 onChange={(e) => setstudentnumber(e.target.value)}
@@ -112,11 +112,11 @@ function AddEnquiry({ setOpen }) {
           </div>
           <div className={styles.divmaininput}>
             <div className={styles.inputdiv}>
-              <label>Student Email</label>
+              <label>Email</label>
               <input
                 required
                 type="email"
-                placeholder="Enter the Student Email"
+                placeholder="Enter the Email"
                 value={studentemail}
                 name="studentemail"
                 onChange={(e) => setstudentemail(e.target.value)}

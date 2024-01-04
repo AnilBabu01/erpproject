@@ -238,7 +238,7 @@ function Addhostel() {
                           <td className={styles.tabletd}>{index + 1}</td>
                           <td className={styles.tabletd}>{item?.HostelName}</td>
                           <td className={styles.tabletd}>
-                            {item?.DescripTion}
+                            {item?.DescripTion?.slice(0,40)}...
                           </td>
                           <td className={styles.tabkeddd}>
                             <button

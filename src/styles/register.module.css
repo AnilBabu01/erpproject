@@ -136,7 +136,35 @@
 .inputdivregister select {
   border: 0.8px solid rgb(66, 66, 66);
   /* width: 12.7rem; */
-  height: 35px;
+  height: 38px;
+  padding-left: 1rem;
+  border-radius: 5px;
+}
+.mainselectdiv {
+  width: 32%;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.mainselectdiv label {
+  margin-bottom: 1% !important;
+}
+
+.mainselectdiv select {
+  border: 0.8px solid rgb(66, 66, 66);
+  /* width: 12.7rem; */
+  width: 100%;
+  height: 35px!important;
+  padding-left: 1rem;
+  border-radius: 5px;
+}
+
+.mainselectdiv input {
+  border: 0.8px solid rgb(66, 66, 66);
+  /* width: 12.7rem; */
+  width: 100%;
+  height: 35px!important;
   padding-left: 1rem;
   border-radius: 5px;
 }
@@ -290,14 +318,14 @@
 .showpassbtn10 {
   position: absolute;
   left: 29%;
-  top: 63%;
+  top: 60%;
   list-style: none;
 }
 
 .showpassbtn11 {
   position: absolute;
   left: 29%;
-  top: 78%;
+  top: 74%;
   list-style: none;
 }
 .selecttimemain {
@@ -1179,7 +1207,7 @@
 .mainformdivregister {
   width: 60rem;
 }
-.mainloginspan{
+.mainloginspan {
   color: #ff6900;
   margin-left: 0.5rem;
 }
@@ -1295,9 +1323,13 @@
     margin-bottom: 2%;
     margin-right: 0rem;
   }
-
-  .divmainlogin {
+  .divmainlogin10 {
     width: 20rem;
+    height: 39rem;
+    overflow-x: scroll;
+  }
+  .divmainlogin {
+    /* width: 20rem; */
     height: 39rem;
     overflow-x: scroll;
   }
@@ -1428,4 +1460,11 @@
     width: 33% !important;
     height: 35px !important;
   }
+
+  .mainselectdiv {
+    width:100%;
+ 
+  
+  }
+  
 }

@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
+
 function AddVehiceType({ setOpen }) {
   const dispatch = useDispatch();
   const [VehicleType, setVehicleType] = useState("");
@@ -44,8 +45,8 @@ function AddVehiceType({ setOpen }) {
         </div>
         <h1>Add Vehicle Type</h1>
         <form onSubmit={submit}>
-          <div className={styles.divmaininput}>
-            <div className={styles.inputdiv}>
+         
+            <div className={styles.inputdiv20}>
               <label>Vehicle Type</label>
               <input
                 type="text"
@@ -55,7 +56,7 @@ function AddVehiceType({ setOpen }) {
                 onChange={(e) => setVehicleType(e.target.value)}
               />
             </div>
-          </div>
+          
           <div className={styles.logbtnstylediv}>
             <button
               disabled={loading ? true : false}

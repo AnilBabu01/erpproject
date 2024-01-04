@@ -26,6 +26,7 @@ function IssueBook({ setOpen, updatedata }) {
       issueStatus: 0,
     },
   ]);
+
   const [AlreadyIssuedbooklist, setAlreadyIssuedbooklist] = useState([
     {
       id: "",
@@ -89,7 +90,7 @@ function IssueBook({ setOpen, updatedata }) {
 
   const getstudentbook = (courseorclass) => {
     serverInstance(
-      `library/addbook?courseorclass=${courseorclass}&studentid=${updatedata?.id}&rollnumber=${updatedata?.rollnumber}`,
+      `library/addbook?courseorclass=${courseorclass}&studentid=${updatedata?.id}&rollnumber=${updatedata?.rollnumber}&stream=${updatedata?.Stream}`,
       "get"
     ).then((res) => {
       if (res?.status) {

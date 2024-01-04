@@ -10,7 +10,7 @@ import {
 } from "../constants/libraryConstants";
 
 // Get all books
-export const GetBooks = (courseorclass, BookId, auther) => async (dispatch) => {
+export const GetBooks = (courseorclass, BookId, auther,stream) => async (dispatch) => {
   try {
     const config = {
       headers: {
@@ -20,9 +20,9 @@ export const GetBooks = (courseorclass, BookId, auther) => async (dispatch) => {
     };
     dispatch({ type: GET_BOOK_REQUEST });
 
-    if (courseorclass || BookId || auther) {
+    if (courseorclass || BookId || auther||stream) {
       const { data } = await axios.get(
-        `${backendApiUrl}library/addbook?courseorclass=${courseorclass}&BookId=${BookId}&auther=${auther}`,
+        `${backendApiUrl}library/addbook?courseorclass=${courseorclass}&BookId=${BookId}&auther=${auther}&stream=${stream}`,
         config
       );
       console.log("get book list from actions", data?.data);

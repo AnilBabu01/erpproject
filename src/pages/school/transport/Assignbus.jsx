@@ -167,7 +167,8 @@ function Assignbus() {
         "",
         sessionname,
         sectionname,
-        sno
+        sno,
+        ""
       )
     );
   }, []);
@@ -187,7 +188,8 @@ function Assignbus() {
         "",
         sessionname,
         sectionname,
-        sno
+        sno,
+        ""
       )
     );
   };
@@ -198,16 +200,16 @@ function Assignbus() {
     setsno("");
     let date = new Date();
     let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
+    let lastyear = date.getFullYear() + 1;
+    setsessionname(`${fullyear}-${lastyear}`);
     setsectionname("");
     dispatch(getstudent());
   };
   useEffect(() => {
     let date = new Date();
     let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
+    let lastyear = date.getFullYear() + 1;
+    setsessionname(`${fullyear}-${lastyear}`);
   }, []);
   return (
     <>

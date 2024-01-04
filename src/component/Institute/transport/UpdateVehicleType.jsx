@@ -49,8 +49,8 @@ function UpdateVehicleType({ updatedata, setOpen }) {
         </div>
         <h1>Update Vehicle Type</h1>
         <form onSubmit={submit}>
-          <div className={styles.divmaininput}>
-            <div className={styles.inputdiv}>
+         
+            <div className={styles.inputdiv20}>
               <label>Vehicle Type</label>
               <input
                 type="text"
@@ -60,7 +60,7 @@ function UpdateVehicleType({ updatedata, setOpen }) {
                 onChange={(e) => setVehicleType(e.target.value)}
               />
             </div>
-          </div>
+         
           <div className={styles.logbtnstylediv}>
             <button
               disabled={loading ? true : false}

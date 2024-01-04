@@ -159,7 +159,8 @@ function Addstudent() {
         "",
         sessionname,
         sectionname,
-        sno
+        sno,
+        ""
       )
     );
   };
@@ -175,8 +176,8 @@ function Addstudent() {
     setsno("");
     let date = new Date();
     let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
+    let lastyear = date.getFullYear() + 1;
+    setsessionname(`${fullyear}-${lastyear}`);
     setsectionname("");
     dispatch(getstudent());
   };
@@ -184,8 +185,8 @@ function Addstudent() {
   useEffect(() => {
     let date = new Date();
     let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
+    let lastyear = date.getFullYear() + 1;
+    setsessionname(`${fullyear}-${lastyear}`);
   }, []);
 
   return (

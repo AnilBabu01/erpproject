@@ -127,11 +127,11 @@ function Dashboard() {
   useEffect(() => {
     let date = new Date();
     let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setLineChartSession(`${lastyear}-${fullyear}`);
-    setBarCharSession(`${lastyear}-${fullyear}`);
-    setLineChartSessionExpenses(`${lastyear}-${fullyear}`);
-    setBarCharSessionExpenses(`${lastyear}-${fullyear}`);
+    let lastyear = date.getFullYear() + 1;
+    setLineChartSession(`${fullyear}-${lastyear}`);
+    setBarCharSession(`${fullyear}-${lastyear}`);
+    setLineChartSessionExpenses(`${fullyear}-${lastyear}`);
+    setBarCharSessionExpenses(`${fullyear}-${lastyear}`);
   }, []);
 
   const comparePaidFeeMonths = (a, b) => {

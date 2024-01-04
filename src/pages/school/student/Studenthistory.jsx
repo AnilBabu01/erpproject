@@ -80,6 +80,7 @@ function Studenthistory() {
       setsectionList(sections);
     }
   }, [student, batch, user, course, category, Sessions, sections]);
+
   useEffect(() => {
     dispatch(getstudent());
   }, []);
@@ -113,6 +114,7 @@ function Studenthistory() {
         "",
         sessionname,
         sectionname,
+        "",
         ""
       )
     );
@@ -129,8 +131,8 @@ function Studenthistory() {
     setcategoryname("");
     let date = new Date();
     let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
+    let lastyear = date.getFullYear() + 1;
+    setsessionname(`${fullyear}-${lastyear}`);
     setsectionname("");
     dispatch(getstudent());
   };
@@ -138,8 +140,8 @@ function Studenthistory() {
   useEffect(() => {
     let date = new Date();
     let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
+    let lastyear = date.getFullYear() + 1;
+    setsessionname(`${fullyear}-${lastyear}`);
   }, []);
 
   const ExportToExcel = (isData) => {

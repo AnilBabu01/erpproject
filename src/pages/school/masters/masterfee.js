@@ -16,6 +16,8 @@ import { Button } from "@mui/material";
 import Addfee from "@/component/Coaching/masters/Addfee";
 import UpdateFee from "@/component/Coaching/masters/UpdateFee";
 import { loadUser } from "../../../redux/actions/authActions";
+import exportFromJSON from "export-from-json";
+import moment from "moment";
 function Masterfee() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -79,6 +81,25 @@ function Masterfee() {
   useEffect(() => {
     dispatch(loadUser());
   }, []);
+
+  const ExportToExcel = (isData) => {
+    const fileName = "FeeStructure";
+    const exportType = "xls";
+    var data = [];
+
+    isData.map((item) => {
+      data.push({
+        Date: moment(item?.EnquiryDate).format("MM/DD/YYYY"),
+        Class: item?.coursename,
+        "Registration Fee": item?.Registractionfee,
+        "Per Month Fee": item?.feepermonth,
+        "Created Date": moment(item?.created_at).format("DD-MM-YYYY"),
+      });
+    });
+
+    exportFromJSON({ data, fileName, exportType });
+  };
+
   return (
     <>
       {open && (
@@ -150,7 +171,7 @@ function Masterfee() {
       <div className="mainContainer">
         <div>
           <div className={styles.topmenubar}>
-            <div className={styles.searchoptiondiv}>
+            {/* <div className={styles.searchoptiondiv}>
               <form className={styles.searchoptiondiv}>
                 <input
                   className={styles.opensearchinput}
@@ -161,9 +182,10 @@ function Masterfee() {
                 <button>Search</button>
               </form>
               <button>Reset</button>
-            </div>
+            </div> */}
+            <div></div>
             <div className={styles.imgdivformat}>
-              <img
+              {/* <img
                 className={styles.imgdivformatimg}
                 src="/images/Print.png"
                 alt="img"
@@ -172,8 +194,12 @@ function Masterfee() {
                 className={styles.imgdivformatimg}
                 src="/images/ExportPdf.png"
                 alt="img"
+              /> */}
+              <img
+                onClick={() => ExportToExcel(isdata)}
+                src="/images/ExportExcel.png"
+                alt="img"
               />
-              <img src="/images/ExportExcel.png" alt="img" />
             </div>
           </div>
 

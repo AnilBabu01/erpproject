@@ -92,6 +92,8 @@ function Assignhostel() {
     return <Slide direction="top" ref={ref} {...props} />;
   });
 
+
+
   const handleClickOpenReceipt = (data) => {
     setopenreceipt(true);
     setreceiptdata(data);
@@ -201,8 +203,8 @@ function Assignhostel() {
       setscoursename("");
       let date = new Date();
       let fullyear = date.getFullYear();
-      let lastyear = date.getFullYear() - 1;
-      setsessionname(`${lastyear}-${fullyear}`);
+      let lastyear = date.getFullYear() + 1;
+      setsessionname(`${fullyear}-${lastyear}`);
       setcheckinstatus("");
       dispatch(GetCheckin());
     } catch (error) {}
@@ -254,7 +256,8 @@ function Assignhostel() {
         "",
         sessionname,
         sectionname,
-        sno
+        sno,
+        ""
       )
     );
   }, []);
@@ -274,29 +277,30 @@ function Assignhostel() {
         "",
         sessionname,
         sectionname,
-        sno
+        sno,
+        ""
       )
     );
   };
   const reset = () => {
-    setsfathers("");
-    setfromdate("");
+ 
+ 
     setscoursename("");
     setsbatch("");
     setcategoryname("");
     setsno("");
     let date = new Date();
     let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
+    let lastyear = date.getFullYear() + 1;
+    setsessionname(`${fullyear}-${lastyear}`);
     setsectionname("");
     dispatch(getstudent());
   };
   useEffect(() => {
     let date = new Date();
     let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
+    let lastyear = date.getFullYear() + 1;
+    setsessionname(`${fullyear}-${lastyear}`);
   }, []);
   return (
     <>
@@ -326,6 +330,7 @@ function Assignhostel() {
         </>
       )}
 
+
       {openreceipt && (
         <div>
           <Dialog
@@ -342,7 +347,7 @@ function Assignhostel() {
               },
             }}
           >
-            <CheckinReceipt setOpen={setopenreceipt} receiptdata={receiptdata} />
+            <CheckinReceipt setOpen={setopenreceipt} data={receiptdata} />
           </Dialog>
         </div>
       )}

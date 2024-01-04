@@ -354,10 +354,10 @@ function Enquiry() {
                 <tbody>
                   <tr className={styles.tabletr}>
                     <th className={styles.tableth}>S.NO</th>
-                    <th className={styles.tableth}>Enquiry Date</th>
-                    <th className={styles.tableth}>Student Name</th>
-                    <th className={styles.tableth}>Student Number</th>
-                    <th className={styles.tableth}>Student Email</th>
+                    <th className={styles.tableth}>Enquiry_Date</th>
+                    <th className={styles.tableth}>Student_Name</th>
+                    <th className={styles.tableth}>Student_Number</th>
+                    <th className={styles.tableth}>Student_Email</th>
                     <th className={styles.tableth}>Address</th>
                     <th className={styles.tableth}>Class</th>
                     <th className={styles.tableth}>Comment</th>

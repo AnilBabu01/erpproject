@@ -67,7 +67,8 @@ import {
   GetClassSubjectReducer,
   GetFooterDetailsReducer,
   GetNoticReducer,
-  GetSliderReducer
+  GetSliderReducer,
+  GetStreamReducer,
 } from "./redux/reducers/commanReducers";
 import {
   getenquiriesReducer,
@@ -103,7 +104,7 @@ import {
   GetAssetReducer,
   GetExpensesTypeReducer,
   GetExpensesReducer,
-  GetAmountTransferReducer
+  GetAmountTransferReducer,
 } from "./redux/reducers/expensesReducers";
 const reducer = combineReducers({
   auth: authReducer,
@@ -191,11 +192,12 @@ const reducer = combineReducers({
   GetExpenses: GetExpensesReducer,
   GetCheckin: GetCheckin,
   GetSubject: GetSubjectReducer,
-  GetClassSubject:GetClassSubjectReducer,
-  GetFooterDetails:GetFooterDetailsReducer,
-  GetNotic:GetNoticReducer,
-  GetSlider:GetSliderReducer,
-  GetAmountTransfer:GetAmountTransferReducer
+  GetClassSubject: GetClassSubjectReducer,
+  GetFooterDetails: GetFooterDetailsReducer,
+  GetNotic: GetNoticReducer,
+  GetSlider: GetSliderReducer,
+  GetAmountTransfer: GetAmountTransferReducer,
+  GetStream: GetStreamReducer,
 });
 const middlware = [thunk];
 export const store = createStore(

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { GetClassSubject } from "../../../redux/actions/commanAction";
+import { GetClassSubject,getcourse,getfee } from "../../../redux/actions/commanAction";
 import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -86,12 +86,14 @@ function AddClassSubject() {
   }, [Classsubject, user]);
   useEffect(() => {
     dispatch(GetClassSubject());
-  }, []);
-  useEffect(() => {
     dispatch(loadUser());
+    dispatch(getcourse());
+    dispatch(getfee());
   }, []);
+
   return (
     <>
+
       {open && (
         <div>
           <Dialog
@@ -204,7 +206,8 @@ function AddClassSubject() {
                 <tbody>
                   <tr className={styles.tabletr}>
                     <th className={styles.tableth}>Sr.No</th>
-                    <th className={styles.tableth}>Class Subject</th>
+                    <th className={styles.tableth}>Class</th>
+                    <th className={styles.tableth}>Subject</th>
                     <th className={styles.tableth}>Action</th>
                   </tr>
                   {isdata?.length > 0 &&
@@ -212,8 +215,9 @@ function AddClassSubject() {
                       return (
                         <tr key={index} className={styles.tabletr}>
                           <td className={styles.tabletd}>{index + 1}</td>
+                          
+                          <td className={styles.tabletd}>{item?.Class}</td>
                           <td className={styles.tabletd}>{item?.Subject}</td>
-
                           <td className={styles.tabkeddd}>
                             <button
                               disabled={

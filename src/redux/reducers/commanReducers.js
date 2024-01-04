@@ -194,6 +194,9 @@ import {
   GET_SLIDER_REQUEST,
   GET_SLIDER_SUCCESS,
   GET_SLIDER_FAIL,
+  GET_STREAM_REQUEST,
+  GET_STREAM_SUCCESS,
+  GET_STREAM_FAIL,
 } from "../constants/commanConstants";
 
 export const getCollegeReducer = (state = { college: {} }, action) => {
@@ -2114,7 +2117,6 @@ export const GetSliderReducer = (state = { slider: {} }, action) => {
   }
 };
 
-
 export const GetNoticReducer = (state = { notic: {} }, action) => {
   switch (action.type) {
     case GET_NOTIC_REQUEST:
@@ -2168,6 +2170,38 @@ export const GetFooterDetailsReducer = (
       return {
         loading: false,
         footerdetails: null,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const GetStreamReducer = (state = { Stream: {} }, action) => {
+  switch (action.type) {
+    case GET_STREAM_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case GET_STREAM_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        Stream: action.payload,
+      };
+
+    case GET_STREAM_FAIL:
+      return {
+        loading: false,
+        Stream: null,
         error: action.payload,
       };
 
