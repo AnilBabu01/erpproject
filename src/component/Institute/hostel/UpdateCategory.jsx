@@ -12,6 +12,7 @@ function UpdateCategory({ updatedata, setOpen }) {
   const [loading, setloading] = useState(false);
   const submit = (e) => {
     e.preventDefault();
+    setloading(true);
     serverInstance("hostel/category", "put", {
       id: updatedata?.id,
       roomCategory: Categoryname,

@@ -5,7 +5,6 @@ import {
   getcourse,
   getbatch,
   getstudent,
-  deletestudent,
   getfee,
   getcategory,
   GetSession,
@@ -30,7 +29,9 @@ import UpdateAdmission from "../../../component/Institute/student/UpdateStudent"
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
 import exportFromJSON from "export-from-json";
-import { useReactToPrint } from "react-to-print";
+import { serverInstance } from "../../../API/ServerInstance";
+import { toast } from "react-toastify";
+import CircularProgress from "@mui/material/CircularProgress";
 const studentStatus = [
   { label: "Active", value: "Active" },
   { label: "On Leave", value: "On Leave" },
@@ -46,7 +47,7 @@ function AddStudent() {
   let lastyear = date.getFullYear() + 1;
   const [sessionname, setsessionname] = useState(`${fullyear}-${lastyear}`);
 
-  console.log("date is", fullyear);
+  const [deleting, setdeleting] = useState(false);
   const [stream, setstream] = useState("");
   const [scoursename, setscoursename] = useState("");
   const [sfathers, setsfathers] = useState("");
@@ -104,7 +105,25 @@ function AddStudent() {
   };
 
   const handledelete = () => {
-    dispatch(deletestudent(deleteid, setOpenalert));
+
+    setdeleting(true);
+    serverInstance(`student/addstudent?id=${deleteid}`, "delete").then((res) => {
+      if (res?.status === true) {
+        toast.success(res?.msg, {
+          autoClose: 1000,
+        });
+        dispatch(getstudent());
+        handleClosedelete();
+        setdeleting(false);
+      }
+      if (res?.status === false) {
+        toast.error(res?.msg, {
+          autoClose: 1000,
+        });
+        handleClosedelete();
+        setdeleting(false);
+      }
+    });
   };
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="top" ref={ref} {...props} />;
@@ -135,7 +154,7 @@ function AddStudent() {
   }, [student, batch, user, course, category, Sessions, sections]);
   useEffect(() => {
     dispatch(getstudent());
-  }, [open, openupdate, openalert]);
+  }, []);
   useEffect(() => {
     dispatch(loadUser());
     dispatch(getbatch());
@@ -214,6 +233,7 @@ function AddStudent() {
 
     exportFromJSON({ data, fileName, exportType });
   };
+
   return (
     <>
       {open && (
@@ -261,7 +281,7 @@ function AddStudent() {
         <>
           <Dialog
             open={openalert}
-            onClose={handleClosedelete}
+            // onClose={handleClosedelete}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
@@ -276,7 +296,11 @@ function AddStudent() {
             <DialogActions>
               <Button onClick={handleClosedelete}>Disagree</Button>
               <Button onClick={handledelete} autoFocus>
-                Agree
+                {deleting ? (
+                  <CircularProgress size={25} style={{ color: "red" }} />
+                ) : (
+                  "Agree"
+                )}
               </Button>
             </DialogActions>
           </Dialog>

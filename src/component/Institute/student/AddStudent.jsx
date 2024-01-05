@@ -9,8 +9,11 @@ import { useRouter } from "next/router";
 import { ADD_STUDENT_RESET } from "../../../redux/constants/commanConstants";
 import CircularProgress from "@mui/material/CircularProgress";
 import { serverInstance } from "../../../API/ServerInstance";
+import { backendApiUrl } from "../../../config/config";
 import { toast } from "react-toastify";
+import axios from "axios";
 const formData = new FormData();
+
 const studentStatus = [
   { label: "Active", value: "Active" },
   { label: "On Leave", value: "On Leave" },
@@ -21,6 +24,7 @@ const studentStatus = [
 function AddStudent({ setOpen }) {
   const navigation = useRouter();
   const dispatch = useDispatch();
+  const [loading, setloading] = useState(false);
   const [stream, setstream] = useState("NONE");
   const [DateOfBirth, setDateOfBirth] = useState("");
   const [SrNumber, setSrNumber] = useState("");
@@ -98,11 +102,12 @@ function AddStudent({ setOpen }) {
   const { roomfacility } = useSelector((state) => state.GetFacility);
   const { route } = useSelector((state) => state.GetRoute);
   const { sections } = useSelector((state) => state.GetSection);
-  const { studentaddstatus, student, loading } = useSelector(
-    (state) => state.addstudent
-  );
+  // const { studentaddstatus, student, loading } = useSelector(
+  //   (state) => state.addstudent
+  // );
 
-  const submit = () => {
+  const submit = async () => {
+    setloading(true);
     formData.set("name", studentname);
     formData.set("email", studentemail);
     formData.set("phoneno1", studentphone);
@@ -143,7 +148,7 @@ function AddStudent({ setOpen }) {
     formData.set("Facility", hostelfacility);
     formData.set("StudentCategory", categoryname);
     formData.set("DateOfBirth", DateOfBirth);
-    formData.set("stream",stream);
+    formData.set("stream", stream);
     formData.set(
       "permonthfee",
       getfee === "default" ? Number(onlyshowmonthfee) : Number(monthlyfee)
@@ -191,7 +196,36 @@ function AddStudent({ setOpen }) {
       user?.data[0]?.Parentpassword ? user?.data[0]?.Parentpassword : "parent"
     );
 
-    dispatch(Addstudent(formData, setOpen));
+ 
+
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `${localStorage.getItem("erptoken")}`,
+      },
+    };
+    const { data } = await axios.post(
+      `${backendApiUrl}student/addstudent`,
+      formData,
+      config
+    );
+    console.log("add emp", data);
+    if (data?.status === true) {
+      toast.success(data?.msg, {
+        autoClose: 1000,
+      });
+      setOpen(false);
+
+      setloading(false);
+      dispatch(getstudent());
+    }
+    if (data?.status === false) {
+      toast.error(data?.msg, {
+        autoClose: 1000,
+      });
+
+      setloading(false);
+    }
   };
 
   useEffect(() => {
@@ -201,9 +235,7 @@ function AddStudent({ setOpen }) {
     if (batch) {
       setbatchs(batch);
     }
-    if (studentaddstatus) {
-      setOpen(false);
-    }
+
     if (category) {
       setcategorylist(category);
     }
@@ -228,7 +260,6 @@ function AddStudent({ setOpen }) {
   }, [
     fee,
     batch,
-    studentaddstatus,
     category,
     roomcategory,
     roomfacility,
@@ -293,7 +324,7 @@ function AddStudent({ setOpen }) {
   useEffect(() => {
     let date = new Date();
     let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear()+ 1;
+    let lastyear = date.getFullYear() + 1;
     setsessionname(`${fullyear}-${lastyear}`);
     setadminssiondate(date?.toISOString().substring(0, 10));
   }, []);

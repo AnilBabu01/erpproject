@@ -15,7 +15,7 @@ const LandscapeIdcardEmployee = ({ data }) => {
         <div className={style.headermain}>
           <img
             className={style.logoicon}
-            src={`${backendUrl}public/upload/${user?.data?.CredentailsData?.logourl}`}
+            src={user?.data?.CredentailsData?.logourl}
             alt="Logo"
           />
           <div className={style.headertext}>
@@ -40,7 +40,7 @@ const LandscapeIdcardEmployee = ({ data }) => {
               <img
                 alt="img"
                 className={style.profileicon}
-                src={`${backendUrl}public/upload/${data?.profileurl}`}
+                src={data?.profileurl}
               />
             </>
           ) : (

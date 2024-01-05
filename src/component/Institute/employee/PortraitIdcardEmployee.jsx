@@ -15,7 +15,7 @@ const PortraitIdcardEmployee = ({ data }) => {
               <img
                 alt="img"
                 className={style.profileicon}
-                src={`${backendUrl}public/upload/${data?.profileurl}`}
+                src={data?.profileurl}
               />
             </>
           ) : (
@@ -45,7 +45,7 @@ const PortraitIdcardEmployee = ({ data }) => {
         <div className={style.headermain10}>
           <img
             className={style.logoicon}
-            src={`${backendUrl}public/upload/${user?.data?.CredentailsData?.logourl}`}
+            src={user?.data?.CredentailsData?.logourl}
             alt="Logo"
           />
           <div className={style.headertext}>

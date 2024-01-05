@@ -189,7 +189,7 @@ function SchoolStudentProfile() {
                       <img
                         alt="img"
                         className="keydetailsdivproimg"
-                        src={`${backendUrl}public/upload/${user?.data?.CredentailsData?.profileurl}`}
+                        src={user?.data?.CredentailsData?.profileurl}
                       />
                     </>
                   ) : (

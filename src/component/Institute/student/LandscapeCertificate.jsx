@@ -12,7 +12,7 @@ const LandscapeCertificate = () => {
           <div className={style.logotext}>
             <img
               className={style.logoicon}
-              src={`${backendUrl}public/upload/${user?.data?.CredentailsData?.logourl}`}
+              src={user?.data?.CredentailsData?.logourl}
               alt="Logo"
             />
             <div className={style.coachongname}>

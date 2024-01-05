@@ -171,7 +171,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
           <MenuItem onClick={handleClose1}>
             <Avatar
               alt="user"
-              src={`${backendUrl}public/upload/${user?.data?.User?.profileurl}`}
+              src={user?.data?.User?.profileurl}
             />
             {user?.data?.User?.name}
           </MenuItem>
@@ -342,7 +342,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                 {user?.data?.CredentailsData?.logourl ? (
                   <>
                     <img
-                      src={`${backendUrl}public/upload/${user?.data?.CredentailsData?.logourl}`}
+                      src={user?.data?.CredentailsData?.logourl}
                       alt="Logo"
                     />
                   </>
@@ -448,7 +448,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                 <>
                   <Avatar
                     alt="user"
-                    src={`${backendUrl}public/upload/${user?.data?.User?.profileurl}`}
+                    src={user?.data?.User?.profileurl}
                     sx={{
                       width: 35,
                       height: 35,

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../redux/actions/authActions";
 import { UPDATE_CREDENTIALS_RESET_SUCCESS } from "../../../redux/constants/commanConstants";
 import { backendUrl } from "../../../config/config";
+import CircularProgress from "@mui/material/CircularProgress";
 const formData = new FormData();
 function UpdateProImges({ setOpen }) {
   const dispatch = useDispatch();
@@ -28,7 +29,9 @@ function UpdateProImges({ setOpen }) {
   const [previewprofile1, setpreviewprofile1] = useState("");
   const [previewprofile2, setpreviewprofile2] = useState("");
   const [previewprofile3, setpreviewprofile3] = useState("");
-  const { isUpdated } = useSelector((state) => state.updateCredentials);
+  const { isUpdated, loading } = useSelector(
+    (state) => state.updateCredentials
+  );
   const { user } = useSelector((state) => state.auth);
 
   console.log(profileimg);
@@ -126,7 +129,7 @@ function UpdateProImges({ setOpen }) {
                       <>
                         <img
                           className="keydetailsdivproimg"
-                          src={`${backendUrl}public/upload/${user?.data?.CredentailsData?.profileurl}`}
+                          src={user?.data?.CredentailsData?.profileurl}
                           alt="Logo"
                         />
                       </>
@@ -170,7 +173,7 @@ function UpdateProImges({ setOpen }) {
                       <>
                         <img
                           className="keydetailsdivcertificatelogoimg"
-                          src={`${backendUrl}public/upload/${user?.data?.CredentailsData?.certificatelogo}`}
+                          src={user?.data?.CredentailsData?.certificatelogo}
                           alt="Logo"
                         />
                       </>
@@ -215,7 +218,7 @@ function UpdateProImges({ setOpen }) {
                       <>
                         <img
                           className="keydetailsdivlogoimg"
-                          src={`${backendUrl}public/upload/${user?.data?.CredentailsData?.logourl}`}
+                          src={user?.data?.CredentailsData?.logourl}
                           alt="Logo"
                         />
                       </>
@@ -235,7 +238,13 @@ function UpdateProImges({ setOpen }) {
           </div>
 
           <div className={styles.logbtnstylediv}>
-            <button className={styles.logbtnstyle}>Update</button>
+            <button className={styles.logbtnstyle}>
+              {loading ? (
+                <CircularProgress size={25} style={{ color: "red" }} />
+              ) : (
+                "Update"
+              )}
+            </button>
           </div>
         </form>
       </div>

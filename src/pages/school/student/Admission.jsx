@@ -5,7 +5,6 @@ import {
   getcourse,
   getbatch,
   getstudent,
-  deletestudent,
   getfee,
   getcategory,
   GetSession,
@@ -31,7 +30,9 @@ import UpdateAdmission from "../../../component/Institute/student/UpdateAdmissio
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
 import exportFromJSON from "export-from-json";
-
+import { serverInstance } from "../../../API/ServerInstance";
+import { toast } from "react-toastify";
+import CircularProgress from "@mui/material/CircularProgress";
 const studentStatus = [
   { label: "Active", value: "Active" },
   { label: "On Leave", value: "On Leave" },
@@ -41,6 +42,7 @@ const studentStatus = [
 ];
 function Admission() {
   const dispatch = useDispatch()
+  const [deleting, setdeleting] = useState(false);
   const [stream, setstream] = useState('');
   const [scoursename, setscoursename] = useState("");
   const [sfathers, setsfathers] = useState("");
@@ -99,7 +101,27 @@ function Admission() {
   };
 
   const handledelete = () => {
-    dispatch(deletestudent(deleteid, setOpenalert));
+   
+    setdeleting(true);
+    serverInstance(`student/addstudent?id=${deleteid}`, "delete").then((res) => {
+      if (res?.status === true) {
+        toast.success(res?.msg, {
+          autoClose: 1000,
+        });
+        dispatch(getstudent());
+        handleClosedelete();
+        setdeleting(false);
+      }
+      if (res?.status === false) {
+        toast.error(res?.msg, {
+          autoClose: 1000,
+        });
+        handleClosedelete();
+        setdeleting(false);
+      }
+    });
+
+
   };
   
   const Transition = React.forwardRef(function Transition(props, ref) {
@@ -131,7 +153,7 @@ function Admission() {
   }, [student, batch, user, course, category, Sessions, sections]);
   useEffect(() => {
     dispatch(getstudent());
-  }, [open, openupdate, openalert]);
+  }, [open, openupdate]);
   useEffect(() => {
     dispatch(loadUser());
     dispatch(getbatch());
@@ -264,7 +286,7 @@ function Admission() {
         <>
           <Dialog
             open={openalert}
-            onClose={handleClosedelete}
+            // onClose={handleClosedelete}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
@@ -279,7 +301,11 @@ function Admission() {
             <DialogActions>
               <Button onClick={handleClosedelete}>Disagree</Button>
               <Button onClick={handledelete} autoFocus>
-                Agree
+                {deleting ? (
+                  <CircularProgress size={25} style={{ color: "red" }} />
+                ) : (
+                  "Agree"
+                )}
               </Button>
             </DialogActions>
           </Dialog>

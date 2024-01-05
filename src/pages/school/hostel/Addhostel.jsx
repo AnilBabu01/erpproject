@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 function Addhostel() {
   const dispatch = useDispatch();
+  const [deleting, setdeleting] = useState(false);
   const [open, setOpen] = useState(false);
   const [openupdate, setOpenupdate] = useState(false);
   const [openalert, setOpenalert] = useState(false);
@@ -60,6 +61,7 @@ function Addhostel() {
   };
 
   const handledelete = () => {
+    setdeleting(true)
     serverInstance("hostel/addhostel", "delete", {
       id: deleteid,
     }).then((res) => {
@@ -68,6 +70,7 @@ function Addhostel() {
           autoClose: 1000,
         });
         setOpenalert(false);
+        setdeleting(false)
         dispatch(GetHostel());
       }
       if (res?.status === false) {
@@ -75,6 +78,7 @@ function Addhostel() {
           autoClose: 1000,
         });
         setOpenalert(false);
+        setdeleting(false)
       }
     });
   };
@@ -105,7 +109,7 @@ function Addhostel() {
           <Dialog
             open={open}
             // TransitionComponent={Transition}
-            onClose={handleCloseregister}
+            // onClose={handleCloseregister}
             aria-describedby="alert-dialog-slide-description"
             sx={{
               "& .MuiDialog-container": {
@@ -125,7 +129,7 @@ function Addhostel() {
           <Dialog
             open={openupdate}
             TransitionComponent={Transition}
-            onClose={handleCloseupadte}
+            // onClose={handleCloseupadte}
             aria-describedby="alert-dialog-slide-description"
             sx={{
               "& .MuiDialog-container": {
@@ -145,7 +149,7 @@ function Addhostel() {
         <>
           <Dialog
             open={openalert}
-            onClose={handleClosedelete}
+            // onClose={handleClosedelete}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
@@ -160,7 +164,11 @@ function Addhostel() {
             <DialogActions>
               <Button onClick={handleClosedelete}>Disagree</Button>
               <Button onClick={handledelete} autoFocus>
-                Agree
+              {deleting ? (
+                  <CircularProgress size={25} style={{ color: "red" }} />
+                ) : (
+                  "Agree"
+                )}
               </Button>
             </DialogActions>
           </Dialog>

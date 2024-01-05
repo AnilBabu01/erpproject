@@ -9,6 +9,7 @@ import axios from "axios";
 import { backendApiUrl } from "../../../config/config";
 const formData = new FormData();
 function AddSlider({ setOpen }) {
+
   const dispatch = useDispatch();
   const [HostelName, setHostelName] = useState("");
   const [DescripTion, setDescripTion] = useState("");
@@ -18,6 +19,7 @@ function AddSlider({ setOpen }) {
 
   const submit = async (e) => {
     e.preventDefault();
+    setloading(true);
     try {
       const config = {
         headers: {

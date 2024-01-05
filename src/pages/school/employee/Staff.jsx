@@ -21,6 +21,9 @@ import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
 import exportFromJSON from "export-from-json";
 import { useReactToPrint } from "react-to-print";
+import CircularProgress from "@mui/material/CircularProgress";
+import { serverInstance } from "../../../API/ServerInstance";
+import { toast } from "react-toastify";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 const studentStatus = [
@@ -31,8 +34,7 @@ const studentStatus = [
 function Staff() {
   const componentRef = useRef(null);
   const dispatch = useDispatch();
-  const [scoursename, setscoursename] = useState("");
-  const [sfathers, setsfathers] = useState("");
+  const [deleting, setdeleting] = useState(false);
   const [sstudent, setsstudent] = useState("");
   const [empname, setempname] = useState("");
   const [sbatch, setsbatch] = useState("");
@@ -85,7 +87,26 @@ function Staff() {
   };
 
   const handledelete = () => {
-    dispatch(deleteEmployee(deleteid, setOpenalert));
+    setdeleting(true);
+    serverInstance(`comman/deleteemployee`, "delete", {
+      id: deleteid,
+    }).then((res) => {
+      if (res?.status === true) {
+        toast.success(res?.msg, {
+          autoClose: 1000,
+        });
+        dispatch(getEmployee());
+        handleClosedelete();
+        setdeleting(false);
+      }
+      if (res?.status === false) {
+        toast.error(res?.msg, {
+          autoClose: 1000,
+        });
+        handleClosedelete();
+        setdeleting(false);
+      }
+    });
   };
 
   useEffect(() => {
@@ -101,7 +122,7 @@ function Staff() {
   }, [employees, department, designation]);
   useEffect(() => {
     dispatch(getEmployee());
-  }, [open, openupdate, openalert]);
+  }, []);
   useEffect(() => {
     dispatch(loadUser());
     dispatch(getDepartment());
@@ -165,7 +186,7 @@ function Staff() {
           <Dialog
             open={open}
             TransitionComponent={Transition}
-            onClose={handleCloseregister}
+            // onClose={handleCloseregister}
             aria-describedby="alert-dialog-slide-description"
             sx={{
               "& .MuiDialog-container": {
@@ -185,7 +206,7 @@ function Staff() {
           <Dialog
             open={openupdate}
             TransitionComponent={Transition}
-            onClose={handleCloseupadte}
+            // onClose={handleCloseupadte}
             aria-describedby="alert-dialog-slide-description"
             sx={{
               "& .MuiDialog-container": {
@@ -205,7 +226,7 @@ function Staff() {
         <>
           <Dialog
             open={openalert}
-            onClose={handleClosedelete}
+            // onClose={handleClosedelete}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
@@ -220,7 +241,11 @@ function Staff() {
             <DialogActions>
               <Button onClick={handleClosedelete}>Disagree</Button>
               <Button onClick={handledelete} autoFocus>
-                Agree
+                {deleting ? (
+                  <CircularProgress size={25} style={{ color: "red" }} />
+                ) : (
+                  "Agree"
+                )}
               </Button>
             </DialogActions>
           </Dialog>

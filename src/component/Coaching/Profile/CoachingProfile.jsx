@@ -338,7 +338,7 @@ function CoachingProfile() {
                     <img
                       alt="img"
                       className="keydetailsdivproimg"
-                      src={`${backendUrl}public/upload/${user?.data?.CredentailsData?.profileurl}`}
+                      src={user?.data?.CredentailsData?.profileurl}
                     />
                   </>
                 ) : (
@@ -358,7 +358,7 @@ function CoachingProfile() {
                     <img
                       alt="img"
                       className="keydetailsdivlogoimg"
-                      src={`${backendUrl}public/upload/${user?.data?.CredentailsData?.logourl}`}
+                      src={user?.data?.CredentailsData?.logourl}
                     />
                   </>
                 ) : (
@@ -381,7 +381,7 @@ function CoachingProfile() {
                     <img
                       alt="img"
                       className="keydetailsdivcertificatelogoimg"
-                      src={`${backendUrl}public/upload/${user?.data?.CredentailsData?.certificatelogo}`}
+                      src={user?.data?.CredentailsData?.certificatelogo}
                     />
                   </>
                 ) : (

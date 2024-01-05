@@ -17,6 +17,7 @@ import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import { loadUser } from "../../../redux/actions/authActions";
 function Slider() {
   const dispatch = useDispatch();
+  const [deleting, setdeleting] = useState(false);
   const [open, setOpen] = useState(false);
   const [openupdate, setOpenupdate] = useState(false);
   const [openalert, setOpenalert] = useState(false);
@@ -27,7 +28,6 @@ function Slider() {
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
   const { slider, loading } = useSelector((state) => state.GetSlider);
-
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -60,6 +60,7 @@ function Slider() {
   };
 
   const handledelete = () => {
+    setdeleting(true);
     serverInstance("comman/slider", "delete", {
       id: deleteid,
     }).then((res) => {
@@ -68,6 +69,7 @@ function Slider() {
           autoClose: 1000,
         });
         setOpenalert(false);
+        setdeleting(false);
         dispatch(GetSlider());
       }
       if (res?.status === false) {
@@ -75,6 +77,7 @@ function Slider() {
           autoClose: 1000,
         });
         setOpenalert(false);
+        setdeleting(false);
       }
     });
   };
@@ -99,8 +102,8 @@ function Slider() {
   }, []);
 
   useEffect(() => {
-    dispatch(loadUser())
-   }, [])
+    dispatch(loadUser());
+  }, []);
 
   return (
     <>
@@ -164,7 +167,11 @@ function Slider() {
             <DialogActions>
               <Button onClick={handleClosedelete}>Disagree</Button>
               <Button onClick={handledelete} autoFocus>
-                Agree
+                {deleting ? (
+                  <CircularProgress size={25} style={{ color: "red" }} />
+                ) : (
+                  "Agree"
+                )}
               </Button>
             </DialogActions>
           </Dialog>
@@ -241,7 +248,7 @@ function Slider() {
                           <td className={styles.tabletd}>{index + 1}</td>
 
                           <td className={styles.tabletd}>
-                            {item?.Dec?.slice(0.20)}...
+                            {item?.Dec?.slice(0.2)}...
                           </td>
                           <td className={styles.tabkeddd}>
                             <button

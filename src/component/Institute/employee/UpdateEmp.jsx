@@ -3,15 +3,19 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
-import { UpdateEmployee } from "../../../redux/actions/commanAction";
+import { getEmployee } from "../../../redux/actions/commanAction";
 import { useDispatch, useSelector } from "react-redux";
-
+import { backendApiUrl } from "../../../config/config";
+import { toast } from "react-toastify";
+import axios from "axios";
+import CircularProgress from "@mui/material/CircularProgress";
 const formData = new FormData();
 
 function UpdateEmp({ setOpen, updatedata }) {
   const dispatch = useDispatch();
   const [isdata, setisData] = useState([]);
   const [isdata1, setisdata1] = useState([]);
+  const [loading, setloading] = useState(false);
   const [showpermission, setshowpermission] = useState(false);
   const [typeemployee, settypeemployee] = useState(true);
   const [designationname, setdesignationname] = useState("");
@@ -113,8 +117,10 @@ function UpdateEmp({ setOpen, updatedata }) {
   const { designation } = useSelector((state) => state.getdesignation);
   const { department } = useSelector((state) => state.getpart);
   const { user } = useSelector((state) => state.auth);
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
+    
+    setloading(true);
     formData.set("id", updatedata?.id);
     formData.set("name", empname);
     formData.set("email", empemail);
@@ -225,7 +231,34 @@ function UpdateEmp({ setOpen, updatedata }) {
 
     formData.set("report", reports);
     formData.set("status", status);
-    dispatch(UpdateEmployee(formData, setOpen));
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `${localStorage.getItem("erptoken")}`,
+      },
+    };
+    const { data } = await axios.put(
+      `${backendApiUrl}comman/updateemployee`,
+      formData,
+      config
+    );
+    console.log("add emp", data);
+    if (data?.status === true) {
+      toast.success(data?.msg, {
+        autoClose: 1000,
+      });
+      setOpen(false);
+
+      setloading(false);
+      dispatch(getEmployee());
+    }
+    if (data?.status === false) {
+      toast.error(data?.msg, {
+        autoClose: 1000,
+      });
+
+      setloading(false);
+    }
   };
 
   useEffect(() => {
@@ -329,7 +362,9 @@ function UpdateEmp({ setOpen, updatedata }) {
         <div className={styles.closeicondiv} onClick={() => setOpen(false)}>
           <CloseIcon />
         </div>
-        <h1>{showpermission?"Allow Permission To Be Given ":"Update Employee"}</h1>
+        <h1>
+          {showpermission ? "Allow Permission To Be Given " : "Update Employee"}
+        </h1>
         <form onSubmit={submit}>
           {showpermission ? (
             <>
@@ -971,7 +1006,13 @@ function UpdateEmp({ setOpen, updatedata }) {
                 </>
               )}
               <div className={styles.logbtnstylediv}>
-                <button className={styles.logbtnstyle}>Update</button>
+                <button className={styles.logbtnstyle}>
+                  {loading ? (
+                    <CircularProgress size={25} style={{ color: "red" }} />
+                  ) : (
+                    "Update"
+                  )}
+                </button>
               </div>
             </>
           ) : (
@@ -1168,11 +1209,23 @@ function UpdateEmp({ setOpen, updatedata }) {
                       </>
                     ) : (
                       <>
-                        <img
-                          className="keydetailsdivproimg"
-                          src="/images/profileimg.jpg"
-                          alt="Logo"
-                        />
+                        {updatedata?.profileurl ? (
+                          <>
+                            <img
+                              className="keydetailsdivproimg"
+                              src={updatedata?.profileurl}
+                              alt="Logo"
+                            />
+                          </>
+                        ) : (
+                          <>
+                            <img
+                              className="keydetailsdivproimg"
+                              src="/images/profileimg.jpg"
+                              alt="Logo"
+                            />
+                          </>
+                        )}
                       </>
                     )}
                   </div>
@@ -1200,7 +1253,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                       required
                       className={styles.addwidth}
                       sx={{
-                        width: "18.8rem",
+                        width: "100%",
                         fontSize: 14,
                         "& .MuiSelect-select": {
                           paddingTop: "0.6rem",
@@ -1241,7 +1294,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                       required
                       className={styles.addwidth}
                       sx={{
-                        width: "18.8rem",
+                        width: "100%",
                         fontSize: 14,
                         "& .MuiSelect-select": {
                           paddingTop: "0.6rem",
@@ -1303,11 +1356,11 @@ function UpdateEmp({ setOpen, updatedata }) {
                           src="/images/down.png"
                           alt="img"
                         />
-                        <img
+                        {/* <img
                           className={styles.opicon}
                           src="/images/can.png"
                           alt="img"
-                        />
+                        /> */}
                       </div>
                     </div>
 
@@ -1327,11 +1380,11 @@ function UpdateEmp({ setOpen, updatedata }) {
                           src="/images/down.png"
                           alt="img"
                         />
-                        <img
+                        {/* <img
                           className={styles.opicon}
                           src="/images/can.png"
                           alt="img"
-                        />
+                        /> */}
                       </div>
                     </div>
                     <input
@@ -1350,11 +1403,11 @@ function UpdateEmp({ setOpen, updatedata }) {
                           src="/images/down.png"
                           alt="img"
                         />
-                        <img
+                        {/* <img
                           className={styles.opicon}
                           src="/images/can.png"
                           alt="img"
-                        />
+                        /> */}
                       </div>
                     </div>
                     <input
@@ -1373,11 +1426,11 @@ function UpdateEmp({ setOpen, updatedata }) {
                           src="/images/down.png"
                           alt="img"
                         />
-                        <img
+                        {/* <img
                           className={styles.opicon}
                           src="/images/can.png"
                           alt="img"
-                        />
+                        /> */}
                       </div>
                     </div>
                     <input
@@ -1396,11 +1449,11 @@ function UpdateEmp({ setOpen, updatedata }) {
                           src="/images/down.png"
                           alt="img"
                         />
-                        <img
+                        {/* <img
                           className={styles.opicon}
                           src="/images/can.png"
                           alt="img"
-                        />
+                        /> */}
                       </div>
                     </div>
                     <input
@@ -1419,11 +1472,11 @@ function UpdateEmp({ setOpen, updatedata }) {
                           src="/images/down.png"
                           alt="img"
                         />
-                        <img
+                        {/* <img
                           className={styles.opicon}
                           src="/images/can.png"
                           alt="img"
-                        />
+                        /> */}
                       </div>
                     </div>
                     <input
@@ -1444,11 +1497,11 @@ function UpdateEmp({ setOpen, updatedata }) {
                           src="/images/down.png"
                           alt="img"
                         />
-                        <img
+                        {/* <img
                           className={styles.opicon}
                           src="/images/can.png"
                           alt="img"
-                        />
+                        /> */}
                       </div>
                     </div>
                     <input
@@ -1466,11 +1519,11 @@ function UpdateEmp({ setOpen, updatedata }) {
                           src="/images/down.png"
                           alt="img"
                         />
-                        <img
+                        {/* <img
                           className={styles.opicon}
                           src="/images/can.png"
                           alt="img"
-                        />
+                        /> */}
                       </div>
                     </div>
                     <input
@@ -1488,11 +1541,11 @@ function UpdateEmp({ setOpen, updatedata }) {
                           src="/images/down.png"
                           alt="img"
                         />
-                        <img
+                        {/* <img
                           className={styles.opicon}
                           src="/images/can.png"
                           alt="img"
-                        />
+                        /> */}
                       </div>
                     </div>
                     <input

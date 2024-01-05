@@ -84,7 +84,7 @@ function Receipt() {
               <div className={styles.imgdivre}>
                 <img
                   alt="img"
-                  src={`${backendUrl}public/upload/${organizationdata?.logourl}`}
+                  src={organizationdata?.logourl}
                 />
               </div>
               <div className={styles.imgdivre}>
@@ -167,7 +167,7 @@ function Receipt() {
               <div className={styles.imgdivre}>
                 <img
                   alt="img"
-                  src={`${backendUrl}public/upload/${organizationdata?.logourl}`}
+                  src={organizationdata?.logourl}
                 />
               </div>
               <div className={styles.imgdivre}>

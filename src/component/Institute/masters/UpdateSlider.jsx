@@ -20,6 +20,7 @@ function UpdateSlider({ setOpen, updatedata }) {
 
   const submit = async (e) => {
     e.preventDefault();
+    setloading(true);
     try {
       const config = {
         headers: {
@@ -98,7 +99,7 @@ function UpdateSlider({ setOpen, updatedata }) {
                       <img
                         alt="img"
                         className={styles.dharamshala_imgggg}
-                        src={`${backendUrl}public/upload/${updatedata?.ImgUrl}`}
+                        src={updatedata?.ImgUrl}
                       />
                     </div>
                   </>

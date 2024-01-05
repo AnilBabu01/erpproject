@@ -18,6 +18,7 @@ function Addhostel({ setOpen }) {
 
   const submit = async (e) => {
     e.preventDefault();
+    setloading(true);
     try {
       const config = {
         headers: {

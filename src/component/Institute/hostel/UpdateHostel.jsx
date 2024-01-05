@@ -18,6 +18,7 @@ function UpdateHostel({ setOpen, updatedata }) {
 
   const submit = async (e) => {
     e.preventDefault();
+    setloading(true);
     try {
       const config = {
         headers: {
@@ -107,7 +108,7 @@ function UpdateHostel({ setOpen, updatedata }) {
                       <img
                         alt="img"
                         className={styles.dharamshala_imgggg}
-                        src={`${backendUrl}public/upload/${updatedata?.Hostelurl}`}
+                        src={updatedata?.Hostelurl}
                       />
                     </div>
                   </>

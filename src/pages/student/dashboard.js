@@ -65,7 +65,7 @@ function Dashboard() {
                 return (
                   <div key={index} className={Styles.sliderimgdiv}>
                     <img
-                      src={`${backendUrl}public/upload/${item?.ImgUrl}`}
+                      src={item?.ImgUrl}
                       alt="nhbbb"
                     />
                     <div className={Styles.overtextdiv}>

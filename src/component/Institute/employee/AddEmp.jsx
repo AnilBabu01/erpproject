@@ -3,15 +3,19 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
-import { AddEmployee } from "../../../redux/actions/commanAction";
+import { getEmployee } from "../../../redux/actions/commanAction";
 import { useDispatch, useSelector } from "react-redux";
-
+import CircularProgress from "@mui/material/CircularProgress";
+import { backendApiUrl } from "../../../config/config";
+import { toast } from "react-toastify";
+import axios from "axios";
 const formData = new FormData();
 
 function AddEmp({ setOpen }) {
   const dispatch = useDispatch();
   const [isdata, setisData] = useState([]);
   const [isdata1, setisdata1] = useState([]);
+  const [loading, setloading] = useState(false);
   const [emplyeetype, setemplyeetype] = useState("employee");
   const [showpermission, setshowpermission] = useState(false);
   const [typeemployee, settypeemployee] = useState(true);
@@ -113,8 +117,10 @@ function AddEmp({ setOpen }) {
   const { designation } = useSelector((state) => state.getdesignation);
   const { department } = useSelector((state) => state.getpart);
   const { user } = useSelector((state) => state.auth);
-  const submit = (e) => {
+
+  const submit = async (e) => {
     e.preventDefault();
+    setloading(true);
     formData.set("name", empname);
     formData.set("email", empemail);
     formData.set("phoneno1", empphone1);
@@ -226,7 +232,35 @@ function AddEmp({ setOpen }) {
     formData.set("report", reports);
 
     formData.set("status", status);
-    dispatch(AddEmployee(formData, setOpen));
+
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `${localStorage.getItem("erptoken")}`,
+      },
+    };
+    const { data } = await axios.post(
+      `${backendApiUrl}comman/createemployee`,
+      formData,
+      config
+    );
+    console.log("add emp", data);
+    if (data?.status === true) {
+      toast.success(data?.msg, {
+        autoClose: 1000,
+      });
+      setOpen(false);
+
+      setloading(false);
+      dispatch(getEmployee());
+    }
+    if (data?.status === false) {
+      toast.error(data?.msg, {
+        autoClose: 1000,
+      });
+
+      setloading(false);
+    }
   };
 
   useEffect(() => {
@@ -234,21 +268,15 @@ function AddEmp({ setOpen }) {
     setisdata1(department, department);
   }, [designation]);
 
-  console.log(
-    "data from show checkbox",
-    frontoffice,
-    frontofficeR,
-    frontofficeW,
-    frontofficeE,
-    frontofficeD
-  );
   return (
     <>
       <div className={styles.divmainlogin}>
         <div className={styles.closeicondiv} onClick={() => setOpen(false)}>
           <CloseIcon />
         </div>
-        <h1>{showpermission?"Allow Permission To Be Given ":"Add Employee"}</h1>
+        <h1>
+          {showpermission ? "Allow Permission To Be Given " : "Add Employee"}
+        </h1>
         <form onSubmit={submit}>
           {showpermission ? (
             <>
@@ -902,7 +930,13 @@ function AddEmp({ setOpen }) {
               )}
 
               <div className={styles.logbtnstylediv}>
-                <button className={styles.logbtnstyle}>Save</button>
+                <button className={styles.logbtnstyle}>
+                  {loading ? (
+                    <CircularProgress size={25} style={{ color: "red" }} />
+                  ) : (
+                    "Save"
+                  )}
+                </button>
               </div>
             </>
           ) : (
@@ -1131,7 +1165,7 @@ function AddEmp({ setOpen }) {
                       required
                       className={styles.addwidth}
                       sx={{
-                        width: "18.8rem",
+                        width: "100%",
                         fontSize: 14,
                         "& .MuiSelect-select": {
                           paddingTop: "0.6rem",
@@ -1172,7 +1206,7 @@ function AddEmp({ setOpen }) {
                       required
                       className={styles.addwidth}
                       sx={{
-                        width: "18.8rem",
+                        width: "100%",
                         fontSize: 14,
                         "& .MuiSelect-select": {
                           paddingTop: "0.6rem",
@@ -1523,7 +1557,6 @@ function AddEmp({ setOpen }) {
                   pincode &&
                   joiningdate &&
                   department
-                 
                     ? false
                     : true
                 }
@@ -1535,7 +1568,6 @@ function AddEmp({ setOpen }) {
                   pincode &&
                   joiningdate &&
                   department
-                
                     ? styles.logbtnstyle
                     : styles.logbtnstyledisable
                 }

@@ -5,6 +5,7 @@ import { Updatecredentials } from "../../../redux/actions/commanAction";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../redux/actions/authActions";
 import { UPDATE_CREDENTIALS_RESET_SUCCESS } from "../../../redux/constants/commanConstants";
+import CircularProgress from "@mui/material/CircularProgress";
 const formData = new FormData();
 function DisableOptions({ updatedata, setOpen }) {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ function DisableOptions({ updatedata, setOpen }) {
   const [studentpassword, setstudentpassword] = useState("");
   const [parentpassword, setparentpassword] = useState("");
   const [Employeepassword, setEmployeepassword] = useState("");
-  const { isUpdated } = useSelector((state) => state.updateCredentials);
+  const { isUpdated,loading } = useSelector((state) => state.updateCredentials);
   const { user } = useSelector((state) => state.auth);
   const submit = (e) => {
     e.preventDefault();
@@ -147,7 +148,11 @@ function DisableOptions({ updatedata, setOpen }) {
           </div>
 
           <div className={styles.logbtnstylediv}>
-            <button className={styles.logbtnstyle}>Update</button>
+            <button className={styles.logbtnstyle}> {loading ? (
+                <CircularProgress size={25} style={{ color: "red" }} />
+              ) : (
+                "Update"
+              )}</button>
           </div>
         </form>
       </div>

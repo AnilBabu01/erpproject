@@ -4,12 +4,14 @@ import MenuItem from "@mui/material/MenuItem";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { Updatestudent } from "../../../redux/actions/commanAction";
+import { Updatestudent, getstudent } from "../../../redux/actions/commanAction";
 import { useRouter } from "next/router";
 import { ADD_STUDENT_RESET } from "../../../redux/constants/commanConstants";
 import CircularProgress from "@mui/material/CircularProgress";
 import { serverInstance } from "../../../API/ServerInstance";
+import { backendApiUrl } from "../../../config/config";
 import { toast } from "react-toastify";
+import axios from "axios";
 const formData = new FormData();
 
 const studentStatus = [
@@ -23,11 +25,12 @@ const studentStatus = [
 function UpdateStudent({ setOpen, updatedata }) {
   const navigation = useRouter();
   const dispatch = useDispatch();
+  const [loading, setloading] = useState(false);
   const [stream, setstream] = useState("NONE");
   const [loading1, setloading1] = useState(false);
   const [loading2, setloading2] = useState(false);
-  const [SrNumber, setSrNumber] = useState('')
-  const [DateOfBirth, setDateOfBirth] = useState('');
+  const [SrNumber, setSrNumber] = useState("");
+  const [DateOfBirth, setDateOfBirth] = useState("");
   const [sessionname, setsessionname] = useState("");
   const [sectionname, setsectionname] = useState("NONE");
   const [sectionlist, setsectionlist] = useState([]);
@@ -100,11 +103,9 @@ function UpdateStudent({ setOpen, updatedata }) {
   const { roomfacility } = useSelector((state) => state.GetFacility);
   const { route } = useSelector((state) => state.GetRoute);
   const { sections } = useSelector((state) => state.GetSection);
-  const { studentaddstatus, student } = useSelector(
-    (state) => state.addstudent
-  );
-  const { loading } = useSelector((state) => state.editstudent);
-  const submit = () => {
+
+  const submit = async () => {
+    setloading(true);
     formData.set("id", updatedata?.id);
     formData.set("name", studentname);
     formData.set("email", studentemail);
@@ -140,9 +141,10 @@ function UpdateStudent({ setOpen, updatedata }) {
     formData.set("BusNumber", "");
     formData.set("Section", sectionname);
     formData.set("Session", sessionname);
+    formData.set("SrNumber", SrNumber);
     formData.set("StudentCategory", categoryname);
     formData.set("AnnualFee", annualfee);
-    formData.set("stream",stream);
+    formData.set("stream", stream);
     formData.set("hostelstatus", hostal === true ? false : true);
     formData.set("transportstatus", transport === true ? false : true);
     formData.set(
@@ -198,7 +200,34 @@ function UpdateStudent({ setOpen, updatedata }) {
       user?.data[0]?.Parentpassword ? user?.data[0]?.Parentpassword : "parent"
     );
 
-    dispatch(Updatestudent(formData, setOpen));
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `${localStorage.getItem("erptoken")}`,
+      },
+    };
+    const { data } = await axios.put(
+      `${backendApiUrl}student/addstudent`,
+      formData,
+      config
+    );
+    console.log("add emp", data);
+    if (data?.status === true) {
+      toast.success(data?.msg, {
+        autoClose: 1000,
+      });
+      setOpen(false);
+
+      setloading(false);
+      dispatch(getstudent());
+    }
+    if (data?.status === false) {
+      toast.error(data?.msg, {
+        autoClose: 1000,
+      });
+
+      setloading(false);
+    }
   };
 
   useEffect(() => {
@@ -293,8 +322,11 @@ function UpdateStudent({ setOpen, updatedata }) {
       setfromroute(updatedata?.FromRoute);
       settoroute(updatedata?.ToRoute);
       setpano(updatedata?.pancardnno);
-      setDateOfBirth(  new Date(updatedata?.DateOfBirth).toISOString().substring(0, 10));
+      setDateOfBirth(
+        new Date(updatedata?.DateOfBirth).toISOString().substring(0, 10)
+      );
       setstream(updatedata?.Stream);
+      setSrNumber(updatedata?.SrNumber);
     }
   }, []);
 
@@ -407,7 +439,6 @@ function UpdateStudent({ setOpen, updatedata }) {
                   </Select>
                 </div>
                 <div className={styles.inputdiv}>
-              
                   <label>Date Of Birth</label>
                   <input
                     required
@@ -416,7 +447,6 @@ function UpdateStudent({ setOpen, updatedata }) {
                     name="DateOfBirth"
                     onChange={(e) => setDateOfBirth(e.target.value)}
                   />
-                
                 </div>
               </div>
 
@@ -1484,10 +1514,10 @@ function UpdateStudent({ setOpen, updatedata }) {
                               Please Select
                             </MenuItem>
                             {routelist?.length > 0 &&
-                              routelist?.map((item,index) => {
+                              routelist?.map((item, index) => {
                                 return (
                                   <MenuItem
-                                  key={index}
+                                    key={index}
                                     sx={{
                                       fontSize: 14,
                                     }}
@@ -1526,10 +1556,10 @@ function UpdateStudent({ setOpen, updatedata }) {
                               Please Select
                             </MenuItem>
                             {routelist?.length > 0 &&
-                              routelist?.map((item,index) => {
+                              routelist?.map((item, index) => {
                                 return (
                                   <MenuItem
-                                  key={index}
+                                    key={index}
                                     sx={{
                                       fontSize: 14,
                                     }}

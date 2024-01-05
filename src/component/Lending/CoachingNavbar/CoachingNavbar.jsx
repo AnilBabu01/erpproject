@@ -337,6 +337,7 @@ const CoachingNavbar = () => {
                   <div className="main_report_dropdown">
                     <div className="main_report_dropdown_rightmargin">
                       <h1>General</h1>
+
                       <div className="main_innear_menu_dropdown">
                         <Link href="/coaching/masters/batchtime">
                           Add Batch Time
@@ -348,6 +349,9 @@ const CoachingNavbar = () => {
                         </Link>
                         <Link href="/coaching/masters/receiptprefix">
                           Receipt Prefix
+                        </Link>
+                        <Link href="/coaching/masters/courseduration">
+                          Course Duration
                         </Link>
                       </div>
                     </div>
