@@ -7,7 +7,8 @@ import {
   getstudent,
   deletestudent,
   getfee,
-  getcategory
+  getcategory,
+  getstudentCoaching
 } from "../../../redux/actions/commanAction";
 import styles from "../../coaching/employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
@@ -48,7 +49,7 @@ function Admission() {
   const [rollnumber, setrollnumber] = useState("");
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
-  const { loading, student } = useSelector((state) => state.getstudent);
+  const { loading, student } = useSelector((state) => state.GetCoachingStudent);
   const { batch } = useSelector((state) => state.getbatch);
   const { course } = useSelector((state) => state.getcourse);
   const handleClickOpen = () => {
@@ -100,7 +101,7 @@ function Admission() {
     }
   }, [student, batch, user, course]);
   useEffect(() => {
-    dispatch(getstudent());
+    dispatch(getstudentCoaching());
   }, [open, openupdate, openalert]);
   useEffect(() => {
     dispatch(loadUser());
@@ -113,7 +114,7 @@ function Admission() {
   const filterdata = (e) => {
     e.preventDefault();
     dispatch(
-      getstudent(
+      getstudentCoaching(
         fromdate,
         todate,
         scoursename,
@@ -132,15 +133,15 @@ function Admission() {
   };
 
   const reset = () => {
-    setstatus('')
-    setrollnumber('');
+    setstatus("");
+    setrollnumber("");
     setsstudent("");
     setsfathers("");
     setfromdate("");
     settodate("");
     setscoursename("");
     setsbatch("");
-    dispatch(getstudent());
+    dispatch(getstudentCoaching());
   };
   return (
     <>
@@ -420,82 +421,84 @@ function Admission() {
                     <th className={styles.tableth}>Student_Status</th>
                     <th className={styles.tableth}>Action</th>
                   </tr>
-                  {isdata?.map((item, index) => {
-                    return (
-                      <tr key={index} className={styles.tabletr}>
-                        <td className={styles.tabletd}>{index + 1}</td>
-                        <td className={styles.tabletd}>{item?.rollnumber}</td>
-                        <td className={styles.tabletd}>{item?.name}</td>
-                        <td className={styles.tabletd}>{item?.email}</td>
-                        <td className={styles.tabletd}>{item?.phoneno1}</td>
-                        <td className={styles.tabletd}>
-                          {moment(item?.admissionDate).format("DD/MM/YYYY")}
-                        </td>
-                        <td className={styles.tabletd}>
-                          {item?.courseorclass}
-                        </td>
-                        <td className={styles.tabletd}>{item?.batch}</td>
-                        <td className={styles.tabletd}>{item?.Status}</td>
-                        <td className={styles.tabkeddd}>
-                          <button
-                            disabled={
-                              userdata?.data &&
-                              userdata?.data?.User?.userType === "institute"
-                                ? false
-                                : userdata?.data &&
-                                  userdata?.data?.User?.fronroficeDelete ===
-                                    true
-                                ? false
-                                : true
-                            }
-                          >
-                            <img
-                              className={
+                  {isdata?.length>0 &&
+                    isdata?.map((item, index) => {
+                      return (
+                        <tr key={index} className={styles.tabletr}>
+                          <td className={styles.tabletd}>{index + 1}</td>
+                          <td className={styles.tabletd}>{item?.rollnumber}</td>
+                          <td className={styles.tabletd}>{item?.name}</td>
+                          <td className={styles.tabletd}>{item?.email}</td>
+                          <td className={styles.tabletd}>{item?.phoneno1}</td>
+                          <td className={styles.tabletd}>
+                            {moment(item?.admissionDate).format("DD/MM/YYYY")}
+                          </td>
+                          <td className={styles.tabletd}>
+                            {item?.courseorclass}
+                          </td>
+                          <td className={styles.tabletd}>{item?.batch}</td>
+                          <td className={styles.tabletd}>{item?.Status}</td>
+                          <td className={styles.tabkeddd}>
+                            <button
+                              disabled={
                                 userdata?.data &&
                                 userdata?.data?.User?.userType === "institute"
-                                  ? styles.tabkedddimgactive
+                                  ? false
                                   : userdata?.data &&
                                     userdata?.data?.User?.fronroficeDelete ===
                                       true
-                                  ? styles.tabkedddimgactive
-                                  : styles.tabkedddimgdisable
+                                  ? false
+                                  : true
                               }
-                              onClick={() => ClickOpendelete(item?.id)}
-                              src="/images/Delete.png"
-                              alt="imgss"
-                            />
-                          </button>
-                          <button
-                            disabled={
-                              userdata?.data &&
-                              userdata?.data?.User?.userType === "institute"
-                                ? false
-                                : userdata?.data &&
-                                  userdata?.data?.User?.fronroficeEdit === true
-                                ? false
-                                : true
-                            }
-                          >
-                            <img
-                              className={
+                            >
+                              <img
+                                className={
+                                  userdata?.data &&
+                                  userdata?.data?.User?.userType === "institute"
+                                    ? styles.tabkedddimgactive
+                                    : userdata?.data &&
+                                      userdata?.data?.User?.fronroficeDelete ===
+                                        true
+                                    ? styles.tabkedddimgactive
+                                    : styles.tabkedddimgdisable
+                                }
+                                onClick={() => ClickOpendelete(item?.id)}
+                                src="/images/Delete.png"
+                                alt="imgss"
+                              />
+                            </button>
+                            <button
+                              disabled={
                                 userdata?.data &&
                                 userdata?.data?.User?.userType === "institute"
-                                  ? styles.tabkedddimgactive
+                                  ? false
                                   : userdata?.data &&
                                     userdata?.data?.User?.fronroficeEdit ===
                                       true
-                                  ? styles.tabkedddimgactive
-                                  : styles.tabkedddimgdisable
+                                  ? false
+                                  : true
                               }
-                              onClick={() => ClickOpenupdate(item)}
-                              src="/images/Edit.png"
-                              alt="imgss"
-                            />
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                            >
+                              <img
+                                className={
+                                  userdata?.data &&
+                                  userdata?.data?.User?.userType === "institute"
+                                    ? styles.tabkedddimgactive
+                                    : userdata?.data &&
+                                      userdata?.data?.User?.fronroficeEdit ===
+                                        true
+                                    ? styles.tabkedddimgactive
+                                    : styles.tabkedddimgdisable
+                                }
+                                onClick={() => ClickOpenupdate(item)}
+                                src="/images/Edit.png"
+                                alt="imgss"
+                              />
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
                 </tbody>
               </table>
             </div>

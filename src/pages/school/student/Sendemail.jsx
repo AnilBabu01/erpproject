@@ -6,6 +6,7 @@ import {
   getstudent,
   GetSession,
   GetSection,
+  getcurrentsession,
 } from "../../../redux/actions/commanAction";
 import styles from "../../coaching/employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
@@ -14,20 +15,13 @@ import AddAdmission from "../../../component/Institute/student/SendEmail";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
 import { serverInstance } from "../../../API/ServerInstance";
-const studentStatus = [
-  { label: "Active", value: "Active" },
-  { label: "On Leave", value: "On Leave" },
-  { label: "Left In Middle", value: "Left In Middle" },
-  { label: "Completed", value: "Completed" },
-  { label: "Unknown", value: "Unknown" },
-];
+
+
 
 function Sendemail() {
   const dispatch = useDispatch();
-  let date = new Date();
-  let fullyear = date.getFullYear();
-  let lastyear = date.getFullYear() - 1;
-  const [sessionname, setsessionname] = useState(`${lastyear}-${fullyear}`);
+
+  const [sessionname, setsessionname] = useState();
   const [loading, setloading] = useState(false);
   const [scoursename, setscoursename] = useState("");
   const [sentdate, setsentdate] = useState("");
@@ -45,6 +39,9 @@ function Sendemail() {
   const handleClickOpen = () => {
     setOpen(true);
   };
+  const { CURRENTSESSION } = useSelector((state) => state.GetCurrentSession);
+
+  console.log("session data is",CURRENTSESSION);
 
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="top" ref={ref} {...props} />;
@@ -64,7 +61,11 @@ function Sendemail() {
     if (sections) {
       setsectionList(sections);
     }
-  }, [, user, course, Sessions, sections]);
+    if(CURRENTSESSION)
+    {
+      setsessionname(CURRENTSESSION)
+    }
+  }, [, user, course, Sessions, sections,CURRENTSESSION]);
 
   const Sendmail = () => {
     setloading(true);
@@ -93,6 +94,7 @@ function Sendemail() {
     dispatch(getcourse());
     dispatch(GetSection());
     dispatch(GetSession());
+    dispatch(getcurrentsession());
   }, []);
 
   const filterdata = (e) => {
@@ -122,10 +124,8 @@ function Sendemail() {
 
   const reset = () => {
     setscoursename("");
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
+   
+    setsessionname(CURRENTSESSION);
     setsectionname("");
     Sendmail();
   };

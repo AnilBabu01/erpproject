@@ -197,6 +197,18 @@ import {
   GET_STREAM_REQUEST,
   GET_STREAM_SUCCESS,
   GET_STREAM_FAIL,
+  GET_CURRENTSESSION_REQUEST,
+  GET_CURRENTSESSION_SUCCESS,
+  GET_CURRENTSESSION_FAIL,
+  GET_YEAR_REQUEST,
+  GET_YEAR_SUCCESS,
+  GET_YEAR_FAIL,
+  ALL_COACHINGSTUDENT_REQUEST,
+  ALL_COACHINGSTUDENT_SUCCESS,
+  ALL_COACHINGSTUDENT_FAIL,
+  ALL_COACHINGRECEIPTDATA_REQUEST,
+  ALL_COACHINGRECEIPTDATA_SUCCESS,
+  ALL_COACHINGRECEIPTDATA_FAIL
 } from "../constants/commanConstants";
 
 export const getCollegeReducer = (state = { college: {} }, action) => {
@@ -2202,6 +2214,141 @@ export const GetStreamReducer = (state = { Stream: {} }, action) => {
       return {
         loading: false,
         Stream: null,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const GetCurrentSessionReducer = (state = { CURRENTSESSION: {} }, action) => {
+  switch (action.type) {
+    case GET_CURRENTSESSION_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case GET_CURRENTSESSION_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        CURRENTSESSION: action.payload,
+      };
+
+    case GET_CURRENTSESSION_FAIL:
+      return {
+        loading: false,
+        CURRENTSESSION: null,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+
+
+export const GetYearReducer = (state = { curentyear: {} }, action) => {
+  switch (action.type) {
+    case GET_YEAR_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case GET_YEAR_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        curentyear: action.payload,
+      };
+
+    case GET_YEAR_FAIL:
+      return {
+        loading: false,
+        curentyear: null,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+
+
+
+export const GetCoachingStudentReducer = (state = { student: {} }, action) => {
+  switch (action.type) {
+    case ALL_COACHINGSTUDENT_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case ALL_COACHINGSTUDENT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        student: action.payload,
+      };
+
+    case ALL_COACHINGSTUDENT_FAIL:
+      return {
+        loading: false,
+        student: null,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+
+
+export const getReceiptCoachingPrintReducer = (state = { receiptdata: [] }, action) => {
+  switch (action.type) {
+    case ALL_COACHINGRECEIPTDATA_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case ALL_COACHINGRECEIPTDATA_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        receiptdata: action.payload,
+      };
+
+    case ALL_COACHINGRECEIPTDATA_FAIL:
+      return {
+        loading: false,
+        receiptdata: null,
         error: action.payload,
       };
 

@@ -9,6 +9,7 @@ import {
   getcategory,
   GetSession,
   GetSection,
+  getcurrentsession,
 } from "../../../redux/actions/commanAction";
 import {
   GetHostel,
@@ -41,9 +42,9 @@ const studentStatus = [
   { label: "Unknown", value: "Unknown" },
 ];
 function Admission() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [deleting, setdeleting] = useState(false);
-  const [stream, setstream] = useState('');
+  const [stream, setstream] = useState("");
   const [scoursename, setscoursename] = useState("");
   const [sfathers, setsfathers] = useState("");
   const [sstudent, setsstudent] = useState("");
@@ -74,6 +75,7 @@ function Admission() {
   const { category } = useSelector((state) => state.getcategory);
   const { sections } = useSelector((state) => state.GetSection);
   const { Sessions } = useSelector((state) => state.GetSession);
+  const { CURRENTSESSION } = useSelector((state) => state.GetCurrentSession);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -101,29 +103,28 @@ function Admission() {
   };
 
   const handledelete = () => {
-   
     setdeleting(true);
-    serverInstance(`student/addstudent?id=${deleteid}`, "delete").then((res) => {
-      if (res?.status === true) {
-        toast.success(res?.msg, {
-          autoClose: 1000,
-        });
-        dispatch(getstudent());
-        handleClosedelete();
-        setdeleting(false);
+    serverInstance(`student/addstudent?id=${deleteid}`, "delete").then(
+      (res) => {
+        if (res?.status === true) {
+          toast.success(res?.msg, {
+            autoClose: 1000,
+          });
+          dispatch(getstudent());
+          handleClosedelete();
+          setdeleting(false);
+        }
+        if (res?.status === false) {
+          toast.error(res?.msg, {
+            autoClose: 1000,
+          });
+          handleClosedelete();
+          setdeleting(false);
+        }
       }
-      if (res?.status === false) {
-        toast.error(res?.msg, {
-          autoClose: 1000,
-        });
-        handleClosedelete();
-        setdeleting(false);
-      }
-    });
-
-
+    );
   };
-  
+
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="top" ref={ref} {...props} />;
   });
@@ -150,7 +151,19 @@ function Admission() {
     if (sections) {
       setsectionList(sections);
     }
-  }, [student, batch, user, course, category, Sessions, sections]);
+    if (CURRENTSESSION) {
+      setsessionname(CURRENTSESSION);
+    }
+  }, [
+    student,
+    batch,
+    user,
+    course,
+    category,
+    Sessions,
+    sections,
+    CURRENTSESSION,
+  ]);
   useEffect(() => {
     dispatch(getstudent());
   }, [open, openupdate]);
@@ -166,6 +179,7 @@ function Admission() {
     dispatch(GetRoute());
     dispatch(GetSection());
     dispatch(GetSession());
+    dispatch(getcurrentsession());
   }, []);
 
   const filterdata = (e) => {
@@ -199,20 +213,11 @@ function Admission() {
     setscoursename("");
     setsbatch("");
     setcategoryname("");
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() + 1;
-    setsessionname(`${fullyear}-${lastyear}`);
+
+    setsessionname(CURRENTSESSION);
     setsectionname("");
     dispatch(getstudent());
   };
-
-  useEffect(() => {
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() + 1;
-    setsessionname(`${fullyear}-${lastyear}`);
-  }, []);
 
   const ExportToExcel = (isData) => {
     const fileName = "StudentList";
@@ -312,11 +317,9 @@ function Admission() {
         </>
       )}
 
-
       <div className="mainContainer">
         <div>
           <div className={styles.topmenubar}>
-
             <div className={styles.searchoptiondiv}>
               <form onSubmit={filterdata} className={styles.searchoptiondiv}>
                 <select
@@ -594,7 +597,6 @@ function Admission() {
               <button onClick={() => reset()}>Reset</button>
             </div>
 
-            
             <div className={styles.imgdivformat}>
               {/* <img
                 className={styles.imgdivformatimg}
@@ -606,7 +608,11 @@ function Admission() {
                 src="/images/ExportPdf.png"
                 alt="img"
               /> */}
-              <img  onClick={() => ExportToExcel(isdata)} src="/images/ExportExcel.png" alt="img" />
+              <img
+                onClick={() => ExportToExcel(isdata)}
+                src="/images/ExportExcel.png"
+                alt="img"
+              />
             </div>
           </div>
 

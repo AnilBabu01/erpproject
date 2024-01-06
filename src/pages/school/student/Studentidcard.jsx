@@ -7,6 +7,7 @@ import {
   getstudent,
   deletestudent,
   getfee,
+  getcurrentsession,
 } from "../../../redux/actions/commanAction";
 import styles from "../../coaching/employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
@@ -69,6 +70,7 @@ function Studentidcard() {
   const { course } = useSelector((state) => state.getcourse);
   const { sections } = useSelector((state) => state.GetSection);
   const { Sessions } = useSelector((state) => state.GetSession);
+  const { CURRENTSESSION } = useSelector((state) => state.GetCurrentSession);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -122,7 +124,11 @@ function Studentidcard() {
     if (Sessions) {
       setsessionList(Sessions);
     }
-  }, [student, batch, user, course, Sessions, sections]);
+    if(CURRENTSESSION)
+    {
+      setsessionname(CURRENTSESSION)
+    }
+  }, [student, batch, user, course, Sessions, sections,CURRENTSESSION]);
   useEffect(() => {
     dispatch(getstudent());
   }, [open, openupdate, openalert]);
@@ -149,6 +155,7 @@ function Studentidcard() {
         "",
         sessionname,
         sectionname,
+        "",
         ""
       )
     );
@@ -162,18 +169,11 @@ function Studentidcard() {
     settodate("");
     setscoursename("");
     setsbatch("");
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
+   
+    setsessionname(CURRENTSESSION);
     dispatch(getstudent());
   };
-  useEffect(() => {
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
-  }, []);
+  
   const LandscapePrint = useReactToPrint({
     content: () => LandscapeRef.current,
   });

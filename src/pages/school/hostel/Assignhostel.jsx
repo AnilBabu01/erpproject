@@ -8,6 +8,7 @@ import {
   getcategory,
   GetSession,
   GetSection,
+  getcurrentsession,
 } from "../../../redux/actions/commanAction";
 import {
   GetHostel,
@@ -85,6 +86,7 @@ function Assignhostel() {
   const { loading: loading1, checkin } = useSelector(
     (state) => state.GetCheckin
   );
+  const { CURRENTSESSION } = useSelector((state) => state.GetCurrentSession);
   const [minDateTime, setMinDateTime] = useState(
     new Date()?.toISOString().slice(0, 16)
   );
@@ -174,6 +176,10 @@ function Assignhostel() {
     if (checkin) {
       setcheckinlist(checkin);
     }
+    if(CURRENTSESSION)
+    {
+      setsessionname(CURRENTSESSION)
+    }
   }, [
     markattendance,
     batch,
@@ -187,6 +193,7 @@ function Assignhostel() {
     sections,
     category,
     checkin,
+    CURRENTSESSION
   ]);
 
   const getCheckinlist = () => {
@@ -289,19 +296,12 @@ function Assignhostel() {
     setsbatch("");
     setcategoryname("");
     setsno("");
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() + 1;
-    setsessionname(`${fullyear}-${lastyear}`);
+   
+    setsessionname(CURRENTSESSION);
     setsectionname("");
     dispatch(getstudent());
   };
-  useEffect(() => {
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() + 1;
-    setsessionname(`${fullyear}-${lastyear}`);
-  }, []);
+ 
   return (
     <>
       {openalert && (

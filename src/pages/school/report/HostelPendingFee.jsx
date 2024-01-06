@@ -9,6 +9,7 @@ import {
   GetSession,
   getfee,
   getCourseDuration,
+  getcurrentsession
 } from "../../../redux/actions/commanAction";
 import styles from "../../coaching/employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
@@ -65,6 +66,7 @@ function HostelPendingFee() {
   const { category } = useSelector((state) => state.getcategory);
   const { sections } = useSelector((state) => state.GetSection);
   const { Sessions } = useSelector((state) => state.GetSession);
+  const { CURRENTSESSION } = useSelector((state) => state.GetCurrentSession);
   console.log("student", status);
   var newmonthnames = [];
   var feestatusarray = [];
@@ -202,6 +204,10 @@ function HostelPendingFee() {
     if (sections) {
       setsectionList(sections);
     }
+    if(CURRENTSESSION)
+    {
+      setsessionname(CURRENTSESSION)
+    }
   }, [
     student,
     batch,
@@ -211,6 +217,7 @@ function HostelPendingFee() {
     category,
     Sessions,
     sections,
+    CURRENTSESSION
   ]);
 
   useEffect(() => {
@@ -224,6 +231,7 @@ function HostelPendingFee() {
     dispatch(getCourseDuration());
     dispatch(GetSection());
     dispatch(GetSession());
+    dispatch(getcurrentsession());
   }, []);
 
   const filterdata = (e) => {
@@ -242,7 +250,8 @@ function HostelPendingFee() {
         "",
         sessionname,
         sectionname,
-        seno
+        seno,
+        ""
       )
     );
   };
@@ -257,21 +266,13 @@ function HostelPendingFee() {
     setstatus("");
     setrollnumber("");
     setseno("");
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
+  
+    setsessionname(CURRENTSESSION);
     setcategoryname("");
     setsectionname("");
     dispatch(getstudent());
   };
 
-  useEffect(() => {
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
-  }, []);
 
   const TotalRegistrationFee = (data) => {
     let total = 0;

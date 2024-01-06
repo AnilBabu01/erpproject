@@ -7,6 +7,7 @@ import {
   getstudent,
   deletestudent,
   getfee,
+  getcurrentsession,
 } from "../../../redux/actions/commanAction";
 import styles from "../../coaching/employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
@@ -71,6 +72,7 @@ function Studentcertificate() {
   const { course } = useSelector((state) => state.getcourse);
   const { sections } = useSelector((state) => state.GetSection);
   const { Sessions } = useSelector((state) => state.GetSession);
+  const { CURRENTSESSION } = useSelector((state) => state.GetCurrentSession);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -124,7 +126,11 @@ function Studentcertificate() {
     if (Sessions) {
       setsessionList(Sessions);
     }
-  }, [student, batch, user, course, sections, Sessions]);
+    if(CURRENTSESSION)
+    {
+      setsessionname(CURRENTSESSION);
+    }
+  }, [student, batch, user, course, sections, Sessions,CURRENTSESSION]);
   useEffect(() => {
     dispatch(getstudent());
   }, [open, openupdate, openalert]);
@@ -133,6 +139,7 @@ function Studentcertificate() {
     dispatch(getbatch());
     dispatch(getcourse());
     dispatch(getfee());
+    dispatch(getcurrentsession());
   }, []);
 
   const filterdata = (e) => {
@@ -151,6 +158,7 @@ function Studentcertificate() {
         "",
         sessionname,
         sectionname,
+        "",
         ""
       )
     );
@@ -165,10 +173,8 @@ function Studentcertificate() {
     setscoursename("");
     setsbatch("");
     dispatch(getstudent());
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
+   
+    setsessionname(CURRENTSESSION);
   };
 
   const LandscapePrint = useReactToPrint({
@@ -178,12 +184,7 @@ function Studentcertificate() {
   const PortraitPrint = useReactToPrint({
     content: () => PortraitRef.current,
   });
-  useEffect(() => {
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
-  }, []);
+
 
   return (
     <>

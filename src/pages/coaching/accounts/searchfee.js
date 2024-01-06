@@ -8,6 +8,7 @@ import {
   deletestudent,
   getfee,
   getCourseDuration,
+  getstudentCoaching
 } from "../../../redux/actions/commanAction";
 import styles from "../../coaching/employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
@@ -46,7 +47,7 @@ function Searchfee() {
   const [courselist, setcourselist] = useState([]);
   const [status, setstatus] = useState("");
   const { user } = useSelector((state) => state.auth);
-  const { loading, student } = useSelector((state) => state.getstudent);
+  const { loading, student } = useSelector((state) => state.GetCoachingStudent);
   const { batch } = useSelector((state) => state.getbatch);
   const { courseduarion } = useSelector((state) => state.getCourseDur);
   const { course } = useSelector((state) => state.getcourse);
@@ -196,7 +197,7 @@ function Searchfee() {
   }, [student, batch, user, courseduarion, course]);
 
   useEffect(() => {
-    dispatch(getstudent());
+    dispatch( getstudentCoaching());
   }, [open, openupdate, openalert]);
   useEffect(() => {
     dispatch(loadUser());
@@ -209,7 +210,7 @@ function Searchfee() {
   const filterdata = (e) => {
     e.preventDefault();
     dispatch(
-      getstudent(
+      getstudentCoaching(
         fromdate,
         todate,
         scoursename,
@@ -217,7 +218,8 @@ function Searchfee() {
         sstudent,
         sfathers,
         rollnumber,
-        status
+        status,
+        ""
       )
     );
   };
@@ -230,7 +232,7 @@ function Searchfee() {
     setscoursename("");
     setsbatch("");
     setstatus("");
-    dispatch(getstudent());
+    dispatch( getstudentCoaching());
   };
 
   return (
@@ -467,7 +469,7 @@ function Searchfee() {
                     {/* <th className={styles.tableth}>Action</th> */}
                   </tr>
 
-                  {isdata?.map((item, index) => {
+                  {isdata?.length>0&&isdata?.map((item, index) => {
                     return (
                       <tr key={index} className={styles.tabletr}>
                         <td className={styles.tabletd}>{item?.rollnumber}</td>

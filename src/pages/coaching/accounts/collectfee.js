@@ -8,6 +8,7 @@ import {
   deletestudent,
   getfee,
   getCourseDuration,
+  getstudentCoaching
 } from "../../../redux/actions/commanAction";
 import styles from "../../coaching/employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
@@ -46,7 +47,7 @@ function Collectfee() {
   const [courselist, setcourselist] = useState([]);
   const [status, setstatus] = useState("");
   const { user } = useSelector((state) => state.auth);
-  const { loading, student } = useSelector((state) => state.getstudent);
+  const { loading, student } = useSelector((state) => state.GetCoachingStudent);
   const { batch } = useSelector((state) => state.getbatch);
   const { courseduarion } = useSelector((state) => state.getCourseDur);
   const { course } = useSelector((state) => state.getcourse);
@@ -203,13 +204,13 @@ function Collectfee() {
     dispatch(getbatch());
     dispatch(getcourse());
     dispatch(getfee());
-    dispatch(getCourseDuration());
+    dispatch(getstudentCoaching());
   }, []);
 
   const filterdata = (e) => {
     e.preventDefault();
     dispatch(
-      getstudent(
+      getstudentCoaching(
         fromdate,
         todate,
         scoursename,
@@ -230,7 +231,7 @@ function Collectfee() {
     setscoursename("");
     setsbatch("");
     setstatus("");
-    dispatch(getstudent());
+    dispatch(getstudentCoaching());
   };
 
   return (

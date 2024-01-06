@@ -198,6 +198,18 @@ import {
   GET_STREAM_REQUEST,
   GET_STREAM_SUCCESS,
   GET_STREAM_FAIL,
+  GET_CURRENTSESSION_REQUEST,
+  GET_CURRENTSESSION_SUCCESS,
+  GET_CURRENTSESSION_FAIL,
+  GET_YEAR_REQUEST,
+  GET_YEAR_SUCCESS,
+  GET_YEAR_FAIL,
+  ALL_COACHINGSTUDENT_REQUEST,
+  ALL_COACHINGSTUDENT_SUCCESS,
+  ALL_COACHINGSTUDENT_FAIL,
+  ALL_COACHINGRECEIPTDATA_REQUEST,
+  ALL_COACHINGRECEIPTDATA_SUCCESS,
+  ALL_COACHINGRECEIPTDATA_FAIL,
 } from "../constants/commanConstants";
 
 // Get all College
@@ -1096,7 +1108,7 @@ export const getstudent =
         library ||
         sectionname ||
         sessionname ||
-        seno||
+        seno ||
         stream
       ) {
         dispatch({ type: ALL_STUDENT_REQUEST });
@@ -1109,14 +1121,9 @@ export const getstudent =
           payload: data?.data,
         });
       } else {
-        let date = new Date();
-        let fullyear = date.getFullYear();
-        let lastyear = date.getFullYear() +1;
-        let currentsession = `${fullyear}-${lastyear}`;
-
         dispatch({ type: ALL_STUDENT_REQUEST });
         const { data } = await axios.get(
-          `${backendApiUrl}student/addstudent?sessionname=${currentsession}`,
+          `${backendApiUrl}student/addstudent`,
 
           config
         );
@@ -2335,3 +2342,170 @@ export const GetStream = (scoursename, stream) => async (dispatch) => {
     });
   }
 };
+
+// Get all Enquiry
+export const getcurrentsession = () => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("erptoken")}`,
+      },
+    };
+    dispatch({ type: GET_CURRENTSESSION_REQUEST });
+
+    const { data } = await axios.get(
+      `${backendApiUrl}school/getsession`,
+      config
+    );
+
+    dispatch({
+      type: GET_CURRENTSESSION_SUCCESS,
+      payload: data?.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_CURRENTSESSION_FAIL,
+      payload: error?.response?.data?.msg,
+    });
+  }
+};
+
+// Get all Enquiry
+export const getcurrentYear = () => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("erptoken")}`,
+      },
+    };
+    dispatch({ type: GET_YEAR_REQUEST });
+
+    const { data } = await axios.get(
+      `${backendApiUrl}coaching/getcurrentyear`,
+      config
+    );
+
+    dispatch({
+      type: GET_YEAR_SUCCESS,
+      payload: data?.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_YEAR_FAIL,
+      payload: error?.response?.data?.msg,
+    });
+  }
+};
+
+// Get all Enquiry
+export const getstudentCoaching =
+  (
+    fromdate,
+    todate,
+    scoursename,
+    sbatch,
+    sstudent,
+    sfathers,
+    rollnumber,
+    status,
+    categoryname
+    // library,
+    // sessionname,
+    // sectionname,
+    // seno,
+    // stream
+  ) =>
+  async (dispatch) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${localStorage.getItem("erptoken")}`,
+        },
+      };
+      if (
+        fromdate ||
+        todate ||
+        scoursename ||
+        sbatch ||
+        sfathers ||
+        sstudent ||
+        rollnumber ||
+        status ||
+        categoryname
+        // library ||
+        // sectionname ||
+        // sessionname ||
+        // seno ||
+        // stream
+      ) {
+        dispatch({ type: ALL_COACHINGSTUDENT_REQUEST });
+        const { data } = await axios.get(
+          `${backendApiUrl}student/getAllStudentCoaching?name=${scoursename}&batch=${sbatch}&fromdate=${fromdate}&todate=${todate}&fathers=${sfathers}&studentname=${sstudent}&rollnumber=${rollnumber}&status=${status}&categoryname=${categoryname}`,
+          config
+        );
+        dispatch({
+          type: ALL_COACHINGSTUDENT_SUCCESS,
+          payload: data?.data,
+        });
+      } else {
+        dispatch({ type: ALL_COACHINGSTUDENT_REQUEST });
+        const { data } = await axios.get(
+          `${backendApiUrl}student/getAllStudentCoaching`,
+
+          config
+        );
+        dispatch({
+          type: ALL_COACHINGSTUDENT_SUCCESS,
+          payload: data?.data,
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: ALL_COACHINGSTUDENT_FAIL,
+        payload: error?.response?.data?.msg,
+      });
+    }
+  };
+
+// Get all Enquiry
+export const getPrintReceiptCoaching =
+  (fromdate, scoursename, sstudent, rollnumber, todate) => async (dispatch) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${localStorage.getItem("erptoken")}`,
+        },
+      };
+      if (fromdate || scoursename || sstudent || rollnumber || todate) {
+        dispatch({ type: ALL_COACHINGRECEIPTDATA_REQUEST });
+        const { data } = await axios.get(
+          `${backendApiUrl}student/getReceiptCoaching?name=${scoursename}&fromdate=${fromdate}&studentname=${sstudent}&rollnumber=${rollnumber}&todate=${todate}`,
+          config
+        );
+        dispatch({
+          type: ALL_COACHINGRECEIPTDATA_REQUEST,
+          payload: data?.data,
+        });
+      } else {
+        dispatch({ type: ALL_COACHINGRECEIPTDATA_REQUEST });
+        const { data } = await axios.get(
+          `${backendApiUrl}student/getReceiptCoaching`,
+
+          config
+        );
+        dispatch({
+          type: ALL_COACHINGRECEIPTDATA_SUCCESS,
+          payload: data?.data,
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: ALL_COACHINGRECEIPTDATA_FAIL,
+        payload: error?.response?.data?.msg,
+      });
+    }
+  };

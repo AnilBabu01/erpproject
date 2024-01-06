@@ -4,7 +4,7 @@ import MenuItem from "@mui/material/MenuItem";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { Addstudent, getstudent } from "../../../redux/actions/commanAction";
+import { getstudent } from "../../../redux/actions/commanAction";
 import { useRouter } from "next/router";
 import { ADD_STUDENT_RESET } from "../../../redux/constants/commanConstants";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -102,9 +102,7 @@ function AddStudent({ setOpen }) {
   const { roomfacility } = useSelector((state) => state.GetFacility);
   const { route } = useSelector((state) => state.GetRoute);
   const { sections } = useSelector((state) => state.GetSection);
-  // const { studentaddstatus, student, loading } = useSelector(
-  //   (state) => state.addstudent
-  // );
+  const { CURRENTSESSION } = useSelector((state) => state.GetCurrentSession);
 
   const submit = async () => {
     setloading(true);
@@ -196,8 +194,6 @@ function AddStudent({ setOpen }) {
       user?.data[0]?.Parentpassword ? user?.data[0]?.Parentpassword : "parent"
     );
 
- 
-
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -257,6 +253,10 @@ function AddStudent({ setOpen }) {
     dispatch({
       type: ADD_STUDENT_RESET,
     });
+
+    if (CURRENTSESSION) {
+      setsessionname(CURRENTSESSION);
+    }
   }, [
     fee,
     batch,
@@ -266,6 +266,7 @@ function AddStudent({ setOpen }) {
     hostel,
     route,
     sections,
+    CURRENTSESSION,
   ]);
 
   const gotoreceipt = () => {
@@ -320,14 +321,6 @@ function AddStudent({ setOpen }) {
       setloading2(false);
     }
   };
-
-  useEffect(() => {
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() + 1;
-    setsessionname(`${fullyear}-${lastyear}`);
-    setadminssiondate(date?.toISOString().substring(0, 10));
-  }, []);
 
   return (
     <>

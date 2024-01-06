@@ -10,6 +10,7 @@ import {
   getcategory,
   GetSession,
   GetSection,
+  getcurrentsession,
 } from "../../../redux/actions/commanAction";
 import {
   GetHostel,
@@ -71,6 +72,7 @@ function Addstudent() {
   const { category } = useSelector((state) => state.getcategory);
   const { sections } = useSelector((state) => state.GetSection);
   const { Sessions } = useSelector((state) => state.GetSession);
+  const { CURRENTSESSION } = useSelector((state) => state.GetCurrentSession);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -126,7 +128,11 @@ function Addstudent() {
     if (sections) {
       setsectionList(sections);
     }
-  }, [student, batch, user, course, category, Sessions, sections]);
+    if(CURRENTSESSION)
+    {
+      setsessionname(CURRENTSESSION)
+    }
+  }, [student, batch, user, course, category, Sessions, sections,CURRENTSESSION]);
   useEffect(() => {
     dispatch(getstudent());
   }, [open, openupdate]);
@@ -142,6 +148,7 @@ function Addstudent() {
     dispatch(GetRoute());
     dispatch(GetSection());
     dispatch(GetSession());
+    dispatch(getcurrentsession());
   }, []);
 
   const filterdata = (e) => {
@@ -175,20 +182,13 @@ function Addstudent() {
     setsbatch("");
     setcategoryname("");
     setsno("");
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() + 1;
-    setsessionname(`${fullyear}-${lastyear}`);
+  
+    setsessionname(CURRENTSESSION);
     setsectionname("");
     dispatch(getstudent());
   };
 
-  useEffect(() => {
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() + 1;
-    setsessionname(`${fullyear}-${lastyear}`);
-  }, []);
+
 
   return (
     <>

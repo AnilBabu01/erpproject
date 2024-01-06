@@ -7,6 +7,7 @@ import {
   getDepartment,
   getDesignation,
   GetSession,
+  getcurrentsession
 } from "../../../redux/actions/commanAction";
 import { GetPayRoll } from "../../../redux/actions/payrollActions";
 import styles from "../employee/employee.module.css";
@@ -51,7 +52,7 @@ function EmployeeSalarySlip() {
   const { employees } = useSelector((state) => state.getemp);
   const { user } = useSelector((state) => state.auth);
   const { loading, payroll } = useSelector((state) => state.GetPayRoll);
-
+  const { CURRENTSESSION } = useSelector((state) => state.GetCurrentSession);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -99,7 +100,11 @@ function EmployeeSalarySlip() {
     if (Sessions) {
       setsessionList(Sessions);
     }
-  }, [payroll, employees, user, Sessions]);
+    if(CURRENTSESSION)
+    {
+      setsessionname(CURRENTSESSION)
+    }
+  }, [payroll, employees, user, Sessions,CURRENTSESSION]);
 
   useEffect(() => {
     dispatch(getEmployee());
@@ -110,6 +115,7 @@ function EmployeeSalarySlip() {
     dispatch(getDepartment());
     dispatch(getDesignation());
     dispatch(GetSession());
+    dispatch(getcurrentsession());
   }, []);
 
   const filterdata = (e) => {
@@ -120,10 +126,8 @@ function EmployeeSalarySlip() {
   const reset = () => {
     setfromdate("");
     settodate("");
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
+  
+    setsessionname(CURRENTSESSION);
     setempid("");
     setempname("");
     dispatch(GetPayRoll());
@@ -137,12 +141,7 @@ function EmployeeSalarySlip() {
       },
     });
   };
-  useEffect(() => {
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
-  }, []);
+  
 
   const ExportToExcel = (isData) => {
     const fileName = "SalaryPaidReport";

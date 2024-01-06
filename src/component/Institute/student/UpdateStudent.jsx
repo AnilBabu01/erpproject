@@ -103,7 +103,7 @@ function UpdateStudent({ setOpen, updatedata }) {
   const { roomfacility } = useSelector((state) => state.GetFacility);
   const { route } = useSelector((state) => state.GetRoute);
   const { sections } = useSelector((state) => state.GetSection);
-
+  const { CURRENTSESSION } = useSelector((state) => state.GetCurrentSession);
   const submit = async () => {
     setloading(true);
     formData.set("id", updatedata?.id);

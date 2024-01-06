@@ -324,7 +324,7 @@ function Register({ setOpen, setOpen1 }) {
         </div>
         <h1>New Institute/School Registration</h1>
         <div>
-          {phonenDone === true || emailDone === true ? (
+          {phonenDone === false || emailDone === false ? (
             <>
               <div className={styles.mainformdivregister}>
                 <div className={styles.divmaininput}>

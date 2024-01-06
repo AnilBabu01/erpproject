@@ -7,6 +7,7 @@ import {
   getstudent,
   deletestudent,
   getfee,
+  getstudentCoaching,
 } from "../../../redux/actions/commanAction";
 import styles from "../../coaching/employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
@@ -88,7 +89,7 @@ function Pendingfee() {
     }
   }, [student, batch, user]);
   useEffect(() => {
-    dispatch(getstudent());
+    dispatch(getstudentCoaching());
   }, [open, openupdate, openalert]);
   useEffect(() => {
     dispatch(loadUser());
@@ -100,14 +101,16 @@ function Pendingfee() {
   const filterdata = (e) => {
     e.preventDefault();
     dispatch(
-      getstudent(
+      getstudentCoaching(
         fromdate,
         todate,
         scoursename,
         sbatch,
         sstudent,
         sfathers,
-        rollnumber
+        rollnumber,
+        "",
+        ""
       )
     );
   };
@@ -119,7 +122,7 @@ function Pendingfee() {
     settodate("");
     setscoursename("");
     setsbatch("");
-    dispatch(getstudent());
+    dispatch(getstudentCoaching());
   };
   return (
     <>
@@ -275,7 +278,7 @@ function Pendingfee() {
               <img src="/images/ExportExcel.png" alt="img" />
             </div>
           </div>
-{/* 
+          {/* 
           <div className={styles.addtopmenubar}>
             <button
               className={

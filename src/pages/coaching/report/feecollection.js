@@ -311,7 +311,7 @@ function Feecollection() {
     settodate("");
     setscoursename("");
     setsbatch("");
-    dispatch(getPrintReceipt());
+    dispatch(getCoachingMonthlyFee());
   };
 
   const downloadReceipt = (data) => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../redux/actions/authActions";
-import { getstudent, GetSession } from "../../../redux/actions/commanAction";
+import { getcurrentsession, GetSession } from "../../../redux/actions/commanAction";
 import { GetVehiclelist } from "../../../redux/actions/transportActions";
 import styles from "../employee/employee.module.css";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
@@ -28,7 +28,7 @@ function StudentInBus() {
   const [buslist, setbuslist] = useState([]);
   const { Sessions } = useSelector((state) => state.GetSession);
   const { Vehicle } = useSelector((state) => state.GetVehicle);
-
+  const { CURRENTSESSION } = useSelector((state) => state.GetCurrentSession);
   console.log("bus list is", buslist);
 
   useEffect(() => {
@@ -38,12 +38,16 @@ function StudentInBus() {
     if (Vehicle) {
       setbuslist(Vehicle);
     }
-  }, [Sessions, Vehicle]);
+    if(CURRENTSESSION)
+    {
+      setsessionname(CURRENTSESSION)
+    }
+  }, [Sessions, Vehicle,CURRENTSESSION]);
 
   useEffect(() => {
     dispatch(GetVehiclelist());
     dispatch(loadUser());
-
+     dispatch(getcurrentsession());
     dispatch(GetSession());
   }, []);
 
@@ -69,10 +73,8 @@ function StudentInBus() {
     });
   };
   const reset = () => {
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
+   
+    setsessionname();
     setsectionname("");
   };
 

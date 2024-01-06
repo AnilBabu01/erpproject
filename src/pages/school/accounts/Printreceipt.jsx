@@ -11,6 +11,7 @@ import {
   getPrintReceipt,
   GetSection,
   GetSession,
+  getcurrentsession,
 } from "../../../redux/actions/commanAction";
 import styles from "../../coaching/employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
@@ -62,6 +63,7 @@ function PrintReceipt() {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
+  const { CURRENTSESSION } = useSelector((state) => state.GetCurrentSession);
   var newmonthnames = [];
   var feestatusarray = [];
   let months;
@@ -229,7 +231,11 @@ function PrintReceipt() {
     if (course) {
       setcourselist(course);
     }
-  }, [receiptdata, batch, user, courseduarion, sections, Sessions, course]);
+    if(CURRENTSESSION)
+    {
+      setsessionname(CURRENTSESSION)
+    }
+  }, [receiptdata, batch, user, courseduarion, sections, Sessions, course,CURRENTSESSION]);
 
   useEffect(() => {
     dispatch(getPrintReceipt());
@@ -242,6 +248,7 @@ function PrintReceipt() {
     dispatch(GetSession());
     dispatch(GetSection());
     dispatch(getCourseDuration());
+    dispatch(getcurrentsession())
   }, []);
 
   const filterdata = (e) => {
@@ -269,10 +276,8 @@ function PrintReceipt() {
     settodate("");
     setscoursename("");
     setsectionname("");
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
+  
+    setsessionname(CURRENTSESSION);
     setsbatch("");
     dispatch(getPrintReceipt());
     dispatch(GetSection());
@@ -288,12 +293,7 @@ function PrintReceipt() {
   //   });
   // };
 
-  useEffect(() => {
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
-  }, []);
+
   return (
     <>
       {openreceipt && (

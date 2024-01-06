@@ -9,6 +9,7 @@ import {
   getfee,
   getCourseDuration,
   getPrintReceipt,
+  getPrintReceiptCoaching
 } from "../../../redux/actions/commanAction";
 import styles from "../../coaching/employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
@@ -40,7 +41,7 @@ function PrintReceipt() {
   const { user } = useSelector((state) => state.auth);
   const { course } = useSelector((state) => state.getcourse);
   const { loading, receiptdata } = useSelector(
-    (state) => state.getReceiptPrint
+    (state) => state.getReceiptCoachingPrint
   );
   const { batch } = useSelector((state) => state.getbatch);
   const { courseduarion } = useSelector((state) => state.getCourseDur);
@@ -202,7 +203,7 @@ function PrintReceipt() {
   }, [receiptdata, batch, user, courseduarion, course]);
 
   useEffect(() => {
-    dispatch(getPrintReceipt());
+    dispatch(getPrintReceiptCoaching());
   }, [open, openupdate, openalert]);
   useEffect(() => {
     dispatch(loadUser());
@@ -215,7 +216,7 @@ function PrintReceipt() {
   const filterdata = (e) => {
     e.preventDefault();
     dispatch(
-      getPrintReceipt(
+      getPrintReceiptCoaching(
         fromdate,
         scoursename,
         sstudent,
@@ -235,7 +236,7 @@ function PrintReceipt() {
     settodate("");
     setscoursename("");
     setsbatch("");
-    dispatch(getPrintReceipt());
+    dispatch(getPrintReceiptCoaching());
   };
 
   const downloadReceipt = (data) => {

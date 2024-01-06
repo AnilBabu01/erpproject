@@ -7,6 +7,7 @@ import {
   getstudent,
   deletestudent,
   getfee,
+  getstudentCoaching,
 } from "../../../redux/actions/commanAction";
 import styles from "../../coaching/employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
@@ -47,7 +48,7 @@ function Parentlogincreadential() {
   const [rollnumber, setrollnumber] = useState("");
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
-  const { loading, student } = useSelector((state) => state.getstudent);
+  const { loading, student } = useSelector((state) => state.GetCoachingStudent);
   const { batch } = useSelector((state) => state.getbatch);
   const { course } = useSelector((state) => state.getcourse);
 
@@ -100,7 +101,7 @@ function Parentlogincreadential() {
     }
   }, [student, batch, user, course]);
   useEffect(() => {
-    dispatch(getstudent());
+    dispatch( getstudentCoaching());
   }, [open, openupdate, openalert]);
   useEffect(() => {
     dispatch(loadUser());
@@ -112,7 +113,7 @@ function Parentlogincreadential() {
   const filterdata = (e) => {
     e.preventDefault();
     dispatch(
-      getstudent(
+      getstudentCoaching(
         fromdate,
         todate,
         scoursename,
@@ -132,7 +133,7 @@ function Parentlogincreadential() {
     settodate("");
     setscoursename("");
     setsbatch("");
-    dispatch(getstudent());
+    dispatch(getstudentCoaching());
   };
   return (
     <>

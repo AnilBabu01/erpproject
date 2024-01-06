@@ -9,6 +9,7 @@ import {
   getcategory,
   GetSession,
   GetSection,
+  getcurrentsession,
 } from "../../../redux/actions/commanAction";
 import {
   GetHostel,
@@ -72,7 +73,7 @@ function Changesession() {
   const { category } = useSelector((state) => state.getcategory);
   const { sections } = useSelector((state) => state.GetSection);
   const { Sessions } = useSelector((state) => state.GetSession);
-
+  const { CURRENTSESSION } = useSelector((state) => state.GetCurrentSession);
   const handlesession = () => {
     try {
       if (ischecked === false) {
@@ -113,7 +114,6 @@ function Changesession() {
     }
   };
 
-
   const ClickOpendelete = () => {
     setOpenalert(true);
   };
@@ -125,10 +125,6 @@ function Changesession() {
   const handledelete = () => {
     handlesession();
   };
-
-  const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="top" ref={ref} {...props} />;
-  });
 
   useEffect(() => {
     if (student) {
@@ -152,10 +148,20 @@ function Changesession() {
     if (sections) {
       setsectionList(sections);
     }
-  }, [student, batch, user, course, category, Sessions, sections]);
-  // useEffect(() => {
-  //   dispatch(getstudent());
-  // }, []);
+    if (CURRENTSESSION) {
+      setsessionname(CURRENTSESSION);
+    }
+  }, [
+    student,
+    batch,
+    user,
+    course,
+    category,
+    Sessions,
+    sections,
+    CURRENTSESSION,
+  ]);
+
   useEffect(() => {
     dispatch(loadUser());
     dispatch(getbatch());
@@ -168,6 +174,7 @@ function Changesession() {
     dispatch(GetRoute());
     dispatch(GetSection());
     dispatch(GetSession());
+    dispatch(getcurrentsession());
   }, []);
 
   const filterdata = (e) => {
@@ -186,6 +193,7 @@ function Changesession() {
         "",
         sessionname,
         sectionname,
+        "",
         ""
       )
     );
@@ -199,20 +207,10 @@ function Changesession() {
     setscoursename("");
     setsbatch("");
     setcategoryname("");
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
+    setsessionname(CURRENTSESSION);
     setsectionname("");
     dispatch(getstudent());
   };
-
-  useEffect(() => {
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
-  }, []);
 
   return (
     <>

@@ -69,6 +69,10 @@ import {
   GetNoticReducer,
   GetSliderReducer,
   GetStreamReducer,
+  GetCurrentSessionReducer,
+  GetYearReducer,
+  getReceiptCoachingPrintReducer,
+  GetCoachingStudentReducer
 } from "./redux/reducers/commanReducers";
 import {
   getenquiriesReducer,
@@ -198,6 +202,10 @@ const reducer = combineReducers({
   GetSlider: GetSliderReducer,
   GetAmountTransfer: GetAmountTransferReducer,
   GetStream: GetStreamReducer,
+  GetCurrentSession: GetCurrentSessionReducer,
+  GetYear: GetYearReducer,
+  getReceiptCoachingPrint:getReceiptCoachingPrintReducer,
+  GetCoachingStudent:GetCoachingStudentReducer
 });
 const middlware = [thunk];
 export const store = createStore(

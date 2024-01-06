@@ -10,6 +10,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
 
+
 function AddOtherFee({ setOpen }) {
   const navigation = useRouter();
   const dispatch = useDispatch();
@@ -21,13 +22,12 @@ function AddOtherFee({ setOpen }) {
   const [amount, setamount] = useState("");
   const [duesDate, setduesDate] = useState("");
   const [comment, setcomment] = useState("");
-
   const [sectionlist, setsectionlist] = useState([]);
   const [loading, setloading] = useState(false);
   const { course } = useSelector((state) => state.getcourse);
   const { sections } = useSelector((state) => state.GetSection);
   const { Sessions } = useSelector((state) => state.GetSession);
-
+  const { CURRENTSESSION } = useSelector((state) => state.GetCurrentSession);
   const submit = () => {
     setloading(true);
     serverInstance("student/otherfee", "post", {
@@ -67,14 +67,13 @@ function AddOtherFee({ setOpen }) {
     if (course) {
       setcourseList(course);
     }
-  }, [sections, Sessions, course]);
+    if(CURRENTSESSION)
+    {
+      setsessionname(CURRENTSESSION)
+    }
+  }, [sections, Sessions, course,CURRENTSESSION]);
 
-  useEffect(() => {
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
-  }, []);
+ 
 
   return (
     <>

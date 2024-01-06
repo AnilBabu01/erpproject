@@ -9,6 +9,7 @@ import {
   GetSession,
   getfee,
   getCourseDuration,
+  getstudentCoaching
 } from "../../../redux/actions/commanAction";
 import styles from "../../coaching/employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
@@ -58,7 +59,7 @@ function StudentTestReport() {
   const [courselist, setcourselist] = useState([]);
   const [status, setstatus] = useState("");
   const { user } = useSelector((state) => state.auth);
-  const { loading, student } = useSelector((state) => state.getstudent);
+  const { loading, student } = useSelector((state) => state.GetCoachingStudent);
   const { batch } = useSelector((state) => state.getbatch);
   const { courseduarion } = useSelector((state) => state.getCourseDur);
   const { course } = useSelector((state) => state.getcourse);
@@ -214,7 +215,7 @@ function StudentTestReport() {
   ]);
 
   useEffect(() => {
-    dispatch(getstudent());
+    dispatch(getstudentCoaching());
   }, []);
   useEffect(() => {
     dispatch(loadUser());
@@ -229,7 +230,7 @@ function StudentTestReport() {
   const filterdata = (e) => {
     e.preventDefault();
     dispatch(
-      getstudent(
+      getstudentCoaching(
         fromdate,
         todate,
         scoursename,
@@ -239,10 +240,7 @@ function StudentTestReport() {
         rollnumber,
         status,
         categoryname,
-        "",
-        sessionname,
-        sectionname,
-        seno
+     
       )
     );
   };
@@ -257,13 +255,8 @@ function StudentTestReport() {
     setstatus("");
     setrollnumber("");
     setseno("");
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
-    setcategoryname("");
-    setsectionname("");
-    dispatch(getstudent());
+  
+    dispatch(getstudentCoaching());
   };
 
   useEffect(() => {

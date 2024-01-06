@@ -7,6 +7,10 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useDispatch, useSelector } from "react-redux";
 import { login, loadUser } from "../../redux/actions/authActions";
+import {
+  getcurrentsession,
+  getcurrentYear,
+} from "../../redux/actions/commanAction";
 import Select1 from "react-select";
 import { useRouter } from "next/router";
 import styles from "@/styles/loginguest.module.css";
@@ -82,6 +86,8 @@ function Login({ setOpen, setOpen1, setwelcomeopen, setopenforget }) {
       localStorage.setItem("GuestType", user?.data[0]?.User?.userType);
 
       dispatch(loadUser());
+      dispatch(getcurrentYear());
+      dispatch(getcurrentsession());
       setOpen(false);
       setwelcomeopen(true);
       setInterval(() => {

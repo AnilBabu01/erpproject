@@ -6,6 +6,7 @@ import {
   getDepartment,
   getDesignation,
   GetSession,
+  getcurrentsession
 } from "../../../redux/actions/commanAction";
 import { GetPayRoll } from "../../../redux/actions/payrollActions";
 import styles from "../employee/employee.module.css";
@@ -44,7 +45,7 @@ function EmployeeSalaryPaid() {
   const { employees } = useSelector((state) => state.getemp);
   const { user } = useSelector((state) => state.auth);
   const { loading, payroll } = useSelector((state) => state.GetPayRoll);
-
+  const { CURRENTSESSION } = useSelector((state) => state.GetCurrentSession);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -66,7 +67,11 @@ function EmployeeSalaryPaid() {
     if (Sessions) {
       setsessionList(Sessions);
     }
-  }, [payroll, employees, user, Sessions]);
+    if(CURRENTSESSION)
+    {
+      setsessionname(CURRENTSESSION)
+    }
+  }, [payroll, employees, user, Sessions,CURRENTSESSION]);
 
   useEffect(() => {
     dispatch(getEmployee());
@@ -77,6 +82,7 @@ function EmployeeSalaryPaid() {
     dispatch(getDepartment());
     dispatch(getDesignation());
     dispatch(GetSession());
+    dispatch(getcurrentsession());
   }, []);
 
   const filterdata = (e) => {
@@ -87,10 +93,8 @@ function EmployeeSalaryPaid() {
   const reset = () => {
     setfromdate("");
     settodate("");
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
+   
+    setsessionname(CURRENTSESSION);
     setempid("");
     setempname("");
     dispatch(GetPayRoll());
@@ -104,12 +108,7 @@ function EmployeeSalaryPaid() {
       },
     });
   };
-  useEffect(() => {
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
-  }, []);
+ 
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,

@@ -9,6 +9,7 @@ import {
   getcategory,
   GetSession,
   GetSection,
+  getcurrentsession,
 } from "../../../redux/actions/commanAction";
 import {
   GetHostel,
@@ -57,6 +58,7 @@ function Studentlogincreadential() {
   const { category } = useSelector((state) => state.getcategory);
   const { sections } = useSelector((state) => state.GetSection);
   const { Sessions } = useSelector((state) => state.GetSession);
+  const { CURRENTSESSION } = useSelector((state) => state.GetCurrentSession);
 
   useEffect(() => {
     if (student) {
@@ -80,7 +82,12 @@ function Studentlogincreadential() {
     if (sections) {
       setsectionList(sections);
     }
-  }, [student, batch, user, course, category, Sessions, sections]);
+    if(CURRENTSESSION)
+    {
+      setsessionname(CURRENTSESSION);
+    }
+  }, [student, batch, user, course, category, Sessions, sections,CURRENTSESSION]);
+
   useEffect(() => {
     dispatch(getstudent());
   }, []);
@@ -96,6 +103,7 @@ function Studentlogincreadential() {
     dispatch(GetRoute());
     dispatch(GetSection());
     dispatch(GetSession());
+    dispatch(getcurrentsession())
   }, []);
 
   const filterdata = (e) => {
@@ -129,20 +137,13 @@ function Studentlogincreadential() {
     setscoursename("");
     setsbatch("");
     setcategoryname("");
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() + 1;
-    setsessionname(`${fullyear}-${lastyear}`);
+   
+    setsessionname(CURRENTSESSION);
     setsectionname("");
     dispatch(getstudent());
   };
 
-  useEffect(() => {
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() + 1;
-    setsessionname(`${fullyear}-${lastyear}`);
-  }, []);
+  
 
   const ExportToExcel = (isData) => {
     const fileName = "StudentCreadentailsList";

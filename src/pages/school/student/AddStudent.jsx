@@ -9,6 +9,7 @@ import {
   getcategory,
   GetSession,
   GetSection,
+  getcurrentsession,
 } from "../../../redux/actions/commanAction";
 import {
   GetHostel,
@@ -42,11 +43,7 @@ const studentStatus = [
 function AddStudent() {
   const dispatch = useDispatch();
 
-  let date = new Date();
-  let fullyear = date.getFullYear();
-  let lastyear = date.getFullYear() + 1;
-  const [sessionname, setsessionname] = useState(`${fullyear}-${lastyear}`);
-
+  const [sessionname, setsessionname] = useState();
   const [deleting, setdeleting] = useState(false);
   const [stream, setstream] = useState("");
   const [scoursename, setscoursename] = useState("");
@@ -78,6 +75,10 @@ function AddStudent() {
   const { category } = useSelector((state) => state.getcategory);
   const { sections } = useSelector((state) => state.GetSection);
   const { Sessions } = useSelector((state) => state.GetSession);
+  const { CURRENTSESSION } = useSelector((state) => state.GetCurrentSession);
+
+
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -105,26 +106,29 @@ function AddStudent() {
   };
 
   const handledelete = () => {
-
     setdeleting(true);
-    serverInstance(`student/addstudent?id=${deleteid}`, "delete").then((res) => {
-      if (res?.status === true) {
-        toast.success(res?.msg, {
-          autoClose: 1000,
-        });
-        dispatch(getstudent());
-        handleClosedelete();
-        setdeleting(false);
+    serverInstance(`student/addstudent?id=${deleteid}`, "delete").then(
+      (res) => {
+        if (res?.status === true) {
+          toast.success(res?.msg, {
+            autoClose: 1000,
+          });
+          dispatch(getstudent());
+          handleClosedelete();
+          setdeleting(false);
+        }
+        if (res?.status === false) {
+          toast.error(res?.msg, {
+            autoClose: 1000,
+          });
+          handleClosedelete();
+          setdeleting(false);
+        }
       }
-      if (res?.status === false) {
-        toast.error(res?.msg, {
-          autoClose: 1000,
-        });
-        handleClosedelete();
-        setdeleting(false);
-      }
-    });
+    );
   };
+
+
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="top" ref={ref} {...props} />;
   });
@@ -151,9 +155,34 @@ function AddStudent() {
     if (sections) {
       setsectionList(sections);
     }
-  }, [student, batch, user, course, category, Sessions, sections]);
+    if (CURRENTSESSION) {
+      setsessionname(CURRENTSESSION);
+    }
+  }, [
+    student,
+    batch,
+    user,
+    course,
+    category,
+    Sessions,
+    sections,
+    CURRENTSESSION,
+  ]);
   useEffect(() => {
-    dispatch(getstudent());
+    dispatch(getstudent( fromdate,
+      "",
+      "",
+      "",
+      "",
+      "",
+      '',
+      "",
+      "",
+      "",
+      sessionname,
+      "",
+      "",
+      ""));
   }, []);
   useEffect(() => {
     dispatch(loadUser());
@@ -167,6 +196,7 @@ function AddStudent() {
     dispatch(GetRoute());
     dispatch(GetSection());
     dispatch(GetSession());
+    dispatch(getcurrentsession());
   }, []);
 
   const filterdata = (e) => {
@@ -200,10 +230,7 @@ function AddStudent() {
     setscoursename("");
     setsbatch("");
     setcategoryname("");
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() + 1;
-    setsessionname(`${fullyear}-${lastyear}`);
+    setsessionname(CURRENTSESSION);
     setsectionname("");
     dispatch(getstudent());
   };

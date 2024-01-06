@@ -2,17 +2,17 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../redux/actions/authActions";
 import { getbatch } from "../../../redux/actions/commanAction";
+
 import {
   MarkStudentAttendance,
   DoneStudentAttendance,
   MonthlyStudentAttendance,
 } from "../../../redux/actions/attendanceActions";
-import { getcourse } from "../../../redux/actions/commanAction";
 import styles from "../employee/employee.module.css";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
 import CircularProgress from "@mui/material/CircularProgress";
-import exportFromJSON from "export-from-json";
+
 const studentStatus = [
   { label: "Active", value: "Active" },
   { label: "On Leave", value: "On Leave" },
@@ -101,11 +101,10 @@ const monthnamelist = {
 function StudentAttendanceReport() {
   const dispatch = useDispatch();
   let currmonth = new Date().getMonth();
-  const [cureentdate, setcureentdate] = useState("");
   const [month, setmonth] = useState(currmonth + 1);
-  const [takeatten, settakeatten] = useState(true);
+  const [takeatten, settakeatten] = useState(false);
   const [todatatten, settodatatten] = useState(false);
-  const [Analysisatten, setAnalysisatten] = useState(false);
+  const [Analysisatten, setAnalysisatten] = useState(true);
   const [sbatch, setsbatch] = useState("");
   const [date, setdate] = useState("");
   const [batchs, setbatchs] = useState([]);
@@ -115,7 +114,6 @@ function StudentAttendanceReport() {
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
   const [status, setstatus] = useState("");
-  const [classname, setclassname] = useState("");
   const { course } = useSelector((state) => state.getcourse);
   const [courselist, setcourselist] = useState([]);
   const [attendancedetails, setattendancedetails] = useState([
@@ -141,6 +139,7 @@ function StudentAttendanceReport() {
     new Date()?.toISOString().slice(0, 16)
   );
 
+  console.log("date is date ", minDateTime);
   const {
     Markloading,
     markattendance,
@@ -190,7 +189,6 @@ function StudentAttendanceReport() {
   useEffect(() => {
     dispatch(loadUser());
     dispatch(getbatch());
-    dispatch(getcourse());
   }, []);
 
   function handleItemUpdate(originalItem, key, value) {
@@ -221,283 +219,302 @@ function StudentAttendanceReport() {
     return end - 1;
   };
 
-  useEffect(() => {
-    var currentDate = new Date();
-
-    // Get the date number (day of the month)
-    var dateNumber = currentDate.getDate();
-
-    // console.log(dateNumber);
-    // setcureentdate(dateNumber);
-  }, []);
-
-  const ExportToExcel = (monthly) => {
-    const fileName = "StudentAttendanceReport";
-    const exportType = "xls";
-    var data = [];
-
-    monthly?.map((item) => {
-      item?.attendance?.map((item) => {
-        data.push({
-          "Roll Number": item?.rollnumber,
-          class: item?.courseorclass,
-          // SNO: item?.SrNumber,
-          Student_Name: item?.name,
-          // Student_Email: item?.email,
-          // "Student_Mobile NO": item?.phoneno1,
-          // "Father's_Name": item?.fathersName,
-          // "Father's_Mobile NO": item?.fathersPhoneNo,
-          // MonthName: item?.MonthName,
-          "Attendance Date": moment(item?.attendancedate).format("DD/MM/YYYY"),
-          "Status": item?.attendaceStatusIntext,
-        });
-      });
-    });
-
-    exportFromJSON({ data, fileName, exportType });
-  };
-
   return (
     <>
       <div className="mainContainer">
         <div>
           <div className={styles.topmenubar}>
             <div className={styles.searchoptiondiv}>
-              <select
-                className={styles.opensearchinput}
-                sx={{
-                  width: "18.8rem",
-                  fontSize: 14,
-                  "& .MuiSelect-select": {
-                    paddingTop: "0.6rem",
-                    paddingBottom: "0.6em",
-                  },
-                }}
-                value={classname}
-                name="classname"
-                onChange={(e) => {
-                  setclassname(e.target.value);
-                }}
-                displayEmpty
-              >
-                <option
-                  sx={{
-                    fontSize: 14,
-                  }}
-                  value={""}
-                >
-                  Class
-                </option>
-                {courselist?.map((item, index) => {
-                  return (
+              {Analysisatten && (
+                <>
+                  <select
+                    className={styles.opensearchinput}
+                    sx={{
+                      width: "18.8rem",
+                      fontSize: 14,
+                      "& .MuiSelect-select": {
+                        paddingTop: "0.6rem",
+                        paddingBottom: "0.6em",
+                      },
+                    }}
+                    value={sbatch}
+                    name="sbatch"
+                    onChange={(e) => {
+                      setsbatch(e.target.value);
+                    }}
+                    displayEmpty
+                  >
                     <option
-                      key={index}
                       sx={{
                         fontSize: 14,
                       }}
-                      value={item?.coursename}
+                      value={""}
                     >
-                      {item?.coursename}
+                      Please Select Batch
                     </option>
-                  );
-                })}
-              </select>
+                    {batchs?.map((item, index) => {
+                      return (
+                        <option
+                          key={index}
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={`${item?.StartingTime} TO ${item?.EndingTime}`}
+                        >
+                          {item?.StartingTime} TO {item?.EndingTime}
+                        </option>
+                      );
+                    })}
+                  </select>
 
-              <select
-                className={styles.opensearchinput}
-                sx={{
-                  width: "18.8rem",
-                  fontSize: 14,
-                  "& .MuiSelect-select": {
-                    paddingTop: "0.6rem",
-                    paddingBottom: "0.6em",
-                  },
-                }}
-                value={month}
-                name="month"
-                onChange={(e) => {
-                  setmonth(e.target.value);
-                }}
-                displayEmpty
-              >
-                <option
-                  sx={{
-                    fontSize: 14,
-                  }}
-                  value={""}
-                >
-                  Month
-                </option>
-
-                {monthlist?.map((item, index) => {
-                  return (
+                  <select
+                    className={styles.opensearchinput}
+                    sx={{
+                      width: "18.8rem",
+                      fontSize: 14,
+                      "& .MuiSelect-select": {
+                        paddingTop: "0.6rem",
+                        paddingBottom: "0.6em",
+                      },
+                    }}
+                    value={month}
+                    name="month"
+                    onChange={(e) => {
+                      setmonth(e.target.value);
+                    }}
+                    displayEmpty
+                  >
                     <option
-                      key={index}
                       sx={{
                         fontSize: 14,
                       }}
-                      value={item?.id}
+                      value={""}
                     >
-                      {item?.name}
+                      Month
                     </option>
-                  );
-                })}
-              </select>
-              <select
-                className={styles.opensearchinput}
-                sx={{
-                  width: "18.8rem",
-                  fontSize: 14,
-                  "& .MuiSelect-select": {
-                    paddingTop: "0.6rem",
-                    paddingBottom: "0.6em",
-                  },
-                }}
-                value={status}
-                name="status"
-                onChange={(e) => setstatus(e.target.value)}
-                displayEmpty
-              >
-                <option
-                  sx={{
-                    fontSize: 14,
-                  }}
-                  value={""}
-                >
-                  ALL Status
-                </option>
 
-                {studentStatus?.map((item, index) => {
-                  return (
+                    {monthlist?.map((item, index) => {
+                      return (
+                        <option
+                          key={index}
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={item?.id}
+                        >
+                          {item?.name}
+                        </option>
+                      );
+                    })}
+                  </select>
+                  <select
+                    className={styles.opensearchinput}
+                    sx={{
+                      width: "18.8rem",
+                      fontSize: 14,
+                      "& .MuiSelect-select": {
+                        paddingTop: "0.6rem",
+                        paddingBottom: "0.6em",
+                      },
+                    }}
+                    value={status}
+                    name="status"
+                    onChange={(e) => setstatus(e.target.value)}
+                    displayEmpty
+                  >
                     <option
-                      key={index}
                       sx={{
                         fontSize: 14,
                       }}
-                      value={item?.value}
+                      value={""}
                     >
-                      {item?.value}
+                      ALL Status
                     </option>
-                  );
-                })}
-              </select>
+
+                    {studentStatus?.map((item, index) => {
+                      return (
+                        <option
+                          key={index}
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={item?.value}
+                        >
+                          {item?.value}
+                        </option>
+                      );
+                    })}
+                  </select>
+                  <button
+                    className={styles.saveattendacebutton}
+                    onClick={() => {
+                      if (month && sbatch) {
+                        dispatch(
+                          MonthlyStudentAttendance(
+                            sbatch,
+                            month,
+                            "",
+                            "",
+                            status
+                          )
+                        );
+                      }
+                    }}
+                  >
+                    Show result
+                  </button>
+                  {/* <button
+                    className={styles.resetattendacebutton}
+                    onClick={() => {
+                      setsbatch('')
+                      dispatch(MonthlyStudentAttendance());
+                    }}
+                  >
+                    Reset
+                  </button> */}
+                </>
+              )}
+
               <button
-                className={styles.saveattendacebutton}
                 onClick={() => {
-                  if (month && classname) {
-                    dispatch(
-                      MonthlyStudentAttendance(
-                        sbatch,
-                        month,
-                        "",
-                        "",
-                        status,
-                        classname
-                      )
-                    );
-                  }
+                  settakeatten(false);
+                  settodatatten(false);
+                  setAnalysisatten(true);
+                  setattendancedetails("");
+                  setsbatch("");
                 }}
+                className={
+                  Analysisatten
+                    ? styles.searchbtnactive
+                    : styles.searchoptiondivbutton
+                }
               >
-                Show result
+                Analysis Attendance
               </button>
-
-              <div className={styles.saveattendacebutton}>Present</div>
-              <div className={styles.resetattendacebutton}>Absent</div>
-              <div className={styles.holidaybutton}>Holiday</div>
+              {Analysisatten && (
+                <>
+                  <div className={styles.saveattendacebutton}>Present</div>
+                  <div className={styles.resetattendacebutton}>Absent</div>
+                  <div className={styles.holidaybutton}>Holiday</div>
+                </>
+              )}
             </div>
             <div className={styles.imgdivformat}>
               <img
-                onClick={() => ExportToExcel(monthly)}
-                src="/images/ExportExcel.png"
+                className={styles.imgdivformatimg}
+                src="/images/Print.png"
                 alt="img"
               />
+              <img
+                className={styles.imgdivformatimg}
+                src="/images/ExportPdf.png"
+                alt="img"
+              />
+              <img src="/images/ExportExcel.png" alt="img" />
             </div>
           </div>
 
-          <div className={styles.add_divmarginn10}>
-            <div className={styles.tablecontainer}>
-              <table className={styles.tabletable}>
-                <tbody>
-                  <tr className={styles.tabletr}>
-                    <th className={styles.tableth10}>Roll_Number</th>
-                    <th className={styles.tableth10}>Name</th>
-                    <th className={styles.tableth10}>
-                      Father&apos;s&lsquo;Name
-                    </th>
-                    <th className={styles.tableth10}>Class</th>
-                    <th className={styles.tableth10}>Month</th>
-                    {monthly[0]?.days?.map((item, index) => {
-                      return (
-                        <th key={index} className={styles.tableth}>
-                          {item}
-                        </th>
-                      );
-                    })}
-                  </tr>
-                  {monthly &&
-                    monthly?.map((item, index) => {
-                      return (
-                        <tr className={styles.tabletr} key={index}>
-                          <td className={styles.tabletd}>
-                            {item?.student?.rollnumber}
-                          </td>
-                          <td className={styles.tabletd}>
-                            {item?.student?.name}
-                          </td>
-                          <td className={styles.tabletd}>
-                            {item?.student?.fathersName}
-                          </td>
-                          <td className={styles.tabletd}>
-                            {item?.student?.courseorclass}
-                          </td>
-                          <td className={styles.tabletd}>
-                            {monthnamelist[month?.toString()]}
-                          </td>
+          {Analysisatten && (
+            <>
+              <div className={styles.add_divmarginn10}>
+                <div className={styles.tablecontainer}>
+                  {Analysisatten && (
+                    <>
+                      <table className={styles.tabletable}>
+                        <tbody>
+                          <tr className={styles.tabletr}>
+                            <th className={styles.tableth10}>Roll_Number</th>
+                            <th className={styles.tableth10}>Name</th>
+                            <th className={styles.tableth10}>
+                              Father&apos;s&lsquo;Name
+                            </th>
+                            <th className={styles.tableth10}>
+                              Class&lsquo;Batch
+                            </th>
+                            <th className={styles.tableth10}>Month</th>
+                            {monthly[0]?.days?.map((item, index) => {
+                              return (
+                                <th key={index} className={styles.tableth}>
+                                  {item}
+                                </th>
+                              );
+                            })}
+                          </tr>
 
-                          {item?.attendance != null &&
-                            item?.attendance
-                              ?.slice(
-                                0,
-                                Number(
-                                  new Date()?.toISOString().substring(8, 10)
-                                )
-                              )
-                              ?.map((item, index) => {
-                                return (
-                                  <td key={index} className={styles.tabletd}>
-                                    <button
-                                      className={
-                                        item?.attendaceStatus === "Present"
-                                          ? styles.presentbtn
-                                          : item?.attendaceStatusIntext ===
-                                            "Absent"
-                                          ? styles.absentbtn
-                                          : styles.holdaybtn
-                                      }
-                                    >
-                                      {item?.attendaceStatusIntext ===
-                                        "Present" && <>P</>}
-                                      {item?.attendaceStatusIntext ===
-                                        "Absent" && <>A</>}
-                                      {item?.attendaceStatusIntext ===
-                                        "Holiday" && <>H</>}
-                                      {item?.attendaceStatusIntext ===
-                                        "Unknown" && <>L</>}
-                                      {item?.attendaceStatusIntext ===
-                                        "Left In Middle" && <>L</>}
-                                      {item?.attendaceStatusIntext ===
-                                        "On Leave" && <>L</>}
-                                    </button>
+                          {monthly &&
+                            monthly?.map((item, index) => {
+                              return (
+                                <tr className={styles.tabletr} key={index}>
+                                  <td className={styles.tabletd}>
+                                    {item?.student?.rollnumber}
                                   </td>
-                                );
-                              })}
-                        </tr>
-                      );
-                    })}
-                </tbody>
-              </table>
-            </div>
-          </div>
+                                  <td className={styles.tabletd}>
+                                    {item?.student?.name}
+                                  </td>
+                                  <td className={styles.tabletd}>
+                                    {item?.student?.fathersName}
+                                  </td>
+                                  <td className={styles.tabletd}>
+                                    {item?.student?.batch}
+                                  </td>
+                                  <td className={styles.tabletd}>
+                                    {monthnamelist[month?.toString()]}
+                                  </td>
+
+                                  {item?.attendance != null &&
+                                    item?.attendance
+                                      ?.slice(
+                                        0,
+                                        Number(
+                                          new Date()
+                                            ?.toISOString()
+                                            .substring(8, 10)
+                                        )
+                                      )
+                                      ?.map((item, index) => {
+                                        return (
+                                          <td
+                                            key={index}
+                                            className={styles.tabletd}
+                                          >
+                                            <button
+                                              className={
+                                                item?.attendaceStatus ===
+                                                "Present"
+                                                  ? styles.presentbtn
+                                                  : item?.attendaceStatusIntext ===
+                                                    "Absent"
+                                                  ? styles.absentbtn
+                                                  : styles.holdaybtn
+                                              }
+                                            >
+                                              {item?.attendaceStatusIntext ===
+                                                "Present" && <>P</>}
+                                              {item?.attendaceStatusIntext ===
+                                                "Absent" && <>A</>}
+                                              {item?.attendaceStatusIntext ===
+                                                "Holiday" && <>H</>}
+                                              {item?.attendaceStatusIntext ===
+                                                "Unknown" && <>L</>}
+                                              {item?.attendaceStatusIntext ===
+                                                "Left In Middle" && <>L</>}
+                                              {item?.attendaceStatusIntext ===
+                                                "On Leave" && <>L</>}
+                                            </button>
+                                          </td>
+                                        );
+                                      })}
+                                </tr>
+                              );
+                            })}
+                        </tbody>
+                      </table>
+                    </>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
       {monthlyloading || doneloading || (Markloading && <LoadingSpinner />)}

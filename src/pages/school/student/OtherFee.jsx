@@ -10,6 +10,7 @@ import {
   GetSession,
   GetSection,
   GeOtherFees,
+  getcurrentsession,
 } from "../../../redux/actions/commanAction";
 import {
   GetHostel,
@@ -67,6 +68,7 @@ function OtherFee() {
   const { sections } = useSelector((state) => state.GetSection);
   const { Sessions } = useSelector((state) => state.GetSession);
   const { loading, otherfee } = useSelector((state) => state.GetOtherFee);
+  const { CURRENTSESSION } = useSelector((state) => state.GetCurrentSession);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -138,7 +140,20 @@ function OtherFee() {
     if (sections) {
       setsectionList(sections);
     }
-  }, [student, batch, user, course, category, Sessions, sections, otherfee]);
+    if (CURRENTSESSION) {
+      setsessionname(CURRENTSESSION);
+    }
+  }, [
+    student,
+    batch,
+    user,
+    course,
+    category,
+    Sessions,
+    sections,
+    otherfee,
+    CURRENTSESSION,
+  ]);
   useEffect(() => {
     dispatch(getstudent());
   }, []);
@@ -155,6 +170,7 @@ function OtherFee() {
     dispatch(GetSection());
     dispatch(GetSession());
     dispatch(GeOtherFees());
+    dispatch(getcurrentsession());
   }, []);
 
   const filterdata = (e) => {
@@ -170,20 +186,11 @@ function OtherFee() {
     setscoursename("");
     setsbatch("");
     setcategoryname("");
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
+
+    setsessionname(CURRENTSESSION);
     setsectionname("");
     dispatch(GeOtherFees());
   };
-
-  useEffect(() => {
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
-  }, []);
 
   return (
     <>

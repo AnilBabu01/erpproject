@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../redux/actions/authActions";
 import { GetHostel, GetCategory } from "../../../redux/actions/hostelActions";
-import { GetSession } from "../../../redux/actions/commanAction";
+import { GetSession, getcurrentsession, } from "../../../redux/actions/commanAction";
 import styles from "../employee/employee.module.css";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
@@ -32,6 +32,7 @@ function StudentRoom() {
   const { hostel } = useSelector((state) => state.GetHostel);
   const { user } = useSelector((state) => state.auth);
   const { Sessions } = useSelector((state) => state.GetSession);
+  const { CURRENTSESSION } = useSelector((state) => state.GetCurrentSession);
   useEffect(() => {
     if (roomcategory) {
       setcategorylist(roomcategory);
@@ -43,7 +44,11 @@ function StudentRoom() {
     if (Sessions) {
       setsessionlist(Sessions);
     }
-  }, [roomcategory, hostel, Sessions]);
+    if(CURRENTSESSION)
+    {
+      setsessionname(CURRENTSESSION)
+    }
+  }, [roomcategory, hostel, Sessions,CURRENTSESSION]);
 
   const getCheckinlist = () => {
     setloading(true);
@@ -64,10 +69,7 @@ function StudentRoom() {
   const reset = () => {
     sethostellist("");
     setcategoryname("");
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
+    setsessionname(CURRENTSESSION);
     setfromdate("");
     settodate("");
     serverInstance("hostel/GetOccupiedRoom", "post").then((res) => {
@@ -77,11 +79,13 @@ function StudentRoom() {
       }
     });
   };
+
   useEffect(() => {
     dispatch(loadUser());
     dispatch(GetHostel());
     dispatch(GetCategory());
     dispatch(GetSession());
+    dispatch(getcurrentsession());
   }, []);
 
   const handlePrint = useReactToPrint({

@@ -101,7 +101,7 @@ function AddAdmission({ setOpen }) {
   const { studentaddstatus, student, loading } = useSelector(
     (state) => state.addstudent
   );
-
+  const { CURRENTSESSION } = useSelector((state) => state.GetCurrentSession);
   const submit = () => {
     formData.set("name", studentname);
     formData.set("email", studentemail);
@@ -224,6 +224,10 @@ function AddAdmission({ setOpen }) {
     dispatch({
       type: ADD_STUDENT_RESET,
     });
+    if(CURRENTSESSION)
+    {
+      setsessionname(CURRENTSESSION)
+    }
   }, [
     fee,
     batch,
@@ -234,6 +238,7 @@ function AddAdmission({ setOpen }) {
     hostel,
     route,
     sections,
+    CURRENTSESSION
   ]);
 
   const gotoreceipt = () => {
@@ -288,13 +293,7 @@ function AddAdmission({ setOpen }) {
       setloading2(false);
     }
   };
-  useEffect(() => {
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() + 1;
-    setsessionname(`${fullyear}-${lastyear}`);
-    setadminssiondate(date?.toISOString().substring(0, 10));
-  }, []);
+ 
   return (
     <>
       <div className={styles.divmainlogin}>

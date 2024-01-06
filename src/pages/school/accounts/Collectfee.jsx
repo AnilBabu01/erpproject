@@ -9,6 +9,7 @@ import {
   GetSession,
   getfee,
   getCourseDuration,
+  getcurrentsession,
 } from "../../../redux/actions/commanAction";
 import styles from "../../coaching/employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
@@ -26,9 +27,8 @@ const studentStatus = [
 ];
 
 function Collectfee() {
-  
   const dispatch = useDispatch();
-  const [seno, setseno] = useState('');
+  const [seno, setseno] = useState("");
   const [categoryname, setcategoryname] = useState("");
   const [categorylist, setcategorylist] = useState([]);
   const [sessionList, setsessionList] = useState([]);
@@ -62,6 +62,7 @@ function Collectfee() {
   const { category } = useSelector((state) => state.getcategory);
   const { sections } = useSelector((state) => state.GetSection);
   const { Sessions } = useSelector((state) => state.GetSession);
+  const { CURRENTSESSION } = useSelector((state) => state.GetCurrentSession);
   console.log("student", status);
   var newmonthnames = [];
   var feestatusarray = [];
@@ -199,6 +200,9 @@ function Collectfee() {
     if (sections) {
       setsectionList(sections);
     }
+    if (CURRENTSESSION) {
+      setsessionname(CURRENTSESSION);
+    }
   }, [
     student,
     batch,
@@ -208,12 +212,13 @@ function Collectfee() {
     category,
     Sessions,
     sections,
+    CURRENTSESSION,
   ]);
 
   useEffect(() => {
     dispatch(getstudent());
   }, []);
-  
+
   useEffect(() => {
     dispatch(loadUser());
     dispatch(getbatch());
@@ -222,6 +227,7 @@ function Collectfee() {
     dispatch(getCourseDuration());
     dispatch(GetSection());
     dispatch(GetSession());
+    dispatch(  getcurrentsession());
   }, []);
 
   const filterdata = (e) => {
@@ -240,7 +246,8 @@ function Collectfee() {
         "",
         sessionname,
         sectionname,
-        seno
+        seno,
+        ""
       )
     );
   };
@@ -254,22 +261,13 @@ function Collectfee() {
     setsbatch("");
     setstatus("");
     setrollnumber("");
-    setseno('');
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
+    setseno("");
+
+    setsessionname(CURRENTSESSION);
     setcategoryname("");
     setsectionname("");
     dispatch(getstudent());
   };
-
-  useEffect(() => {
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
-  }, []);
 
   return (
     <>
@@ -546,7 +544,7 @@ function Collectfee() {
               <label>Show Father&apos s Name</label>
             </div>
           </div>
-          
+
           <div className={styles.add_divmarginn}>
             <div className={styles.tablecontainer}>
               <table className={styles.tabletable}>
