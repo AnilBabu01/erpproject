@@ -7,7 +7,7 @@ const nextConfig = {
   // rules: {
   //   "@next/next/no-img-element": "off",
   // },
-  // output: "export",
+  output: "export",
 };
 
 module.exports = nextConfig;

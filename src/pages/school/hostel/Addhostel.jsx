@@ -14,6 +14,7 @@ import UpdateCategory from "@/component/Institute/hostel/UpdateHostel";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
+import CircularProgress from "@mui/material/CircularProgress";
 function Addhostel() {
   const dispatch = useDispatch();
   const [deleting, setdeleting] = useState(false);
