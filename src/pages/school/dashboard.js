@@ -147,7 +147,7 @@ function Dashboard() {
 
   return (
     <>
-      <div className="mainContainer1">
+      <div className="mainContainer">
         <div className="top-info-main-div">
           <TopCard
             img="/images/staff.png"
