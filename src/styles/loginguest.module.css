@@ -306,6 +306,48 @@
   align-items: center;
   padding-top: 4%;
 }
+
+/* contact detail */
+.contactDetail{
+  display: flex;
+  background-color: #044e7c;
+  justify-content: space-between;
+  padding: 2rem 5rem;
+  color: #fff;
+  cursor: pointer;
+  align-items: start;
+}
+.mailContact{
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+}
+.contectText p{
+  font-weight: bold;
+  font-size: 20px;
+  color: hsla(0,0%,100%,.64);
+}
+.contectNumber p{
+  font-weight: bold;
+  font-size: 20px;
+  color: #fff;
+}
+.contactImage{
+  background-color: #fff;
+  padding: 0.5rem 0.5rem;
+  align-items: center;
+  border-radius: 50%;
+  display: flex;
+  /* justify-content: center; */
+  /* align-items: center; */
+}
+.contactImage img{
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+
 @media screen and (max-width: 780px) {
   .closeicondivauth {
     left: 95%;
@@ -455,5 +497,14 @@
     padding-left: 1%;
     padding-right: 1%;
     width: 100%;
+  }
+  .contactDetail{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 2rem 1rem;
+  }
+  .gapColum{
+    display: block;
   }
 }
