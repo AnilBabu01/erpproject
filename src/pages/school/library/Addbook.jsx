@@ -20,7 +20,7 @@ import exportFromJSON from "export-from-json";
 import { useReactToPrint } from "react-to-print";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-
+import {loadUser} from '../../../redux/actions/authActions'
 function Addbook() {
   const dispatch = useDispatch();
   const [stream, setstream] = useState("");
@@ -114,6 +114,7 @@ function Addbook() {
   useEffect(() => {
     dispatch(GetBooks());
     dispatch(getcourse());
+    dispatch(loadUser());
   }, []);
   const ExportToExcel = (isData) => {
     const fileName = "BookListReport";

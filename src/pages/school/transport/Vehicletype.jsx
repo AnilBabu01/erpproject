@@ -14,6 +14,7 @@ import UpdateCategory from "@/component/Institute/transport/UpdateVehicleType";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
+import { loadUser } from "../../../redux/actions/authActions";
 function Vehicletype() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -95,6 +96,7 @@ function Vehicletype() {
   }, [vehicletype, user]);
   useEffect(() => {
     dispatch(GetVehicleType());
+    dispatch(loadUser());
   }, []);
 
   return (

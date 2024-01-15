@@ -24,6 +24,7 @@ import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
 import exportFromJSON from "export-from-json";
+import { loadUser } from "../../../redux/actions/authActions";
 function Vehicledetails() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -109,6 +110,7 @@ function Vehicledetails() {
     dispatch(GetVehicleType());
     dispatch(GetVehiclelist());
     dispatch(getEmployee());
+    dispatch(loadUser());
   }, []);
 
   const ExportToExcel = (isData) => {

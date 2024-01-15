@@ -4,6 +4,7 @@ import {
   deletecategory,
   getcategory,
 } from "../../../redux/actions/commanAction";
+import { loadUser } from "../../../redux/actions/authActions";
 import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -72,6 +73,10 @@ function Adddriver() {
   useEffect(() => {
     dispatch(getcategory());
   }, [open, openupdate, openalert]);
+  
+  useEffect(() => {
+    dispatch(loadUser());
+  }, []);
 
   return (
     <>

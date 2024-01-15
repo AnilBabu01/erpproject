@@ -313,7 +313,7 @@ padding: 1%;
   padding: 2rem 5rem;
   color: #fff;
   cursor: pointer;
-  align-items: start;
+  align-items: flex-start;
 }
 .mailContact{
   display: flex;

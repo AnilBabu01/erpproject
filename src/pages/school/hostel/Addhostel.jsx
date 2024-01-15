@@ -15,6 +15,7 @@ import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import CircularProgress from "@mui/material/CircularProgress";
+import {loadUser} from '../../../redux/actions/authActions';
 function Addhostel() {
   const dispatch = useDispatch();
   const [deleting, setdeleting] = useState(false);
@@ -101,6 +102,7 @@ function Addhostel() {
   }, [hostel, user]);
   useEffect(() => {
     dispatch(GetHostel());
+    dispatch(loadUser());
   }, []);
 
   return (

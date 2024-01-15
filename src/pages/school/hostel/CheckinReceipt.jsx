@@ -9,7 +9,10 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { toast } from "react-toastify";
 import { WhatsappShareButton } from "react-share";
+import {loadUser} from '../../../redux/actions/authActions'
+import {useDispatch} from 'react-redux'
 function CheckinReceipt() {
+  const dispatch = useDispatch();
   const router = useRouter();
   const componentRef = useRef(null);
   const { receiptdata } = router.query;
@@ -60,7 +63,10 @@ function CheckinReceipt() {
     }
   }, [user]);
 
-  console.log("receipt data is", data);
+  useEffect(() => {
+   dispatch(loadUser());
+  }, [])
+  
 
   return (
     <div className="mainContainer">

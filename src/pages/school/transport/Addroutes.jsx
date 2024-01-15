@@ -14,6 +14,7 @@ import UpdateCategory from "@/component/Institute/transport/UpdateRoutes";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
+import { loadUser } from "../../../redux/actions/authActions";
 function Addroutes() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -96,6 +97,7 @@ function Addroutes() {
 
   useEffect(() => {
     dispatch(GetRoute());
+    dispatch(loadUser());
   }, []);
 
   return (
