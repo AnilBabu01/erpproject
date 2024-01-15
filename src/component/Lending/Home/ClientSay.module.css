@@ -1,0 +1,48 @@
+.clientContainer {
+    padding: 2rem 6rem;
+    background-color: #093959;
+}
+
+.clientContainer h2 {
+    color: #fff;
+    display: flex;
+    justify-content: center;
+}
+
+.clientSlider {
+    margin-top: 2rem;
+}
+
+.clientSliderMessage {
+    height: 350px;
+    background-color: #fff;
+    padding: 1rem;
+    text-align: center;
+    border-radius: 5px;
+    position: relative;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.clientNames{
+    font-weight: bold;
+    font-size: 20px;
+}
+.userOf{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    color: gray;
+}
+.commasImages img{
+    height: 50px;
+    display: flex;
+    rotate: 50%;
+}
+@media screen and (max-width:850px) {
+    .clientContainer {
+        padding: 2rem 2rem;
+    }
+}

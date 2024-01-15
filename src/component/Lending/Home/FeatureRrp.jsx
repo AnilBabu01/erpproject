@@ -1,9 +1,48 @@
-import React from "react";
+// import React from "react";
 import styles from "./FeatureRrp.module.css";
+import styled from "@emotion/styled";
+import React, { useRef, useState } from "react";
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/effect-coverflow";
+import "swiper/css/pagination";
+
+// import './styles.css';
+
+import { EffectCoverflow, Pagination } from "swiper/modules";
+import { Link } from "react-scroll";
+import FeatureContent from "./FeatureContent";
+
+export const featureData = [
+  {
+    _id: 101,
+    link: "admission",
+    title: "Admission",
+  },
+  {
+    _id: 102,
+    link: "attendance",
+    title: "Attendance",
+  },
+  {
+    _id: 103,
+    link: "library",
+    title: "Library",
+  },
+  {
+    _id: 104,
+    link: "assignment",
+    title: "Assignment",
+  },
+];
+
 function FeatureRrp() {
   return (
     <>
-      <div className={styles.mainFeature}>
+      {/* <div className={styles.mainFeature}>
         <h1>Features of Our Erp Website , Android & IOS APP</h1>
         <div  className={styles.featutecontentmain}>
           <div className={styles.mainhalf}>
@@ -119,9 +158,26 @@ function FeatureRrp() {
             />
           </div>
         </div>
+      </div> */}
+
+      <div className={styles.featureDetailsLink}>
+        <div>
+          <ul>
+            {featureData.map(({ _id, link, title }) => (
+              <li key={_id}>
+                <Link to={link}>{title}</Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <FeatureContent />
+        </div>
       </div>
     </>
   );
 }
 
 export default FeatureRrp;
+
+const Slide = styled.div``;
