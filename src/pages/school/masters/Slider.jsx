@@ -30,6 +30,7 @@ function Slider() {
   const { user } = useSelector((state) => state.auth);
   const { slider, loading } = useSelector((state) => state.GetSlider);
 
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -249,7 +250,7 @@ function Slider() {
                           <td className={styles.tabletd}>{index + 1}</td>
 
                           <td className={styles.tabletd}>
-                            {item?.Dec?.slice(0.2)}...
+                            {item?.Dec?.slice(0,100)}...
                           </td>
                           <td className={styles.tabkeddd}>
                             <button

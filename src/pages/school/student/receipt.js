@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
-import { backendUrl } from "../../../config/config";
 import { useReactToPrint } from "react-to-print";
 import styles from "@/styles/loginguest.module.css";
 // import Moment from "moment-js";
@@ -9,7 +8,7 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { toast } from "react-toastify";
 import { WhatsappShareButton } from "react-share";
-function Receipt() {
+function Receipt({setOpen}) {
   const router = useRouter();
   const componentRef = useRef(null);
   const { receiptdata } = router.query;
@@ -63,15 +62,16 @@ function Receipt() {
   }, [user]);
 
   return (
-    <div className="mainContainer">
+    <div>
       <div className={styles.addpaddinreceipt}>
-        <button className={styles.optionbtn} onClick={() => router.back()}>
+       
+        <div className={styles.optionDiv}>
+        <button className={styles.optionbtn} onClick={() => setOpen(false)}>
           Back
         </button>
-        <div className={styles.optionDiv}>
-          <button className={styles.optionbtn} onClick={() => down()}>
+          {/* <button className={styles.optionbtn} onClick={() => down()}>
             Download
-          </button>
+          </button> */}
           <button className={styles.optionbtn} onClick={() => handlePrint()}>
             Print
           </button>

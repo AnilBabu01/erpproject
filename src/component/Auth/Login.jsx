@@ -14,6 +14,7 @@ import {
 import Select1 from "react-select";
 import { useRouter } from "next/router";
 import styles from "@/styles/loginguest.module.css";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const logintype = [
   { label: "College", value: "College" },
@@ -52,14 +53,6 @@ function Login({ setOpen, setOpen1, setwelcomeopen, setopenforget }) {
   const { coaching } = useSelector((state) => state.coaching);
   const { school } = useSelector((state) => state.school);
   const { client } = useSelector((state) => state.client);
-
-  console.log(
-    "only college from login form is ",
-    college,
-    coaching,
-    school,
-    client
-  );
 
   const submit = (e) => {
     e.preventDefault();
@@ -496,7 +489,14 @@ function Login({ setOpen, setOpen1, setwelcomeopen, setopenforget }) {
               </div>
 
               <div className={styles.logbtnstylediv}>
-                <button className={styles.logbtnstyle}>Login</button>
+                <button className={styles.logbtnstyle}>
+                  {" "}
+                  {loading ? (
+                    <CircularProgress size={25} style={{ color: "red" }} />
+                  ) : (
+                    "Login"
+                  )}
+                </button>
               </div>
             </form>
             <div className={styles.logbtnstyledivcreate}>

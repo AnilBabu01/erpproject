@@ -4,8 +4,6 @@ import { loadUser } from "../../../redux/actions/authActions";
 import {
   getcourse,
   getbatch,
-  getstudent,
-  deletestudent,
   getfee,
   getCourseDuration,
   getPrintReceipt,
@@ -15,18 +13,27 @@ import {
 } from "../../../redux/actions/commanAction";
 import styles from "../../coaching/employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
-import Addfee from "../../../component/Coaching/accounts/Addfee";
+import { Button } from "@mui/material";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
 import { useRouter } from "next/router";
 import { useReactToPrint } from "react-to-print";
-import Receipt from "@/component/Institute/hostel/CheckinReceipt";
+import Receipt from "@/pages/school/student/receipt";
+import UpdateReceipt from "@/component/Institute/accounts/UpdateReceipt";
+import { serverInstance } from "../../../API/ServerInstance";
+import { toast } from "react-toastify";
+import CircularProgress from "@mui/material/CircularProgress";
 function PrintReceipt() {
   const componentRef = useRef(null);
   const navigation = useRouter();
   const dispatch = useDispatch();
   const [sno, setsno] = useState("");
+  const [deleting, setdeleting] = useState(false);
   const [courselist, setcourselist] = useState([]);
   const [sessionList, setsessionList] = useState([]);
   const [sectionList, setsectionList] = useState([]);
@@ -150,19 +157,6 @@ function PrintReceipt() {
     }
   };
 
-  const convetobjectsinglekey = (obj, admindate) => {
-    let start = new Date(admindate).getMonth();
-
-    let localityParameterSets = Object.entries(obj).map(([key, val]) => ({
-      startmonth: start,
-      value: val,
-    }));
-    // let localityParameterSets = Object.entries(obj).map(([key, val]) => ({
-    //   name: key,
-    //   value: val,
-    // }));
-    return localityParameterSets?.slice(4, months + 4);
-  };
   const handleClickOpenReceipt = (data) => {
     setopenreceipt(true);
     setreceiptdatas(data);
@@ -195,7 +189,6 @@ function PrintReceipt() {
   const handleCloseupadte = () => {
     setOpenupdate(false);
   };
-
   const ClickOpendelete = (id) => {
     setOpenalert(true);
     setdeleteid(id);
@@ -206,7 +199,26 @@ function PrintReceipt() {
   };
 
   const handledelete = () => {
-    dispatch(deletestudent(deleteid, setOpenalert));
+    setdeleting(true);
+    serverInstance("student/getreceiptdata", "delete", {
+      id: deleteid,
+    }).then((res) => {
+      if (res?.status === true) {
+        toast.success(res?.msg, {
+          autoClose: 1000,
+        });
+        dispatch(getPrintReceipt());
+        handleClosedelete();
+        setdeleting(false);
+      }
+      if (res?.status === false) {
+        toast.error(res?.msg, {
+          autoClose: 1000,
+        });
+        handleClosedelete();
+        setdeleting(false);
+      }
+    });
   };
 
   useEffect(() => {
@@ -231,11 +243,19 @@ function PrintReceipt() {
     if (course) {
       setcourselist(course);
     }
-    if(CURRENTSESSION)
-    {
-      setsessionname(CURRENTSESSION)
+    if (CURRENTSESSION) {
+      setsessionname(CURRENTSESSION);
     }
-  }, [receiptdata, batch, user, courseduarion, sections, Sessions, course,CURRENTSESSION]);
+  }, [
+    receiptdata,
+    batch,
+    user,
+    courseduarion,
+    sections,
+    Sessions,
+    course,
+    CURRENTSESSION,
+  ]);
 
   useEffect(() => {
     dispatch(getPrintReceipt());
@@ -248,7 +268,7 @@ function PrintReceipt() {
     dispatch(GetSession());
     dispatch(GetSection());
     dispatch(getCourseDuration());
-    dispatch(getcurrentsession())
+    dispatch(getcurrentsession());
   }, []);
 
   const filterdata = (e) => {
@@ -276,23 +296,13 @@ function PrintReceipt() {
     settodate("");
     setscoursename("");
     setsectionname("");
-  
+
     setsessionname(CURRENTSESSION);
     setsbatch("");
     dispatch(getPrintReceipt());
     dispatch(GetSection());
     dispatch(GetSession());
   };
-
-  // const downloadReceipt = (data) => {
-  //   navigation.push({
-  //     pathname: "/coaching/student/receipt",
-  //     query: {
-  //       receiptdata: JSON.stringify(data),
-  //     },
-  //   });
-  // };
-
 
   return (
     <>
@@ -327,19 +337,44 @@ function PrintReceipt() {
               "& .MuiDialog-container": {
                 "& .MuiPaper-root": {
                   width: "100%",
-                  maxWidth: "60rem",
+                  maxWidth: "30rem",
                 },
               },
             }}
           >
-            <Addfee
-              setOpen={setOpenupdate}
-              data={updatedata}
-              monthname={monthname}
-              paidmonth={paidmonth}
-            />
+            <UpdateReceipt setOpen={setOpenupdate} updatedata={updatedata} />
           </Dialog>
         </div>
+      )}
+
+      {openalert && (
+        <>
+          <Dialog
+            open={openalert}
+            onClose={handleClosedelete}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              {"Do you want to delete"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                After delete you cannot get again
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClosedelete}>Disagree</Button>
+              <Button onClick={handledelete} autoFocus>
+                {deleting ? (
+                  <CircularProgress size={25} style={{ color: "red" }} />
+                ) : (
+                  "Agree"
+                )}
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </>
       )}
 
       <div className="mainContainer">
@@ -573,6 +608,58 @@ function PrintReceipt() {
                               }
                               onClick={() => handleClickOpenReceipt(item)}
                               src="/images/Print.png"
+                              alt="imgss"
+                            />
+                          </button>
+                          <button
+                            disabled={
+                              userdata?.data &&
+                              userdata?.data?.User?.userType === "school"
+                                ? false
+                                : userdata?.data &&
+                                  userdata?.data[0]?.fronroficeEdit === true
+                                ? false
+                                : true
+                            }
+                          >
+                            <img
+                              className={
+                                userdata?.data &&
+                                userdata?.data?.User?.userType === "school"
+                                  ? styles.tabkedddimgactive
+                                  : userdata?.data &&
+                                    userdata?.data[0]?.fronroficeEdit === true
+                                  ? styles.tabkedddimgactive
+                                  : styles.tabkedddimgdisable
+                              }
+                              onClick={() => ClickOpendelete(item?.id)}
+                              src="/images/Delete.png"
+                              alt="imgss"
+                            />
+                          </button>
+                          <button
+                            disabled={
+                              userdata?.data &&
+                              userdata?.data?.User?.userType === "school"
+                                ? false
+                                : userdata?.data &&
+                                  userdata?.data[0]?.fronroficeEdit === true
+                                ? false
+                                : true
+                            }
+                          >
+                            <img
+                              className={
+                                userdata?.data &&
+                                userdata?.data?.User?.userType === "school"
+                                  ? styles.tabkedddimgactive
+                                  : userdata?.data &&
+                                    userdata?.data[0]?.fronroficeEdit === true
+                                  ? styles.tabkedddimgactive
+                                  : styles.tabkedddimgdisable
+                              }
+                              onClick={() => ClickOpenupdate(item)}
+                              src="/images/Edit.png"
                               alt="imgss"
                             />
                           </button>

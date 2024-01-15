@@ -35,7 +35,7 @@ const monthlist = [
   },
   {
     id: 3,
-    name: "Mark",
+    name: "March",
   },
   {
     id: 4,
@@ -81,7 +81,7 @@ const monthnamelist = {
 
   2: "February",
 
-  3: "Mark",
+  3: "March",
 
   4: "April",
 
@@ -105,10 +105,11 @@ const monthnamelist = {
 function Attendance() {
   const dispatch = useDispatch();
   let currmonth = new Date().getMonth();
+  const [month, setmonth] = useState(currmonth + 1);
+  const [monthly, setmonthly] = useState("");
   const [sectionname, setsectionname] = useState("NONE");
   const [sectionlist, setsectionlist] = useState([]);
   const [cureentdate, setcureentdate] = useState("");
-  const [month, setmonth] = useState(currmonth + 1);
   const [takeatten, settakeatten] = useState(true);
   const [todatatten, settodatatten] = useState(false);
   const [Analysisatten, setAnalysisatten] = useState(false);
@@ -116,7 +117,6 @@ function Attendance() {
   const [date, setdate] = useState("");
   const [batchs, setbatchs] = useState([]);
   const [isdata, setisData] = useState([]);
-  const [monthly, setmonthly] = useState("");
   const [onlyMonthName, setonlyMonthName] = useState("");
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);

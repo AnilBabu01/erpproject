@@ -307,6 +307,7 @@ function Addfee({ data, setOpen }) {
 
     return monthsOrder.indexOf(a.MonthName) - monthsOrder.indexOf(b.MonthName);
   };
+  
   const TotalOtherFee = (data) => {
     let total = 0;
     data?.map((item) => {

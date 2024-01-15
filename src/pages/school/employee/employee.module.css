@@ -398,6 +398,17 @@
   color: white;
   padding: 1%;
 }
+
+.feeheader{
+  background-color: #093959;
+  color: white;
+  padding: 1%;
+  display: flex;
+  justify-content: space-around;
+}
+.academyfee{
+  
+}
 @media (max-width: 730px) {
   .expensesDiv {
     padding-left: 123%;

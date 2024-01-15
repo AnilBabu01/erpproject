@@ -12,6 +12,7 @@ import { serverInstance } from "../../../API/ServerInstance";
 import { backendApiUrl } from "../../../config/config";
 import { toast } from "react-toastify";
 import axios from "axios";
+
 const formData = new FormData();
 
 const studentStatus = [
@@ -92,6 +93,7 @@ function AddStudent({ setOpen }) {
   const [hostellist, sethostellist] = useState([]);
   const [hostelcategorylist, sethostelcategorylist] = useState([]);
   const [hostelfacilitylist, sethostelfacilitylist] = useState([]);
+  const [sessionList, setsessionList] = useState([]);
   const [routelist, setroutelist] = useState([]);
   const { fee } = useSelector((state) => state.getfee);
   const { batch } = useSelector((state) => state.getbatch);
@@ -103,6 +105,7 @@ function AddStudent({ setOpen }) {
   const { route } = useSelector((state) => state.GetRoute);
   const { sections } = useSelector((state) => state.GetSection);
   const { CURRENTSESSION } = useSelector((state) => state.GetCurrentSession);
+  const { Sessions } = useSelector((state) => state.GetSession);
 
   const submit = async () => {
     setloading(true);
@@ -257,6 +260,9 @@ function AddStudent({ setOpen }) {
     if (CURRENTSESSION) {
       setsessionname(CURRENTSESSION);
     }
+    if (Sessions) {
+      setsessionList(Sessions);
+    }
   }, [
     fee,
     batch,
@@ -267,6 +273,7 @@ function AddStudent({ setOpen }) {
     route,
     sections,
     CURRENTSESSION,
+    Sessions,
   ]);
 
   const gotoreceipt = () => {
@@ -423,14 +430,45 @@ function AddStudent({ setOpen }) {
                 </div>
                 <div className={styles.inputdiv}>
                   <label>Session</label>
-                  <input
+                
+                   <Select
                     required
-                    type="text"
-                    placeholder="Enter Session"
+                    className={styles.addwidth}
+                    sx={{
+                      width: "18.8rem",
+                      fontSize: 14,
+                      "& .MuiSelect-select": {
+                        paddingTop: "0.6rem",
+                        paddingBottom: "0.6em",
+                      },
+                    }}
                     value={sessionname}
                     name="sessionname"
                     onChange={(e) => setsessionname(e.target.value)}
-                  />
+                    // displayEmpty
+                  >
+                    <MenuItem
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={"Please Select"}
+                    >
+                      Please Select
+                    </MenuItem>
+                    {sessionList?.map((item, index) => {
+                      return (
+                        <MenuItem
+                          key={index}
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={item?.Session}
+                        >
+                          {item?.Session}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
                 </div>
               </div>
               <div className={styles.divmaininput}>

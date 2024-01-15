@@ -5,10 +5,14 @@ import Linechart from "../../component/Institute/Charts/Linechart";
 import LinechartPaidFee from "@/component/Institute/Charts/LinechartPaidFee";
 import BarPaidFeeChart from "@/component/Institute/Charts/BarPaidFee";
 import { useDispatch, useSelector } from "react-redux";
-import { GetSession } from "../../redux/actions/commanAction";
+import {
+  GetSession,
+  getcurrentsession,
+} from "../../redux/actions/commanAction";
 import { serverInstance } from "../../API/ServerInstance";
 function Dashboard() {
   const dispatch = useDispatch();
+
   const [alltotaldata, setalltotaldata] = useState("");
   const [sessionList, setsessionList] = useState([]);
   const [LineChartSession, setLineChartSession] = useState("Short by Session");
@@ -22,7 +26,7 @@ function Dashboard() {
     useState("Short by Session");
   const [LinstExpensesList, setLinstExpensesList] = useState([]);
   const [BarExpensesList, setBarExpensesList] = useState([]);
-
+  const { CURRENTSESSION } = useSelector((state) => state.GetCurrentSession);
   const { Sessions } = useSelector((state) => state.GetSession);
   const getTotalDashborData = () => {
     serverInstance("dashboard/GetAllTotalData", "post").then((res) => {
@@ -117,22 +121,17 @@ function Dashboard() {
     getTotalDashborData();
     // dispatch(loadUser());
     dispatch(GetSession());
+    dispatch(getcurrentsession());
   }, []);
   useEffect(() => {
     if (Sessions) {
       setsessionList(Sessions);
     }
-  }, [Sessions]);
-
-  useEffect(() => {
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() + 1;
-    setLineChartSession(`${fullyear}-${lastyear}`);
-    setBarCharSession(`${fullyear}-${lastyear}`);
-    setLineChartSessionExpenses(`${fullyear}-${lastyear}`);
-    setBarCharSessionExpenses(`${fullyear}-${lastyear}`);
-  }, []);
+    setLineChartSession(CURRENTSESSION);
+    setBarCharSession(CURRENTSESSION);
+    setLineChartSessionExpenses(CURRENTSESSION);
+    setBarCharSessionExpenses(CURRENTSESSION);
+  }, [Sessions, CURRENTSESSION]);
 
   const comparePaidFeeMonths = (a, b) => {
     const monthsOrder = [4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3];
@@ -209,12 +208,21 @@ function Dashboard() {
             value={
               alltotaldata?.allStudentPending
                 ? `${
-                    Number(alltotaldata?.allStudentPending[0]?.pendingfee) +
+                    Number(
+                      alltotaldata?.allStudentPending[0]?.pendingfee
+                        ? alltotaldata?.allStudentPending[0]?.pendingfee
+                        : 0
+                    ) +
                     Number(
                       alltotaldata?.allStudentPending[0]?.HostelPendingFee
+                        ? alltotaldata?.allStudentPending[0]?.HostelPendingFee
+                        : 0
                     ) +
                     Number(
                       alltotaldata?.allStudentPending[0]?.TransportPendingFee
+                        ? alltotaldata?.allStudentPending[0]
+                            ?.TransportPendingFee
+                        : 0
                     )
                   }`
                 : "₹0"

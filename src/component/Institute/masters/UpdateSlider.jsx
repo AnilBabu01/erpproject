@@ -7,6 +7,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { backendApiUrl, backendUrl } from "../../../config/config";
+
 const formData = new FormData();
 function UpdateSlider({ setOpen, updatedata }) {
   const dispatch = useDispatch();
@@ -16,7 +17,7 @@ function UpdateSlider({ setOpen, updatedata }) {
   const [loading, setloading] = useState(false);
   const [img1, setimg1] = useState("");
 
-  console.log("img url", updatedata);
+  console.log("img url from update", updatedata);
 
   const submit = async (e) => {
     e.preventDefault();

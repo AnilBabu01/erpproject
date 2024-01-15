@@ -215,6 +215,12 @@ const SchoolNavbar = () => {
                         <Link href="/school/accounts/Printreceipt">
                           Print Fee Receipt
                         </Link>
+                        <Link href="/school/accounts/Searchfee">
+                          Search Fee
+                        </Link>
+                        <Link href="/school/accounts/Balancefee">
+                          Search Fee By Month
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -463,9 +469,7 @@ const SchoolNavbar = () => {
                         <Link href="/school/masters/AddClassSubject">
                           Add Subject
                         </Link>
-                        <Link href="/school/masters/Addstream">
-                          Add Stream
-                        </Link>
+                        <Link href="/school/masters/Addstream">Add Stream</Link>
                       </div>
                     </div>
                     <div className="main_report_dropdown_rightmargin">

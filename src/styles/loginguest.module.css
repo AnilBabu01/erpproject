@@ -227,9 +227,7 @@
   border-bottom: 3px dotted black;
 }
 .addpaddinreceipt {
-  padding-left: 24%;
-  padding-right: 24%;
-  padding-top: 1%;
+padding: 1%;
 }
 .mainContainerreceipt {
   padding: 1rem;

@@ -14,6 +14,7 @@ import Updatecourse from "@/component/Institute/masters/Updatesession";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
 import { loadUser } from "../../../redux/actions/authActions";
+
 function AddSession() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -24,7 +25,7 @@ function AddSession() {
   const [isdata, setisData] = useState([]);
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
-  
+
   const { Sessions } = useSelector((state) => state.GetSession);
 
   const handleClickOpen = () => {
@@ -163,22 +164,6 @@ function AddSession() {
       )}
       <div className="mainContainer">
         <div>
-          {/* <div className={styles.topmenubar}>
-            <div className={styles.imgdivformat}>
-              <img
-                className={styles.imgdivformatimg}
-                src="/images/Print.png"
-                alt="img"
-              />
-              <img
-                className={styles.imgdivformatimg}
-                src="/images/ExportPdf.png"
-                alt="img"
-              />
-              <img src="/images/ExportExcel.png" alt="img" />
-            </div>
-          </div> */}
-
           <div className={styles.addtopmenubar}>
             <button
               className={
