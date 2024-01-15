@@ -775,6 +775,7 @@ function Searchfee() {
                       </tbody>
                     </table>
                   </div>
+                  
                 </div>
               );
             })}

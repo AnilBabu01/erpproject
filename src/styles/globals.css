@@ -756,7 +756,7 @@ input#donation-date {
     flex-direction: column;
   }
   .mainContainer {
-    padding-top: 16%;
+    padding-top: 16%!important;
   }
 
   .mainContainertimetable {
