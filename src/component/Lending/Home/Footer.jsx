@@ -19,18 +19,13 @@ export const navLinkData = [
   },
   {
     _id: 1002,
-    title: "About",
-    link: "about",
+    title: "Learning",
+    link: "learning",
   },
   {
     _id: 1003,
-    title: "Learning",
-    link: "kits",
-  },
-  {
-    _id: 1004,
     title: "Help Center",
-    link: "sensors",
+    link: "helpCenter",
   },
 ];
 const Footer = () => {
@@ -38,7 +33,7 @@ const Footer = () => {
     <>
       <div className={styles.Footer}>
         <div className={styles.f}>
-          <Link href="/">
+          <Link href="/" >
             <Image
             alt="ijmf"
               className={styles.FooterLogo}
@@ -73,7 +68,10 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div>
+        <div className={styles.footerHeadingLink}>
+          <div style={{marginRight: "1rem"}}>
+            <h3>About</h3>
+          </div>
           <div className={styles.FooterLink}>
             <ul>
               {navLinkData.map(({ _id, title, link }) => (
@@ -98,7 +96,7 @@ const Footer = () => {
             <div>
               <div className={styles.contactdetails}>
                 <span className={styles.contacticon}>
-                  <a href="">
+                  <a href="" >
                     <IoMdHome />
                   </a>
                 </span>
@@ -148,6 +146,32 @@ const Footer = () => {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div className={styles.line}></div>
+      <div className={styles.lowerFooter}>
+        <div>
+          <Link href="/">
+          <span className={styles.spanLink}>© Copyright 2024 abtechzone.com</span>
+          </Link>
+        </div>
+        <div className={styles.policy}>
+          <div>
+            <Link href="/">
+              <span className={styles.spanLink}>Privacy Policy</span>
+            </Link>
+          </div>
+          <div>
+            <Link href="/">
+              <span className={styles.spanLink}>Terms of Use</span>
+            </Link>
+          </div>
+          <div>
+            <Link href="/">
+              <span className={styles.spanLink}>Shipping & Cancellations</span>
+            </Link>
+          </div>
+          
         </div>
       </div>
     </>

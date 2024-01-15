@@ -474,9 +474,6 @@ input#donation-date {
   }
 }
 
-.mainContainer {
-  padding-top: 4%;
-}
 
 /* dashbord styling */
 
@@ -2126,4 +2123,11 @@ input#donation-date {
   .bannerServices {
     padding: 50px 10px;
   }
+}
+.slick-slide > div {
+  margin: 0 10px;
+}
+
+.slick-dots{
+  font: 20px;
 }

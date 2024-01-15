@@ -1,8 +1,12 @@
-.mainFeature {
-  padding-left: 6%;
-  padding-right: 6%;
-  padding-top: 2%;
-  padding-bottom: 6%;
+.featureDetailsLink{
+  display: flex;
+  justify-content: space-between;
+}
+
+.mainFeature{
+  padding: 3rem 5rem;
+  width: 100%;
+  background-color: cover;
 }
 .mainFeature h1 {
   text-align: center;
@@ -25,8 +29,9 @@
   margin-top: 1.5rem;
 }
 .featureimg {
-  width: 20rem;
-  height: 7rem;
+  width: 100%;
+  object-fit: cover;
+  transition: transform 400ms case-in-out;
 }
 
 .featurehead {
@@ -100,3 +105,5 @@
 
 
 }
+
+
