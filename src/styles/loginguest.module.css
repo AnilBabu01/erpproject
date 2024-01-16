@@ -3,7 +3,7 @@
   background: #093959;
   color: white;
   padding-bottom: 1%;
-  padding-top: 5%;
+  /* padding-top: 5%; */
   height: 45rem;
 
 }
@@ -420,7 +420,7 @@ padding: 1%;
   .mianguest {
     display: block;
     width: 100%;
-    padding-top: 3.5rem;
+    /* padding-top: 3.5rem; */
     height: auto;
     padding-bottom: 4%;
   }

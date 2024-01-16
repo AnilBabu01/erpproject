@@ -437,6 +437,7 @@ function ExpensesAnalysis() {
                       </tbody>
                     </table>
                   </div>
+                  
                   <div>
                     <p>
                      Total Cash (Cash Recovery - Cash Asset) = &nbsp;
