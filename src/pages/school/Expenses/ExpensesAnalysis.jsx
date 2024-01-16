@@ -437,17 +437,17 @@ function ExpensesAnalysis() {
                       </tbody>
                     </table>
                   </div>
-                  
+
                   <div>
                     <p>
-                     Total Cash (Cash Recovery - Cash Asset) = &nbsp;
+                      Cash Recovery - All Expenses = &nbsp;
                       <span className={styles.mainfivrupee10p}>
                         {totalcashrecovery(allRecoveryList) -
                           totalcashexpenses(assetlist)}
                       </span>
                     </p>
                     <p>
-                    Total Bank (Online Recovery - Online Asset) = &nbsp;
+                      Bank Recovery - All Expenses = &nbsp;
                       <span className={styles.mainfivrupee10p}>
                         {totalonlineexrecovery(allRecoveryList) -
                           totalonlineexpenses(assetlist)}
@@ -456,7 +456,10 @@ function ExpensesAnalysis() {
                     <p>
                       Total Profit = &nbsp;
                       <span className={styles.mainfivrupee10p}>
-                        {totalcashrecovery(allRecoveryList)+totalonlineexrecovery(allRecoveryList)}
+                        {totalcashrecovery(allRecoveryList) +
+                          totalonlineexrecovery(allRecoveryList) -
+                          (totalcashexpenses(assetlist) +
+                            totalonlineexpenses(assetlist))}
                       </span>
                     </p>
                   </div>

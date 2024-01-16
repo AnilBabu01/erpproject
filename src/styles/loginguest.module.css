@@ -5,7 +5,6 @@
   padding-bottom: 1%;
   /* padding-top: 5%; */
   height: 45rem;
-
 }
 .left {
   width: 50%;
@@ -42,7 +41,7 @@
   padding-bottom: 1rem;
   position: relative;
 }
-.printhostelmain{
+.printhostelmain {
   padding: 0.5rem;
 }
 
@@ -196,7 +195,6 @@
   padding-right: 2%;
   padding-top: 2%;
   cursor: pointer;
-
 }
 
 .closeicondivauth {
@@ -227,7 +225,7 @@
   border-bottom: 3px dotted black;
 }
 .addpaddinreceipt {
-padding: 1%;
+  padding: 1%;
 }
 .mainContainerreceipt {
   padding: 1rem;
@@ -297,7 +295,7 @@ padding: 1%;
   padding-right: 0.5rem;
   padding-left: 0.5rem;
 }
-.welcomicondiv{
+.welcomicondiv {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -306,7 +304,7 @@ padding: 1%;
 }
 
 /* contact detail */
-.contactDetail{
+.contactDetail {
   display: flex;
   background-color: #044e7c;
   justify-content: space-between;
@@ -315,23 +313,23 @@ padding: 1%;
   cursor: pointer;
   align-items: flex-start;
 }
-.mailContact{
+.mailContact {
   display: flex;
   gap: 2rem;
   justify-content: center;
   align-items: center;
 }
-.contectText p{
+.contectText p {
   font-weight: bold;
   font-size: 20px;
-  color: hsla(0,0%,100%,.64);
+  color: hsla(0, 0%, 100%, 0.64);
 }
-.contectNumber p{
+.contectNumber p {
   font-weight: bold;
   font-size: 20px;
   color: #fff;
 }
-.contactImage{
+.contactImage {
   background-color: #fff;
   padding: 0.5rem 0.5rem;
   align-items: center;
@@ -340,7 +338,7 @@ padding: 1%;
   /* justify-content: center; */
   /* align-items: center; */
 }
-.contactImage img{
+.contactImage img {
   height: 50px;
   width: 50px;
   border-radius: 50%;
@@ -496,13 +494,13 @@ padding: 1%;
     padding-right: 1%;
     width: 100%;
   }
-  .contactDetail{
+  .contactDetail {
     display: flex;
     flex-direction: column;
     gap: 1rem;
     padding: 2rem 1rem;
   }
-  .gapColum{
+  .gapColum {
     display: block;
   }
 }

@@ -11,6 +11,7 @@ import {
   GetExpensesType,
 } from "../../../redux/actions/expensesActions";
 import { GetSession } from "../../../redux/actions/commanAction";
+import {loadUser} from '../../../redux/actions/authActions'
 import styles from "../employee/employee.module.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -134,6 +135,7 @@ function AddExpenses() {
     dispatch(GetExpenses());
     dispatch(GetExpensesType());
     dispatch(GetSession());
+    dispatch(loadUser());
   }, []);
   useEffect(() => {
     let date = new Date();
