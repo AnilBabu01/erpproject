@@ -24,7 +24,7 @@ const monthlist = [
   },
   {
     id: 3,
-    name: "Mark",
+    name: "March",
   },
   {
     id: 4,
@@ -115,7 +115,7 @@ function ExpensesAnalysis() {
           setloading(false);
           setallExpensesList(res?.data[0]?.allexpenses);
           setallRecoveryList(res?.data[0]?.allreceiptdata);
-          setassetlist(res?.data[0]?.allexpensesAsset)
+          setassetlist(res?.data[0]?.allexpensesAsset);
         }
 
         if (res?.status === false) {
@@ -326,7 +326,6 @@ function ExpensesAnalysis() {
                   })}
                 </select>
                 <button onClick={() => filterdata()}>
-                  {" "}
                   {loading ? (
                     <CircularProgress size={25} style={{ color: "red" }} />
                   ) : (
@@ -343,12 +342,6 @@ function ExpensesAnalysis() {
                 src="/images/Print.png"
                 alt="img"
               />
-              {/* <img
-                className={styles.imgdivformatimg}
-                src="/images/ExportPdf.png"
-                alt="img"
-              />
-              <img src="/images/ExportExcel.png" alt="img" /> */}
             </div>
           </div>
 
@@ -365,10 +358,10 @@ function ExpensesAnalysis() {
                       <tbody>
                         <tr className={styles.tabletr}>
                           <th className={styles.tableth}>Sr.No</th>
-                          {/* <th className={styles.tableth}>Date</th> */}
+
                           <th className={styles.tableth}>Type</th>
                           <th className={styles.tableth}>Amount</th>
-                          {/* <th className={styles.tableth}>Comment</th> */}
+
                           <th className={styles.tableth}>Mode</th>
                         </tr>
                         {allExpensesList?.length > 0 &&
@@ -376,16 +369,13 @@ function ExpensesAnalysis() {
                             return (
                               <tr key={index} className={styles.tabletr}>
                                 <td className={styles.tabletd}>{index + 1}</td>
-                                {/* <td className={styles.tabletd}>06/02/2023</td> */}
+
                                 <td className={styles.tabletd}>
                                   {item?.Expensestype}
                                 </td>
                                 <td className={styles.tabletd}>
                                   {item?.total_paidamount}
                                 </td>
-                                {/* <td className={styles.tabletd}>
-                                  {item?.Comment}
-                                </td> */}
 
                                 <td className={styles.tabletd}>
                                   {item?.PayOption}
@@ -423,7 +413,7 @@ function ExpensesAnalysis() {
                           <th className={styles.tableth}>Sr.No</th>
                           <th className={styles.tableth}>Class</th>
                           <th className={styles.tableth}>Amount</th>
-                          {/* <th className={styles.tableth}>Pending_Amount</th> */}
+
                           <th className={styles.tableth}>Mode</th>
                         </tr>
                         {allRecoveryList?.length > 0 &&
@@ -437,9 +427,7 @@ function ExpensesAnalysis() {
                                 <td className={styles.tabletd}>
                                   {item?.total_paidamount}
                                 </td>
-                                {/* <td className={styles.tabletd}>
-                                {item?.rollnumber}
-                              </td> */}
+
                                 <td className={styles.tabletd}>
                                   {item?.PayOption}
                                 </td>
@@ -449,74 +437,28 @@ function ExpensesAnalysis() {
                       </tbody>
                     </table>
                   </div>
-                  <div className={styles.mainfivrupee}>
+                  <div>
                     <p>
-                      Cash Recovery = &nbsp;
+                     Total Cash (Cash Recovery - Cash Asset) = &nbsp;
                       <span className={styles.mainfivrupee10p}>
-                        {totalcashrecovery(allRecoveryList)}
+                        {totalcashrecovery(allRecoveryList) -
+                          totalcashexpenses(assetlist)}
                       </span>
                     </p>
                     <p>
-                      Online Recovery = &nbsp;
+                    Total Bank (Online Recovery - Online Asset) = &nbsp;
                       <span className={styles.mainfivrupee10p}>
-                        {totalonlineexrecovery(allRecoveryList)}
-                      </span>
-                    </p>
-                  </div>
-                  <div className={styles.mainfivrupee}>
-                    <p>
-                      Cash Asset = &nbsp;
-                      <span className={styles.mainfivrupee10p}>
-                        {totalcashexpenses(assetlist)}
+                        {totalonlineexrecovery(allRecoveryList) -
+                          totalonlineexpenses(assetlist)}
                       </span>
                     </p>
                     <p>
-                      Online Asset = &nbsp;
+                      Total Profit = &nbsp;
                       <span className={styles.mainfivrupee10p}>
-                        {totalonlineexpenses(assetlist)}
+                        {totalcashrecovery(allRecoveryList)+totalonlineexrecovery(allRecoveryList)}
                       </span>
                     </p>
                   </div>
-
-                  <p>
-                    {/* Cash Recovery = &nbsp; */}
-                    <span className={styles.mainfivrupee10p}>
-                      {totalcashrecovery(allRecoveryList)}
-                    </span>
-                    {/* &nbsp; - Cash Payment Out = &nbsp; */}-
-                    <span className={styles.mainfivrupee10p}>
-                      {totalcashexpenses(allExpensesList)}
-                    </span>
-                    &nbsp; = &nbsp;
-                    <span className={styles.mainfivrupee10p}>
-                      {Number(totalcashrecovery(allRecoveryList)) -
-                        Number(totalcashexpenses(allExpensesList))}
-                    </span>
-                  </p>
-                  <p>
-                    {/* Online Recovery = &nbsp; */}
-                    <span className={styles.mainfivrupee10p}>
-                      {totalonlineexrecovery(allRecoveryList)}
-                    </span>
-                    {/* &nbsp; - Cash Payment Out&nbsp; */}-
-                    <span className={styles.mainfivrupee10p}>
-                      {totalonlineexpenses(allExpensesList)}
-                    </span>
-                    &nbsp; = &nbsp;
-                    <span className={styles.mainfivrupee10p}>
-                      {Number(totalonlineexrecovery(allRecoveryList)) -
-                        Number(totalonlineexpenses(allExpensesList))}
-                    </span>
-                  </p>
-                  <p>
-                    Profit = &nbsp;
-                    <span className={styles.mainfivrupee10p}>
-                      {Number(totalonlineexrecovery(allRecoveryList)) -
-                        Number(totalonlineexpenses(allExpensesList)) +
-                        Number(totalcashrecovery(allRecoveryList)) -
-                        Number(totalcashexpenses(allExpensesList))}{" "}
-                    </span>
-                  </p>
                 </div>
               </div>
             </div>

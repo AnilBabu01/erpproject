@@ -8,6 +8,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
+
 function AddExpenses({ setOpen }) {
   const dispatch = useDispatch();
   var today = new Date();
@@ -30,7 +31,7 @@ function AddExpenses({ setOpen }) {
       Expensestype: Expensestype,
       ExpensesAmount: ExpensesAmount,
       Comment: Comment,
-      PayOption:PayOption
+      PayOption: Expensestype === "Liability" ? "Dues" : PayOption,
     }).then((res) => {
       if (res?.status === true) {
         toast.success(res?.msg, {
@@ -76,28 +77,69 @@ function AddExpenses({ setOpen }) {
                 onChange={(e) => setaddDate(e.target.value)}
               />
             </div>
+
             <div className={styles.mainpayselect}>
-              <div className={styles.stylecash}>
-                <input
-                  className={styles.paytypeselect}
-                  type="radio"
-                  value={"Cash"}
-                  checked={PayOption === "Cash"}
-                  name="same"
-                  onChange={(e) => setPayOption(e.target.value)}
-                />
-                <label>Cash</label>
-              </div>
-              <div className={styles.stylecash}>
-                <input
-                  className={styles.paytypeselect}
-                  type="radio"
-                  value={"Online"}
-                  name="same"
-                  onChange={(e) => setPayOption(e.target.value)}
-                />
-                <label>Online</label>
-              </div>
+              {Expensestype === "Liability" ? (
+                <>
+                  <div className={styles.stylecash}>
+                    <input
+                      className={styles.paytypeselect}
+                      type="radio"
+                      value={"Cash"}
+                      name="same"
+                      onChange={(e) => setPayOption(e.target.value)}
+                      disabled={true}
+                    />
+                    <label>Cash</label>
+                  </div>
+                  <div className={styles.stylecash}>
+                    <input
+                      className={styles.paytypeselect}
+                      type="radio"
+                      value={"Online"}
+                      name="same"
+                      onChange={(e) => setPayOption(e.target.value)}
+                      disabled={true}
+                    />
+                    <label>Online</label>
+                  </div>
+                  <div className={styles.stylecash}>
+                    <input
+                      className={styles.paytypeselect}
+                      type="radio"
+                      value={"Dues"}
+                      name="same"
+                      checked={true}
+                      onChange={(e) => setPayOption(e.target.value)}
+                    />
+                    <label>Dues</label>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className={styles.stylecash}>
+                    <input
+                      className={styles.paytypeselect}
+                      type="radio"
+                      value={"Cash"}
+                      checked={PayOption === "Cash"}
+                      name="same"
+                      onChange={(e) => setPayOption(e.target.value)}
+                    />
+                    <label>Cash</label>
+                  </div>
+                  <div className={styles.stylecash}>
+                    <input
+                      className={styles.paytypeselect}
+                      type="radio"
+                      value={"Online"}
+                      name="same"
+                      onChange={(e) => setPayOption(e.target.value)}
+                    />
+                    <label>Online</label>
+                  </div>
+                </>
+              )}
             </div>
             <div className={styles.inputdiv}>
               <label>&nbsp;</label>

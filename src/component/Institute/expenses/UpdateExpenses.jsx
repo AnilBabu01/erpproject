@@ -8,23 +8,24 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
-function UpdateExpenses({ setOpen,updatedata }) {
+function UpdateExpenses({ setOpen, updatedata }) {
   const dispatch = useDispatch();
-
-  const [addDate, setaddDate] = useState('')
+  const [addDate, setaddDate] = useState("");
+  const [PayOption, setPayOption] = useState("Cash");
   const [Expensestype, setExpensestype] = useState("");
   const [ExpensesAmount, setExpensesAmount] = useState("");
   const [Comment, setComment] = useState("");
   const [loading, setloading] = useState(false);
   const [expenseslist, setexpenseslist] = useState([]);
-
   const { expensestype } = useSelector((state) => state.GetExpensesType);
+
+  console.log("data is console", updatedata);
 
   const submit = (e) => {
     e.preventDefault();
     setloading(true);
     serverInstance("expenses/addexpenses", "put", {
-      id:updatedata?.id,
+      id: updatedata?.id,
       Date: addDate,
       Expensestype: Expensestype,
       ExpensesAmount: ExpensesAmount,
@@ -56,19 +57,16 @@ function UpdateExpenses({ setOpen,updatedata }) {
   }, [expensestype]);
 
   useEffect(() => {
-    
-  if(updatedata)
-  {
-    setExpensesAmount(updatedata?.ExpensesAmount);
-    setComment(updatedata?.Comment);
-    setExpensestype(updatedata?.Expensestype);
-    var today = new Date(updatedata?.Date);
-    var date = today.toISOString().substring(0, 10);
-    setaddDate(date);
-  }
-  
-  }, [])
-  
+    if (updatedata) {
+      setExpensesAmount(updatedata?.ExpensesAmount);
+      setComment(updatedata?.Comment);
+      setExpensestype(updatedata?.Expensestype);
+      var today = new Date(updatedata?.Date);
+      var date = today.toISOString().substring(0, 10);
+      setaddDate(date);
+    }
+  }, []);
+
   return (
     <>
       <div className={styles.divmainlogin}>
@@ -77,15 +75,51 @@ function UpdateExpenses({ setOpen,updatedata }) {
         </div>
         <h1>Update Expenses</h1>
         <form onSubmit={submit}>
-          <div className={styles.inputdiv}>
-            <label>Date</label>
-            <input
-              type="date"
-              value={addDate}
-              name="addDate"
-              onChange={(e) => setaddDate(e.target.value)}
-            />
+          <div className={styles.divmaininput}>
+            <div className={styles.inputdiv}>
+              <label>Date</label>
+              <input
+                type="date"
+                value={addDate}
+                name="addDate"
+                onChange={(e) => setaddDate(e.target.value)}
+              />
+            </div>
+            <div className={styles.mainpayselect}>
+              {Expensestype === "Liability" ? (
+                ""
+              ) : (
+                <>
+                  <div className={styles.stylecash}>
+                    <input
+                      className={styles.paytypeselect}
+                      type="radio"
+                      value={"Cash"}
+                      checked={PayOption === "Cash"}
+                      name="same"
+                      onChange={(e) => setPayOption(e.target.value)}
+                    />
+                    <label>Cash</label>
+                  </div>
+                  <div className={styles.stylecash}>
+                    <input
+                      className={styles.paytypeselect}
+                      type="radio"
+                      value={"Online"}
+                      name="same"
+                      onChange={(e) => setPayOption(e.target.value)}
+                    />
+                    <label>Online</label>
+                  </div>
+                </>
+              )}
+            </div>
+            <div className={styles.inputdiv}>
+              <label>&nbsp;</label>
+              <label>&nbsp;</label>
+            </div>
           </div>
+
           <div className={styles.divmaininput}>
             <div className={styles.inputdiv}>
               <label>Expenses Type</label>
@@ -113,20 +147,31 @@ function UpdateExpenses({ setOpen,updatedata }) {
                 >
                   Please Select
                 </MenuItem>
-                {expenseslist?.length > 0 &&
-                  expenseslist?.map((item, index) => {
-                    return (
-                      <MenuItem
-                        key={index}
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={item?.Expensestype}
-                      >
-                        {item?.Expensestype}
-                      </MenuItem>
-                    );
-                  })}
+                <MenuItem
+                  sx={{
+                    fontSize: 14,
+                  }}
+                  value={"Expenses"}
+                >
+                  Expenses
+                </MenuItem>
+                <MenuItem
+                  sx={{
+                    fontSize: 14,
+                  }}
+                  value={"Asset"}
+                >
+                  Asset
+                </MenuItem>
+
+                <MenuItem
+                  sx={{
+                    fontSize: 14,
+                  }}
+                  value={"Liability"}
+                >
+                  Liability
+                </MenuItem>
               </Select>
             </div>
             <div className={styles.inputdiv}>
