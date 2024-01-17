@@ -255,18 +255,27 @@
 }
 
 .imgdivre img {
-  width: 11.1rem;
-  height: 11.1rem;
+  width: 7.1rem;
+  height: 7.1rem;
   border-radius: 48%;
+}
+.imgdivreimgprofile {
+  width: 7.1rem!important;
+  height: 7.1rem!important;
+  border-radius: 1%!important;
+  border: 1px solid black;
 }
 .imgdivre h2 {
   margin-bottom: 0px;
   margin-top: 0px;
   font-size: 20px;
+  font-family: Helvetica;
+  color: red;
 }
 .imgdivre p {
   margin-bottom: 0px;
   margin-top: 0px;
+  font-family: Helvetica;
 }
 .receiptNodiv {
   border-top: 2px solid black;
@@ -277,7 +286,7 @@
 
 .mainfeedetails {
   display: flex;
-  justify-content: space-between;
+
 
   padding: 0.9rem;
 }
@@ -343,7 +352,45 @@
   width: 50px;
   border-radius: 50%;
 }
-
+.transtextmain{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.transtextInnear{
+  background-color: #044e7c;
+  padding-left: 1%;
+  padding-right: 1%;
+border-radius: 5px;
+}
+.transtextInnear p{
+  color: yellow;
+  font-weight: 500;
+  font-family: Helvetica;
+}
+.maincontenttc{
+  display: flex;
+  padding-left: 11%;
+  padding-right: 11%;
+  justify-content: space-between;    
+ 
+}
+.TCPoints{
+  font-family: Helvetica;
+}
+.signaturemain{
+  display: flex;
+  justify-content: space-between;
+  padding-left: 11%;
+  padding-right: 11%;
+  padding-top: 10%;
+}
+.signaturemainInnear{
+border-top: 2px solid #044e7c ;
+}
+.TCMain{
+  padding-top: 4%;
+}
 @media screen and (max-width: 780px) {
   .closeicondivauth {
     left: 95%;

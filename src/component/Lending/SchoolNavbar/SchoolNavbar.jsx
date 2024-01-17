@@ -97,10 +97,10 @@ const SchoolNavbar = () => {
                         <Link href="/school/student/AddStudent">
                           Add Student
                         </Link>
-
                         <Link href="/school/student/Studenthistory">
                           Student History
                         </Link>
+                        <Link href="/school/student/IssueTC">Issue TC</Link>
                         <Link href="/school/student/Studentlogincreadential">
                           Student Login Creadential
                         </Link>

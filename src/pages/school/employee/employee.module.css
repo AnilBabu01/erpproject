@@ -406,8 +406,23 @@
   display: flex;
   justify-content: space-around;
 }
-.academyfee{
-  
+.actionbtn{
+  background:#ffae01 ;
+  color: white;
+  border-radius: 6px;
+  font-weight: 600;
+  padding: 0.3rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.actionbtn:hover{
+  background:#093959 ;
+  color: white;
+  border-radius: 6px;
+  font-weight: 600;
+  padding: 0.3rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 @media (max-width: 730px) {
   .expensesDiv {
