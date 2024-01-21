@@ -657,6 +657,7 @@ function Admission() {
                     <th className={styles.tableth}>Student_Status</th>
                     <th className={styles.tableth}>Action</th>
                   </tr>
+                  
                   {isdata?.map((item, index) => {
                     return (
                       <tr key={index} className={styles.tabletr}>

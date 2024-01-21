@@ -156,6 +156,9 @@
 .optionDiv {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  padding-left: 1%;
+  padding-right: 1%;
 }
 .optionbtn {
   width: 20%;
@@ -260,9 +263,9 @@
   border-radius: 48%;
 }
 .imgdivreimgprofile {
-  width: 7.1rem!important;
-  height: 7.1rem!important;
-  border-radius: 1%!important;
+  width: 7.1rem !important;
+  height: 7.1rem !important;
+  border-radius: 1% !important;
   border: 1px solid black;
 }
 .imgdivre h2 {
@@ -286,7 +289,6 @@
 
 .mainfeedetails {
   display: flex;
-
 
   padding: 0.9rem;
 }
@@ -352,45 +354,81 @@
   width: 50px;
   border-radius: 50%;
 }
-.transtextmain{
+.transtextmain {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.transtextInnear{
+.transtextInnear {
   background-color: #044e7c;
   padding-left: 1%;
   padding-right: 1%;
-border-radius: 5px;
+  border-radius: 5px;
 }
-.transtextInnear p{
+.transtextInnear p {
   color: yellow;
   font-weight: 500;
   font-family: Helvetica;
 }
-.maincontenttc{
+.maincontenttc {
   display: flex;
   padding-left: 11%;
   padding-right: 11%;
-  justify-content: space-between;    
- 
+  justify-content: space-between;
 }
-.TCPoints{
+.TCPoints {
   font-family: Helvetica;
 }
-.signaturemain{
+.signaturemain {
   display: flex;
   justify-content: space-between;
   padding-left: 11%;
   padding-right: 11%;
   padding-top: 10%;
 }
-.signaturemainInnear{
-border-top: 2px solid #044e7c ;
+.signaturemainInnear {
+  border-top: 2px solid #044e7c;
 }
-.TCMain{
+.TCMain {
   padding-top: 4%;
+  border: 2px solid black;
 }
+.coachingtextaddress {
+  text-align: center;
+  padding-left: 10%;
+  padding-right: 10%;
+  margin-top: 3%;
+}
+.coachingtextaddress p{
+  line-height: 3rem;
+}
+.TCMainTop {
+  padding: 1%;
+}
+.dynamictext {
+  font-weight: 500;
+  padding-left: 1%;
+  padding-right: 1%;
+}
+.actionbtn{
+  background:#ffae01 ;
+  width: 15%;
+  height: 35px;
+  color: white;
+  border-radius: 7px;
+  margin-bottom: 0.2rem;
+  margin-top: 0.4rem;
+}
+.actionbtn:hover{
+  background:#093959 ;
+  width: 15%;
+  height: 35px;
+  color: white;
+  border-radius: 7px;
+  margin-bottom: 0.2rem;
+  margin-top: 0.4rem;
+}
+
 @media screen and (max-width: 780px) {
   .closeicondivauth {
     left: 95%;

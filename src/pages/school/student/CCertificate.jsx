@@ -7,7 +7,7 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { toast } from "react-toastify";
 import moment from "moment";
-function TCFormat({ setOpen, TcData }) {
+function CCertificate({ setOpen, TcData }) {
   const componentRef = useRef(null);
   const [data, setData] = React.useState({});
   const [organizationdata, setorganizationdata] = useState("");
@@ -114,4 +114,4 @@ function TCFormat({ setOpen, TcData }) {
   );
 }
 
-export default TCFormat;
+export default CCertificate;

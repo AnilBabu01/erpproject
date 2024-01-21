@@ -72,8 +72,9 @@ import {
   GetCurrentSessionReducer,
   GetYearReducer,
   getReceiptCoachingPrintReducer,
-  GetCoachingStudentReducer
+  GetCoachingStudentReducer,
 } from "./redux/reducers/commanReducers";
+
 import {
   getenquiriesReducer,
   addenquiryReducer,
@@ -97,6 +98,7 @@ import {
   GetFacility,
   GetCheckin,
 } from "./redux/reducers/hostelReducers";
+
 import {
   GetRoute,
   GetVehicle,
@@ -110,6 +112,7 @@ import {
   GetExpensesReducer,
   GetAmountTransferReducer,
 } from "./redux/reducers/expensesReducers";
+
 const reducer = combineReducers({
   auth: authReducer,
   user: userReducer,
@@ -204,8 +207,8 @@ const reducer = combineReducers({
   GetStream: GetStreamReducer,
   GetCurrentSession: GetCurrentSessionReducer,
   GetYear: GetYearReducer,
-  getReceiptCoachingPrint:getReceiptCoachingPrintReducer,
-  GetCoachingStudent:GetCoachingStudentReducer
+  getReceiptCoachingPrint: getReceiptCoachingPrintReducer,
+  GetCoachingStudent: GetCoachingStudentReducer,
 });
 const middlware = [thunk];
 export const store = createStore(

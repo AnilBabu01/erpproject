@@ -12,7 +12,6 @@ import {
 import { serverInstance } from "../../API/ServerInstance";
 function Dashboard() {
   const dispatch = useDispatch();
-
   const [alltotaldata, setalltotaldata] = useState("");
   const [sessionList, setsessionList] = useState([]);
   const [LineChartSession, setLineChartSession] = useState("Short by Session");

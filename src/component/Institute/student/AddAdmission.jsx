@@ -11,6 +11,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
 const formData = new FormData();
+
 const studentStatus = [
   { label: "Active", value: "Active" },
   { label: "On Leave", value: "On Leave" },
@@ -18,6 +19,7 @@ const studentStatus = [
   { label: "Completed", value: "Completed" },
   { label: "Unknown", value: "Unknown" },
 ];
+
 function AddAdmission({ setOpen }) {
   const navigation = useRouter();
   const dispatch = useDispatch();
@@ -39,8 +41,6 @@ function AddAdmission({ setOpen }) {
   const [onlyshowmonthfee, setonlyshowmonthfee] = useState("");
   const [onlyshowrefee, setonlyshowrefee] = useState("");
   const [getfee, setgetfee] = useState("default");
-  const [isdata, setisData] = useState([]);
-  const [batchs, setbatchs] = useState([]);
   const [courses, setcourses] = useState("");
   const [batchname, setbatchname] = useState("");
   const [studentname, setstudentname] = useState("");
@@ -48,8 +48,6 @@ function AddAdmission({ setOpen }) {
   const [studentphone, setstudentphone] = useState("");
   const [adminssiondate, setadminssiondate] = useState("");
   const [whatsaapnumber, setwhatsaapnumber] = useState("");
-  const [categoryname, setcategoryname] = useState("Please Select");
-  const [categorylist, setcategorylist] = useState([]);
   const [usepreview, setusepreview] = useState(false);
   const [city, setcity] = useState("");
   const [state, setstate] = useState("");
@@ -83,6 +81,10 @@ function AddAdmission({ setOpen }) {
   const [hostenname, sethostenname] = useState("");
   const [hostelcategory, sethostelcategory] = useState("");
   const [hostelfacility, sethostelfacility] = useState("");
+  const [categoryname, setcategoryname] = useState("Please Select");
+  const [categorylist, setcategorylist] = useState([]);
+  const [isdata, setisData] = useState([]);
+  const [batchs, setbatchs] = useState([]);
   const [hostellist, sethostellist] = useState([]);
   const [hostelcategorylist, sethostelcategorylist] = useState([]);
   const [hostelfacilitylist, sethostelfacilitylist] = useState([]);
@@ -195,6 +197,7 @@ function AddAdmission({ setOpen }) {
     dispatch(Addstudent(formData));
   };
 
+  
   useEffect(() => {
     if (fee) {
       setisData(fee);

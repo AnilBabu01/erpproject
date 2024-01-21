@@ -33,7 +33,7 @@ import exportFromJSON from "export-from-json";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
 import CircularProgress from "@mui/material/CircularProgress";
-import TCFormat from "./TCFormat";
+import CCertificate from "./CCertificate";
 const studentStatus = [
   { label: "Active", value: "Active" },
   { label: "On Leave", value: "On Leave" },
@@ -41,7 +41,7 @@ const studentStatus = [
   { label: "Completed", value: "Completed" },
   { label: "Unknown", value: "Unknown" },
 ];
-function IssueTC() {
+function CharacterCertificate() {
   const dispatch = useDispatch();
   const [seno, setseno] = useState("");
   const [issuedlist, setissuedlist] = useState(false);
@@ -293,7 +293,7 @@ function IssueTC() {
               },
             }}
           >
-            <TCFormat setOpen={setopenTC} TcData={TcData} />
+            <CCertificate setOpen={setopenTC} TcData={TcData} />
           </Dialog>
         </div>
       )}
@@ -744,7 +744,7 @@ function IssueTC() {
                   setissuedlist(!issuedlist);
                 }}
               >
-                Issued Tc List
+                Issued Character rCertificate List
               </button>
             </div>
             <div className={styles.imgdivformat}></div>
@@ -871,4 +871,4 @@ function IssueTC() {
   );
 }
 
-export default IssueTC;
+export default CharacterCertificate;
