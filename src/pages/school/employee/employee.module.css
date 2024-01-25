@@ -10,6 +10,8 @@
 .imgdivformat {
   display: flex;
 }
+
+
 .imgdivformat img {
   width: 2rem;
 }
@@ -213,7 +215,7 @@
   justify-content: flex-end;
   color: black;
 }
-.opensearchinput10 {
+.opensearchinput{
   border: 1px solid #093959;
   padding: 0.2rem;
   padding-left: 1rem;
@@ -225,6 +227,8 @@
   color: black;
   width: 9rem;
 }
+
+
 .add_divmarginn {
   padding: 0.5rem;
 }
@@ -488,6 +492,7 @@
     /* padding: 10px;
         margin: 10px; */
   }
+
   .add_divmarginn {
     padding: 0.5rem;
   }

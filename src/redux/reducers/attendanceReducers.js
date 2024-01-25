@@ -21,19 +21,19 @@ export const MarkAttendanceReducer = (
   switch (action.type) {
     case MARK_ATTENDANCE_REQUEST:
       return {
-        Markloading: true,
+         loading: true,
       };
 
     case MARK_ATTENDANCE_SUCCESS:
       return {
         ...state,
-        Markloading: false,
+        loading: false,
         markattendance: action.payload,
       };
 
     case MARK_ATTENDANCE_FAIL:
       return {
-        Markloading: false,
+        loading: false,
         markattendance: null,
         error: action.payload,
       };

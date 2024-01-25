@@ -17,6 +17,7 @@ function AddSlider({ setOpen }) {
   const [loading, setloading] = useState(false);
   const [img1, setimg1] = useState("");
 
+
   const submit = async (e) => {
     e.preventDefault();
     setloading(true);
@@ -92,6 +93,7 @@ function AddSlider({ setOpen }) {
             )}
 
             <div className={styles.formdivvv_imf}>
+              
               <input
                 type="file"
                 onChange={(e) => {

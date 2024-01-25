@@ -12,6 +12,7 @@ import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
 const formData = new FormData();
 
+
 const studentStatus = [
   { label: "Active", value: "Active" },
   { label: "On Leave", value: "On Leave" },
@@ -188,16 +189,16 @@ function UpdateAdmission({ setOpen, updatedata }) {
         ? Number(onlyshowmonthfee) * 12
         : Number(monthlyfee) * 12
     );
-    formData.set(
-      "Studentpassword",
-      user?.data[0]?.Studentpassword
-        ? user?.data[0]?.Studentpassword
-        : "student"
-    );
-    formData.set(
-      "Parentpassword",
-      user?.data[0]?.Parentpassword ? user?.data[0]?.Parentpassword : "parent"
-    );
+    // formData.set(
+    //   "Studentpassword",
+    //   user?.data[0]?.Studentpassword
+    //     ? user?.data[0]?.Studentpassword
+    //     : "student"
+    // );
+    // formData.set(
+    //   "Parentpassword",
+    //   user?.data[0]?.Parentpassword ? user?.data[0]?.Parentpassword : "parent"
+    // );
 
     dispatch(Updatestudent(formData, setOpen));
   };

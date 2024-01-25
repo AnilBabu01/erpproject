@@ -448,12 +448,14 @@ function AddTest({ setOpen }) {
                                     name="option1"
                                     value={item.option1}
                                     onChange={(e) =>
+
                                       handleQuestionItemUpdate1(
                                         item,
                                         "option1",
                                         e.target.value
                                       )
                                     }
+                                    
                                   />
                                 </div>
                                 <div className={styles.inputdiv}>

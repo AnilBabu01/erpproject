@@ -336,6 +336,7 @@ function AddStudent() {
       <div className="mainContainer">
         <div>
           <div className={styles.topmenubar}>
+            
             <div className={styles.searchoptiondiv}>
               <form onSubmit={filterdata} className={styles.searchoptiondiv}>
                 <select
@@ -612,6 +613,7 @@ function AddStudent() {
               </form>
               <button onClick={() => reset()}>Reset</button>
             </div>
+
             <div className={styles.imgdivformat}>
               {/* <img
                 className={styles.imgdivformatimg}
