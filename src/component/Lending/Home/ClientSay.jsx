@@ -77,8 +77,8 @@ const ClientSay = () => {
         <div className={Style.clientSlider}>
         <Slider {...settings}
         >
-            {clientMessage.map((data) => (
-          <div>
+            {clientMessage.map((data,index) => (
+          <div key={index}>
               <div className={Style.clientSliderMessage}>
                 <div className={Style.commasImages}>
                   <img src="/images/upperComma.jpg" alt="" srcset="" />

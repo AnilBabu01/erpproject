@@ -1,15 +1,17 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
 import { useReactToPrint } from "react-to-print";
 import styles from "@/styles/loginguest.module.css";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
 import { toast } from "react-toastify";
 import moment from "moment";
+import { serverInstance } from "../../../API/ServerInstance";
+import { useSelector, useDispatch } from "react-redux";
+import { getstudent } from "../../../redux/actions/commanAction";
+import CircularProgress from "@mui/material/CircularProgress";
 function CCertificate({ setOpen, TcData }) {
+  const dispatch = useDispatch();
   const componentRef = useRef(null);
   const [data, setData] = React.useState({});
+  const [loading, setloading] = useState(false);
   const [organizationdata, setorganizationdata] = useState("");
   const { user } = useSelector((state) => state.auth);
 
@@ -26,10 +28,34 @@ function CCertificate({ setOpen, TcData }) {
     }
   }, [user]);
 
+  const issueCC = () => {
+    setloading(true);
+    serverInstance("student/IssueCC", "post", {
+      student: data,
+    }).then((res) => {
+      if (res?.status === true) {
+        toast.success(res?.msg, {
+          autoClose: 1000,
+        });
+        setOpen(false);
+
+        setloading(false);
+        dispatch(getstudent());
+      }
+      if (res?.status === false) {
+        toast.error(res?.msg, {
+          autoClose: 1000,
+        });
+
+        setloading(false);
+      }
+    });
+  };
+
   return (
     <div>
       <div className={styles.addpaddinreceipt}>
-        <div className={styles.optionDiv}>
+        <div className={styles.optionDivTCCSCER}>
           <button
             className={styles.actionbtn}
             onClick={() => {
@@ -40,8 +66,12 @@ function CCertificate({ setOpen, TcData }) {
             Back
           </button>
           <input className={styles.issueinput} type="text" />
-          <button className={styles.actionbtn} onClick={() => handlePrint()}>
-            Issue
+          <button className={styles.actionbtn} onClick={() => issueCC()}>
+            {loading ? (
+              <CircularProgress size={25} style={{ color: "red" }} />
+            ) : (
+              "Issue"
+            )}
           </button>
           <button className={styles.actionbtn} onClick={() => handlePrint()}>
             Print

@@ -12,6 +12,7 @@ function Addsection({ setOpen }) {
   const [section, setsection] = useState("");
   const [loading, setloading] = useState(false);
 
+  
   const submit = (e) => {
     e.preventDefault();
     setloading(true);

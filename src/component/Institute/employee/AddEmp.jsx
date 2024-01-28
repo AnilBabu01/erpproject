@@ -244,7 +244,7 @@ function AddEmp({ setOpen }) {
       formData,
       config
     );
-    console.log("add emp", data);
+  
     if (data?.status === true) {
       toast.success(data?.msg, {
         autoClose: 1000,

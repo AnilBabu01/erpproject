@@ -9,6 +9,7 @@ import { backendApiUrl } from "../../../config/config";
 import { toast } from "react-toastify";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
+
 const formData = new FormData();
 
 function UpdateEmp({ setOpen, updatedata }) {
@@ -117,6 +118,7 @@ function UpdateEmp({ setOpen, updatedata }) {
   const { designation } = useSelector((state) => state.getdesignation);
   const { department } = useSelector((state) => state.getpart);
   const { user } = useSelector((state) => state.auth);
+  
   const submit = async (e) => {
     e.preventDefault();
     

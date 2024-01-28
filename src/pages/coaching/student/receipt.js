@@ -61,7 +61,7 @@ function Receipt() {
   }, [user]);
 
   return (
-    <div className="mainContainer">
+    <div className="mainContainer widthmargin">
       <div className={styles.addpaddinreceipt}>
         <button className={styles.optionbtn} onClick={() => router.back()}>
           Back

@@ -761,8 +761,8 @@ function Balancefee() {
                     </tr>
                     {isdata?.map((item, index) => {
                       return (
-                        <tr>
-                          <td key={index} className={styles.tabletd}>
+                        <tr key={index}>
+                          <td  className={styles.tabletd}>
                             {item?.student?.Session}
                           </td>
                           <td className={styles.tabletd}>

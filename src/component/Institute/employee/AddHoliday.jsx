@@ -19,6 +19,7 @@ function AddHoliday({ setOpen }) {
   const { course } = useSelector((state) => state.getcourse);
   const { batch } = useSelector((state) => state.getbatch);
   const { user } = useSelector((state) => state.auth);
+  
   const submit = (e) => {
     e.preventDefault();
     try {

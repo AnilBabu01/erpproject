@@ -129,15 +129,6 @@ function ExpensesAnalysis() {
       setloading(false);
     }
   };
-  useEffect(() => {
-    dispatch(getstudent());
-    filterdata();
-  }, []);
-  useEffect(() => {
-    dispatch(loadUser());
-    dispatch(getstudent());
-    dispatch(GetSession());
-  }, []);
 
   const reset = () => {
     let date = new Date();
@@ -239,6 +230,51 @@ function ExpensesAnalysis() {
 
     exportFromJSON({ data, fileName, exportType });
   };
+
+  const totalcashTransferAmount = (data) => {
+    let total = 0;
+    alltransferamount?.map((item) => {
+      if (item?.Transfer_Mode === "Cash") {
+        total = total + Number(item?.total_amount);
+      }
+    });
+    return total;
+  };
+
+  const totalonlineTransferAmount = (data) => {
+    let total = 0;
+    alltransferamount?.map((item) => {
+      if (item?.Transfer_Mode === "Online") {
+        total = total + Number(item?.total_amount);
+      }
+    });
+    return total;
+  };
+  const [alltransferamount, setalltransferamount] = useState([]);
+  const GetTransferAmmountConslated = () => {
+    serverInstance("expenses/GetTransferAmmountConslated", "get").then(
+      (res) => {
+        if (res.status) {
+          setalltransferamount(res?.data);
+        }
+      }
+    );
+  };
+
+  console.log(
+    "all transfer amount",
+    totalcashTransferAmount(),
+    totalonlineTransferAmount()
+  );
+
+  useEffect(() => {
+    GetTransferAmmountConslated();
+    dispatch(getstudent());
+    filterdata();
+    dispatch(loadUser());
+    dispatch(getstudent());
+    dispatch(GetSession());
+  }, []);
   return (
     <>
       <div className="mainContainer">
@@ -440,17 +476,19 @@ function ExpensesAnalysis() {
 
                   <div>
                     <p>
-                      Cash Recovery - All Expenses = &nbsp;
+                      Total Cash = &nbsp;
                       <span className={styles.mainfivrupee10p}>
                         {totalcashrecovery(allRecoveryList) -
-                          totalcashexpenses(assetlist)}
+                          totalcashexpenses(assetlist) +
+                          totalcashTransferAmount()}
                       </span>
                     </p>
                     <p>
-                      Bank Recovery - All Expenses = &nbsp;
+                      Total Bank = &nbsp;
                       <span className={styles.mainfivrupee10p}>
                         {totalonlineexrecovery(allRecoveryList) -
-                          totalonlineexpenses(assetlist)}
+                          totalonlineexpenses(assetlist) +
+                          totalonlineTransferAmount()}
                       </span>
                     </p>
                     <p>

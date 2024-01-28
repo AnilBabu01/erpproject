@@ -233,6 +233,7 @@ function Attendance() {
       }
     );
   };
+  
   const saveAttendance = () => {
     const data = {
       data: attendancedetails,

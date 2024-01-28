@@ -93,7 +93,7 @@ const Footer = () => {
         <div className={styles.MainAddressDetails}>
           <h1>ABTECHZONE TEAM</h1>
           <div className={styles.footerAddress}>
-            <div>
+            {/* <div>
               <div className={styles.contactdetails}>
                 <span className={styles.contacticon}>
                   <a href="" >
@@ -104,7 +104,7 @@ const Footer = () => {
                 front of state bank pilibhit road branch , Bisalpur (Pilibhit),
                 UP-262201
               </div>
-            </div>
+            </div> */}
             <div>
               <div className={styles.contactdetails}>
                 <span className={styles.contacticon}>

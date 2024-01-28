@@ -1085,7 +1085,7 @@ export const getstudent =
     sessionname,
     sectionname,
     seno,
-    stream
+    stream,
   ) =>
   async (dispatch) => {
     try {
@@ -1243,6 +1243,7 @@ export const deleteEmployee = (deleteid, setOpenalert) => async (dispatch) => {
 };
 
 // Get all Enquiry
+
 export const getEmployee =
   (fromdate, todate, sstudent, status, empId, empdeparment, empdesination) =>
   async (dispatch) => {

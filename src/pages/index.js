@@ -87,14 +87,14 @@ export default function Home({ setOpen }) {
           href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
         />
 
-        <script
+        <scrip
           type="module"
           src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
-        ></script>
-        <script
+        />
+        <scrip
           nomodule
           src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
-        ></script>
+        />
       </Head>
       <div className="mainContainer">
         <div className={styles.mianguest}>
@@ -116,12 +116,12 @@ export default function Home({ setOpen }) {
             Get Started
           </button>
         </div>
-        {/* <Features /> */}
-        <FeatureRrp />
+        <Features />
+        {/* <FeatureRrp /> */}
         {/* <MainSlide /> */}
         <ClientSay />
         {/* footer call and main  */}
-        <div className={styles.contactDetail}>
+        {/* <div className={styles.contactDetail}>
           <div className={styles.mailContact}>
             <a href="mailto: abtechzone46@gmail.com" target="_blank">
               <div className={styles.contactImage}>
@@ -158,7 +158,7 @@ export default function Home({ setOpen }) {
           </div>
           <div className={styles.gapColum}></div>
           <div className={styles.gapColum}></div>
-        </div>
+        </div> */}
         <Footer />
       </div>
     </main>

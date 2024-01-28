@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../../../redux/actions/authActions";
 import {
   getEmployee,
-  deleteEmployee,
   getDepartment,
   getDesignation,
 } from "../../../redux/actions/commanAction";

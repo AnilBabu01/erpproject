@@ -11,7 +11,6 @@
   display: flex;
 }
 
-
 .imgdivformat img {
   width: 2rem;
 }
@@ -215,7 +214,7 @@
   justify-content: flex-end;
   color: black;
 }
-.opensearchinput{
+.opensearchinput {
   border: 1px solid #093959;
   padding: 0.2rem;
   padding-left: 1rem;
@@ -227,7 +226,6 @@
   color: black;
   width: 9rem;
 }
-
 
 .add_divmarginn {
   padding: 0.5rem;
@@ -367,51 +365,49 @@
   border: 1px solid #093959;
   padding: 0.5rem;
   height: 34rem;
-  
 }
 .innearexpensesdiv10 {
   width: 50%;
   border: 1px solid #093959;
   padding: 0.5rem;
   height: 34rem;
-
 }
-.onlytablescroll{
+.onlytablescroll {
   width: 100%;
   border: 1px solid #093959;
   padding: 0.5rem;
   height: 22rem;
   overflow-x: auto;
 }
-.mainfivrupee{
+.mainfivrupee {
   display: flex;
   justify-content: space-between;
 }
-.mainfivrupeep{
+.mainfivrupeep {
   font-weight: 700;
 }
 /* .mainfivrupee10{
   display: flex;
   justify-content: space-between;
 } */
-.mainfivrupee10p{
+.mainfivrupee10p {
   font-weight: 700;
 }
-.mainrecoveryp{
+.mainrecoveryp {
   background-color: #093959;
   color: white;
   padding: 1%;
 }
 
-.feeheader{
+.feeheader {
   background-color: #093959;
   color: white;
   padding: 1%;
   display: flex;
   justify-content: space-around;
 }
-.actionbtn{
-  background:#ffae01 ;
+.actionbtn {
+  background: #ffae01;
   color: white;
   border-radius: 6px;
   font-weight: 600;
@@ -419,14 +415,26 @@
   padding-left: 1rem;
   padding-right: 1rem;
 }
-.actionbtn:hover{
-  background:#093959 ;
+.actionbtn:hover {
+  background: #093959;
   color: white;
   border-radius: 6px;
   font-weight: 600;
   padding: 0.3rem;
   padding-left: 1rem;
   padding-right: 1rem;
+}
+.opensearchinput10 {
+  border: 1px solid #093959;
+  padding: 0.2rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: 5px;
+  margin-right: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  color: black;
+  width: 9rem;
 }
 @media (max-width: 730px) {
   .expensesDiv {

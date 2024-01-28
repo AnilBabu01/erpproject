@@ -275,6 +275,10 @@ function CharacterCertificate() {
     exportFromJSON({ data, fileName, exportType });
   };
 
+  const filterIssueCC = () => {
+    let filterdata = isdata?.filter((item) => item?.CCStatus != 0);
+    return filterdata;
+  };
   return (
     <>
       {openTC && (
@@ -532,13 +536,13 @@ function CharacterCertificate() {
                       })}
                     </select>
                     <input
-                  className={styles.opensearchinput10}
-                  type="text"
-                  placeholder="SNO"
-                  value={seno}
-                  name="seno}"
-                  onChange={(e) => setseno(e.target.value)}
-                />
+                      className={styles.opensearchinput10}
+                      type="text"
+                      placeholder="SNO"
+                      value={seno}
+                      name="seno}"
+                      onChange={(e) => setseno(e.target.value)}
+                    />
                     <input
                       className={styles.opensearchinput10}
                       type="text"
@@ -712,13 +716,13 @@ function CharacterCertificate() {
                       })}
                     </select>
                     <input
-                  className={styles.opensearchinput10}
-                  type="text"
-                  placeholder="SNO"
-                  value={seno}
-                  name="seno}"
-                  onChange={(e) => setseno(e.target.value)}
-                />
+                      className={styles.opensearchinput10}
+                      type="text"
+                      placeholder="SNO"
+                      value={seno}
+                      name="seno}"
+                      onChange={(e) => setseno(e.target.value)}
+                    />
                     <input
                       className={styles.opensearchinput10}
                       type="text"
@@ -771,7 +775,7 @@ function CharacterCertificate() {
                         <th className={styles.tableth}>Category</th>
                         <th className={styles.tableth}>Student_Status</th>
                       </tr>
-                      {isdata?.map((item, index) => {
+                      {filterIssueCC()?.map((item, index) => {
                         return (
                           <tr key={index} className={styles.tabletr}>
                             <td className={styles.tabletd}>{index + 1}</td>
@@ -852,7 +856,7 @@ function CharacterCertificate() {
                                 className={styles.actionbtn}
                                 onClick={() => handleClickOpenTC(item)}
                               >
-                                Issue TC
+                                Issue CC
                               </button>
                             </td>
                           </tr>

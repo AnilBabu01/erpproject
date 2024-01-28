@@ -185,6 +185,7 @@ function Addemployeeholiday() {
       console.log("holidays jus ", Holidays);
     }
   }, [student, batch, user, Holidays]);
+  
   const getHolidays = (month) => {
     serverInstance("EmployeeAttendance/getholidy", "post", {
       month: Number(month),

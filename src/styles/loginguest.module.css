@@ -157,6 +157,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  /* padding-left: 1%;
+  padding-right: 1%; */
+}
+
+.optionDivTCCSCER {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding-left: 1%;
   padding-right: 1%;
 }

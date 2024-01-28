@@ -2132,3 +2132,7 @@ input#donation-date {
 .slick-dots{
   font: 20px;
 }
+.widthmargin{
+  padding-left: 24%;
+  padding-right: 24%;
+}
