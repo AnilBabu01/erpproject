@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import styles from "@/styles/loginguest.module.css";
-import FeatureRrp from "../component/Lending/Home/FeatureRrp";
+// import FeatureRrp from "../component/Lending/Home/FeatureRrp";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "../redux/actions/authActions";
 import {
@@ -14,8 +14,8 @@ import {
 import Features from "@/component/Lending/Features/Features";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import Footer from "@/component/Lending/Home/Footer";
-import ClientSay from "@/component/Lending/Home/ClientSay";
+// import Footer from "@/component/Lending/Home/Footer";
+// import ClientSay from "@/component/Lending/Home/ClientSay";
 export default function Home({ setOpen }) {
   const dispatch = useDispatch();
   const navigate = useRouter();
@@ -119,7 +119,7 @@ export default function Home({ setOpen }) {
         <Features />
         {/* <FeatureRrp /> */}
         {/* <MainSlide /> */}
-        <ClientSay />
+        {/* <ClientSay /> */}
         {/* footer call and main  */}
         {/* <div className={styles.contactDetail}>
           <div className={styles.mailContact}>
@@ -159,7 +159,7 @@ export default function Home({ setOpen }) {
           <div className={styles.gapColum}></div>
           <div className={styles.gapColum}></div>
         </div> */}
-        <Footer />
+    
       </div>
     </main>
   );
