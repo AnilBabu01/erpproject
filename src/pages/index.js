@@ -75,26 +75,6 @@ export default function Home({ setOpen }) {
     <main>
       <Head>
         <title>Home</title>
-        <link
-          rel="stylesheet"
-          type="text/css"
-          charset="UTF-8"
-          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css"
-        />
-        <link
-          rel="stylesheet"
-          type="text/css"
-          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
-        />
-
-        <scrip
-          type="module"
-          src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
-        />
-        <scrip
-          nomodule
-          src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
-        />
       </Head>
       <div className="mainContainer">
         <div className={styles.mianguest}>
@@ -117,49 +97,6 @@ export default function Home({ setOpen }) {
           </button>
         </div>
         <Features />
-        {/* <FeatureRrp /> */}
-        {/* <MainSlide /> */}
-        {/* <ClientSay /> */}
-        {/* footer call and main  */}
-        {/* <div className={styles.contactDetail}>
-          <div className={styles.mailContact}>
-            <a href="mailto: abtechzone46@gmail.com" target="_blank">
-              <div className={styles.contactImage}>
-                <img src="/images/mail.jpg" alt="Mail" />
-              </div>
-            </a>
-            <div>
-              <a href="mailto: abtechzone46@gmail.com" target="_blank">
-                <div className={styles.contectText}>
-                  <p>Email us at</p>
-                </div>
-                <div className={styles.contectNumber}>
-                  <p>abtechzone46@gmail.com</p>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div className={styles.mailContact}>
-            <a href="https://wa.me/917505786956" target="_blank">
-              <div className={styles.contactImage}>
-                <img src="/images/whatsapp.jpg" alt="whatsApp" />
-              </div>
-            </a>
-            <div>
-              <a href="https://wa.me/917505786956" target="_blank">
-                <div className={styles.contectText}>
-                  <p>Whatsapp or Call us on</p>
-                </div>
-                <div className={styles.contectNumber}>
-                  <p>+91 7505786956</p>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div className={styles.gapColum}></div>
-          <div className={styles.gapColum}></div>
-        </div> */}
-    
       </div>
     </main>
   );
