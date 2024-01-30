@@ -9,7 +9,8 @@ import { useRouter } from "next/router";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useDispatch } from "react-redux";
 import Typography from "@mui/material/Typography";
-
+import Switch from "@mui/material/Switch";
+const label = { inputProps: { "aria-label": "Switch demo" } };
 function Addfee({ data, setOpen }) {
   const navigation = useRouter();
   const dispatch = useDispatch();
@@ -27,12 +28,28 @@ function Addfee({ data, setOpen }) {
   const [acadminArray, setacadminArray] = useState([]);
   const [hostelArray, sethostelArray] = useState([]);
   const [transportArray, settransportArray] = useState([]);
+
+  const [editotherfeearray, seteditotherfeearray] = useState([]);
+  const [editacadminArray, seteditacadminArray] = useState([]);
+  const [edithostelArray, setedithostelArray] = useState([]);
+  const [edittransportArray, setedittransportArray] = useState([]);
+
   const [feetype, setfeetype] = useState("");
   const [discount, setdiscount] = useState(false);
   const [showreceiptotions, setshowreceiptotions] = useState(false);
   const [receiptdata, setreceiptdata] = useState("");
   const [schoolfee, setschoolfee] = useState([]);
   const [addloading, setaddloading] = useState(false);
+
+  const [unlockfeeOptions, setunlockfeeOptions] = useState(false);
+
+  const handleChange = () => {
+    setunlockfeeOptions(!unlockfeeOptions);
+    seteditacadminArray([]);
+    setedithostelArray([]);
+    seteditotherfeearray([]);
+    setedittransportArray([]);
+  };
 
   var options = { year: "numeric", month: "short", day: "2-digit" };
   var today = new Date();
@@ -93,6 +110,7 @@ function Addfee({ data, setOpen }) {
   const addSchoolFee = () => {
     try {
       setaddloading(true);
+
       const datas = {
         id: data?.id,
         acadminArray: acadminArray,
@@ -100,6 +118,8 @@ function Addfee({ data, setOpen }) {
         feetype: "Academy Fee",
         PayOption: PayOption,
         paymentdate: paymentdate,
+        unlockfeeOptions: unlockfeeOptions,
+        editacadminArray: editacadminArray,
       };
 
       serverInstance("Student/addacadmyfee", "post", datas).then((res) => {
@@ -113,12 +133,15 @@ function Addfee({ data, setOpen }) {
           setOpen(false);
           setshowreceiptotions(true);
           setreceiptdata(res?.data[0]?.receiptdata);
-          navigation.push({
-            pathname: "/coaching/student/receipt",
-            query: {
-              receiptdata: JSON.stringify(res?.data),
-            },
-          });
+
+          if (res?.msg != "Academy Fee Edit Successfully!!") {
+            navigation.push({
+              pathname: "/coaching/student/receipt",
+              query: {
+                receiptdata: JSON.stringify(res?.data),
+              },
+            });
+          }
         }
 
         if (res?.status === false) {
@@ -144,6 +167,8 @@ function Addfee({ data, setOpen }) {
         feetype: "Hostel Fee",
         PayOption: PayOption,
         paymentdate: paymentdate,
+        unlockfeeOptions: unlockfeeOptions,
+        edithostelArray: edithostelArray,
       };
 
       serverInstance("Student/addhostelfee", "post", datas).then((res) => {
@@ -157,12 +182,15 @@ function Addfee({ data, setOpen }) {
           setOpen(false);
           setshowreceiptotions(true);
           setreceiptdata(res?.data[0]?.receiptdata);
-          navigation.push({
-            pathname: "/coaching/student/receipt",
-            query: {
-              receiptdata: JSON.stringify(res?.data),
-            },
-          });
+
+          if (res?.msg != "Academy Fee Edit Successfully!!") {
+            navigation.push({
+              pathname: "/coaching/student/receipt",
+              query: {
+                receiptdata: JSON.stringify(res?.data),
+              },
+            });
+          }
         }
 
         if (res?.status === false) {
@@ -188,6 +216,8 @@ function Addfee({ data, setOpen }) {
         feetype: "Transport Fee",
         PayOption: PayOption,
         paymentdate: paymentdate,
+        unlockfeeOptions: unlockfeeOptions,
+        edittransportArray: edittransportArray,
       };
 
       serverInstance("Student/addtransportfee", "post", datas).then((res) => {
@@ -201,12 +231,15 @@ function Addfee({ data, setOpen }) {
           setOpen(false);
           setshowreceiptotions(true);
           setreceiptdata(res?.data[0]?.receiptdata);
-          navigation.push({
-            pathname: "/coaching/student/receipt",
-            query: {
-              receiptdata: JSON.stringify(res?.data),
-            },
-          });
+
+          if (res?.msg != "Academy Fee Edit Successfully!!") {
+            navigation.push({
+              pathname: "/coaching/student/receipt",
+              query: {
+                receiptdata: JSON.stringify(res?.data),
+              },
+            });
+          }
         }
 
         if (res?.status === false) {
@@ -232,6 +265,8 @@ function Addfee({ data, setOpen }) {
         feetype: "Other Fee",
         PayOption: PayOption,
         paymentdate: paymentdate,
+        unlockfeeOptions: unlockfeeOptions,
+        editotherfeearray: editotherfeearray,
       };
 
       serverInstance("Student/addotherfee", "post", datas).then((res) => {
@@ -245,12 +280,15 @@ function Addfee({ data, setOpen }) {
           setOpen(false);
           setshowreceiptotions(true);
           setreceiptdata(res?.data[0]?.receiptdata);
-          navigation.push({
-            pathname: "/coaching/student/receipt",
-            query: {
-              receiptdata: JSON.stringify(res?.data),
-            },
-          });
+
+          if (res?.msg != "Academy Fee Edit Successfully!!") {
+            navigation.push({
+              pathname: "/coaching/student/receipt",
+              query: {
+                receiptdata: JSON.stringify(res?.data),
+              },
+            });
+          }
         }
 
         if (res?.status === false) {
@@ -307,7 +345,7 @@ function Addfee({ data, setOpen }) {
 
     return monthsOrder.indexOf(a.MonthName) - monthsOrder.indexOf(b.MonthName);
   };
-  
+
   const TotalOtherFee = (data) => {
     let total = 0;
     data?.map((item) => {
@@ -321,6 +359,8 @@ function Addfee({ data, setOpen }) {
   useEffect(() => {
     setpaymentdate(new Date().toISOString().substring(0, 10));
   }, []);
+
+  console.log("edit data is", acadminArray, editacadminArray);
 
   return (
     <>
@@ -366,6 +406,7 @@ function Addfee({ data, setOpen }) {
                       sethostelfee(false);
                       settransport(false);
                       setothersfee(false);
+                      setunlockfeeOptions(false);
                     }}
                   >
                     Academin Fee
@@ -378,6 +419,7 @@ function Addfee({ data, setOpen }) {
                           sethostelfee(true);
                           settransport(false);
                           setothersfee(false);
+                          setunlockfeeOptions(false);
                         }}
                         className={
                           hostelfee
@@ -398,6 +440,7 @@ function Addfee({ data, setOpen }) {
                           sethostelfee(false);
                           settransport(true);
                           setothersfee(false);
+                          setunlockfeeOptions(false);
                         }}
                         className={
                           transport
@@ -416,6 +459,7 @@ function Addfee({ data, setOpen }) {
                       sethostelfee(false);
                       settransport(false);
                       setothersfee(true);
+                      setunlockfeeOptions(false);
                     }}
                     className={
                       othersfee
@@ -425,17 +469,8 @@ function Addfee({ data, setOpen }) {
                   >
                     Others Fee
                   </button>
-                  {/* 
-                  <input
-                    className={styles.searchinput}
-                    placeholder="Search By SNO"
-                    value={SrNumber}
-                    name="SrNumber"
-                    onChange={(e) => setSrNumber(e.target.value)}
-                  />
-                  <button onClick={()=>getstudentfee()} className={styles.searchbtnactiveforpay}>
-                    Search
-                  </button> */}
+
+                  <Switch {...label} onChange={handleChange} />
                 </div>
 
                 <div className={styles.mainbtnndivcancel10}>
@@ -464,7 +499,8 @@ function Addfee({ data, setOpen }) {
                                       </th>
 
                                       <th className={styles.tableth}>
-                                        {item?.paidStatus === true ? (
+                                        {item?.paidStatus === true &&
+                                        unlockfeeOptions === false ? (
                                           <>
                                             <input
                                               type="checkbox"
@@ -499,18 +535,40 @@ function Addfee({ data, setOpen }) {
                                                 let updatedList = [
                                                   ...acadminArray,
                                                 ];
+
+                                                let editacadminList = [
+                                                  ...editacadminArray,
+                                                ];
+
                                                 if (e.target.checked) {
                                                   updatedList = [
                                                     ...acadminArray,
                                                     item,
                                                   ];
+
+                                                  editacadminList.splice(
+                                                    checked.indexOf(item),
+                                                    1
+                                                  );
                                                 } else {
                                                   updatedList.splice(
                                                     checked.indexOf(item),
                                                     1
                                                   );
+
+                                                  editacadminList = [
+                                                    ...editacadminArray,
+                                                    item,
+                                                  ];
                                                 }
                                                 setacadminArray(updatedList);
+                                                seteditacadminArray(
+                                                  editacadminList
+                                                );
+
+                                                console.log(
+                                                  "Click on second input box"
+                                                );
                                               }}
                                             />
                                           </>
@@ -584,6 +642,15 @@ function Addfee({ data, setOpen }) {
                                           parseFloat(PerMonthFee),
                                         0
                                       )
+                                  ) +
+                                  Number(
+                                    editacadminArray &&
+                                      editacadminArray?.reduce(
+                                        (n, { PerMonthFee }) =>
+                                          parseFloat(n) +
+                                          parseFloat(PerMonthFee),
+                                        0
+                                      )
                                   )}
                               </p>
                             </div>
@@ -645,8 +712,10 @@ function Addfee({ data, setOpen }) {
                                   size={25}
                                   style={{ color: "red" }}
                                 />
-                              ) : (
+                              ) : unlockfeeOptions === false ? (
                                 "Save"
+                              ) : (
+                                "Update"
                               )}
                             </button>
                           </div>
@@ -680,7 +749,8 @@ function Addfee({ data, setOpen }) {
                                       </th>
 
                                       <th className={styles.tableth}>
-                                        {item?.paidStatus === true ? (
+                                        {item?.paidStatus === true &&
+                                        unlockfeeOptions === false ? (
                                           <>
                                             <input
                                               type="checkbox"
@@ -715,18 +785,35 @@ function Addfee({ data, setOpen }) {
                                                 let updatedList = [
                                                   ...hostelArray,
                                                 ];
+
+                                                let edithostelist = [
+                                                  ...editacadminArray,
+                                                ];
+
                                                 if (e.target.checked) {
                                                   updatedList = [
                                                     ...hostelArray,
                                                     item,
                                                   ];
+                                                  edithostelist.splice(
+                                                    checked.indexOf(item),
+                                                    1
+                                                  );
                                                 } else {
                                                   updatedList.splice(
                                                     checked.indexOf(item),
                                                     1
                                                   );
+
+                                                  edithostelist = [
+                                                    ...edithostelArray,
+                                                    item,
+                                                  ];
                                                 }
                                                 sethostelArray(updatedList);
+                                                setedithostelArray(
+                                                  edithostelist
+                                                );
                                               }}
                                             />
                                           </>
@@ -800,6 +887,15 @@ function Addfee({ data, setOpen }) {
                                           parseFloat(PerMonthFee),
                                         0
                                       )
+                                  ) +
+                                  Number(
+                                    edithostelArray &&
+                                      edithostelArray?.reduce(
+                                        (n, { PerMonthFee }) =>
+                                          parseFloat(n) +
+                                          parseFloat(PerMonthFee),
+                                        0
+                                      )
                                   )}
                               </p>
                             </div>
@@ -861,8 +957,10 @@ function Addfee({ data, setOpen }) {
                                   size={25}
                                   style={{ color: "red" }}
                                 />
-                              ) : (
+                              ) : unlockfeeOptions === false ? (
                                 "Save"
+                              ) : (
+                                "Update"
                               )}
                             </button>
                           </div>
@@ -895,7 +993,8 @@ function Addfee({ data, setOpen }) {
                                       </th>
 
                                       <th className={styles.tableth}>
-                                        {item?.paidStatus === true ? (
+                                        {item?.paidStatus === true &&
+                                        unlockfeeOptions === false ? (
                                           <>
                                             <input
                                               type="checkbox"
@@ -913,18 +1012,34 @@ function Addfee({ data, setOpen }) {
                                                 let updatedList = [
                                                   ...transportArray,
                                                 ];
+
+                                                let edittransportList = [
+                                                  ...edittransportArray,
+                                                ];
+
                                                 if (e.target.checked) {
                                                   updatedList = [
                                                     ...transportArray,
                                                     item,
                                                   ];
+                                                  edittransportList.splice(
+                                                    checked.indexOf(item),
+                                                    1
+                                                  );
                                                 } else {
                                                   updatedList.splice(
                                                     checked.indexOf(item),
                                                     1
                                                   );
+                                                  edittransportList = [
+                                                    ...edittransportArray,
+                                                    item,
+                                                  ];
                                                 }
                                                 settransportArray(updatedList);
+                                                setedittransportArray(
+                                                  edittransportList
+                                                );
                                               }}
                                             />
                                           </>
@@ -998,6 +1113,15 @@ function Addfee({ data, setOpen }) {
                                           parseFloat(PerMonthFee),
                                         0
                                       )
+                                  ) +
+                                  Number(
+                                    edittransportArray &&
+                                    edittransportArray?.reduce(
+                                        (n, { PerMonthFee }) =>
+                                          parseFloat(n) +
+                                          parseFloat(PerMonthFee),
+                                        0
+                                      )
                                   )}
                               </p>
                             </div>
@@ -1059,8 +1183,10 @@ function Addfee({ data, setOpen }) {
                                   size={25}
                                   style={{ color: "red" }}
                                 />
-                              ) : (
+                              ) : unlockfeeOptions === false ? (
                                 "Save"
+                              ) : (
+                                "Update"
                               )}
                             </button>
                           </div>
@@ -1092,7 +1218,8 @@ function Addfee({ data, setOpen }) {
                                     </th>
 
                                     <th className={styles.tableth}>
-                                      {item?.PaidStatus === true ? (
+                                      {item?.PaidStatus === true &&
+                                      unlockfeeOptions === false ? (
                                         <>
                                           <input
                                             type="checkbox"
@@ -1110,18 +1237,35 @@ function Addfee({ data, setOpen }) {
                                               let updatedList = [
                                                 ...otherfeearray,
                                               ];
+
+                                              let editotherfee = [
+                                                ...editotherfeearray,
+                                              ];
+
                                               if (e.target.checked) {
                                                 updatedList = [
                                                   ...otherfeearray,
                                                   item,
                                                 ];
+                                                editotherfee.splice(
+                                                  checked.indexOf(item),
+                                                  1
+                                                );
                                               } else {
                                                 updatedList.splice(
                                                   checked.indexOf(item),
                                                   1
                                                 );
+
+                                                editotherfee = [
+                                                  ...editotherfeearray,
+                                                  item,
+                                                ];
                                               }
                                               setotherfeearray(updatedList);
+                                              seteditotherfeearray(
+                                                editotherfee
+                                              );
                                             }}
                                           />
                                         </>
@@ -1177,6 +1321,14 @@ function Addfee({ data, setOpen }) {
                                   Number(
                                     otherfeearray &&
                                       otherfeearray?.reduce(
+                                        (n, { FeeAmount }) =>
+                                          parseFloat(n) + parseFloat(FeeAmount),
+                                        0
+                                      )
+                                  ) +
+                                  Number(
+                                    editotherfeearray &&
+                                      editotherfeearray?.reduce(
                                         (n, { FeeAmount }) =>
                                           parseFloat(n) + parseFloat(FeeAmount),
                                         0
@@ -1242,8 +1394,10 @@ function Addfee({ data, setOpen }) {
                                   size={25}
                                   style={{ color: "red" }}
                                 />
-                              ) : (
+                              ) : unlockfeeOptions === false ? (
                                 "Save"
+                              ) : (
+                                "Update"
                               )}
                             </button>
                           </div>
@@ -1261,7 +1415,7 @@ function Addfee({ data, setOpen }) {
                       type="radio"
                       value={"Cash"}
                       name="same"
-                      id='cashid'
+                      id="cashid"
                       checked={PayOption === "Cash"}
                       onChange={(e) => setPayOption(e.target.value)}
                     />
@@ -1275,18 +1429,17 @@ function Addfee({ data, setOpen }) {
                       id="online"
                       onChange={(e) => setPayOption(e.target.value)}
                     />
-                    <label  htmlFor="online">Online</label>
+                    <label htmlFor="online">Online</label>
                   </div>
                 </div>
 
-                <h1 >Registration And Annual Fee</h1>
+                <h1>Registration And Annual Fee</h1>
                 {/* <div className={styles.regisFeepayDiv}> */}
                 <div className={styles.regisFeepayDiv}>
                   <div className={styles.regisFeepayDivinnear}>
                     {data?.Registrationfeestatus === true ? (
                       <>
                         <input
-                     
                           type="checkbox"
                           value={"Registration"}
                           disabled={true}
@@ -1317,13 +1470,15 @@ function Addfee({ data, setOpen }) {
                       </>
                     )}
 
-                    <label htmlFor="Registration">Registration Fee ({data?.regisgrationfee})</label>
+                    <label htmlFor="Registration">
+                      Registration Fee ({data?.regisgrationfee})
+                    </label>
                   </div>
                   <div className={styles.regisFeepayDivinnear}>
                     {data?.AnnualFeeStatus === true ? (
                       <>
                         <input
-                        id="Registration"
+                          id="Registration"
                           type="checkbox"
                           value={"Annual"}
                           disabled={true}
@@ -1340,7 +1495,6 @@ function Addfee({ data, setOpen }) {
                     ) : (
                       <>
                         <input
-                        
                           type="checkbox"
                           id="Annual"
                           value={"Annual"}
@@ -1355,7 +1509,9 @@ function Addfee({ data, setOpen }) {
                       </>
                     )}
 
-                    <label htmlFor="Annual">Annual Fee ({data?.AnnualFee})</label>
+                    <label htmlFor="Annual">
+                      Annual Fee ({data?.AnnualFee})
+                    </label>
                   </div>
                 </div>
                 {/* </div> */}

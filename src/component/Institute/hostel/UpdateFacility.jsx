@@ -50,7 +50,7 @@ function UpdateFacility({ updatedata, setOpen }) {
         <h1>Update Facility</h1>
         <form onSubmit={submit}>
           <div className={styles.divmaininput}>
-            <div className={styles.inputdiv}>
+            <div className={styles.inputdiv20}>
               <label>Facility</label>
               <input
                 type="text"

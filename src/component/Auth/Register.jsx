@@ -20,6 +20,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { indiaStatesData } from "./StaticData";
 import Select1 from "react-select";
 
+
 const customStyles = {
   control: (provided, state) => ({
     ...provided,
