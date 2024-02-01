@@ -447,7 +447,7 @@ function Addstudent() {
                 <input
                   className={styles.opensearchinput10}
                   type="text"
-                  placeholder="SNO"
+                  placeholder="SRNO"
                   value={sno}
                   name="sno"
                   onChange={(e) => setsno(e.target.value)}
@@ -479,7 +479,7 @@ function Addstudent() {
                   <tr className={styles.tabletr}>
                     <th className={styles.tableth}>Sr.No</th>
                     <th className={styles.tableth}>Session</th>
-                    <th className={styles.tableth}>SNO</th>
+                    <th className={styles.tableth}>SRNO</th>
                     <th className={styles.tableth}>Roll_No</th>
                     <th className={styles.tableth}>Section</th>
                     <th className={styles.tableth}>Student_Name</th>

@@ -544,7 +544,7 @@ function Issuereturn() {
                   <input
                     className={styles.opensearchinput10}
                     type="text"
-                    placeholder="SNO"
+                    placeholder="SRNO"
                     value={sno}
                     name="sno"
                     onChange={(e) => setsno(e.target.value)}
@@ -779,7 +779,7 @@ function Issuereturn() {
                   <input
                     className={styles.opensearchinput10}
                     type="text"
-                    placeholder="SNO"
+                    placeholder="SRNO"
                     value={sno}
                     name="sno"
                     onChange={(e) => setsno(e.target.value)}

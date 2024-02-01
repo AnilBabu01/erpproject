@@ -110,6 +110,7 @@ function Attendance() {
   const [sectionname, setsectionname] = useState("NONE");
   const [sectionlist, setsectionlist] = useState([]);
   const [cureentdate, setcureentdate] = useState("");
+  const [showmoredetails, setshowmoredetails] = useState(false);
   const [takeatten, settakeatten] = useState(true);
   const [todatatten, settodatatten] = useState(false);
   const [Analysisatten, setAnalysisatten] = useState(false);
@@ -148,7 +149,6 @@ function Attendance() {
     new Date()?.toISOString().slice(0, 16)
   );
 
-  console.log("date is date ", minDateTime);
   const {
     Markloading,
     markattendance,
@@ -237,12 +237,26 @@ function Attendance() {
   useEffect(() => {
     var currentDate = new Date();
 
-    // Get the date number (day of the month)
     var dateNumber = currentDate.getDate();
-
-    // console.log(dateNumber);
-    // setcureentdate(dateNumber);
   }, []);
+
+  const calculateAbsentorPresent = (attendanceArray, status) => {
+    let newdate = new Date();
+
+    console.log("data is", attendanceArray, status);
+
+    const filteredData =
+      attendanceArray?.monthNumber === Number(new Date().getMonth()) + 1
+        ? attendanceArray?.slice(
+            0,
+            Number(new Date()?.toISOString().substring(8, 10))
+          )
+        : attendanceArray?.filter(
+            (entry) => entry?.attendaceStatusIntext === status
+          );
+
+    return filteredData?.length;
+  };
 
   return (
     <>
@@ -606,7 +620,11 @@ function Attendance() {
                     <tbody>
                       <tr className={styles.tabletr}>
                         <th className={styles.tableth}>Sr.No</th>
-                        <th className={styles.tableth}>Roll&lsquo;No</th>
+                        <th className={styles.tableth}>
+                          Roll
+                          <br />
+                          No
+                        </th>
                         <th className={styles.tableth}>Student&lsquo;Name</th>
                         <th className={styles.tableth}>Father&apos;s Name</th>
                         <th className={styles.tableth}>Class</th>
@@ -678,6 +696,16 @@ function Attendance() {
           </div>
           {Analysisatten && (
             <>
+              <div className={styles.moredetails}>
+                <input
+                  id="showmore"
+                  type="checkbox"
+                  setshowmoredetails
+                  checked={showmoredetails}
+                  onChange={(e) => setshowmoredetails(!showmoredetails)}
+                />
+                <label htmlFor="showmore">Show more details</label>
+              </div>
               <div className={styles.add_divmarginn10}>
                 <div className={styles.tablecontainer}>
                   {Analysisatten && (
@@ -685,13 +713,22 @@ function Attendance() {
                       <table className={styles.tabletable}>
                         <tbody>
                           <tr className={styles.tabletr}>
-                            <th className={styles.tableth10}>Roll_Number</th>
-                            <th className={styles.tableth10}>Name</th>
                             <th className={styles.tableth10}>
-                              Father&apos;s&lsquo;Name
+                              Roll
+                              <br />
+                              No
                             </th>
-                            <th className={styles.tableth10}>Class</th>
-                            <th className={styles.tableth10}>Month</th>
+                            <th className={styles.tableth10}>Name</th>
+                            {showmoredetails && (
+                              <>
+                                <th className={styles.tableth10}>
+                                  Father&apos;s&lsquo;Name
+                                </th>
+                                <th className={styles.tableth10}>Class</th>
+                                <th className={styles.tableth10}>Month</th>
+                              </>
+                            )}
+
                             {monthly[0]?.days?.map((item, index) => {
                               return (
                                 <th key={index} className={styles.tableth}>
@@ -699,6 +736,12 @@ function Attendance() {
                                 </th>
                               );
                             })}
+                            {showmoredetails && (
+                              <>
+                                <th className={styles.tableth10}>Absent</th>
+                                <th className={styles.tableth10}>Present</th>
+                              </>
+                            )}
                           </tr>
                           {monthly &&
                             monthly?.map((item, index) => {
@@ -710,60 +753,82 @@ function Attendance() {
                                   <td className={styles.tabletd}>
                                     {item?.student?.name}
                                   </td>
-                                  <td className={styles.tabletd}>
-                                    {item?.student?.fathersName}
-                                  </td>
-                                  <td className={styles.tabletd}>
-                                    {item?.student?.courseorclass}
-                                  </td>
-                                  <td className={styles.tabletd}>
-                                    {monthnamelist[month?.toString()]}
-                                  </td>
+                                  {showmoredetails && (
+                                    <>
+                                      <td className={styles.tabletd}>
+                                        {item?.student?.fathersName}
+                                      </td>
+                                      <td className={styles.tabletd}>
+                                        {item?.student?.courseorclass}
+                                      </td>
+                                      <td className={styles.tabletd}>
+                                        {monthnamelist[month?.toString()]}
+                                      </td>
+                                    </>
+                                  )}
 
                                   {item?.attendance != null &&
-                                    item?.attendance
-                                      ?.slice(
-                                        0,
-                                        Number(
-                                          new Date()
-                                            ?.toISOString()
-                                            .substring(8, 10)
+                                    (item?.attendance[0]?.monthNumber ===
+                                    Number(new Date().getMonth()) + 1
+                                      ? item?.attendance?.slice(
+                                          0,
+                                          Number(
+                                            new Date()
+                                              ?.toISOString()
+                                              .substring(8, 10)
+                                          )
                                         )
-                                      )
-                                      ?.map((item, index) => {
-                                        return (
-                                          
-                                          <td
-                                            key={index}
-                                            className={styles.tabletd}
+                                      : item?.attendance
+                                    )?.map((item, index) => {
+                                      return (
+                                        <td
+                                          key={index}
+                                          className={styles.tabletd}
+                                        >
+                                          <button
+                                            className={
+                                              item?.attendaceStatus ===
+                                              "Present"
+                                                ? styles.presentbtn
+                                                : item?.attendaceStatusIntext ===
+                                                  "Absent"
+                                                ? styles.absentbtn
+                                                : styles.holdaybtn
+                                            }
                                           >
-                                            <button
-                                              className={
-                                                item?.attendaceStatus ===
-                                                "Present"
-                                                  ? styles.presentbtn
-                                                  : item?.attendaceStatusIntext ===
-                                                    "Absent"
-                                                  ? styles.absentbtn
-                                                  : styles.holdaybtn
-                                              }
-                                            >
-                                              {item?.attendaceStatusIntext ===
-                                                "Present" && <>P</>}
-                                              {item?.attendaceStatusIntext ===
-                                                "Absent" && <>A</>}
-                                              {item?.attendaceStatusIntext ===
-                                                "Holiday" && <>H</>}
-                                              {item?.attendaceStatusIntext ===
-                                                "Unknown" && <>L</>}
-                                              {item?.attendaceStatusIntext ===
-                                                "Left In Middle" && <>L</>}
-                                              {item?.attendaceStatusIntext ===
-                                                "On Leave" && <>L</>}
-                                            </button>
-                                          </td>
-                                        );
-                                      })}
+                                            {item?.attendaceStatusIntext ===
+                                              "Present" && <>P</>}
+                                            {item?.attendaceStatusIntext ===
+                                              "Absent" && <>A</>}
+                                            {item?.attendaceStatusIntext ===
+                                              "Holiday" && <>H</>}
+                                            {item?.attendaceStatusIntext ===
+                                              "Unknown" && <>L</>}
+                                            {item?.attendaceStatusIntext ===
+                                              "Left In Middle" && <>L</>}
+                                            {item?.attendaceStatusIntext ===
+                                              "On Leave" && <>L</>}
+                                          </button>
+                                        </td>
+                                      );
+                                    })}
+
+                                  {showmoredetails && (
+                                    <>
+                                      <td className={styles.tabletd}>
+                                        {calculateAbsentorPresent(
+                                          item?.attendance,
+                                          "Absent"
+                                        )}
+                                      </td>
+                                      <td className={styles.tabletd}>
+                                        {calculateAbsentorPresent(
+                                          item?.attendance,
+                                          "Present"
+                                        )}
+                                      </td>
+                                    </>
+                                  )}
                                 </tr>
                               );
                             })}

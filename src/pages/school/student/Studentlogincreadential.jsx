@@ -157,7 +157,7 @@ function Studentlogincreadential() {
         Section: item?.Section,
         "Roll Number": item?.rollnumber,
         Student_Name: item?.name,
-        "SNO (Login Id)": item?.SrNumber,
+        "SRNO (Login Id)": item?.SrNumber,
         Password:moment(item?.admissionDate).format("MM/DD/YYYY"),
       });
     });
@@ -418,7 +418,7 @@ function Studentlogincreadential() {
                     <th className={styles.tableth}>Roll No</th>
                     <th className={styles.tableth}>Section</th>
                     <th className={styles.tableth}>Student_Name</th>
-                    <th className={styles.tableth}>SNO (Login Id)</th>
+                    <th className={styles.tableth}>SRNO (Login Id)</th>
                     <th className={styles.tableth}>Password</th>
                   </tr>
                   {isdata?.map((item, index) => {

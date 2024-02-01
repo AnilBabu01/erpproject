@@ -1036,7 +1036,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       }
                       href="/coaching/student/studenthistory"
                     >
-                      Student History
+                      Student Filter
                     </Link>
                   </MenuItem>
                   <Divider sx={{ my: 0.5 }} />
@@ -1704,7 +1704,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       }
                       href="/coaching/student/studenthistory"
                     >
-                      Student History
+                      Student Filter
                     </Link>
                   </MenuItem>
                   <Divider sx={{ my: 0.5 }} />
@@ -2332,7 +2332,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       }
                       href="/school/student/Studenthistory"
                     >
-                      Student History
+                      Student Filter
                     </Link>
                   </MenuItem>
                   <Divider sx={{ my: 0.5 }} />
@@ -3322,7 +3322,7 @@ function Navbar({ open, setOpen, setLoadingshow }) {
                       }
                       href="/coaching/student/studenthistory"
                     >
-                      Student History
+                      Student Filter
                     </Link>
                   </MenuItem>
                   <Divider sx={{ my: 0.5 }} />

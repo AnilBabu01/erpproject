@@ -3,6 +3,7 @@
   border-top: 1px solid #093959;
   margin-top: 0.2rem;
   display: flex;
+  flex-flow: wrap;
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
@@ -25,7 +26,7 @@
   background-color: green;
   border: 1px solid #dddddd;
   text-align: center;
-  padding: 8px;
+  /* padding: 8px; */
 }
 .showfathersname label {
   margin-left: 0.5rem;
@@ -45,6 +46,16 @@
 .inputdivimg10 img {
   width: 100%;
   height: 10rem;
+}
+
+.moredetails {
+  display: flex;
+  justify-content: end;
+  padding-right: 1%;
+}
+
+.moredetails input {
+  margin-right:0.5%;
 }
 .addtopmenubar {
   border-bottom: 1px solid #093959;
@@ -140,7 +151,7 @@
   color: white;
   background: yellowgreen;
   font-weight: 300;
-  width: 2rem;
+  width: 1rem;
   border-radius: 5px;
   margin-right: 0.5rem;
 }
@@ -148,7 +159,7 @@
   color: white;
   background: red;
   font-weight: 300;
-  width: 2rem;
+  width: 1rem;
   border-radius: 5px;
   margin-right: 0.5rem;
 }
@@ -156,7 +167,7 @@
   color: white;
   background: green;
   font-weight: 300;
-  width: 2rem;
+  width: 1rem;
   border-radius: 5px;
   margin-right: 0.5rem;
 }
@@ -253,10 +264,11 @@
 .tableth10 {
   border: 1px solid #dddddd;
   text-align: center;
-  width: 10rem !important;
+  /* width: 10rem !important;
   padding-left: 4rem;
-  padding-right: 5rem;
+  padding-right: 5rem; */
 }
+
 
 .tabletr:nth-child(even) {
   background-color: #dddddd;

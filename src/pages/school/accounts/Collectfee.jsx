@@ -227,7 +227,7 @@ function Collectfee() {
     dispatch(getCourseDuration());
     dispatch(GetSection());
     dispatch(GetSession());
-    dispatch(  getcurrentsession());
+    dispatch(getcurrentsession());
   }, []);
 
   const filterdata = (e) => {
@@ -506,7 +506,7 @@ function Collectfee() {
                 <input
                   className={styles.opensearchinput10}
                   type="text"
-                  placeholder="SNO"
+                  placeholder="SRNO"
                   value={seno}
                   name="seno}"
                   onChange={(e) => setseno(e.target.value)}
@@ -551,7 +551,7 @@ function Collectfee() {
                 <tbody>
                   <tr className={styles.tabletr}>
                     <th className={styles.tableth}>Session</th>
-                    <th className={styles.tableth}>SNO</th>
+                    <th className={styles.tableth}>SRNO</th>
                     <th className={styles.tableth}>Roll_No</th>
                     <th className={styles.tableth}>Student_Name</th>
                     {showfathers && (
@@ -559,8 +559,9 @@ function Collectfee() {
                         <th className={styles.tableth}>Fathers_Name</th>
                       </>
                     )}
-                    <th className={styles.tableth}>Adminssion_Date</th>
+                    {/* <th className={styles.tableth}>Adminssion_Date</th> */}
                     <th className={styles.tableth}>Addmission_Fee</th>
+                    <th className={styles.tableth}>Registration_Fee</th>
                     <th className={styles.tableth}>Annual_Fee</th>
                     {/* <th className={styles.tableth}>Status</th> */}
                     <th className={styles.tableth}>Academy_Fee</th>
@@ -595,20 +596,23 @@ function Collectfee() {
                             </td>
                           </>
                         )}
+
                         <td className={styles.tabletd}>
-                          {moment(item?.admissionDate).format("MM/DD/YYYY")}
+                          {item?.admissionfeeStatus == true
+                            ? `Paid (${item?.admissionfee})`
+                            : `Dues (${item?.admissionfee})`}
                         </td>
                         <td className={styles.tabletd}>
                           {item?.Registrationfeestatus == true
                             ? `Paid (${item?.regisgrationfee})`
-                            : item?.regisgrationfee}
+                            : `Dues (${item?.regisgrationfee})`}
                         </td>
                         <td className={styles.tabletd}>
                           {item?.AnnualFeeStatus == true
                             ? `Paid (${item?.AnnualFee})`
-                            : item?.AnnualFee}
+                            : `Dues (${item?.AnnualFee})`}
                         </td>
-                        {/* <td className={styles.tabletd}>{item?.Status}</td> */}
+
                         <td className={styles.tabletd}>
                           {item?.studentTotalFee}
                         </td>
@@ -651,7 +655,7 @@ function Collectfee() {
                                   : styles.tabkedddimgdisable
                               }
                               onClick={() => ClickOpenupdate(item)}
-                              src="/images/payicons.png"
+                              src="/images/payimg.png"
                               alt="imgss"
                             />
                           </button>

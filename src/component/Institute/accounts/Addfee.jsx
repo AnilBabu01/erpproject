@@ -18,6 +18,7 @@ function Addfee({ data, setOpen }) {
   const [paymentdate, setpaymentdate] = useState("");
   const [PayOption, setPayOption] = useState("Cash");
   const [annualfee, setannualfee] = useState("");
+  const [admissionfee, setadmissionfee] = useState("");
   const [checked, setChecked] = useState([]);
   const [montharray, setmontharray] = useState([]);
   const [acadminfee, setacadminfee] = useState(true);
@@ -28,14 +29,11 @@ function Addfee({ data, setOpen }) {
   const [acadminArray, setacadminArray] = useState([]);
   const [hostelArray, sethostelArray] = useState([]);
   const [transportArray, settransportArray] = useState([]);
-
   const [editotherfeearray, seteditotherfeearray] = useState([]);
   const [editacadminArray, seteditacadminArray] = useState([]);
   const [edithostelArray, setedithostelArray] = useState([]);
   const [edittransportArray, setedittransportArray] = useState([]);
-
   const [feetype, setfeetype] = useState("");
-  const [discount, setdiscount] = useState(false);
   const [showreceiptotions, setshowreceiptotions] = useState(false);
   const [receiptdata, setreceiptdata] = useState("");
   const [schoolfee, setschoolfee] = useState([]);
@@ -69,6 +67,7 @@ function Addfee({ data, setOpen }) {
         id: data?.id,
         feetype: feetype,
         annualfee: annualfee,
+        admissionfee: admissionfee,
         PayOption: PayOption,
         paymentdate: paymentdate,
       };
@@ -392,7 +391,9 @@ function Addfee({ data, setOpen }) {
           </>
         ) : (
           <>
-            {data?.Registrationfeestatus && data?.AnnualFeeStatus ? (
+            {data?.Registrationfeestatus &&
+            data?.AnnualFeeStatus &&
+            data?.admissionfeeStatus ? (
               <>
                 <div className={styles.paybtndiv}>
                   <button
@@ -409,7 +410,7 @@ function Addfee({ data, setOpen }) {
                       setunlockfeeOptions(false);
                     }}
                   >
-                    Academin Fee
+                    Academic Fee
                   </button>
                   {data?.hostal === true && (
                     <>
@@ -575,9 +576,19 @@ function Addfee({ data, setOpen }) {
                                         )}
                                       </th>
                                       <th className={styles.tableth}>
-                                        {item?.paidStatus === true
-                                          ? "Paid"
-                                          : "Dues"}
+                                        {item?.paidStatus === true ? (
+                                          <span
+                                            className={styles.paidtextColor}
+                                          >
+                                            Paid{" "}
+                                          </span>
+                                        ) : (
+                                          <span
+                                            className={styles.DuestextColor}
+                                          >
+                                            Dues
+                                          </span>
+                                        )}
                                       </th>
                                     </tr>
                                   );
@@ -820,9 +831,19 @@ function Addfee({ data, setOpen }) {
                                         )}
                                       </th>
                                       <th className={styles.tableth}>
-                                        {item?.paidStatus === true
-                                          ? "Paid"
-                                          : "Dues"}
+                                        {item?.paidStatus === true ? (
+                                          <span
+                                            className={styles.paidtextColor}
+                                          >
+                                            Paid{" "}
+                                          </span>
+                                        ) : (
+                                          <span
+                                            className={styles.DuestextColor}
+                                          >
+                                            Dues
+                                          </span>
+                                        )}
                                       </th>
                                     </tr>
                                   );
@@ -1046,9 +1067,19 @@ function Addfee({ data, setOpen }) {
                                         )}
                                       </th>
                                       <th className={styles.tableth}>
-                                        {item?.paidStatus === true
-                                          ? "Paid"
-                                          : "Dues"}
+                                        {item?.paidStatus === true ? (
+                                          <span
+                                            className={styles.paidtextColor}
+                                          >
+                                            Paid{" "}
+                                          </span>
+                                        ) : (
+                                          <span
+                                            className={styles.DuestextColor}
+                                          >
+                                            Dues
+                                          </span>
+                                        )}
                                       </th>
                                     </tr>
                                   );
@@ -1116,7 +1147,7 @@ function Addfee({ data, setOpen }) {
                                   ) +
                                   Number(
                                     edittransportArray &&
-                                    edittransportArray?.reduce(
+                                      edittransportArray?.reduce(
                                         (n, { PerMonthFee }) =>
                                           parseFloat(n) +
                                           parseFloat(PerMonthFee),
@@ -1272,9 +1303,15 @@ function Addfee({ data, setOpen }) {
                                       )}
                                     </th>
                                     <th className={styles.tableth}>
-                                      {item?.paidStatus === true
-                                        ? "Paid"
-                                        : "Dues"}
+                                      {item?.paidStatus === true ? (
+                                        <span className={styles.paidtextColor}>
+                                          Paid{" "}
+                                        </span>
+                                      ) : (
+                                        <span className={styles.DuestextColor}>
+                                          Dues
+                                        </span>
+                                      )}
                                     </th>
                                   </tr>
                                 );
@@ -1434,7 +1471,7 @@ function Addfee({ data, setOpen }) {
                 </div>
 
                 <h1>Registration And Annual Fee</h1>
-                {/* <div className={styles.regisFeepayDiv}> */}
+
                 <div className={styles.regisFeepayDiv}>
                   <div className={styles.regisFeepayDivinnear}>
                     {data?.Registrationfeestatus === true ? (
@@ -1474,6 +1511,47 @@ function Addfee({ data, setOpen }) {
                       Registration Fee ({data?.regisgrationfee})
                     </label>
                   </div>
+
+                  <div className={styles.regisFeepayDivinnear}>
+                    {data?.admissionfeeStatus === true ? (
+                      <>
+                        <input
+                          id="Admission"
+                          type="checkbox"
+                          value={"Admissionfee"}
+                          disabled={true}
+                          checked={true}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setadmissionfee(e.target.value);
+                            } else {
+                              setadmissionfee("");
+                            }
+                          }}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <input
+                          type="checkbox"
+                          id="Admission"
+                          value={"Admissionfee"}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setadmissionfee(e.target.value);
+                            } else {
+                              setadmissionfee("");
+                            }
+                          }}
+                        />
+                      </>
+                    )}
+
+                    <label htmlFor="Admission">
+                      Admission Fee ({data?.admissionfee})
+                    </label>
+                  </div>
+
                   <div className={styles.regisFeepayDivinnear}>
                     {data?.AnnualFeeStatus === true ? (
                       <>
@@ -1514,17 +1592,23 @@ function Addfee({ data, setOpen }) {
                     </label>
                   </div>
                 </div>
-                {/* </div> */}
+
                 <div className={styles.regisFeepayDiv}>
                   <p>
                     Payable Amount (
-                    {feetype === "Registration" && annualfee === "Annual"
-                      ? Number(data?.regisgrationfee) + Number(data?.AnnualFee)
+                    {feetype === "Registration" &&
+                    annualfee === "Annual" &&
+                    admissionfee === "Admissionfee"
+                      ? Number(data?.regisgrationfee) +
+                        Number(data?.AnnualFee) +
+                        Number(data?.admissionfee)
                       : feetype === "Registration"
                       ? Number(data?.regisgrationfee)
                       : annualfee === "Annual"
                       ? Number(data?.AnnualFee)
-                      : 0}
+                      : admissionfee === "Admissionfee"
+                      ? Number(data?.admissionfee)
+                      : ""}
                     )
                   </p>
                 </div>

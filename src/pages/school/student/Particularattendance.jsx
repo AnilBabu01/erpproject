@@ -26,7 +26,7 @@ const monthlist = [
   },
   {
     id: 3,
-    name: "Mark",
+    name: "March",
   },
   {
     id: 4,
@@ -72,7 +72,7 @@ const monthnamelist = {
 
   2: "February",
 
-  3: "Mark",
+  3: "March",
 
   4: "April",
 
@@ -430,37 +430,38 @@ function ParticularStudentAttendance() {
                             })}
 
                           {item?.attendance != null &&
-                            item?.attendance
-                              ?.slice(
-                                0,
-                                Number(
-                                  new Date()?.toISOString().substring(8, 10)
+                            (item?.attendance[0]?.monthNumber ===
+                            Number(new Date().getMonth()) + 1
+                              ? item?.attendance?.slice(
+                                  0,
+                                  Number(
+                                    new Date()?.toISOString().substring(8, 10)
+                                  )
                                 )
-                              )
-                              ?.map((item, index) => {
-                                return (
-                                  <td key={index} className={styles.tabletd}>
-                                    <button
-                                      className={
-                                        item?.attendaceStatusIntext ===
-                                        "Present"
-                                          ? styles.presentbtn
-                                          : item?.attendaceStatusIntext ===
-                                            "Absent"
-                                          ? styles.absentbtn
-                                          : styles.holdaybtn
-                                      }
-                                    >
-                                      {item?.attendaceStatusIntext ===
-                                        "Present" && <>P</>}
-                                      {item?.attendaceStatusIntext ===
-                                        "Absent" && <>A</>}
-                                      {item?.attendaceStatusIntext ===
-                                        "Holiday" && <>H</>}
-                                    </button>
-                                  </td>
-                                );
-                              })}
+                              : item?.attendance
+                            )?.map((item, index) => {
+                              return (
+                                <td key={index} className={styles.tabletd}>
+                                  <button
+                                    className={
+                                      item?.attendaceStatusIntext === "Present"
+                                        ? styles.presentbtn
+                                        : item?.attendaceStatusIntext ===
+                                          "Absent"
+                                        ? styles.absentbtn
+                                        : styles.holdaybtn
+                                    }
+                                  >
+                                    {item?.attendaceStatusIntext ===
+                                      "Present" && <>P</>}
+                                    {item?.attendaceStatusIntext ===
+                                      "Absent" && <>A</>}
+                                    {item?.attendaceStatusIntext ===
+                                      "Holiday" && <>H</>}
+                                  </button>
+                                </td>
+                              );
+                            })}
                         </tr>
                       );
                     })}

@@ -98,7 +98,7 @@ const SchoolNavbar = () => {
                           Add Student
                         </Link>
                         <Link href="/school/student/Studenthistory">
-                          Student History
+                          Student Filter
                         </Link>
                         <Link href="/school/student/IssueTC">Issue TC</Link>
                         <Link href="/school/student/CharacterCertificate">Character Certificate</Link>

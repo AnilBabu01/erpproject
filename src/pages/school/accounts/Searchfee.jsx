@@ -568,7 +568,7 @@ function Searchfee() {
                 <input
                   className={styles.opensearchinput10}
                   type="text"
-                  placeholder="SNO"
+                  placeholder="SRNO"
                   value={seno}
                   name="seno}"
                   onChange={(e) => setseno(e.target.value)}
@@ -600,7 +600,7 @@ function Searchfee() {
                 <div key={index} className={styles.tablecontainer}>
                   <div className={styles.feeheader}>
                     <p>Session : {item?.student?.Session}</p>
-                    <p>SNO : {item?.student?.SrNumber}</p>
+                    <p>SRNO : {item?.student?.SrNumber}</p>
                     <p>Roll_No : {item?.student?.rollnumber}</p>
                     <p>Student_Name : {item?.student?.name}</p>
                   </div>

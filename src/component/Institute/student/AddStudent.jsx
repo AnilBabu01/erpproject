@@ -35,6 +35,7 @@ function AddStudent({ setOpen }) {
   const [loading1, setloading1] = useState(false);
   const [loading2, setloading2] = useState(false);
   const [TransportFeePermonth, setTransportFeePermonth] = useState("");
+  const [admissionFee, setadmissionFee] = useState("");
   const [fromroute, setfromroute] = useState("");
   const [toroute, settoroute] = useState("");
   const [amount, setamount] = useState("");
@@ -59,8 +60,6 @@ function AddStudent({ setOpen }) {
   const [studentemail, setstudentemail] = useState("");
   const [studentphone, setstudentphone] = useState("");
   const [adminssiondate, setadminssiondate] = useState("");
-  const [whatsaapnumber, setwhatsaapnumber] = useState("");
-  const [usepreview, setusepreview] = useState(false);
   const [city, setcity] = useState("");
   const [state, setstate] = useState("");
   const [Pincode, setPincode] = useState("");
@@ -69,8 +68,21 @@ function AddStudent({ setOpen }) {
   const [marksheet, setmarksheet] = useState("");
   const [pano, setpano] = useState("");
   const [adharcardno, setadharcardno] = useState("");
+
   const [fathersname, setfathersname] = useState("");
   const [fathersphone, setfathersphone] = useState("");
+  const [whatsaapnumber, setwhatsaapnumber] = useState("");
+  const [usepreview, setusepreview] = useState(false);
+
+  const [mothersname, setmotherssname] = useState("");
+  const [mothersphone, setmotherssphone] = useState("");
+  const [whatsaapmothersnumber, setwhatsaapmothersnumber] = useState("");
+  const [mothersusepreview, setmothersusepreview] = useState(false);
+
+  const [PreviousTcNo, setPreviousTcNo] = useState("");
+  const [PreviousSchool, setPreviousSchool] = useState("");
+  const [PreviousSchoolAddress, setPreviousSchoolAddress] = useState("");
+
   const [studentrollno, setstudentrollno] = useState("");
   const [preview1, setpreview1] = useState("");
   const [preview2, setpreview2] = useState("");
@@ -128,8 +140,20 @@ function AddStudent({ setOpen }) {
     formData.set("courseduration", noofMonth);
     formData.set("markSheet", marksheet);
     formData.set("adharno", adharcardno);
-    formData.set("pancardnno", pano);
+    formData.set("PEN", pano);
     formData.set("whatsappNo", usepreview ? fathersphone : whatsaapnumber);
+    formData.set("admissionfee", admissionFee);
+    formData.set("MathersName", mothersname);
+    formData.set("MathersPhoneNo", mothersphone);
+    formData.set(
+      "MatherswhatsappNo",
+      mothersusepreview ? mothersphone : whatsaapmothersnumber
+    );
+    
+    formData.set("PreviousTcNo", PreviousTcNo);
+    formData.set("PreviousSchoolName", PreviousSchool);
+    formData.set("PreviousSchoolAddress", PreviousSchoolAddress);
+
     formData.set("markSheetname", marksheetName);
     formData.set("othersdoc", others);
     formData.set("othersdocName", othersname);
@@ -430,8 +454,8 @@ function AddStudent({ setOpen }) {
                 </div>
                 <div className={styles.inputdiv}>
                   <label>Session</label>
-                
-                   <Select
+
+                  <Select
                     required
                     className={styles.addwidth}
                     sx={{
@@ -555,6 +579,58 @@ function AddStudent({ setOpen }) {
                   />
                 </div>
               </div>
+
+              <div className={styles.divmaininput}>
+                <div className={styles.inputdiv}>
+                  <label>Mothers Name</label>
+                  <input
+                    required
+                    type="text"
+                    placeholder="Enter the Mother's Name"
+                    value={mothersname}
+                    name="mothersname"
+                    onChange={(e) => setmotherssname(e.target.value)}
+                  />
+                </div>
+
+                <div className={styles.inputdiv}>
+                  <label>Mothers Phone No</label>
+                  <input
+                    required
+                    type="text"
+                    placeholder="Enter the Phone No"
+                    value={mothersphone}
+                    name="mothersphone"
+                    onChange={(e) => setmotherssphone(e.target.value)}
+                  />
+                </div>
+                <div className={styles.inputdiv}>
+                  <label>
+                    <input
+                      className={styles.checkpreview}
+                      value={true}
+                      onChange={(e) => setmothersusepreview(e.target.checked)}
+                      type="checkbox"
+                    />
+                    WhatsApp Use Previous
+                  </label>
+                  <input
+                    required
+                    type="text"
+                    placeholder="Enter the Whatsapp No"
+                    value={
+                      mothersusepreview ? mothersphone : whatsaapmothersnumber
+                    }
+                    name="whatsaapnumber"
+                    onChange={(e) =>
+                      setwhatsaapmothersnumber(
+                        mothersusepreview ? mothersphone : e.target.value
+                      )
+                    }
+                  />
+                </div>
+              </div>
+
               <div className={styles.divmaininput}>
                 <div className={styles.inputdiv}>
                   <label>State</label>
@@ -593,11 +669,11 @@ function AddStudent({ setOpen }) {
               </div>
               <div className={styles.divmaininput}>
                 <div className={styles.inputdiv}>
-                  <label>Pan No</label>
+                  <label>PEN (Personal Education No)</label>
                   <input
                     required
                     type="text"
-                    placeholder="Enter the Pan No"
+                    placeholder="Enter the PEN"
                     value={pano}
                     name="pano"
                     onChange={(e) => setpano(e.target.value)}
@@ -913,6 +989,45 @@ function AddStudent({ setOpen }) {
                 </>
               ) : (
                 <>
+                  <p>Previous School Details</p>
+                  <div className={styles.divmaininput}>
+                    <div className={styles.inputdiv}>
+                      <label>TC No</label>
+                      <input
+                        required
+                        type="text"
+                        placeholder="Enter the TC No"
+                        value={PreviousTcNo}
+                        name="PreviousTcNo"
+                        onChange={(e) => setPreviousTcNo(e.target.value)}
+                      />
+                    </div>
+
+                    <div className={styles.inputdiv}>
+                      <label>Previous School Name</label>
+                      <input
+                        required
+                        type="text"
+                        placeholder="Enter Previous School Name"
+                        value={PreviousSchool}
+                        name="PreviousSchool"
+                        onChange={(e) => setPreviousSchool(e.target.value)}
+                      />
+                    </div>
+                    <div className={styles.inputdiv}>
+                      <label>Previous School Address</label>
+                      <input
+                        required
+                        type="text"
+                        placeholder="Enter Previous School Address"
+                        value={PreviousSchoolAddress}
+                        name="PreviousSchoolAddress"
+                        onChange={(e) =>
+                          setPreviousSchoolAddress(e.target.value)
+                        }
+                      />
+                    </div>
+                  </div>
                   <div className={styles.divmaininput}>
                     <div className={styles.inputdiv}>
                       <label>Class</label>
@@ -1018,8 +1133,17 @@ function AddStudent({ setOpen }) {
                       </Select>
                     </div>
                     <div className={styles.inputdiv}>
-                      <label>&nbsp;</label>
-                      <label>&nbsp;</label>
+                   
+                      <label>Admission Fee</label>
+                      <input
+                        required
+                        type="text"
+                        placeholder="Enter Admission fee"
+                        value={admissionFee}
+                        name="admissionFee"
+                        onChange={(e) => setadmissionFee(e.target.value)}
+                      />
+                  
                     </div>
                   </div>
                   {courses ? (
@@ -1656,35 +1780,11 @@ function AddStudent({ setOpen }) {
             <div className={styles.logbtnstylediv}>
               <button
                 disabled={
-                  studentname &&
-                  studentemail &&
-                  studentrollno &&
-                  studentphone &&
-                  fathersname &&
-                  fathersphone &&
-                  state &&
-                  city &&
-                  Pincode &&
-                  adminssiondate &&
-                  pano &&
-                  adharcardno
-                    ? false
-                    : true
+                  studentname && fathersname && fathersphone ? false : true
                 }
                 onClick={() => setshownext(false)}
                 className={
-                  studentname &&
-                  studentemail &&
-                  studentrollno &&
-                  studentphone &&
-                  fathersname &&
-                  fathersphone &&
-                  state &&
-                  city &&
-                  Pincode &&
-                  adminssiondate &&
-                  pano &&
-                  adharcardno
+                  studentname && fathersname && fathersphone
                     ? styles.logbtnstyle
                     : styles.logbtnstyledisable
                 }

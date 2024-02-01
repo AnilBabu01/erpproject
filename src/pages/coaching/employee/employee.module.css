@@ -227,6 +227,8 @@
 }
 .add_divmarginn {
   padding: 0.5rem;
+  /* width: 100%;
+  overflow-x: scroll; */
 }
 
 .add_divmarginn10 {

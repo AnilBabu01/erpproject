@@ -261,7 +261,7 @@ function IssueTC() {
         Session: item?.Session,
         Section: item?.Section,
         "Roll Number": item?.rollnumber,
-        SNO: item?.SrNumber,
+        SRNO: item?.SrNumber,
         Student_Name: item?.name,
         Student_Email: item?.email,
         "Student_Mobile NO": item?.phoneno1,
@@ -540,7 +540,7 @@ function IssueTC() {
                     <input
                       className={styles.opensearchinput10}
                       type="text"
-                      placeholder="SNO"
+                      placeholder="SRNO"
                       value={seno}
                       name="seno}"
                       onChange={(e) => setseno(e.target.value)}
@@ -720,7 +720,7 @@ function IssueTC() {
                     <input
                       className={styles.opensearchinput10}
                       type="text"
-                      placeholder="SNO"
+                      placeholder="SRNO"
                       value={seno}
                       name="seno}"
                       onChange={(e) => setseno(e.target.value)}
@@ -765,7 +765,7 @@ function IssueTC() {
                       <tr className={styles.tabletr}>
                         <th className={styles.tableth}>Sr.No</th>
                         <th className={styles.tableth}>Session</th>
-                        <th className={styles.tableth}>SNO</th>
+                        <th className={styles.tableth}>SRNO</th>
                         <th className={styles.tableth}>Roll_No</th>
                         <th className={styles.tableth}>Section</th>
                         <th className={styles.tableth}>Stream</th>
@@ -816,7 +816,7 @@ function IssueTC() {
                       <tr className={styles.tabletr}>
                         <th className={styles.tableth}>Sr.No</th>
                         <th className={styles.tableth}>Session</th>
-                        <th className={styles.tableth}>SNO</th>
+                        <th className={styles.tableth}>SRNO</th>
                         <th className={styles.tableth}>Roll_No</th>
                         <th className={styles.tableth}>Section</th>
                         <th className={styles.tableth}>Stream</th>

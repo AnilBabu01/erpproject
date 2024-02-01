@@ -201,7 +201,7 @@ function Receivedassignment() {
                 <tbody>
                   <tr className={styles.tabletr}>
                     <th className={styles.tableth}>Sr.No</th>
-                    <th className={styles.tableth}>SNO</th>
+                    <th className={styles.tableth}>SRNO</th>
                     <th className={styles.tableth}>Session</th>
                     <th className={styles.tableth}>Section</th>
                     <th className={styles.tableth}>StudentName</th>

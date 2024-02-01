@@ -294,7 +294,7 @@ function StudentRoom() {
               <table className={styles.tabletable}>
                 <tbody>
                   <tr className={styles.tabletr}>
-                    <th className={styles.tableth}>SNO</th>
+                    <th className={styles.tableth}>SRNO</th>
                     <th className={styles.tableth}>Student_Name</th>
                     <th className={styles.tableth}>Mobile_No</th>
                     <th className={styles.tableth}>Class</th>

@@ -111,7 +111,7 @@ function CheckinReceipt() {
             <div className={styles.mainfeedetails}>
               <div className={styles.mainfeedetailsinnear}>
                 <div className={styles.textdivonly}>
-                  <p>SNO</p> <p>{data?.SNO}</p>
+                  <p>SRNO</p> <p>{data?.SNO}</p>
                 </div>
                 <div className={styles.textdivonly}>
                   <p>Student Name</p> <p>{data?.StudentName}</p>

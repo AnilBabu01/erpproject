@@ -62,6 +62,16 @@ function AddAdmission({ setOpen }) {
   const [adharcardno, setadharcardno] = useState("");
   const [fathersname, setfathersname] = useState("");
   const [fathersphone, setfathersphone] = useState("");
+  const [admissionFee, setadmissionFee] = useState("");
+  const [mothersname, setmotherssname] = useState("");
+  const [mothersphone, setmotherssphone] = useState("");
+  const [whatsaapmothersnumber, setwhatsaapmothersnumber] = useState("");
+  const [mothersusepreview, setmothersusepreview] = useState(false);
+
+  const [PreviousTcNo, setPreviousTcNo] = useState("");
+  const [PreviousSchool, setPreviousSchool] = useState("");
+  const [PreviousSchoolAddress, setPreviousSchoolAddress] = useState("");
+
   const [studentrollno, setstudentrollno] = useState("");
   const [preview1, setpreview1] = useState("");
   const [preview2, setpreview2] = useState("");
@@ -123,11 +133,24 @@ function AddAdmission({ setOpen }) {
     formData.set("batch", batchname);
     formData.set("admissionDate", adminssiondate);
     formData.set("regisgrationfee", amount);
+    formData.set("admissionfee", admissionFee);
     formData.set("courseduration", noofMonth);
     formData.set("markSheet", marksheet);
     formData.set("adharno", adharcardno);
-    formData.set("pancardnno", pano);
+    formData.set("PEN", pano);
     formData.set("whatsappNo", usepreview ? fathersphone : whatsaapnumber);
+
+    formData.set("MathersName", mothersname);
+    formData.set("MathersPhoneNo", mothersphone);
+    formData.set(
+      "MatherswhatsappNo",
+      mothersusepreview ? mothersphone : whatsaapmothersnumber
+    );
+
+    formData.set("PreviousTcNo", PreviousTcNo);
+    formData.set("PreviousSchoolName", PreviousSchool);
+    formData.set("PreviousSchoolAddress", PreviousSchoolAddress);
+
     formData.set("markSheetname", marksheetName);
     formData.set("othersdoc", others);
     formData.set("othersdocName", othersname);
@@ -197,7 +220,6 @@ function AddAdmission({ setOpen }) {
     dispatch(Addstudent(formData));
   };
 
-  
   useEffect(() => {
     if (fee) {
       setisData(fee);
@@ -229,9 +251,8 @@ function AddAdmission({ setOpen }) {
     dispatch({
       type: ADD_STUDENT_RESET,
     });
-    if(CURRENTSESSION)
-    {
-      setsessionname(CURRENTSESSION)
+    if (CURRENTSESSION) {
+      setsessionname(CURRENTSESSION);
     }
     if (Sessions) {
       setsessionList(Sessions);
@@ -247,7 +268,7 @@ function AddAdmission({ setOpen }) {
     route,
     sections,
     CURRENTSESSION,
-    Sessions
+    Sessions,
   ]);
 
   const gotoreceipt = () => {
@@ -302,7 +323,7 @@ function AddAdmission({ setOpen }) {
       setloading2(false);
     }
   };
- 
+
   return (
     <>
       <div className={styles.divmainlogin}>
@@ -405,7 +426,7 @@ function AddAdmission({ setOpen }) {
                 </div>
                 <div className={styles.inputdiv}>
                   <label>Session</label>
-                
+
                   <Select
                     required
                     className={styles.addwidth}
@@ -530,6 +551,57 @@ function AddAdmission({ setOpen }) {
                   />
                 </div>
               </div>
+
+              <div className={styles.divmaininput}>
+                <div className={styles.inputdiv}>
+                  <label>Mothers Name</label>
+                  <input
+                    required
+                    type="text"
+                    placeholder="Enter the Mother's Name"
+                    value={mothersname}
+                    name="mothersname"
+                    onChange={(e) => setmotherssname(e.target.value)}
+                  />
+                </div>
+
+                <div className={styles.inputdiv}>
+                  <label>Mothers Phone No</label>
+                  <input
+                    required
+                    type="text"
+                    placeholder="Enter the Phone No"
+                    value={mothersphone}
+                    name="mothersphone"
+                    onChange={(e) => setmotherssphone(e.target.value)}
+                  />
+                </div>
+                <div className={styles.inputdiv}>
+                  <label>
+                    <input
+                      className={styles.checkpreview}
+                      value={true}
+                      onChange={(e) => setmothersusepreview(e.target.checked)}
+                      type="checkbox"
+                    />
+                    WhatsApp Use Previous
+                  </label>
+                  <input
+                    required
+                    type="text"
+                    placeholder="Enter the Whatsapp No"
+                    value={
+                      mothersusepreview ? mothersphone : whatsaapmothersnumber
+                    }
+                    name="whatsaapnumber"
+                    onChange={(e) =>
+                      setwhatsaapmothersnumber(
+                        mothersusepreview ? mothersphone : e.target.value
+                      )
+                    }
+                  />
+                </div>
+              </div>
               <div className={styles.divmaininput}>
                 <div className={styles.inputdiv}>
                   <label>State</label>
@@ -568,11 +640,11 @@ function AddAdmission({ setOpen }) {
               </div>
               <div className={styles.divmaininput}>
                 <div className={styles.inputdiv}>
-                  <label>Pan No</label>
+                  <label>PEN (Prsonal Education No)</label>
                   <input
                     required
                     type="text"
-                    placeholder="Enter the Pan No"
+                    placeholder="Enter the PEN"
                     value={pano}
                     name="pano"
                     onChange={(e) => setpano(e.target.value)}
@@ -888,6 +960,45 @@ function AddAdmission({ setOpen }) {
                 </>
               ) : (
                 <>
+                  <p>Previous School Details</p>
+                  <div className={styles.divmaininput}>
+                    <div className={styles.inputdiv}>
+                      <label>TC No</label>
+                      <input
+                        required
+                        type="text"
+                        placeholder="Enter the TC No"
+                        value={PreviousTcNo}
+                        name="PreviousTcNo"
+                        onChange={(e) => setPreviousTcNo(e.target.value)}
+                      />
+                    </div>
+
+                    <div className={styles.inputdiv}>
+                      <label>Previous School Name</label>
+                      <input
+                        required
+                        type="text"
+                        placeholder="Enter Previous School Name"
+                        value={PreviousSchool}
+                        name="PreviousSchool"
+                        onChange={(e) => setPreviousSchool(e.target.value)}
+                      />
+                    </div>
+                    <div className={styles.inputdiv}>
+                      <label>Previous School Address</label>
+                      <input
+                        required
+                        type="text"
+                        placeholder="Enter Previous School Address"
+                        value={PreviousSchoolAddress}
+                        name="PreviousSchoolAddress"
+                        onChange={(e) =>
+                          setPreviousSchoolAddress(e.target.value)
+                        }
+                      />
+                    </div>
+                  </div>
                   <div className={styles.divmaininput}>
                     <div className={styles.inputdiv}>
                       <label>Class</label>
@@ -993,8 +1104,15 @@ function AddAdmission({ setOpen }) {
                       </Select>
                     </div>
                     <div className={styles.inputdiv}>
-                      <label>&nbsp;</label>
-                      <label>&nbsp;</label>
+                      <label>Admission Fee</label>
+                      <input
+                        required
+                        type="text"
+                        placeholder="Enter Admission fee"
+                        value={admissionFee}
+                        name="admissionFee"
+                        onChange={(e) => setadmissionFee(e.target.value)}
+                      />
                     </div>
                   </div>
                   {courses ? (
@@ -1634,35 +1752,23 @@ function AddAdmission({ setOpen }) {
             <div className={styles.logbtnstylediv}>
               <button
                 disabled={
-                  studentname &&
-                  studentemail &&
-                  studentrollno &&
-                  studentphone &&
-                  fathersname &&
-                  fathersphone &&
-                  state &&
-                  city &&
-                  Pincode &&
-                  adminssiondate &&
-                  pano &&
-                  adharcardno
-                    ? false
-                    : true
+                  studentname && fathersname && fathersphone ? false : true
                 }
+                // studentname &&
+                // studentemail &&
+                // studentrollno &&
+                // studentphone &&
+                // fathersname &&
+                // fathersphone &&
+                // state &&
+                // city &&
+                // Pincode &&
+                // adminssiondate &&
+                // pano &&
+                // adharcardno
                 onClick={() => setshownext(false)}
                 className={
-                  studentname &&
-                  studentemail &&
-                  studentrollno &&
-                  studentphone &&
-                  fathersname &&
-                  fathersphone &&
-                  state &&
-                  city &&
-                  Pincode &&
-                  adminssiondate &&
-                  pano &&
-                  adharcardno
+                  studentname && fathersname && fathersphone
                     ? styles.logbtnstyle
                     : styles.logbtnstyledisable
                 }
