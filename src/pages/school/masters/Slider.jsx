@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import { loadUser } from "../../../redux/actions/authActions";
 import CircularProgress from "@mui/material/CircularProgress";
+
 function Slider() {
   const dispatch = useDispatch();
   const [deleting, setdeleting] = useState(false);

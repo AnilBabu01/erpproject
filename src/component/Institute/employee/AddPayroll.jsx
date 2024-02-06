@@ -48,7 +48,7 @@ function AddPayroll({ setOpen, updatedata }) {
       setloadinggetmonth(false);
     }
   };
-  
+
   const paysalary = (payableamount) => {
     try {
       setloadingpay(true);
@@ -56,7 +56,7 @@ function AddPayroll({ setOpen, updatedata }) {
         empid: empId,
         paidAmount: payableamount,
         allDetails: allDetails,
-        sessionname:sessionname
+        sessionname: sessionname,
       };
       serverInstance("payroll/payempsalary", "post", data).then((res) => {
         if (res?.status) {
@@ -104,9 +104,13 @@ function AddPayroll({ setOpen, updatedata }) {
       }
     });
   };
+
   const totalopen = (attendance) => {
     let count = 0;
-    attendance?.filter((item) => {
+    (attendance[0]?.monthNumber === Number(new Date().getMonth()) + 1
+      ? attendance?.slice(0, Number(new Date()?.toISOString().substring(8, 10)))
+      : attendance
+    )?.filter((item) => {
       if (
         item?.attendaceStatusIntext === "Present" ||
         item?.attendaceStatusIntext === "Absent" ||
@@ -121,7 +125,10 @@ function AddPayroll({ setOpen, updatedata }) {
 
   const totalpresent = (attendance) => {
     let count = 0;
-    attendance?.filter((item) => {
+    (attendance[0]?.monthNumber === Number(new Date().getMonth()) + 1
+      ? attendance?.slice(0, Number(new Date()?.toISOString().substring(8, 10)))
+      : attendance
+    )?.filter((item) => {
       if (
         item?.attendaceStatusIntext === "Present" ||
         item?.attendaceStatusIntext === "Present Half"
@@ -133,9 +140,51 @@ function AddPayroll({ setOpen, updatedata }) {
     return count;
   };
 
+  const totalpresentIncludeSunday = (attendance) => {
+    let count = 0;
+    (attendance[0]?.monthNumber === Number(new Date().getMonth()) + 1
+      ? attendance?.slice(0, Number(new Date()?.toISOString().substring(8, 10)))
+      : attendance
+    )?.filter((item) => {
+      if (
+        item?.attendaceStatusIntext === "Present" ||
+        item?.attendaceStatusIntext === "Holiday"
+      ) {
+        count = count + 1;
+      }
+    });
+
+    return count;
+  };
+
+  const AddHolidayFee = (attendance) => {
+    let count = 0;
+    (attendance[0]?.monthNumber === Number(new Date().getMonth()) + 1
+      ? attendance?.slice(0, Number(new Date()?.toISOString().substring(8, 10)))
+      : attendance
+    )?.filter((item) => {
+      if (item?.attendaceStatusIntext === "Absent") {
+        count = count + 1;
+      }
+    });
+    
+   allDetails?.monthdetials?.AllowLeave
+
+
+    return count;
+
+   
+  };
+
+
+
+
   const totalabsent = (attendance) => {
     let count = 0;
-    attendance?.filter((item) => {
+    (attendance[0]?.monthNumber === Number(new Date().getMonth()) + 1
+      ? attendance?.slice(0, Number(new Date()?.toISOString().substring(8, 10)))
+      : attendance
+    )?.filter((item) => {
       if (item?.attendaceStatusIntext === "Absent") {
         count = count + 1;
       }
@@ -173,6 +222,9 @@ function AddPayroll({ setOpen, updatedata }) {
 
     return monthsOrder.indexOf(a.MonthName) - monthsOrder.indexOf(b.MonthName);
   };
+
+
+
 
   useEffect(() => {
     let date = new Date();
@@ -259,8 +311,13 @@ function AddPayroll({ setOpen, updatedata }) {
           </div>
           {allDetails && (
             <>
-              <div id="receipt" >
+              <div id="receipt">
+
                 <div className={styles.salarySlipMain}>
+                  <img
+                    src={user?.data?.CredentailsData?.logourl}
+                    alt="Watter"
+                  />
                   <div className={styles.overlaydiv}>
                     <div className={styles.salarySlipHeader}>
                       <h2>{user?.data?.CredentailsData?.institutename}</h2>
@@ -275,7 +332,7 @@ function AddPayroll({ setOpen, updatedata }) {
                       <p>Employee Id : {allDetails?.monthdetials?.OrEmpId}</p>
                       <p>Employee Name : {allDetails?.monthdetials?.name}</p>
                       <p>
-                        Designation : {allDetails?.attendance[0]?.Designation}
+                        Designation : {allDetails?.monthdetials?.employeeof}
                       </p>
                     </div>
                     <div>
@@ -364,8 +421,17 @@ function AddPayroll({ setOpen, updatedata }) {
                             })}
                           </tr>
                           <tr className={styles.tabletr}>
-                            {allDetails?.attendance &&
-                              allDetails?.attendance?.map((item, index) => {
+                            {allDetails?.attendance != null &&
+                              (allDetails?.attendance[0]?.monthNumber ===
+                              Number(new Date().getMonth()) + 1
+                                ? allDetails?.attendance?.slice(
+                                    0,
+                                    Number(
+                                      new Date()?.toISOString().substring(8, 10)
+                                    )
+                                  )
+                                : allDetails?.attendance
+                              )?.map((item, index) => {
                                 return (
                                   <td className={styles.tableth} key={index}>
                                     {item?.attendaceStatusIntext ===
@@ -427,21 +493,21 @@ function AddPayroll({ setOpen, updatedata }) {
                           {Math.floor(
                             Number(allDetails?.monthdetials?.basicsalary) / 30
                           ) *
-                            totalpresent(allDetails?.attendance) +
+                          totalpresentIncludeSunday(allDetails?.attendance) +
                             Number(allDetails?.monthdetials?.AllowanceAmount1) +
                             Number(allDetails?.monthdetials?.AllowanceAmount2) +
-                            Number(allDetails?.monthdetials?.AllowanceAmount3) -
+                            Number(allDetails?.monthdetials?.AllowanceAmount3) +
+                            (Math.floor(
+                              Number(allDetails?.monthdetials?.basicsalary) / 30
+                            ) /
+                              2) *
+                              totalhalfdays(allDetails?.attendance) -
                             (Number(
                               allDetails?.monthdetials?.DeductionAmount1
                             ) +
                               Number(
                                 allDetails?.monthdetials?.DeductionAmount2
-                              )) -
-                            (Math.floor(
-                              Number(allDetails?.monthdetials?.basicsalary) / 30
-                            ) /
-                              2) *
-                              totalhalfdays(allDetails?.attendance)}
+                              ))}
                           )
                         </p>
                       </div>
@@ -465,17 +531,21 @@ function AddPayroll({ setOpen, updatedata }) {
                   Math.floor(
                     Number(allDetails?.monthdetials?.basicsalary) / 30
                   ) *
-                    totalpresent(allDetails?.attendance) +
+                  totalpresentIncludeSunday(allDetails?.attendance) +
                     Number(allDetails?.monthdetials?.AllowanceAmount1) +
                     Number(allDetails?.monthdetials?.AllowanceAmount2) +
-                    Number(allDetails?.monthdetials?.AllowanceAmount3) -
-                    (Number(allDetails?.monthdetials?.DeductionAmount1) +
-                      Number(allDetails?.monthdetials?.DeductionAmount2)) -
+                    Number(allDetails?.monthdetials?.AllowanceAmount3) +
                     (Math.floor(
                       Number(allDetails?.monthdetials?.basicsalary) / 30
                     ) /
                       2) *
-                      totalhalfdays(allDetails?.attendance)
+                      totalhalfdays(allDetails?.attendance) -
+                    (Number(
+                      allDetails?.monthdetials?.DeductionAmount1
+                    ) +
+                      Number(
+                        allDetails?.monthdetials?.DeductionAmount2
+                      ))
                 )
               }
             >

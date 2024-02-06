@@ -1086,6 +1086,7 @@ export const getstudent =
     sectionname,
     seno,
     stream,
+    gendersearch
   ) =>
   async (dispatch) => {
     try {
@@ -1109,11 +1110,12 @@ export const getstudent =
         sectionname ||
         sessionname ||
         seno ||
-        stream
+        stream||
+        gendersearch
       ) {
         dispatch({ type: ALL_STUDENT_REQUEST });
         const { data } = await axios.get(
-          `${backendApiUrl}student/addstudent?name=${scoursename}&batch=${sbatch}&fromdate=${fromdate}&todate=${todate}&fathers=${sfathers}&studentname=${sstudent}&rollnumber=${rollnumber}&status=${status}&categoryname=${categoryname}&library=${library}&sessionname=${sessionname}&sectionname=${sectionname}&sno=${seno}&stream=${stream}`,
+          `${backendApiUrl}student/addstudent?name=${scoursename}&batch=${sbatch}&fromdate=${fromdate}&todate=${todate}&fathers=${sfathers}&studentname=${sstudent}&rollnumber=${rollnumber}&status=${status}&categoryname=${categoryname}&library=${library}&sessionname=${sessionname}&sectionname=${sectionname}&sno=${seno}&stream=${stream}&gendersearch=${gendersearch}`,
           config
         );
         dispatch({
@@ -2106,6 +2108,7 @@ export const GeOtherFees =
   };
 
 // Get all Facility
+
 export const GetsSubject = (classId, empID, dayname) => async (dispatch) => {
   try {
     const config = {
@@ -2198,27 +2201,14 @@ export const GetNotic = (classId, empID) => async (dispatch) => {
         Authorization: `${localStorage.getItem("erptoken")}`,
       },
     };
+
     dispatch({ type: GET_NOTIC_REQUEST });
+    const { data } = await axios.get(`${backendApiUrl}comman/notes`, config);
 
-    if (classId || empID) {
-      const { data } = await axios.get(
-        `${backendApiUrl}comman/notes?classId=${classId}&empID=${empID}`,
-        config
-      );
-
-      dispatch({
-        type: GET_NOTIC_SUCCESS,
-        payload: data?.data,
-      });
-    } else {
-      dispatch({ type: GET_NOTIC_REQUEST });
-      const { data } = await axios.get(`${backendApiUrl}comman/notes`, config);
-
-      dispatch({
-        type: GET_NOTIC_SUCCESS,
-        payload: data?.data,
-      });
-    }
+    dispatch({
+      type: GET_NOTIC_SUCCESS,
+      payload: data?.data,
+    });
   } catch (error) {
     dispatch({
       type: GET_NOTIC_FAIL,

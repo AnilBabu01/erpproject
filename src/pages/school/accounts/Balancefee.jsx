@@ -749,6 +749,7 @@ function Balancefee() {
                       <th className={styles.tableth}>SRNO</th>
                       <th className={styles.tableth}>Roll_No</th>
                       <th className={styles.tableth}>Student_Name</th>
+                      <th className={styles.tableth}>Gender</th>
                       <th className={styles.tableth}>
                         Academin_Fee ({monthnamelist[month]})
                       </th>
@@ -773,6 +774,9 @@ function Balancefee() {
                           </td>
                           <td className={styles.tabletd}>
                             {item?.student?.name}
+                          </td>
+                          <td className={styles.tabletd}>
+                            {item?.student?.Gender}
                           </td>
 
                           <td className={styles.tabletd}>

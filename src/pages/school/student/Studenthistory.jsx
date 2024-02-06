@@ -32,6 +32,7 @@ const studentStatus = [
 function Studenthistory() {
   const componentRef = useRef(null);
   const dispatch = useDispatch();
+  const [gendersearch, setgendersearch] = useState('');
   const [scoursename, setscoursename] = useState("");
   const [sfathers, setsfathers] = useState("");
   const [sstudent, setsstudent] = useState("");
@@ -80,11 +81,19 @@ function Studenthistory() {
     if (sections) {
       setsectionList(sections);
     }
-    if(CURRENTSESSION)
-    {
+    if (CURRENTSESSION) {
       setsessionname(CURRENTSESSION);
     }
-  }, [student, batch, user, course, category, Sessions, sections,CURRENTSESSION]);
+  }, [
+    student,
+    batch,
+    user,
+    course,
+    category,
+    Sessions,
+    sections,
+    CURRENTSESSION,
+  ]);
 
   useEffect(() => {
     dispatch(getstudent());
@@ -101,7 +110,7 @@ function Studenthistory() {
     dispatch(GetRoute());
     dispatch(GetSection());
     dispatch(GetSession());
-    dispatch(getcurrentsession())
+    dispatch(getcurrentsession());
   }, []);
 
   const filterdata = (e) => {
@@ -121,7 +130,8 @@ function Studenthistory() {
         sessionname,
         sectionname,
         "",
-        ""
+        "",
+        gendersearch
       )
     );
   };
@@ -135,13 +145,11 @@ function Studenthistory() {
     setscoursename("");
     setsbatch("");
     setcategoryname("");
-   
     setsessionname(CURRENTSESSION);
     setsectionname("");
+    setgendersearch("");
     dispatch(getstudent());
   };
-
- 
 
   const ExportToExcel = (isData) => {
     const fileName = "StudentList";
@@ -156,6 +164,7 @@ function Studenthistory() {
         "Roll Number": item?.rollnumber,
         SRNO: item?.SrNumber,
         Student_Name: item?.name,
+        Gender: item?.Gender,
         Student_Email: item?.email,
         "Student_Mobile NO": item?.phoneno1,
         "Father's_Name": item?.fathersName,
@@ -372,6 +381,54 @@ function Studenthistory() {
                     );
                   })}
                 </select>
+                <select
+                  className={styles.opensearchinput}
+                  sx={{
+                    width: "18.8rem",
+                    fontSize: 14,
+                    "& .MuiSelect-select": {
+                      paddingTop: "0.6rem",
+                      paddingBottom: "0.6em",
+                    },
+                  }}
+                  value={gendersearch}
+                  name="gendersearch"
+                  onChange={(e) => setgendersearch(e.target.value)}
+                  displayEmpty
+                >
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={""}
+                  >
+                    All Gender
+                  </option>
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={"Male"}
+                  >
+                    Male
+                  </option>
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={"Female"}
+                  >
+                    Female
+                  </option>
+                  <option
+                    sx={{
+                      fontSize: 14,
+                    }}
+                    value={"Other"}
+                  >
+                    Other
+                  </option>
+                </select>
                 <input
                   className={styles.opensearchinput10}
                   type="text"
@@ -424,11 +481,13 @@ function Studenthistory() {
                     <th className={styles.tableth}>SRNO</th>
                     <th className={styles.tableth}>Roll_No</th>
                     <th className={styles.tableth}>Section</th>
+                    <th className={styles.tableth}>Class</th>
                     <th className={styles.tableth}>Student_Name</th>
-                    <th className={styles.tableth}>Student_Email</th>
+                    <th className={styles.tableth}>Gender</th>
+                    <th className={styles.tableth}>Father&apos;s_Name</th>
                     <th className={styles.tableth}>Student_Phone</th>
                     <th className={styles.tableth}>Adminssion_Date</th>
-                    <th className={styles.tableth}>Class</th>
+                    
                     <th className={styles.tableth}>Category</th>
                     <th className={styles.tableth}>Student_Status</th>
                   </tr>
@@ -440,15 +499,17 @@ function Studenthistory() {
                         <td className={styles.tabletd}>{item?.SrNumber}</td>
                         <td className={styles.tabletd}>{item?.rollnumber}</td>
                         <td className={styles.tabletd}>{item?.Section}</td>
+                        <td className={styles.tabletd}>
+                          {item?.courseorclass}
+                        </td>
                         <td className={styles.tabletd}>{item?.name}</td>
-                        <td className={styles.tabletd}>{item?.email}</td>
+                        <td className={styles.tabletd}>{item?.Gender}</td>
+                        <td className={styles.tabletd}>{item?.fathersName}</td>
                         <td className={styles.tabletd}>{item?.phoneno1}</td>
                         <td className={styles.tabletd}>
                           {moment(item?.admissionDate).format("DD/MM/YYYY")}
                         </td>
-                        <td className={styles.tabletd}>
-                          {item?.courseorclass}
-                        </td>
+                       
                         <td className={styles.tabletd}>
                           {item?.StudentCategory}
                         </td>

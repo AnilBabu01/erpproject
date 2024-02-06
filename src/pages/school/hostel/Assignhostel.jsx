@@ -264,6 +264,7 @@ function Assignhostel() {
         sessionname,
         sectionname,
         sno,
+        "",
         ""
       )
     );
@@ -285,6 +286,7 @@ function Assignhostel() {
         sessionname,
         sectionname,
         sno,
+        "",
         ""
       )
     );

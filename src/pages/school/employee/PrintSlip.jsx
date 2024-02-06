@@ -40,22 +40,52 @@ function PrintSlip() {
 
   const totalopen = (attendance) => {
     let count = 0;
-    attendance?.filter((item) => {
-      if (
-        item?.attendaceStatusIntext === "Present" ||
-        item?.attendaceStatusIntext === "Absent" ||
-        item?.attendaceStatusIntext === "Present Half"
-      ) {
-        count = count + 1;
-      }
-    });
+    let monthno = Number(new Date().getMonth()) + 1;
+    console.log(
+      "Print data is total",
+      allDetails?.attendance[0]?.monthNumber,
+      monthno
+    );
+
+    if (
+      Number(allDetails?.attendance[0]?.monthNumber) === Number(new Date().getMonth())
+    ) {
+      allDetails?.attendance
+        ?.slice(0, Number(new Date()?.toISOString().substring(8, 10)))
+        ?.filter((item) => {
+          if (
+            item?.attendaceStatusIntext === "Present" ||
+            item?.attendaceStatusIntext === "Absent" ||
+            item?.attendaceStatusIntext === "Present Half"
+          ) {
+            count = count + 1;
+          }
+        });
+    } else {
+      allDetails?.attendance?.filter((item) => {
+        if (
+          item?.attendaceStatusIntext === "Present" ||
+          item?.attendaceStatusIntext === "Absent" ||
+          item?.attendaceStatusIntext === "Present Half"
+        ) {
+          count = count + 1;
+        }
+      });
+    }
 
     return count;
   };
 
   const totalpresent = (attendance) => {
     let count = 0;
-    attendance?.filter((item) => {
+    (allDetails &&
+    allDetails?.attendance[0]?.monthNumber === Number(new Date().getMonth())
+      ? allDetails?.attendance?.slice(
+          0,
+          Number(new Date()?.toISOString().substring(8, 10))
+        )
+      : allDetails?.attendance
+    )?.filter((item) => {
       if (
         item?.attendaceStatusIntext === "Present" ||
         item?.attendaceStatusIntext === "Present Half"
@@ -69,7 +99,14 @@ function PrintSlip() {
 
   const totalabsent = (attendance) => {
     let count = 0;
-    attendance?.filter((item) => {
+    (allDetails &&
+    allDetails?.attendance[0]?.monthNumber === Number(new Date().getMonth())
+      ? allDetails?.attendance?.slice(
+          0,
+          Number(new Date()?.toISOString().substring(8, 10))
+        )
+      : allDetails?.attendance
+    )?.filter((item) => {
       if (item?.attendaceStatusIntext === "Absent") {
         count = count + 1;
       }
@@ -80,7 +117,14 @@ function PrintSlip() {
 
   const totalhalfdays = (attendance) => {
     let count = 0;
-    attendance?.filter((item) => {
+    (allDetails &&
+    allDetails?.attendance[0]?.monthNumber === Number(new Date().getMonth())
+      ? allDetails?.attendance?.slice(
+          0,
+          Number(new Date()?.toISOString().substring(8, 10))
+        )
+      : allDetails?.attendance
+    )?.filter((item) => {
       if (item?.attendaceStatusIntext === "Present Half") {
         count = count + 1;
       }
@@ -106,6 +150,7 @@ function PrintSlip() {
         <div>
           <div id="receipt" ref={componentRef} className={styles.somepading}>
             <div className={styles.salarySlipMain}>
+              <img src={user?.data?.CredentailsData?.logourl} alt="Watter" />
               <div className={styles.overlaydiv}>
                 <div className={styles.salarySlipHeader}>
                   <h2>{user?.data?.CredentailsData?.institutename}</h2>
@@ -207,8 +252,17 @@ function PrintSlip() {
                         })}
                       </tr>
                       <tr className={styles.tabletr}>
-                        {allDetails?.attendance &&
-                          allDetails?.attendance?.map((item, index) => {
+                        {allDetails?.attendance != null &&
+                          (allDetails?.attendance[0]?.monthNumber ===
+                          Number(new Date().getMonth()) + 1
+                            ? allDetails?.attendance?.slice(
+                                0,
+                                Number(
+                                  new Date()?.toISOString().substring(8, 10)
+                                )
+                              )
+                            : allDetails?.attendance
+                          )?.map((item, index) => {
                             return (
                               <td className={styles.tableth} key={index}>
                                 {item?.attendaceStatusIntext === "Present" && (
@@ -235,16 +289,16 @@ function PrintSlip() {
                 <div className={styles.maindivflesxs}>
                   <div>
                     <p>
-                      Total Open Coaching &nbsp; (
-                      {allDetails && totalopen(allDetails?.attendance)})
+                      Total Open Coaching &nbsp;
+                      {allDetails && totalopen()}
                     </p>
                     <p>
-                      Total Present &nbsp; (
-                      {allDetails && totalpresent(allDetails?.attendance)} )
+                      Total Present &nbsp;
+                      {allDetails && totalpresent()}
                     </p>
                     <p>
-                      Total Absent &nbsp; (
-                      {allDetails && totalabsent(allDetails?.attendance)})
+                      Total Absent &nbsp;
+                      {allDetails && totalabsent()}
                     </p>
                   </div>
                   <div>
@@ -269,48 +323,12 @@ function PrintSlip() {
                         Number(allDetails?.monthdetials?.DeductionAmount2)}
                       )
                     </p>
-                    <p>
-                      Payable Amount &nbsp; (
-                      {Math.floor(
-                        Number(allDetails?.monthdetials?.basicsalary) / 30
-                      ) *
-                        totalpresent(allDetails?.attendance) +
-                        Number(allDetails?.monthdetials?.AllowanceAmount1) +
-                        Number(allDetails?.monthdetials?.AllowanceAmount2) +
-                        Number(allDetails?.monthdetials?.AllowanceAmount3) -
-                        (Number(allDetails?.monthdetials?.DeductionAmount1) +
-                          Number(allDetails?.monthdetials?.DeductionAmount2)) -
-                        (Math.floor(
-                          Number(allDetails?.monthdetials?.basicsalary) / 30
-                        ) /
-                          2) *
-                          totalhalfdays(allDetails?.attendance)}
-                      )
-                    </p>
+                    <p>Payable Amount {allDetails?.monthdetials?.PaidAmount}</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-
-          {/* <div className={styles.logbtnstylediv}>
-            <button
-              disabled={allDetails?.paidStatus === true ? true : false}
-              className={
-                allDetails?.paidStatus === true
-                  ? styles.showdetails10
-                  : styles.showdetails
-              }
-            >
-              Back
-            </button>
-            <button
-              className={styles.showdetails}
-              onClick={() => handlePrint()}
-            >
-              DownLoad Slip
-            </button>
-          </div> */}
         </div>
       </div>
     </>

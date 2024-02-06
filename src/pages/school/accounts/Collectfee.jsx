@@ -554,6 +554,7 @@ function Collectfee() {
                     <th className={styles.tableth}>SRNO</th>
                     <th className={styles.tableth}>Roll_No</th>
                     <th className={styles.tableth}>Student_Name</th>
+                    <th className={styles.tableth}>Gender</th>
                     {showfathers && (
                       <>
                         <th className={styles.tableth}>Fathers_Name</th>
@@ -589,6 +590,7 @@ function Collectfee() {
                         <td className={styles.tabletd}>{item?.SrNumber}</td>
                         <td className={styles.tabletd}>{item?.rollnumber}</td>
                         <td className={styles.tabletd}>{item?.name}</td>
+                        <td className={styles.tabletd}>{item?.Gender}</td>
                         {showfathers && (
                           <>
                             <td className={styles.tabletd}>

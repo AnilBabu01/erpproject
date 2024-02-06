@@ -55,7 +55,7 @@
 }
 
 .moredetails input {
-  margin-right:0.5%;
+  margin-right: 0.5%;
 }
 .addtopmenubar {
   border-bottom: 1px solid #093959;
@@ -269,7 +269,6 @@
   padding-right: 5rem; */
 }
 
-
 .tabletr:nth-child(even) {
   background-color: #dddddd;
 }
@@ -447,6 +446,13 @@
   justify-content: flex-end;
   color: black;
   width: 9rem;
+}
+.noticetextinSectionMster {
+  font-size: 18px;
+  margin-bottom: 1%;
+}
+.imgdivstateExport{
+  display: flex;
 }
 @media (max-width: 730px) {
   .expensesDiv {

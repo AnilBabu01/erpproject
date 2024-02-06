@@ -26,6 +26,7 @@ function Addfee({ setOpen }) {
       courseduration: courseduration,
     };
     dispatch(AddFee(data, setOpen));
+    
   };
   useEffect(() => {
     if (course?.status) {

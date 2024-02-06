@@ -59,7 +59,7 @@ function AddRoutes({ setOpen }) {
     serverInstance("transport/vehicleroute", "post", {
       FromRoute: fromroute,
       ToRoute: toroute,
-      BusRentPermonth:permonthRent,
+      BusRentPermonth: permonthRent,
       stopslist: stop,
     }).then((res) => {
       if (res?.status === true) {
@@ -131,7 +131,7 @@ function AddRoutes({ setOpen }) {
                       <AddBoxIcon color="primary" onClick={addQuestionItem} />
                     </IconButton>
                   </th>
-                  <th className={styles.tableth}>Status</th>
+                  <th className={styles.tableth}>Action</th>
                 </tr>
                 {stop?.map((item, index) => {
                   return (
@@ -139,6 +139,7 @@ function AddRoutes({ setOpen }) {
                       <td className={styles.tableth}>
                         <div className={styles.inputdiv}>
                           <input
+                           className={styles.maindivclass} 
                             type="text"
                             placeholder="Enter To Route"
                             value={item.StopName}
@@ -153,61 +154,21 @@ function AddRoutes({ setOpen }) {
                         </div>
                       </td>
                       <td className={styles.tableth}>
-                        <Select
-                          required
-                          className={styles.addwidth}
-                          sx={{
-                            width: "10.8rem",
-                            fontSize: 14,
-                            "& .MuiSelect-select": {
-                              paddingTop: "0.6rem",
-                              paddingBottom: "0.6em",
-                            },
-                          }}
-                          value={item.StopStatus}
-                          onChange={(e) =>
-                            handleQuestionItemUpdate(
-                              item,
-                              "StopStatus",
-                              e.target.value
-                            )
-                          }
-                          displayEmpty
-                          endAdornment={
-                            index > 0 && (
-                              <InputAdornment position="start">
-                                <IconButton
-                                  sx={{
-                                    padding: "4px",
-                                  }}
-                                  onClick={() => removeQuestionItem(item)}
-                                >
-                                  <RemoveCircleOutlineIcon
-                                    color="primary"
-                                    fontSize="small"
-                                  />
-                                </IconButton>
-                              </InputAdornment>
-                            )
-                          }
-                        >
-                          <MenuItem
-                            sx={{
-                              fontSize: 14,
-                            }}
-                            value={true}
-                          >
-                            Enable
-                          </MenuItem>
-                          <MenuItem
-                            sx={{
-                              fontSize: 14,
-                            }}
-                            value={false}
-                          >
-                            Disable
-                          </MenuItem>
-                        </Select>
+                        {index > 0 && (
+                          <InputAdornment position="start">
+                            <IconButton
+                              sx={{
+                                padding: "4px",
+                              }}
+                              onClick={() => removeQuestionItem(item)}
+                            >
+                              <RemoveCircleOutlineIcon
+                                color="primary"
+                                fontSize="small"
+                              />
+                            </IconButton>
+                          </InputAdornment>
+                        )}
                       </td>
                     </tr>
                   );

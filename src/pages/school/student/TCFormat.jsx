@@ -7,11 +7,14 @@ import { serverInstance } from "../../../API/ServerInstance";
 import { useSelector, useDispatch } from "react-redux";
 import { getstudent } from "../../../redux/actions/commanAction";
 import CircularProgress from "@mui/material/CircularProgress";
+
 function TCFormat({ setOpen, TcData }) {
   const dispatch = useDispatch();
   const componentRef = useRef(null);
   const [data, setData] = React.useState({});
   const [loading, setloading] = useState(false);
+  const [NameofPupil, setNameofPupil] = useState("");
+
   const [organizationdata, setorganizationdata] = useState("");
   const { user } = useSelector((state) => state.auth);
 
@@ -91,39 +94,72 @@ function TCFormat({ setOpen, TcData }) {
                 </p>
                 <p>{organizationdata?.pincode}</p>
               </div>
-              <div className={styles.imgdivre}>
+              {/* <div className={styles.imgdivre}>
                 <img
                   className={styles.imgdivreimgprofile}
                   alt="img"
                   src={data?.profileurl}
                 />
-              </div>
+              </div> */}
             </div>
             <div className={styles.transtextmain}>
               <div className={styles.transtextInnear}>
                 <p>TRANSFER CERTIFICATE</p>
               </div>
             </div>
-            <div className={styles.coachingtextaddress}>
-              <p>
-                This is to certify that Mr/Ms
-                <span className={styles.dynamictext}>{data?.name}</span>
-                Son/Daughter of Shree
-                <span className={styles.dynamictext}>{data?.fathersName}</span>a
-                student of this Campus has successfully completed the
-                Proficiency Certificate/Bachelor Level of ................ With
-                .............Division in the year.....................and has
-                secured................percent of marks. I know nothing against
-                his/her moral character. His.Her date of birth according to the
-                campus record is
-                <span className={styles.dynamictext}>
-                  {moment(data?.DateOfBirth).format("DD/MM/YYYY")}
-                </span>
-                (B.S)...............(A.D)
-              </p>
+            <div className={styles.TCNoDiv}>
+              <p>File No</p>
+              <p>T.C No</p>
+              <p>Admission No {data?.SrNumber}</p>
             </div>
             <div className={styles.coachingtextaddress}>
-              <p>I wish his/her success in every walk of life</p>
+              <div className={styles.innearTcOption}>
+                <label className={styles.lebel1}>1.Name of Pupil</label>
+                <input
+                  style={{ borderBottom: "1px dotted", width: "7.8%" }}
+                  type="text"
+                  value={NameofPupil}
+                  name="NameofPupil"
+                  onChange={(e) => setNameofPupil(e.target.value)}
+                />
+              </div>
+
+              <p>2.Name of Father&apos;s Name..............</p>
+              <p>3.Name of Mother&apos;s Name...........</p>
+              <p>4.Residential Address..........</p>
+              <p>5.Aadhar Number...........</p>
+              <p>6.Nationality. ....Religion & Community..........</p>
+              <p>
+                7.Date of First admission in the school with class..........
+              </p>
+              <p>
+                8.8. Date of Birth-accoding to Admission Register (in figures).
+                (In words)...........
+              </p>
+              <p>
+                9.Class in Which the Pupil last studied (in figures). ...In
+                words...........
+              </p>
+              <p>
+                10.Whether failed, if so once/twice in the same class..........
+              </p>
+              <p>11.Subjects studied:..........</p>
+              <p>
+                12.12. Whether qualified for promotion to the higher
+                class........ <br /> If so to which class (in figures).. ..(In
+                words).............
+              </p>
+              <p>
+                13.Whether the pupil has paid all the dues to the
+                school...........
+              </p>
+              <p>14.Total Number of working days.............</p>
+              <p>15.Total Number of working days present...........</p>
+              <p>16.General Conduct...........</p>
+              <p>17.Date of application for certificate..........</p>
+              <p>18.Date of Issue of Certificate..........</p>
+              <p>19.Reason for leaving the school............</p>
+              <p>20.Any others..................</p>
             </div>
 
             <div className={styles.signaturemain}>

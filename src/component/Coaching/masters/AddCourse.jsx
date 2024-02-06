@@ -5,6 +5,7 @@ import { getcourse, Addcourse } from "../../../redux/actions/commanAction";
 import { useDispatch, useSelector } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
 function AddCourse({ setOpen }) {
+  
   const dispatch = useDispatch();
   const [coursename, setcoursename] = useState("");
   const [courseduration, setcourseduration] = useState("");

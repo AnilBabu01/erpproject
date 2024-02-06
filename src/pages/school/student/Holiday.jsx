@@ -33,7 +33,7 @@ const monthlist = [
   },
   {
     id: 3,
-    name: "Mark",
+    name: "March",
   },
   {
     id: 4,
@@ -79,7 +79,7 @@ const monthnamelist = {
 
   2: "February",
 
-  3: "Mark",
+  3: "March",
 
   4: "April",
 
@@ -180,12 +180,7 @@ function Holiday() {
     dispatch(getcourse());
   }, []);
 
-  const filterdata = (e) => {
-    e.preventDefault();
-    dispatch(
-      getstudent(fromdate, todate, scoursename, sbatch, sstudent, sfathers)
-    );
-  };
+ 
 
   const reset = () => {
     setsstudent("");

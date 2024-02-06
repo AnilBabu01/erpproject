@@ -603,6 +603,7 @@ function Searchfee() {
                     <p>SRNO : {item?.student?.SrNumber}</p>
                     <p>Roll_No : {item?.student?.rollnumber}</p>
                     <p>Student_Name : {item?.student?.name}</p>
+                    <p>Gender : {item?.student?.Gender}</p>
                   </div>
                   <div className={styles.academyfee}>
                     <p>Academin Fee</p>

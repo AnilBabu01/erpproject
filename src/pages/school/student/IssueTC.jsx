@@ -195,6 +195,7 @@ function IssueTC() {
         sessionname,
         "",
         "",
+        "",
         ""
       )
     );
@@ -770,6 +771,7 @@ function IssueTC() {
                         <th className={styles.tableth}>Section</th>
                         <th className={styles.tableth}>Stream</th>
                         <th className={styles.tableth}>Student_Name</th>
+                        <th className={styles.tableth}>Gender</th>
                         <th className={styles.tableth}>Student_Email</th>
                         <th className={styles.tableth}>Student_Phone</th>
                         <th className={styles.tableth}>Issued_Date</th>
@@ -789,6 +791,7 @@ function IssueTC() {
                             <td className={styles.tabletd}>{item?.Section}</td>
                             <td className={styles.tabletd}>{item?.Stream}</td>
                             <td className={styles.tabletd}>{item?.name}</td>
+                            <td className={styles.tabletd}>{item?.Gender}</td>
                             <td className={styles.tabletd}>{item?.email}</td>
                             <td className={styles.tabletd}>{item?.phoneno1}</td>
                             <td className={styles.tabletd}>
@@ -821,6 +824,7 @@ function IssueTC() {
                         <th className={styles.tableth}>Section</th>
                         <th className={styles.tableth}>Stream</th>
                         <th className={styles.tableth}>Student_Name</th>
+                        <th className={styles.tableth}>Gender</th>
                         <th className={styles.tableth}>Student_Email</th>
                         <th className={styles.tableth}>Student_Phone</th>
                         <th className={styles.tableth}>Adminssion_Date</th>
@@ -841,6 +845,7 @@ function IssueTC() {
                             <td className={styles.tabletd}>{item?.Section}</td>
                             <td className={styles.tabletd}>{item?.Stream}</td>
                             <td className={styles.tabletd}>{item?.name}</td>
+                            <td className={styles.tabletd}>{item?.Gender}</td>
                             <td className={styles.tabletd}>{item?.email}</td>
                             <td className={styles.tabletd}>{item?.phoneno1}</td>
                             <td className={styles.tabletd}>

@@ -55,6 +55,7 @@ function UpdateOtherFee({ setOpen, updatedata }) {
     });
   };
 
+  
   useEffect(() => {
     if (sections) {
       setsectionlist(sections);

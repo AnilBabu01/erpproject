@@ -24,6 +24,7 @@ const studentStatus = [
   { label: "Completed", value: "Completed" },
   { label: "Unknown", value: "Unknown" },
 ];
+
 const monthlist = [
   {
     id: 1,
@@ -229,11 +230,6 @@ function Attendance() {
     dispatch(DoneStudentAttendance(attendancedetails));
   };
 
-  const endno = (date) => {
-    let end = new Date(date).getDate();
-    return end - 1;
-  };
-
   useEffect(() => {
     var currentDate = new Date();
 
@@ -241,19 +237,22 @@ function Attendance() {
   }, []);
 
   const calculateAbsentorPresent = (attendanceArray, status) => {
-    let newdate = new Date();
+    let filteredData;
 
-    console.log("data is", attendanceArray, status);
+    if (attendanceArray[0]?.monthNumber === Number(new Date().getMonth()) + 1) {
+      let slice = attendanceArray?.slice(
+        0,
+        Number(new Date()?.toISOString().substring(8, 10))
+      );
 
-    const filteredData =
-      attendanceArray?.monthNumber === Number(new Date().getMonth()) + 1
-        ? attendanceArray?.slice(
-            0,
-            Number(new Date()?.toISOString().substring(8, 10))
-          )
-        : attendanceArray?.filter(
-            (entry) => entry?.attendaceStatusIntext === status
-          );
+      filteredData = slice?.filter(
+        (entry) => entry?.attendaceStatusIntext === status
+      );
+    } else {
+      filteredData = attendanceArray?.filter(
+        (entry) => entry?.attendaceStatusIntext === status
+      );
+    }
 
     return filteredData?.length;
   };
@@ -588,7 +587,7 @@ function Attendance() {
                     : styles.searchoptiondivbutton
                 }
               >
-                Analysis Attendance
+                Analysie Attendance
               </button>
               {Analysisatten && (
                 <>
@@ -726,6 +725,8 @@ function Attendance() {
                                 </th>
                                 <th className={styles.tableth10}>Class</th>
                                 <th className={styles.tableth10}>Month</th>
+                                <th className={styles.tableth10}>Absent</th>
+                                <th className={styles.tableth10}>Present</th>
                               </>
                             )}
 
@@ -736,12 +737,6 @@ function Attendance() {
                                 </th>
                               );
                             })}
-                            {showmoredetails && (
-                              <>
-                                <th className={styles.tableth10}>Absent</th>
-                                <th className={styles.tableth10}>Present</th>
-                              </>
-                            )}
                           </tr>
                           {monthly &&
                             monthly?.map((item, index) => {
@@ -763,6 +758,18 @@ function Attendance() {
                                       </td>
                                       <td className={styles.tabletd}>
                                         {monthnamelist[month?.toString()]}
+                                      </td>
+                                      <td className={styles.tabletd}>
+                                        {calculateAbsentorPresent(
+                                          item?.attendance,
+                                          "Absent"
+                                        )}
+                                      </td>
+                                      <td className={styles.tabletd}>
+                                        {calculateAbsentorPresent(
+                                          item?.attendance,
+                                          "Present"
+                                        )}
                                       </td>
                                     </>
                                   )}
@@ -812,23 +819,6 @@ function Attendance() {
                                         </td>
                                       );
                                     })}
-
-                                  {showmoredetails && (
-                                    <>
-                                      <td className={styles.tabletd}>
-                                        {calculateAbsentorPresent(
-                                          item?.attendance,
-                                          "Absent"
-                                        )}
-                                      </td>
-                                      <td className={styles.tabletd}>
-                                        {calculateAbsentorPresent(
-                                          item?.attendance,
-                                          "Present"
-                                        )}
-                                      </td>
-                                    </>
-                                  )}
                                 </tr>
                               );
                             })}

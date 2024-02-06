@@ -28,11 +28,11 @@ const AdminNavbar = () => {
           <div>
             <Link
               className={
-                router.pathname == "/mainadfmin/dashbord"
+                router.pathname == "/mainadmin/client/allclient"
                   ? "link_directActive"
                   : "link_direct"
               }
-              href="/mainadmixn/dashbord"
+              href="/mainadmin/client/allclient"
             >
               Clients
             </Link>
@@ -41,11 +41,11 @@ const AdminNavbar = () => {
           <div>
             <Link
               className={
-                router.pathname == "/mainadfmin/dashbord"
+                router.pathname == "/mainadmin/activeclient/allactiveclient"
                   ? "link_directActive"
                   : "link_direct"
               }
-              href="/mainadmixn/dashbord"
+              href="/mainadmin/activeclient/allactiveclient"
             >
               Active Plans
             </Link>
@@ -54,11 +54,12 @@ const AdminNavbar = () => {
           <div>
             <Link
               className={
-                router.pathname == "/mainadfmin/dashbord"
+                router.pathname ==
+                "/mainadmin/exhaustedclient/allexhaustedclient"
                   ? "link_directActive"
                   : "link_direct"
               }
-              href="/mainadmixn/dashbord"
+              href="/mainadmin/exhaustedclient/allexhaustedclient"
             >
               Exhausted Plans
             </Link>
@@ -67,13 +68,26 @@ const AdminNavbar = () => {
           <div>
             <Link
               className={
-                router.pathname == "/mainadfmin/dashbord"
+                router.pathname == "/mainadmin/guestclients/allguestclients"
                   ? "link_directActive"
                   : "link_direct"
               }
-              href="/mainadmixn/dashbord"
+              href="/mainadmin/guestclients/allguestclients"
             >
               Guest Clients
+            </Link>
+          </div>
+          &nbsp;&nbsp; &nbsp;&nbsp;
+          <div>
+            <Link
+              className={
+                router.pathname == "/school/masters/AddSession"
+                  ? "link_directActive"
+                  : "link_direct"
+              }
+              href="/school/masters/AddSession"
+            >
+              Session
             </Link>
           </div>
         </>

@@ -14,6 +14,7 @@ import Updatecourse from "@/component/Institute/masters/Updatesection";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
 import { loadUser } from "../../../redux/actions/authActions";
+
 function AddSection() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -202,6 +203,7 @@ function AddSection() {
             </button>
           </div>
           <div className={styles.add_divmarginn}>
+            <p className={styles.noticetextinSectionMster}>Please Create Section Only Ex (A,B,C,D). It will be show in admission data</p>
             <div className={styles.tablecontainer}>
               <table className={styles.tabletable}>
                 <tbody>

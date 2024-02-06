@@ -140,7 +140,7 @@ function UpdateRoutes({ setOpen, updatedata }) {
                       <AddBoxIcon color="primary" onClick={addQuestionItem} />
                     </IconButton>
                   </th>
-                  <th className={styles.tableth}>Status</th>
+                  <th className={styles.tableth}>Action</th>
                 </tr>
                 {stop?.map((item, index) => {
                   return (
@@ -148,6 +148,7 @@ function UpdateRoutes({ setOpen, updatedata }) {
                       <td className={styles.tableth}>
                         <div className={styles.inputdiv}>
                           <input
+                            className={styles.maindivclass} 
                             type="text"
                             placeholder="Enter To Route"
                             value={item.StopName}
@@ -162,27 +163,7 @@ function UpdateRoutes({ setOpen, updatedata }) {
                         </div>
                       </td>
                       <td className={styles.tableth}>
-                        <Select
-                          required
-                          className={styles.addwidth}
-                          sx={{
-                            width: "10.8rem",
-                            fontSize: 14,
-                            "& .MuiSelect-select": {
-                              paddingTop: "0.6rem",
-                              paddingBottom: "0.6em",
-                            },
-                          }}
-                          value={item.StopStatus}
-                          onChange={(e) =>
-                            handleQuestionItemUpdate(
-                              item,
-                              "StopStatus",
-                              e.target.value
-                            )
-                          }
-                          displayEmpty
-                          endAdornment={
+                      {
                             index > 0 && (
                               <InputAdornment position="start">
                                 <IconButton
@@ -199,24 +180,6 @@ function UpdateRoutes({ setOpen, updatedata }) {
                               </InputAdornment>
                             )
                           }
-                        >
-                          <MenuItem
-                            sx={{
-                              fontSize: 14,
-                            }}
-                            value={true}
-                          >
-                            Enable
-                          </MenuItem>
-                          <MenuItem
-                            sx={{
-                              fontSize: 14,
-                            }}
-                            value={false}
-                          >
-                            Disable
-                          </MenuItem>
-                        </Select>
                       </td>
                     </tr>
                   );

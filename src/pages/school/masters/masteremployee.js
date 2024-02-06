@@ -15,6 +15,7 @@ import { Button } from "@mui/material";
 import Addtypeofemployee from "@/component/Coaching/masters/Addtypeofemployee";
 import UpdateEmployeeType from "@/component/Coaching/masters/UpdateEmployeeType";
 import { loadUser } from "../../../redux/actions/authActions";
+
 function Masteremployee() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);

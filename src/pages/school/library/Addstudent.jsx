@@ -168,6 +168,7 @@ function Addstudent() {
         sessionname,
         sectionname,
         sno,
+        "",
         ""
       )
     );
@@ -483,6 +484,7 @@ function Addstudent() {
                     <th className={styles.tableth}>Roll_No</th>
                     <th className={styles.tableth}>Section</th>
                     <th className={styles.tableth}>Student_Name</th>
+                    <th className={styles.tableth}>Gender</th>
                     {/* <th className={styles.tableth}>Student_Email</th> */}
                     <th className={styles.tableth}>Student_Phone</th>
                     {/* <th className={styles.tableth}>Adminssion_Date</th>
@@ -504,6 +506,7 @@ function Addstudent() {
                         <td className={styles.tabletd}>{item?.rollnumber}</td>
                         <td className={styles.tabletd}>{item?.Section}</td>
                         <td className={styles.tabletd}>{item?.name}</td>
+                        <td className={styles.tabletd}>{item?.Gender}</td>
                         {/* <td className={styles.tabletd}>{item?.email}</td> */}
                         <td className={styles.tabletd}>{item?.phoneno1}</td>
                         {/* <td className={styles.tabletd}>

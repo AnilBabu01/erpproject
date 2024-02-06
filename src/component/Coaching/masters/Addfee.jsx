@@ -9,13 +9,14 @@ import CircularProgress from "@mui/material/CircularProgress";
 function Addfee({ setOpen }) {
   const dispatch = useDispatch();
   const [isdata, setisData] = useState([]);
+  const [permonthfee, setpermonthfee] = useState('');
   const [coursename, setcoursename] = useState("");
   const [registrationfee, setregistrationfee] = useState("");
-  const [permonthfee, setpermonthfee] = useState("");
+  const [adminssionfee, setadminssionfee] = useState("");
+  const [AnnualFee, setAnnualFee] = useState("");
   const [courseduration, setcourseduration] = useState("");
   const { loading, course } = useSelector((state) => state.addfee);
   const { course: coursemin } = useSelector((state) => state.getcourse);
-
 
   const submit = (e) => {
     e.preventDefault();
@@ -24,6 +25,8 @@ function Addfee({ setOpen }) {
       feepermonth: permonthfee,
       coursename: coursename,
       courseduration: courseduration,
+      adminssionfee: adminssionfee,
+      AnnualFee: AnnualFee,
     };
     dispatch(AddFee(data, setOpen));
   };
@@ -114,6 +117,34 @@ function Addfee({ setOpen }) {
                 name="permonthfee"
                 onChange={(e) => setpermonthfee(e.target.value)}
               />
+            </div>
+          </div>
+          <div className={styles.divmaininput}>
+            <div className={styles.inputdiv}>
+              <label>Admission Fee</label>
+              <input
+                required
+                type="text"
+                placeholder="Enter the Admission Fee"
+                value={adminssionfee}
+                name="adminssionfee"
+                onChange={(e) => setadminssionfee(e.target.value)}
+              />
+            </div>
+            <div className={styles.inputdiv}>
+              <label>Annual Fee</label>
+              <input
+                required
+                type="text"
+                placeholder="Enter the Annual Fee"
+                value={AnnualFee}
+                name="AnnualFee"
+                onChange={(e) => setAnnualFee(e.target.value)}
+              />
+            </div>
+            <div className={styles.inputdiv}>
+              <label>&nbsp;</label>
+              <label>&nbsp;</label>
             </div>
           </div>
           <div className={styles.logbtnstylediv}>

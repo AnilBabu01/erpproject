@@ -12,7 +12,35 @@ import { serverInstance } from "../../../API/ServerInstance";
 import { backendApiUrl } from "../../../config/config";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { indiaStatesData } from "../../Auth/StaticData";
+import Select1 from "react-select";
+const customStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    background: "#fff",
+    borderColor: "#9e9e9e",
+    // height: "30px",
+    boxShadow: state.isFocused ? null : null,
+  }),
 
+  valueContainer: (provided, state) => ({
+    ...provided,
+    // height: "30px",
+    padding: "0 6px",
+  }),
+
+  input: (provided, state) => ({
+    ...provided,
+    margin: "0px",
+  }),
+  indicatorSeparator: (state) => ({
+    display: "none",
+  }),
+  indicatorsContainer: (provided, state) => ({
+    ...provided,
+    height: "30px",
+  }),
+};
 const formData = new FormData();
 
 const studentStatus = [
@@ -22,9 +50,54 @@ const studentStatus = [
   { label: "Completed", value: "Completed" },
   { label: "Unknown", value: "Unknown" },
 ];
+
+const CasteList = [
+  { label: "General", value: "General" },
+  { label: "OBC", value: "OBC" },
+  { label: "SC", value: "SC" },
+  { label: "ST", value: "ST" },
+  { label: "Others", value: "Others" },
+];
+
+const BloodGroupList = [
+  { label: "(A+)", value: "(A+)" },
+  { label: "(A-)", value: "(A-)" },
+  { label: "(B+)", value: "(B+)" },
+  { label: "(B-)", value: "(B-)" },
+  { label: "(O+)", value: "(O+)" },
+  { label: "(O-)", value: "(O-)" },
+  { label: "(AB+)", value: "(AB+)" },
+  { label: "(AB-)", value: "(AB-)" },
+  {
+    label: "Under Investigation OR N.A.",
+    value: "Under Investigation OR N.A.",
+  },
+];
+
+const religionList = [
+  { label: "Hinduism", value: "Hinduism" },
+  { label: "Muslim", value: "Muslim" },
+  { label: "Sikhism", value: "Sikhism" },
+  { label: "Buddhism", value: "Buddhism" },
+  { label: "Jainism", value: "Jainism" },
+  { label: "Christianity", value: "Christianity" },
+  { label: "Others", value: "Others" },
+];
+
+const GenderListList = [
+  { label: "Male", value: "Male" },
+  { label: "Female", value: "Female" },
+  { label: "Others", value: "Others" },
+];
+
 function AddStudent({ setOpen }) {
   const navigation = useRouter();
   const dispatch = useDispatch();
+  const [Religion, setReligion] = useState("");
+  const [Nationality, setNationality] = useState("Indian");
+  const [address, setaddress] = useState("");
+  const [gender, setgender] = useState("Male");
+  const [BloodGroup, setBloodGroup] = useState("");
   const [loading, setloading] = useState(false);
   const [stream, setstream] = useState("NONE");
   const [DateOfBirth, setDateOfBirth] = useState("");
@@ -121,11 +194,19 @@ function AddStudent({ setOpen }) {
 
   const submit = async () => {
     setloading(true);
+    let statename = indiaStatesData?.states?.find(
+      (item) => item?.id === Number(state)
+    )?.state;
     formData.set("name", studentname);
     formData.set("email", studentemail);
     formData.set("phoneno1", studentphone);
+    formData.set("Religion", Religion);
+    formData.set("Nationality", Nationality);
+    formData.set("Gender", gender);
+    formData.set("BloodGroup", BloodGroup);
+    formData.set("address", address);
     formData.set("city", city);
-    formData.set("state", state);
+    formData.set("state", statename);
     formData.set("pincode", Pincode);
     formData.set("profileurl", photo);
     formData.set("adharcard", adharcard);
@@ -149,7 +230,7 @@ function AddStudent({ setOpen }) {
       "MatherswhatsappNo",
       mothersusepreview ? mothersphone : whatsaapmothersnumber
     );
-    
+
     formData.set("PreviousTcNo", PreviousTcNo);
     formData.set("PreviousSchoolName", PreviousSchool);
     formData.set("PreviousSchoolAddress", PreviousSchoolAddress);
@@ -365,7 +446,7 @@ function AddStudent({ setOpen }) {
         <div>
           {shownext ? (
             <>
-              <div className={styles.divmaininput}>
+               <div className={styles.divmaininput}>
                 <div className={styles.inputdiv}>
                   <label>Admission Date</label>
                   <input
@@ -402,16 +483,16 @@ function AddStudent({ setOpen }) {
                     >
                       Please Select
                     </MenuItem>
-                    {categorylist?.map((item, index) => {
+                    {CasteList?.map((item, index) => {
                       return (
                         <MenuItem
                           key={index}
                           sx={{
                             fontSize: 14,
                           }}
-                          value={item?.category}
+                          value={item?.value}
                         >
-                          {item?.category}
+                          {item?.value}
                         </MenuItem>
                       );
                     })}
@@ -530,6 +611,264 @@ function AddStudent({ setOpen }) {
                   />
                 </div>
               </div>
+              <div className={styles.divmaininput}>
+                <div className={styles.inputdiv}>
+                  <label>PEN (Permanent Education No.)</label>
+                  <input
+                    required
+                    type="text"
+                    placeholder="Enter the PEN"
+                    value={pano}
+                    name="pano"
+                    onChange={(e) => setpano(e.target.value)}
+                  />
+                </div>
+                <div className={styles.inputdiv}>
+                  <label>Aadhar Card No</label>
+                  <input
+                    required
+                    type="text"
+                    placeholder="Enter the Aadhar Card No"
+                    value={adharcardno}
+                    name="adharcardno"
+                    onChange={(e) => setadharcardno(e.target.value)}
+                  />
+                </div>
+                <div className={styles.inputdiv}>
+                  <label>Section</label>
+                  <Select
+                    required
+                    className={styles.addwidth}
+                    sx={{
+                      width: "18rem",
+                      fontSize: 14,
+                      "& .MuiSelect-select": {
+                        paddingTop: "0.6rem",
+                        paddingBottom: "0.6em",
+                      },
+                    }}
+                    value={sectionname}
+                    name="sectionname"
+                    onChange={(e) => setsectionname(e.target.value)}
+                    displayEmpty
+                  >
+                    <MenuItem
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={"NONE"}
+                    >
+                      NONE
+                    </MenuItem>
+                    {sectionlist?.length > 0 &&
+                      sectionlist?.map((item, index) => {
+                        return (
+                          <MenuItem
+                            key={index}
+                            sx={{
+                              fontSize: 14,
+                            }}
+                            value={item?.section}
+                          >
+                            {item?.section}
+                          </MenuItem>
+                        );
+                      })}
+                  </Select>
+                </div>
+              </div>
+              <div className={styles.divmaininput}>
+                <div className={styles.inputdiv}>
+                  <label>Gender</label>
+                  <Select
+                    required
+                    className={styles.addwidth}
+                    sx={{
+                      width: "18rem",
+                      fontSize: 14,
+                      "& .MuiSelect-select": {
+                        paddingTop: "0.6rem",
+                        paddingBottom: "0.6em",
+                      },
+                    }}
+                    value={gender}
+                    name="gender"
+                    onChange={(e) => setgender(e.target.value)}
+                    displayEmpty
+                  >
+                    <MenuItem
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={""}
+                    >
+                      Please Select
+                    </MenuItem>
+
+                    {GenderListList?.map((item, index) => {
+                      return (
+                        <MenuItem
+                        key={index}
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={item?.value}
+                        >
+                          {item?.value}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </div>
+
+                <div className={styles.inputdiv}>
+                  <label>Blood Group</label>
+                  <Select
+                    required
+                    className={styles.addwidth}
+                    sx={{
+                      width: "18rem",
+                      fontSize: 14,
+                      "& .MuiSelect-select": {
+                        paddingTop: "0.6rem",
+                        paddingBottom: "0.6em",
+                      },
+                    }}
+                    value={BloodGroup}
+                    name="BloodGroup"
+                    onChange={(e) => setBloodGroup(e.target.value)}
+                    displayEmpty
+                  >
+                    <MenuItem
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={""}
+                    >
+                      Please Select
+                    </MenuItem>
+
+                    {BloodGroupList?.map((item, index) => {
+                      return (
+                        <MenuItem
+                        key={index}
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={item?.value}
+                        >
+                          {item?.value}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </div>
+
+                <div className={styles.inputdiv}>
+                  <label>Religion</label>
+                  <Select
+                    required
+                    className={styles.addwidth}
+                    sx={{
+                      width: "18rem",
+                      fontSize: 14,
+                      "& .MuiSelect-select": {
+                        paddingTop: "0.6rem",
+                        paddingBottom: "0.6em",
+                      },
+                    }}
+                    value={Religion}
+                    name="Religion"
+                    onChange={(e) => setReligion(e.target.value)}
+                    displayEmpty
+                  >
+                    <MenuItem
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={""}
+                    >
+                      Please Select
+                    </MenuItem>
+
+                    {religionList?.map((item, index) => {
+                      return (
+                        <MenuItem
+                        key={index}
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={item?.value}
+                        >
+                          {item?.value}
+                        </MenuItem>
+                      );
+                    })}
+                  </Select>
+                </div>
+              </div>
+
+              <div className={styles.divmaininput}>
+                <div className={styles.selectdiv10}>
+                  <label>State</label>
+
+                  <Select1
+                    required
+                    styles={customStyles}
+                    options={indiaStatesData?.states?.map((item) => ({
+                      label: item?.state,
+                      value: item?.id,
+                    }))}
+                    onChange={(opt) => setstate(opt.value)}
+                  />
+                </div>
+                <div className={styles.selectdiv10}>
+                  <label>District</label>
+
+                  <Select1
+                    required
+                    styles={customStyles}
+                    options={indiaStatesData?.states
+                      ?.find((item) => item?.id === Number(state))
+                      ?.districts?.map((item) => ({
+                        label: item?.name,
+                        value: item?.name,
+                      }))}
+                    onChange={(opt) => setcity(opt.value)}
+                  />
+                </div>
+
+                <div className={styles.inputdiv}>
+                  <label>Pin Code</label>
+                  <input
+                    required
+                    type="text"
+                    placeholder="Enter the Pincode"
+                    value={Pincode}
+                    name="Pincode"
+                    onChange={(e) => setPincode(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className={styles.divmaininput10}>
+                <div className={styles.mainaddresdiv}>
+                  <label>Address</label>
+                  <input
+                    placeholder="Enter address"
+                    value={address}
+                    onChange={(e) => setaddress(e.target.value)}
+                  />
+                </div>
+                <div className={styles.inputdiv}>
+                  <label>Nationality</label>
+                  <input
+                    placeholder="Enter Nationality"
+                    value={Nationality}
+                    onChange={(e) => setNationality(e.target.value)}
+                  />
+                </div>
+              </div>
 
               <div className={styles.divmaininput}>
                 <div className={styles.inputdiv}>
@@ -628,109 +967,6 @@ function AddStudent({ setOpen }) {
                       )
                     }
                   />
-                </div>
-              </div>
-
-              <div className={styles.divmaininput}>
-                <div className={styles.inputdiv}>
-                  <label>State</label>
-                  <input
-                    required
-                    type="text"
-                    placeholder="Enter the State"
-                    value={state}
-                    name="state"
-                    onChange={(e) => setstate(e.target.value)}
-                  />
-                </div>
-                <div className={styles.inputdiv}>
-                  <label>City</label>
-                  <input
-                    required
-                    type="text"
-                    placeholder="Enter the city"
-                    value={city}
-                    name="city"
-                    onChange={(e) => setcity(e.target.value)}
-                  />
-                </div>
-
-                <div className={styles.inputdiv}>
-                  <label>Pin Code</label>
-                  <input
-                    required
-                    type="text"
-                    placeholder="Enter the Pincode"
-                    value={Pincode}
-                    name="Pincode"
-                    onChange={(e) => setPincode(e.target.value)}
-                  />
-                </div>
-              </div>
-              <div className={styles.divmaininput}>
-                <div className={styles.inputdiv}>
-                  <label>PEN (Personal Education No)</label>
-                  <input
-                    required
-                    type="text"
-                    placeholder="Enter the PEN"
-                    value={pano}
-                    name="pano"
-                    onChange={(e) => setpano(e.target.value)}
-                  />
-                </div>
-                <div className={styles.inputdiv}>
-                  <label>Adhar Card No</label>
-                  <input
-                    required
-                    type="text"
-                    placeholder="Enter the Adhar Card No"
-                    value={adharcardno}
-                    name="adharcardno"
-                    onChange={(e) => setadharcardno(e.target.value)}
-                  />
-                </div>
-                <div className={styles.inputdiv}>
-                  <label>Section</label>
-                  <Select
-                    required
-                    className={styles.addwidth}
-                    sx={{
-                      width: "18rem",
-                      fontSize: 14,
-                      "& .MuiSelect-select": {
-                        paddingTop: "0.6rem",
-                        paddingBottom: "0.6em",
-                      },
-                    }}
-                    value={sectionname}
-                    name="sectionname"
-                    onChange={(e) => setsectionname(e.target.value)}
-                    displayEmpty
-                  >
-                    <MenuItem
-                      sx={{
-                        fontSize: 14,
-                      }}
-                      value={"NONE"}
-                    >
-                      NONE
-                    </MenuItem>
-                    {sectionlist?.length > 0 &&
-                      sectionlist?.map((item, index) => {
-                        return (
-                          <MenuItem
-                            key={index}
-                            sx={{
-                              fontSize: 14,
-                            }}
-                            value={item?.section}
-                          >
-                            {item?.section}
-                          </MenuItem>
-                        );
-                      })}
-                  </Select>
                 </div>
               </div>
               <div className={styles.divmaininput}>
@@ -879,7 +1115,7 @@ function AddStudent({ setOpen }) {
                     required
                     className={styles.addwidth}
                     sx={{
-                      width: "18.8rem",
+                      width: "18.2rem",
                       fontSize: 14,
                       "& .MuiSelect-select": {
                         paddingTop: "0.6rem",
@@ -1133,7 +1369,6 @@ function AddStudent({ setOpen }) {
                       </Select>
                     </div>
                     <div className={styles.inputdiv}>
-                   
                       <label>Admission Fee</label>
                       <input
                         required
@@ -1143,7 +1378,6 @@ function AddStudent({ setOpen }) {
                         name="admissionFee"
                         onChange={(e) => setadmissionFee(e.target.value)}
                       />
-                  
                     </div>
                   </div>
                   {courses ? (

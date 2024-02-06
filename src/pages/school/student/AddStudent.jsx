@@ -216,7 +216,8 @@ function AddStudent() {
         sessionname,
         sectionname,
         "",
-        stream
+        stream,
+        ""
       )
     );
   };
@@ -248,6 +249,7 @@ function AddStudent() {
         "Roll Number": item?.rollnumber,
         SRNO: item?.SrNumber,
         Student_Name: item?.name,
+        'Gender':item?.Gender,
         Student_Email: item?.email,
         "Student_Mobile NO": item?.phoneno1,
         "Father's_Name": item?.fathersName,
@@ -666,11 +668,13 @@ function AddStudent() {
                     <th className={styles.tableth}>Roll_No</th>
                     <th className={styles.tableth}>Section</th>
                     <th className={styles.tableth}>Stream</th>
+                    <th className={styles.tableth}>Class</th>
                     <th className={styles.tableth}>Student_Name</th>
-                    <th className={styles.tableth}>Student_Email</th>
+                    <th className={styles.tableth}>Gender</th>
+                    <th className={styles.tableth}>Father&apos;s_Name</th>
                     <th className={styles.tableth}>Student_Phone</th>
                     <th className={styles.tableth}>Adminssion_Date</th>
-                    <th className={styles.tableth}>Class</th>
+                    
                     <th className={styles.tableth}>Category</th>
                     <th className={styles.tableth}>Student_Status</th>
                     <th className={styles.tableth}>Action</th>
@@ -684,15 +688,17 @@ function AddStudent() {
                         <td className={styles.tabletd}>{item?.rollnumber}</td>
                         <td className={styles.tabletd}>{item?.Section}</td>
                         <td className={styles.tabletd}>{item?.Stream}</td>
+                        <td className={styles.tabletd}>
+                          {item?.courseorclass}
+                        </td>
                         <td className={styles.tabletd}>{item?.name}</td>
-                        <td className={styles.tabletd}>{item?.email}</td>
+                        <td className={styles.tabletd}>{item?.Gender}</td>
+                        <td className={styles.tabletd}>{item?.fathersName}</td>
                         <td className={styles.tabletd}>{item?.phoneno1}</td>
                         <td className={styles.tabletd}>
                           {moment(item?.admissionDate).format("DD/MM/YYYY")}
                         </td>
-                        <td className={styles.tabletd}>
-                          {item?.courseorclass}
-                        </td>
+                       
                         <td className={styles.tabletd}>
                           {item?.StudentCategory}
                         </td>

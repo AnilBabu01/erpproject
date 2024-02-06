@@ -15,6 +15,7 @@ import { Button } from "@mui/material";
 import Adddepart from "@/component/Coaching/masters/Adddepart";
 import Updatedepart from "@/component/Coaching/masters/Updatedepart";
 import { loadUser } from "../../../redux/actions/authActions";
+
 function Department() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);

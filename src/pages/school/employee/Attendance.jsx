@@ -233,7 +233,7 @@ function Attendance() {
       }
     );
   };
-  
+
   const saveAttendance = () => {
     const data = {
       data: attendancedetails,
@@ -251,9 +251,25 @@ function Attendance() {
     });
   };
 
-  const endno = (date) => {
-    let end = new Date(date).getDate();
-    return end - 1;
+  const calculateAbsentorPresent = (attendanceArray, status) => {
+    let filteredData;
+
+    if (attendanceArray[0]?.monthNumber === Number(new Date().getMonth()) + 1) {
+      let slice = attendanceArray?.slice(
+        0,
+        Number(new Date()?.toISOString().substring(8, 10))
+      );
+
+      filteredData = slice?.filter(
+        (entry) => entry?.attendaceStatusIntext === status
+      );
+    } else {
+      filteredData = attendanceArray?.filter(
+        (entry) => entry?.attendaceStatusIntext === status
+      );
+    }
+
+    return filteredData?.length;
   };
   return (
     <>
@@ -276,7 +292,7 @@ function Attendance() {
                     }}
                   />
 
-                  <select
+                  {/* <select
                     className={styles.opensearchinput}
                     sx={{
                       width: "18.8rem",
@@ -315,7 +331,7 @@ function Attendance() {
                           </option>
                         );
                       })}
-                  </select>
+                  </select> */}
                   <button
                     className={styles.saveattendacebutton}
                     onClick={() => {
@@ -479,7 +495,7 @@ function Attendance() {
                     : styles.searchoptiondivbutton
                 }
               >
-                Analysis Attendance
+                Analysie Attendance
               </button>
               {Analysisatten && (
                 <>
@@ -611,6 +627,8 @@ function Attendance() {
                               Employee&lsquo;Name
                             </th>
                             <th className={styles.tableth10}>Month</th>
+                            <th className={styles.tableth}>Present</th>
+                            <th className={styles.tableth}>Absent</th>
                             {monthly[0]?.days?.map((item, index) => {
                               return (
                                 <th key={index} className={styles.tableth}>
@@ -633,36 +651,30 @@ function Attendance() {
                                     {monthnamelist[month?.toString()]}
                                   </td>
 
-                                  {/* {monthly[0].days
-                                    ?.slice(
-                                      0,
-                                      Number(
-                                        new Date()
-                                          ?.toISOString()
-                                          .substring(8, 10)
-                                      )
-                                    )
-                                    ?.map((items, idx) => {
-                                      return (
-                                        <td
-                                          key={index}
-                                          className={styles.tableth}
-                                        >
-                                          <button className={styles.presentbtn}>
-                                            NO
-                                          </button>
-                                        </td>
-                                      );
-                                    })} */}
-
+                                  <td className={styles.tabletd}>
+                                    {calculateAbsentorPresent(
+                                      item?.attendance,
+                                      "Present"
+                                    )}
+                                  </td>
+                                  <td className={styles.tabletd}>
+                                    {calculateAbsentorPresent(
+                                      item?.attendance,
+                                      "Absent"
+                                    )}
+                                  </td>
                                   {item?.attendance != null &&
-                                    item?.attendance?.slice(
-                                      0,
-                                      Number(
-                                        new Date()
-                                          ?.toISOString()
-                                          .substring(8, 10)
-                                      )
+                                    (item?.attendance[0]?.monthNumber ===
+                                    Number(new Date().getMonth()) + 1
+                                      ? item?.attendance?.slice(
+                                          0,
+                                          Number(
+                                            new Date()
+                                              ?.toISOString()
+                                              .substring(8, 10)
+                                          )
+                                        )
+                                      : item?.attendance
                                     )?.map((item, index) => {
                                       return (
                                         <td

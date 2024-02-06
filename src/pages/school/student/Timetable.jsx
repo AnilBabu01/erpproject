@@ -25,6 +25,7 @@ import moment from "moment";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
 import exportFromJSON from "export-from-json";
+
 const daylist = [
   { label: "Monday", value: "Monday" },
   { label: "Tuesday", value: "Tuesday" },
@@ -34,6 +35,7 @@ const daylist = [
   { label: "Saturday", value: "Saturday" },
   { label: "Sunday", value: "Sunday" },
 ];
+
 function Timetable() {
   const dispatch = useDispatch();
   const [dayname, setdayname] = useState("");
@@ -124,6 +126,7 @@ function Timetable() {
   useEffect(() => {
     dispatch(GetsSubject(classId, empID));
   }, []);
+  
   useEffect(() => {
     dispatch(loadUser());
     dispatch(getbatch());

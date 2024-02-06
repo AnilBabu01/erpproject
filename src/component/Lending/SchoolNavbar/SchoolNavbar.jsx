@@ -432,11 +432,11 @@ const SchoolNavbar = () => {
               <div className="nffffav_linka">
                 <Link
                   className={
-                    router.pathname == "/school/masters/AddSession"
+                    router.pathname == "/school/masters/AddSection"
                       ? "link_directActive"
                       : "link_direct"
                   }
-                  href="/school/masters/AddSession"
+                  href="/school/masters/AddSection"
                 >
                   Masters <KeyboardArrowDownIcon />
                 </Link>
@@ -447,12 +447,13 @@ const SchoolNavbar = () => {
                     <div className="main_report_dropdown_rightmargin">
                       <h1>General</h1>
                       <div className="main_innear_menu_dropdown">
-                        <Link href="/school/masters/AddSession">Seesion</Link>
-                        <Link href="/school/masters/AddSection">Section</Link>
+                        {/* <Link href="/school/masters/AddSession">Seesion</Link> */}
                         <Link href="/school/masters/class">Class</Link>
-                        <Link href="/school/masters/masterstudentcategory">
+                        <Link href="/school/masters/AddSection">Section</Link>
+                        
+                        {/* <Link href="/school/masters/masterstudentcategory">
                           Caste
-                        </Link>
+                        </Link> */}
                         <Link href="/school/masters/receiptprefix">
                           Receipt Prefix
                         </Link>
@@ -479,7 +480,7 @@ const SchoolNavbar = () => {
                         <Link href="/school/masters/FooterDetails">
                           Add Footer Details
                         </Link>
-                        <Link href="/school/masters/Notes">Add Notic</Link>
+                        <Link href="/school/masters/Notes">Add Notice</Link>
                         <Link href="/school/masters/Slider">Add Slider</Link>
                       </div>
                     </div>

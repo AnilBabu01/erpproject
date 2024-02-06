@@ -87,28 +87,33 @@ function Login({ setOpen, setOpen1, setwelcomeopen, setopenforget }) {
       setInterval(() => {
         setwelcomeopen(false);
       }, 1000);
-      if (user?.data[0]?.userType === "school") {
-        navigate.push("/school/dashboard");
-      }
-      if (user?.data[0]?.userType === "college") {
-        navigate.push("/college/dashboard");
-      }
-      if (user?.data[0]?.userType === "institute") {
-        navigate.push("/coaching/dashboard");
-      }
 
-      if (user?.data[0]?.userType === "admin") {
-        navigate.push("/mainadmin/dashboard");
-      }
+      if (user?.data[0]?.PlanStatuc === false) {
+        navigate.push("/pricing");
+      } else {
+        if (user?.data[0]?.userType === "school") {
+          navigate.push("/school/dashboard");
+        }
+        if (user?.data[0]?.userType === "college") {
+          navigate.push("/college/dashboard");
+        }
+        if (user?.data[0]?.userType === "institute") {
+          navigate.push("/coaching/dashboard");
+        }
 
-      if (user?.data[0]?.userType === "employee") {
-        navigate.push("/employee/dashboard");
-      }
-      if (user?.data[0]?.userType === "student") {
-        navigate.push("/student/dashboard");
-      }
-      if (user?.data[0]?.userType === "parent") {
-        navigate.push("/parent/dashboard");
+        if (user?.data[0]?.userType === "admin") {
+          navigate.push("/mainadmin/dashboard");
+        }
+
+        if (user?.data[0]?.userType === "employee") {
+          navigate.push("/employee/dashboard");
+        }
+        if (user?.data[0]?.userType === "student") {
+          navigate.push("/student/dashboard");
+        }
+        if (user?.data[0]?.userType === "parent") {
+          navigate.push("/parent/dashboard");
+        }
       }
     }
   }, [user]);

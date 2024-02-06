@@ -25,6 +25,7 @@ import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+
 const studentStatus = [
   { label: "Active", value: "Active" },
   { label: "On Leave", value: "On Leave" },

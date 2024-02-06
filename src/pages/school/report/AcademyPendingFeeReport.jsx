@@ -250,6 +250,7 @@ function AcademyPendingFeeReport() {
         sessionname,
         sectionname,
         seno,
+        "",
         ""
       )
     );

@@ -122,8 +122,9 @@ function Studentlogincreadential() {
         "",
         sessionname,
         sectionname,
+        "",
+        "",
         ""
-        ,""
       )
     );
   };
@@ -157,6 +158,7 @@ function Studentlogincreadential() {
         Section: item?.Section,
         "Roll Number": item?.rollnumber,
         Student_Name: item?.name,
+        "Gender":item?.Gender,
         "SRNO (Login Id)": item?.SrNumber,
         Password:moment(item?.admissionDate).format("MM/DD/YYYY"),
       });
@@ -418,6 +420,7 @@ function Studentlogincreadential() {
                     <th className={styles.tableth}>Roll No</th>
                     <th className={styles.tableth}>Section</th>
                     <th className={styles.tableth}>Student_Name</th>
+                    <th className={styles.tableth}>Gender</th>
                     <th className={styles.tableth}>SRNO (Login Id)</th>
                     <th className={styles.tableth}>Password</th>
                   </tr>
@@ -428,6 +431,7 @@ function Studentlogincreadential() {
                         <td className={styles.tabletd}>{item?.rollnumber}</td>
                         <td className={styles.tabletd}>{item?.Section}</td>
                         <td className={styles.tabletd}>{item?.name}</td>
+                        <td className={styles.tabletd}>{item?.Gender}</td>
                         <td className={styles.tabletd}>{item?.SrNumber}</td>
                         <td className={styles.tabletd}>
                           {moment(item?.admissionDate).format("MM/DD/YYYY")}

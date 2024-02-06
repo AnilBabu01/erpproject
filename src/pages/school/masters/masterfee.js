@@ -18,6 +18,7 @@ import UpdateFee from "@/component/Coaching/masters/UpdateFee";
 import { loadUser } from "../../../redux/actions/authActions";
 import exportFromJSON from "export-from-json";
 import moment from "moment";
+
 function Masterfee() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -232,6 +233,8 @@ function Masterfee() {
                     <th className={styles.tableth}>S.NO</th>
                     <th className={styles.tableth}>Class</th>
                     <th className={styles.tableth}>Registration Fee</th>
+                    <th className={styles.tableth}>Admission Fee</th>
+                    <th className={styles.tableth}>Annual Fee</th>
                     <th className={styles.tableth}>Per Month Fee</th>
                     <th className={styles.tableth}>Action</th>
                   </tr>
@@ -243,6 +246,8 @@ function Masterfee() {
                         <td className={styles.tabletd}>
                           {item?.Registractionfee}
                         </td>
+                        <td className={styles.tabletd}>{item?.adminssionfee}</td>
+                        <td className={styles.tabletd}>{item?.AnnualFee}</td>
                         <td className={styles.tabletd}>{item?.feepermonth}</td>
                         <td className={styles.tabkeddd}>
                           <button

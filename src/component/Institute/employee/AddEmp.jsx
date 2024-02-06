@@ -11,8 +11,54 @@ import { toast } from "react-toastify";
 import axios from "axios";
 const formData = new FormData();
 
+const CasteList = [
+  { label: "General", value: "General" },
+  { label: "OBC", value: "OBC" },
+  { label: "SC", value: "SC" },
+  { label: "ST", value: "ST" },
+  { label: "Others", value: "Others" },
+];
+
+const BloodGroupList = [
+  { label: "(A+)", value: "(A+)" },
+  { label: "(A-)", value: "(A-)" },
+  { label: "(B+)", value: "(B+)" },
+  { label: "(B-)", value: "(B-)" },
+  { label: "(O+)", value: "(O+)" },
+  { label: "(O-)", value: "(O-)" },
+  { label: "(AB+)", value: "(AB+)" },
+  { label: "(AB-)", value: "(AB-)" },
+  {
+    label: "Under Investigation OR N.A.",
+    value: "Under Investigation OR N.A.",
+  },
+];
+
+const religionList = [
+  { label: "Hinduism", value: "Hinduism" },
+  { label: "Muslim", value: "Muslim" },
+  { label: "Sikhism", value: "Sikhism" },
+  { label: "Buddhism", value: "Buddhism" },
+  { label: "Jainism", value: "Jainism" },
+  { label: "Christianity", value: "Christianity" },
+  { label: "Others", value: "Others" },
+];
+
+const GenderListList = [
+  { label: "Male", value: "Male" },
+  { label: "Female", value: "Female" },
+  { label: "Others", value: "Others" },
+];
+
 function AddEmp({ setOpen }) {
   const dispatch = useDispatch();
+  var today = new Date();
+  var date = today.toISOString().substring(0, 10);
+  const [categoryname, setcategoryname] = useState("Please Select");
+  const [Religion, setReligion] = useState("");
+  const [Nationality, setNationality] = useState("Indian");
+  const [gender, setgender] = useState("Male");
+  const [BloodGroup, setBloodGroup] = useState("");
   const [isdata, setisData] = useState([]);
   const [isdata1, setisdata1] = useState([]);
   const [loading, setloading] = useState(false);
@@ -26,7 +72,7 @@ function AddEmp({ setOpen }) {
   const [empemail, setempemail] = useState("");
   const [empphone1, setempphone1] = useState("");
   const [empphone2, setempphone2] = useState("");
-  const [joiningdate, setjoiningdate] = useState("");
+  const [joiningdate, setjoiningdate] = useState(date);
   const [leaveNo, setleaveNo] = useState("");
   const [aadharcard, setaadharcard] = useState("");
   const [Drivingimg, setDrivingimg] = useState("");
@@ -132,6 +178,12 @@ function AddEmp({ setOpen }) {
     formData.set("department", depart);
     formData.set("joiningdate", joiningdate);
     formData.set("address", address);
+    formData.set("Religion", Religion);
+    formData.set("Nationality", Nationality);
+    formData.set("Gender", gender);
+    formData.set("BloodGroup", BloodGroup);
+    // formData.set("DateOfBirth", DateOfBirth);
+    formData.set("Caste", categoryname);
     formData.set("profileurl", profileimg);
     formData.set("basicsalary", basicsalary);
     formData.set("Allowance1", allowance1);
@@ -244,7 +296,7 @@ function AddEmp({ setOpen }) {
       formData,
       config
     );
-  
+
     if (data?.status === true) {
       toast.success(data?.msg, {
         autoClose: 1000,
@@ -280,28 +332,6 @@ function AddEmp({ setOpen }) {
         <form onSubmit={submit}>
           {showpermission ? (
             <>
-              <div className={styles.typeofemployee}>
-                <div>
-                  <input
-                    type="radio"
-                    value={true}
-                    name="same"
-                    checked={typeemployee === true}
-                    onClick={() => settypeemployee(true)}
-                  />
-                  <label>Employee</label>
-                </div>
-                <div>
-                  <input
-                    type="radio"
-                    name="same"
-                    value={false}
-                    checked={typeemployee === false}
-                    onClick={() => settypeemployee(false)}
-                  />
-                  <label>Other</label>
-                </div>
-              </div>
               {typeemployee === true ? (
                 <>
                   <div className={styles.divmaininput}>
@@ -958,11 +988,11 @@ function AddEmp({ setOpen }) {
                     />
                   </div>
                   <div className={styles.inputdiv20}>
-                    <label>Allow Leave</label>
+                    <label>Monthly Leave</label>
                     <input
                       required
                       type="text"
-                      placeholder="Enter the Leave"
+                      placeholder="Enter the Monthly Leave"
                       value={leaveNo}
                       name="leaveNo"
                       onChange={(e) => setleaveNo(e.target.value)}
@@ -992,10 +1022,190 @@ function AddEmp({ setOpen }) {
                     />
                   </div>
                   <div className={styles.inputdiv20}>
+                    <label>Gender</label>
+                    <Select
+                      required
+                      className={styles.addwidth}
+                      sx={{
+                        width: "19.4rem",
+                        fontSize: 14,
+                        "& .MuiSelect-select": {
+                          paddingTop: "0.6rem",
+                          paddingBottom: "0.6em",
+                        },
+                      }}
+                      value={gender}
+                      name="gender"
+                      onChange={(e) => setgender(e.target.value)}
+                      displayEmpty
+                    >
+                      <MenuItem
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={""}
+                      >
+                        Please Select
+                      </MenuItem>
+
+                      {GenderListList?.map((item, index) => {
+                        return (
+                          <MenuItem
+                            key={index}
+                            sx={{
+                              fontSize: 14,
+                            }}
+                            value={item?.value}
+                          >
+                            {item?.value}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </div>
+
+                  <div className={styles.inputdiv20}>
+                    <label>Blood Group</label>
+                    <Select
+                      required
+                      className={styles.addwidth}
+                      sx={{
+                        width: "19.4rem",
+                        fontSize: 14,
+                        "& .MuiSelect-select": {
+                          paddingTop: "0.6rem",
+                          paddingBottom: "0.6em",
+                        },
+                      }}
+                      value={BloodGroup}
+                      name="BloodGroup"
+                      onChange={(e) => setBloodGroup(e.target.value)}
+                      displayEmpty
+                    >
+                      <MenuItem
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={""}
+                      >
+                        Please Select
+                      </MenuItem>
+
+                      {BloodGroupList?.map((item, index) => {
+                        return (
+                          <MenuItem
+                            key={index}
+                            sx={{
+                              fontSize: 14,
+                            }}
+                            value={item?.value}
+                          >
+                            {item?.value}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </div>
+
+                  <div className={styles.inputdiv20}>
+                    <label>Religion</label>
+                    <Select
+                      required
+                      className={styles.addwidth}
+                      sx={{
+                        width: "19.4rem",
+                        fontSize: 14,
+                        "& .MuiSelect-select": {
+                          paddingTop: "0.6rem",
+                          paddingBottom: "0.6em",
+                        },
+                      }}
+                      value={Religion}
+                      name="Religion"
+                      onChange={(e) => setReligion(e.target.value)}
+                      displayEmpty
+                    >
+                      <MenuItem
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={""}
+                      >
+                        Please Select
+                      </MenuItem>
+
+                      {religionList?.map((item, index) => {
+                        return (
+                          <MenuItem
+                            key={index}
+                            sx={{
+                              fontSize: 14,
+                            }}
+                            value={item?.value}
+                          >
+                            {item?.value}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </div>
+                  <div className={styles.inputdiv20}>
+                    <label>Category</label>
+                    <Select
+                      required
+                      className={styles.addwidth}
+                      sx={{
+                        width: "19.4rem",
+                        fontSize: 14,
+                        "& .MuiSelect-select": {
+                          paddingTop: "0.6rem",
+                          paddingBottom: "0.6em",
+                        },
+                      }}
+                      value={categoryname}
+                      name="categoryname"
+                      onChange={(e) => setcategoryname(e.target.value)}
+                      // displayEmpty
+                    >
+                      <MenuItem
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={"Please Select"}
+                      >
+                        Please Select
+                      </MenuItem>
+                      {CasteList?.map((item, index) => {
+                        return (
+                          <MenuItem
+                            key={index}
+                            sx={{
+                              fontSize: 14,
+                            }}
+                            value={item?.value}
+                          >
+                            {item?.value}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </div>
+                  <div className={styles.inputdiv20}>
+                    <label>Nationality</label>
+                    <input
+                      required
+                      type="text"
+                      placeholder="Enter The Nationality"
+                      value={Nationality}
+                      name="Nationality"
+                      onChange={(e) => setNationality(e.target.value)}
+                    />
+                  </div>
+                  <div className={styles.inputdiv20}>
                     <label>Father&lsquo;s Name</label>
                     <input
                       required
-                      type="email"
+                      type="text"
                       placeholder="Enter The Father's Name"
                       value={fathetrsname}
                       name="fathetrsname"
@@ -1075,7 +1285,7 @@ function AddEmp({ setOpen }) {
                       required
                       className={styles.addwidth}
                       sx={{
-                        width: "18.8rem",
+                        width: "19.4rem",
                         fontSize: 14,
                         "& .MuiSelect-select": {
                           paddingTop: "0.6rem",
@@ -1329,13 +1539,13 @@ function AddEmp({ setOpen }) {
                         setcertificateimg2(e.target.files[0]);
                       }}
                     />
-                    <label>Certificates No 3</label>
+                    {/* <label>Certificates No 3</label>
                     <input
                       type="file"
                       onChange={(e) => {
                         setcertificateimg3(e.target.files[0]);
                       }}
-                    />
+                    /> */}
                   </div>
                 </div>
 

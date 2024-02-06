@@ -14,6 +14,7 @@ import Updatecourse from "@/component/Institute/masters/UpdateNotic";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
 import { loadUser } from "../../../redux/actions/authActions";
+
 function Notes() {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);

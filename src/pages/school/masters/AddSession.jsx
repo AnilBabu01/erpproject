@@ -166,20 +166,7 @@ function AddSession() {
         <div>
           <div className={styles.addtopmenubar}>
             <button
-              className={
-                userdata?.data && userdata?.data?.User?.userType === "school"
-                  ? styles.addtopmenubarbuttonactive
-                  : userdata?.data && userdata?.data?.User?.masterWrite === true
-                  ? styles.addtopmenubarbuttonactive
-                  : styles.addtopmenubarbuttondisable
-              }
-              disabled={
-                userdata?.data && userdata?.data?.User?.userType === "school"
-                  ? false
-                  : userdata?.data && userdata?.data?.User?.masterWrite === true
-                  ? false
-                  : true
-              }
+              className={styles.addtopmenubarbuttonactive}
               onClick={() => handleClickOpen()}
             >
               Add Session
@@ -202,54 +189,17 @@ function AddSession() {
                           <td className={styles.tabletd}>{item?.Session}</td>
 
                           <td className={styles.tabkeddd}>
-                            <button
-                              disabled={
-                                userdata?.data &&
-                                userdata?.data?.User?.userType === "school"
-                                  ? false
-                                  : userdata?.data &&
-                                    userdata?.data?.User?.masterDelete === true
-                                  ? false
-                                  : true
-                              }
-                            >
+                            <button>
                               <img
-                                className={
-                                  userdata?.data &&
-                                  userdata?.data?.User?.userType === "school"
-                                    ? styles.tabkedddimgactive
-                                    : userdata?.data &&
-                                      userdata?.data?.User?.masterDelete ===
-                                        true
-                                    ? styles.tabkedddimgactive
-                                    : styles.tabkedddimgdisable
-                                }
+                                className={styles.tabkedddimgactive}
                                 onClick={() => ClickOpendelete(item?.id)}
                                 src="/images/Delete.png"
                                 alt="imgss"
                               />
                             </button>
-                            <button
-                              disabled={
-                                userdata?.data &&
-                                userdata?.data?.User?.userType === "school"
-                                  ? false
-                                  : userdata?.data &&
-                                    userdata?.data?.User?.masterEdit === true
-                                  ? false
-                                  : true
-                              }
-                            >
+                            <button>
                               <img
-                                className={
-                                  userdata?.data &&
-                                  userdata?.data?.User?.userType === "school"
-                                    ? styles.tabkedddimgactive
-                                    : userdata?.data &&
-                                      userdata?.data?.User?.masterEdit === true
-                                    ? styles.tabkedddimgactive
-                                    : styles.tabkedddimgdisable
-                                }
+                                className={styles.tabkedddimgactive}
                                 onClick={() => ClickOpenupdate(item)}
                                 src="/images/Edit.png"
                                 alt="imgss"

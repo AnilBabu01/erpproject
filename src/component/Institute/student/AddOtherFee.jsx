@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 
 
 function AddOtherFee({ setOpen }) {
+  
   const navigation = useRouter();
   const dispatch = useDispatch();
   const [sessionList, setsessionList] = useState([]);

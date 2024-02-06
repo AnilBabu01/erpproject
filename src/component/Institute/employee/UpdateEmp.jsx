@@ -10,10 +10,62 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import CircularProgress from "@mui/material/CircularProgress";
 
+const CasteList = [
+  { label: "General", value: "General" },
+  { label: "OBC", value: "OBC" },
+  { label: "SC", value: "SC" },
+  { label: "ST", value: "ST" },
+  { label: "Others", value: "Others" },
+];
+
+const BloodGroupList = [
+  { label: "(A+)", value: "(A+)" },
+  { label: "(A-)", value: "(A-)" },
+  { label: "(B+)", value: "(B+)" },
+  { label: "(B-)", value: "(B-)" },
+  { label: "(O+)", value: "(O+)" },
+  { label: "(O-)", value: "(O-)" },
+  { label: "(AB+)", value: "(AB+)" },
+  { label: "(AB-)", value: "(AB-)" },
+  {
+    label: "Under Investigation OR N.A.",
+    value: "Under Investigation OR N.A.",
+  },
+];
+
+const religionList = [
+  { label: "Hinduism", value: "Hinduism" },
+  { label: "Muslim", value: "Muslim" },
+  { label: "Sikhism", value: "Sikhism" },
+  { label: "Buddhism", value: "Buddhism" },
+  { label: "Jainism", value: "Jainism" },
+  { label: "Christianity", value: "Christianity" },
+  { label: "Others", value: "Others" },
+];
+
+const GenderListList = [
+  { label: "Male", value: "Male" },
+  { label: "Female", value: "Female" },
+  { label: "Others", value: "Others" },
+];
+
+const OthersTypeEmployeelist = [
+  { label: "Sweeper", value: "Sweeper" },
+  { label: "Mali", value: "Mali" },
+  { label: "Cook", value: "Cook" },
+  { label: "Gateman", value: "Gatemane" },
+];
+
 const formData = new FormData();
 
 function UpdateEmp({ setOpen, updatedata }) {
   const dispatch = useDispatch();
+  const [othertypeEmp, setothertypeEmp] = useState("");
+  const [categoryname, setcategoryname] = useState("Please Select");
+  const [Religion, setReligion] = useState("");
+  const [Nationality, setNationality] = useState("Indian");
+  const [gender, setgender] = useState("Male");
+  const [BloodGroup, setBloodGroup] = useState("");
   const [isdata, setisData] = useState([]);
   const [isdata1, setisdata1] = useState([]);
   const [loading, setloading] = useState(false);
@@ -118,10 +170,10 @@ function UpdateEmp({ setOpen, updatedata }) {
   const { designation } = useSelector((state) => state.getdesignation);
   const { department } = useSelector((state) => state.getpart);
   const { user } = useSelector((state) => state.auth);
-  
+
   const submit = async (e) => {
     e.preventDefault();
-    
+
     setloading(true);
     formData.set("id", updatedata?.id);
     formData.set("name", empname);
@@ -135,6 +187,11 @@ function UpdateEmp({ setOpen, updatedata }) {
     formData.set("department", depart);
     formData.set("joiningdate", joiningdate);
     formData.set("address", address);
+    formData.set("Religion", Religion);
+    formData.set("Nationality", Nationality);
+    formData.set("Gender", gender);
+    formData.set("BloodGroup", BloodGroup);
+    formData.set("Caste", categoryname);
     formData.set("profileurl", profileimg);
     formData.set("basicsalary", basicsalary);
     formData.set("Allowance1", allowance1);
@@ -356,6 +413,12 @@ function UpdateEmp({ setOpen, updatedata }) {
       setlibraryWrite(updatedata?.libraryWrite);
       setlibraryDelete(updatedata?.libraryDelete);
       setlibraryEdit(updatedata?.libraryEdit);
+
+      setNationality(updatedata?.Nationality);
+      setReligion(updatedata?.Religion);
+      setgender(updatedata?.Gender);
+      setBloodGroup(updatedata?.BloodGroup);
+      setcategoryname(updatedata?.Caste);
     }
   }, []);
   return (
@@ -370,29 +433,6 @@ function UpdateEmp({ setOpen, updatedata }) {
         <form onSubmit={submit}>
           {showpermission ? (
             <>
-              <div className={styles.typeofemployee}>
-                <div>
-                  <input
-                    type="radio"
-                    value={true}
-                    name="same"
-                    checked={typeemployee === true}
-                    onClick={() => settypeemployee(true)}
-                  />
-                  <label>Employee</label>
-                </div>
-                <div>
-                  <input
-                    type="radio"
-                    name="same"
-                    value={false}
-                    checked={typeemployee === false}
-                    onClick={() => settypeemployee(false)}
-                  />
-                  <label>Other</label>
-                </div>
-              </div>
-
               {typeemployee === true ? (
                 <>
                   <div className={styles.divmaininput}>
@@ -422,6 +462,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                           </div>
                           <div className={styles.marginper}>
                             <input
+                              checked={frontofficeW}
                               type="checkbox"
                               onChange={(e) => {
                                 setfrontofficeW(e.target.checked);
@@ -431,6 +472,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                           </div>
                           <div className={styles.marginper}>
                             <input
+                              checked={frontofficeE}
                               type="checkbox"
                               onChange={(e) => {
                                 setfrontofficeE(e.target.checked);
@@ -440,6 +482,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                           </div>
                           <div className={styles.marginper}>
                             <input
+                              checked={frontofficeD}
                               type="checkbox"
                               onChange={(e) => {
                                 setfrontofficeD(e.target.checked);
@@ -476,6 +519,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                           </div>
                           <div className={styles.marginper}>
                             <input
+                              checked={studentW}
                               type="checkbox"
                               onChange={(e) => {
                                 setstudentW(e.target.checked);
@@ -485,6 +529,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                           </div>
                           <div className={styles.marginper}>
                             <input
+                              checked={studentE}
                               type="checkbox"
                               onChange={(e) => {
                                 setstudentE(e.target.checked);
@@ -494,6 +539,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                           </div>
                           <div className={styles.marginper}>
                             <input
+                              checked={studentD}
                               type="checkbox"
                               onChange={(e) => {
                                 setstudentD(e.target.checked);
@@ -530,6 +576,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                           </div>
                           <div className={styles.marginper}>
                             <input
+                              checked={AttendanceW}
                               type="checkbox"
                               onChange={(e) => {
                                 setAttendanceW(e.target.checked);
@@ -539,6 +586,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                           </div>
                           <div className={styles.marginper}>
                             <input
+                              checked={AttendanceE}
                               type="checkbox"
                               onChange={(e) => {
                                 setAttendanceE(e.target.checked);
@@ -548,6 +596,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                           </div>
                           <div className={styles.marginper}>
                             <input
+                              checked={AttendanceD}
                               type="checkbox"
                               onChange={(e) => {
                                 setAttendanceD(e.target.checked);
@@ -584,6 +633,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                           </div>
                           <div className={styles.marginper}>
                             <input
+                              checked={AccountsW}
                               type="checkbox"
                               onChange={(e) => {
                                 setAccountsW(e.target.checked);
@@ -593,6 +643,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                           </div>
                           <div className={styles.marginper}>
                             <input
+                              checked={AccountsW}
                               type="checkbox"
                               onChange={(e) => {
                                 setAccountsE(e.target.checked);
@@ -602,6 +653,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                           </div>
                           <div className={styles.marginper}>
                             <input
+                              checked={AccountsD}
                               type="checkbox"
                               onChange={(e) => {
                                 setAccountsD(e.target.checked);
@@ -639,6 +691,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                           <div className={styles.marginper}>
                             <input
                               type="checkbox"
+                              checked={HumanResourseW}
                               onChange={(e) => {
                                 setHumanResourseW(e.target.checked);
                               }}
@@ -648,6 +701,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                           <div className={styles.marginper}>
                             <input
                               type="checkbox"
+                              checked={HumanResourseE}
                               onChange={(e) => {
                                 setHumanResourseE(e.target.checked);
                               }}
@@ -656,6 +710,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                           </div>
                           <div className={styles.marginper}>
                             <input
+                              checked={HumanResourseD}
                               type="checkbox"
                               onChange={(e) => {
                                 setHumanResourseD(e.target.checked);
@@ -692,6 +747,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                           </div>
                           <div className={styles.marginper}>
                             <input
+                              checked={MastersW}
                               type="checkbox"
                               onChange={(e) => {
                                 setMastersW(e.target.checked);
@@ -701,6 +757,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                           </div>
                           <div className={styles.marginper}>
                             <input
+                              checked={MastersE}
                               type="checkbox"
                               onChange={(e) => {
                                 setMastersE(e.target.checked);
@@ -710,6 +767,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                           </div>
                           <div className={styles.marginper}>
                             <input
+                              checked={MastersD}
                               type="checkbox"
                               onChange={(e) => {
                                 setMastersD(e.target.checked);
@@ -788,6 +846,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                               </div>
                               <div className={styles.marginper}>
                                 <input
+                                  checked={transportWrite}
                                   type="checkbox"
                                   onChange={(e) => {
                                     settransportWrite(e.target.checked);
@@ -797,6 +856,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                               </div>
                               <div className={styles.marginper}>
                                 <input
+                                  checked={transportEdit}
                                   type="checkbox"
                                   onChange={(e) => {
                                     settransportEdit(e.target.checked);
@@ -806,6 +866,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                               </div>
                               <div className={styles.marginper}>
                                 <input
+                                  checked={transportDelete}
                                   type="checkbox"
                                   onChange={(e) => {
                                     settransportDelete(e.target.checked);
@@ -849,6 +910,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                               </div>
                               <div className={styles.marginper}>
                                 <input
+                                  checked={hostelWrite}
                                   type="checkbox"
                                   onChange={(e) => {
                                     sethostelWrite(e.target.checked);
@@ -858,6 +920,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                               </div>
                               <div className={styles.marginper}>
                                 <input
+                                  checked={hostelEdit}
                                   type="checkbox"
                                   onChange={(e) => {
                                     sethostelEdit(e.target.checked);
@@ -867,6 +930,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                               </div>
                               <div className={styles.marginper}>
                                 <input
+                                  checked={hostelDelete}
                                   type="checkbox"
                                   onChange={(e) => {
                                     sethostelDelete(e.target.checked);
@@ -910,6 +974,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                               </div>
                               <div className={styles.marginper}>
                                 <input
+                                  checked={libraryWrite}
                                   type="checkbox"
                                   onChange={(e) => {
                                     setlibraryWrite(e.target.checked);
@@ -919,6 +984,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                               </div>
                               <div className={styles.marginper}>
                                 <input
+                                  checked={libraryEdit}
                                   type="checkbox"
                                   onChange={(e) => {
                                     setlibraryEdit(e.target.checked);
@@ -928,6 +994,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                               </div>
                               <div className={styles.marginper}>
                                 <input
+                                  checked={libraryDelete}
                                   type="checkbox"
                                   onChange={(e) => {
                                     setlibraryDelete(e.target.checked);
@@ -948,7 +1015,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                 <>
                   <div className={styles.divmaininput}>
                     <div className={styles.inputdiv}>
-                      <label>Bus No</label>
+                      <label>Type Of Employee</label>
                       <Select
                         required
                         className={styles.addwidth}
@@ -960,10 +1027,10 @@ function UpdateEmp({ setOpen, updatedata }) {
                             paddingBottom: "0.6em",
                           },
                         }}
-                        // value={categoryname}
-                        // name="categoryname"
-                        // onChange={(e) => setcategoryname(e.target.value)}
-                        // displayEmpty
+                        value={othertypeEmp}
+                        name="othertypeEmp"
+                        onChange={(e) => setothertypeEmp(e.target.value)}
+                        displayEmpty
                       >
                         <MenuItem
                           sx={{
@@ -973,36 +1040,20 @@ function UpdateEmp({ setOpen, updatedata }) {
                         >
                           Please Select
                         </MenuItem>
-                        {/* {categorylist?.map((item, index) => {
+                        {OthersTypeEmployeelist?.map((item, index) => {
                           return (
                             <MenuItem
                               key={index}
                               sx={{
                                 fontSize: 14,
                               }}
-                              value={item?.category}
+                              value={item?.value}
                             >
-                              {item?.category}
+                              {item?.value}
                             </MenuItem>
                           );
-                        })} */}
+                        })}
                       </Select>
-                    </div>
-
-                    <div className={styles.inputdiv}>
-                      <label>Comment</label>
-                      <input
-                        required
-                        type="email"
-                        placeholder="Enter Comment"
-                        // value={studentemail}
-                        // name="studentemail"
-                        // onChange={(e) => setstudentemail(e.target.value)}
-                      />
-                    </div>
-                    <div className={styles.inputdiv}>
-                      <label>&nbsp;</label>
-                      <label>&nbsp;</label>
                     </div>
                   </div>
                 </>
@@ -1080,7 +1131,185 @@ function UpdateEmp({ setOpen, updatedata }) {
                       onChange={(e) => setfathetrsname(e.target.value)}
                     />
                   </div>
+                  <div className={styles.inputdiv20}>
+                    <label>Gender</label>
+                    <Select
+                      required
+                      className={styles.addwidth}
+                      sx={{
+                        width: "19.4rem",
+                        fontSize: 14,
+                        "& .MuiSelect-select": {
+                          paddingTop: "0.6rem",
+                          paddingBottom: "0.6em",
+                        },
+                      }}
+                      value={gender}
+                      name="gender"
+                      onChange={(e) => setgender(e.target.value)}
+                      displayEmpty
+                    >
+                      <MenuItem
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={""}
+                      >
+                        Please Select
+                      </MenuItem>
 
+                      {GenderListList?.map((item, index) => {
+                        return (
+                          <MenuItem
+                            key={index}
+                            sx={{
+                              fontSize: 14,
+                            }}
+                            value={item?.value}
+                          >
+                            {item?.value}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </div>
+                  <div className={styles.inputdiv20}>
+                    <label>Blood Group</label>
+                    <Select
+                      required
+                      className={styles.addwidth}
+                      sx={{
+                        width: "19.4rem",
+                        fontSize: 14,
+                        "& .MuiSelect-select": {
+                          paddingTop: "0.6rem",
+                          paddingBottom: "0.6em",
+                        },
+                      }}
+                      value={BloodGroup}
+                      name="BloodGroup"
+                      onChange={(e) => setBloodGroup(e.target.value)}
+                      displayEmpty
+                    >
+                      <MenuItem
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={""}
+                      >
+                        Please Select
+                      </MenuItem>
+
+                      {BloodGroupList?.map((item, index) => {
+                        return (
+                          <MenuItem
+                            key={index}
+                            sx={{
+                              fontSize: 14,
+                            }}
+                            value={item?.value}
+                          >
+                            {item?.value}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </div>
+
+                  <div className={styles.inputdiv20}>
+                    <label>Religion</label>
+                    <Select
+                      required
+                      className={styles.addwidth}
+                      sx={{
+                        width: "19.4rem",
+                        fontSize: 14,
+                        "& .MuiSelect-select": {
+                          paddingTop: "0.6rem",
+                          paddingBottom: "0.6em",
+                        },
+                      }}
+                      value={Religion}
+                      name="Religion"
+                      onChange={(e) => setReligion(e.target.value)}
+                      displayEmpty
+                    >
+                      <MenuItem
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={""}
+                      >
+                        Please Select
+                      </MenuItem>
+
+                      {religionList?.map((item, index) => {
+                        return (
+                          <MenuItem
+                            key={index}
+                            sx={{
+                              fontSize: 14,
+                            }}
+                            value={item?.value}
+                          >
+                            {item?.value}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </div>
+                  <div className={styles.inputdiv20}>
+                    <label>Category</label>
+                    <Select
+                      required
+                      className={styles.addwidth}
+                      sx={{
+                        width: "19.4rem",
+                        fontSize: 14,
+                        "& .MuiSelect-select": {
+                          paddingTop: "0.6rem",
+                          paddingBottom: "0.6em",
+                        },
+                      }}
+                      value={categoryname}
+                      name="categoryname"
+                      onChange={(e) => setcategoryname(e.target.value)}
+                      // displayEmpty
+                    >
+                      <MenuItem
+                        sx={{
+                          fontSize: 14,
+                        }}
+                        value={"Please Select"}
+                      >
+                        Please Select
+                      </MenuItem>
+                      {CasteList?.map((item, index) => {
+                        return (
+                          <MenuItem
+                            key={index}
+                            sx={{
+                              fontSize: 14,
+                            }}
+                            value={item?.value}
+                          >
+                            {item?.value}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                  </div>
+                  <div className={styles.inputdiv20}>
+                    <label>Nationality</label>
+                    <input
+                      required
+                      type="text"
+                      placeholder="Enter The Nationality"
+                      value={Nationality}
+                      name="Nationality"
+                      onChange={(e) => setNationality(e.target.value)}
+                    />
+                  </div>
                   <div className={styles.inputdiv20}>
                     <label>Phone No1</label>
                     <input
@@ -1535,7 +1764,7 @@ function UpdateEmp({ setOpen, updatedata }) {
                       }}
                     />
 
-                    <div className={styles.showimgdiv10}>
+                    {/* <div className={styles.showimgdiv10}>
                       <label>Certificates No 3</label>
                       <div className={styles.showimgdiv}>
                         <img
@@ -1543,19 +1772,20 @@ function UpdateEmp({ setOpen, updatedata }) {
                           src="/images/down.png"
                           alt="img"
                         />
-                        {/* <img
+                        <img
                           className={styles.opicon}
                           src="/images/can.png"
                           alt="img"
-                        /> */}
+                        />
                       </div>
-                    </div>
-                    <input
+                    </div> */}
+
+                    {/* <input
                       type="file"
                       onChange={(e) => {
                         setcertificateimg3(e.target.files[0]);
                       }}
-                    />
+                    /> */}
                   </div>
                 </div>
 

@@ -9,12 +9,14 @@ import CircularProgress from "@mui/material/CircularProgress";
 function UpdateFee({ updatedata, setOpen }) {
   const dispatch = useDispatch();
   const [isdata, setisData] = useState([]);
+  const [permonthfee, setpermonthfee] = useState("");
   const [coursename, setcoursename] = useState("");
   const [registrationfee, setregistrationfee] = useState("");
-  const [permonthfee, setpermonthfee] = useState("");
+  const [adminssionfee, setadminssionfee] = useState("");
+  const [AnnualFee, setAnnualFee] = useState("");
   const [courseduration, setcourseduration] = useState("");
-  const { loading, course } = useSelector((state) => state.editfee);
-  console.log("course data from add fee", updatedata?.coursename);
+  const { loading } = useSelector((state) => state.addfee);
+  const { course } = useSelector((state) => state.getcourse);
   const submit = (e) => {
     e.preventDefault();
     const data = {
@@ -23,6 +25,8 @@ function UpdateFee({ updatedata, setOpen }) {
       feepermonth: permonthfee,
       coursename: coursename,
       courseduration: courseduration,
+      adminssionfee: adminssionfee,
+      AnnualFee: AnnualFee,
     };
     dispatch(Updatefee(data, setOpen));
   };
@@ -38,6 +42,8 @@ function UpdateFee({ updatedata, setOpen }) {
       setregistrationfee(updatedata?.Registractionfee);
       setpermonthfee(updatedata?.feepermonth);
       setcourseduration(updatedata?.courseduration);
+      setadminssionfee(updatedata?.adminssionfee);
+      setAnnualFee(updatedata?.AnnualFee);
     }
   }, []);
   return (
@@ -50,9 +56,8 @@ function UpdateFee({ updatedata, setOpen }) {
         <form onSubmit={submit}>
           <div className={styles.divmaininput}>
             <div className={styles.inputdiv}>
-              <label>Class</label>
+              <label>Course</label>
               <Select
-                disabled={true}
                 required
                 className={styles.addwidth}
                 sx={{
@@ -72,11 +77,26 @@ function UpdateFee({ updatedata, setOpen }) {
                   sx={{
                     fontSize: 14,
                   }}
-                  value={coursename}
+                  value={""}
                 >
-                {coursename}
+                  Please Select
                 </MenuItem>
-               
+                {isdata?.map((item, index) => {
+                  return (
+                    <MenuItem
+                      key={index}
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={item?.coursename}
+                      onClick={() => {
+                        setcourseduration(item?.courseduration);
+                      }}
+                    >
+                      {item?.coursename}
+                    </MenuItem>
+                  );
+                })}
               </Select>
             </div>
             <div className={styles.inputdiv}>
@@ -100,6 +120,34 @@ function UpdateFee({ updatedata, setOpen }) {
                 name="permonthfee"
                 onChange={(e) => setpermonthfee(e.target.value)}
               />
+            </div>
+          </div>
+          <div className={styles.divmaininput}>
+            <div className={styles.inputdiv}>
+              <label>Admission Fee</label>
+              <input
+                required
+                type="text"
+                placeholder="Enter the Admission Fee"
+                value={adminssionfee}
+                name="adminssionfee"
+                onChange={(e) => setadminssionfee(e.target.value)}
+              />
+            </div>
+            <div className={styles.inputdiv}>
+              <label>Annual Fee</label>
+              <input
+                required
+                type="text"
+                placeholder="Enter the Annual Fee"
+                value={AnnualFee}
+                name="AnnualFee"
+                onChange={(e) => setAnnualFee(e.target.value)}
+              />
+            </div>
+            <div className={styles.inputdiv}>
+              <label>&nbsp;</label>
+              <label>&nbsp;</label>
             </div>
           </div>
           <div className={styles.logbtnstylediv}>

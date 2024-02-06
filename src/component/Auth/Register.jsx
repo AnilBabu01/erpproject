@@ -20,12 +20,11 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { indiaStatesData } from "./StaticData";
 import Select1 from "react-select";
 
-
 const customStyles = {
   control: (provided, state) => ({
     ...provided,
-    background: '#fff',
-    borderColor: '#9e9e9e',
+    background: "#fff",
+    borderColor: "#9e9e9e",
     height: "34px",
     boxShadow: state.isFocused ? null : null,
   }),
@@ -33,15 +32,15 @@ const customStyles = {
   valueContainer: (provided, state) => ({
     ...provided,
     height: "34px",
-    padding: '0 6px'
+    padding: "0 6px",
   }),
 
   input: (provided, state) => ({
     ...provided,
-    margin: '0px',
+    margin: "0px",
   }),
-  indicatorSeparator: state => ({
-    display: 'none',
+  indicatorSeparator: (state) => ({
+    display: "none",
   }),
   indicatorsContainer: (provided, state) => ({
     ...provided,
@@ -55,6 +54,7 @@ function Register({ setOpen, setOpen1 }) {
   const [timestatus, settimestatus] = useState(false);
   const [time, settime] = useState(180);
   const [phonenDone, setphonenDone] = useState(false);
+  const [proceed, setproceed] = useState(false);
   const [emailDone, setemailDone] = useState(false);
   const [getphoneotpstate, setgetphoneotpstate] = useState(false);
   const [showprogrees1, setshowprogrees1] = useState(false);
@@ -325,159 +325,159 @@ function Register({ setOpen, setOpen1 }) {
         </div>
         <h1>New Institute/School Registration</h1>
         <div>
-          {phonenDone === false || emailDone === false ? (
+          {/* || emailDone === false */}
+          {proceed === false ? (
             <>
-              <div className={styles.mainformdivregister}>
-                <div className={styles.divmaininput}>
-                  <div className={styles.inputdivregister}>
-                    <label>Phone No</label>
-                    <input
-                      required
-                      type="text"
-                      placeholder="Enter the phone No"
-                      value={phoneno1}
-                      name="phoneno1"
-                      onChange={(e) => setphoneno1(e.target.value)}
-                    />
-                  </div>
-                  <div className={styles.inputdivregister}>
-                    <label>Email</label>
-                    <input
-                      required
-                      type="text"
-                      placeholder="Enter the Email"
-                      value={email}
-                      name="email"
-                      onChange={(e) => setemail(e.target.value)}
-                      disabled={PhoneOtpVerifystatus ? false : true}
-                    />
-                  </div>
-
-                  <div className={styles.inputdivregister}>
-                    <p className={styles.disabledinphone}>&nbsp;</p>
-                    <button
-                      onClick={() => sendotpOnPhone()}
-                      className={
-                        getphonebtnstatus || PhoneOtpVerifystatus
-                          ? styles.verifybtndisable
-                          : styles.verifybtn
-                      }
-                      disabled={
-                        getphonebtnstatus || PhoneOtpVerifystatus ? true : false
-                      }
-                    >
-                      {getphonebtnstatus || getemailotpstate ? (
-                        <>
-                          <p>{time}</p>
-                        </>
-                      ) : (
-                        <>
-                          {showprogrees1 ? (
-                            <CircularProgress size={25} />
-                          ) : (
-                            "Get code on phone"
-                          )}
-                        </>
-                      )}
-                    </button>
-                  </div>
-                </div>
-                <div className={styles.divmaininput}>
-                  <div className={styles.inputdivregister}>
-                    <label>Phone Otp</label>
-
-                    <input
-                      required
-                      type="text"
-                      placeholder="Enter the otp"
-                      value={phoneotp}
-                      name="phoneotp"
-                      onChange={(e) => setphoneotp(e.target.value)}
-                      // disabled={getphoneotpstate ? false : true}
-                    />
-                    <button
-                      onClick={() => PhoneOtpVerify()}
-                      className={
-                        phoneotp
-                          ? styles.verifybtntop
-                          : styles.verifybtntopdisable
-                      }
-                      disabled={phoneotp ? false : true}
-                    >
-                      {phoneverify ? (
+              <div className={styles.registerdivinput}>
+                <label>Phone No</label>
+                <input
+                  required
+                  type="text"
+                  placeholder="Enter the phone No"
+                  value={phoneno1}
+                  name="phoneno1"
+                  onChange={(e) => setphoneno1(e.target.value)}
+                />
+              </div>
+              <div className={styles.registerdivinput}>
+                <button
+                  onClick={() => sendotpOnPhone()}
+                  className={
+                    getphonebtnstatus || PhoneOtpVerifystatus
+                      ? styles.verifybtndisable
+                      : styles.verifybtn
+                  }
+                  disabled={
+                    getphonebtnstatus || PhoneOtpVerifystatus ? true : false
+                  }
+                >
+                  {getphonebtnstatus || getemailotpstate ? (
+                    <>
+                      <p>{time}</p>
+                    </>
+                  ) : (
+                    <>
+                      {showprogrees1 ? (
                         <CircularProgress size={25} />
                       ) : (
-                        "Verify Number"
+                        "Get code on phone"
                       )}
-                    </button>
-                  </div>
-                  <div className={styles.inputdivregister}>
-                    <label>Email Otp</label>
-                    <input
-                      required
-                      type="text"
-                      placeholder="Enter the otp"
-                      value={emailOtp}
-                      name="emailOtp"
-                      onChange={(e) => setemailOtp(e.target.value)}
-                      // disabled={emailOtpGot ? false : true}
-                    />
-                    <button
-                      className={
-                        emailOtp
-                          ? styles.verifybtntop
-                          : styles.verifybtntopdisable
-                      }
-                      disabled={emailOtp ? false : true}
-                      onClick={() => EmailOtpVerify()}
-                    >
-                      {emailverify ? (
+                    </>
+                  )}
+                </button>
+              </div>
+
+              <div className={styles.registerdivinput}>
+                <label>Phone OTP</label>
+
+                <input
+                  required
+                  type="text"
+                  placeholder="Enter the otp"
+                  value={phoneotp}
+                  name="phoneotp"
+                  onChange={(e) => setphoneotp(e.target.value)}
+                  // disabled={getphoneotpstate ? false : true}
+                />
+              </div>
+
+              <div className={styles.registerdivinput}>
+                <button
+                  onClick={() => PhoneOtpVerify()}
+                  className={
+                    phoneotp ? styles.verifybtntop : styles.verifybtntopdisable
+                  }
+                  disabled={phoneotp ? false : true}
+                >
+                  {phoneverify ? (
+                    <CircularProgress size={25} />
+                  ) : phonenDone ? (
+                    "Verified"
+                  ) : (
+                    "Verify Number"
+                  )}
+                </button>
+              </div>
+
+              <div className={styles.registerdivinput}>
+                <label>Email (Optional)</label>
+                <input
+                  required
+                  type="text"
+                  placeholder="Enter the Email"
+                  value={email}
+                  name="email"
+                  onChange={(e) => setemail(e.target.value)}
+                  disabled={PhoneOtpVerifystatus ? false : true}
+                />
+              </div>
+
+              <div className={styles.registerdivinput}>
+                <button
+                  onClick={() => sendotpOnEmail()}
+                  className={
+                    PhoneOtpVerifystatus
+                      ? styles.verifybtn
+                      : styles.verifybtndisable
+                  }
+                  disabled={PhoneOtpVerifystatus ? false : true}
+                >
+                  {getotpstatusonemail ? (
+                    <>
+                      <p>{emailtime}</p>
+                    </>
+                  ) : (
+                    <>
+                      {showprogrees3 ? (
                         <CircularProgress size={25} />
                       ) : (
-                        "Verify Email"
+                        "Get code on Email"
                       )}
-                    </button>
-                  </div>
+                    </>
+                  )}
+                </button>
+              </div>
 
-                  <div className={styles.inputdivregister}>
-                    <button
-                      onClick={() => sendotpOnEmail()}
-                      className={
-                        PhoneOtpVerifystatus
-                          ? styles.verifybtn
-                          : styles.verifybtndisable
-                      }
-                      disabled={PhoneOtpVerifystatus ? false : true}
-                    >
-                      {getotpstatusonemail ? (
-                        <>
-                          <p>{emailtime}</p>
-                        </>
-                      ) : (
-                        <>
-                          {showprogrees3 ? (
-                            <CircularProgress size={25} />
-                          ) : (
-                            "Get code on Email"
-                          )}
-                        </>
-                      )}
-                    </button>
+              <div className={styles.registerdivinput}>
+                <label>Email Otp</label>
+                <input
+                  required
+                  type="text"
+                  placeholder="Enter the otp"
+                  value={emailOtp}
+                  name="emailOtp"
+                  onChange={(e) => setemailOtp(e.target.value)}
+                  // disabled={emailOtpGot ? false : true}
+                />
+              </div>
+              <div className={styles.registerdivinput}>
+                <button
+                  className={
+                    emailOtp ? styles.verifybtntop : styles.verifybtntopdisable
+                  }
+                  disabled={emailOtp ? false : true}
+                  onClick={() => EmailOtpVerify()}
+                >
+                  {emailverify ? (
+                    <CircularProgress size={25} />
+                  ) : emailDone ? (
+                    "Verified"
+                  ) : (
+                    "Verify Email"
+                  )}
+                </button>
+              </div>
 
-                    <div className={styles.timmeerdiv}>
-                      <p>&nbsp;</p>
-                      {/* {getotpstatusonemail ? (
-                      <>
-                        <p>{emailtime}</p>
-                      </>
-                    ) : (
-                      <>
-                        <p>&nbsp;</p>
-                      </>
-                    )} */}
-                    </div>
-                  </div>
-                </div>
+              <div className={styles.registerdivinput}>
+                <button
+                  className={
+                    phonenDone ? styles.Proceedbtn : styles.verifybtntopdisable
+                  }
+                  disabled={phonenDone ? false : true}
+                  onClick={() => setproceed(true)}
+                >
+                  Proceed
+                </button>
               </div>
             </>
           ) : (

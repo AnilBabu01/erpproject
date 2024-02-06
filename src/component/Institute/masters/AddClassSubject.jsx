@@ -10,6 +10,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 function AddClassSubject({ setOpen }) {
   const dispatch = useDispatch();
+  
   const [section, setsection] = useState("");
   const [loading, setloading] = useState(false);
   const [courses, setcourses] = useState("");

@@ -17,6 +17,7 @@ import Updatedepart from "@/component/Coaching/masters/UpdatePrefix";
 import { loadUser } from "../../../redux/actions/authActions";
 
 function ReceiptPrefix() {
+  
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [openupdate, setOpenupdate] = useState(false);

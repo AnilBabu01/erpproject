@@ -21,6 +21,7 @@ function AddFooterDetails({ setOpen }) {
   const [loading, setloading] = useState(false);
 
   const submit = (e) => {
+    
     e.preventDefault();
     setloading(true);
     const data = {
