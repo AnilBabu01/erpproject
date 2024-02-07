@@ -27,7 +27,6 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
-import AddAdmission from "../../../component/Institute/student/AddStudent";
 import UpdateAdmission from "../../../component/Institute/transport/UpDateStatus";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
@@ -446,10 +445,10 @@ function Addstudent() {
                 <input
                   className={styles.opensearchinput10}
                   type="text"
-                  placeholder="Roll No"
-                  value={rollnumber}
-                  name="rollnumber"
-                  onChange={(e) => setrollnumber(e.target.value)}
+                  placeholder="Name"
+                  value={sstudent}
+                  name="sstudent"
+                  onChange={(e) => setsstudent(e.target.value)}
                 />
                 <input
                   className={styles.opensearchinput10}

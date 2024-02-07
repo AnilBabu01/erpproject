@@ -73,6 +73,7 @@ import {
   GetYearReducer,
   getReceiptCoachingPrintReducer,
   GetCoachingStudentReducer,
+  getTCReducer
 } from "./redux/reducers/commanReducers";
 
 import {
@@ -209,6 +210,7 @@ const reducer = combineReducers({
   GetYear: GetYearReducer,
   getReceiptCoachingPrint: getReceiptCoachingPrintReducer,
   GetCoachingStudent: GetCoachingStudentReducer,
+  getTCList:getTCReducer,
 });
 const middlware = [thunk];
 export const store = createStore(

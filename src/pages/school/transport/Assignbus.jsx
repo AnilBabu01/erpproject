@@ -8,11 +8,11 @@ import {
   getcategory,
   GetSession,
   GetSection,
+  getcurrentsession,
 } from "../../../redux/actions/commanAction";
 import { GetRoute } from "../../../redux/actions/transportActions";
 import styles from "../employee/employee.module.css";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
-import moment from "moment";
 import CircularProgress from "@mui/material/CircularProgress";
 import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
@@ -29,10 +29,6 @@ const studentStatus = [
 function Assignbus() {
   const dispatch = useDispatch();
   let currmonth = new Date().getMonth();
-  const [month, setmonth] = useState(currmonth + 1);
-  const [takeatten, settakeatten] = useState(true);
-  const [todatatten, settodatatten] = useState(false);
-  const [Analysisatten, setAnalysisatten] = useState(false);
   const [open, setOpen] = useState(false);
   const [openupdate, setOpenupdate] = useState(false);
   const [updatedata, setupdatedata] = useState("");
@@ -60,6 +56,7 @@ function Assignbus() {
   const { sections } = useSelector((state) => state.GetSection);
   const { Sessions } = useSelector((state) => state.GetSession);
   const { loading, student } = useSelector((state) => state.getstudent);
+  const { CURRENTSESSION } = useSelector((state) => state.GetCurrentSession);
   const [courselist, setcourselist] = useState([]);
 
   const [minDateTime, setMinDateTime] = useState(
@@ -131,6 +128,9 @@ function Assignbus() {
     if (category) {
       setcategorylist(category);
     }
+    if (CURRENTSESSION) {
+      setsessionname(CURRENTSESSION);
+    }
   }, [
     markattendance,
     batch,
@@ -143,6 +143,7 @@ function Assignbus() {
     sections,
     Sessions,
     category,
+    CURRENTSESSION,
   ]);
 
   useEffect(() => {
@@ -153,6 +154,7 @@ function Assignbus() {
     dispatch(GetSession());
     dispatch(getcategory());
     dispatch(GetRoute());
+    dispatch(getcurrentsession());
     dispatch(
       getstudent(
         "",
@@ -200,19 +202,11 @@ function Assignbus() {
     setsbatch("");
     setcategoryname("");
     setsno("");
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() + 1;
-    setsessionname(`${fullyear}-${lastyear}`);
+    setsessionname(CURRENTSESSION);
     setsectionname("");
     dispatch(getstudent());
   };
-  useEffect(() => {
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() + 1;
-    setsessionname(`${fullyear}-${lastyear}`);
-  }, []);
+
   return (
     <>
       {open && (

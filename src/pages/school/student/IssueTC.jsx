@@ -10,6 +10,7 @@ import {
   GetSession,
   GetSection,
   getcurrentsession,
+  getTC,
 } from "../../../redux/actions/commanAction";
 import {
   GetHostel,
@@ -25,8 +26,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { Button } from "@mui/material";
-import AddAdmission from "../../../component/Institute/student/AddStudent";
-import UpdateAdmission from "../../../component/Institute/student/UpdateStudent";
+import UpdateIssusedTc from "./UpdateIssusedTc";
 import LoadingSpinner from "@/component/loader/LoadingSpinner";
 import moment from "moment";
 import exportFromJSON from "export-from-json";
@@ -43,7 +43,7 @@ const studentStatus = [
 ];
 function IssueTC() {
   const dispatch = useDispatch();
-
+  const [TCList, setTCList] = useState([]);
   const [seno, setseno] = useState("");
   const [issuedlist, setissuedlist] = useState(false);
   const [sessionname, setsessionname] = useState();
@@ -72,9 +72,13 @@ function IssueTC() {
   const [sessionList, setsessionList] = useState([]);
   const [sectionList, setsectionList] = useState([]);
   const [sectionname, setsectionname] = useState("NONE");
+  const [studentname, setstudentname] = useState("");
   const [userdata, setuserdata] = useState("");
   const { user } = useSelector((state) => state.auth);
   const { loading, student } = useSelector((state) => state.getstudent);
+  const { TcList, loading: tcloading } = useSelector(
+    (state) => state.getTCList
+  );
   const { batch } = useSelector((state) => state.getbatch);
   const { course } = useSelector((state) => state.getcourse);
   const { category } = useSelector((state) => state.getcategory);
@@ -89,14 +93,6 @@ function IssueTC() {
 
   const handleCloseTC = () => {
     setopenTC(false);
-  };
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleCloseregister = () => {
-    setOpen(false);
   };
 
   const ClickOpenupdate = (data) => {
@@ -115,29 +111,6 @@ function IssueTC() {
 
   const handleClosedelete = () => {
     setOpenalert(false);
-  };
-
-  const handledelete = () => {
-    setdeleting(true);
-    serverInstance(`student/addstudent?id=${deleteid}`, "delete").then(
-      (res) => {
-        if (res?.status === true) {
-          toast.success(res?.msg, {
-            autoClose: 1000,
-          });
-          dispatch(getstudent());
-          handleClosedelete();
-          setdeleting(false);
-        }
-        if (res?.status === false) {
-          toast.error(res?.msg, {
-            autoClose: 1000,
-          });
-          handleClosedelete();
-          setdeleting(false);
-        }
-      }
-    );
   };
 
   const Transition = React.forwardRef(function Transition(props, ref) {
@@ -169,6 +142,9 @@ function IssueTC() {
     if (CURRENTSESSION) {
       setsessionname(CURRENTSESSION);
     }
+    if (TcList) {
+      setTCList(TcList);
+    }
   }, [
     student,
     batch,
@@ -178,6 +154,7 @@ function IssueTC() {
     Sessions,
     sections,
     CURRENTSESSION,
+    TcList,
   ]);
   useEffect(() => {
     dispatch(
@@ -199,8 +176,7 @@ function IssueTC() {
         ""
       )
     );
-  }, []);
-  useEffect(() => {
+    dispatch(getTC());
     dispatch(loadUser());
     dispatch(getbatch());
     dispatch(getcourse());
@@ -215,8 +191,7 @@ function IssueTC() {
     dispatch(getcurrentsession());
   }, []);
 
-  const filterdata = (e) => {
-    e.preventDefault();
+  const filterdata = () => {
     dispatch(
       getstudent(
         fromdate,
@@ -231,13 +206,14 @@ function IssueTC() {
         "",
         sessionname,
         sectionname,
-        "",
-        stream
+        seno,
+        stream,
+        ""
       )
     );
   };
-
   const reset = () => {
+    setseno("");
     setstream("");
     setsstudent("");
     setsfathers("");
@@ -251,12 +227,20 @@ function IssueTC() {
     dispatch(getstudent());
   };
 
+  const filterdataTC = () => {
+    dispatch(getTC(scoursename, sessionname, studentname, seno));
+  };
+
+  const resetTc = () => {
+    setseno("");
+    dispatch(getTC());
+  };
+
   const ExportToExcel = (isData) => {
     const fileName = "StudentList";
     const exportType = "xls";
     var data = [];
-
-    isData.map((item, index) => {
+     isData.map((item, index) => {
       data.push({
         Addmission_Date: moment(item?.admissionDate).format("MM/DD/YYYY"),
         Session: item?.Session,
@@ -277,9 +261,29 @@ function IssueTC() {
     exportFromJSON({ data, fileName, exportType });
   };
 
-  const filterIssueTc = () => {
-    let filterdata = isdata?.filter((item) => item?.TCStatus != 0);
-    return filterdata;
+  const handledelete = () => {
+    setdeleting(true);
+    serverInstance(`student/CreateTC?id=${deleteid}`, "delete").then((res) => {
+      if (res?.status === true) {
+        toast.success(res?.msg, {
+          autoClose: 1000,
+        });
+
+        handleClosedelete();
+        setdeleting(false);
+
+        dispatch(getstudent());
+        dispatch(getTC());
+      }
+      if (res?.status === false) {
+        toast.error(res?.msg, {
+          autoClose: 1000,
+        });
+        handleClosedelete();
+
+        setdeleting(false);
+      }
+    });
   };
 
   return (
@@ -304,26 +308,7 @@ function IssueTC() {
           </Dialog>
         </div>
       )}
-      {open && (
-        <div>
-          <Dialog
-            open={open}
-            TransitionComponent={Transition}
-            // onClose={handleCloseregister}
-            aria-describedby="alert-dialog-slide-description"
-            sx={{
-              "& .MuiDialog-container": {
-                "& .MuiPaper-root": {
-                  width: "100%",
-                  maxWidth: "60rem",
-                },
-              },
-            }}
-          >
-            <AddAdmission setOpen={setOpen} />
-          </Dialog>
-        </div>
-      )}
+
       {openupdate && (
         <div>
           <Dialog
@@ -340,7 +325,7 @@ function IssueTC() {
               },
             }}
           >
-            <UpdateAdmission setOpen={setOpenupdate} updatedata={updatedata} />
+            <UpdateIssusedTc setOpen={setOpenupdate} updatedata={updatedata} />
           </Dialog>
         </div>
       )}
@@ -380,190 +365,107 @@ function IssueTC() {
             <div className={styles.searchoptiondiv}>
               {issuedlist ? (
                 <>
-                  <form
-                    onSubmit={filterdata}
-                    className={styles.searchoptiondiv}
+                  <select
+                    className={styles.opensearchinput}
+                    sx={{
+                      width: "18.8rem",
+                      fontSize: 14,
+                      "& .MuiSelect-select": {
+                        paddingTop: "0.6rem",
+                        paddingBottom: "0.6em",
+                      },
+                    }}
+                    value={sessionname}
+                    name="sessionname"
+                    onChange={(e) => setsessionname(e.target.value)}
+                    displayEmpty
                   >
-                    <select
-                      className={styles.opensearchinput}
+                    <option
                       sx={{
-                        width: "18.8rem",
                         fontSize: 14,
-                        "& .MuiSelect-select": {
-                          paddingTop: "0.6rem",
-                          paddingBottom: "0.6em",
-                        },
                       }}
-                      value={sessionname}
-                      name="sessionname"
-                      onChange={(e) => setsessionname(e.target.value)}
-                      displayEmpty
+                      value={""}
                     >
-                      <option
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={""}
-                      >
-                        Select Session
-                      </option>
+                      Select Session
+                    </option>
 
-                      {sessionList?.length > 0 &&
-                        sessionList?.map((item, index) => {
-                          return (
-                            <option
-                              key={index}
-                              sx={{
-                                fontSize: 14,
-                              }}
-                              value={item?.Session}
-                            >
-                              {item?.Session}
-                            </option>
-                          );
-                        })}
-                    </select>
-                    <select
-                      className={styles.opensearchinput}
-                      sx={{
-                        width: "18.8rem",
-                        fontSize: 14,
-                        "& .MuiSelect-select": {
-                          paddingTop: "0.6rem",
-                          paddingBottom: "0.6em",
-                        },
-                      }}
-                      value={scoursename}
-                      name="scoursename"
-                      onChange={(e) => setscoursename(e.target.value)}
-                      displayEmpty
-                    >
-                      <option
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={""}
-                      >
-                        ALL Class
-                      </option>
-
-                      {courselist?.map((item, index) => {
+                    {sessionList?.length > 0 &&
+                      sessionList?.map((item, index) => {
                         return (
                           <option
                             key={index}
                             sx={{
                               fontSize: 14,
                             }}
-                            value={item?.coursename}
+                            value={item?.Session}
                           >
-                            {item?.coursename}
+                            {item?.Session}
                           </option>
                         );
                       })}
-                    </select>
-                    <select
-                      className={styles.opensearchinput}
+                  </select>
+                  <select
+                    className={styles.opensearchinput}
+                    sx={{
+                      width: "18.8rem",
+                      fontSize: 14,
+                      "& .MuiSelect-select": {
+                        paddingTop: "0.6rem",
+                        paddingBottom: "0.6em",
+                      },
+                    }}
+                    value={scoursename}
+                    name="scoursename"
+                    onChange={(e) => setscoursename(e.target.value)}
+                    displayEmpty
+                  >
+                    <option
                       sx={{
-                        width: "18.8rem",
                         fontSize: 14,
-                        "& .MuiSelect-select": {
-                          paddingTop: "0.6rem",
-                          paddingBottom: "0.6em",
-                        },
                       }}
-                      value={sectionname}
-                      name="sectionname"
-                      onChange={(e) => setsectionname(e.target.value)}
-                      displayEmpty
+                      value={""}
                     >
-                      <option
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={"NONE"}
-                      >
-                        NONE
-                      </option>
+                      ALL Class
+                    </option>
 
-                      {sectionList?.length > 0 &&
-                        sectionList?.map((item, index) => {
-                          return (
-                            <option
-                              key={index}
-                              sx={{
-                                fontSize: 14,
-                              }}
-                              value={item?.section}
-                            >
-                              {item?.section}
-                            </option>
-                          );
-                        })}
-                    </select>
-                    <select
-                      className={styles.opensearchinput}
-                      sx={{
-                        width: "18.8rem",
-                        fontSize: 14,
-                        "& .MuiSelect-select": {
-                          paddingTop: "0.6rem",
-                          paddingBottom: "0.6em",
-                        },
-                      }}
-                      value={status}
-                      name="status"
-                      onChange={(e) => setstatus(e.target.value)}
-                      displayEmpty
-                    >
-                      <option
-                        sx={{
-                          fontSize: 14,
-                        }}
-                        value={""}
-                      >
-                        ALL Status
-                      </option>
+                    {courselist?.map((item, index) => {
+                      return (
+                        <option
+                          key={index}
+                          sx={{
+                            fontSize: 14,
+                          }}
+                          value={item?.coursename}
+                        >
+                          {item?.coursename}
+                        </option>
+                      );
+                    })}
+                  </select>
 
-                      {studentStatus?.map((item, index) => {
-                        return (
-                          <option
-                            key={index}
-                            sx={{
-                              fontSize: 14,
-                            }}
-                            value={item?.value}
-                          >
-                            {item?.value}
-                          </option>
-                        );
-                      })}
-                    </select>
-                    <input
-                      className={styles.opensearchinput10}
-                      type="text"
-                      placeholder="SRNO"
-                      value={seno}
-                      name="seno}"
-                      onChange={(e) => setseno(e.target.value)}
-                    />
-                    <input
-                      className={styles.opensearchinput10}
-                      type="text"
-                      placeholder="Roll No"
-                      value={rollnumber}
-                      name="rollnumber"
-                      onChange={(e) => setrollnumber(e.target.value)}
-                    />
+                  <input
+                    className={styles.opensearchinput10}
+                    type="text"
+                    placeholder="Sr Number"
+                    value={seno}
+                    name="seno}"
+                    onChange={(e) => setseno(e.target.value)}
+                  />
 
-                    <button>Search</button>
-                  </form>
+                  <input
+                    className={styles.opensearchinput10}
+                    type="text"
+                    placeholder="Name"
+                    value={studentname}
+                    name="studentname"
+                    onChange={(e) => setstudentname(e.target.value)}
+                  />
+
+                  <button onClick={() => filterdataTC()}>Search</button>
                 </>
               ) : (
                 <>
-                  <form
-                    onSubmit={filterdata}
-                    className={styles.searchoptiondiv}
-                  >
+                  <div className={styles.searchoptiondiv}>
                     <select
                       className={styles.opensearchinput}
                       sx={{
@@ -729,26 +631,41 @@ function IssueTC() {
                     <input
                       className={styles.opensearchinput10}
                       type="text"
-                      placeholder="Roll No"
-                      value={rollnumber}
-                      name="rollnumber"
-                      onChange={(e) => setrollnumber(e.target.value)}
+                      placeholder="Name"
+                      value={sstudent}
+                      name="sstudent"
+                      onChange={(e) => setsstudent(e.target.value)}
                     />
 
-                    <button>Search</button>
-                  </form>
+                    <button onClick={() => filterdata()}>Search</button>
+                  </div>
                 </>
               )}
 
-              <button onClick={() => reset()}>Reset</button>
+              <button onClick={() => (issuedlist ? resetTc() : reset())}>
+                Reset
+              </button>
+
               <button
                 className={
                   issuedlist
-                    ? styles.searchbtnactive
+                    ? styles.searchoptiondivbutton
+                    : styles.AllTabActive
+                }
+                onClick={() => {
+                  setissuedlist(false);
+                }}
+              >
+                Issued Tc
+              </button>
+              <button
+                className={
+                  issuedlist
+                    ? styles.AllTabActive
                     : styles.searchoptiondivbutton
                 }
                 onClick={() => {
-                  setissuedlist(!issuedlist);
+                  setissuedlist(true);
                 }}
               >
                 Issued Tc List
@@ -765,48 +682,67 @@ function IssueTC() {
                     <tbody>
                       <tr className={styles.tabletr}>
                         <th className={styles.tableth}>Sr.No</th>
-                        <th className={styles.tableth}>Session</th>
-                        <th className={styles.tableth}>SRNO</th>
-                        <th className={styles.tableth}>Roll_No</th>
-                        <th className={styles.tableth}>Section</th>
-                        <th className={styles.tableth}>Stream</th>
-                        <th className={styles.tableth}>Student_Name</th>
-                        <th className={styles.tableth}>Gender</th>
-                        <th className={styles.tableth}>Student_Email</th>
-                        <th className={styles.tableth}>Student_Phone</th>
-                        <th className={styles.tableth}>Issued_Date</th>
-                        <th className={styles.tableth}>Class</th>
-                        <th className={styles.tableth}>Category</th>
-                        <th className={styles.tableth}>Student_Status</th>
+                        <th className={styles.tableth}>NameofStudent</th>
+                        <th className={styles.tableth}>FathersName</th>
+                        <th className={styles.tableth}>MothersName</th>
+                        <th className={styles.tableth}>TcNo</th>
+                        <th className={styles.tableth}>fileNo</th>
+                        <th className={styles.tableth}>SrNo</th>
+                        <th className={styles.tableth}>AadharNumber</th>
+                        <th className={styles.tableth}>Nationality</th>
+
+                        <th className={styles.tableth}>
+                          qualifiedforpromotion
+                        </th>
+                        <th className={styles.tableth}>Action</th>
                       </tr>
-                      {filterIssueTc()?.map((item, index) => {
-                        return (
-                          <tr key={index} className={styles.tabletr}>
-                            <td className={styles.tabletd}>{index + 1}</td>
-                            <td className={styles.tabletd}>{item?.Session}</td>
-                            <td className={styles.tabletd}>{item?.SrNumber}</td>
-                            <td className={styles.tabletd}>
-                              {item?.rollnumber}
-                            </td>
-                            <td className={styles.tabletd}>{item?.Section}</td>
-                            <td className={styles.tabletd}>{item?.Stream}</td>
-                            <td className={styles.tabletd}>{item?.name}</td>
-                            <td className={styles.tabletd}>{item?.Gender}</td>
-                            <td className={styles.tabletd}>{item?.email}</td>
-                            <td className={styles.tabletd}>{item?.phoneno1}</td>
-                            <td className={styles.tabletd}>
-                              {moment(item?.admissionDate).format("DD/MM/YYYY")}
-                            </td>
-                            <td className={styles.tabletd}>
-                              {item?.courseorclass}
-                            </td>
-                            <td className={styles.tabletd}>
-                              {item?.StudentCategory}
-                            </td>
-                            <td className={styles.tabletd}>{item?.Status}</td>
-                          </tr>
-                        );
-                      })}
+                      {TCList &&
+                        TCList?.map((item, index) => {
+                          return (
+                            <tr key={index} className={styles.tabletr}>
+                              <td className={styles.tabletd}>{index + 1}</td>
+                              <td className={styles.tabletd}>
+                                {item?.NameofStudent}
+                              </td>
+                              <td className={styles.tabletd}>
+                                {item?.FathersName}
+                              </td>
+                              <td className={styles.tabletd}>
+                                {item?.MothersName}
+                              </td>
+                              <td className={styles.tabletd}>{item?.TcNo}</td>
+
+                              <td className={styles.tabletd}>{item?.fileNo}</td>
+                              <td className={styles.tabletd}>{item?.SrNo}</td>
+                              <td className={styles.tabletd}>
+                                {item?.AadharNumber}
+                              </td>
+
+                              <td className={styles.tabletd}>
+                                {item?.Nationality}
+                              </td>
+                              <td className={styles.tabletd}>
+                                {item?.qualifiedforpromotion}
+                              </td>
+
+                              <td className={styles.tabkeddd}>
+                                <td className={styles.tabkeddd}>
+                                  <img
+                                    onClick={() => ClickOpendelete(item?.id)}
+                                    src="/images/Delete.png"
+                                    alt="imgss"
+                                  />
+                                  <img
+                                    style={{ marginLeft: "1rem" }}
+                                    onClick={() => ClickOpenupdate(item)}
+                                    src="/images/Edit.png"
+                                    alt="imgss"
+                                  />
+                                </td>
+                              </td>
+                            </tr>
+                          );
+                        })}
                     </tbody>
                   </table>
                 </div>
@@ -825,7 +761,7 @@ function IssueTC() {
                         <th className={styles.tableth}>Stream</th>
                         <th className={styles.tableth}>Student_Name</th>
                         <th className={styles.tableth}>Gender</th>
-                        <th className={styles.tableth}>Student_Email</th>
+                        {/* <th className={styles.tableth}>Student_Email</th> */}
                         <th className={styles.tableth}>Student_Phone</th>
                         <th className={styles.tableth}>Adminssion_Date</th>
                         <th className={styles.tableth}>Class</th>
@@ -846,7 +782,7 @@ function IssueTC() {
                             <td className={styles.tabletd}>{item?.Stream}</td>
                             <td className={styles.tabletd}>{item?.name}</td>
                             <td className={styles.tabletd}>{item?.Gender}</td>
-                            <td className={styles.tabletd}>{item?.email}</td>
+                            {/* <td className={styles.tabletd}>{item?.email}</td> */}
                             <td className={styles.tabletd}>{item?.phoneno1}</td>
                             <td className={styles.tabletd}>
                               {moment(item?.admissionDate).format("DD/MM/YYYY")}
@@ -860,10 +796,15 @@ function IssueTC() {
                             <td className={styles.tabletd}>{item?.Status}</td>
                             <td className={styles.tabkeddd}>
                               <button
-                                className={styles.actionbtn}
+                                className={
+                                  item?.TCStatus
+                                    ? styles.IssuedTcDone
+                                    : styles.actionbtn
+                                }
+                                disabled={item?.TCStatus ? true : false}
                                 onClick={() => handleClickOpenTC(item)}
                               >
-                                Issue TC
+                                {item?.TCStatus ? "Issued" : "Issue"}
                               </button>
                             </td>
                           </tr>
@@ -877,6 +818,8 @@ function IssueTC() {
           </div>
         </div>
       </div>
+      {tcloading && <LoadingSpinner />}
+
       {loading && <LoadingSpinner />}
     </>
   );

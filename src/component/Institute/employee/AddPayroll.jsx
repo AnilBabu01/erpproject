@@ -11,6 +11,7 @@ import jsPDF from "jspdf";
 import CircularProgress from "@mui/material/CircularProgress";
 
 function AddPayroll({ setOpen, updatedata }) {
+  
   const componentRef = useRef(null);
   const dispatch = useDispatch();
   const [sessionname, setsessionname] = useState("");

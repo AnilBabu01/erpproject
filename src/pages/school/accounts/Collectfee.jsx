@@ -247,6 +247,7 @@ function Collectfee() {
         sessionname,
         sectionname,
         seno,
+        "",
         ""
       )
     );
@@ -262,7 +263,6 @@ function Collectfee() {
     setstatus("");
     setrollnumber("");
     setseno("");
-
     setsessionname(CURRENTSESSION);
     setcategoryname("");
     setsectionname("");
@@ -498,10 +498,10 @@ function Collectfee() {
                 <input
                   className={styles.opensearchinput10}
                   type="text"
-                  placeholder="Roll No"
-                  value={rollnumber}
-                  name="rollnumber"
-                  onChange={(e) => setrollnumber(e.target.value)}
+                  placeholder="Name"
+                  value={sstudent}
+                  name="sstudent"
+                  onChange={(e) => setsstudent(e.target.value)}
                 />
                 <input
                   className={styles.opensearchinput10}
@@ -602,16 +602,22 @@ function Collectfee() {
                         <td className={styles.tabletd}>
                           {item?.admissionfeeStatus == true
                             ? `Paid (${item?.admissionfee})`
+                            : item?.admissionfee === 0
+                            ? `NO (${item?.admissionfee})`
                             : `Dues (${item?.admissionfee})`}
                         </td>
                         <td className={styles.tabletd}>
                           {item?.Registrationfeestatus == true
                             ? `Paid (${item?.regisgrationfee})`
+                            : item?.regisgrationfee === 0
+                            ? `NO (${item?.regisgrationfee})`
                             : `Dues (${item?.regisgrationfee})`}
                         </td>
                         <td className={styles.tabletd}>
                           {item?.AnnualFeeStatus == true
                             ? `Paid (${item?.AnnualFee})`
+                            : item?.AnnualFee === 0
+                            ? `NO (${item?.AnnualFee})`
                             : `Dues (${item?.AnnualFee})`}
                         </td>
 

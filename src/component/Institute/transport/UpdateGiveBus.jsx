@@ -104,8 +104,8 @@ function UpdateGiveBus({ setOpen, updatedata }) {
                 setremoveBus(false);
               }
             }}
-          />{" "}
-          Remove Bus
+          />
+          Remove Bus If Already assign bus Otherwise select route and check Availability and assign bus
           <div className={styles.divmaininput}>
             <div className={styles.inputdiv}>
               <label>Current From Route</label>

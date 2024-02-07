@@ -87,6 +87,7 @@ function Payroll() {
     dispatch(deleteEmployee(deleteid, setOpenalert));
   };
 
+  
   useEffect(() => {
     if (payroll) {
       setisData(payroll);

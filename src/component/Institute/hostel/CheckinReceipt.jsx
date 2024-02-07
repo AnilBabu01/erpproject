@@ -86,8 +86,9 @@ function CheckinReceipt({data,setOpen}) {
               <div className={styles.imgdivre}>
                 <img
                   alt="img"
-                  src={`${backendUrl}public/upload/${organizationdata?.logourl}`}
+                  src={`${organizationdata?.logourl}`}
                 />
+
               </div>
               <div className={styles.imgdivre}>
                 <h2>{organizationdata?.institutename}</h2>

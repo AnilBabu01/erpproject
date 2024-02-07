@@ -35,6 +35,7 @@ function Searchfee() {
   const [filtering, setfiltering] = useState(false);
   const [stream, setstream] = useState("");
   const [seno, setseno] = useState("");
+  const [studentName, setstudentName] = useState('');
   const [categoryname, setcategoryname] = useState("");
   const [categorylist, setcategorylist] = useState([]);
   const [sessionList, setsessionList] = useState([]);
@@ -275,6 +276,7 @@ function Searchfee() {
       sessionname,
       sectionname,
       seno,
+      studentName
     }).then((res) => {
       if (res?.status === true) {
         // toast.success(res?.msg, {
@@ -560,10 +562,10 @@ function Searchfee() {
                 <input
                   className={styles.opensearchinput10}
                   type="text"
-                  placeholder="Roll No"
-                  value={rollnumber}
-                  name="rollnumber"
-                  onChange={(e) => setrollnumber(e.target.value)}
+                  placeholder="Name"
+                  value={studentName}
+                  name="studentName"
+                  onChange={(e) => setstudentName(e.target.value)}
                 />
                 <input
                   className={styles.opensearchinput10}

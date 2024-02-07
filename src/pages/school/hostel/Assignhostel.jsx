@@ -94,8 +94,6 @@ function Assignhostel() {
     return <Slide direction="top" ref={ref} {...props} />;
   });
 
-
-
   const handleClickOpenReceipt = (data) => {
     setopenreceipt(true);
     setreceiptdata(data);
@@ -104,7 +102,7 @@ function Assignhostel() {
   const handleClosereceipt = () => {
     setopenreceipt(false);
   };
-  
+
   const handleClickOpen = (data) => {
     setOpen(true);
     setupdatedata(data);
@@ -176,9 +174,8 @@ function Assignhostel() {
     if (checkin) {
       setcheckinlist(checkin);
     }
-    if(CURRENTSESSION)
-    {
-      setsessionname(CURRENTSESSION)
+    if (CURRENTSESSION) {
+      setsessionname(CURRENTSESSION);
     }
   }, [
     markattendance,
@@ -193,11 +190,10 @@ function Assignhostel() {
     sections,
     category,
     checkin,
-    CURRENTSESSION
+    CURRENTSESSION,
   ]);
 
   const getCheckinlist = () => {
-    console.log("clienmdhmbfhdghcvx");
     dispatch(
       GetCheckin(sessionname, sectionname, sno, checkinstatus, scoursename)
     );
@@ -237,8 +233,7 @@ function Assignhostel() {
     });
   };
   useEffect(() => {
-    getCheckinlist();
-    dispatch(GetCheckin());
+    dispatch(GetCheckin("", "", "", 1, ""));
     dispatch(loadUser());
     dispatch(getbatch());
     dispatch(getcourse());
@@ -248,7 +243,7 @@ function Assignhostel() {
     dispatch(GetFacility());
     dispatch(GetHostel());
     dispatch(GetCategory());
-    dispatch(GetCheckin());
+    dispatch(getcurrentsession());
     dispatch(
       getstudent(
         "",
@@ -292,18 +287,16 @@ function Assignhostel() {
     );
   };
   const reset = () => {
- 
- 
     setscoursename("");
     setsbatch("");
     setcategoryname("");
     setsno("");
-   
+
     setsessionname(CURRENTSESSION);
     setsectionname("");
     dispatch(getstudent());
   };
- 
+
   return (
     <>
       {openalert && (
@@ -331,7 +324,6 @@ function Assignhostel() {
           </Dialog>
         </>
       )}
-
 
       {openreceipt && (
         <div>
@@ -844,11 +836,7 @@ function Assignhostel() {
                 </>
               )}
               <button
-                className={
-                  takeatten
-                    ? styles.searchbtnactive
-                    : styles.searchoptiondivbutton
-                }
+                className={takeatten ? styles.AllTabActive : styles.noneActive}
                 onClick={() => {
                   settakeatten(true);
                   settodatatten(false);
@@ -871,9 +859,7 @@ function Assignhostel() {
                   setclassname("");
                 }}
                 className={
-                  Analysisatten
-                    ? styles.searchbtnactive
-                    : styles.searchoptiondivbutton
+                  Analysisatten ? styles.AllTabActive : styles.noneActive
                 }
               >
                 Room Shift
@@ -886,11 +872,7 @@ function Assignhostel() {
                   setsbatch("");
                   setclassname("");
                 }}
-                className={
-                  todatatten
-                    ? styles.searchbtnactive
-                    : styles.searchoptiondivbutton
-                }
+                className={todatatten ? styles.AllTabActive : styles.noneActive}
               >
                 Room Release
               </button>

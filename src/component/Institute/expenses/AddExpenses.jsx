@@ -8,6 +8,62 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
+import Select1 from "react-select";
+const customStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    background: "#fff",
+    borderColor: "#9e9e9e",
+    // height: "30px",
+    boxShadow: state.isFocused ? null : null,
+  }),
+
+  valueContainer: (provided, state) => ({
+    ...provided,
+    // height: "30px",
+    padding: "0 6px",
+  }),
+
+  input: (provided, state) => ({
+    ...provided,
+    margin: "0px",
+  }),
+  indicatorSeparator: (state) => ({
+    display: "none",
+  }),
+  indicatorsContainer: (provided, state) => ({
+    ...provided,
+    height: "30px",
+  }),
+};
+
+const expensesTypeList = [
+  { label: "Cleaning Expenses", value: 'Cleaning Expenses' },
+  { label: "Office Expenses", value: 'Office Expenses' },
+  { label: "Advertisement Expenses", value: 'Advertisement Expenses' },
+  { label: "Sundry Expenses", value: 'Sundry Expenses' },
+  { label: "Study Materal", value: 'Study Materal' },
+  { label: "Games Expenses", value: 'Games Expenses' },
+  { label: "Building Rent", value: 'Building Rent' },
+  { label: "Prantiya Nidhi", value: 'Prantiya Nidhi' },
+  { label: "Library Expenses", value: 'Library Expenses' },
+  { label: "Examination Expenses", value: 'Examination Expenses' },
+  { label: "Computer Expenses", value: 'Computer Expenses' },
+  { label: "Electricity And Water Expenses", value: 'Electricity And Water Expenses' },
+  { label: 'Teacher"s" Salary', value: 'Teacher"s" Salary' },
+  { label: "Telephone Expenses", value: 'Telephone Expenses' },
+  { label: "Vehicle Expenses", value: 'Vehicle Expenses' },
+  { label: "Science Expenses", value: 'Science Expenses' },
+  { label: "Festival Expenses", value: 'Festival Expenses' },
+  { label: 'Teacher"s" Prize Expenses', value: 'Teacher"s" Prize Expenses' },
+  { label: 'Student"s" Prize Expenses', value: 'Student"s" Prize Expenses' },
+  { label: "Canteen Expenses", value: 'Canteen Expenses' },
+  { label: "Building Maintenanace", value: 'Building Maintenanace' },
+  { label: "Donate Expenses", value: 'Donate Expenses' },
+  { label: "Competition Expenses", value: 'Competition Expenses' },
+  { label: "Diesel Expenses", value: 'Diesel Expenses' },
+  { label: "Medical Expenses", value: 'Medical Expenses' },
+];
 
 function AddExpenses({ setOpen }) {
   const dispatch = useDispatch();
@@ -150,6 +206,7 @@ function AddExpenses({ setOpen }) {
           <div className={styles.divmaininput}>
             <div className={styles.inputdiv}>
               <label>Payment_Out_Type</label>
+
               <Select
                 required
                 className={styles.addwidth}
@@ -164,33 +221,30 @@ function AddExpenses({ setOpen }) {
                 value={Expensestype}
                 name="Expensestype"
                 onChange={(e) => setExpensestype(e.target.value)}
-                displayEmpty
+                // displayEmpty
               >
                 <MenuItem
                   sx={{
                     fontSize: 14,
                   }}
-                  value={"Expenses"}
+                  value={"Please Select"}
                 >
-                  Expenses
-                </MenuItem>
-                <MenuItem
-                  sx={{
-                    fontSize: 14,
-                  }}
-                  value={"Asset"}
-                >
-                  Asset
+                  Please Select
                 </MenuItem>
 
-                <MenuItem
-                  sx={{
-                    fontSize: 14,
-                  }}
-                  value={"Liability"}
-                >
-                  Liability
-                </MenuItem>
+                {expensesTypeList?.map((item, index) => {
+                  return (
+                    <MenuItem
+                      key={index}
+                      sx={{
+                        fontSize: 14,
+                      }}
+                      value={item?.label}
+                    >
+                      {item?.value}
+                    </MenuItem>
+                  );
+                })}
               </Select>
             </div>
             <div className={styles.inputdiv}>

@@ -402,6 +402,7 @@
   padding-right: 1%;
   padding-top: 1%;
   cursor: pointer;
+  align-items: center;
 }
 
 .closeicondivauth {
@@ -1211,8 +1212,7 @@
   border-color: rgb(0, 0, 128);
 }
 
-.registerdivinput {
-}
+
 
 .registerdivinput input {
   border: 0.8px solid rgb(66, 66, 66);
@@ -1312,6 +1312,15 @@
   outline: none;
   box-shadow: rgba(0, 0, 128, 0.25) 0px 0px 0px 0.2rem;
   border-color: rgb(0, 0, 128);
+}
+
+.calcelPayFeeBtn{
+  width: 24%;
+  height: 35px;
+  background: #093959;
+  color: white;
+  border-radius: 7px;
+  margin-right: 1rem;
 }
 
 @media screen and (max-width: 780px) {

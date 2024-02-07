@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import Typography from "@mui/material/Typography";
 import Switch from "@mui/material/Switch";
 const label = { inputProps: { "aria-label": "Switch demo" } };
+
 function Addfee({ data, setOpen }) {
   const navigation = useRouter();
   const dispatch = useDispatch();
@@ -359,8 +360,6 @@ function Addfee({ data, setOpen }) {
     setpaymentdate(new Date().toISOString().substring(0, 10));
   }, []);
 
-  console.log("edit data is", acadminArray, editacadminArray);
-
   return (
     <>
       <div className={styles.divmainlogin}>
@@ -391,9 +390,9 @@ function Addfee({ data, setOpen }) {
           </>
         ) : (
           <>
-            {data?.Registrationfeestatus &&
-            data?.AnnualFeeStatus &&
-            data?.admissionfeeStatus ? (
+            {(data?.regisgrationfee === 0 ? true : data?.Registrationfeestatus) &&
+            (data?.AnnualFee === 0 ? true : data?.AnnualFeeStatus) &&
+            (data?.admissionfee === 0 ? true : data?.admissionfeeStatus) ? (
               <>
                 <div className={styles.paybtndiv}>
                   <button

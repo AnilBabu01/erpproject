@@ -558,10 +558,10 @@ function TransPortPendingFee() {
                 <input
                   className={styles.opensearchinput10}
                   type="text"
-                  placeholder="Roll No"
-                  value={rollnumber}
-                  name="rollnumber"
-                  onChange={(e) => setrollnumber(e.target.value)}
+                  placeholder="Name"
+                  value={sstudent}
+                  name="sstudent"
+                  onChange={(e) => setsstudent(e.target.value)}
                 />
                 <input
                   className={styles.opensearchinput10}

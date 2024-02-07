@@ -407,16 +407,18 @@
   padding-right: 1%;
   margin-top: 3%;
 }
-.coachingtextaddress p{
+.coachingtextaddress p {
   /* line-height: 3rem; */
 }
 
-.TCNoDiv{
+.TCNoDiv {
   display: flex;
   justify-content: space-between;
   /* justify-items: inherit; */
   padding-left: 1%;
+  margin-top: 1%;
   padding-right: 1%;
+  padding-bottom: 1%;
 }
 .TCMainTop {
   padding: 1%;
@@ -426,8 +428,8 @@
   padding-left: 1%;
   padding-right: 1%;
 }
-.actionbtn{
-  background:#ffae01 ;
+.actionbtn {
+  background: #ffae01;
   width: 15%;
   height: 35px;
   color: white;
@@ -435,8 +437,8 @@
   margin-bottom: 0.2rem;
   margin-top: 0.4rem;
 }
-.actionbtn:hover{
-  background:#093959 ;
+.actionbtn:hover {
+  background: #093959;
   width: 15%;
   height: 35px;
   color: white;
@@ -444,16 +446,24 @@
   margin-bottom: 0.2rem;
   margin-top: 0.4rem;
 }
-.innearTcOption{
- /* display: flex;
- justify-content: center;
- align-items: center; */
+.innearTcOption {
+  margin-bottom: 0.6%;
 }
 
-.lebel1{
+.lebel1 {
   width: 13%;
 }
 
+.maintopTextdiv {
+  width: 32%;
+  display: flex;
+  align-items: center;
+}
+.addpaddinreceiptmain {
+  padding-left: 20%;
+  padding-right: 20%;
+  padding-top: 5%;
+}
 @media screen and (max-width: 780px) {
   .closeicondivauth {
     left: 95%;

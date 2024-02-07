@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { backendApiUrl } from "../../../config/config";
 const formData = new FormData();
+
 function Addhostel({ setOpen }) {
   const dispatch = useDispatch();
   const [HostelName, setHostelName] = useState("");

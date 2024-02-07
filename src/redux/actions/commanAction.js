@@ -210,6 +210,9 @@ import {
   ALL_COACHINGRECEIPTDATA_REQUEST,
   ALL_COACHINGRECEIPTDATA_SUCCESS,
   ALL_COACHINGRECEIPTDATA_FAIL,
+  ALL_TC_REQUEST,
+  ALL_TC_SUCCESS,
+  ALL_TC_FAIL,
 } from "../constants/commanConstants";
 
 // Get all College
@@ -1110,7 +1113,7 @@ export const getstudent =
         sectionname ||
         sessionname ||
         seno ||
-        stream||
+        stream ||
         gendersearch
       ) {
         dispatch({ type: ALL_STUDENT_REQUEST });
@@ -2500,3 +2503,42 @@ export const getPrintReceiptCoaching =
       });
     }
   };
+
+// Get all Enquiry
+export const getTC = (scoursename, sessionname, studentname, seno) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${localStorage.getItem("erptoken")}`,
+      },
+    };
+    if (scoursename||sessionname||studentname||seno) {
+      dispatch({ type: ALL_TC_REQUEST });
+      const { data } = await axios.get(
+        `${backendApiUrl}student/CreateTC?SrNo=${seno}&scoursename=${scoursename}&sessionname=${sessionname}&studentname=${studentname}`,
+        config
+      );
+      dispatch({
+        type: ALL_TC_SUCCESS,
+        payload: data?.data,
+      });
+    } else {
+      dispatch({ type: ALL_TC_REQUEST });
+      const { data } = await axios.get(
+        `${backendApiUrl}student/CreateTC`,
+
+        config
+      );
+      dispatch({
+        type: ALL_TC_SUCCESS,
+        payload: data?.data,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: ALL_TC_FAIL,
+      payload: error?.response?.data?.msg,
+    });
+  }
+};

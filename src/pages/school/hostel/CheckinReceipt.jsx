@@ -70,7 +70,7 @@ function CheckinReceipt() {
 
   return (
     <div className="mainContainer">
-      <div className={styles.addpaddinreceipt}>
+      <div className={styles.addpaddinreceiptmain}>
         <button className={styles.optionbtn} onClick={() => router.back()}>
           Back
         </button>
@@ -92,7 +92,7 @@ function CheckinReceipt() {
               <div className={styles.imgdivre}>
                 <img
                   alt="img"
-                  src={`${backendUrl}public/upload/${organizationdata?.logourl}`}
+                  src={`${organizationdata?.logourl}`}
                 />
               </div>
               <div className={styles.imgdivre}>

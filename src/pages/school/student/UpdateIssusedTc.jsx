@@ -5,11 +5,12 @@ import { toast } from "react-toastify";
 import { serverInstance } from "../../../API/ServerInstance";
 import { useSelector, useDispatch } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
-import {getstudent,getTC} from '../../../redux/actions/commanAction';
-function TCFormat({ setOpen, TcData }) {
+
+function UpdateIssusedTc({ setOpen, updatedata }) {
   const dispatch = useDispatch();
+
   const componentRef = useRef(null);
-  const [data, setData] = React.useState({});
+  const [data, setData] = React.useState();
   const [loading, setloading] = useState(false);
   const [NameofStudent, setNameofStudent] = useState("");
   const [FathersName, setFathersName] = useState("");
@@ -39,13 +40,15 @@ function TCFormat({ setOpen, TcData }) {
 
   const { user } = useSelector((state) => state.auth);
 
+  console.log("updatedata data is", data);
+
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
 
   useEffect(() => {
-    if (TcData) {
-      setData(TcData);
+    if (updatedata) {
+      setData(updatedata);
     }
     if (user) {
       setorganizationdata(user?.data?.CredentailsData);
@@ -55,7 +58,7 @@ function TCFormat({ setOpen, TcData }) {
   const issueCC = () => {
     setloading(true);
     const TCData = {
-      id:data?.id,
+      id:data?.id,  
       NameofStudent: NameofStudent,
       FathersName: FathersName,
       MothersName: MothersName,
@@ -80,19 +83,14 @@ function TCFormat({ setOpen, TcData }) {
       fileNo: fileNo,
       SrNo: SrNo,
       qualifiedforpromotion: qualifiedforpromotion,
-      Session:data?.Session,
-      Section:data?.Section	
     };
-
-    serverInstance("student/CreateTC", "post", TCData).then((res) => {
+    serverInstance("student/CreateTC", "put", TCData).then((res) => {
       if (res?.status === true) {
         toast.success(res?.msg, {
           autoClose: 1000,
         });
-        dispatch(getstudent());
-        dispatch(getTC());
+
         setloading(false);
-        setOpen(false);
       }
       if (res?.status === false) {
         toast.error(res?.msg, {
@@ -104,16 +102,32 @@ function TCFormat({ setOpen, TcData }) {
   };
 
   useEffect(() => {
-    setSrNo(data?.SrNumber);
-    setNameofStudent(data?.name);
-    setMothersName(data?.MathersName);
-    setFathersName(data?.fathersName);
-    setAddress(data?.address);
-    setAadharNumber(data?.adharno);
+    setSrNo(data?.SrNo);
+    setNameofStudent(data?.NameofStudent);
+    setMothersName(data?.FathersName);
+    setFathersName(data?.MothersName);
+    setAddress(data?.Address);
+    setAadharNumber(data?.AadharNumber);
     setNationality(data?.Nationality);
     setDateofBirth(data?.DateOfBirth);
-    setClassinWhich(data?.courseorclass);
-    console.log("SrNo", data?.SrNumber);
+    setClassinWhich(data?.ClassinWhich);
+    setDateofFirst(data?.DateofFirst);
+    setDateofBirth(data?.DateofBirth);
+    setClassinWhich(data?.ClassinWhich);
+    setWhetherfailedinClass(data?.WhetherfailedinClass);
+    setSubjectsstudied(data?.Subjectsstudied);
+    setWhetherqualified(data?.Whetherqualified);
+    setpaidallthedues(data?.paidallthedues);
+    setworkingdays(data?.workingdays);
+    setworkingdayspresent(data?.workingdayspresent);
+    setGeneralConduct(data?.GeneralConduct);
+    setDateofapplication(data?.Dateofapplication);
+    setDateofIssue(data?.DateofIssue);
+    setReasonforleaving(data?.Reasonforleaving);
+    setAnyothers(data?.Anyothers);
+    setTcNo(data?.TcNo);
+    setfileNo(data?.fileNo);
+    setqualifiedforpromotion(data?.qualifiedforpromotion);
   }, [data]);
 
   return (
@@ -134,7 +148,7 @@ function TCFormat({ setOpen, TcData }) {
             {loading ? (
               <CircularProgress size={25} style={{ color: "red" }} />
             ) : (
-              "Issue"
+              "Update TC"
             )}
           </button>
           <button className={styles.actionbtn} onClick={() => handlePrint()}>
@@ -374,7 +388,7 @@ function TCFormat({ setOpen, TcData }) {
                   style={{
                     borderBottom: "1px dotted black",
                     width: `${
-                      WhetherfailedinClass.length
+                      WhetherfailedinClass?.length
                         ? WhetherfailedinClass?.length * 10
                         : 10 * 10
                     }px`,
@@ -393,7 +407,7 @@ function TCFormat({ setOpen, TcData }) {
                   style={{
                     borderBottom: "1px dotted black",
                     width: `${
-                      Subjectsstudied.length
+                      Subjectsstudied?.length
                         ? Subjectsstudied?.length * 10
                         : 10 * 10
                     }px`,
@@ -414,7 +428,7 @@ function TCFormat({ setOpen, TcData }) {
                   style={{
                     borderBottom: "1px dotted black",
                     width: `${
-                      qualifiedforpromotion.length
+                      qualifiedforpromotion?.length
                         ? qualifiedforpromotion?.length * 10
                         : 10 * 10
                     }px`,
@@ -435,7 +449,7 @@ function TCFormat({ setOpen, TcData }) {
                   style={{
                     borderBottom: "1px dotted black",
                     width: `${
-                      Whetherqualified.length
+                      Whetherqualified?.length
                         ? Whetherqualified?.length * 10
                         : 10 * 10
                     }px`,
@@ -456,7 +470,7 @@ function TCFormat({ setOpen, TcData }) {
                   style={{
                     borderBottom: "1px dotted black",
                     width: `${
-                      paidallthedues.length
+                      paidallthedues?.length
                         ? paidallthedues?.length * 10
                         : 10 * 10
                     }px`,
@@ -496,7 +510,7 @@ function TCFormat({ setOpen, TcData }) {
                   style={{
                     borderBottom: "1px dotted black",
                     width: `${
-                      workingdayspresent.length
+                      workingdayspresent?.length
                         ? workingdayspresent?.length * 10
                         : 10 * 10
                     }px`,
@@ -515,7 +529,7 @@ function TCFormat({ setOpen, TcData }) {
                   style={{
                     borderBottom: "1px dotted black",
                     width: `${
-                      GeneralConduct.length
+                      GeneralConduct?.length
                         ? GeneralConduct?.length * 10
                         : 10 * 10
                     }px`,
@@ -536,7 +550,7 @@ function TCFormat({ setOpen, TcData }) {
                   style={{
                     borderBottom: "1px dotted black",
                     width: `${
-                      Dateofapplication.length
+                      Dateofapplication?.length
                         ? Dateofapplication?.length * 10
                         : 10 * 10
                     }px`,
@@ -576,7 +590,7 @@ function TCFormat({ setOpen, TcData }) {
                   style={{
                     borderBottom: "1px dotted black",
                     width: `${
-                      Reasonforleaving.length
+                      Reasonforleaving?.length
                         ? Reasonforleaving?.length * 10
                         : 10 * 10
                     }px`,
@@ -625,4 +639,4 @@ function TCFormat({ setOpen, TcData }) {
   );
 }
 
-export default TCFormat;
+export default UpdateIssusedTc;

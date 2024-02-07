@@ -8,6 +8,7 @@ import {
   getcategory,
   GetSession,
   GetSection,
+  getcurrentsession,
 } from "../../../redux/actions/commanAction";
 
 import styles from "../employee/employee.module.css";
@@ -140,7 +141,7 @@ function Issuereturn() {
   const { sections } = useSelector((state) => state.GetSection);
   const { Sessions } = useSelector((state) => state.GetSession);
   const { loading, student } = useSelector((state) => state.getstudent);
-
+  const { CURRENTSESSION } = useSelector((state) => state.GetCurrentSession);
   const [minDateTime, setMinDateTime] = useState(
     new Date()?.toISOString().slice(0, 16)
   );
@@ -210,6 +211,9 @@ function Issuereturn() {
     if (category) {
       setcategorylist(category);
     }
+    if (CURRENTSESSION) {
+      setsessionname(CURRENTSESSION);
+    }
   }, [
     markattendance,
     batch,
@@ -222,6 +226,7 @@ function Issuereturn() {
     Sessions,
     sections,
     category,
+    CURRENTSESSION,
   ]);
 
   useEffect(() => {
@@ -230,6 +235,7 @@ function Issuereturn() {
     dispatch(getcourse());
     dispatch(GetSection());
     dispatch(GetSession());
+    dispatch(getcurrentsession());
     dispatch(getcategory());
     dispatch(
       getstudent(
@@ -280,19 +286,11 @@ function Issuereturn() {
     setsbatch("");
     setcategoryname("");
     setsno("");
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() - 1;
-    setsessionname(`${lastyear}-${fullyear}`);
+    setsessionname(CURRENTSESSION);
     setsectionname("");
     dispatch(getstudent());
   };
-  useEffect(() => {
-    let date = new Date();
-    let fullyear = date.getFullYear();
-    let lastyear = date.getFullYear() + 1;
-    setsessionname(`${fullyear}-${lastyear}`);
-  }, []);
+
   return (
     <>
       {open && (
@@ -893,7 +891,9 @@ function Issuereturn() {
                               {item?.courseorclass}
                             </td>
 
-                            <td className={styles.tabletd}>{item?.Library?"Active":'Disable'}</td>
+                            <td className={styles.tabletd}>
+                              {item?.Library ? "Active" : "Disable"}
+                            </td>
                             <td className={styles.tabkeddd}>
                               <button
                                 disabled={

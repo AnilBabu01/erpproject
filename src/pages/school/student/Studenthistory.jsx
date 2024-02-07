@@ -32,7 +32,8 @@ const studentStatus = [
 function Studenthistory() {
   const componentRef = useRef(null);
   const dispatch = useDispatch();
-  const [gendersearch, setgendersearch] = useState('');
+  const [seno, setseno] = useState("");
+  const [gendersearch, setgendersearch] = useState("");
   const [scoursename, setscoursename] = useState("");
   const [sfathers, setsfathers] = useState("");
   const [sstudent, setsstudent] = useState("");
@@ -129,7 +130,7 @@ function Studenthistory() {
         "",
         sessionname,
         sectionname,
-        "",
+        seno,
         "",
         gendersearch
       )
@@ -145,6 +146,7 @@ function Studenthistory() {
     setscoursename("");
     setsbatch("");
     setcategoryname("");
+    setseno('');
     setsessionname(CURRENTSESSION);
     setsectionname("");
     setgendersearch("");
@@ -441,10 +443,10 @@ function Studenthistory() {
                 <input
                   className={styles.opensearchinput10}
                   type="text"
-                  placeholder="Roll No"
-                  value={rollnumber}
-                  name="rollnumber"
-                  onChange={(e) => setrollnumber(e.target.value)}
+                  placeholder="Sr Number"
+                  value={seno}
+                  name="seno"
+                  onChange={(e) => setseno(e.target.value)}
                 />
 
                 <button>Search</button>
@@ -487,7 +489,7 @@ function Studenthistory() {
                     <th className={styles.tableth}>Father&apos;s_Name</th>
                     <th className={styles.tableth}>Student_Phone</th>
                     <th className={styles.tableth}>Adminssion_Date</th>
-                    
+
                     <th className={styles.tableth}>Category</th>
                     <th className={styles.tableth}>Student_Status</th>
                   </tr>
@@ -509,7 +511,7 @@ function Studenthistory() {
                         <td className={styles.tabletd}>
                           {moment(item?.admissionDate).format("DD/MM/YYYY")}
                         </td>
-                       
+
                         <td className={styles.tabletd}>
                           {item?.StudentCategory}
                         </td>

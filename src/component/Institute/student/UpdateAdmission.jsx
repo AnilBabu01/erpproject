@@ -91,6 +91,10 @@ const GenderListList = [
 function UpdateAdmission({ setOpen, updatedata }) {
   const navigation = useRouter();
   const dispatch = useDispatch();
+  const [admissionFee, setadmissionFee] = useState("");
+  const [annualfee, setannualfee] = useState("");
+  const [manualAdmissionFee, setmanualAdmissionFee] = useState("");
+  const [manualAnnualFee, setmanualAnnualFee] = useState("");
   const [Religion, setReligion] = useState("");
   const [Nationality, setNationality] = useState("Indian");
   const [address, setaddress] = useState("");
@@ -103,7 +107,6 @@ function UpdateAdmission({ setOpen, updatedata }) {
   const [DateOfBirth, setDateOfBirth] = useState("");
   const [sessionname, setsessionname] = useState("");
   const [sectionname, setsectionname] = useState("NONE");
-  const [admissionFee, setadmissionFee] = useState("");
   const [sectionlist, setsectionlist] = useState([]);
   const [TransportFeePermonth, setTransportFeePermonth] = useState("");
   const [fromroute, setfromroute] = useState("");
@@ -113,7 +116,6 @@ function UpdateAdmission({ setOpen, updatedata }) {
   const [noofMonth, setnoofMonth] = useState("");
   const [onlyshowmonthfee, setonlyshowmonthfee] = useState("");
   const [onlyshowrefee, setonlyshowrefee] = useState("");
-  const [annualfee, setannualfee] = useState("");
   const [hostelManualFee, sethostelManualFee] = useState("default");
   const [TransportManualFee, setTransportManualFee] = useState("default");
   const [onlyHostelFee, setonlyHostelFee] = useState("");
@@ -213,7 +215,6 @@ function UpdateAdmission({ setOpen, updatedata }) {
     formData.set("batch", batchname);
     formData.set("admissionDate", adminssiondate);
     formData.set("regisgrationfee", amount);
-    formData.set("admissionfee", admissionFee);
     formData.set("courseduration", noofMonth);
     formData.set("markSheet", marksheet);
     formData.set("adharno", adharcardno);
@@ -246,10 +247,18 @@ function UpdateAdmission({ setOpen, updatedata }) {
     formData.set("Section", sectionname);
     formData.set("Session", sessionname);
     formData.set("StudentCategory", categoryname);
-    formData.set("AnnualFee", annualfee);
+
     formData.set("stream", stream);
     formData.set("hostelstatus", hostal === true ? false : true);
     formData.set("transportstatus", transport === true ? false : true);
+    formData.set(
+      "admissionfee",
+      getfee === "default" ? Number(admissionFee) : Number(manualAdmissionFee)
+    );
+    formData.set(
+      "AnnualFee",
+      getfee === "default" ? Number(annualfee) : Number(manualAnnualFee)
+    );
     formData.set(
       "HostelPerMonthFee",
       hostal === true
@@ -405,6 +414,8 @@ function UpdateAdmission({ setOpen, updatedata }) {
       settoroute(updatedata?.ToRoute);
       setpano(updatedata?.pancardnno);
       setadmissionFee(updatedata?.admissionfee);
+      setmanualAdmissionFee(updatedata?.admissionfee);
+      setmanualAnnualFee(updatedata?.AnnualFee);
       setcategoryname(updatedata?.StudentCategory);
       setstream(updatedata?.Stream);
       setgender(updatedata?.Gender);
@@ -739,7 +750,7 @@ function UpdateAdmission({ setOpen, updatedata }) {
                     {GenderListList?.map((item, index) => {
                       return (
                         <MenuItem
-                        key={index}
+                          key={index}
                           sx={{
                             fontSize: 14,
                           }}
@@ -782,7 +793,7 @@ function UpdateAdmission({ setOpen, updatedata }) {
                     {BloodGroupList?.map((item, index) => {
                       return (
                         <MenuItem
-                        key={index}
+                          key={index}
                           sx={{
                             fontSize: 14,
                           }}
@@ -825,7 +836,7 @@ function UpdateAdmission({ setOpen, updatedata }) {
                     {religionList?.map((item, index) => {
                       return (
                         <MenuItem
-                        key={index}
+                          key={index}
                           sx={{
                             fontSize: 14,
                           }}
@@ -1337,6 +1348,10 @@ function UpdateAdmission({ setOpen, updatedata }) {
                                 setnoofMonth(item?.courseduration);
                                 setonlyshowmonthfee(item?.feepermonth);
                                 setonlyshowrefee(item?.Registractionfee);
+                                setadmissionFee(item?.adminssionfee);
+                                setannualfee(item?.AnnualFee);
+                                setmanualAdmissionFee(item?.adminssionfee);
+                                setmanualAnnualFee(item?.AnnualFee);
                               }}
                             >
                               {item?.coursename}
@@ -1400,17 +1415,6 @@ function UpdateAdmission({ setOpen, updatedata }) {
                         </MenuItem>
                       </Select>
                     </div>
-                    <div className={styles.inputdiv}>
-                      <label>Admission Fee</label>
-                      <input
-                        required
-                        type="text"
-                        placeholder="Enter Admission fee"
-                        value={admissionFee}
-                        name="admissionFee"
-                        onChange={(e) => setadmissionFee(e.target.value)}
-                      />
-                    </div>
                   </div>
                   {courses ? (
                     <>
@@ -1453,6 +1457,17 @@ function UpdateAdmission({ setOpen, updatedata }) {
                               onChange={(e) => setannualfee(e.target.value)}
                             />
                           </div>
+                        </div>
+                        <div className={styles.inputdiv}>
+                          <label>Admission Fee</label>
+                          <input
+                            required
+                            type="text"
+                            placeholder="Enter Admission fee"
+                            value={admissionFee}
+                            name="admissionFee"
+                            onChange={(e) => setadmissionFee(e.target.value)}
+                          />
                         </div>
                       </div>
                       <div>
@@ -1497,10 +1512,24 @@ function UpdateAdmission({ setOpen, updatedata }) {
                                   required
                                   type="text"
                                   placeholder="Enter Annual fee"
-                                  value={annualfee}
-                                  onChange={(e) => setannualfee(e.target.value)}
+                                  value={manualAnnualFee}
+                                  name="manualAnnualFee"
+                                  onChange={(e) => setmanualAnnualFee(e.target.value)}
                                 />
                               </div>
+                            </div>
+                            <div className={styles.inputdiv}>
+                              <label>Admission Fee</label>
+                              <input
+                                required
+                                type="text"
+                                placeholder="Enter Admission fee"
+                                value={manualAdmissionFee}
+                                name="manualAdmissionFee"
+                                onChange={(e) =>
+                                  setmanualAdmissionFee(e.target.value)
+                                }
+                              />
                             </div>
                           </>
                         )}

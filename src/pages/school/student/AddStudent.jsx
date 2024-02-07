@@ -33,6 +33,8 @@ import exportFromJSON from "export-from-json";
 import { serverInstance } from "../../../API/ServerInstance";
 import { toast } from "react-toastify";
 import CircularProgress from "@mui/material/CircularProgress";
+
+
 const studentStatus = [
   { label: "Active", value: "Active" },
   { label: "On Leave", value: "On Leave" },
@@ -40,10 +42,11 @@ const studentStatus = [
   { label: "Completed", value: "Completed" },
   { label: "Unknown", value: "Unknown" },
 ];
+
 function AddStudent() {
   const dispatch = useDispatch();
-
   const [sessionname, setsessionname] = useState();
+  const [seno, setseno] = useState('');
   const [deleting, setdeleting] = useState(false);
   const [stream, setstream] = useState("");
   const [scoursename, setscoursename] = useState("");
@@ -215,7 +218,7 @@ function AddStudent() {
         "",
         sessionname,
         sectionname,
-        "",
+        seno,
         stream,
         ""
       )
@@ -223,6 +226,7 @@ function AddStudent() {
   };
 
   const reset = () => {
+    setseno('');
     setstream("");
     setsstudent("");
     setsfathers("");
@@ -605,10 +609,10 @@ function AddStudent() {
                 <input
                   className={styles.opensearchinput10}
                   type="text"
-                  placeholder="Roll No"
-                  value={rollnumber}
-                  name="rollnumber"
-                  onChange={(e) => setrollnumber(e.target.value)}
+                  placeholder="Sr Number"
+                  value={seno}
+                  name="seno"
+                  onChange={(e) => setseno(e.target.value)}
                 />
 
                 <button>Search</button>
@@ -674,7 +678,6 @@ function AddStudent() {
                     <th className={styles.tableth}>Father&apos;s_Name</th>
                     <th className={styles.tableth}>Student_Phone</th>
                     <th className={styles.tableth}>Adminssion_Date</th>
-                    
                     <th className={styles.tableth}>Category</th>
                     <th className={styles.tableth}>Student_Status</th>
                     <th className={styles.tableth}>Action</th>

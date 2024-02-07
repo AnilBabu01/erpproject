@@ -25,8 +25,8 @@ function GiveBus({ setOpen, updatedata }) {
     serverInstance("transport/assignbus", "post", {
       studentid: updatedata?.id,
       busdetails: busdata,
-      fromroute,
-      toroute,
+      fromroute:fromroute,
+      toroute:toroute,
     }).then((res) => {
       if (res?.status === true) {
         toast.success(res?.msg, {
@@ -47,6 +47,7 @@ function GiveBus({ setOpen, updatedata }) {
     });
   };
 
+  
   const getbuslist = () => {
     setloading1(true);
     serverInstance("transport/getbusbyrouteid", "post", {
