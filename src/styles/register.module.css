@@ -1322,6 +1322,11 @@
   border-radius: 7px;
   margin-right: 1rem;
 }
+.mainpayoptonsalary{
+  display: flex;
+  justify-content: space-between;
+  width: 12%;
+}
 
 @media screen and (max-width: 780px) {
   .genderDiv {

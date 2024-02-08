@@ -100,8 +100,7 @@ const SchoolNavbar = () => {
                         <Link href="/school/student/Studenthistory">
                           Student Filter
                         </Link>
-                        <Link href="/school/student/IssueTC">Issue TC</Link>
-                        <Link href="/school/student/CharacterCertificate">Character Certificate</Link>
+
                         <Link href="/school/student/Studentlogincreadential">
                           Student Login Creadential
                         </Link>
@@ -149,6 +148,19 @@ const SchoolNavbar = () => {
                       <div className="main_innear_menu_dropdown">
                         <Link href="/school/student/Studentidcard">
                           Student Id Card
+                        </Link>
+                      </div>
+                      <div className="main_innear_menu_dropdown">
+                        <Link href="/school/student/IssueTC">Issue TC</Link>
+                      </div>
+                      <div className="main_innear_menu_dropdown">
+                        <Link href="/school/student/CharacterCertificate">
+                          Character Certificate
+                        </Link>
+                      </div>
+                      <div className="main_innear_menu_dropdown">
+                        <Link href="/school/student/addmarksheet">
+                          Add Marksheet
                         </Link>
                       </div>
                     </div>
@@ -450,7 +462,7 @@ const SchoolNavbar = () => {
                         {/* <Link href="/school/masters/AddSession">Seesion</Link> */}
                         <Link href="/school/masters/class">Class</Link>
                         <Link href="/school/masters/AddSection">Section</Link>
-                        
+
                         {/* <Link href="/school/masters/masterstudentcategory">
                           Caste
                         </Link> */}

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import styles from "@/styles/register.module.css";
-import { getHolidays } from "../../../redux/actions/attendanceActions";
 import { GetPayRoll } from "../../../redux/actions/payrollActions";
 import { useDispatch, useSelector } from "react-redux";
 import { serverInstance } from "../../../API/ServerInstance";
@@ -11,9 +10,9 @@ import jsPDF from "jspdf";
 import CircularProgress from "@mui/material/CircularProgress";
 
 function AddPayroll({ setOpen, updatedata }) {
-  
   const componentRef = useRef(null);
   const dispatch = useDispatch();
+  const [PayOption, setPayOption] = useState("Cash");
   const [sessionname, setsessionname] = useState("");
   const [sessionlist, setsessionlist] = useState([]);
   const [isdata, setisData] = useState([]);
@@ -58,6 +57,7 @@ function AddPayroll({ setOpen, updatedata }) {
         paidAmount: payableamount,
         allDetails: allDetails,
         sessionname: sessionname,
+        PayOption: PayOption,
       };
       serverInstance("payroll/payempsalary", "post", data).then((res) => {
         if (res?.status) {
@@ -168,17 +168,11 @@ function AddPayroll({ setOpen, updatedata }) {
         count = count + 1;
       }
     });
-    
-   allDetails?.monthdetials?.AllowLeave
 
+    allDetails?.monthdetials?.AllowLeave;
 
     return count;
-
-   
   };
-
-
-
 
   const totalabsent = (attendance) => {
     let count = 0;
@@ -224,9 +218,6 @@ function AddPayroll({ setOpen, updatedata }) {
     return monthsOrder.indexOf(a.MonthName) - monthsOrder.indexOf(b.MonthName);
   };
 
-
-
-
   useEffect(() => {
     let date = new Date();
     let fullyear = date.getFullYear();
@@ -239,6 +230,7 @@ function AddPayroll({ setOpen, updatedata }) {
         <div className={styles.closeicondiv} onClick={() => setOpen(false)}>
           <CloseIcon />
         </div>
+
         <h1>Emplyee Salary Slip ({sessionname})</h1>
         <div>
           <div className={styles.mainshow} ref={componentRef}>
@@ -313,7 +305,6 @@ function AddPayroll({ setOpen, updatedata }) {
           {allDetails && (
             <>
               <div id="receipt">
-
                 <div className={styles.salarySlipMain}>
                   <img
                     src={user?.data?.CredentailsData?.logourl}
@@ -494,7 +485,7 @@ function AddPayroll({ setOpen, updatedata }) {
                           {Math.floor(
                             Number(allDetails?.monthdetials?.basicsalary) / 30
                           ) *
-                          totalpresentIncludeSunday(allDetails?.attendance) +
+                            totalpresentIncludeSunday(allDetails?.attendance) +
                             Number(allDetails?.monthdetials?.AllowanceAmount1) +
                             Number(allDetails?.monthdetials?.AllowanceAmount2) +
                             Number(allDetails?.monthdetials?.AllowanceAmount3) +
@@ -516,6 +507,29 @@ function AddPayroll({ setOpen, updatedata }) {
                   </div>
                 </div>
               </div>
+              <div>
+                <p>Pay Mode</p>
+                <div className={styles.mainpayoptonsalary}>
+                  <label htmlFor="cash">Cash</label>
+                  <input
+                    id="cash"
+                    checked={PayOption==='Cash'}
+                    type="radio"
+                    value={"Cash"}
+                    name="same"
+                    onChange={(e) => setPayOption(e.target.value)}
+                  />
+                  <label htmlFor="bank">Online</label>
+                  <input
+                    id="bank"
+                    type="radio"
+                    value={"Online"}
+                    checked={PayOption==='Online'}
+                    name="same"
+                    onChange={(e) => setPayOption(e.target.value)}
+                  />
+                </div>
+              </div>
             </>
           )}
 
@@ -532,7 +546,7 @@ function AddPayroll({ setOpen, updatedata }) {
                   Math.floor(
                     Number(allDetails?.monthdetials?.basicsalary) / 30
                   ) *
-                  totalpresentIncludeSunday(allDetails?.attendance) +
+                    totalpresentIncludeSunday(allDetails?.attendance) +
                     Number(allDetails?.monthdetials?.AllowanceAmount1) +
                     Number(allDetails?.monthdetials?.AllowanceAmount2) +
                     Number(allDetails?.monthdetials?.AllowanceAmount3) +
@@ -541,12 +555,8 @@ function AddPayroll({ setOpen, updatedata }) {
                     ) /
                       2) *
                       totalhalfdays(allDetails?.attendance) -
-                    (Number(
-                      allDetails?.monthdetials?.DeductionAmount1
-                    ) +
-                      Number(
-                        allDetails?.monthdetials?.DeductionAmount2
-                      ))
+                    (Number(allDetails?.monthdetials?.DeductionAmount1) +
+                      Number(allDetails?.monthdetials?.DeductionAmount2))
                 )
               }
             >

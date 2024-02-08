@@ -193,151 +193,156 @@ function UpdateStudent({ setOpen, updatedata }) {
   const { CURRENTSESSION } = useSelector((state) => state.GetCurrentSession);
   const { Sessions } = useSelector((state) => state.GetSession);
   const submit = async () => {
-    setloading(true);
-    formData.set("id", updatedata?.id);
-    formData.set("Religion", Religion);
-    formData.set("Nationality", Nationality);
-    formData.set("Gender", gender);
-    formData.set("BloodGroup", BloodGroup);
-    formData.set("address", address);
-    formData.set("name", studentname);
-    formData.set("email", studentemail);
-    formData.set("phoneno1", studentphone);
-    formData.set("city", city);
-    formData.set("state", state);
-    formData.set("pincode", Pincode);
-    formData.set("profileurl", photo);
-    formData.set("adharcard", adharcard);
-    formData.set("fathersPhoneNo", fathersphone);
-    formData.set("fathersName", fathersname);
-    formData.set("courseorclass", courses);
-    formData.set("rollnumber", studentrollno);
-    formData.set("StudentStatus", adminssiondate);
-    formData.set("batch", batchname);
-    formData.set("admissionDate", adminssiondate);
-    formData.set("regisgrationfee", amount);
-    formData.set("courseduration", noofMonth);
-    formData.set("markSheet", marksheet);
-    formData.set("adharno", adharcardno);
-    formData.set("PEN", pano);
-    formData.set("whatsappNo", usepreview ? fathersphone : whatsaapnumber);
-    formData.set("MathersName", mothersname);
-    formData.set("MathersPhoneNo", mothersphone);
-    formData.set(
-      "MatherswhatsappNo",
-      mothersusepreview ? mothersphone : whatsaapmothersnumber
-    );
+    try {
+      setloading(true);
+      formData.set("id", updatedata?.id);
+      formData.set("Religion", Religion);
+      formData.set("Nationality", Nationality);
+      formData.set("Gender", gender);
+      formData.set("BloodGroup", BloodGroup);
+      formData.set("address", address);
+      formData.set("name", studentname);
+      formData.set("email", studentemail);
+      formData.set("phoneno1", studentphone);
+      formData.set("city", city);
+      formData.set("state", state);
+      formData.set("pincode", Pincode);
+      formData.set("profileurl", photo);
+      formData.set("adharcard", adharcard);
+      formData.set("fathersPhoneNo", fathersphone);
+      formData.set("fathersName", fathersname);
+      formData.set("courseorclass", courses);
+      formData.set("rollnumber", studentrollno);
+      formData.set("StudentStatus", adminssiondate);
+      formData.set("batch", batchname);
+      formData.set("admissionDate", adminssiondate);
+      formData.set("regisgrationfee", amount);
+      formData.set("courseduration", noofMonth);
+      formData.set("markSheet", marksheet);
+      formData.set("adharno", adharcardno);
+      formData.set("PEN", pano);
+      formData.set("whatsappNo", usepreview ? fathersphone : whatsaapnumber);
+      formData.set("MathersName", mothersname);
+      formData.set("MathersPhoneNo", mothersphone);
+      formData.set(
+        "MatherswhatsappNo",
+        mothersusepreview ? mothersphone : whatsaapmothersnumber
+      );
 
-    formData.set("PreviousTcNo", PreviousTcNo);
-    formData.set("PreviousSchoolName", PreviousSchool);
-    formData.set("PreviousSchoolAddress", PreviousSchoolAddress);
+      formData.set("PreviousTcNo", PreviousTcNo);
+      formData.set("PreviousSchoolName", PreviousSchool);
+      formData.set("PreviousSchoolAddress", PreviousSchoolAddress);
 
-    formData.set("markSheetname", marksheetName);
-    formData.set("DateOfBirth", DateOfBirth);
-    formData.set("othersdoc", others);
-    formData.set("othersdocName", othersname);
-    formData.set("BirthDocument", birth);
-    formData.set("Status", status);
-    formData.set("Transport", transport);
-    formData.set("Library", Library);
-    formData.set("hostal", hostal);
-    formData.set("FromRoute", "");
-    formData.set("ToRoute", "");
-    formData.set("BusNumber", "");
-    formData.set("Section", sectionname);
-    formData.set("Session", sessionname);
-    formData.set("SrNumber", SrNumber);
-    formData.set("StudentCategory", categoryname);
-    formData.set("stream", stream);
-    formData.set("hostelstatus", hostal === true ? false : true);
-    formData.set("transportstatus", transport === true ? false : true);
-    formData.set(
-      "admissionfee",
-      getfee === "default" ? Number(admissionFee) : Number(manualAdmissionFee)
-    );
-    formData.set(
-      "AnnualFee",
-      getfee === "default" ? Number(annualfee) : Number(manualAnnualFee)
-    );
-    formData.set(
-      "HostelPerMonthFee",
-      hostal === true
-        ? hostelManualFee === "manual"
-          ? Number(onlyHostelFee)
-          : Number(hostelfeeperMonth)
-        : 0
-    );
-    formData.set(
-      "TotalHostelFee",
-      hostal === true
-        ? hostelManualFee === "manual"
-          ? Number(onlyHostelFee) * 12
-          : Number(hostelfeeperMonth) * 12
-        : 0
-    );
-    formData.set(
-      "TransportPerMonthFee",
-      transport === true
-        ? TransportManualFee === "manual"
-          ? Number(onlyTransport)
-          : Number(TransportFeePermonth)
-        : 0
-    );
-    formData.set(
-      "TransportTotalHostelFee",
-      transport === true
-        ? TransportManualFee === "manual"
-          ? Number(onlyTransport) * 12
-          : Number(TransportFeePermonth) * 12
-        : 0
-    );
-    formData.set(
-      "permonthfee",
-      getfee === "default" ? Number(onlyshowmonthfee) : Number(monthlyfee)
-    );
-    formData.set(
-      "studentTotalFee",
-      getfee === "default"
-        ? Number(onlyshowmonthfee) * 12
-        : Number(monthlyfee) * 12
-    );
-    formData.set(
-      "Studentpassword",
-      user?.data[0]?.Studentpassword
-        ? user?.data[0]?.Studentpassword
-        : "student"
-    );
-    formData.set(
-      "Parentpassword",
-      user?.data[0]?.Parentpassword ? user?.data[0]?.Parentpassword : "parent"
-    );
+      formData.set("markSheetname", marksheetName);
+      formData.set("DateOfBirth", DateOfBirth);
+      formData.set("othersdoc", others);
+      formData.set("othersdocName", othersname);
+      formData.set("BirthDocument", birth);
+      formData.set("Status", status);
+      formData.set("Transport", transport);
+      formData.set("Library", Library);
+      formData.set("hostal", hostal);
+      formData.set("FromRoute", "");
+      formData.set("ToRoute", "");
+      formData.set("BusNumber", "");
+      formData.set("Section", sectionname);
+      formData.set("Session", sessionname);
+      formData.set("SrNumber", SrNumber);
+      formData.set("StudentCategory", categoryname);
+      formData.set("stream", stream);
+      formData.set("hostelstatus", hostal === true ? false : true);
+      formData.set("transportstatus", transport === true ? false : true);
+      formData.set(
+        "admissionfee",
+        getfee === "default" ? Number(admissionFee) : Number(manualAdmissionFee)
+      );
+      formData.set(
+        "AnnualFee",
+        getfee === "default" ? Number(annualfee) : Number(manualAnnualFee)
+      );
+      formData.set(
+        "HostelPerMonthFee",
+        hostal === true
+          ? hostelManualFee === "manual"
+            ? Number(onlyHostelFee)
+            : Number(hostelfeeperMonth)
+          : 0
+      );
+      formData.set(
+        "TotalHostelFee",
+        hostal === true
+          ? hostelManualFee === "manual"
+            ? Number(onlyHostelFee) * 12
+            : Number(hostelfeeperMonth) * 12
+          : 0
+      );
+      formData.set(
+        "TransportPerMonthFee",
+        transport === true
+          ? TransportManualFee === "manual"
+            ? Number(onlyTransport)
+            : Number(TransportFeePermonth)
+          : 0
+      );
+      formData.set(
+        "TransportTotalHostelFee",
+        transport === true
+          ? TransportManualFee === "manual"
+            ? Number(onlyTransport) * 12
+            : Number(TransportFeePermonth) * 12
+          : 0
+      );
+      formData.set(
+        "permonthfee",
+        getfee === "default" ? Number(onlyshowmonthfee) : Number(monthlyfee)
+      );
+      formData.set(
+        "studentTotalFee",
+        getfee === "default"
+          ? Number(onlyshowmonthfee) * 12
+          : Number(monthlyfee) * 12
+      );
+      formData.set(
+        "Studentpassword",
+        user?.data[0]?.Studentpassword
+          ? user?.data[0]?.Studentpassword
+          : "student"
+      );
+      formData.set(
+        "Parentpassword",
+        user?.data[0]?.Parentpassword ? user?.data[0]?.Parentpassword : "parent"
+      );
 
-    const config = {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: `${localStorage.getItem("erptoken")}`,
-      },
-    };
-    const { data } = await axios.put(
-      `${backendApiUrl}student/addstudent`,
-      formData,
-      config
-    );
-    console.log("add emp", data);
-    if (data?.status === true) {
-      toast.success(data?.msg, {
-        autoClose: 1000,
-      });
-      setOpen(false);
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `${localStorage.getItem("erptoken")}`,
+        },
+      };
+      const { data } = await axios.put(
+        `${backendApiUrl}student/addstudent`,
+        formData,
+        config
+      );
+      console.log("add emp", data);
+      if (data?.status === true) {
+        toast.success(data?.msg, {
+          autoClose: 1000,
+        });
+        setOpen(false);
 
-      setloading(false);
-      dispatch(getstudent());
-    }
-    if (data?.status === false) {
-      toast.error(data?.msg, {
-        autoClose: 1000,
-      });
+        setloading(false);
+        dispatch(getstudent());
+      }
+      // if (data?.status === false) {
+      //   toast.error(data?.msg, {
+      //     autoClose: 1000,
+      //   });
 
+      //   setloading(false);
+      // }
+    } catch (error) {
+      toast.error(error?.response?.data?.msg, { autoClose: 1000 });
       setloading(false);
     }
   };

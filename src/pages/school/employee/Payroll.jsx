@@ -26,11 +26,9 @@ import { useReactToPrint } from "react-to-print";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { useRouter } from "next/router";
-const studentStatus = [
-  { label: "Active", value: "Active" },
-  { label: "On Leave", value: "On Leave" },
-  { label: "Left", value: "Left" },
-];
+import { serverInstance } from "../../../API/ServerInstance";
+import { toast } from "react-toastify";
+
 function Payroll() {
   const dispatch = useDispatch();
   const navigation = useRouter();
@@ -84,10 +82,25 @@ function Payroll() {
   };
 
   const handledelete = () => {
-    dispatch(deleteEmployee(deleteid, setOpenalert));
+    serverInstance(`payroll/payempsalary`, "delete", {
+      data: deleteid,
+    }).then((res) => {
+      if (res?.status) {
+        toast.success(res?.msg, {
+          autoClose: 1000,
+        });
+        dispatch(GetPayRoll());
+        handleClosedelete();
+        setOpen(false);
+      }
+
+      if (res?.status === false) {
+        toast.error(res?.msg, { autoClose: 1000 });
+        handleClosedelete();
+      }
+    });
   };
 
-  
   useEffect(() => {
     if (payroll) {
       setisData(payroll);
@@ -441,7 +454,7 @@ function Payroll() {
                                     ? styles.tabkedddimgactive
                                     : styles.tabkedddimgdisable
                                 }
-                                onClick={() => ClickOpenupdate(item?.id)}
+                                onClick={() => ClickOpenupdate(item)}
                                 src="/images/Edit.png"
                                 alt="imgss"
                               />
@@ -471,6 +484,37 @@ function Payroll() {
                                 }
                                 onClick={() => downloadReceipt(item)}
                                 src="/images/Print.png"
+                                alt="imgss"
+                              />
+                            </button>
+
+                            <button
+                              disabled={
+                                userdata?.data &&
+                                userdata?.data?.User?.userType === "school"
+                                  ? false
+                                  : userdata?.data &&
+                                    userdata?.data?.User?.fronroficeEdit ===
+                                      true
+                                  ? false
+                                  : true
+                              }
+                            >
+                              <img
+                                className={
+                                  userdata?.data &&
+                                  userdata?.data?.User?.userType === "school"
+                                    ? styles.tabkedddimgactive
+                                    : userdata?.data &&
+                                      userdata?.data?.User?.fronroficeEdit ===
+                                        true
+                                    ? styles.tabkedddimgactive
+                                    : styles.tabkedddimgdisable
+                                }
+                                onClick={() =>
+                                  ClickOpendelete(item?.monthdetials)
+                                }
+                                src="/images/Delete.png"
                                 alt="imgss"
                               />
                             </button>
